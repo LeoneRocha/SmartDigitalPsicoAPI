@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using System.Threading.Tasks;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Abstract
 {

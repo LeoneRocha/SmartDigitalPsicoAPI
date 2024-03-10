@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
@@ -23,14 +17,12 @@ namespace SmartDigitalPsico.Domain.Helpers
                 //return Ok(content);
                 return content;
             }
-            return string.Empty;
         }
 
 
         public static async Task<string> GetFileByRequest(HttpRequest request, string folderNameDestination)
         {
             var file = request.Form.Files[0];
-            ///var folderName = Path.Combine("ResourcesTemp", "FilesUpaload");
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderNameDestination);
             if (file.Length > 0)
             {
@@ -42,14 +34,10 @@ namespace SmartDigitalPsico.Domain.Helpers
                 {
                     await file.CopyToAsync(stream);
                 }
-                //return Ok(new { dbPath });
                 return dbPath;
 
             }
-            else
-            {
-                //return BadRequest();
-            }
+
             return string.Empty;
         }
 
@@ -63,8 +51,7 @@ namespace SmartDigitalPsico.Domain.Helpers
 
                 return decodedString;
             }
-            return string.Empty;
-            //return Ok(decodedString);
+            return string.Empty; 
         }
 
         public static async void GetFromByteSaveTemp(byte[] filedata, string fileName)
@@ -87,7 +74,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 await stream.CopyToAsync(fileStream);
             }
         }
-        public static async Task< byte[]> GetByteDataFromIFormFile(IFormFile fileData)
+        public static async Task<byte[]> GetByteDataFromIFormFile(IFormFile fileData)
         {
             byte[] fileDataResult;
 
@@ -104,7 +91,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             if (!Directory.Exists(diretorioTemp))
             {
                 Directory.CreateDirectory(diretorioTemp);
-            } 
+            }
         }
 
         public static string GetContentType(string filePath)
@@ -146,10 +133,10 @@ namespace SmartDigitalPsico.Domain.Helpers
                 };
                 return response;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex; 
-            } 
+                throw;
+            }
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace SmartDigitalPsico.Domain.Enuns
+﻿namespace SmartDigitalPsico.Domain.Enuns
 {
     public enum ETypeDataBase
     {

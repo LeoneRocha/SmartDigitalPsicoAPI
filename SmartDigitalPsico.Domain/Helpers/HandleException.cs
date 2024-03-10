@@ -1,9 +1,4 @@
 ﻿using SmartDigitalPsico.Domain.Hypermedia.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
@@ -12,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static List<ErrorResponse> GerateListErrorResponse(Exception ex)
         {
             List<ErrorResponse> result = new List<ErrorResponse>();
-            result.Add(new ErrorResponse() { Name = ex.Source, Message = ex.Message, ErrorCode = ex.HResult.ToString() });
+            result.Add(new ErrorResponse() { Name = ex.Source ?? "SmartDigitalPsico", Message = ex.Message, ErrorCode = ex.HResult.ToString() });
 
             return result;
         }

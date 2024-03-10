@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SmartDigitalPsico.Domain.Hypermedia.Abstract
+﻿namespace SmartDigitalPsico.Domain.Hypermedia.Abstract
 {
     public interface ISupportsHyperMedia
     {

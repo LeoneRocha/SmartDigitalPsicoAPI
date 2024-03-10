@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using SmartDigitalPsico.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {

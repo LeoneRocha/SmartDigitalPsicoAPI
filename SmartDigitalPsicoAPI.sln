@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsicoAPI", "Sma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.Domain", "SmartDigitalPsico.Domain\SmartDigitalPsico.Domain.csproj", "{6C5E19D2-6DB5-4D56-9812-1D6A13B8DFBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.Data", "SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj", "{3A303B3D-8F17-4B7C-A0DE-77ED165EF541}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6C5E19D2-6DB5-4D56-9812-1D6A13B8DFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C5E19D2-6DB5-4D56-9812-1D6A13B8DFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C5E19D2-6DB5-4D56-9812-1D6A13B8DFBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A303B3D-8F17-4B7C-A0DE-77ED165EF541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A303B3D-8F17-4B7C-A0DE-77ED165EF541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A303B3D-8F17-4B7C-A0DE-77ED165EF541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A303B3D-8F17-4B7C-A0DE-77ED165EF541}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
