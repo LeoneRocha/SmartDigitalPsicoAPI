@@ -1,0 +1,22 @@
+
+Readequacao 
+1- Domain - ok 
+2- Data - ok 
+3- Repository - ok 
+4- Services
+5- API 
+6- Testar Localmente sem DOCKER
+7- Habilitar docker 
+
+Automação 
+- 1) Configurar ao realizar pull request para integration disparar pipeline integration 
+
+- 2) Configurar a integration para Deploy automatico 
+
+- 3) Configurar o sonar 
+
+- 4) Atuar nos erros do sonar 
+
+- 5) Configurar ao realizar pull request para staging disparar pipeline staging 
+
+- 6) Configurar ao realizar pull request para master disparar pipeline master
