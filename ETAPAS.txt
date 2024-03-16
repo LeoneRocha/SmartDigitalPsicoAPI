@@ -1,22 +1,26 @@
 
 Readequacao 
 1- Domain - ok 
-2- Data - ok 
-3- Repository - ok 
-4- Services
-5- API 
-6- Testar Localmente sem DOCKER
-7- Habilitar docker 
+2- Data - ok  
+3- Services -  ok 
+4- API 
+5- Testar Localmente sem DOCKER
+6- Automação
+7- HABLITAR DOCKER
+8- CODE QUALITY
 
-Automação 
+
+ 
 - 1) Configurar ao realizar pull request para integration disparar pipeline integration 
 
 - 2) Configurar a integration para Deploy automatico 
 
-- 3) Configurar o sonar 
+- 3) Habilitar docker
 
-- 4) Atuar nos erros do sonar 
+- 4) Configurar o sonar (CODE QUALITY)
 
-- 5) Configurar ao realizar pull request para staging disparar pipeline staging 
+- 5) Atuar nos erros do sonar (CODE QUALITY)
 
-- 6) Configurar ao realizar pull request para master disparar pipeline master
+- 6) Configurar ao realizar pull request para staging disparar pipeline staging 
+
+- 7) Configurar ao realizar pull request para master disparar pipeline master
