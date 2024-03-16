@@ -1,7 +1,7 @@
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Hypermedia.Abstract;
-using SmartDigitalPsico.Domain.ModelEntity.Domains;
+using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Contracts;
 using SmartDigitalPsico.Domain.VO.Medical;
 using System.ComponentModel.DataAnnotations;

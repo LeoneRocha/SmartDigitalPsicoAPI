@@ -1,8 +1,6 @@
 using AutoMapper;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.ModelEntity.Domains;
-using SmartDigitalPsico.Domain.ModelEntity.Domains.Configurations;
-using SmartDigitalPsico.Domain.ModelEntity.Principals;
+using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Contracts;
 using SmartDigitalPsico.Domain.VO.Domains.AddVOs;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;

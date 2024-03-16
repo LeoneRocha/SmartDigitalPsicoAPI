@@ -1,3 +1,5 @@
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Domain.VO.Contracts
 {
     public abstract class EntityVOBaseAdd : IEntityVOAdd

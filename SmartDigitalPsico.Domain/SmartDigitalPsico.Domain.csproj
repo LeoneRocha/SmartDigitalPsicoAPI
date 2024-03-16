@@ -8,10 +8,14 @@
   
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.2" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.3" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.4.1" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Interfaces\Repo\" />
   </ItemGroup>
 
 </Project>

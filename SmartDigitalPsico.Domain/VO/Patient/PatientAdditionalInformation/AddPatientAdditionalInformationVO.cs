@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.VO.Contracts;
+using SmartDigitalPsico.Domain.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation

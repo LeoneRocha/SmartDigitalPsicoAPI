@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Http;
-using SmartDigitalPsico.Domain.VO.Contracts;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 using System.ComponentModel.DataAnnotations;
 

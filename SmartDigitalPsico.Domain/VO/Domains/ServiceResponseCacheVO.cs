@@ -1,5 +1,5 @@
-﻿using SmartDigitalPsico.Domain.Contracts.Interface;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
+﻿using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.VO.Domains
 {

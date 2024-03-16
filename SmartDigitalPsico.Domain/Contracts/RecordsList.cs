@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Domain.ModelEntity.Principals;
+﻿using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Contracts
 {

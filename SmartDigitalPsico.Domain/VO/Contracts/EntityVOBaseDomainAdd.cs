@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.VO.Contracts
 {

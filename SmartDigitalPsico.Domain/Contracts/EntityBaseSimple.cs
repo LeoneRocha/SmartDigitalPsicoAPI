@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Domain.Contracts.Interface;
+﻿using SmartDigitalPsico.Domain.Interfaces;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
