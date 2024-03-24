@@ -24,3 +24,10 @@ Readequacao
 - 6) Configurar ao realizar pull request para staging disparar pipeline staging 
 
 - 7) Configurar ao realizar pull request para master disparar pipeline master
+
+
+
+
+EF TIPS 
+
+Add-Migration InitialCreate -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
