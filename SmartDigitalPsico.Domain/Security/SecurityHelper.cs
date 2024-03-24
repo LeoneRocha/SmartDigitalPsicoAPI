@@ -41,7 +41,7 @@ namespace SmartDigitalPsico.Domain.Security
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secVo.SecurityKeyConfig));
 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var tokendDescriptor = new SecurityTokenDescriptor
             {

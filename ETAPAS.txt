@@ -35,3 +35,13 @@ COMANDO 1 )					Add-Migration InitialCreate -Context SmartDigitalPsicoDataContex
 COMANDO 2 )					Update-Database -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContext
 
 COMANDO 3 "DELETAR" )		Update-Database -Migration 0 -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContext
+
+
+NO APPSETINGS PARA O JWT FUNCIONAR PRECISA POR A CHAVE 
+
+ using (var hmac = new HMACSHA512())
+            {
+                byte[] key = hmac.Key;
+                secretKey = Convert.ToBase64String(key);
+
+            }

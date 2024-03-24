@@ -19,12 +19,7 @@ namespace SmartDigitalPsico.Domain.Security
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
             string secretKey = _configuration.Secret;
-            using (var hmac = new HMACSHA512())
-            {
-                byte[] key = hmac.Key;
-                secretKey = Convert.ToBase64String(key);
-
-            }  
+           
             var signinCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)), SecurityAlgorithms.HmacSha512);
              
             var options = new JwtSecurityToken(
