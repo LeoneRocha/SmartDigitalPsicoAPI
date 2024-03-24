@@ -12,8 +12,7 @@ namespace SmartDigitalPsico.Data.Configure
         static string valorbr = new CultureInfo("pt-BR").Name;
         internal static void GenerateMock(ModelBuilder modelBuilder, ETypeDataBase eTypeDataBase)
         {
-            //if (eTypeDataBase == ETypeDataBase.MSsqlServer)
-            //{ 
+            
             #region ApplicationConfigSetting
             addMockApplicationConfigSetting(modelBuilder);
             #endregion
@@ -50,7 +49,7 @@ namespace SmartDigitalPsico.Data.Configure
             addMockMedical(modelBuilder, specialtySAdd);
 
             #endregion Medical 
-            //}
+         
         }
 
         private static void addMockApplicationLanguage(ModelBuilder modelBuilder)

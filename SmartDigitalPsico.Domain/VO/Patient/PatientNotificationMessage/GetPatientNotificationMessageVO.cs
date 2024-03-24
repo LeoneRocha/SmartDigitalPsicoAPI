@@ -5,9 +5,8 @@ using SmartDigitalPsico.Domain.VO.Contracts;
 namespace SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage
 {
     public class GetPatientNotificationMessageVO : EntityVOBase, ISupportsHyperMedia
-    {
-
-        //MUDAR AS RELACOES PARA OBJETOS  
+    { 
+         
         #region Relationship  
         public GetPatientVO Patient { get; set; }
 

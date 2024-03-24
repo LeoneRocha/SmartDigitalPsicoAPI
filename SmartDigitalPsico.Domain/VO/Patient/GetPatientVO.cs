@@ -9,8 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace SmartDigitalPsico.Domain.VO.Patient
 {
     public class GetPatientVO : EntityVOBase, ISupportsHyperMedia
-    {
-        //MUDAR AS RELACOES PARA OBJETOS 
+    { 
         #region Relationship
         [Required]
         public GetMedicalVO Medical { get; set; }

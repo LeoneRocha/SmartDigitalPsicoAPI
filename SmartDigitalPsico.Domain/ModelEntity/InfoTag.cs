@@ -24,17 +24,8 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         [ForeignKey("ModifyUserId")]
         public long? ModifyUserId { get; set; }
 
-        //public ICollection<Patient> Patients { get; set; }
-
-        // public ICollection<Patient> Patients { get; set; }
-        public List<PatientInfoTag> PatientInfoTags { get; set; }
-
-
-        //public List<Patient> Patients { get; set; }
-
-        // public List<PatientRecord> PatientRecords { get; set; }
-
-
+         
+        public List<PatientInfoTag> PatientInfoTags { get; set; } 
 
         #endregion Relationship
 

@@ -9,13 +9,13 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     {
 
         #region Relationship
-        public List<RoleGroup> RoleGroups { get; set; } = new List<RoleGroup>();
+        public List<RoleGroup> RoleGroups { get; set; }
 
-        public List<Medical> MedicalsCreateds { get; set; } = new List<Medical>();
+        public List<Medical> MedicalsCreateds { get; set; }
 
-        public List<Medical> MedicalModifies { get; set; } = new List<Medical>();
+        public List<Medical> MedicalModifies { get; set; }
 
-        public List<Medical> MedicalsUsers { get; set; } = new List<Medical>();
+        public List<Medical> MedicalsUsers { get; set; }
 
         public Medical? Medical { get; set; }
         public long? MedicalId { get; set; }

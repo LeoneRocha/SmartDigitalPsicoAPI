@@ -51,8 +51,7 @@ namespace SmartDigitalPsico.Data.Context
         #endregion Principais
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //optionsBuilder.EnableSensitiveDataLogging();
+        { 
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             base.OnConfiguring(optionsBuilder);
         }

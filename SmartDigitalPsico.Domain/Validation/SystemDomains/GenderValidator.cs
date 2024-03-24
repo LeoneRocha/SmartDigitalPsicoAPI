@@ -4,8 +4,7 @@ using SmartDigitalPsico.Domain.ModelEntity;
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class GenderValidator : AbstractValidator<Gender>
-    {
-        //https://docs.fluentvalidation.net/en/latest/start.html
+    { 
         public GenderValidator()
         {
             RuleFor(entity => entity.Description)

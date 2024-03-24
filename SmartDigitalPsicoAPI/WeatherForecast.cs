@@ -1,4 +1,4 @@
-namespace SmartDigitalPsicoAPI
+namespace SmartDigitalPsico.WebAPI
 {
     public class WeatherForecast
     {

@@ -10,10 +10,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     public class Patient : EntityBase, IEntityBaseLogUser
     {
         #region Relationship  
-        //public ICollection<InfoTag> InfoTags { get; set; }
-        //public List<InfoTag> InfoTags { get; } = new();
-        //public ICollection<InfoTag> InfoTags { get; set; }
-        //public List<PatientInfoTag> PatientInfoTags { get; set; }
+         
         public List<PatientInfoTag> PatientInfoTags { get; set; }
 
 

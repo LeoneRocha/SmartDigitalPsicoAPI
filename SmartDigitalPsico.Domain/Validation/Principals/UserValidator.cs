@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
     public class UserValidator : AbstractValidator<User>
     {
         private IUserRepository _entityRepository;
-        //https://docs.fluentvalidation.net/en/latest/start.html        
+         
         public UserValidator(IUserRepository entityRepository)
         {
             _entityRepository = entityRepository;

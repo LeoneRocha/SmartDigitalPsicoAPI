@@ -16,8 +16,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         [MaxLength(255)]
         public string Description { get; set; }
 
-        [Column("LanguageKey", TypeName = "varchar(255)")]
-        //[Index("MeuNomeDeIndiceComposto",  IsUnique = true)]  
+        [Column("LanguageKey", TypeName = "varchar(255)")] 
         [MaxLength(255)]
         public string LanguageKey { get; set; }
 

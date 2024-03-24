@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Principals
                 Rel = RelationType.delete,
                 Type = "long"
             });
-            return Task.Run(() => { });//Ajuste para o resultado não lancar erro de objeto nullo
+            return Task.Run(() => { });
         }
 
         private string GetLink(long id, IUrlHelper urlHelper, string path)

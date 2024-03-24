@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Domains
                 Rel = RelationType.delete,
                 Type = "int"
             });
-            return Task.Run(() => { });//Ajuste para o resultado não lancar erro de objeto nullo
+            return Task.Run(() => { });
         }
 
         private string GetLink(long id, IUrlHelper urlHelper, string path)

@@ -106,10 +106,9 @@ namespace SmartDigitalPsico.Service.Principals
                     response.Message = "User registred.";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+                throw;
             }
             return response;
         }
@@ -140,8 +139,7 @@ namespace SmartDigitalPsico.Service.Principals
                     entityUpdate.PasswordSalt = passwordSalt;
                 }
                 var isAdmin = updateUser?.Admin.GetValueOrDefault();
-                entityUpdate.Role = updateUser?.Role;
-                //entityUpdate.Admin = isAdmin != null && isAdmin == true ? true : false; 
+                entityUpdate.Role = updateUser?.Role; 
 
                 entityUpdate.ModifyDate = DateTime.Now;
                 entityUpdate.MedicalId = updateUser?.MedicalId;
@@ -186,8 +184,7 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.CreatedDate = DateTime.Now;
                 entityAdd.ModifyDate = DateTime.Now;
                 entityAdd.LastAccessDate = DateTime.Now;
-                entityAdd.Role = userRegisterVO?.Role;
-                //entityAdd.Admin = userRegisterVO?.Admin != null ? true : false;
+                entityAdd.Role = userRegisterVO?.Role; 
                 List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO?.RoleGroupsIds);
                 entityAdd.RoleGroups = new List<RoleGroup>();
                 roleGroups.ForEach(rg => entityAdd.RoleGroups.Add(rg));
@@ -201,10 +198,9 @@ namespace SmartDigitalPsico.Service.Principals
                     response.Message = "User registred.";
                 }
             }
-            catch (Exception ex)
-            {
-                //TODO: GENARATE LOGS
-                throw ex;
+            catch (Exception)
+            { 
+                throw;
             }
             return response;
         }
@@ -247,11 +243,9 @@ namespace SmartDigitalPsico.Service.Principals
             if (user == null) return new TokenVO();
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                //new Claim(JwtRegisteredClaimNames.UniqueName, user.Login),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")), 
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Name, user.Name),
-                //new Claim(JwtRegisteredClaimNames.Email, user.Email)
+                new Claim(JwtRegisteredClaimNames.Name, user.Name), 
             };
 
             var accessToken = _tokenService.GenerateAccessToken(claims);

@@ -54,15 +54,12 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static string GetNameAndCulture(string localizedStringKeyName)
         {
 
-            string culturenameCurrent = CultureInfo.CurrentCulture.Name;
-
-            //  return $"{localizedStringKeyName}.{culturenameCurrent}";
+            string culturenameCurrent = CultureInfo.CurrentCulture.Name;  
             return $"{localizedStringKeyName}";
 
         }
         public static string GetKeyLocalizationRecordFormat(string LanguageKey, string Language)
-        {
-            //return $"{LanguageKey}.{Language}";
+        { 
             return $"{LanguageKey}";
         }
 

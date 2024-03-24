@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.VO.Patient.PatientMedicationInformation
     public class GetPatientMedicationInformationVO : EntityVOBase, ISupportsHyperMedia
     {
         public long Id { get; set; }
-        //MUDAR AS RELACOES PARA OBJETOS  
+          
         #region Relationship  
         public GetPatientVO Patient { get; set; }
 

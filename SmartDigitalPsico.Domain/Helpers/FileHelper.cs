@@ -57,9 +57,8 @@ namespace SmartDigitalPsico.Domain.Helpers
         {
             if (filedata != null)
             {
-                var content = new System.IO.MemoryStream(filedata);
+                var content = new System.IO.MemoryStream(filedata); 
 
-                //MUDAR PARA BAIXAR NO NAVEGADOR ou retornar url ou retornar o bytes **QUANDO TIVER FAZENDO O FRONT
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "ResourcesTemp", fileName);
 
                 await copyStream(content, path);

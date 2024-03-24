@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsicoAPI", "SmartDigitalPsicoAPI\SmartDigitalPsicoAPI.csproj", "{9FEF6982-450C-4418-9690-DA34AF1A7A41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.WebAPI", "SmartDigitalPsicoAPI\SmartDigitalPsico.WebAPI.csproj", "{9FEF6982-450C-4418-9690-DA34AF1A7A41}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.Domain", "SmartDigitalPsico.Domain\SmartDigitalPsico.Domain.csproj", "{6C5E19D2-6DB5-4D56-9812-1D6A13B8DFBE}"
 EndProject

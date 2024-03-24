@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     {
         [Column("Description", TypeName = "varchar(50)")]
         [MaxLength(50)]
-        public string Description { get; set; } = null!;//Ignore nullity
+        public string Description { get; set; } = null!; 
 
         [Column("Language", TypeName = "varchar(10)")]
         [MaxLength(10)]

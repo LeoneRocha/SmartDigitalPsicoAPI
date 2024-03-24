@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace SmartDigitalPsicoAPI.Controllers
+namespace SmartDigitalPsico.WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]

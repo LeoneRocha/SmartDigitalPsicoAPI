@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SmartDigitalPsico.Domain.VO.Patient.PatientFile
 {
-    public class AddPatientFileVOService : IEntityVOAdd
-    // FileBaseVO, 
+    public class AddPatientFileVOService : IEntityVOAdd 
     {
         #region Relationship 
         [Required]
