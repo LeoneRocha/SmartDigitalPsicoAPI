@@ -3,8 +3,12 @@ Readequacao
 1- Domain - ok 
 2- Data - ok  
 3- Service -  ok 
-4- API 
-5- Testar Localmente sem DOCKER
+4- API - ok 
+5- Testar Localmente sem DOCKER - OK 
+
+5.1 - Ajustar a carga de mock 
+5.2 - MIGRAR DATA NOTATION PARA FLUENT API 
+
 6- Automação
 7- HABLITAR DOCKER
 8- CODE QUALITY
