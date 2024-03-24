@@ -17,17 +17,14 @@ namespace SmartDigitalPsico.Service.SystemDomains
 {
     public class ApplicationLanguageService
       : EntityBaseSimpleService<ApplicationLanguage, AddApplicationLanguageVO, UpdateApplicationLanguageVO, GetApplicationLanguageVO, IApplicationLanguageRepository>, IApplicationLanguageService
-    {
-        private readonly IMapper _mapper;
-        private readonly IApplicationLanguageRepository _genericRepository;
+    {  
 
         public ApplicationLanguageService(IMapper mapper, IApplicationLanguageRepository entityRepository
              , IValidator<ApplicationLanguage> entityValidator, IApplicationLanguageRepository applicationLanguageRepository,
                ICacheService cacheService)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _genericRepository = entityRepository;
+        {  
+
         }
         public static async Task<string> GetLocalization<T>(string key, Microsoft.Extensions.Localization.IStringLocalizer<T> localizer)
         {

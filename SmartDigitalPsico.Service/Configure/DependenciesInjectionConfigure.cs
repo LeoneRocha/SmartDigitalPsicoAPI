@@ -14,6 +14,7 @@ using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
+using SmartDigitalPsico.Service.CacheManager;
 using SmartDigitalPsico.Service.Principals;
 using SmartDigitalPsico.Service.SystemDomains;
 
@@ -67,6 +68,8 @@ namespace SmartDigitalPsico.WebAPI.Helper
 
         private static void addService(IServiceCollection Service)
         {
+            Service.AddScoped<ICacheService, CacheService>();
+
             Service.AddScoped<IApplicationLanguageService, ApplicationLanguageService>();
             Service.AddScoped<IApplicationConfigSettingService, ApplicationConfigSettingService>();
 

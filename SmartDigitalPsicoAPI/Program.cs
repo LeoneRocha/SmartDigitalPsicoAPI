@@ -1,17 +1,40 @@
- 
+
+
+using SmartDigitalPsico.WebAPI.Configure;
+
 namespace SmartDigitalPsico.WebAPI
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var builder = CreateHostBuilder(args);
+
+            createApp(builder);
+
         }
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>(); 
-                });
+
+        private static void createApp(WebApplicationBuilder builder)
+        {
+            var app = builder.Build();
+            ApplicationConfigure.ConfigureApp(app, builder.Environment, builder.Configuration);
+            //app.MapControllers();
+            app.Run();
+        }
+
+        public static WebApplicationBuilder CreateHostBuilder(string[] args)
+        {
+
+            var builder = WebApplication.CreateBuilder(args);
+
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            ApplicationBuilderConfigure.ConfigureServices(builder.Services, builder.Configuration);
+
+            return builder;
+        }
+
     }
 }
