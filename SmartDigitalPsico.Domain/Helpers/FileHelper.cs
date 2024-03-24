@@ -13,8 +13,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         {
             using (var sr = new StreamReader(file.OpenReadStream()))
             {
-                var content = await sr.ReadToEndAsync();
-                //return Ok(content);
+                var content = await sr.ReadToEndAsync(); 
                 return content;
             }
         }

@@ -2,7 +2,7 @@
 Readequacao 
 1- Domain - ok 
 2- Data - ok  
-3- Services -  ok 
+3- Service -  ok 
 4- API 
 5- Testar Localmente sem DOCKER
 6- Automação

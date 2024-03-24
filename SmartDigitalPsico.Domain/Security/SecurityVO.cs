@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace SmartDigitalPsico.Domain.Security
+﻿namespace SmartDigitalPsico.Domain.Security
 {
     public class SecurityVO
     {
