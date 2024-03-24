@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 { 
     [ApiController] 
     [Authorize("Bearer")]
-    [Route("api/[controller]/v{version:apiVersion}")]
+    [Route("api/[controller]/v1")]
     public class OfficeController : ApiBaseController
     {
         private readonly IOfficeService _entityService;

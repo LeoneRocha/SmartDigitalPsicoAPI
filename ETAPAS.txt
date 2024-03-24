@@ -30,4 +30,8 @@ Readequacao
 
 EF TIPS 
 
-Add-Migration InitialCreate -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+COMANDO 1 )					Add-Migration InitialCreate -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+
+COMANDO 2 )					Update-Database -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContext
+
+COMANDO 3 "DELETAR" )		Update-Database -Migration 0 -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContext

@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 { 
     [ApiController] 
     [Authorize("Bearer")]
-    [Route("api/[controller]/v{version:apiVersion}")]
+    [Route("api/[controller]/v1")]
     public class UserController : ApiBaseController
     {
         private readonly IUserService _entityService;

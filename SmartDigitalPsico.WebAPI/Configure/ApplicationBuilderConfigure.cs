@@ -128,14 +128,14 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     options.UseMySql(connection, ServerVersion.AutoDetect(connection)
                     , b =>
                     {
-                        b.MigrationsAssembly("SmartDigitalPsicoWebAPI");
+                        b.MigrationsAssembly("SmartDigitalPsico.Data");
                         b.SchemaBehavior(MySqlSchemaBehavior.Ignore);
                     }));
                     break;
                 case ETypeDataBase.MSsqlServer:
                     connection = _configuration.GetConnectionString("SmartDigitalPsicoDBConnectionSQLServer");
                     services.AddDbContext<SmartDigitalPsicoDataContext>(options => options.UseSqlServer(connection,
-                        b => b.MigrationsAssembly("SmartDigitalPsicoWebAPI")));
+                        b => b.MigrationsAssembly("SmartDigitalPsico.Data")));
                     break;
                 default:
                     break;

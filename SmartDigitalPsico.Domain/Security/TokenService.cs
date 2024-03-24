@@ -18,9 +18,15 @@ namespace SmartDigitalPsico.Domain.Security
 
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.Secret));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            string secretKey = _configuration.Secret;
+            using (var hmac = new HMACSHA512())
+            {
+                byte[] key = hmac.Key;
+                secretKey = Convert.ToBase64String(key);
 
+            }  
+            var signinCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)), SecurityAlgorithms.HmacSha512);
+             
             var options = new JwtSecurityToken(
                 issuer: _configuration.Issuer,
                 audience: _configuration.Audience,
@@ -35,7 +41,8 @@ namespace SmartDigitalPsico.Domain.Security
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create()) {
+            using (var rng = RandomNumberGenerator.Create())
+            {
                 rng.GetBytes(randomNumber);
                 return Convert.ToBase64String(randomNumber);
             };
@@ -43,7 +50,8 @@ namespace SmartDigitalPsico.Domain.Security
 
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
-            var tokenValidationParameters = new TokenValidationParameters{
+            var tokenValidationParameters = new TokenValidationParameters
+            {
                 ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
@@ -57,7 +65,7 @@ namespace SmartDigitalPsico.Domain.Security
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null ||
                 !jwtSecurityToken.Header.Alg.Equals(
-                    SecurityAlgorithms.HmacSha256,
+                    SecurityAlgorithms.HmacSha512,
                     StringComparison.InvariantCulture))
                 throw new SecurityTokenException("Invalid Token");
 

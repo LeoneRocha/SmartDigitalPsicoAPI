@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Helpers;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {
     [ApiController]  
-    [Route("api/[controller]/v{version:apiVersion}")]
+    [Route("api/[controller]/v1")]
     public class GlobalizationTimeZonesController : ControllerBase
     {
         public GlobalizationTimeZonesController()

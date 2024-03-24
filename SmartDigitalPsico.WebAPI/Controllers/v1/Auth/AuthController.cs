@@ -8,7 +8,7 @@ using SmartDigitalPsico.Domain.VO.Utils;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
 {
     [ApiController]    
-    [Route("api/[controller]/v{version:apiVersion}")]
+    [Route("api/[controller]/v1")]
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
