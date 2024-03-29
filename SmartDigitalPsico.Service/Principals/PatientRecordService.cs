@@ -13,7 +13,7 @@ using SmartDigitalPsico.Service.SystemDomains;
 
 namespace SmartDigitalPsico.Service.Principals
 {
-    public class PatientRecordService : EntityBaseSimpleService<PatientRecord, AddPatientRecordVO, UpdatePatientRecordVO, GetPatientRecordVO, IPatientRecordRepository>, IPatientRecordService
+    public class PatientRecordService : EntityBaseService<PatientRecord, AddPatientRecordVO, UpdatePatientRecordVO, GetPatientRecordVO, IPatientRecordRepository>, IPatientRecordService
 
     {
         private readonly IMapper _mapper;
@@ -110,10 +110,9 @@ namespace SmartDigitalPsico.Service.Principals
                     response.Message = "Patient Updated.";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+                throw;
             }
             return response;
         }

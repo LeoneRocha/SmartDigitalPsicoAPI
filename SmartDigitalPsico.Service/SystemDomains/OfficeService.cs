@@ -10,7 +10,7 @@ using SmartDigitalPsico.Service.Generic;
 
 namespace SmartDigitalPsico.Service.SystemDomains
 {
-    public class OfficeService : EntityBaseSimpleService<Office, AddOfficeVO, UpdateOfficeVO, GetOfficeVO, IOfficeRepository>, IOfficeService
+    public class OfficeService : EntityBaseService<Office, AddOfficeVO, UpdateOfficeVO, GetOfficeVO, IOfficeRepository>, IOfficeService
 
     {
         public OfficeService(IMapper _mapper, IOfficeRepository entityRepository, IValidator<Office> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)

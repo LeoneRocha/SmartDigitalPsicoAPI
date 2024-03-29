@@ -16,13 +16,11 @@ using SmartDigitalPsico.Service.Generic;
 namespace SmartDigitalPsico.Service.SystemDomains
 {
     public class GenderService
-      : EntityBaseSimpleService<Gender, AddGenderVO, UpdateGenderVO, GetGenderVO, IGenderRepository>, IGenderService
+      : EntityBaseService<Gender, AddGenderVO, UpdateGenderVO, GetGenderVO, IGenderRepository>, IGenderService
     {
         private readonly IMapper _mapper;
         private readonly IGenderRepository _entityRepository;
-        private readonly ICacheService _cacheService;
-        AuthConfigurationVO _configurationAuth;
-        private readonly IStringLocalizer<SharedResource> _localizer;
+        private readonly ICacheService _cacheService;  
         public GenderService(IMapper mapper, IGenderRepository entityRepository, ICacheService cacheService,
             IOptions<AuthConfigurationVO> configurationAuth,
             IValidator<Gender> entityValidator
@@ -32,8 +30,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
         {
             _mapper = mapper;
             _entityRepository = entityRepository;
-            _cacheService = cacheService;
-            _configurationAuth = configurationAuth.Value; 
+            _cacheService = cacheService; 
         }
 
         public override async Task<ServiceResponse<List<GetGenderVO>>> FindAll()
@@ -88,11 +85,10 @@ namespace SmartDigitalPsico.Service.SystemDomains
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService); 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
-
             return response;
         }
          

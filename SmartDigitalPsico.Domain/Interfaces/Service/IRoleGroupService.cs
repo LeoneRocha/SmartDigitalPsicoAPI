@@ -5,7 +5,7 @@ using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IRoleGroupService : IEntityBaseSimpleService<RoleGroup, AddRoleGroupVO, UpdateRoleGroupVO, GetRoleGroupVO>
+    public interface IRoleGroupService : IEntityBaseService<RoleGroup, AddRoleGroupVO, UpdateRoleGroupVO, GetRoleGroupVO>
     {
 
     }

@@ -5,7 +5,7 @@ using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface ISpecialtyService : IEntityBaseSimpleService<Specialty, AddSpecialtyVO, UpdateSpecialtyVO, GetSpecialtyVO>
+    public interface ISpecialtyService : IEntityBaseService<Specialty, AddSpecialtyVO, UpdateSpecialtyVO, GetSpecialtyVO>
     {
 
     }

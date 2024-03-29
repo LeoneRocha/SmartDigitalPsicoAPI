@@ -10,7 +10,7 @@ using SmartDigitalPsico.Service.Generic;
 
 namespace SmartDigitalPsico.Service.SystemDomains
 {
-    public class RoleGroupService : EntityBaseSimpleService<RoleGroup, AddRoleGroupVO, UpdateRoleGroupVO, GetRoleGroupVO, IRoleGroupRepository>, IRoleGroupService
+    public class RoleGroupService : EntityBaseService<RoleGroup, AddRoleGroupVO, UpdateRoleGroupVO, GetRoleGroupVO, IRoleGroupRepository>, IRoleGroupService
 
     {
         public RoleGroupService(IMapper _mapper, IRoleGroupRepository entityRepository

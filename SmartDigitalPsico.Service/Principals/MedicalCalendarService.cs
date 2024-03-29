@@ -11,7 +11,7 @@ using SmartDigitalPsico.Service.Generic;
 
 namespace SmartDigitalPsico.Service.Principals
 {
-    public class MedicalCalendarService : EntityBaseSimpleService<MedicalCalendar, AddMedicalCalendarVO, UpdateMedicalCalendarVO, GetMedicalCalendarVO, IMedicalCalendarRepository>, IMedicalCalendarService
+    public class MedicalCalendarService : EntityBaseService<MedicalCalendar, AddMedicalCalendarVO, UpdateMedicalCalendarVO, GetMedicalCalendarVO, IMedicalCalendarRepository>, IMedicalCalendarService
 
     {
         private readonly IMapper _mapper;

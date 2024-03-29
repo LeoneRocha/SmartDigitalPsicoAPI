@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IPatientAdditionalInformationService : IEntityBaseSimpleService<PatientAdditionalInformation, 
+    public interface IPatientAdditionalInformationService : IEntityBaseService<PatientAdditionalInformation, 
         AddPatientAdditionalInformationVO,UpdatePatientAdditionalInformationVO, GetPatientAdditionalInformationVO>
     { 
         Task<ServiceResponse<List<GetPatientAdditionalInformationVO>>> FindAllByPatient(long patientId);

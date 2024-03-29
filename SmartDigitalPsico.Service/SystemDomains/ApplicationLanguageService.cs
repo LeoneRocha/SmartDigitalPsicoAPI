@@ -16,7 +16,7 @@ using System.Globalization;
 namespace SmartDigitalPsico.Service.SystemDomains
 {
     public class ApplicationLanguageService
-      : EntityBaseSimpleService<ApplicationLanguage, AddApplicationLanguageVO, UpdateApplicationLanguageVO, GetApplicationLanguageVO, IApplicationLanguageRepository>, IApplicationLanguageService
+      : EntityBaseService<ApplicationLanguage, AddApplicationLanguageVO, UpdateApplicationLanguageVO, GetApplicationLanguageVO, IApplicationLanguageRepository>, IApplicationLanguageService
     {  
 
         public ApplicationLanguageService(IMapper mapper, IApplicationLanguageRepository entityRepository
@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
             }
             catch (Exception)
             {
-
+                return result;
             }
             await Task.FromResult(string.Empty);
 
@@ -99,9 +99,9 @@ namespace SmartDigitalPsico.Service.SystemDomains
                         GetApplicationLanguageVO languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
                         resultLocalization = languageFindFromCache.LanguageValue;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        throw ex;
+                        throw;
                     }
                 }
                 else
@@ -112,7 +112,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
             }
             catch (Exception)
             {
-
+                throw;
             }
             return resultLocalization;
         }

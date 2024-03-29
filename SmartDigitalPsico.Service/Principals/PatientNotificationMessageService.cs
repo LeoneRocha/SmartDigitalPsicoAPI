@@ -13,7 +13,7 @@ using SmartDigitalPsico.Service.SystemDomains;
 namespace SmartDigitalPsico.Service.Principals
 {
     public class PatientNotificationMessageService
-        : EntityBaseSimpleService<PatientNotificationMessage, AddPatientNotificationMessageVO, UpdatePatientNotificationMessageVO, GetPatientNotificationMessageVO, IPatientNotificationMessageRepository>, IPatientNotificationMessageService
+        : EntityBaseService<PatientNotificationMessage, AddPatientNotificationMessageVO, UpdatePatientNotificationMessageVO, GetPatientNotificationMessageVO, IPatientNotificationMessageRepository>, IPatientNotificationMessageService
 
     {
         private readonly IMapper _mapper;
@@ -111,10 +111,9 @@ namespace SmartDigitalPsico.Service.Principals
                     response.Message = "Medical updated.";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                throw;
             }
             return response;
         }

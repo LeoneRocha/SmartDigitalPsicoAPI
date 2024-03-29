@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IPatientNotificationMessageService : IEntityBaseSimpleService<PatientNotificationMessage
+    public interface IPatientNotificationMessageService : IEntityBaseService<PatientNotificationMessage
         ,AddPatientNotificationMessageVO,UpdatePatientNotificationMessageVO, GetPatientNotificationMessageVO>
     {
         

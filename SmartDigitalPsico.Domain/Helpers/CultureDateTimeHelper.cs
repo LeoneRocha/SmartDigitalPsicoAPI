@@ -77,7 +77,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
             catch (Exception)
             {
-
+                return result;
             }
             return result;
         } 

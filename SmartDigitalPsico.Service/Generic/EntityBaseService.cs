@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Service.Generic
 {
     public class EntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult, Repo>
         : IEntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
-        where TEntity : EntityBaseWithNameEmail
+        where TEntity : IEntityBase , IEntityBaseLog
         where TEntityAdd : IEntityVOAdd
         where TEntityUpdate : IEntityVO
         where TEntityResult : class
@@ -163,8 +163,7 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await getMessageFromLocalization("RegisterExist");
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
             return response;
@@ -180,12 +179,10 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await getMessageFromLocalization("RegisterFind");
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
-
-
+             
             return response;
         }
         public virtual async Task<ServiceResponse<List<TEntityResult>>> FindWithPagedSearch(string query)
@@ -199,8 +196,7 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await getMessageFromLocalization("RegisterFind");
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
             return response;
@@ -217,8 +213,7 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await getMessageFromLocalization("RegisterCounted");
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
 
@@ -248,8 +243,7 @@ namespace SmartDigitalPsico.Service.Generic
                 }
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
             return response;
@@ -292,8 +286,7 @@ namespace SmartDigitalPsico.Service.Generic
 
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
             return response;

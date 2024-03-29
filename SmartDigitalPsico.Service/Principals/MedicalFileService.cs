@@ -17,7 +17,7 @@ using SmartDigitalPsico.Service.SystemDomains;
 
 namespace SmartDigitalPsico.Service.Principals
 {
-    public class MedicalFileService : EntityBaseSimpleService<MedicalFile, AddMedicalFileVO, UpdateMedicalFileVO, GetMedicalFileVO, IMedicalFileRepository>, IMedicalFileService
+    public class MedicalFileService : EntityBaseService<MedicalFile, AddMedicalFileVO, UpdateMedicalFileVO, GetMedicalFileVO, IMedicalFileRepository>, IMedicalFileService
 
     {
         private readonly IMapper _mapper;

@@ -76,10 +76,9 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+                throw;
             }
             return response;
         }
@@ -142,10 +141,9 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+                throw;
             }
             return response;
         }
@@ -211,9 +209,9 @@ namespace SmartDigitalPsico.Service.Principals
                 response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
             return response;
         }

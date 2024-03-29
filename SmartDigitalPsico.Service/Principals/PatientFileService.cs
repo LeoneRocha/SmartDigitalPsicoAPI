@@ -15,7 +15,7 @@ using SmartDigitalPsico.Service.Generic;
 
 namespace SmartDigitalPsico.Service.Principals
 {
-    public class PatientFileService : EntityBaseSimpleService<PatientFile, AddPatientFileVO, UpdatePatientFileVO, GetPatientFileVO, IPatientFileRepository>, IPatientFileService
+    public class PatientFileService : EntityBaseService<PatientFile, AddPatientFileVO, UpdatePatientFileVO, GetPatientFileVO, IPatientFileRepository>, IPatientFileService
 
     {
         private readonly IMapper _mapper;
@@ -92,10 +92,9 @@ namespace SmartDigitalPsico.Service.Principals
                     PatientFile entityResponse = await _entityRepository.Create(entityAdd);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                throw;
             }
 
             return true;

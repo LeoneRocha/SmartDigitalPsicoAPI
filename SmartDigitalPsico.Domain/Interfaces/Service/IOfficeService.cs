@@ -5,7 +5,7 @@ using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IOfficeService : IEntityBaseSimpleService<Office, AddOfficeVO, UpdateOfficeVO, GetOfficeVO>
+    public interface IOfficeService : IEntityBaseService<Office, AddOfficeVO, UpdateOfficeVO, GetOfficeVO>
     {
 
     }

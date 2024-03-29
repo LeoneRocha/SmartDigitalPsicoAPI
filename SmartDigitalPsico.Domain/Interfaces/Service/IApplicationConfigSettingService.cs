@@ -5,7 +5,7 @@ using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IApplicationConfigSettingService : IEntityBaseSimpleService<ApplicationConfigSetting, AddApplicationConfigSettingVO, UpdateApplicationConfigSettingVO, GetApplicationConfigSettingVO>
+    public interface IApplicationConfigSettingService : IEntityBaseService<ApplicationConfigSetting, AddApplicationConfigSettingVO, UpdateApplicationConfigSettingVO, GetApplicationConfigSettingVO>
     {
 
     }

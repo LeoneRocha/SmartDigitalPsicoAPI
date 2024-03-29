@@ -86,7 +86,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
                 }
                 return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.Message = $"Upload fail";
                 return BadRequest(response);

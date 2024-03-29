@@ -6,7 +6,7 @@ using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
     public interface IGenderService 
-        : IEntityBaseSimpleService<Gender, AddGenderVO, UpdateGenderVO, GetGenderVO>
+        : IEntityBaseService<Gender, AddGenderVO, UpdateGenderVO, GetGenderVO>
     {
 
     }

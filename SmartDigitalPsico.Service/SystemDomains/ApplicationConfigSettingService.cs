@@ -11,21 +11,15 @@ using SmartDigitalPsico.Service.Generic;
 namespace SmartDigitalPsico.Service.SystemDomains
 {
     public class ApplicationConfigSettingService
-      : EntityBaseSimpleService<ApplicationConfigSetting, AddApplicationConfigSettingVO, UpdateApplicationConfigSettingVO, GetApplicationConfigSettingVO, IApplicationConfigSettingRepository>, IApplicationConfigSettingService
-    {
-        private readonly IMapper _mapper;
-        private readonly IApplicationConfigSettingRepository _genericRepository;
-
+      : EntityBaseService<ApplicationConfigSetting, AddApplicationConfigSettingVO, UpdateApplicationConfigSettingVO, GetApplicationConfigSettingVO, IApplicationConfigSettingRepository>, IApplicationConfigSettingService
+    {  
         public ApplicationConfigSettingService(IMapper mapper,
             IApplicationConfigSettingRepository entityRepository
             , IValidator<ApplicationConfigSetting> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-
-            _mapper = mapper;
-            _genericRepository = entityRepository;
+        { 
         }
     }
 }

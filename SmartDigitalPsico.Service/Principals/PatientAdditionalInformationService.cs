@@ -13,7 +13,7 @@ using SmartDigitalPsico.Domain.Validation.Contratcs;
 
 namespace SmartDigitalPsico.Service.Principals
 {
-    public class PatientAdditionalInformationService : EntityBaseSimpleService<PatientAdditionalInformation, AddPatientAdditionalInformationVO, UpdatePatientAdditionalInformationVO, GetPatientAdditionalInformationVO
+    public class PatientAdditionalInformationService : EntityBaseService<PatientAdditionalInformation, AddPatientAdditionalInformationVO, UpdatePatientAdditionalInformationVO, GetPatientAdditionalInformationVO
         , IPatientAdditionalInformationRepository>, IPatientAdditionalInformationService
 
     {
@@ -76,8 +76,7 @@ namespace SmartDigitalPsico.Service.Principals
                 }
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
 
@@ -119,8 +118,7 @@ namespace SmartDigitalPsico.Service.Principals
                 }
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
 

@@ -2,7 +2,8 @@ using SmartDigitalPsico.Domain.Hypermedia.Utils;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IEntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
+    public interface IEntityBaseService<
+        TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
     {
         Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item);
         Task<ServiceResponse<TEntityResult>> FindByID(long id);

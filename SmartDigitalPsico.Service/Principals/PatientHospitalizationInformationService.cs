@@ -13,7 +13,7 @@ using SmartDigitalPsico.Service.SystemDomains;
 
 namespace SmartDigitalPsico.Service.Principals
 {
-    public class PatientHospitalizationInformationService : EntityBaseSimpleService<PatientHospitalizationInformation, AddPatientHospitalizationInformationVO, UpdatePatientHospitalizationInformationVO, GetPatientHospitalizationInformationVO, IPatientHospitalizationInformationRepository>, IPatientHospitalizationInformationService
+    public class PatientHospitalizationInformationService : EntityBaseService<PatientHospitalizationInformation, AddPatientHospitalizationInformationVO, UpdatePatientHospitalizationInformationVO, GetPatientHospitalizationInformationVO, IPatientHospitalizationInformationRepository>, IPatientHospitalizationInformationService
 
     {
         private readonly IMapper _mapper;
@@ -68,8 +68,7 @@ namespace SmartDigitalPsico.Service.Principals
                 }
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
 
@@ -113,8 +112,7 @@ namespace SmartDigitalPsico.Service.Principals
                 }
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
 

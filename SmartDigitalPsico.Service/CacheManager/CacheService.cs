@@ -121,7 +121,7 @@ namespace SmartDigitalPsico.Service.CacheManager
                 }
                 valueResult = _valueResult;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 valueResult = _valueResult;
                 return result;

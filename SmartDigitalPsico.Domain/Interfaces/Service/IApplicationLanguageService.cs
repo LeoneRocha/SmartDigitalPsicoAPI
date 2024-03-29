@@ -6,7 +6,7 @@ using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
     public interface IApplicationLanguageService 
-        : IEntityBaseSimpleService<ApplicationLanguage, AddApplicationLanguageVO, UpdateApplicationLanguageVO, GetApplicationLanguageVO>
+        : IEntityBaseService<ApplicationLanguage, AddApplicationLanguageVO, UpdateApplicationLanguageVO, GetApplicationLanguageVO>
     {
 
     }

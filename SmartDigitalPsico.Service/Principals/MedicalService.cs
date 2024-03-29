@@ -75,10 +75,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                throw;
             }
             return response;
         }
@@ -125,10 +124,9 @@ namespace SmartDigitalPsico.Service.Principals
                        ("MedicalUpdated", base._applicationLanguageRepository, base._cacheService);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                throw;
             }
             return response;
         }
