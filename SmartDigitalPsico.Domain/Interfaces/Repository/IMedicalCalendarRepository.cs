@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IMedicalCalendarRepository : IEntityBaseSimpleRepository<MedicalCalendar>
+    public interface IMedicalCalendarRepository : IEntityBaseRepository<MedicalCalendar>
     {
     }
 }

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
 
-    public abstract class FileBase : EntityBaseSimple
+    public abstract class FileBase : EntityBase
     {
         #region Columns  
         /// <summary>

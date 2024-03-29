@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     [Table("PatientMedicationInformations", Schema = "dbo")]
-    public class PatientMedicationInformation : EntityBaseSimple, IEntityBaseLogUser
+    public class PatientMedicationInformation : EntityBase, IEntityBaseLogUser
     {
         #region Relationship 
         [Required]

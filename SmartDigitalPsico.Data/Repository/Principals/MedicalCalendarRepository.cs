@@ -5,7 +5,7 @@ using SmartDigitalPsico.Data.Repository.Generic;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
-    public class MedicalCalendarRepository : GenericRepositoryEntityBaseSimple<MedicalCalendar>, IMedicalCalendarRepository
+    public class MedicalCalendarRepository : GenericRepositoryEntityBase<MedicalCalendar>, IMedicalCalendarRepository
     {
         public MedicalCalendarRepository(SmartDigitalPsicoDataContext context) : base(context) { }
          

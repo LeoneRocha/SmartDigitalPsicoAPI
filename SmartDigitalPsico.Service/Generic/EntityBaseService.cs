@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Service.Generic
 {
     public class EntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult, Repo>
         : IEntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
-        where TEntity : EntityBase
+        where TEntity : EntityBaseWithNameEmail
         where TEntityAdd : IEntityVOAdd
         where TEntityUpdate : IEntityVO
         where TEntityResult : class
@@ -40,6 +40,9 @@ namespace SmartDigitalPsico.Service.Generic
             try
             {
                 TEntity entityAdd = _mapper.Map<TEntity>(item);
+                entityAdd.CreatedDate = DateTime.Now;
+                entityAdd.ModifyDate = DateTime.Now;
+                entityAdd.LastAccessDate = DateTime.Now;
 
                 response = await Validate(entityAdd);
                 if (response.Success)
@@ -52,10 +55,10 @@ namespace SmartDigitalPsico.Service.Generic
             }
             catch (Exception ex)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+                response.Success = false;
+                response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex?.Message}-{ex?.InnerException?.Message}" });
+                response.Message = await getMessageFromLocalization("RegisterCreated");
             }
-
             return response;
         }
 
@@ -68,9 +71,8 @@ namespace SmartDigitalPsico.Service.Generic
             }
             catch (Exception)
             {
-
+                throw;
             }
-            return "Erro get Message";
         }
 
         public virtual async Task<ServiceResponse<bool>> Delete(long id)
@@ -97,7 +99,6 @@ namespace SmartDigitalPsico.Service.Generic
             }
             catch (Exception)
             {
-
                 throw;
             }
             return response;
@@ -125,10 +126,9 @@ namespace SmartDigitalPsico.Service.Generic
                     response.Message = await getMessageFromLocalization("RegisterUpdated");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+                throw;
             }
             return response;
         }
@@ -144,10 +144,9 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await getMessageFromLocalization("RegisterExist");
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+                throw;
             }
             return response;
         }
@@ -163,10 +162,10 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Success = true;
                 response.Message = await getMessageFromLocalization("RegisterExist");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+
+                throw;
             }
             return response;
         }
@@ -180,10 +179,10 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Success = true;
                 response.Message = await getMessageFromLocalization("RegisterFind");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+
+                throw;
             }
 
 
@@ -199,10 +198,10 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Success = true;
                 response.Message = await getMessageFromLocalization("RegisterFind");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+
+                throw;
             }
             return response;
         }
@@ -217,10 +216,10 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Success = true;
                 response.Message = await getMessageFromLocalization("RegisterCounted");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+
+                throw;
             }
 
             return response;
@@ -248,10 +247,10 @@ namespace SmartDigitalPsico.Service.Generic
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+
+                throw;
             }
             return response;
         }
@@ -268,14 +267,34 @@ namespace SmartDigitalPsico.Service.Generic
 
                 response.Success = validationResult.IsValid;
                 response.Errors = HelperValidation.GetErrosMap(validationResult);
-                string validationMsg = HelperValidation.GetMessage(validationResult.IsValid);
-                //TODO: IMPLANTAR DO LANGUAGE
-                response.Message = validationMsg;
+                response.Message = HelperValidation.GetMessage(validationResult.IsValid);
+                //Translate Message  
+                if (response.Errors != null)
+                {
+                    List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
+                    foreach (var errosItem in response.Errors)
+                    {
+                        var errosAdd = new ErrorResponse()
+                        {
+                            Message = await ApplicationLanguageService.GetLocalization<SharedResource>(errosItem.Message, this._applicationLanguageRepository, this._cacheService)
+                            ,
+                            Name = errosItem.Name
+                        };
+
+                        errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
+
+                        errosTranslated.Add(errosAdd);
+                    }
+                    response.Errors = errosTranslated;
+                }
+
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
+
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: GENARATE LOGS
-                throw ex;
+
+                throw;
             }
             return response;
         }

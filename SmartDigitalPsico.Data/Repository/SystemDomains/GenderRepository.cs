@@ -5,7 +5,7 @@ using SmartDigitalPsico.Data.Repository.Generic;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
-    public class GenderRepository : GenericRepositoryEntityBaseSimple<Gender>, IGenderRepository
+    public class GenderRepository : GenericRepositoryEntityBase<Gender>, IGenderRepository
     {
         public GenderRepository(SmartDigitalPsicoDataContext context) : base(context) { }
     }

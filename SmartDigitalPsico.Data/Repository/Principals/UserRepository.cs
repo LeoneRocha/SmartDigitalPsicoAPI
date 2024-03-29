@@ -6,7 +6,7 @@ using SmartDigitalPsico.Data.Repository.Generic;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
-    public class UserRepository : GenericRepositoryEntityBase<User>, IUserRepository 
+    public class UserRepository : GenericRepositoryEntityBase<User>, IUserRepository
     {
         public UserRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
@@ -51,8 +51,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.RoleGroups)
                 .ToListAsync();
         }
-         
- 
+
+
 
         public async Task<User> RefreshUserInfo(User user)
         {
@@ -61,16 +61,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(user.Id));
             if (result != null)
             {
-                try
-                {
-                    dataset.Entry(result).CurrentValues.SetValues(user);
-                    await _context.SaveChangesAsync();
-                    return result;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                dataset.Entry(result).CurrentValues.SetValues(user);
+                await _context.SaveChangesAsync();
+                return result;
             }
             return result;
         }
@@ -80,6 +73,6 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             User userResult = await dataset.Include(e => e.RoleGroups).FirstAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
 
             return userResult;
-        } 
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     [Table("ApplicationLanguage", Schema = "dbo")]
-    public class ApplicationLanguage : EntityBaseSimple, IEntityBaseDomains
+    public class ApplicationLanguage : EntityBase, IEntityBaseDomains
     {
         [Column("Language", TypeName = "varchar(10)")]
         [MaxLength(10)]

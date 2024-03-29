@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IApplicationConfigSettingRepository : IEntityBaseSimpleRepository<ApplicationConfigSetting>
+    public interface IApplicationConfigSettingRepository : IEntityBaseRepository<ApplicationConfigSetting>
     {
 
     }

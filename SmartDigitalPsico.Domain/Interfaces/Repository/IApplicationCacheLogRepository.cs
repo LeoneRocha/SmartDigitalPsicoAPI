@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IApplicationCacheLogRepository : IEntityBaseSimpleRepository<ApplicationCacheLog>
+    public interface IApplicationCacheLogRepository : IEntityBaseRepository<ApplicationCacheLog>
     {
         Task<bool> Delete(string cacheKey);
     }

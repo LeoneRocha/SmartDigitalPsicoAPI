@@ -1,8 +1,6 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
-
-namespace SmartDigitalPsico.Domain.Interfaces.Repository
+﻿namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IEntityBaseRepository<T> where T : EntityBase
+    public interface IEntityBaseRepository<T> where T : IEntityBase
     {
         Task<T> Create(T item);
         Task<T> FindByID(long id);

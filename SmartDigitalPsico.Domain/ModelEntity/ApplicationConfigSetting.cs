@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     [Table("ApplicationConfigSetting", Schema = "dbo")]
-    public class ApplicationConfigSetting : EntityBaseSimple, IEntityBaseDomains
+    public class ApplicationConfigSetting : EntityBase, IEntityBaseDomains
     {
         [Column("Description", TypeName = "varchar(255)")]
         [MaxLength(255)]

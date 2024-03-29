@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface ISpecialtyRepository : IEntityBaseSimpleRepository<Specialty>
+    public interface ISpecialtyRepository : IEntityBaseRepository<Specialty>
     {
         Task<List<Specialty>> FindByIDs(List<long> idsSpecialties);
     }

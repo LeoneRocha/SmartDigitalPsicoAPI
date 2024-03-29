@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IPatientFileRepository : IEntityBaseSimpleRepository<PatientFile>
+    public interface IPatientFileRepository : IEntityBaseRepository<PatientFile>
     {
     }
 }

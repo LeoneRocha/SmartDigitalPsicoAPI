@@ -96,7 +96,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
                 {
                     try
                     {
-                        result.Enable = !result.Enable.GetValueOrDefault();
+                        result.Enable = !result.Enable;
                         await _context.SaveChangesAsync();
 
                     }

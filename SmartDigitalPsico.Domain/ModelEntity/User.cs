@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     [Table("Users", Schema = "dbo")]
-    public class User : EntityBase
+    public class User : EntityBaseWithNameEmail
     {
 
         #region Relationship

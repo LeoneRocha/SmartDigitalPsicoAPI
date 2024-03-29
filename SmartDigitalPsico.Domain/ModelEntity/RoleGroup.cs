@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     [Table("RoleGroups", Schema = "dbo")]
-    public class RoleGroup : EntityBaseSimple, IEntityBaseDomains
+    public class RoleGroup : EntityBase, IEntityBaseDomains
     {
         public List<User> Users { get; set; }
 

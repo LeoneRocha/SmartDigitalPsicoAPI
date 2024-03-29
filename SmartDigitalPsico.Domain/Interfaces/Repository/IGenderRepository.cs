@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IGenderRepository : IEntityBaseSimpleRepository<Gender>
+    public interface IGenderRepository : IEntityBaseRepository<Gender>
     {
 
     }

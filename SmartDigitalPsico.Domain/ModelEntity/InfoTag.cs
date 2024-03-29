@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     [Table("InfoTag", Schema = "dbo")]
-    public class InfoTag : EntityBaseSimple, IEntityBaseLogUser
+    public class InfoTag : EntityBase, IEntityBaseLogUser
     {
         #region Relationship 
         [Required]

@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IApplicationLanguageRepository : IEntityBaseSimpleRepository<ApplicationLanguage>
+    public interface IApplicationLanguageRepository : IEntityBaseRepository<ApplicationLanguage>
     {
         Task<ApplicationLanguage> Find(string language, string languageKey, string resourceKey = "SharedResource");
 

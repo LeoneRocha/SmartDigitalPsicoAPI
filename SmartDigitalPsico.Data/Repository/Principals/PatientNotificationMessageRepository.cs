@@ -6,7 +6,7 @@ using SmartDigitalPsico.Data.Repository.Generic;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
-    public class PatientNotificationMessageRepository : GenericRepositoryEntityBaseSimple<PatientNotificationMessage>, IPatientNotificationMessageRepository
+    public class PatientNotificationMessageRepository : GenericRepositoryEntityBase<PatientNotificationMessage>, IPatientNotificationMessageRepository
     {
         public PatientNotificationMessageRepository(SmartDigitalPsicoDataContext context) : base(context) { }
          

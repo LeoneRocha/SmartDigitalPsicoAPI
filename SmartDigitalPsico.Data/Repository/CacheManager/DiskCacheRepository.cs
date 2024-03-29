@@ -27,20 +27,14 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
         public async Task<bool> RemoveAsync(string cacheKey)
         {
             bool result = false;
-            try
-            {
-                string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
 
-                var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename };
+            string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
 
-                await _repositoryFileDisk.Delete(criteriaFind);
+            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename };
 
-                result = true;
-            }
-            catch (Exception)
-            {
+            await _repositoryFileDisk.Delete(criteriaFind);
 
-            }
+            result = true;
 
             return result;
         }
@@ -52,41 +46,35 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
 
         public async Task<bool> SetAsync<T>(string cacheKey, T value)
         {
-            bool result = false;
-            try
+            bool result;
+
+            string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
+
+            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename };
+
+            bool exists = _repositoryFileDisk.Exists(criteriaFind);
+
+            if (exists)
             {
-                string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
-
-                var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename };
-
-                bool exists = _repositoryFileDisk.Exists(criteriaFind);
-
-                if (exists)
-                {
-                    await _repositoryFileDisk.Delete(criteriaFind);
-                }
-
-                //Gerando cache 
-                string jsonString = JsonSerializer.Serialize(value);
-                byte[] bytesString = Encoding.UTF8.GetBytes(jsonString);
-
-                string pathSaveCache = getPathSaveCache(_cacheConfig.PathCache);
-
-                var fileDataSave = new FileData()
-                {
-                    FilePath = pathSaveCache,
-                    FileName = filename,
-                    FolderDestination = pathSaveCache,
-                    FileData = bytesString
-                };
-
-                result = await _repositoryFileDisk.Save(fileDataSave);
+                await _repositoryFileDisk.Delete(criteriaFind);
             }
-            catch (Exception)
+
+            //Gerando cache 
+            string jsonString = JsonSerializer.Serialize(value);
+            byte[] bytesString = Encoding.UTF8.GetBytes(jsonString);
+
+            string pathSaveCache = getPathSaveCache(_cacheConfig.PathCache);
+
+            var fileDataSave = new FileData()
             {
+                FilePath = pathSaveCache,
+                FileName = filename,
+                FolderDestination = pathSaveCache,
+                FileData = bytesString
+            };
 
-                throw;
-            }
+            result = await _repositoryFileDisk.Save(fileDataSave);
+
             return result;
         }
 
@@ -99,7 +87,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
         {
             bool result = false;
             string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
-             
+
             string pathSaveCache = getPathSaveCache(_cacheConfig.PathCache);
 
             var criteriaFind = new FileData() { FilePath = pathSaveCache, FileName = filename };
@@ -124,7 +112,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
         }
 
         private string getPathSaveCache(string pathCache)
-        { 
+        {
             string currentDir = Directory.GetCurrentDirectory();
             string[] dirs = pathCache.Split('\\');
 

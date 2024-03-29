@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IRoleGroupRepository : IEntityBaseSimpleRepository<RoleGroup>
+    public interface IRoleGroupRepository : IEntityBaseRepository<RoleGroup>
     {
         Task<List<RoleGroup>> FindByIDs(List<long>? roleGroupsIds);
     }

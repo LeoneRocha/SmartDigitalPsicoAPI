@@ -12,25 +12,17 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         public async Task<bool> Save(FileData item)
         {
             bool result = false;
-            try
-            {
-                if (item.FileData != null)
-                {
-                    result = await saveFileFromByte(item);
-                }
-            }
-            catch (Exception ex)
-            {
 
-                throw ex;
+            if (item.FileData != null)
+            {
+                result = await saveFileFromByte(item);
             }
-
             return result;
         }
 
         private async Task<bool> saveFileFromByte(FileData item)
         {
-            bool result = false;
+            bool result;
             // Create random data to write to the file.
             byte[] dataArray = item.FileData;
 
@@ -62,32 +54,10 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                     {
                         throw new Exception("Error writing data.");
                     }
-                } 
-            }
-            return true;
-        }
-
-        private async Task<bool> saveByteArrayToFileWithFileStream(byte[] data, string filePath)
-        {
-            bool result = false;
-            try
-            {
-                if (!Directory.Exists(filePath))
-                {
-                    Directory.CreateDirectory(filePath);
                 }
-
-                using var stream = File.Create(filePath);
-
-                await stream.WriteAsync(data, 0, data.Length);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
             }
             return true;
-        }
+        } 
 
         public async Task<byte[]?> Get(FileData fileCriteria)
         {
@@ -104,7 +74,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                     await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
                 }
             }
-            return result; 
+            return result;
         }
 
         public async Task Delete(FileData fileCriteria)

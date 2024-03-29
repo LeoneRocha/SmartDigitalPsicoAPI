@@ -5,7 +5,7 @@ using SmartDigitalPsico.Data.Repository.Generic;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
-    public class ApplicationConfigSettingRepository : GenericRepositoryEntityBaseSimple<ApplicationConfigSetting>, IApplicationConfigSettingRepository
+    public class ApplicationConfigSettingRepository : GenericRepositoryEntityBase<ApplicationConfigSetting>, IApplicationConfigSettingRepository
     {
         public ApplicationConfigSettingRepository(SmartDigitalPsicoDataContext context) : base(context) { }
          

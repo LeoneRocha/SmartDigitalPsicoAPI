@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IOfficeRepository : IEntityBaseSimpleRepository<Office>
+    public interface IOfficeRepository : IEntityBaseRepository<Office>
     {
 
     }

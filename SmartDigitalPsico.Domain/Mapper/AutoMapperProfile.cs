@@ -24,11 +24,11 @@ namespace SmartDigitalPsico.Domain.Mapper
         {
             #region EntityBase
 
-            CreateMap<EntityBase, EntityVOBaseName>();
-            CreateMap<EntityVOBaseName, EntityBase>();
+            CreateMap<EntityBaseWithNameEmail, EntityVOBaseName>();
+            CreateMap<EntityVOBaseName, EntityBaseWithNameEmail>();
 
-            CreateMap<EntityBaseSimple, EntityVOBaseDomain>();
-            CreateMap<EntityVOBaseDomain, EntityBaseSimple>();
+            CreateMap<EntityBase, EntityVOBaseDomain>();
+            CreateMap<EntityVOBaseDomain, EntityBase>();
 
             #endregion
 

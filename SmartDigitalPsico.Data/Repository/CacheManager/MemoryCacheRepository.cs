@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
         private readonly MemoryCacheEntryOptions? _cacheOptions;
         public MemoryCacheRepository(IMemoryCache memoryCache, IOptions<CacheConfigurationVO> cacheConfig)
         {
-            _memoryCache = memoryCache; 
+            _memoryCache = memoryCache;
             _cacheConfig = cacheConfig.Value;
             if (_cacheConfig != null)
             {
@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
                 absoluteExpiration = DateTime.Now.AddMinutes(_cacheConfig.AbsoluteExpirationInMinutes);
 
                 _cacheOptions = new MemoryCacheEntryOptions
-                { 
+                {
                     AbsoluteExpiration = absoluteExpiration,
                     Priority = CacheItemPriority.High,
                     SlidingExpiration = TimeSpan.FromMinutes(_cacheConfig.SlidingExpirationInMinutes)
@@ -30,42 +30,28 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
         public bool TryGet<T>(string cacheKey, out T value)
         {
             bool isSuccessGet = false;
-            try
+            value = _memoryCache.Get<T>(cacheKey);
+
+            _memoryCache.TryGetValue(cacheKey, out value);
+            if (value != null)
             {
-                value = _memoryCache.Get<T>(cacheKey);
-
-                _memoryCache.TryGetValue(cacheKey, out value);
-                if (value != null)
-                {
-
-                    isSuccessGet = true;
-                }
+                isSuccessGet = true;
             }
-            catch (Exception)
-            {
 
-                throw;
-            }
             return isSuccessGet;
         }
 
         public bool Set<T>(string cacheKey, T value)
         {
-            bool isSuccessSet = false;
             try
             {
                 _memoryCache.Set(cacheKey, value, _cacheOptions);
-
-                isSuccessSet = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return isSuccessSet;
+                return false;
             }
-
-
-            return isSuccessSet;
+            return true;
         }
 
         public bool Remove(string cacheKey)

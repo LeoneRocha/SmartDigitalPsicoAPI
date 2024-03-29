@@ -6,7 +6,7 @@ using SmartDigitalPsico.Data.Repository.Generic;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
-    public class RoleGroupRepository : GenericRepositoryEntityBaseSimple<RoleGroup>, IRoleGroupRepository
+    public class RoleGroupRepository : GenericRepositoryEntityBase<RoleGroup>, IRoleGroupRepository
     {
         public RoleGroupRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 

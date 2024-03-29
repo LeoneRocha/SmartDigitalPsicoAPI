@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     [Table("ApplicationCacheLogs", Schema = "dbo")]
-    public class ApplicationCacheLog : EntityBaseSimple
+    public class ApplicationCacheLog : EntityBase
     {
 
         public DateTime DateTimeSlidingExpiration { get; set; }

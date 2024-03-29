@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     [Table("Patients", Schema = "dbo")]
-    public class Patient : EntityBase, IEntityBaseLogUser
+    public class Patient : EntityBaseWithNameEmail, IEntityBaseLogUser
     {
         #region Relationship  
          
@@ -53,7 +53,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 
         [Column("Cpf", TypeName = "varchar(15)")]
         [MaxLength(15)]
-        public string? Cpf { get; set; }
+        public string Cpf { get; set; } =string.Empty;
 
         [Column("Rg", TypeName = "varchar(15)")]
         [Required]

@@ -6,7 +6,7 @@ using SmartDigitalPsico.Data.Repository.Generic;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
-    public class PatientHospitalizationInformationRepository : GenericRepositoryEntityBaseSimple<PatientHospitalizationInformation>, IPatientHospitalizationInformationRepository
+    public class PatientHospitalizationInformationRepository : GenericRepositoryEntityBase<PatientHospitalizationInformation>, IPatientHospitalizationInformationRepository
     {
         public PatientHospitalizationInformationRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 

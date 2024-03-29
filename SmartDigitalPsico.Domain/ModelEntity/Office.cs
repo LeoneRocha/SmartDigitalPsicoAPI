@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     [Table("Officies", Schema = "dbo")]
-    public class Office : EntityBaseSimple, IEntityBaseDomains
+    public class Office : EntityBase, IEntityBaseDomains
     {
         [Column("Description", TypeName = "varchar(255)")]
         [MaxLength(255)]

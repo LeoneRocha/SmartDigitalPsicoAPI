@@ -5,7 +5,7 @@ using SmartDigitalPsico.Data.Repository.Generic;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
-    public class OfficeRepository : GenericRepositoryEntityBaseSimple<Office>, IOfficeRepository
+    public class OfficeRepository : GenericRepositoryEntityBase<Office>, IOfficeRepository
     {
         public OfficeRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 

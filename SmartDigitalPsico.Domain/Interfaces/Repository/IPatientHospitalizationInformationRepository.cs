@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IPatientHospitalizationInformationRepository : IEntityBaseSimpleRepository<PatientHospitalizationInformation>
+    public interface IPatientHospitalizationInformationRepository : IEntityBaseRepository<PatientHospitalizationInformation>
     {
         Task<List<PatientHospitalizationInformation>> FindAllByPatient(long patientId);
     }

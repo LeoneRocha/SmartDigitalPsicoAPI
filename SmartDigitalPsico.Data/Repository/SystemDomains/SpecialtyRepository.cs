@@ -7,7 +7,7 @@ using System.Data;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
-    public class SpecialtyRepository : GenericRepositoryEntityBaseSimple<Specialty>, ISpecialtyRepository 
+    public class SpecialtyRepository : GenericRepositoryEntityBase<Specialty>, ISpecialtyRepository 
     {
         public SpecialtyRepository(SmartDigitalPsicoDataContext context) : base(context) { }
           
