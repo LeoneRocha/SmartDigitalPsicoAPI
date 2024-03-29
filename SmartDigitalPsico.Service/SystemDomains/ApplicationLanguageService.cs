@@ -101,13 +101,20 @@ namespace SmartDigitalPsico.Service.SystemDomains
                     }
                     catch (Exception)
                     {
-                        throw;
+                        return resultLocalization;
                     }
                 }
                 else
                 {
-                    var languageFindDB = await languageRepository.Find(language, key, resourceKey);
-                    resultLocalization = languageFindDB.LanguageValue;
+                    try
+                    {
+                        var languageFindDB = await languageRepository.Find(language, key, resourceKey);
+                        resultLocalization = languageFindDB.LanguageValue;
+                    }
+                    catch (Exception)
+                    { 
+                        return resultLocalization;
+                    } 
                 }
             }
             catch (Exception)
