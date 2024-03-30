@@ -40,9 +40,7 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new UserConfiguration()); 
 
             //OLD   
-            ConfigureDataMock.GenerateMock(modelBuilder, typeDB);
-
-        
+            ConfigureDataMock.GenerateMock(modelBuilder, typeDB); 
 
             base.OnModelCreating(modelBuilder);
         }

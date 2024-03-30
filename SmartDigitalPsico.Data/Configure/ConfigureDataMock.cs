@@ -149,7 +149,7 @@ namespace SmartDigitalPsico.Data.Configure
 
             #region Patient
 
-            addMockPatient(modelBuilder, genders);
+            //addMockPatient(modelBuilder, genders);
 
             #endregion Patient
 
