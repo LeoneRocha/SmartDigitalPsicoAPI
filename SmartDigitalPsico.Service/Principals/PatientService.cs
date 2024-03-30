@@ -52,22 +52,18 @@ namespace SmartDigitalPsico.Service.Principals
                 #endregion Set default fields for bussines
 
                 #region User Action
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityAdd.CreatedUser = userAction;
+                 
+                entityAdd.CreatedUserId = this.UserId;
 
                 #endregion User Action
                   
                 response = await base.Validate(entityAdd);
                 if (response.Success)
                 {
-                    #region Relationship
-
-                    Medical medicalAdd = await _medicalRepository.FindByID(item.MedicalId);
-                    entityAdd.Medical = medicalAdd;
-                     
-                    entityAdd.GenderId = item.GenderId;
-
+                    #region Relationship 
+                    
+                    entityAdd.MedicalId = item.MedicalId; 
+                    entityAdd.GenderId = item.GenderId; 
                     #endregion Relationship
 
                     Patient entityResponse = await _entityRepository.Create(entityAdd);

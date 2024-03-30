@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public async Task<Patient> FindByPatient(Patient info)
+        public async Task<Patient?> FindByPatient(Patient info)
         {
             return await dataset.FirstAsync(x =>
                x.Cpf.ToLower().Equals(info.Cpf.ToLower())
@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             );
         }
 
-        public async override Task<Patient> FindByID(long id)
+        public async override Task<Patient?> FindByID(long id)
         {
             return await dataset
                 .Include(e => e.Medical)
@@ -32,16 +32,16 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.Medical)
                 .Include(e => e.Medical.User)
                 .Include(e => e.CreatedUser) 
-                .FirstAsync(p => p.Id.Equals(id));
+                .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
         public async override Task<List<Patient>> FindAll()
         {
             await Task.Yield();
             throw new NotImplementedException();
         }
-        public async Task<Patient> FindByEmail(string email)
+        public async Task<Patient?> FindByEmail(string email)
         {
-            Patient entityResult = await dataset.FirstAsync(p => p.Email.ToLower().Trim().Equals(email.ToLower().Trim()));
+            Patient? entityResult = await dataset.FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(email.ToLower().Trim()));
 
             return entityResult;
         }

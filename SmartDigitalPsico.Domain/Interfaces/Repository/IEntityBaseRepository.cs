@@ -3,7 +3,7 @@
     public interface IEntityBaseRepository<T> where T : IEntityBase
     {
         Task<T> Create(T item);
-        Task<T> FindByID(long id);
+        Task<T?> FindByID(long id);
         Task<List<T>> FindAll();
         Task<T> Update(T item);
         Task<bool> Delete(long id);

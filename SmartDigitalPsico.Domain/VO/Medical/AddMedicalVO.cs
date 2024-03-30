@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Domain.VO.Medical
         [MaxLength(20)]
 
         [Required]
-        public List<long>? SpecialtiesIds { get; set; }
+        public List<long> SpecialtiesIds { get; set; } = new List<long>();
 
         #endregion Relationship
 

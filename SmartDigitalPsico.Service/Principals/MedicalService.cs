@@ -48,7 +48,11 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #region Relationship
 
-                entityAdd.Office = await _officeRepository.FindByID(item.OfficeId);
+                var office = await _officeRepository.FindByID(item.OfficeId);
+                if (office != null)
+                {
+                    entityAdd.Office = office;
+                }
 
                 List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
                 entityAdd.Specialties = specialtiesAdd;
@@ -59,20 +63,21 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.ModifyDate = DateTime.Now;
                 entityAdd.LastAccessDate = DateTime.Now;
 
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityAdd.CreatedUser = userAction;
-                entityAdd.CreatedUserId = this.UserId;
+                User? userAction = await _userRepository.FindByID(this.UserId);
+                if (userAction != null)
+                {
+                    entityAdd.CreatedUser = userAction;
+                    entityAdd.CreatedUserId = this.UserId;
+                }
 
                 response = await base.Validate(entityAdd);
 
                 if (response.Success)
                 {
                     Medical entityResponse = await _entityRepository.Create(entityAdd);
-
                     response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
                     response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
                        ("MedicalRegistred", base._applicationLanguageRepository, base._cacheService);
-
                 }
             }
             catch (Exception)
@@ -87,41 +92,48 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<GetMedicalVO> response = new ServiceResponse<GetMedicalVO>();
             try
             {
-                Medical entityUpdate = await _entityRepository.FindByID(item.Id);
-
-                #region Relationship
-
-                entityUpdate.Office = await _officeRepository.FindByID(item.OfficeId);
-
-                List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
-                entityUpdate.Specialties = specialtiesAdd;
-
-                #endregion Relationship
-
-                entityUpdate.ModifyDate = DateTime.Now;
-                entityUpdate.LastAccessDate = DateTime.Now;
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityUpdate.ModifyUser = userAction;
-                entityUpdate.ModifyUserId = this.UserId;
-
-                #region Columns
-                entityUpdate.Enable = item.Enable;
-                entityUpdate.Accreditation = item.Accreditation;
-                entityUpdate.Name = item.Name;
-                entityUpdate.Email = item.Email;
-
-                #endregion Columns
-
-                response = await base.Validate(entityUpdate);
-
-                if (response.Success)
+                Medical? entityUpdate = await _entityRepository.FindByID(item.Id);
+                if (entityUpdate != null)
                 {
-                    Medical entityResponse = await _entityRepository.Update(entityUpdate);
+                    #region Relationship
+                    var office = await _officeRepository.FindByID(item.OfficeId);
+                    if (office != null)
+                    {
+                        entityUpdate.Office = office;
+                    }
+                    List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
+                    entityUpdate.Specialties = specialtiesAdd;
 
-                    response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("MedicalUpdated", base._applicationLanguageRepository, base._cacheService);
+                    #endregion Relationship
+
+                    entityUpdate.ModifyDate = DateTime.Now;
+                    entityUpdate.LastAccessDate = DateTime.Now;
+
+                    User? userAction = await _userRepository.FindByID(this.UserId);
+                    if (userAction != null)
+                    {
+                        entityUpdate.ModifyUser = userAction;
+                        entityUpdate.ModifyUserId = this.UserId;
+                    }
+
+                    #region Columns
+                    entityUpdate.Enable = item.Enable;
+                    entityUpdate.Accreditation = item.Accreditation;
+                    entityUpdate.Name = item.Name;
+                    entityUpdate.Email = item.Email;
+
+                    #endregion Columns
+
+                    response = await base.Validate(entityUpdate);
+
+                    if (response.Success)
+                    {
+                        Medical entityResponse = await _entityRepository.Update(entityUpdate);
+
+                        response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
+                        response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                           ("MedicalUpdated", base._applicationLanguageRepository, base._cacheService);
+                    }
                 }
             }
             catch (Exception)
@@ -178,7 +190,12 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<List<GetMedicalVO>> response = new ServiceResponse<List<GetMedicalVO>>();
             response.Success = true;
 
-            User userAction = await _userRepository.FindByID(this.UserId);
+            User? userAction = await _userRepository.FindByID(this.UserId);
+            response.Success = userAction != null;
+            if (userAction == null)
+            {
+                return response;
+            }
             var validateResult
                 = PatientPermissionMedicalValidator.ValidatePermissionAdmin(userAction);
             bool invalidAccess = validateResult != null;
@@ -187,10 +204,13 @@ namespace SmartDigitalPsico.Service.Principals
                 response.Success = false;
                 response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
                        ("PermissionDenied", base._applicationLanguageRepository, base._cacheService);
-                
+
                 response.Errors = new List<ErrorResponse>();
                 response.Unauthorized = true;
-                response.Errors.Add(validateResult);
+                if (validateResult != null)
+                {
+                    response.Errors.Add(validateResult);
+                }
                 return response;
             }
             return response;

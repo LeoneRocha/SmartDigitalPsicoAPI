@@ -10,12 +10,12 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     {
         public UserRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
-        public async Task<User> FindByLogin(string login)
+        public async Task<User?> FindByLogin(string login)
         {
-            User userResult = await dataset
+            User? userResult = await dataset
                 .Include(e => e.RoleGroups)
                 .Include(e => e.Medical)
-                .FirstAsync(p => p.Login.ToLower().Trim().Equals(login.ToLower().Trim()));
+                .FirstOrDefaultAsync(p => p.Login.ToLower().Trim().Equals(login.ToLower().Trim()));
 
             return userResult;
         }
@@ -35,14 +35,14 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return false;
         }
 
-        public async override Task<User> FindByID(long id)
+        public async override Task<User?> FindByID(long id)
         {
             return await dataset
                 .Include(e => e.RoleGroups)
                 .Include(e => e.Medical)
                 .Include(e => e.Medical.Specialties)
                 .Include(e => e.Medical.Office)
-                .FirstAsync(p => p.Id.Equals(id));
+                .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
 
         public async override Task<List<User>> FindAll()
@@ -68,9 +68,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return result;
         }
 
-        public async Task<User> FindByEmail(string value)
+        public async Task<User?> FindByEmail(string value)
         {
-            User userResult = await dataset.Include(e => e.RoleGroups).FirstAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
+            User? userResult = await dataset.Include(e => e.RoleGroups).FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
 
             return userResult;
         }

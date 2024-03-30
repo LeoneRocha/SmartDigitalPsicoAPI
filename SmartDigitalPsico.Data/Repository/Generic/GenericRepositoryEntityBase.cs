@@ -21,9 +21,9 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             return await dataset.ToListAsync();
         }
 
-        public virtual async Task<T> FindByID(long id)
+        public virtual async Task<T?> FindByID(long id)
         {
-            return await dataset.FirstAsync(p => p.Id.Equals(id));
+            return await dataset.FirstOrDefaultAsync(p => p.Id.Equals(id)) ;
         }
 
         public virtual async Task<T> Create(T item)

@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
         protected virtual async Task<bool> HasPermissionAsync(RecordsList<T> recordsList, long userIdLogged, CancellationToken cancellationToken)
         {
             bool userHasPermission = false;
-            User userLogged = await this._userRepository.FindByID(userIdLogged);
+            User? userLogged = await this._userRepository.FindByID(userIdLogged);
             if (recordsList.Records.Count == 0 || userLogged == null) { return false; }
 
             userHasPermission = recordsList.Records.All(rg =>

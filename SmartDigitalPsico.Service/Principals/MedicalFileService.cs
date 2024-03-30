@@ -58,15 +58,18 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<GetMedicalFileVO> response = new ServiceResponse<GetMedicalFileVO>();
             response = await base.FindByID(id);
 
-            if (string.IsNullOrEmpty(response.Data.FilePath))
+            if (response.Data != null)
             {
-                FileHelper.GetFromByteSaveTemp(response?.Data?.FileData, response?.Data?.FileName);
-                response.Data.FileUrl = FileHelper.GetFilePath("ResourcesTemp", response?.Data?.FileName);
-            } 
+                if (string.IsNullOrEmpty(response.Data.FilePath))
+                {
+                    FileHelper.GetFromByteSaveTemp(response.Data.FileData, response?.Data?.FileName);
+                    response.Data.FileUrl = FileHelper.GetFilePath("ResourcesTemp", response?.Data?.FileName);
+                }
+            }
             return response;
         }
 
-          
+
         public async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAllByMedical(long medicalId)
         {
             ServiceResponse<List<GetMedicalFileVO>> response = new ServiceResponse<List<GetMedicalFileVO>>();
@@ -78,14 +81,14 @@ namespace SmartDigitalPsico.Service.Principals
                 UserIdLogged = base.UserId,
                 Records = listResult
 
-            }; 
+            };
             response.Data = listResult.Select(c => _mapper.Map<GetMedicalFileVO>(c)).ToList();
             response.Success = true;
             response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             return response;
         }
-         
+
         public override Task<ServiceResponse<GetMedicalFileVO>> Update(UpdateMedicalFileVO item)
         {
             throw new NotImplementedException("Not Permission");
@@ -115,7 +118,11 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #region Relationship
 
-                entityAdd.Medical = await _medicalRepository.FindByID(entity.MedicalId);
+                var medical = await _medicalRepository.FindByID(entityAdd.MedicalId);
+                if (medical != null)
+                {
+                    entityAdd.Medical = medical;
+                }
 
                 #endregion Relationship
 
@@ -124,8 +131,11 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.LastAccessDate = DateTime.Now;
                 entityAdd.Enable = true;
 
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityAdd.CreatedUser = userAction;
+                User? userAction = await _userRepository.FindByID(this.UserId);
+                if (userAction != null)
+                {
+                    entityAdd.CreatedUser = userAction;
+                }
 
                 //response = await base.Validate(entityAdd);
                 response.Success = true;
@@ -164,7 +174,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                     FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName);
                 }
-            } 
+            }
 
             return resultVO;
         }

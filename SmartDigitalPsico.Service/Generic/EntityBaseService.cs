@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Service.Generic
 {
     public class EntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult, Repo>
         : IEntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
-        where TEntity : IEntityBase , IEntityBaseLog
+        where TEntity : IEntityBase, IEntityBaseLog
         where TEntityAdd : IEntityVOAdd
         where TEntityUpdate : IEntityVO
         where TEntityResult : class
@@ -163,7 +163,7 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await getMessageFromLocalization("RegisterExist");
             }
             catch (Exception)
-            { 
+            {
                 throw;
             }
             return response;
@@ -173,16 +173,19 @@ namespace SmartDigitalPsico.Service.Generic
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
             try
             {
-                TEntity entityResponse = await _genericRepository.FindByID(id);
-                response.Data = _mapper.Map<TEntityResult>(entityResponse);
+                TEntity? entityResponse = await _genericRepository.FindByID(id);
+                if (entityResponse != null)
+                {
+                    response.Data = _mapper.Map<TEntityResult>(entityResponse);
+                }
                 response.Success = true;
                 response.Message = await getMessageFromLocalization("RegisterFind");
             }
             catch (Exception)
-            { 
+            {
                 throw;
             }
-             
+
             return response;
         }
         public virtual async Task<ServiceResponse<List<TEntityResult>>> FindWithPagedSearch(string query)
@@ -196,7 +199,7 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await getMessageFromLocalization("RegisterFind");
             }
             catch (Exception)
-            { 
+            {
                 throw;
             }
             return response;
@@ -213,7 +216,7 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await getMessageFromLocalization("RegisterCounted");
             }
             catch (Exception)
-            { 
+            {
                 throw;
             }
 
@@ -243,7 +246,7 @@ namespace SmartDigitalPsico.Service.Generic
                 }
             }
             catch (Exception)
-            { 
+            {
                 throw;
             }
             return response;
@@ -285,9 +288,9 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
 
             }
-            catch (Exception)
-            { 
-                throw;
+            catch (Exception ex)
+            {
+                throw ex;
             }
             return response;
         }

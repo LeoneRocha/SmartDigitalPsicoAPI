@@ -21,14 +21,14 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         }
 
 
-        public async override Task<PatientNotificationMessage> FindByID(long id)
+        public async override Task<PatientNotificationMessage?> FindByID(long id)
         {
             return await dataset
                 .Include(e => e.Patient)
                 .Include(e => e.Patient.Medical)
                 .Include(e => e.Patient.Medical.User)
                 .Include(e => e.CreatedUser)
-                .FirstAsync(p => p.Id.Equals(id));
+                .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
         public async override Task<List<PatientNotificationMessage>> FindAll()
         {

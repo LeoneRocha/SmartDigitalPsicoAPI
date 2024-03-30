@@ -14,12 +14,12 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             return await dataset.AnyAsync(x => x.Accreditation.ToLower().Equals(accreditation.ToLower()));
         }
-        public async override Task<Medical> FindByID(long id)
+        public async override Task<Medical?> FindByID(long id)
         {
             return await dataset
                 .Include(e => e.Office)
                 .Include(e => e.Specialties)
-                .FirstAsync(p => p.Id.Equals(id));
+                .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
         public async override Task<List<Medical>> FindAll()
         {
@@ -29,15 +29,15 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .ToListAsync();
         }
 
-        public async Task<Medical> FindByEmail(string value)
+        public async Task<Medical?> FindByEmail(string value)
         {
-            Medical entityResult = await dataset.FirstAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
+            Medical entityResult = await dataset.FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
 
             return entityResult;
         } 
-        public async Task<Medical> FindByAccreditation(string value)
+        public async Task<Medical?> FindByAccreditation(string value)
         {
-            Medical entityResult = await dataset.FirstAsync(p => p.Accreditation.ToLower().Trim().Equals(value.ToLower().Trim()));
+            Medical entityResult = await dataset.FirstOrDefaultAsync(p => p.Accreditation.ToLower().Trim().Equals(value.ToLower().Trim()));
 
             return entityResult;
         }  

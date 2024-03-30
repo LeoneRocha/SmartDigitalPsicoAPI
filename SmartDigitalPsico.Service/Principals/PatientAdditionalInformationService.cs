@@ -52,12 +52,17 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #region Relationship
 
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityAdd.CreatedUser = userAction;
+                User? userAction = await _userRepository.FindByID(this.UserId);
+                if (userAction != null)
+                {
+                    entityAdd.CreatedUser = userAction;
+                }
 
-                Patient patientAdd = await _patientRepository.FindByID(item.PatientId);
-                entityAdd.Patient = patientAdd;
-
+                Patient? patientAdd = await _patientRepository.FindByID(item.PatientId);
+                if (patientAdd != null)
+                {
+                    entityAdd.Patient = patientAdd;
+                }
                 #endregion
 
                 entityAdd.CreatedDate = DateTime.Now;
@@ -76,7 +81,7 @@ namespace SmartDigitalPsico.Service.Principals
                 }
             }
             catch (Exception)
-            { 
+            {
                 throw;
             }
 
@@ -118,7 +123,7 @@ namespace SmartDigitalPsico.Service.Principals
                 }
             }
             catch (Exception)
-            { 
+            {
                 throw;
             }
 

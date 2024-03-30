@@ -18,16 +18,17 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
 
             RuleFor(enitty => enitty.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission"); 
+                .WithMessage("ErrorValidator_User_Not_Permission");
         }
 
         protected virtual async Task<bool> HasPermissionAsync(Record<T> enittyRecord, long userIdLogged, CancellationToken cancellationToken)
         {
             bool userHasPermission = false;
-            User userLogged = await _userRepository.FindByID(userIdLogged);
-
-            userHasPermission = enittyRecord.RecordEntity.CreatedUser?.Id == userIdLogged || userLogged.Admin; 
-
+            User? userLogged = await _userRepository.FindByID(userIdLogged);
+            if (userLogged != null)
+            {
+                userHasPermission = enittyRecord.RecordEntity.CreatedUser?.Id == userIdLogged || userLogged.Admin;
+            }
             return userHasPermission;
         }
         public List<ErrorResponse> GetMapErros(List<ValidationFailure> errors)
