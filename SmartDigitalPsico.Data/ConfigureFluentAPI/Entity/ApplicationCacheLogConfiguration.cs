@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
     {
         public void Configure(EntityTypeBuilder<ApplicationCacheLog> builder)
         {
-            builder.ToTable("ApplicationCacheLogs", "dbo");
+            builder.ToTable("ApplicationCacheLog", "dbo");
             builder.HasKey(e => e.Id);
             // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();

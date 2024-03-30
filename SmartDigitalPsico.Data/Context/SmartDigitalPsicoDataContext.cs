@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Data.Configure;
 using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
 using SmartDigitalPsico.Domain.Enuns;
 
