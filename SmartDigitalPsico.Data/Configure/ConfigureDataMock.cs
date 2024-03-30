@@ -177,13 +177,13 @@ namespace SmartDigitalPsico.Data.Configure
                 DateOfBirth = new DateTime(1960, 03, 11),
                 Education = "Superior",
                 EmergencyContactName = "Milena Isabelly Vanessa",
-                EmergencyContactPhoneNumber = "(73) 98540-4268", 
+                EmergencyContactPhoneNumber = "(73) 98540-4268",
                 MedicalId = 1,
                 PhoneNumber = "(73) 2877-3408",
                 Profession = "Professor",
                 Rg = "13.809.283-7",
                 GenderId = (long)1,
-            };  
+            };
             modelBuilder.Entity<Patient>().HasData(newAddPatient);
         }
 
@@ -230,12 +230,12 @@ namespace SmartDigitalPsico.Data.Configure
         private static void addMockRoleGroup(ModelBuilder modelBuilder)
         {
             List<RoleGroup> rolesAdd = new List<RoleGroup>();
-            rolesAdd.Add(new RoleGroup { Id = 1, RolePolicyClaimCode = "Admin", Description = "Administrador", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 2, RolePolicyClaimCode = "Medical", Description = "Medico", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 3, RolePolicyClaimCode = "Staff", Description = "Recepcionista", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 4, RolePolicyClaimCode = "Patient", Description = "Paciente", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 5, RolePolicyClaimCode = "Read", Description = "Leitura", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 6, RolePolicyClaimCode = "Write", Description = "Escrita", Language = valorbr });
+            rolesAdd.Add(new RoleGroup { Id = 1, Enable = true, RolePolicyClaimCode = "Admin", Description = "Administrador", Language = valorbr });
+            rolesAdd.Add(new RoleGroup { Id = 2, Enable = true, RolePolicyClaimCode = "Medical", Description = "Medico", Language = valorbr });
+            rolesAdd.Add(new RoleGroup { Id = 3, Enable = true, RolePolicyClaimCode = "Staff", Description = "Recepcionista", Language = valorbr });
+            rolesAdd.Add(new RoleGroup { Id = 4, Enable = true, RolePolicyClaimCode = "Patient", Description = "Paciente", Language = valorbr });
+            rolesAdd.Add(new RoleGroup { Id = 5, Enable = true, RolePolicyClaimCode = "Read", Description = "Leitura", Language = valorbr });
+            rolesAdd.Add(new RoleGroup { Id = 6, Enable = true, RolePolicyClaimCode = "Write", Description = "Escrita", Language = valorbr });
 
             modelBuilder.Entity<RoleGroup>().HasData(rolesAdd);
         }
@@ -244,13 +244,13 @@ namespace SmartDigitalPsico.Data.Configure
         {
             var specialtySAdd = new List<Specialty>();
 
-            specialtySAdd.Add(new Specialty { Id = 1, Description = "Psicologia Clínica", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 2, Description = "Psicologia Social", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 3, Description = "Psicologia educacional", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 4, Description = "Psicologia Esportiva ", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 5, Description = "Psicologia organizacional", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 6, Description = "Psicologia hospitalar", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 7, Description = "Psicologia do trânsito", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 1, Enable = true, Description = "Psicologia Clínica", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 2, Enable = true, Description = "Psicologia Social", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 3, Enable = true, Description = "Psicologia educacional", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 4, Enable = true, Description = "Psicologia Esportiva ", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 5, Enable = true, Description = "Psicologia organizacional", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 6, Enable = true, Description = "Psicologia hospitalar", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 7, Enable = true, Description = "Psicologia do trânsito", Language = valorbr });
 
             modelBuilder.Entity<Specialty>().HasData(specialtySAdd);
 
@@ -260,9 +260,9 @@ namespace SmartDigitalPsico.Data.Configure
         private static List<Office> addMockOffice(ModelBuilder modelBuilder)
         {
             List<Office> officeAdd = new List<Office>();
-            officeAdd.Add(new Office { Id = 1, Description = "Psicólogo", Language = valorbr });
-            officeAdd.Add(new Office { Id = 2, Description = "Psicóloga", Language = valorbr });
-            officeAdd.Add(new Office { Id = 3, Description = "Clínico", Language = valorbr });
+            officeAdd.Add(new Office { Id = 1, Enable = true, Description = "Psicólogo", Language = valorbr });
+            officeAdd.Add(new Office { Id = 2, Enable = true, Description = "Psicóloga", Language = valorbr });
+            officeAdd.Add(new Office { Id = 3, Enable = true, Description = "Clínico", Language = valorbr });
 
             modelBuilder.Entity<Office>().HasData(officeAdd);
 
@@ -272,8 +272,8 @@ namespace SmartDigitalPsico.Data.Configure
         private static List<Gender> addMockGender(ModelBuilder modelBuilder)
         {
             List<Gender> listAdd = new List<Gender>() {
-                new Gender { Id = 1, Description = "Masculino", Language = valorbr },
-                new Gender { Id = 2, Description = "Feminino", Language = valorbr }
+                new Gender { Id = 1,Enable= true, Description = "Masculino", Language = valorbr },
+                new Gender { Id = 2,Enable= true, Description = "Feminino", Language = valorbr }
             };
             modelBuilder.Entity<Gender>().HasData(listAdd);
 

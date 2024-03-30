@@ -32,7 +32,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             {
                 //Fields internal change 
                 item.CreatedDate = DateTime.Now;
-
+                item.Enable = true;
                 dataset.Add(item);
                 await _context.SaveChangesAsync();
                 return item;

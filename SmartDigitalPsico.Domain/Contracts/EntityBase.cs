@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SmartDigitalPsico.Domain.Contracts
 {
     public abstract class EntityBase : IEntityBase, IEntityBaseLog
-    { 
+    {
         [Column("Id", Order = 0)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
