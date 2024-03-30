@@ -149,7 +149,7 @@ namespace SmartDigitalPsico.Data.Configure
 
             #region Patient
 
-            //addMockPatient(modelBuilder, genders);
+            addMockPatient(modelBuilder, genders);
 
             #endregion Patient
 
@@ -182,9 +182,8 @@ namespace SmartDigitalPsico.Data.Configure
                 PhoneNumber = "(73) 2877-3408",
                 Profession = "Professor",
                 Rg = "13.809.283-7",
-            };
-            newAddPatient.Gender = new Gender { Id = 1, Description = "Masculino", Language = valorbr };
-
+                GenderId = (long)1,
+            };  
             modelBuilder.Entity<Patient>().HasData(newAddPatient);
         }
 
