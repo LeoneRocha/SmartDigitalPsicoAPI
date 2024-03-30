@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Data.Configure;
 using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
 using SmartDigitalPsico.Domain.Enuns;
@@ -10,7 +11,6 @@ namespace SmartDigitalPsico.Data.Context
     {
         public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options) : base(options)
         {
-
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,8 +40,10 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new UserConfiguration()); 
 
             //OLD   
-            //ConfigureDataMock.GenerateMock(modelBuilder, typeDB);
-              
+            ConfigureDataMock.GenerateMock(modelBuilder, typeDB);
+
+        
+
             base.OnModelCreating(modelBuilder);
         }
     }

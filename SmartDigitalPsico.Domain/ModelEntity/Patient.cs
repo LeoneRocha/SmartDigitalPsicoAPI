@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         #region Relationship  
 
         public List<PatientInfoTag> PatientInfoTags { get; set; }
-        public Medical Medical { get; set; } = new Medical();
+        public Medical Medical { get; set; }  
         public long MedicalId { get; set; }
         public List<PatientAdditionalInformation> PatientAdditionalInformations { get; set; }
         public List<PatientHospitalizationInformation> PatientHospitalizationInformations { get; set; }
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public long? CreatedUserId { get; set; }
         public User? ModifyUser { get; set; }
         public long? ModifyUserId { get; set; }
-        public Gender Gender { get; set; } = new Gender();
+        public Gender Gender { get; set; }  
         public long GenderId { get; set; }
         #endregion Relationship
     }

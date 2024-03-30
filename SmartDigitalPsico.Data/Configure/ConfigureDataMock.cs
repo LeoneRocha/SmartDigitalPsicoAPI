@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Data.Configure
         static string valorbr = new CultureInfo("pt-BR").Name;
         internal static void GenerateMock(ModelBuilder modelBuilder, ETypeDataBase eTypeDataBase)
         {
-            
+
             #region ApplicationConfigSetting
             addMockApplicationConfigSetting(modelBuilder);
             #endregion
@@ -22,11 +22,11 @@ namespace SmartDigitalPsico.Data.Configure
             #endregion
 
             #region Gender
-            addMockGender(modelBuilder);
+            List<Gender> genders = addMockGender(modelBuilder);
             #endregion
 
             #region Office
-            List<Office>  offices = addMockOffice(modelBuilder);
+            List<Office> offices = addMockOffice(modelBuilder);
             #endregion
 
             #region Specialty
@@ -46,10 +46,10 @@ namespace SmartDigitalPsico.Data.Configure
 
             #region Medical
 
-            addMockMedical(modelBuilder, specialtySAdd);
+            addMockMedical(modelBuilder, specialtySAdd, genders);
 
             #endregion Medical 
-         
+
         }
 
         private static void addMockApplicationLanguage(ModelBuilder modelBuilder)
@@ -96,7 +96,7 @@ namespace SmartDigitalPsico.Data.Configure
             modelBuilder.Entity<ApplicationConfigSetting>().HasData(addRegisters);
         }
 
-        private static void addMockMedical(ModelBuilder modelBuilder, List<Specialty> specialtySAdd)
+        private static void addMockMedical(ModelBuilder modelBuilder, List<Specialty> specialtySAdd, List<Gender> genders)
         {
             var medicalSpecialtyS = new List<Specialty>();
             medicalSpecialtyS.Add(specialtySAdd.First());
@@ -112,7 +112,7 @@ namespace SmartDigitalPsico.Data.Configure
                 ModifyDate = DateTime.Now,
                 Accreditation = "123456",
                 TypeAccreditation = ETypeAccreditation.CRM,
-                OfficeId = 1, 
+                OfficeId = 1,
                 CreatedUserId = 1,
             };
             modelBuilder.Entity<Medical>().HasMany(p => p.Specialties).WithMany(p => p.Medicals).UsingEntity(j => j.HasData(new
@@ -149,14 +149,14 @@ namespace SmartDigitalPsico.Data.Configure
 
             #region Patient
 
-            addMockPatient(modelBuilder, newAddMedical);
+            addMockPatient(modelBuilder, genders);
 
             #endregion Patient
 
 
         }
 
-        private static void addMockPatient(ModelBuilder modelBuilder, Medical medical)
+        private static void addMockPatient(ModelBuilder modelBuilder, List<Gender> genders)
         {
             var newAddPatient = new Patient
             {
@@ -177,13 +177,14 @@ namespace SmartDigitalPsico.Data.Configure
                 DateOfBirth = new DateTime(1960, 03, 11),
                 Education = "Superior",
                 EmergencyContactName = "Milena Isabelly Vanessa",
-                EmergencyContactPhoneNumber = "(73) 98540-4268",
-                GenderId = 1,
+                EmergencyContactPhoneNumber = "(73) 98540-4268", 
                 MedicalId = 1,
                 PhoneNumber = "(73) 2877-3408",
                 Profession = "Professor",
                 Rg = "13.809.283-7",
             };
+            newAddPatient.Gender = new Gender { Id = 1, Description = "Masculino", Language = valorbr };
+
             modelBuilder.Entity<Patient>().HasData(newAddPatient);
         }
 
@@ -269,14 +270,15 @@ namespace SmartDigitalPsico.Data.Configure
             return officeAdd;
         }
 
-        private static void addMockGender(ModelBuilder modelBuilder)
+        private static List<Gender> addMockGender(ModelBuilder modelBuilder)
         {
-            #region Gender
-            modelBuilder.Entity<Gender>().HasData(
-            new Gender { Id = 1, Description = "Masculino", Language = valorbr },
-            new Gender { Id = 2, Description = "Feminino", Language = valorbr }
-            );
-            #endregion Gender
+            List<Gender> listAdd = new List<Gender>() {
+                new Gender { Id = 1, Description = "Masculino", Language = valorbr },
+                new Gender { Id = 2, Description = "Feminino", Language = valorbr }
+            };
+            modelBuilder.Entity<Gender>().HasData(listAdd);
+
+            return listAdd;
         }
     }
 }

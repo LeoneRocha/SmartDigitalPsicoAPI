@@ -30,12 +30,11 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.Property(e => e.EmergencyContactName).HasMaxLength(255).HasColumnType("varchar(255)");
             builder.Property(e => e.EmergencyContactPhoneNumber).HasMaxLength(20).HasColumnType("varchar(20)");
 
-            // Relationship            
-            builder.HasOne(e => e.Gender).WithMany().HasForeignKey(e => e.GenderId);
+            // Relationship                        
+            builder.HasOne(e => e.Gender).WithMany(b => b.Patients).HasForeignKey(e => e.GenderId);
             builder.HasOne(e => e.CreatedUser).WithMany().HasForeignKey(e => e.CreatedUserId);
             builder.HasOne(e => e.ModifyUser).WithMany().HasForeignKey(e => e.ModifyUserId);                    
-            builder.HasOne(e => e.Medical).WithMany(m => m.Patienties).HasForeignKey(e => e.MedicalId);              
-             
+            builder.HasOne(e => e.Medical).WithMany(m => m.Patienties).HasForeignKey(e => e.MedicalId);                           
             builder.HasMany(e => e.PatientAdditionalInformations).WithOne(p => p.Patient).HasForeignKey(p => p.PatientId);
             builder.HasMany(e => e.PatientHospitalizationInformations).WithOne(p => p.Patient).HasForeignKey(p => p.PatientId);
             builder.HasMany(e => e.PatientMedicationInformations).WithOne(p => p.Patient).HasForeignKey(p => p.PatientId);

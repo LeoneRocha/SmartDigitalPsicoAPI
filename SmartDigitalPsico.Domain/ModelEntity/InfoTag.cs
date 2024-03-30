@@ -6,7 +6,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     public class InfoTag : EntityBase, IEntityBaseLogUser
     {
         public string Tag { get; set; } = string.Empty;
-        public Medical Medical { get; set; } = new Medical();         
+        public Medical Medical { get; set; }        
         public long MedicalId { get; set; }
         public User? CreatedUser { get; set; }
         public User? ModifyUser { get; set; }         

@@ -51,6 +51,9 @@ namespace SmartDigitalPsico.Data.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            optionsBuilder.EnableSensitiveDataLogging();
+
+
             base.OnConfiguring(optionsBuilder);
         }
     }
