@@ -10,8 +10,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
         {
             builder.ToTable("ApplicationCacheLogs", "dbo");
             builder.HasKey(e => e.Id);
-
-            // Required
+            // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(c => c.Enable);
             builder.Property(c => c.DateTimeSlidingExpiration);

@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Data.Configure;
 using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context
 {
@@ -42,15 +40,7 @@ namespace SmartDigitalPsico.Data.Context
 
             //OLD   
             //ConfigureDataMock.GenerateMock(modelBuilder, typeDB);
-
-            /* modelBuilder.Entity<User>()
-        .Ignore(u => u.RoleGroups);
-
-             modelBuilder.Entity<RoleGroup>()
-                 .HasMany(rg => rg.Users)
-                 .WithOne();*/
-
-            //
+              
             base.OnModelCreating(modelBuilder);
         }
     }

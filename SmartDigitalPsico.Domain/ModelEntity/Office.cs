@@ -7,6 +7,6 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     {    
         public string Description { get; set; } = string.Empty;                 
         public string Language { get; set; } = "en";
-        public List<Medical> Medicals { get; set; }
+        public ICollection<Medical> Medicals { get; set; }
     }
 }

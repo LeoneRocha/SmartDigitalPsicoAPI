@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
         {
             builder.ToTable("ApplicationLanguage", "dbo");
             builder.HasKey(e => e.Id);
-            // Required
+            // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(c => c.Enable);
             builder.Property(c => c.Language).HasMaxLength(10);
@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.Property(c => c.LanguageKey).HasMaxLength(255);
             builder.Property(c => c.ResourceKey).HasMaxLength(255);
             builder.Property(c => c.LanguageValue).HasMaxLength(1000);
-
+            // Index
             builder.HasIndex(p => new { p.ResourceKey, p.Language, p.LanguageKey })
             .HasDatabaseName("Idx_ApplicationLanguage_ResourceKey_Language_LanguageKey_Unique")
             .IsUnique();

@@ -9,9 +9,8 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
         public void Configure(EntityTypeBuilder<RoleGroup> builder)
         {
             builder.ToTable("RoleGroups", "dbo");
-
             builder.HasKey(e => e.Id);
-
+            // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(e => e.Enable);
             builder.Property(e => e.Description).HasMaxLength(50).HasColumnType("varchar(50)");
@@ -19,9 +18,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.Property(e => e.RolePolicyClaimCode).HasMaxLength(25).HasColumnType("varchar(25)");
 
             // Relationship
-            builder.HasMany(m => m.Users)
-                .WithMany(s => s.RoleGroups)
-                .UsingEntity(j => j.ToTable("RoleGroupUser"));//RolesGroupUser 
+            builder.HasMany(m => m.Users).WithMany(s => s.RoleGroups).UsingEntity(j => j.ToTable("RoleGroupUser"));//RolesGroupUser 
         }
     }
 }

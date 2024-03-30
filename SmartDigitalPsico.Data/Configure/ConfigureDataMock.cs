@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Data.Configure
             #endregion
 
             #region Office
-            addMockOffice(modelBuilder);
+            List<Office>  offices = addMockOffice(modelBuilder);
             #endregion
 
             #region Specialty
@@ -112,7 +112,7 @@ namespace SmartDigitalPsico.Data.Configure
                 ModifyDate = DateTime.Now,
                 Accreditation = "123456",
                 TypeAccreditation = ETypeAccreditation.CRM,
-                OfficeId = 3,
+                OfficeId = 1, 
                 CreatedUserId = 1,
             };
             modelBuilder.Entity<Medical>().HasMany(p => p.Specialties).WithMany(p => p.Medicals).UsingEntity(j => j.HasData(new
@@ -257,7 +257,7 @@ namespace SmartDigitalPsico.Data.Configure
             return specialtySAdd;
         }
 
-        private static void addMockOffice(ModelBuilder modelBuilder)
+        private static List<Office> addMockOffice(ModelBuilder modelBuilder)
         {
             List<Office> officeAdd = new List<Office>();
             officeAdd.Add(new Office { Id = 1, Description = "Psicólogo", Language = valorbr });
@@ -265,6 +265,8 @@ namespace SmartDigitalPsico.Data.Configure
             officeAdd.Add(new Office { Id = 3, Description = "Clínico", Language = valorbr });
 
             modelBuilder.Entity<Office>().HasData(officeAdd);
+
+            return officeAdd;
         }
 
         private static void addMockGender(ModelBuilder modelBuilder)

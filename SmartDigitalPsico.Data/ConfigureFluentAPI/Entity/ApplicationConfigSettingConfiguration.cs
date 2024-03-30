@@ -10,8 +10,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
         {
             builder.ToTable("ApplicationConfigSetting", "dbo");
             builder.HasKey(e => e.Id);
-
-            // Required
+            // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(c => c.Enable);
             builder.Property(c => c.Description).HasMaxLength(255);

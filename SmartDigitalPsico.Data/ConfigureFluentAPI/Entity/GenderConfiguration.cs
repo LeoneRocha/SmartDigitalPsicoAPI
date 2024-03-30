@@ -9,9 +9,8 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
         public void Configure(EntityTypeBuilder<Gender> builder)
         {
             builder.ToTable("Genders", "dbo");
-
             builder.HasKey(e => e.Id);
-
+            // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(e => e.Enable);
             builder.Property(e => e.Description).HasMaxLength(50).HasColumnType("varchar(50)");

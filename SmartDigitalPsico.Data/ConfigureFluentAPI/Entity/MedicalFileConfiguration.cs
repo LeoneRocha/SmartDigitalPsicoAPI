@@ -9,11 +9,9 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
         public void Configure(EntityTypeBuilder<MedicalFile> builder)
         {
             builder.ToTable("MedicalFile", "dbo");
-
             builder.HasKey(e => e.Id);
-
+            // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
-
             builder.Property(e => e.Enable);
             builder.Property(e => e.Description).HasMaxLength(255).HasColumnType("varchar(255)");
             builder.Property(e => e.FileName).HasMaxLength(255).HasColumnType("varchar(255)");
@@ -21,24 +19,14 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.Property(e => e.FileData);
             builder.Property(e => e.FileExtension).HasMaxLength(3).HasColumnType("varchar(3)");
             builder.Property(e => e.FileContentType).HasMaxLength(100).HasColumnType("varchar(100)");
-            builder.Property(e => e.FileSizeKB);            
+            builder.Property(e => e.FileSizeKB);
             builder.Property(e => e.TypeLocationSaveFile).HasConversion<byte>();
 
             // Relationship
-            builder.HasOne(e => e.Medical)
-                .WithMany()
-                .HasForeignKey(e => e.MedicalId);
+            builder.HasOne(e => e.CreatedUser).WithMany().HasForeignKey(e => e.CreatedUserId);
+            builder.HasOne(e => e.ModifyUser).WithMany().HasForeignKey(e => e.ModifyUserId);
 
-            builder.HasOne(e => e.CreatedUser)
-                .WithMany()
-                .HasForeignKey(e => e.CreatedUserId);
-
-            builder.HasOne(e => e.ModifyUser)
-                .WithMany()
-                .HasForeignKey(e => e.ModifyUserId);
+            builder.HasOne(e => e.Medical).WithMany().HasForeignKey(e => e.MedicalId);
         }
     }
-
-
-
 }
