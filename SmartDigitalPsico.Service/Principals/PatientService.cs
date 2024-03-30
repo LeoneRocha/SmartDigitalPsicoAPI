@@ -52,18 +52,18 @@ namespace SmartDigitalPsico.Service.Principals
                 #endregion Set default fields for bussines
 
                 #region User Action
-                 
+
                 entityAdd.CreatedUserId = this.UserId;
 
                 #endregion User Action
-                  
+
                 response = await base.Validate(entityAdd);
                 if (response.Success)
                 {
                     #region Relationship 
-                    
-                    entityAdd.MedicalId = item.MedicalId; 
-                    entityAdd.GenderId = item.GenderId; 
+
+                    entityAdd.MedicalId = item.MedicalId;
+                    entityAdd.GenderId = item.GenderId;
                     #endregion Relationship
 
                     Patient entityResponse = await _entityRepository.Create(entityAdd);
@@ -84,57 +84,59 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<GetPatientVO> response = new ServiceResponse<GetPatientVO>();
             try
             {
-                Patient entityUpdate = await _entityRepository.FindByID(item.Id);
-
-                #region Set default fields for bussines
-
-                entityUpdate.ModifyDate = DateTime.Now;
-                entityUpdate.LastAccessDate = DateTime.Now;
-
-                #endregion Set default fields for bussines
-
-                #region User Action
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityUpdate.ModifyUser = userAction;
-
-                #endregion User Action
-
-                #region Relationship
-                 
-                entityUpdate.GenderId = item.GenderId;
-
-                #endregion Relationship
-
-                #region Columns
-                entityUpdate.Enable = item.Enable;
-                entityUpdate.Name = item.Name;
-                entityUpdate.Email = item.Email;
-                entityUpdate.Cpf = item.Cpf;
-                entityUpdate.Rg = item.Rg;
-                entityUpdate.Education = item.Education;
-                entityUpdate.DateOfBirth = item.DateOfBirth;
-                entityUpdate.PhoneNumber = item.PhoneNumber;
-                entityUpdate.Profession = item.Profession;
-
-                entityUpdate.EmergencyContactName = item.EmergencyContactName;
-                entityUpdate.EmergencyContactPhoneNumber = item.EmergencyContactPhoneNumber;
-
-                entityUpdate.AddressCep = item.AddressCep;
-                entityUpdate.AddressCity = item.AddressCity;
-                entityUpdate.AddressStreet = item.AddressStreet;
-                entityUpdate.AddressState = item.AddressState;
-                entityUpdate.AddressNeighborhood = item.AddressNeighborhood;
-
-                #endregion Columns
-
-                response = await base.Validate(entityUpdate);
-                if (response.Success)
+                Patient? entityUpdate = await _entityRepository.FindByID(item.Id);
+                if (entityUpdate != null)
                 {
-                    Patient entityResponse = await _entityRepository.Update(entityUpdate);
-                    response.Data = _mapper.Map<GetPatientVO>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
+
+                    #region Set default fields for bussines
+
+                    entityUpdate.ModifyDate = DateTime.Now;
+                    entityUpdate.LastAccessDate = DateTime.Now;
+
+                    #endregion Set default fields for bussines
+
+                    #region User Action
+                     
+                    entityUpdate.ModifyUserId = this.UserId;
+
+                    #endregion User Action
+
+                    #region Relationship
+
+                    entityUpdate.GenderId = item.GenderId;
+
+                    #endregion Relationship
+
+                    #region Columns
+                    entityUpdate.Enable = item.Enable;
+                    entityUpdate.Name = item.Name;
+                    entityUpdate.Email = item.Email;
+                    entityUpdate.Cpf = item.Cpf;
+                    entityUpdate.Rg = item.Rg;
+                    entityUpdate.Education = item.Education;
+                    entityUpdate.DateOfBirth = item.DateOfBirth;
+                    entityUpdate.PhoneNumber = item.PhoneNumber;
+                    entityUpdate.Profession = item.Profession;
+
+                    entityUpdate.EmergencyContactName = item.EmergencyContactName;
+                    entityUpdate.EmergencyContactPhoneNumber = item.EmergencyContactPhoneNumber;
+
+                    entityUpdate.AddressCep = item.AddressCep;
+                    entityUpdate.AddressCity = item.AddressCity;
+                    entityUpdate.AddressStreet = item.AddressStreet;
+                    entityUpdate.AddressState = item.AddressState;
+                    entityUpdate.AddressNeighborhood = item.AddressNeighborhood;
+
+                    #endregion Columns
+
+                    response = await base.Validate(entityUpdate);
+                    if (response.Success)
+                    {
+                        Patient entityResponse = await _entityRepository.Update(entityUpdate);
+                        response.Data = _mapper.Map<GetPatientVO>(entityResponse);
+                        response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                           ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
+                    }
                 }
             }
             catch (Exception)
@@ -193,7 +195,7 @@ namespace SmartDigitalPsico.Service.Principals
                     response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
                            ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
                     return response;
-                } 
+                }
                 if (listResult == null || listResult.Count == 0)
                 {
                     response.Success = false;
