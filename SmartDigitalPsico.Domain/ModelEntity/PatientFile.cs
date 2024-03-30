@@ -1,26 +1,17 @@
 using SmartDigitalPsico.Domain.Interfaces;
-using System.ComponentModel.DataAnnotations.Schema;
+using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
-    [Table("PatientFile", Schema = "dbo")]
     public class PatientFile : FileBase, IEntityBaseLogUser
     {
         #region Relationship 
-
-        public Patient Patient { get; set; } = new Patient();
-
-        [ForeignKey("PatientId")]
+        public Patient Patient { get; set; }  = new Patient();
         public long PatientId { get; set; }
         public User? CreatedUser { get; set; }
         public User? ModifyUser { get; set; }
-
-        [ForeignKey("CreatedUserId")]
-        public long? CreatedUserId { get; set; }
-
-        [ForeignKey("ModifyUserId")]
+        public long? CreatedUserId { get; set; }         
         public long? ModifyUserId { get; set; }
-        #endregion Relationship
-
+        #endregion Relationship 
     }
 }

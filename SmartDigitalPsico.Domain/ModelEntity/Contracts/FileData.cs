@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.ModelEntity
+namespace SmartDigitalPsico.Domain.ModelEntity.Contracts
 {
 
     public class FileData : FileBase

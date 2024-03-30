@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 using SmartDigitalPsico.Domain.VO.Domains;
 using System.Text;
 using System.Text.Json;

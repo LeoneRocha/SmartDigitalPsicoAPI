@@ -1,20 +1,23 @@
+----------------------------------------------------
+https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
+https://leonecostarocha.visualstudio.com/SMARTDIGITALPSICO/_build
+https://portal.azure.com/#home
+----------------------------------------------------
+ Readequacao 
 
-Readequacao 
-1- Domain - ok 
-2- Data - ok  
-3- Service -  ok 
-4- API - ok 
-5- Testar Localmente sem DOCKER - OK 
+1  - Domain - Finalizado 
+2  - Data - Finalizado  
+3  - Service -  Finalizado 
+4  - API - Finalizado 
+5  - Testar Localmente sem DOCKER - Finalizado  
+6  - reduzido codigo de generico duplicado - Finalizado 
+7  - MIGRAR DATA NOTATION PARA FLUENT API  ------- Em andamento 
+8  - Ajustar a carga de mock 
+9  - Automação
+10 - HABLITAR DOCKER
+11 - CODE QUALITY
 
-5.1 - Ajustar a carga de mock 
-5.2 - MIGRAR DATA NOTATION PARA FLUENT API 
-
-6- Automação
-7- HABLITAR DOCKER
-8- CODE QUALITY
-
-
- 
+----------------------------------------------------
 - 1) Configurar ao realizar pull request para integration disparar pipeline integration 
 
 - 2) Configurar a integration para Deploy automatico 
@@ -28,10 +31,11 @@ Readequacao
 - 6) Configurar ao realizar pull request para staging disparar pipeline staging 
 
 - 7) Configurar ao realizar pull request para master disparar pipeline master
+----------------------------------------------------
 
 
-
-
+*** rEPOSITORIO AI INSERIR SETAR ENABLE COMO TRUE
+----------------------------------------------------
 EF TIPS 
 
 COMANDO 1 )					Add-Migration InitialCreate -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
@@ -43,9 +47,9 @@ COMANDO 3 "DELETAR" )		Update-Database -Migration 0 -Project  "SmartDigitalPsico
 
 NO APPSETINGS PARA O JWT FUNCIONAR PRECISA POR A CHAVE 
 
- using (var hmac = new HMACSHA512())
-            {
-                byte[] key = hmac.Key;
-                secretKey = Convert.ToBase64String(key);
+using (var hmac = new HMACSHA512())
+{
+byte[] key = hmac.Key;
+secretKey = Convert.ToBase64String(key);
 
-            }
+}

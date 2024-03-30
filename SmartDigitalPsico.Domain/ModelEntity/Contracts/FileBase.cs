@@ -3,9 +3,8 @@ using SmartDigitalPsico.Domain.Enuns;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartDigitalPsico.Domain.ModelEntity
+namespace SmartDigitalPsico.Domain.ModelEntity.Contracts
 {
-
     public abstract class FileBase : EntityBase
     {
         #region Columns  
