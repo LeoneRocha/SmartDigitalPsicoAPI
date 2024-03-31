@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.ConfigureMock
+namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
 {
     public class SpecialtyMockData : IEntityTypeConfiguration<Specialty>
     {

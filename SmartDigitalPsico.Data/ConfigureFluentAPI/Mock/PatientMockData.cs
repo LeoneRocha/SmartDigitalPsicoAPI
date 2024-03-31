@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.ConfigureMock
+namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
 {
     public class PatientMockData : IEntityTypeConfiguration<Patient>
     {
         public void Configure(EntityTypeBuilder<Patient> modelBuilder)
         {
-            modelBuilder.HasData(GetMock()); 
+            modelBuilder.HasData(GetMock());
         }
         public static Patient[] GetMock()
         {
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Data.ConfigureMock
                 PhoneNumber = "(73) 2877-3408",
                 Profession = "Professor",
                 Rg = "13.809.283-7",
-                GenderId = (long)1,
+                GenderId = 1,
             };
             return [
                  newAddPatient

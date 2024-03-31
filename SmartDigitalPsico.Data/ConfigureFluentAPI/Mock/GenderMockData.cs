@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.ConfigureMock
+namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
 {
     public class GenderMockData : IEntityTypeConfiguration<Gender>
     {
@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Data.ConfigureMock
                 new Gender {
                     Id = 1, Enable = true, CreatedDate = DataHelper.GetDateTimeNow(), Description = "Masculino", Language = CultureConstants.LanguagePTBR
                 },
-                new Gender { 
+                new Gender {
                     Id = 2, Enable = true, CreatedDate = DataHelper.GetDateTimeNow(), Description = "Feminino", Language = CultureConstants.LanguagePTBR
                 }
             ];

@@ -4,18 +4,18 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Security;
 
-namespace SmartDigitalPsico.Data.ConfigureMock
+namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
 {
     public class UserMockData : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> modelBuilder)
         {
             modelBuilder.HasData(GetMock());
-             
+
             modelBuilder.HasMany(p => p.RoleGroups)
                 .WithMany(p => p.Users)
                 .UsingEntity(j => j.HasData(
-                    new { RoleGroupsId = (long)1, UsersId = (long)1 }, 
+                    new { RoleGroupsId = (long)1, UsersId = (long)1 },
                     new { RoleGroupsId = (long)2, UsersId = (long)2 }
                     ));
         }

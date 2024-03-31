@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.ConfigureMock
+namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
 {
     public class ApplicationLanguageMockData : IEntityTypeConfiguration<ApplicationLanguage>
     {

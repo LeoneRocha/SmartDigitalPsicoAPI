@@ -4,14 +4,14 @@ using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.ConfigureMock
+namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
 {
     public class MedicalMockData : IEntityTypeConfiguration<Medical>
     {
         public void Configure(EntityTypeBuilder<Medical> modelBuilder)
         {
             modelBuilder.HasData(GetMock());
-             
+
             modelBuilder
                 .HasMany(p => p.Specialties)
                 .WithMany(p => p.Medicals)
