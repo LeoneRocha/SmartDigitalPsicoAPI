@@ -27,9 +27,9 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 
             #region Relationship
 
-            RuleFor(entity => entity.CreatedUser)
+            RuleFor(entity => entity.CreatedUserId)
               .NotNull()
-              .WithMessage("ErrorValidator_CreatedUser_Null");
+              .WithMessage("ErrorValidator_CreatedUserId_Null");
 
             RuleFor(entity => entity.PatientId)
               .NotNull()

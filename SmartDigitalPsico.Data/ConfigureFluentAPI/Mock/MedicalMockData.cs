@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
                 Accreditation = "123456",
                 TypeAccreditation = ETypeAccreditation.CRM,
                 OfficeId = 1,
-                CreatedUserId = 1,
+                CreatedUserId = 1, 
             };
 
             return [

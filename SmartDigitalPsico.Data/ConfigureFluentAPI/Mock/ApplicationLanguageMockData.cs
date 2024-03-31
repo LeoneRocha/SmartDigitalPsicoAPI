@@ -437,7 +437,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
                 Enable = true,
                 Language = "pt-BR",
                 Description = "O Usuário que está criando deve ser informado.",
-                LanguageKey = "ErrorValidator_CreatedUser_Null",
+                LanguageKey = "ErrorValidator_CreatedUserId_Null",
                 ResourceKey = "SharedResource",
                 LanguageValue = "O Usuário que está criando deve ser informado.",
                 CreatedDate = DataHelper.GetDateTimeNow(),
