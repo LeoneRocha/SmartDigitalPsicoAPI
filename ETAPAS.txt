@@ -5,21 +5,19 @@ https://portal.azure.com/#home
 ----------------------------------------------------
  Readequacao 
 
-1  - Domain - Finalizado 
-2  - Data - Finalizado  
-3  - Service -  Finalizado 
-4  - API - Finalizado 
-5  - Testar Localmente sem DOCKER - Finalizado  
-6  - reduzido codigo de generico duplicado - Finalizado 
-7  - MIGRAR DATA NOTATION PARA FLUENT API  ------- Em andamento 
-
---TESTAR O SISTEMA 
-
-
-8  - Ajustar a carga de mock 
-9  - Automação
-10 - HABLITAR DOCKER
-11 - CODE QUALITY
+01  - Domain ------- Finalizado 
+02  - Data ------- Finalizado  
+03  - Service -------  Finalizado 
+04  - API ------- Finalizado 
+05  - Testar Localmente sem DOCKER ------- Finalizado  
+06  - reduzido codigo de generico duplicado ------- Finalizado 
+07  - MIGRAR DATA NOTATION PARA FLUENT API  ------- Finalizado
+08  - Ajustar a carga de mock ------- Finalizado
+09  - Revisar o service para ver se ainda usa entidadee em vez do ID mudar pra ID as FK ------- EM ANDAMENTO 
+10  - TESTAR O SISTEMA 
+11  - Automação
+12  - HABLITAR DOCKER
+13  - CODE QUALITY
 
 ----------------------------------------------------
 - 1) Configurar ao realizar pull request para integration disparar pipeline integration 

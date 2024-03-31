@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
-using SmartDigitalPsico.Data.ConfigureMock;
+using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 
 namespace SmartDigitalPsico.Data.Context
 {
