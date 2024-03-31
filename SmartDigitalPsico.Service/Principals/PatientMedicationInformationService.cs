@@ -51,9 +51,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #endregion
 
-                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
 
                 response = await base.Validate(entityAdd);
 
@@ -80,8 +80,8 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 PatientMedicationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
 
-                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
 
                 User userAction = await _userRepository.FindByID(this.UserId);
                 entityUpdate.ModifyUser = userAction;

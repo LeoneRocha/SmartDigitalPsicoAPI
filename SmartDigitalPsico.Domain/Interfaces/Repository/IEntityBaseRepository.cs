@@ -1,4 +1,6 @@
-﻿namespace SmartDigitalPsico.Domain.Interfaces.Repository
+﻿using System.Linq.Expressions;
+
+namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
     public interface IEntityBaseRepository<T> where T : IEntityBase
     {
@@ -11,5 +13,9 @@
         Task<bool> Exists(long id);
         Task<List<T>> FindWithPagedSearch(string query);
         Task<int> GetCount(string query);
+
+        Task<List<T>> FindByCustomWhere(Expression<Func<T, bool>> predicate);
+
+        Task<List<T>> FindByCustomWhereWithIncludes(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
     }
 }

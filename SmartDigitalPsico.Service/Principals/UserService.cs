@@ -92,9 +92,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 entityAdd.PasswordHash = passwordHash;
                 entityAdd.PasswordSalt = passwordSalt;
-                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Role = "Pending";
                 entityAdd.Admin = false;
 
@@ -142,7 +142,7 @@ namespace SmartDigitalPsico.Service.Principals
                 var isAdmin = updateUser?.Admin.GetValueOrDefault();
                 entityUpdate.Role = updateUser?.Role; 
 
-                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                 entityUpdate.MedicalId = updateUser?.MedicalId;
 
                 List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(updateUser?.RoleGroupsIds);
@@ -182,9 +182,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 entityAdd.PasswordHash = passwordHash;
                 entityAdd.PasswordSalt = passwordSalt;
-                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Role = userRegisterVO?.Role; 
                 List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO?.RoleGroupsIds);
                 entityAdd.RoleGroups = new List<RoleGroup>();
@@ -253,11 +253,11 @@ namespace SmartDigitalPsico.Service.Principals
             var refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = CultureDateTimeHelper.GetDateTimeNow().AddDays(_configurationToken.DaysToExpiry);
+            user.RefreshTokenExpiryTime = DataHelper.GetDateTimeNow().AddDays(_configurationToken.DaysToExpiry);
 
             await _userRepository.RefreshUserInfo(user);
 
-            DateTime createDate = CultureDateTimeHelper.GetDateTimeNow();
+            DateTime createDate = DataHelper.GetDateTimeNow();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
             return new TokenVO(true,
                 createDate.ToString(DATE_FORMAT),
@@ -284,7 +284,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             if (user == null ||
                 user.RefreshToken != refreshToken ||
-                user.RefreshTokenExpiryTime <= CultureDateTimeHelper.GetDateTimeNow()) return null;
+                user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNow()) return null;
 
             accessToken = _tokenService.GenerateAccessToken(principal.Claims);
             refreshToken = _tokenService.GenerateRefreshToken();
@@ -293,7 +293,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             await _userRepository.RefreshUserInfo(user);
 
-            DateTime createDate = CultureDateTimeHelper.GetDateTimeNow();
+            DateTime createDate = DataHelper.GetDateTimeNow();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
             return new TokenVO(
             true,
@@ -330,7 +330,7 @@ namespace SmartDigitalPsico.Service.Principals
                     entityUpdate.PasswordSalt = passwordSalt;
                 }
 
-                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
 
                 response = await base.Validate(entityUpdate);
 

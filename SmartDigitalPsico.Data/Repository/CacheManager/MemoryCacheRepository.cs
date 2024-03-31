@@ -17,8 +17,8 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             _cacheConfig = cacheConfig.Value;
             if (_cacheConfig != null)
             {
-                DateTime absoluteExpiration = CultureDateTimeHelper.GetDateTimeNow().AddHours(_cacheConfig.AbsoluteExpirationInHours);
-                absoluteExpiration = CultureDateTimeHelper.GetDateTimeNow().AddMinutes(_cacheConfig.AbsoluteExpirationInMinutes);
+                DateTime absoluteExpiration = DataHelper.GetDateTimeNow().AddHours(_cacheConfig.AbsoluteExpirationInHours);
+                absoluteExpiration = DataHelper.GetDateTimeNow().AddMinutes(_cacheConfig.AbsoluteExpirationInMinutes);
 
                 _cacheOptions = new MemoryCacheEntryOptions
                 {

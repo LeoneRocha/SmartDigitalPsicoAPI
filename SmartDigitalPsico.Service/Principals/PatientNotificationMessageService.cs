@@ -45,14 +45,14 @@ namespace SmartDigitalPsico.Service.Principals
                 User userAction = await _userRepository.FindByID(this.UserId);
                 entityAdd.CreatedUser = userAction;
 
-                Patient patientAdd = await _patientRepository.FindByPatient(new Patient() { Cpf = item.Cpf, Rg = item.Rg, Email = item.Email, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
+                Patient patientAdd = await _patientRepository.FindByPatient(new Patient() { Cpf = item.Cpf, Rg = item.Rg, Email = item.Email, CreatedDate = DataHelper.GetDateTimeNow() });
                 entityAdd.Patient = patientAdd;
 
                 #endregion
 
-                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 response = await base.Validate(entityAdd);
 
                 if (response.Success)
@@ -83,8 +83,8 @@ namespace SmartDigitalPsico.Service.Principals
                   
                 #endregion Relationship
 
-                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
 
                 User userAction = await _userRepository.FindByID(this.UserId);
                 entityUpdate.ModifyUser = userAction;

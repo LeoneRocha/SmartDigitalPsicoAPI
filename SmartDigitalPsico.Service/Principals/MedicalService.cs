@@ -60,9 +60,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #endregion Relationship
 
-                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
 
                 User? userAction = await _userRepository.FindByID(this.UserId);
                 if (userAction != null)
@@ -107,8 +107,8 @@ namespace SmartDigitalPsico.Service.Principals
 
                     #endregion Relationship
 
-                    entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                    entityUpdate.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                    entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+                    entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
 
                     User? userAction = await _userRepository.FindByID(this.UserId);
                     if (userAction != null)

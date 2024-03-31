@@ -17,8 +17,7 @@ namespace SmartDigitalPsico.Data.Configure
             addMockApplicationConfigSetting(modelBuilder);
             #endregion
 
-            #region ApplicationLanguage
-            addMockApplicationLanguage(modelBuilder);
+            #region ApplicationLanguage 
             #endregion
 
             #region Gender
@@ -50,31 +49,7 @@ namespace SmartDigitalPsico.Data.Configure
 
             #endregion Medical 
 
-        }
-
-        private static void addMockApplicationLanguage(ModelBuilder modelBuilder)
-        {
-            List<ApplicationLanguage> addRegisters = new List<ApplicationLanguage>();
-            addRegisters.Add(gerateNewLanguage(1, "Default", valorbr, "Default_ptbr", "Padrão"));
-            modelBuilder.Entity<ApplicationLanguage>().HasData(addRegisters);
-        }
-
-        private static ApplicationLanguage gerateNewLanguage(long id, string description, string valueLanguage, string languageKey, string languageValue)
-        {
-            return new ApplicationLanguage
-            {
-                Id = id,
-                Description = description,
-                Language = valueLanguage,
-                LanguageKey = languageKey,
-                LanguageValue = languageValue,
-                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
-                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
-                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
-                Enable = true,
-            };
-        }
-
+        }  
         private static void addMockApplicationConfigSetting(ModelBuilder modelBuilder)
         {
             List<ApplicationConfigSetting> addRegisters = new List<ApplicationConfigSetting>();
@@ -83,9 +58,9 @@ namespace SmartDigitalPsico.Data.Configure
                 Id = 1,
                 Description = "Default",
                 Language = valorbr,
-                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
-                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
-                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
+                CreatedDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow(),
                 TypeLocationCache = ETypeLocationCache.Memory,
                 TypeLocationSaveFiles = ETypeLocationSaveFiles.DataBase,
                 TypeLocationQueeMessaging = ETypeLocationQueeMessaging.MongoDB,
@@ -106,10 +81,10 @@ namespace SmartDigitalPsico.Data.Configure
                 Id = 1,
                 Name = "Medical MOCK ",
                 Email = "medical@sistemas.com",
-                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
+                CreatedDate = DataHelper.GetDateTimeNow(),
                 Enable = true,
-                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
-                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
                 Accreditation = "123456",
                 TypeAccreditation = ETypeAccreditation.CRM,
                 OfficeId = 1,
@@ -127,10 +102,10 @@ namespace SmartDigitalPsico.Data.Configure
                 Login = "doctor",
                 Admin = false,
                 Email = "doctor@sistemas.com",
-                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
+                CreatedDate = DataHelper.GetDateTimeNow(),
                 Enable = true,
-                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
-                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
                 Role = "Medical",
                 MedicalId = 1,
                 Language = getCulture(),
@@ -163,10 +138,10 @@ namespace SmartDigitalPsico.Data.Configure
                 Id = 1,
                 Name = "Tiago Thales Mendes",
                 Email = "tiago.thales.mendes@andrade.com",
-                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
+                CreatedDate = DataHelper.GetDateTimeNow(),
                 Enable = true,
-                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
-                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
                 CreatedUserId = 2,
                 AddressCep = "45675-970",
                 AddressCity = "Aurelino Leal",
@@ -196,10 +171,10 @@ namespace SmartDigitalPsico.Data.Configure
                 Login = "admin",
                 Admin = true,
                 Email = "admin@sistemas.com",
-                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
+                CreatedDate = DataHelper.GetDateTimeNow(),
                 Enable = true,
-                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
-                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
                 Role = "Admin",
                 Language = getCulture(),
                 TimeZone = getTimeZone()
@@ -230,12 +205,12 @@ namespace SmartDigitalPsico.Data.Configure
         private static void addMockRoleGroup(ModelBuilder modelBuilder)
         {
             List<RoleGroup> rolesAdd = new List<RoleGroup>();
-            rolesAdd.Add(new RoleGroup { Id = 1, Enable = true, RolePolicyClaimCode = "Admin", Description = "Administrador", Language = valorbr , CreatedDate= CultureDateTimeHelper.GetDateTimeNow() });
-            rolesAdd.Add(new RoleGroup { Id = 2, Enable = true, RolePolicyClaimCode = "Medical", Description = "Medico", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
-            rolesAdd.Add(new RoleGroup { Id = 3, Enable = true, RolePolicyClaimCode = "Staff", Description = "Recepcionista", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
-            rolesAdd.Add(new RoleGroup { Id = 4, Enable = true, RolePolicyClaimCode = "Patient", Description = "Paciente", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
-            rolesAdd.Add(new RoleGroup { Id = 5, Enable = true, RolePolicyClaimCode = "Read", Description = "Leitura", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
-            rolesAdd.Add(new RoleGroup { Id = 6, Enable = true, RolePolicyClaimCode = "Write", Description = "Escrita", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 1, Enable = true, RolePolicyClaimCode = "Admin", Description = "Administrador", Language = valorbr , CreatedDate= DataHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 2, Enable = true, RolePolicyClaimCode = "Medical", Description = "Medico", Language = valorbr, CreatedDate = DataHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 3, Enable = true, RolePolicyClaimCode = "Staff", Description = "Recepcionista", Language = valorbr, CreatedDate = DataHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 4, Enable = true, RolePolicyClaimCode = "Patient", Description = "Paciente", Language = valorbr, CreatedDate = DataHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 5, Enable = true, RolePolicyClaimCode = "Read", Description = "Leitura", Language = valorbr, CreatedDate = DataHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 6, Enable = true, RolePolicyClaimCode = "Write", Description = "Escrita", Language = valorbr, CreatedDate = DataHelper.GetDateTimeNow() });
 
             modelBuilder.Entity<RoleGroup>().HasData(rolesAdd);
         }
@@ -244,13 +219,13 @@ namespace SmartDigitalPsico.Data.Configure
         {
             var specialtySAdd = new List<Specialty>();
 
-            specialtySAdd.Add(new Specialty { Id = 1, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia Clínica", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 2, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia Social", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 3, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia educacional", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 4, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia Esportiva ", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 5, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia organizacional", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 6, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia hospitalar", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 7, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia do trânsito", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 1, Enable = true, CreatedDate= DataHelper.GetDateTimeNow() , Description = "Psicologia Clínica", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 2, Enable = true, CreatedDate= DataHelper.GetDateTimeNow() , Description = "Psicologia Social", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 3, Enable = true, CreatedDate= DataHelper.GetDateTimeNow() , Description = "Psicologia educacional", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 4, Enable = true, CreatedDate= DataHelper.GetDateTimeNow() , Description = "Psicologia Esportiva ", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 5, Enable = true, CreatedDate= DataHelper.GetDateTimeNow() , Description = "Psicologia organizacional", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 6, Enable = true, CreatedDate= DataHelper.GetDateTimeNow() , Description = "Psicologia hospitalar", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 7, Enable = true, CreatedDate= DataHelper.GetDateTimeNow() , Description = "Psicologia do trânsito", Language = valorbr });
                                                                     
             modelBuilder.Entity<Specialty>().HasData(specialtySAdd);
 
@@ -260,9 +235,9 @@ namespace SmartDigitalPsico.Data.Configure
         private static List<Office> addMockOffice(ModelBuilder modelBuilder)
         {
             List<Office> officeAdd = new List<Office>();
-            officeAdd.Add(new Office { Id = 1, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Enable = true, Description = "Psicólogo", Language = valorbr });
-            officeAdd.Add(new Office { Id = 2, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Enable = true, Description = "Psicóloga", Language = valorbr });
-            officeAdd.Add(new Office { Id = 3, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Enable = true, Description = "Clínico", Language = valorbr });
+            officeAdd.Add(new Office { Id = 1, CreatedDate= DataHelper.GetDateTimeNow() , Enable = true, Description = "Psicólogo", Language = valorbr });
+            officeAdd.Add(new Office { Id = 2, CreatedDate= DataHelper.GetDateTimeNow() , Enable = true, Description = "Psicóloga", Language = valorbr });
+            officeAdd.Add(new Office { Id = 3, CreatedDate= DataHelper.GetDateTimeNow() , Enable = true, Description = "Clínico", Language = valorbr });
                                            
             modelBuilder.Entity<Office>().HasData(officeAdd);
 
@@ -272,8 +247,8 @@ namespace SmartDigitalPsico.Data.Configure
         private static List<Gender> addMockGender(ModelBuilder modelBuilder)
         {
             List<Gender> listAdd = new List<Gender>() {
-                new Gender { Id = 1,Enable= true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Masculino", Language = valorbr },
-                new Gender { Id = 2,Enable= true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Feminino", Language = valorbr }
+                new Gender { Id = 1,Enable= true, CreatedDate= DataHelper.GetDateTimeNow() , Description = "Masculino", Language = valorbr },
+                new Gender { Id = 2,Enable= true, CreatedDate= DataHelper.GetDateTimeNow() , Description = "Feminino", Language = valorbr }
             };
             modelBuilder.Entity<Gender>().HasData(listAdd);
 

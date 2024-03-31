@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
+using SmartDigitalPsico.Domain.VO;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -8,14 +9,8 @@ namespace SmartDigitalPsico.Domain.Helpers
     {
 
         public CultureDateTimeHelper() { }
-
-
-        public static DateTime GetDateTimeNow()
-        {
-            return DateTime.UtcNow; 
-        }
-
-
+         
+         
         private static List<CultureInfo> getCulturesEnable()
         {
             List<CultureInfo> list = new List<CultureInfo>();
@@ -88,14 +83,5 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
             return result;
         } 
-    }
-    public class CultureDisplay : TimeZoneDisplay
-    {
-    }
-
-    public class TimeZoneDisplay
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-    }
+    } 
 }

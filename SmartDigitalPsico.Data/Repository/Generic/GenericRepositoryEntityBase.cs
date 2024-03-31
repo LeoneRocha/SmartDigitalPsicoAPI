@@ -3,6 +3,7 @@ using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Data.Repository.Generic
 {
@@ -32,7 +33,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             try
             {
                 //Fields internal change 
-                item.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
+                item.CreatedDate = DataHelper.GetDateTimeNow();
                 item.Enable = true;
                 dataset.Add(item);
                 await _context.SaveChangesAsync();
@@ -52,7 +53,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
                 try
                 {
                     //Fields internal change 
-                    item.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                    item.ModifyDate = DataHelper.GetDateTimeNow();
 
                     _context.Entry(result).CurrentValues.SetValues(item);
                     await _context.SaveChangesAsync();
@@ -123,6 +124,24 @@ namespace SmartDigitalPsico.Data.Repository.Generic
         {
             return await dataset.FromSqlRaw(query).ToListAsync();
         }
+
+        public virtual async Task<List<T>> FindByCustomWhere(Expression<Func<T, bool>> predicate)
+        {
+            return await dataset.Where(predicate).ToListAsync();
+        }
+
+        public virtual async Task<List<T>> FindByCustomWhereWithIncludes(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = dataset.Where(predicate);
+
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return await query.ToListAsync();
+        }
+
 
         public virtual async Task<int> GetCount(string query)
         {

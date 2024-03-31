@@ -126,7 +126,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 fileStream.Close();
                 var response = new FileContentResult(fileBytes, contentType)
                 {
-                    LastModified = CultureDateTimeHelper.GetDateTimeNow(),
+                    LastModified = DataHelper.GetDateTimeNow(),
                     FileDownloadName = FileHelper.GetSameName(fileName),
                 };
                 return response;

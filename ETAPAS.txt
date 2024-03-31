@@ -12,6 +12,10 @@ https://portal.azure.com/#home
 5  - Testar Localmente sem DOCKER - Finalizado  
 6  - reduzido codigo de generico duplicado - Finalizado 
 7  - MIGRAR DATA NOTATION PARA FLUENT API  ------- Em andamento 
+
+--TESTAR O SISTEMA 
+
+
 8  - Ajustar a carga de mock 
 9  - Automação
 10 - HABLITAR DOCKER

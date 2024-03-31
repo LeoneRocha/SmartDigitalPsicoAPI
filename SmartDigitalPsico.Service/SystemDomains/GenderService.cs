@@ -112,7 +112,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
             entityUpdate.Language = item.Language;            
 
             response = await Validate(entityUpdate);
-            entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
             if (response.Success)
             {
                 Gender entityResponse = await _entityRepository.Update(entityUpdate);

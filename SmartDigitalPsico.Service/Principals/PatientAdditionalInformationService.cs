@@ -66,9 +66,9 @@ namespace SmartDigitalPsico.Service.Principals
                 }
                 #endregion
 
-                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
 
                 response = await base.Validate(entityAdd);
 
@@ -103,8 +103,8 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #endregion Relationship
 
-                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
 
                 #region Columns
                 entityUpdate.Enable = item.Enable;

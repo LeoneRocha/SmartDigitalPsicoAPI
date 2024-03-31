@@ -41,9 +41,9 @@ namespace SmartDigitalPsico.Service.Generic
             try
             {
                 TEntity entityAdd = _mapper.Map<TEntity>(item);
-                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
 
                 response = await Validate(entityAdd);
                 if (response.Success)
@@ -119,7 +119,7 @@ namespace SmartDigitalPsico.Service.Generic
                 }
                 var entityUpdate = _mapper.Map<TEntity>(item);
                 response = await Validate(entityUpdate);
-                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                 if (response.Success)
                 {
                     TEntity entityResponse = await _genericRepository.Update(entityUpdate);
