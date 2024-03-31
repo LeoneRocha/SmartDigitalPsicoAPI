@@ -34,15 +34,15 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             RuleFor(entity => entity.PatientId)
               .NotNull()
               .WithMessage("ErrorValidator_Patient_Null")
-              .MustAsync(async (entity, value, c) => await PatientIdFound(entity, value))
+              .MustAsync(async (entity, value, c) => await PatientIdFound(entity))
               .WithMessage("ErrorValidator_Patient_NotFound")
-              .MustAsync(async (entity, value, c) => await PatientIdChanged(entity, value))
+              .MustAsync(async (entity, value, c) => await PatientIdChanged(entity))
               .WithMessage("ErrorValidator_Patient_Changed");
 
 
             #endregion Relationship  
         }
-        private async Task<bool> PatientIdFound(PatientAdditionalInformation entity, long value)
+        private async Task<bool> PatientIdFound(PatientAdditionalInformation entity)
         {
             var entityFind = await _patientRepository.FindByID(entity.PatientId);
             if (entityFind == null)
@@ -51,7 +51,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             }
             return true;
         }
-        private async Task<bool> PatientIdChanged(PatientAdditionalInformation entity, long value)
+        private async Task<bool> PatientIdChanged(PatientAdditionalInformation entity)
         {
             var entityBefore = await _entityRepository.FindByID(entity.Id);
             if (entityBefore != null)
@@ -62,34 +62,6 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 }
             }
             return true;
-        }
-        private async Task<bool> MedicalCreated(PatientAdditionalInformation entity, long value)
-        {
-            long idUser = entity.CreatedUserId.GetValueOrDefault();
-
-            var patient = await _patientRepository.FindByID(entity.PatientId);
-            if (patient != null)
-            {
-                if (patient.Medical.UserId != idUser)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        private async Task<bool> MedicalModify(PatientAdditionalInformation entity, long value)
-        {
-            long idUser = entity.ModifyUserId.GetValueOrDefault();
-
-            var patient = await _patientRepository.FindByID(entity.PatientId);
-            if (patient != null)
-            {
-                if (patient.Medical.UserId != idUser)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        } 
     }
 }

@@ -13,7 +13,7 @@ https://portal.azure.com/#home
 06  - reduzido codigo de generico duplicado ------- Finalizado 
 07  - MIGRAR DATA NOTATION PARA FLUENT API  ------- Finalizado
 08  - Ajustar a carga de mock ------- Finalizado
-09  - Revisar o service para ver se ainda usa entidadee em vez do ID mudar pra ID as FK ------- EM ANDAMENTO 
+09  - Revisar o service para ver se ainda usa entidadee em vez do ID mudar pra ID as FK ------- Finalizado
 10  - TESTAR O SISTEMA 
 11  - Automação
 12  - HABLITAR DOCKER

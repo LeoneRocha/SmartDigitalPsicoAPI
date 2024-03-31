@@ -7,17 +7,13 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
     public class PatientFileValidator : AbstractValidator<PatientFile>
     {
         private IPatientFileRepository _entityRepository;
-        private IPatientRepository _patientRepository;
-        private IMedicalRepository _medicalRepository;
-        private IUserRepository _userRepository;
+        private IPatientRepository _patientRepository; 
 
         public PatientFileValidator(IPatientFileRepository entityRepository,
             IPatientRepository patientRepository, IMedicalRepository medicalRepository, IUserRepository userRepository)
         {
             _entityRepository = entityRepository;
-            _patientRepository = patientRepository;
-            _medicalRepository = medicalRepository;
-            _userRepository = userRepository;
+            _patientRepository = patientRepository; 
 
             #region Columns
             RuleFor(entity => entity.Description)
@@ -40,26 +36,26 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 
             #region Relationship
 
-            RuleFor(entity => entity.CreatedUser)
+            RuleFor(entity => entity.CreatedUserId)
               .NotNull() 
-              .WithMessage("ErrorValidator_CreatedUser_Null");
+              .WithMessage("ErrorValidator_CreatedUserId_Null");
 
             RuleFor(entity => entity.PatientId)
               .NotNull() 
               .WithMessage("ErrorValidator_Patient_Null")
-              .MustAsync(async (entity, value, c) => await PatientIdFound(entity, value)) 
+              .MustAsync(async (entity, value, c) => await PatientIdFound(entity)) 
               .WithMessage("ErrorValidator_Patient_NotFound")
-              .MustAsync(async (entity, value, c) => await PatientIdChanged(entity, value)) 
+              .MustAsync(async (entity, value, c) => await PatientIdChanged(entity)) 
               .WithMessage("ErrorValidator_Patient_Changed")
-              .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value)) 
+              .MustAsync(async (entity, value, c) => await MedicalCreated(entity)) 
               .WithMessage("ErrorValidator_Patient_Medical_Created")
-              .MustAsync(async (entity, value, c) => await MedicalModify(entity, value)) 
+              .MustAsync(async (entity, value, c) => await MedicalModify(entity)) 
               .WithMessage("ErrorValidator_Patient_Medical_Modify");
 
             #endregion Relationship  
         }
 
-        private async Task<bool> PatientIdFound(PatientFile entity, long value)
+        private async Task<bool> PatientIdFound(PatientFile entity)
         {
             var entityFind = await _patientRepository.FindByID(entity.PatientId);
             if (entityFind == null)
@@ -68,7 +64,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             }
             return true;
         }
-        private async Task<bool> PatientIdChanged(PatientFile entity, long value)
+        private async Task<bool> PatientIdChanged(PatientFile entity)
         {
             var entityBefore = await _entityRepository.FindByID(entity.Id);
             if (entityBefore != null)
@@ -80,7 +76,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             }
             return true;
         }
-        private async Task<bool> MedicalCreated(PatientFile entity, long value)
+        private async Task<bool> MedicalCreated(PatientFile entity)
         {
             long idUser = entity.CreatedUserId.GetValueOrDefault();
 
@@ -94,7 +90,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             }
             return true;
         }
-        private async Task<bool> MedicalModify(PatientFile entity, long value)
+        private async Task<bool> MedicalModify(PatientFile entity)
         {
             long idUser = entity.ModifyUserId.GetValueOrDefault();
 

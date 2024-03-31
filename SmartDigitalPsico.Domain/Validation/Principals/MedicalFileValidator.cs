@@ -9,12 +9,10 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
         private IMedicalFileRepository _entityRepository;
         private IMedicalRepository _medicalRepository;
-        private IUserRepository _userRepository; 
-        public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository)
+        public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository)
         {
             _entityRepository = entityRepository;
             _medicalRepository = medicalRepository;
-            _userRepository = userRepository;
 
             #region Columns
             RuleFor(entity => entity.Description)
@@ -37,19 +35,19 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             #region Relationship
             RuleFor(entity => entity.MedicalId)
-            .NotNull() 
+            .NotNull()
             .WithMessage("ErrorValidator_MedicalId_Null")
-            .MustAsync(async (entity, value, c) => await MedicalIdFound(entity, value)) 
+            .MustAsync(async (entity, value, c) => await MedicalIdFound(entity, value))
             .WithMessage("ErrorValidator_MedicalId_NotFound")
             .MustAsync(async (entity, value, c) => await MedicalChanged(entity, value))
             .WithMessage("ErrorValidator_Medical_Changed")
-            .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value)) 
+            .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value))
             .WithMessage("ErrorValidator_MedicalCreated_Invalid")
-            .MustAsync(async (entity, value, c) => await MedicalModify(entity, value)) 
+            .MustAsync(async (entity, value, c) => await MedicalModify(entity, value))
             .WithMessage("ErrorValidator_MedicalModify_Invalid");
 
             #endregion Relationship
-        } 
+        }
         private async Task<bool> MedicalIdFound(MedicalFile entity, long value)
         {
             var entityFind = await _medicalRepository.FindByID(entity.MedicalId);

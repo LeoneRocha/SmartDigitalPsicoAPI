@@ -8,16 +8,11 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
     {
         private IPatientRecordRepository _entityRepository;
         private IPatientRepository _patientRepository;
-        private IMedicalRepository _medicalRepository;
-        private IUserRepository _userRepository;
 
-        public PatientRecordValidator(IPatientRecordRepository entityRepository,
-            IPatientRepository patientRepository, IMedicalRepository medicalRepository, IUserRepository userRepository)
+        public PatientRecordValidator(IPatientRecordRepository entityRepository, IPatientRepository patientRepository)
         {
             _entityRepository = entityRepository;
             _patientRepository = patientRepository;
-            _medicalRepository = medicalRepository;
-            _userRepository = userRepository;
 
             #region Columns
 
@@ -40,9 +35,9 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 
             #region Relationship
 
-            RuleFor(entity => entity.CreatedUser)
+            RuleFor(entity => entity.CreatedUserId)
               .NotNull()
-               .WithMessage("ErrorValidator_CreatedUser_Null");
+               .WithMessage("ErrorValidator_CreatedUserId_Null");
 
             RuleFor(entity => entity.PatientId)
              .NotNull()
@@ -75,34 +70,6 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 }
             }
             return true;
-        }
-        private async Task<bool> MedicalCreated(PatientRecord entity, long value)
-        {
-            long idUser = entity.CreatedUserId.GetValueOrDefault();
-
-            var patient = await _patientRepository.FindByID(entity.PatientId);
-            if (patient != null)
-            {
-                if (patient.Medical.UserId != idUser)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        private async Task<bool> MedicalModify(PatientRecord entity, long value)
-        {
-            long idUser = entity.ModifyUserId.GetValueOrDefault();
-
-            var patient = await _patientRepository.FindByID(entity.PatientId);
-            if (patient != null)
-            {
-                if (patient.Medical.UserId != idUser)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        } 
     }
 }

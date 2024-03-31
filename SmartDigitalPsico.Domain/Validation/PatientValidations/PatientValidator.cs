@@ -9,13 +9,11 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
     {
         private IPatientRepository _entityRepository;
         private IMedicalRepository _medicalRepository;
-        private IUserRepository _userRepository;
 
-        public PatientValidator(IPatientRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository)
+        public PatientValidator(IPatientRepository entityRepository, IMedicalRepository medicalRepository)
         {
             _entityRepository = entityRepository;
             _medicalRepository = medicalRepository;
-            _userRepository = userRepository;
 
             #region Columns
 
@@ -28,30 +26,30 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 .WithMessage("O Profession não pode ultrapassar {MaxLength} carateres.");
 
             RuleFor(entity => entity.Email)
-               .NotNull().NotEmpty() 
+               .NotNull().NotEmpty()
                .WithMessage("ErrorValidator_Email_Null")
-               .EmailAddress() 
+               .EmailAddress()
                .WithMessage("ErrorValidator_Email_Invalid")
                .MaximumLength(100)
                .WithMessage("O Email não pode ultrapassar {MaxLength} carateres.")
-               .MustAsync(async (entity, value, c) => await UniqueEmail(entity, value)) 
+               .MustAsync(async (entity, value, c) => await UniqueEmail(entity, value))
               .WithMessage("ErrorValidator_Email_Unique");
 
-            RuleFor(p => p.DateOfBirth).Must(BeAValidAge) 
+            RuleFor(p => p.DateOfBirth).Must(BeAValidAge)
                 .WithMessage("ErrorValidator_DateOfBirth_Invalid");
 
             RuleFor(p => p.Rg)
                 .NotNull().NotEmpty()
-                .WithMessage("ErrorValidator_RG_Null") 
+                .WithMessage("ErrorValidator_RG_Null")
                 .Length(10, 15)
                .WithMessage("Rg must be between 10 and {MaxLength} characters long");
-           
+
 
             RuleFor(p => p.Cpf)
-                .NotNull().NotEmpty() 
+                .NotNull().NotEmpty()
                 .WithMessage("ErrorValidator_CPF_Null")
                 .Length(10, 15)
-               .WithMessage("Rg must be between 10 and {MaxLength} characters long"); 
+               .WithMessage("Rg must be between 10 and {MaxLength} characters long");
 
 
             RuleFor(entity => entity.Profession)
@@ -67,7 +65,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 .MaximumLength(20)
                 .WithMessage("O PhoneNumber não pode ultrapassar {MaxLength} carateres.")
                 .Length(8, 20)
-               .WithMessage("PhoneNumber must be between 8 and {MaxLength} characters long"); 
+               .WithMessage("PhoneNumber must be between 8 and {MaxLength} characters long");
 
             RuleFor(entity => entity.AddressStreet)
                 .MaximumLength(255)
@@ -89,7 +87,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 .MaximumLength(20)
                 .WithMessage("O AddressCep não pode ultrapassar {MaxLength} carateres.")
                 .Length(8, 20)
-               .WithMessage("AddressCep must be between 8 and {MaxLength} characters long"); 
+               .WithMessage("AddressCep must be between 8 and {MaxLength} characters long");
 
             RuleFor(entity => entity.EmergencyContactName)
              .MaximumLength(255)
@@ -104,19 +102,19 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             #region Relationship
 
             RuleFor(entity => entity.CreatedUserId)
-              .NotNull() 
+              .NotNull()
               .WithMessage("ErrorValidator_CreatedUserId_Null");
 
             RuleFor(entity => entity.MedicalId)
-            .NotNull() 
+            .NotNull()
             .WithMessage("ErrorValidator_MedicalId_Null")
-            .MustAsync(async (entity, value, c) => await MedicalIdFound(entity, value)) 
+            .MustAsync(async (entity, value, c) => await MedicalIdFound(entity, value))
             .WithMessage("ErrorValidator_MedicalId_NotFound")
             .MustAsync(async (entity, value, c) => await MedicalChanged(entity, value))
             .WithMessage("ErrorValidator_Medical_Changed")
-            .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value)) 
+            .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value))
             .WithMessage("ErrorValidator_MedicalCreated_Invalid")
-            .MustAsync(async (entity, value, c) => await MedicalModify(entity, value)) 
+            .MustAsync(async (entity, value, c) => await MedicalModify(entity, value))
             .WithMessage("ErrorValidator_MedicalModify_Invalid");
 
             #endregion Relationship 
