@@ -6,11 +6,10 @@ using System.Globalization;
 namespace SmartDigitalPsico.Domain.Helpers
 {
     public class CultureDateTimeHelper
-    {
-
+    { 
         public CultureDateTimeHelper() { }
-         
-         
+
+
         private static List<CultureInfo> getCulturesEnable()
         {
             List<CultureInfo> list = new List<CultureInfo>();
@@ -56,12 +55,12 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static string GetNameAndCulture(string localizedStringKeyName)
         {
 
-            string culturenameCurrent = CultureInfo.CurrentCulture.Name;  
+            string culturenameCurrent = CultureInfo.CurrentCulture.Name;
             return $"{localizedStringKeyName}";
 
         }
         public static string GetKeyLocalizationRecordFormat(string LanguageKey, string Language)
-        { 
+        {
             return $"{LanguageKey}";
         }
 
@@ -82,6 +81,18 @@ namespace SmartDigitalPsico.Domain.Helpers
                 return result;
             }
             return result;
-        } 
-    } 
+        }
+
+        public static string GetTimeZoneBrazil()
+        {
+            return CultureDateTimeHelper.GetTimeZonesIds().First(c =>
+             c.Name.ToUpper().Contains("o Paulo".ToUpper()) || c.Id.ToUpper().Contains("o Paulo".ToUpper())
+             || c.Name.ToUpper().Contains("Brasília".ToUpper()) || c.Id.ToUpper().Contains("Brasília".ToUpper())
+             ).Id;
+        }
+        public static string GetCultureBrazil()
+        {
+            return CultureDateTimeHelper.GetCultures().First(c => c.Id.ToUpper().Contains("pt-br".ToUpper())).Id;
+        }
+    }
 }

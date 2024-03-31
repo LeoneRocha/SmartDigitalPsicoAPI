@@ -57,3 +57,5 @@ byte[] key = hmac.Key;
 secretKey = Convert.ToBase64String(key);
 
 }
+
+//Migrar o idimas da tabela para arquivo JSON.

@@ -9,8 +9,13 @@ namespace SmartDigitalPsico.Data.Configure
     {
         public void Configure(EntityTypeBuilder<ApplicationLanguage> modelBuilder)
         {
-            modelBuilder.HasData(
-            new ApplicationLanguage
+            modelBuilder.HasData(GetMock());
+        }
+
+        public static ApplicationLanguage[] GetMock()
+        {
+            return [
+              new ApplicationLanguage
             {
                 Id = 1,
                 Enable = true,
@@ -438,8 +443,73 @@ namespace SmartDigitalPsico.Data.Configure
                 CreatedDate = DataHelper.GetDateTimeNow(),
                 ModifyDate = DataHelper.GetDateTimeNow(),
                 LastAccessDate = DataHelper.GetDateTimeNow()
+            },
+            new ApplicationLanguage
+            {
+                Id = 34,
+                Enable = true,
+                Language = "pt-BR",
+                Description = "A anotação não pode ser vazia.",
+                LanguageKey = "ErrorValidator_Annotation_Null",
+                ResourceKey = "SharedResource",
+                LanguageValue = "A anotação não pode ser vazia.",
+                CreatedDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow()
+            },
+            new ApplicationLanguage
+            {
+                Id = 35,
+                Enable = true,
+                Language = "pt-BR",
+                Description = "A data da anotação não pode ser vazia.",
+                LanguageKey = "ErrorValidator_AnnotationDate_Null",
+                ResourceKey = "SharedResource",
+                LanguageValue = "A data da anotação não pode ser vazia.",
+                CreatedDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow()
+            },
+            new ApplicationLanguage
+            {
+                Id = 36,
+                Enable = true,
+                Language = "pt-BR",
+                Description = "Data de nascimento invalido",
+                LanguageKey = "ErrorValidator_DateOfBirth_Invalid",
+                ResourceKey = "SharedResource",
+                LanguageValue = "Data de nascimento invalido",
+                CreatedDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow()
+            },
+            new ApplicationLanguage
+            {
+                Id = 37,
+                Enable = true,
+                Language = "pt-BR",
+                Description = "O Rg não pode ser vazio.",
+                LanguageKey = "ErrorValidator_RG_Null",
+                ResourceKey = "SharedResource",
+                LanguageValue = "O Rg não pode ser vazio.",
+                CreatedDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow()
+            },
+            new ApplicationLanguage
+            {
+                Id = 38,
+                Enable = true,
+                Language = "pt-BR",
+                Description = "O CPF não pode ser vazio.",
+                LanguageKey = "ErrorValidator_CPF_Null",
+                ResourceKey = "SharedResource",
+                LanguageValue = "O CPF não pode ser vazio.",
+                CreatedDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow()
             }
-        );
+            ];
         }
     }
 }

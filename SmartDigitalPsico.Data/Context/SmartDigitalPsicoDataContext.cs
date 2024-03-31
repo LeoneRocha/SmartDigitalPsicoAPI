@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Data.Configure;
 using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
 using SmartDigitalPsico.Domain.Enuns;
@@ -37,10 +36,17 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new PatientRecordConfiguration());
             modelBuilder.ApplyConfiguration(new RoleGroupConfiguration());
             modelBuilder.ApplyConfiguration(new SpecialtyConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration()); 
-
-            //OLD   
-            ConfigureDataMock.GenerateMock(modelBuilder, typeDB); 
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            //MOCK DATA
+            modelBuilder.ApplyConfiguration(new ApplicationConfigSettingMockData());
+            modelBuilder.ApplyConfiguration(new ApplicationLanguageMockData());
+            modelBuilder.ApplyConfiguration(new GenderMockData());
+            modelBuilder.ApplyConfiguration(new MedicalMockData());
+            modelBuilder.ApplyConfiguration(new OfficeMockData());
+            modelBuilder.ApplyConfiguration(new PatientMockData());
+            modelBuilder.ApplyConfiguration(new RoleGroupMockData());
+            modelBuilder.ApplyConfiguration(new SpecialtyMockData());
+            modelBuilder.ApplyConfiguration(new UserMockData());
 
             base.OnModelCreating(modelBuilder);
         }
