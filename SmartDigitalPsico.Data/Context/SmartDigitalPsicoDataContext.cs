@@ -12,10 +12,7 @@ namespace SmartDigitalPsico.Data.Context
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            var typeDB = configuration.GetValue<ETypeDataBase>("DataBaseConfigurations:TypeDataBase");
-
+        {  
             //Configure FLUENT API 
             modelBuilder.ApplyConfiguration(new ApplicationCacheLogConfiguration());
             modelBuilder.ApplyConfiguration(new ApplicationConfigSettingConfiguration());
