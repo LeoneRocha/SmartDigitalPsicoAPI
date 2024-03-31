@@ -77,9 +77,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #endregion Relationship
 
-                entityAdd.CreatedDate = DateTime.Now;
-                entityAdd.ModifyDate = DateTime.Now;
-                entityAdd.LastAccessDate = DateTime.Now;
+                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
                 entityAdd.Enable = true;
 
                 User userAction = await _userRepository.FindByID(this.UserId);
@@ -147,7 +147,8 @@ namespace SmartDigitalPsico.Service.Principals
                     FolderDestination = folderDest,
                     FileData = fileDataSave,
                     FileName = fileData.FileName,
-                    FilePath = pathSave
+                    FilePath = pathSave,
+                    CreatedDate = CultureDateTimeHelper.GetDateTimeNow()
                 });
                 entityAdd.TypeLocationSaveFile = ETypeLocationSaveFiles.Disk;
             }
@@ -156,7 +157,7 @@ namespace SmartDigitalPsico.Service.Principals
 
         private async Task<byte[]> getFromDisk(PatientFile fileEntity)
         {
-            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description });
+            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
         }
 
     }

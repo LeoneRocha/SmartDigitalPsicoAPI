@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -52,9 +53,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #endregion
 
-                entityAdd.CreatedDate = DateTime.Now;
-                entityAdd.ModifyDate = DateTime.Now;
-                entityAdd.LastAccessDate = DateTime.Now;
+                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
                 
                 response = await base.Validate(entityAdd);
 
@@ -89,8 +90,8 @@ namespace SmartDigitalPsico.Service.Principals
                 entityUpdate.ModifyUser = userAction;  
                 #endregion
                  
-                entityUpdate.ModifyDate = DateTime.Now;
-                entityUpdate.LastAccessDate = DateTime.Now;
+                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityUpdate.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
                  
                 #region Columns
                 entityUpdate.Enable = item.Enable;                

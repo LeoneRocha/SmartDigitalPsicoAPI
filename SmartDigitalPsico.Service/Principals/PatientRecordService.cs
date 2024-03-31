@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -51,9 +52,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #endregion Relationship
 
-                entityAdd.CreatedDate = DateTime.Now;
-                entityAdd.ModifyDate = DateTime.Now;
-                entityAdd.LastAccessDate = DateTime.Now;
+                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
                 response = await base.Validate(entityAdd);
 
                 if (response.Success)
@@ -79,8 +80,8 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #region Set default fields for bussines
 
-                entityUpdate.ModifyDate = DateTime.Now;
-                entityUpdate.LastAccessDate = DateTime.Now;
+                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityUpdate.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
 
                 #endregion Set default fields for bussines
 

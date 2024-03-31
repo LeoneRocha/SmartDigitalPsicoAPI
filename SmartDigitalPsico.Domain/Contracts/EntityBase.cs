@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.Domain.Contracts
         public bool Enable { get; set; }
 
         [Column("CreatedDate")]
-        public DateTime CreatedDate { get; set; }
+        public required DateTime CreatedDate { get; set; }
 
         [Column("ModifyDate")]
         public DateTime ModifyDate { get; set; }

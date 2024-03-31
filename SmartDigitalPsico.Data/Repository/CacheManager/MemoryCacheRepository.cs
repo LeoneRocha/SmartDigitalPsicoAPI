@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.VO.Domains;
 
@@ -16,8 +17,8 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             _cacheConfig = cacheConfig.Value;
             if (_cacheConfig != null)
             {
-                DateTime absoluteExpiration = DateTime.Now.AddHours(_cacheConfig.AbsoluteExpirationInHours);
-                absoluteExpiration = DateTime.Now.AddMinutes(_cacheConfig.AbsoluteExpirationInMinutes);
+                DateTime absoluteExpiration = CultureDateTimeHelper.GetDateTimeNow().AddHours(_cacheConfig.AbsoluteExpirationInHours);
+                absoluteExpiration = CultureDateTimeHelper.GetDateTimeNow().AddMinutes(_cacheConfig.AbsoluteExpirationInMinutes);
 
                 _cacheOptions = new MemoryCacheEntryOptions
                 {

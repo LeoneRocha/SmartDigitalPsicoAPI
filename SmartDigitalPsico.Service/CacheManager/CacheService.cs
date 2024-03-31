@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -181,9 +182,9 @@ namespace SmartDigitalPsico.Service.CacheManager
             {
                 CacheKey = cacheKey,
                 CacheId = _cacheId,
-                CreatedDate = DateTime.Now,
-                ModifyDate = DateTime.Now,
-                LastAccessDate = DateTime.Now,
+                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
+                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
+                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
                 DateTimeSlidingExpiration = dateTimeSlidingExpiration,
                 Enable = true
             };

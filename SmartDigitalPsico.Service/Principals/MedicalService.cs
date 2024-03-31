@@ -11,6 +11,7 @@ using SmartDigitalPsico.Domain.VO.Medical;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
+using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Principals
 {
@@ -59,9 +60,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #endregion Relationship
 
-                entityAdd.CreatedDate = DateTime.Now;
-                entityAdd.ModifyDate = DateTime.Now;
-                entityAdd.LastAccessDate = DateTime.Now;
+                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
 
                 User? userAction = await _userRepository.FindByID(this.UserId);
                 if (userAction != null)
@@ -106,8 +107,8 @@ namespace SmartDigitalPsico.Service.Principals
 
                     #endregion Relationship
 
-                    entityUpdate.ModifyDate = DateTime.Now;
-                    entityUpdate.LastAccessDate = DateTime.Now;
+                    entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                    entityUpdate.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
 
                     User? userAction = await _userRepository.FindByID(this.UserId);
                     if (userAction != null)

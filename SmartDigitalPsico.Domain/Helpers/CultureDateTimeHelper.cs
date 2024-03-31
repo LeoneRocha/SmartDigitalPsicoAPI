@@ -9,6 +9,13 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public CultureDateTimeHelper() { }
 
+
+        public static DateTime GetDateTimeNow()
+        {
+            return DateTime.UtcNow; 
+        }
+
+
         private static List<CultureInfo> getCulturesEnable()
         {
             List<CultureInfo> list = new List<CultureInfo>();

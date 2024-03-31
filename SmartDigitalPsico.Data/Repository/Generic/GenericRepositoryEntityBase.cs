@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Data.Repository.Generic
@@ -31,7 +32,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             try
             {
                 //Fields internal change 
-                item.CreatedDate = DateTime.Now;
+                item.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
                 item.Enable = true;
                 dataset.Add(item);
                 await _context.SaveChangesAsync();
@@ -51,7 +52,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
                 try
                 {
                     //Fields internal change 
-                    item.ModifyDate = DateTime.Now;
+                    item.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
 
                     _context.Entry(result).CurrentValues.SetValues(item);
                     await _context.SaveChangesAsync();

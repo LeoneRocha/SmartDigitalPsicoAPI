@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 using SmartDigitalPsico.Domain.VO.Domains;
@@ -30,7 +31,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
 
             string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
 
-            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename };
+            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() };
 
             await _repositoryFileDisk.Delete(criteriaFind);
 
@@ -50,7 +51,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
 
             string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
 
-            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename };
+            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() };
 
             bool exists = _repositoryFileDisk.Exists(criteriaFind);
 
@@ -70,7 +71,8 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
                 FilePath = pathSaveCache,
                 FileName = filename,
                 FolderDestination = pathSaveCache,
-                FileData = bytesString
+                FileData = bytesString,
+                CreatedDate = CultureDateTimeHelper.GetDateTimeNow()
             };
 
             result = await _repositoryFileDisk.Save(fileDataSave);
@@ -90,7 +92,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
 
             string pathSaveCache = getPathSaveCache(_cacheConfig.PathCache);
 
-            var criteriaFind = new FileData() { FilePath = pathSaveCache, FileName = filename };
+            var criteriaFind = new FileData() { FilePath = pathSaveCache, FileName = filename, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() };
 
             bool exists = _repositoryFileDisk.Exists(criteriaFind);
 

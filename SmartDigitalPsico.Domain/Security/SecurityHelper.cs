@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using SmartDigitalPsico.Domain.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -46,7 +47,7 @@ namespace SmartDigitalPsico.Domain.Security
             var tokendDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = CultureDateTimeHelper.GetDateTimeNow().AddDays(1),
                 SigningCredentials = creds
             };
             var tokenHandler = new JwtSecurityTokenHandler();

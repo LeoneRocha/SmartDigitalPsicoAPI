@@ -7,6 +7,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Service.SystemDomains;
 using SmartDigitalPsico.Domain.Validation.Helper;
+using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Generic
 {
@@ -40,9 +41,9 @@ namespace SmartDigitalPsico.Service.Generic
             try
             {
                 TEntity entityAdd = _mapper.Map<TEntity>(item);
-                entityAdd.CreatedDate = DateTime.Now;
-                entityAdd.ModifyDate = DateTime.Now;
-                entityAdd.LastAccessDate = DateTime.Now;
+                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
 
                 response = await Validate(entityAdd);
                 if (response.Success)
@@ -118,7 +119,7 @@ namespace SmartDigitalPsico.Service.Generic
                 }
                 var entityUpdate = _mapper.Map<TEntity>(item);
                 response = await Validate(entityUpdate);
-                entityUpdate.ModifyDate = DateTime.Now;
+                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
                 if (response.Success)
                 {
                     TEntity entityResponse = await _genericRepository.Update(entityUpdate);

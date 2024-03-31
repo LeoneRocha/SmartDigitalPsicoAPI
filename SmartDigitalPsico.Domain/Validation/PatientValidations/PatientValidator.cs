@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -194,7 +195,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 
         protected bool BeAValidAge(DateTime date)
         {
-            int currentYear = DateTime.Now.Year;
+            int currentYear = CultureDateTimeHelper.GetDateTimeNow().Year;
             int dobYear = date.Year;
 
             if (dobYear <= currentYear && dobYear > (currentYear - 130))

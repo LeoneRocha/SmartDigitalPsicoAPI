@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -111,7 +112,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
             entityUpdate.Language = item.Language;            
 
             response = await Validate(entityUpdate);
-            entityUpdate.ModifyDate = DateTime.Now;
+            entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
             if (response.Success)
             {
                 Gender entityResponse = await _entityRepository.Update(entityUpdate);

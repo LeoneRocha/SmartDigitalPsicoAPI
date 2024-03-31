@@ -759,13 +759,13 @@ namespace SmartDigitalPsico.Data.Migrations
                 schema: "dbo",
                 table: "ApplicationConfigSetting",
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "EndPointUrl_Cache", "EndPointUrl_StorageFiles", "Language", "LastAccessDate", "ModifyDate", "TypeLocationCache", "TypeLocationQueeMessaging", "TypeLocationSaveFiles" },
-                values: new object[] { 1L, new DateTime(2024, 3, 30, 20, 23, 56, 75, DateTimeKind.Local).AddTicks(5388), "Default", true, "", "", "pt-BR", new DateTime(2024, 3, 30, 20, 23, 56, 75, DateTimeKind.Local).AddTicks(5404), new DateTime(2024, 3, 30, 20, 23, 56, 75, DateTimeKind.Local).AddTicks(5403), (byte)1, (byte)0, (byte)0 });
+                values: new object[] { 1L, new DateTime(2024, 3, 31, 0, 3, 33, 724, DateTimeKind.Utc).AddTicks(5987), "Default", true, "", "", "pt-BR", new DateTime(2024, 3, 31, 0, 3, 33, 724, DateTimeKind.Utc).AddTicks(5989), new DateTime(2024, 3, 31, 0, 3, 33, 724, DateTimeKind.Utc).AddTicks(5988), (byte)1, (byte)0, (byte)0 });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "ApplicationLanguage",
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LanguageKey", "LanguageValue", "LastAccessDate", "ModifyDate", "ResourceKey" },
-                values: new object[] { 1L, new DateTime(2024, 3, 30, 20, 23, 56, 75, DateTimeKind.Local).AddTicks(5452), "Default", true, "pt-BR", "Default_ptbr", "Padrão", new DateTime(2024, 3, 30, 20, 23, 56, 75, DateTimeKind.Local).AddTicks(5453), new DateTime(2024, 3, 30, 20, 23, 56, 75, DateTimeKind.Local).AddTicks(5452), "ApplicationLanguage" });
+                values: new object[] { 1L, new DateTime(2024, 3, 31, 0, 3, 33, 724, DateTimeKind.Utc).AddTicks(6054), "Default", true, "pt-BR", "Default_ptbr", "Padrão", new DateTime(2024, 3, 31, 0, 3, 33, 724, DateTimeKind.Utc).AddTicks(6055), new DateTime(2024, 3, 31, 0, 3, 33, 724, DateTimeKind.Utc).AddTicks(6054), "ApplicationLanguage" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -773,8 +773,8 @@ namespace SmartDigitalPsico.Data.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LastAccessDate", "ModifyDate" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -783,9 +783,9 @@ namespace SmartDigitalPsico.Data.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LastAccessDate", "ModifyDate" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicólogo", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicóloga", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Clínico", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicólogo", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicóloga", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Clínico", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -794,12 +794,12 @@ namespace SmartDigitalPsico.Data.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LastAccessDate", "ModifyDate", "RolePolicyClaimCode" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Administrador", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin" },
-                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Medico", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Medical" },
-                    { 3L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Recepcionista", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Staff" },
-                    { 4L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Paciente", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Patient" },
-                    { 5L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Leitura", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Read" },
-                    { 6L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Escrita", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Write" }
+                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Administrador", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin" },
+                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Medico", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Medical" },
+                    { 3L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Recepcionista", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Staff" },
+                    { 4L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Paciente", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Patient" },
+                    { 5L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Leitura", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Read" },
+                    { 6L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Escrita", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Write" }
                 });
 
             migrationBuilder.InsertData(
@@ -808,26 +808,26 @@ namespace SmartDigitalPsico.Data.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LastAccessDate", "ModifyDate" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia Clínica", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia Social", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia educacional", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia Esportiva ", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia organizacional", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia hospitalar", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia do trânsito", false, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia Clínica", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia Social", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia educacional", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia Esportiva ", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia organizacional", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia hospitalar", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Psicologia do trânsito", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "User",
                 columns: new[] { "Id", "Admin", "CreatedDate", "Email", "Enable", "Language", "LastAccessDate", "Login", "MedicalId", "ModifyDate", "Name", "PasswordHash", "PasswordSalt", "RefreshToken", "Refresh_token_expiry_time", "Role", "TimeZone" },
-                values: new object[] { 1L, true, new DateTime(2024, 3, 30, 20, 23, 56, 75, DateTimeKind.Local).AddTicks(5614), "admin@sistemas.com", true, "pt-BR", new DateTime(2024, 3, 30, 20, 23, 56, 75, DateTimeKind.Local).AddTicks(5614), "admin", null, new DateTime(2024, 3, 30, 20, 23, 56, 75, DateTimeKind.Local).AddTicks(5615), "User MOCK ", new byte[] { 178, 54, 90, 112, 193, 101, 142, 239, 189, 115, 74, 35, 50, 102, 157, 114, 26, 188, 220, 163, 214, 131, 170, 48, 21, 71, 21, 219, 244, 6, 239, 134, 71, 65, 173, 119, 72, 146, 79, 152, 23, 236, 214, 84, 47, 195, 161, 102, 235, 226, 240, 38, 237, 80, 174, 36, 197, 194, 71, 149, 92, 159, 133, 93 }, new byte[] { 105, 71, 197, 121, 46, 167, 14, 48, 41, 196, 98, 233, 88, 130, 11, 3, 95, 178, 184, 157, 167, 202, 144, 50, 160, 185, 56, 188, 149, 134, 94, 246, 1, 203, 152, 125, 116, 15, 126, 105, 53, 22, 53, 41, 253, 38, 14, 186, 94, 173, 175, 136, 174, 223, 110, 11, 22, 11, 156, 105, 247, 209, 86, 147, 66, 162, 116, 239, 136, 38, 213, 111, 133, 239, 236, 92, 108, 70, 179, 22, 155, 235, 87, 244, 111, 72, 85, 108, 210, 165, 13, 136, 18, 187, 192, 188, 30, 131, 162, 200, 234, 74, 123, 72, 39, 223, 15, 47, 219, 0, 228, 209, 250, 141, 148, 1, 145, 72, 24, 234, 142, 95, 205, 135, 167, 64, 40, 113 }, "", null, "Admin", "E. South America Standard Time" });
+                values: new object[] { 1L, true, new DateTime(2024, 3, 31, 0, 3, 33, 724, DateTimeKind.Utc).AddTicks(6226), "admin@sistemas.com", true, "pt-BR", new DateTime(2024, 3, 31, 0, 3, 33, 724, DateTimeKind.Utc).AddTicks(6226), "admin", null, new DateTime(2024, 3, 31, 0, 3, 33, 724, DateTimeKind.Utc).AddTicks(6227), "User MOCK ", new byte[] { 241, 151, 202, 186, 226, 34, 250, 214, 173, 72, 163, 186, 53, 15, 204, 99, 133, 63, 20, 250, 149, 115, 166, 39, 196, 61, 234, 140, 151, 59, 118, 212, 80, 9, 78, 129, 70, 27, 207, 220, 180, 224, 137, 133, 21, 215, 37, 84, 158, 4, 235, 45, 46, 236, 187, 244, 179, 224, 165, 220, 80, 4, 251, 87 }, new byte[] { 117, 105, 170, 39, 131, 30, 70, 21, 184, 7, 1, 124, 107, 241, 116, 146, 178, 159, 56, 233, 48, 142, 139, 108, 123, 65, 123, 197, 161, 36, 196, 168, 190, 82, 197, 81, 138, 55, 217, 56, 91, 221, 166, 140, 103, 94, 52, 234, 180, 28, 226, 113, 144, 174, 2, 150, 181, 85, 242, 98, 224, 202, 0, 103, 179, 138, 12, 85, 216, 14, 162, 100, 90, 137, 255, 97, 234, 101, 204, 235, 43, 253, 138, 75, 21, 210, 245, 75, 131, 24, 170, 117, 16, 195, 238, 7, 42, 182, 181, 131, 206, 117, 154, 237, 134, 117, 232, 141, 49, 113, 103, 87, 95, 185, 91, 166, 249, 137, 241, 155, 47, 57, 229, 93, 229, 235, 203, 66 }, "", null, "Admin", "E. South America Standard Time" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Medical",
                 columns: new[] { "Id", "Accreditation", "CreatedDate", "CreatedUserId", "Email", "Enable", "LastAccessDate", "ModifyDate", "ModifyUserId", "Name", "OfficeId", "SecurityKey", "TypeAccreditation", "UserId" },
-                values: new object[] { 1L, "123456", new DateTime(2024, 3, 30, 20, 23, 56, 77, DateTimeKind.Local).AddTicks(7833), 1L, "medical@sistemas.com", true, new DateTime(2024, 3, 30, 20, 23, 56, 77, DateTimeKind.Local).AddTicks(7835), new DateTime(2024, 3, 30, 20, 23, 56, 77, DateTimeKind.Local).AddTicks(7836), null, "Medical MOCK ", 1L, "", (byte)0, null });
+                values: new object[] { 1L, "123456", new DateTime(2024, 3, 31, 0, 3, 33, 726, DateTimeKind.Utc).AddTicks(8158), 1L, "medical@sistemas.com", true, new DateTime(2024, 3, 31, 0, 3, 33, 726, DateTimeKind.Utc).AddTicks(8159), new DateTime(2024, 3, 31, 0, 3, 33, 726, DateTimeKind.Utc).AddTicks(8159), null, "Medical MOCK ", 1L, "", (byte)0, null });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -845,13 +845,13 @@ namespace SmartDigitalPsico.Data.Migrations
                 schema: "dbo",
                 table: "User",
                 columns: new[] { "Id", "Admin", "CreatedDate", "Email", "Enable", "Language", "LastAccessDate", "Login", "MedicalId", "ModifyDate", "Name", "PasswordHash", "PasswordSalt", "RefreshToken", "Refresh_token_expiry_time", "Role", "TimeZone" },
-                values: new object[] { 2L, false, new DateTime(2024, 3, 30, 20, 23, 56, 77, DateTimeKind.Local).AddTicks(8103), "doctor@sistemas.com", true, "pt-BR", new DateTime(2024, 3, 30, 20, 23, 56, 77, DateTimeKind.Local).AddTicks(8104), "doctor", 1L, new DateTime(2024, 3, 30, 20, 23, 56, 77, DateTimeKind.Local).AddTicks(8104), "User Medical", new byte[] { 165, 159, 195, 90, 83, 20, 190, 59, 132, 188, 125, 239, 111, 53, 179, 30, 144, 145, 189, 195, 129, 151, 247, 167, 144, 31, 2, 75, 147, 83, 163, 218, 95, 152, 110, 201, 126, 196, 158, 60, 166, 164, 101, 190, 145, 222, 181, 31, 139, 225, 245, 28, 212, 60, 16, 142, 160, 93, 23, 170, 167, 235, 105, 101 }, new byte[] { 113, 78, 93, 218, 193, 98, 35, 231, 221, 54, 75, 118, 248, 133, 5, 254, 195, 37, 54, 21, 66, 78, 50, 45, 46, 38, 97, 4, 26, 136, 15, 102, 151, 84, 66, 99, 7, 22, 21, 156, 54, 199, 217, 207, 219, 17, 248, 95, 6, 244, 171, 60, 46, 157, 169, 218, 27, 12, 149, 140, 214, 181, 144, 16, 226, 188, 175, 38, 81, 29, 103, 186, 1, 254, 143, 94, 120, 142, 229, 98, 54, 171, 85, 182, 10, 183, 96, 26, 207, 201, 35, 250, 69, 84, 231, 94, 89, 241, 65, 199, 111, 194, 138, 244, 94, 92, 51, 57, 219, 217, 106, 50, 113, 242, 7, 70, 201, 97, 78, 197, 89, 181, 77, 55, 55, 21, 4, 43 }, "", null, "Medical", "E. South America Standard Time" });
+                values: new object[] { 2L, false, new DateTime(2024, 3, 31, 0, 3, 33, 726, DateTimeKind.Utc).AddTicks(8421), "doctor@sistemas.com", true, "pt-BR", new DateTime(2024, 3, 31, 0, 3, 33, 726, DateTimeKind.Utc).AddTicks(8421), "doctor", 1L, new DateTime(2024, 3, 31, 0, 3, 33, 726, DateTimeKind.Utc).AddTicks(8422), "User Medical", new byte[] { 131, 98, 41, 63, 232, 118, 132, 88, 218, 191, 67, 118, 173, 30, 14, 20, 140, 27, 71, 73, 69, 105, 227, 104, 12, 29, 111, 231, 213, 157, 46, 148, 118, 228, 199, 106, 34, 228, 9, 190, 142, 123, 46, 109, 5, 185, 214, 66, 128, 72, 239, 175, 186, 132, 180, 250, 199, 222, 21, 251, 128, 231, 29, 98 }, new byte[] { 210, 77, 208, 157, 248, 216, 121, 132, 68, 40, 199, 22, 252, 59, 105, 52, 236, 194, 168, 103, 222, 59, 83, 163, 204, 245, 59, 217, 85, 49, 123, 246, 129, 58, 4, 72, 105, 21, 66, 182, 66, 43, 16, 125, 179, 161, 252, 203, 19, 96, 214, 183, 171, 191, 55, 93, 194, 185, 194, 15, 228, 106, 221, 148, 135, 173, 89, 38, 246, 34, 217, 182, 150, 85, 173, 57, 59, 216, 68, 166, 208, 201, 201, 133, 12, 229, 103, 240, 161, 34, 210, 14, 184, 53, 34, 82, 223, 219, 161, 232, 141, 193, 211, 11, 101, 245, 196, 24, 11, 169, 73, 44, 81, 182, 68, 253, 184, 196, 135, 199, 184, 248, 174, 135, 208, 161, 253, 131 }, "", null, "Medical", "E. South America Standard Time" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Patient",
                 columns: new[] { "Id", "AddressCep", "AddressCity", "AddressNeighborhood", "AddressState", "AddressStreet", "Cpf", "CreatedDate", "CreatedUserId", "DateOfBirth", "Education", "Email", "EmergencyContactName", "EmergencyContactPhoneNumber", "Enable", "GenderId", "LastAccessDate", "MaritalStatus", "MedicalId", "ModifyDate", "ModifyUserId", "Name", "PhoneNumber", "Profession", "Rg" },
-                values: new object[] { 1L, "45675-970", "Aurelino Leal", "Centro", "Bahia", "Avenida Presidente Médici 264", "947.846.605-42", new DateTime(2024, 3, 30, 20, 23, 56, 79, DateTimeKind.Local).AddTicks(7677), 2L, new DateTime(1960, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "Superior", "tiago.thales.mendes@andrade.com", "Milena Isabelly Vanessa", "(73) 98540-4268", true, 1L, new DateTime(2024, 3, 30, 20, 23, 56, 79, DateTimeKind.Local).AddTicks(7679), (byte)0, 1L, new DateTime(2024, 3, 30, 20, 23, 56, 79, DateTimeKind.Local).AddTicks(7680), null, "Tiago Thales Mendes", "(73) 2877-3408", "Professor", "13.809.283-7" });
+                values: new object[] { 1L, "45675-970", "Aurelino Leal", "Centro", "Bahia", "Avenida Presidente Médici 264", "947.846.605-42", new DateTime(2024, 3, 31, 0, 3, 33, 728, DateTimeKind.Utc).AddTicks(8838), 2L, new DateTime(1960, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "Superior", "tiago.thales.mendes@andrade.com", "Milena Isabelly Vanessa", "(73) 98540-4268", true, 1L, new DateTime(2024, 3, 31, 0, 3, 33, 728, DateTimeKind.Utc).AddTicks(8839), (byte)0, 1L, new DateTime(2024, 3, 31, 0, 3, 33, 728, DateTimeKind.Utc).AddTicks(8840), null, "Tiago Thales Mendes", "(73) 2877-3408", "Professor", "13.809.283-7" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",

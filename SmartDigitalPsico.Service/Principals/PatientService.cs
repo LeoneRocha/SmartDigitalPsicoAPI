@@ -11,6 +11,7 @@ using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
+using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Principals
 {
@@ -45,9 +46,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #region Set default fields for bussines
 
-                entityAdd.CreatedDate = DateTime.Now;
-                entityAdd.ModifyDate = DateTime.Now;
-                entityAdd.LastAccessDate = DateTime.Now;
+                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
 
                 #endregion Set default fields for bussines
 
@@ -90,8 +91,8 @@ namespace SmartDigitalPsico.Service.Principals
 
                     #region Set default fields for bussines
 
-                    entityUpdate.ModifyDate = DateTime.Now;
-                    entityUpdate.LastAccessDate = DateTime.Now;
+                    entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                    entityUpdate.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
 
                     #endregion Set default fields for bussines
 

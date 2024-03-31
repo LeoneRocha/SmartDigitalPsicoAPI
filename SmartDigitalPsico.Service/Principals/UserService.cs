@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -91,9 +92,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 entityAdd.PasswordHash = passwordHash;
                 entityAdd.PasswordSalt = passwordSalt;
-                entityAdd.CreatedDate = DateTime.Now;
-                entityAdd.ModifyDate = DateTime.Now;
-                entityAdd.LastAccessDate = DateTime.Now;
+                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
                 entityAdd.Role = "Pending";
                 entityAdd.Admin = false;
 
@@ -141,7 +142,7 @@ namespace SmartDigitalPsico.Service.Principals
                 var isAdmin = updateUser?.Admin.GetValueOrDefault();
                 entityUpdate.Role = updateUser?.Role; 
 
-                entityUpdate.ModifyDate = DateTime.Now;
+                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
                 entityUpdate.MedicalId = updateUser?.MedicalId;
 
                 List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(updateUser?.RoleGroupsIds);
@@ -181,9 +182,9 @@ namespace SmartDigitalPsico.Service.Principals
 
                 entityAdd.PasswordHash = passwordHash;
                 entityAdd.PasswordSalt = passwordSalt;
-                entityAdd.CreatedDate = DateTime.Now;
-                entityAdd.ModifyDate = DateTime.Now;
-                entityAdd.LastAccessDate = DateTime.Now;
+                entityAdd.CreatedDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = CultureDateTimeHelper.GetDateTimeNow();
                 entityAdd.Role = userRegisterVO?.Role; 
                 List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO?.RoleGroupsIds);
                 entityAdd.RoleGroups = new List<RoleGroup>();
@@ -252,11 +253,11 @@ namespace SmartDigitalPsico.Service.Principals
             var refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(_configurationToken.DaysToExpiry);
+            user.RefreshTokenExpiryTime = CultureDateTimeHelper.GetDateTimeNow().AddDays(_configurationToken.DaysToExpiry);
 
             await _userRepository.RefreshUserInfo(user);
 
-            DateTime createDate = DateTime.Now;
+            DateTime createDate = CultureDateTimeHelper.GetDateTimeNow();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
             return new TokenVO(true,
                 createDate.ToString(DATE_FORMAT),
@@ -283,7 +284,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             if (user == null ||
                 user.RefreshToken != refreshToken ||
-                user.RefreshTokenExpiryTime <= DateTime.Now) return null;
+                user.RefreshTokenExpiryTime <= CultureDateTimeHelper.GetDateTimeNow()) return null;
 
             accessToken = _tokenService.GenerateAccessToken(principal.Claims);
             refreshToken = _tokenService.GenerateRefreshToken();
@@ -292,7 +293,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             await _userRepository.RefreshUserInfo(user);
 
-            DateTime createDate = DateTime.Now;
+            DateTime createDate = CultureDateTimeHelper.GetDateTimeNow();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
             return new TokenVO(
             true,
@@ -329,7 +330,7 @@ namespace SmartDigitalPsico.Service.Principals
                     entityUpdate.PasswordSalt = passwordSalt;
                 }
 
-                entityUpdate.ModifyDate = DateTime.Now;
+                entityUpdate.ModifyDate = CultureDateTimeHelper.GetDateTimeNow();
 
                 response = await base.Validate(entityUpdate);
 

@@ -68,9 +68,9 @@ namespace SmartDigitalPsico.Data.Configure
                 Language = valueLanguage,
                 LanguageKey = languageKey,
                 LanguageValue = languageValue,
-                CreatedDate = DateTime.Now,
-                ModifyDate = DateTime.Now,
-                LastAccessDate = DateTime.Now,
+                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
+                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
+                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
                 Enable = true,
             };
         }
@@ -83,9 +83,9 @@ namespace SmartDigitalPsico.Data.Configure
                 Id = 1,
                 Description = "Default",
                 Language = valorbr,
-                CreatedDate = DateTime.Now,
-                ModifyDate = DateTime.Now,
-                LastAccessDate = DateTime.Now,
+                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
+                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
+                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
                 TypeLocationCache = ETypeLocationCache.Memory,
                 TypeLocationSaveFiles = ETypeLocationSaveFiles.DataBase,
                 TypeLocationQueeMessaging = ETypeLocationQueeMessaging.MongoDB,
@@ -106,10 +106,10 @@ namespace SmartDigitalPsico.Data.Configure
                 Id = 1,
                 Name = "Medical MOCK ",
                 Email = "medical@sistemas.com",
-                CreatedDate = DateTime.Now,
+                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
                 Enable = true,
-                LastAccessDate = DateTime.Now,
-                ModifyDate = DateTime.Now,
+                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
+                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
                 Accreditation = "123456",
                 TypeAccreditation = ETypeAccreditation.CRM,
                 OfficeId = 1,
@@ -127,10 +127,10 @@ namespace SmartDigitalPsico.Data.Configure
                 Login = "doctor",
                 Admin = false,
                 Email = "doctor@sistemas.com",
-                CreatedDate = DateTime.Now,
+                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
                 Enable = true,
-                LastAccessDate = DateTime.Now,
-                ModifyDate = DateTime.Now,
+                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
+                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
                 Role = "Medical",
                 MedicalId = 1,
                 Language = getCulture(),
@@ -163,10 +163,10 @@ namespace SmartDigitalPsico.Data.Configure
                 Id = 1,
                 Name = "Tiago Thales Mendes",
                 Email = "tiago.thales.mendes@andrade.com",
-                CreatedDate = DateTime.Now,
+                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
                 Enable = true,
-                LastAccessDate = DateTime.Now,
-                ModifyDate = DateTime.Now,
+                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
+                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
                 CreatedUserId = 2,
                 AddressCep = "45675-970",
                 AddressCity = "Aurelino Leal",
@@ -196,10 +196,10 @@ namespace SmartDigitalPsico.Data.Configure
                 Login = "admin",
                 Admin = true,
                 Email = "admin@sistemas.com",
-                CreatedDate = DateTime.Now,
+                CreatedDate = CultureDateTimeHelper.GetDateTimeNow(),
                 Enable = true,
-                LastAccessDate = DateTime.Now,
-                ModifyDate = DateTime.Now,
+                LastAccessDate = CultureDateTimeHelper.GetDateTimeNow(),
+                ModifyDate = CultureDateTimeHelper.GetDateTimeNow(),
                 Role = "Admin",
                 Language = getCulture(),
                 TimeZone = getTimeZone()
@@ -230,12 +230,12 @@ namespace SmartDigitalPsico.Data.Configure
         private static void addMockRoleGroup(ModelBuilder modelBuilder)
         {
             List<RoleGroup> rolesAdd = new List<RoleGroup>();
-            rolesAdd.Add(new RoleGroup { Id = 1, Enable = true, RolePolicyClaimCode = "Admin", Description = "Administrador", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 2, Enable = true, RolePolicyClaimCode = "Medical", Description = "Medico", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 3, Enable = true, RolePolicyClaimCode = "Staff", Description = "Recepcionista", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 4, Enable = true, RolePolicyClaimCode = "Patient", Description = "Paciente", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 5, Enable = true, RolePolicyClaimCode = "Read", Description = "Leitura", Language = valorbr });
-            rolesAdd.Add(new RoleGroup { Id = 6, Enable = true, RolePolicyClaimCode = "Write", Description = "Escrita", Language = valorbr });
+            rolesAdd.Add(new RoleGroup { Id = 1, Enable = true, RolePolicyClaimCode = "Admin", Description = "Administrador", Language = valorbr , CreatedDate= CultureDateTimeHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 2, Enable = true, RolePolicyClaimCode = "Medical", Description = "Medico", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 3, Enable = true, RolePolicyClaimCode = "Staff", Description = "Recepcionista", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 4, Enable = true, RolePolicyClaimCode = "Patient", Description = "Paciente", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 5, Enable = true, RolePolicyClaimCode = "Read", Description = "Leitura", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
+            rolesAdd.Add(new RoleGroup { Id = 6, Enable = true, RolePolicyClaimCode = "Write", Description = "Escrita", Language = valorbr, CreatedDate = CultureDateTimeHelper.GetDateTimeNow() });
 
             modelBuilder.Entity<RoleGroup>().HasData(rolesAdd);
         }
@@ -244,14 +244,14 @@ namespace SmartDigitalPsico.Data.Configure
         {
             var specialtySAdd = new List<Specialty>();
 
-            specialtySAdd.Add(new Specialty { Id = 1, Enable = true, Description = "Psicologia Clínica", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 2, Enable = true, Description = "Psicologia Social", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 3, Enable = true, Description = "Psicologia educacional", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 4, Enable = true, Description = "Psicologia Esportiva ", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 5, Enable = true, Description = "Psicologia organizacional", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 6, Enable = true, Description = "Psicologia hospitalar", Language = valorbr });
-            specialtySAdd.Add(new Specialty { Id = 7, Enable = true, Description = "Psicologia do trânsito", Language = valorbr });
-
+            specialtySAdd.Add(new Specialty { Id = 1, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia Clínica", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 2, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia Social", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 3, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia educacional", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 4, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia Esportiva ", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 5, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia organizacional", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 6, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia hospitalar", Language = valorbr });
+            specialtySAdd.Add(new Specialty { Id = 7, Enable = true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Psicologia do trânsito", Language = valorbr });
+                                                                    
             modelBuilder.Entity<Specialty>().HasData(specialtySAdd);
 
             return specialtySAdd;
@@ -260,10 +260,10 @@ namespace SmartDigitalPsico.Data.Configure
         private static List<Office> addMockOffice(ModelBuilder modelBuilder)
         {
             List<Office> officeAdd = new List<Office>();
-            officeAdd.Add(new Office { Id = 1, Enable = true, Description = "Psicólogo", Language = valorbr });
-            officeAdd.Add(new Office { Id = 2, Enable = true, Description = "Psicóloga", Language = valorbr });
-            officeAdd.Add(new Office { Id = 3, Enable = true, Description = "Clínico", Language = valorbr });
-
+            officeAdd.Add(new Office { Id = 1, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Enable = true, Description = "Psicólogo", Language = valorbr });
+            officeAdd.Add(new Office { Id = 2, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Enable = true, Description = "Psicóloga", Language = valorbr });
+            officeAdd.Add(new Office { Id = 3, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Enable = true, Description = "Clínico", Language = valorbr });
+                                           
             modelBuilder.Entity<Office>().HasData(officeAdd);
 
             return officeAdd;
@@ -272,8 +272,8 @@ namespace SmartDigitalPsico.Data.Configure
         private static List<Gender> addMockGender(ModelBuilder modelBuilder)
         {
             List<Gender> listAdd = new List<Gender>() {
-                new Gender { Id = 1,Enable= true, Description = "Masculino", Language = valorbr },
-                new Gender { Id = 2,Enable= true, Description = "Feminino", Language = valorbr }
+                new Gender { Id = 1,Enable= true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Masculino", Language = valorbr },
+                new Gender { Id = 2,Enable= true, CreatedDate= CultureDateTimeHelper.GetDateTimeNow() , Description = "Feminino", Language = valorbr }
             };
             modelBuilder.Entity<Gender>().HasData(listAdd);
 
