@@ -24,8 +24,7 @@ namespace SmartDigitalPsico.Service.Principals
         private readonly IUserRepository _userRepository;
         private readonly IOfficeRepository _officeRepository;
         private readonly ISpecialtyRepository _specialtyRepository;
-        IConfiguration _configuration;
-        public MedicalService(IMapper mapper, IMedicalRepository entityRepository, IConfiguration configuration,
+        public MedicalService(IMapper mapper, IMedicalRepository entityRepository,
             IUserRepository userRepository, IOfficeRepository officeRepository
             , ISpecialtyRepository specialtyRepository
             , IValidator<Medical> entityValidator
@@ -34,7 +33,6 @@ namespace SmartDigitalPsico.Service.Principals
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
-            _configuration = configuration;
             _entityRepository = entityRepository;
             _userRepository = userRepository;
             _officeRepository = officeRepository;
@@ -49,11 +47,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #region Relationship
 
-                var office = await _officeRepository.FindByID(item.OfficeId);
-                if (office != null)
-                {
-                    entityAdd.Office = office;
-                }
+                entityAdd.OfficeId = item.OfficeId;
 
                 List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
                 entityAdd.Specialties = specialtiesAdd;
@@ -63,13 +57,8 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
                 entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                User? userAction = await _userRepository.FindByID(this.UserId);
-                if (userAction != null)
-                {
-                    entityAdd.CreatedUser = userAction;
-                    entityAdd.CreatedUserId = this.UserId;
-                }
+                entityAdd.CreatedUserId = this.UserId;
+                entityAdd.Enable = true;
 
                 response = await base.Validate(entityAdd);
 
@@ -97,11 +86,8 @@ namespace SmartDigitalPsico.Service.Principals
                 if (entityUpdate != null)
                 {
                     #region Relationship
-                    var office = await _officeRepository.FindByID(item.OfficeId);
-                    if (office != null)
-                    {
-                        entityUpdate.Office = office;
-                    }
+                    entityUpdate.OfficeId = item.OfficeId;
+
                     List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
                     entityUpdate.Specialties = specialtiesAdd;
 
@@ -109,13 +95,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                     entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                     entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                    User? userAction = await _userRepository.FindByID(this.UserId);
-                    if (userAction != null)
-                    {
-                        entityUpdate.ModifyUser = userAction;
-                        entityUpdate.ModifyUserId = this.UserId;
-                    }
+                    entityUpdate.ModifyUserId = this.UserId;
 
                     #region Columns
                     entityUpdate.Enable = item.Enable;

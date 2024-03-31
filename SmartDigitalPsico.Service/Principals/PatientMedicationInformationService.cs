@@ -42,12 +42,9 @@ namespace SmartDigitalPsico.Service.Principals
 
 
                 #region Relationship
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityAdd.CreatedUser = userAction;
-
-                Patient patientAdd = await _patientRepository.FindByID(item.PatientId);
-                entityAdd.Patient = patientAdd;
+                 
+                entityAdd.CreatedUserId = (this.UserId); 
+                entityAdd.PatientId = item.PatientId;
 
                 #endregion
 
@@ -82,9 +79,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                 entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityUpdate.ModifyUser = userAction;
+                 
                 entityUpdate.ModifyUserId = this.UserId;
 
                 #region Columns

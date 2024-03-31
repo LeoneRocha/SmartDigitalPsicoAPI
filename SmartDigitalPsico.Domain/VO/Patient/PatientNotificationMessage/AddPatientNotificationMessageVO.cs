@@ -11,10 +11,10 @@ namespace SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage
         public string Message { get; set; } = string.Empty;
 
         [MaxLength(15)]
-        public string? Cpf { get; set; }
+        public string CPF { get; set; } = string.Empty;
 
         [MaxLength(15)]
-        public string Rg { get; set; }
+        public string RG { get; set; } = string.Empty;
 
         [MaxLength(100)]
         public string Email { get; set; } = string.Empty;

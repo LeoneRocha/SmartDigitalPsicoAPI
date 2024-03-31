@@ -1,7 +1,6 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
@@ -22,33 +21,30 @@ namespace SmartDigitalPsico.Service.Principals
 
     {
         private readonly IMapper _mapper;
-        IConfiguration _configuration;
         private readonly IMedicalFileRepository _entityRepository;
         private readonly IMedicalRepository _medicalRepository;
         private readonly IUserRepository _userRepository;
         private readonly IFileDiskRepository _repositoryFileDisk;
         private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
 
-        public MedicalFileService(IMapper mapper, IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IConfiguration configuration
+        public MedicalFileService(IMapper mapper, IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository
             , IUserRepository userRepository, IFileDiskRepository repositoryFileDisk
             , IValidator<MedicalFile> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService
             , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
-            _configuration = configuration;
             _entityRepository = entityRepository;
             _medicalRepository = medicalRepository;
             _userRepository = userRepository;
             _repositoryFileDisk = repositoryFileDisk;
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
         }
-        public async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAll()
+        public override async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAll()
         {
             var result = new ServiceResponse<List<GetMedicalFileVO>>();
             result.Success = false;
-            result.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+            result.Message = await ApplicationLanguageService.GetLocalization<SharedResource>("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
         }
@@ -99,7 +95,7 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<GetMedicalFileVO> response = new ServiceResponse<GetMedicalFileVO>();
             try
             {
-                IFormFile fileData = null;
+                IFormFile? fileData = null;
                 if (entity != null)
                 {
                     fileData = entity.FileDetails;
@@ -115,29 +111,18 @@ namespace SmartDigitalPsico.Service.Principals
 
                 MedicalFile entityAdd = _mapper.Map<MedicalFile>(entity);
                 entityAdd.FileName = entity?.FilePath;
-
-                #region Relationship
-
-                var medical = await _medicalRepository.FindByID(entityAdd.MedicalId);
-                if (medical != null)
-                {
-                    entityAdd.Medical = medical;
-                }
-
-                #endregion Relationship
+                 
+                entityAdd.MedicalId = entityAdd.MedicalId; 
 
                 entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
                 entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Enable = true;
 
-                User? userAction = await _userRepository.FindByID(this.UserId);
-                if (userAction != null)
-                {
-                    entityAdd.CreatedUser = userAction;
-                }
+                entityAdd.CreatedUserId = this.UserId;
 
                 //response = await base.Validate(entityAdd);
+
                 response.Success = true;
                 if (response.Success)
                 {
@@ -154,9 +139,7 @@ namespace SmartDigitalPsico.Service.Principals
         }
 
         public async Task<GetMedicalFileVO> DownloadFileById(long fileId)
-        {
-            var userAutenticated = await _userRepository.FindByID(this.UserId);
-
+        { 
             var fileEntity = await _entityRepository.FindByID(fileId);
 
             GetMedicalFileVO resultVO = _mapper.Map<GetMedicalFileVO>(fileEntity);
@@ -175,7 +158,6 @@ namespace SmartDigitalPsico.Service.Principals
                     FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName);
                 }
             }
-
             return resultVO;
         }
 
@@ -211,7 +193,7 @@ namespace SmartDigitalPsico.Service.Principals
 
         private async Task<byte[]> getFromDisk(MedicalFile fileEntity)
         {
-            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = DataHelper.GetDateTimeNow() });
+            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = DataHelper.GetDateTimeNow() }) ?? [];
         }
     }
 }

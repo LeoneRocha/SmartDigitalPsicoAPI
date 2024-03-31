@@ -44,12 +44,9 @@ namespace SmartDigitalPsico.Service.Principals
                 PatientHospitalizationInformation entityAdd = _mapper.Map<PatientHospitalizationInformation>(item);
 
                 #region Relationship
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityAdd.CreatedUser = userAction;
-
-                Patient patientAdd = await _patientRepository.FindByID(item.PatientId);
-                entityAdd.Patient = patientAdd;
+                 
+                entityAdd.CreatedUserId = this.UserId; 
+                entityAdd.PatientId = item.PatientId;
 
                 #endregion
 
@@ -84,12 +81,10 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 PatientHospitalizationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
                   
-                #region Relationship
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityUpdate.ModifyUser = userAction;  
+                #region Relationship                 
+                entityUpdate.ModifyUserId = this.UserId;
                 #endregion
-                 
+
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                 entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
                  

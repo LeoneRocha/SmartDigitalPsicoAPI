@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Service.Principals
         private readonly IPatientRepository _patientRepository;
 
         public PatientNotificationMessageService(IMapper mapper, IPatientNotificationMessageRepository entityRepository, IConfiguration configuration, IUserRepository userRepository, IPatientRepository patientRepository
-             , IValidator<PatientNotificationMessage> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService) 
+             , IValidator<PatientNotificationMessage> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
@@ -42,11 +42,10 @@ namespace SmartDigitalPsico.Service.Principals
 
                 #region Relationship
 
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityAdd.CreatedUser = userAction;
+                entityAdd.CreatedUserId = this.UserId;
 
-                Patient patientAdd = await _patientRepository.FindByPatient(new Patient() { Cpf = item.Cpf, Rg = item.Rg, Email = item.Email, CreatedDate = DataHelper.GetDateTimeNow() });
-                entityAdd.Patient = patientAdd;
+                Patient patientAdd = await _patientRepository.FindByPatient(new Patient() { Cpf = item.CPF, Rg = item.RG, Email = item.Email }) ?? new Patient();
+                entityAdd.PatientId = patientAdd.Id;
 
                 #endregion
 
@@ -71,30 +70,25 @@ namespace SmartDigitalPsico.Service.Principals
             }
             return response;
         }
-         
+
         public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Update(UpdatePatientNotificationMessageVO item)
         {
             ServiceResponse<GetPatientNotificationMessageVO> response = new ServiceResponse<GetPatientNotificationMessageVO>();
             try
             {
                 PatientNotificationMessage entityUpdate = await _entityRepository.FindByID(item.Id);
-
-                #region Relationship
-                  
-                #endregion Relationship
+                 
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                 entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityUpdate.ModifyUser = userAction;
+                 
                 entityUpdate.ModifyUserId = this.UserId;
 
                 #region Columns
                 entityUpdate.Enable = item.Enable;
                 entityUpdate.MessagePatient = item.Message;
-                
-                entityUpdate.IsReaded = item.IsReaded;                
+
+                entityUpdate.IsReaded = item.IsReaded;
                 entityUpdate.ReadingDate = item.IsReaded ? DateTime.Now : null;
 
                 entityUpdate.Notified = item.Notified;

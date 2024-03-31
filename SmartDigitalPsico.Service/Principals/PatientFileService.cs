@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.FileName = entity?.FilePath;
                 #region Relationship
 
-                entityAdd.Patient = await _patientRepository.FindByID(entity.PatientId);
+                entityAdd.PatientId = entity.PatientId;
 
                 #endregion Relationship
 
@@ -81,9 +81,8 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Enable = true;
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityAdd.CreatedUser = userAction;
+                 
+                entityAdd.CreatedUserId = this.UserId;
 
                 //response = await base.Validate(entityAdd);
 

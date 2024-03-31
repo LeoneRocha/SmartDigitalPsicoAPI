@@ -44,6 +44,7 @@ namespace SmartDigitalPsico.Service.Generic
                 entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
                 entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+                entityAdd.Enable = true;
 
                 response = await Validate(entityAdd);
                 if (response.Success)
@@ -289,9 +290,9 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
             return response;
         }

@@ -43,12 +43,9 @@ namespace SmartDigitalPsico.Service.Principals
                 PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
 
                 #region Relationship
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityAdd.CreatedUser = userAction;
-
-                Patient patientAdd = await _patientRepository.FindByID(item.PatientId);
-                entityAdd.Patient = patientAdd;
+                 
+                entityAdd.CreatedUserId = this.UserId;                 
+                entityAdd.PatientId = item.PatientId;
 
                 #endregion Relationship
 
@@ -86,9 +83,8 @@ namespace SmartDigitalPsico.Service.Principals
                 #endregion Set default fields for bussines
 
                 #region User Action
-
-                User userAction = await _userRepository.FindByID(this.UserId);
-                entityUpdate.ModifyUser = userAction;
+                 
+                entityUpdate.ModifyUserId = this.UserId;
 
                 #endregion User Action
 
