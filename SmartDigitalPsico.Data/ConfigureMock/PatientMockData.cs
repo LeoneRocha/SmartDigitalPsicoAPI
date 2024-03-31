@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.Configure
+namespace SmartDigitalPsico.Data.ConfigureMock
 {
     public class PatientMockData : IEntityTypeConfiguration<Patient>
     {

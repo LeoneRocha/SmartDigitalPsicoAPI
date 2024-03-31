@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.Configure
+namespace SmartDigitalPsico.Data.ConfigureMock
 {
     public class GenderMockData : IEntityTypeConfiguration<Gender>
     {

@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Security;
 
-namespace SmartDigitalPsico.Data.Configure
+namespace SmartDigitalPsico.Data.ConfigureMock
 {
     public class UserMockData : IEntityTypeConfiguration<User>
     {
