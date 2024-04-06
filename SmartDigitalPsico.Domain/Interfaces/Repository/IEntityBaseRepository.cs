@@ -1,0 +1,21 @@
+﻿using System.Linq.Expressions;
+
+namespace SmartDigitalPsico.Domain.Interfaces.Repository
+{
+    public interface IEntityBaseRepository<T> where T : IEntityBase
+    {
+        Task<T> Create(T item);
+        Task<T?> FindByID(long id);
+        Task<List<T>> FindAll();
+        Task<T> Update(T item);
+        Task<bool> Delete(long id);
+        Task<bool> EnableOrDisable(long id);
+        Task<bool> Exists(long id);
+        Task<List<T>> FindWithPagedSearch(string query);
+        Task<int> GetCount(string query);
+
+        Task<List<T>> FindByCustomWhere(Expression<Func<T, bool>> predicate);
+
+        Task<List<T>> FindByCustomWhereWithIncludes(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
+    }
+}
