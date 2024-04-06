@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.WebAPI.Configure
@@ -24,12 +23,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             app.UseStaticFiles();
 
-            string diretorioTemp = DirectoryHelper.GetDiretoryTemp();
+            string diretorioTemp = DirectoryHelper.GetDiretoryTemp(configuration);
 
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(diretorioTemp),
-                RequestPath = new PathString("/" + FolderConstants.ConstResourcesTemp)
+                RequestPath = new PathString($"/{FolderConstants.ConstResourcesTemp}")
             });
 
             app.UseRouting();
