@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using SmartDigitalPsico.Domain.Constants;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -59,7 +60,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             {
                 var content = new System.IO.MemoryStream(filedata); 
 
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "ResourcesTemp", fileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), FolderConstants.ConstResourcesTemp, fileName);
 
                 await copyStream(content, path);
             }

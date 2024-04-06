@@ -115,16 +115,29 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
 
         private string getPathSaveCache(string pathCache)
         {
-            string currentDir = Directory.GetCurrentDirectory();
-            string[] dirs = pathCache.Split('\\');
-
-            string pathToSaveCache = Path.Combine(currentDir, dirs[0]);
-            for (int i = 1; i < dirs.Length; i++)
+            string pathToSaveCache; 
+            // Verifica se o caminho é absoluto
+            if (Path.IsPathFullyQualified(pathCache))
             {
-                pathToSaveCache = Path.Combine(pathToSaveCache, dirs[i]);
+                pathToSaveCache = pathCache;
             }
+            else
+            {
+                pathCache = pathCache.Replace(".", "");
+                string currentDir = Directory.GetCurrentDirectory();
+                string[] dirs = pathCache.Split('/'); 
+                pathToSaveCache = Path.Combine(currentDir, dirs[0]);
+                for (int i = 1; i < dirs.Length; i++)
+                {
+                    pathToSaveCache = Path.Combine(pathToSaveCache, dirs[i]);
+                }
+            } 
+            // Verifica se o diretório existe, se não, cria o diretório
+            if (!Directory.Exists(pathToSaveCache))
+            {
+                Directory.CreateDirectory(pathToSaveCache);
+            } 
             return pathToSaveCache;
-
         }
     }
 }
