@@ -31,6 +31,5 @@ namespace SmartDigitalPsico.WebAPI
 
             return builder;
         }
-
     }
 }
