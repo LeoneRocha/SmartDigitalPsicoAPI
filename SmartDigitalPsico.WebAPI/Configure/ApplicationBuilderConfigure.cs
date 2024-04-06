@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -25,7 +26,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
     {
         private static IConfiguration? _configuration;
 
-        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, Serilog.Core.Logger _logger)
         {
             _configuration = configuration;
 
@@ -63,7 +64,19 @@ namespace SmartDigitalPsico.WebAPI.Configure
             //Dependency Injection
             DependenciesInjectionConfigure.AddDependenciesInjection(services);
 
+            //Add log 
+            addLog(services, _logger);
+
             services.AddEndpointsApiExplorer();
+        }
+
+        private static void addLog(IServiceCollection services, Serilog.Core.Logger _logger)
+        { 
+            services.AddLogging();
+            services.AddSingleton<Serilog.ILogger>(sp =>
+            {
+                return _logger;
+            });
         }
 
         #region PRIVATE
@@ -124,16 +137,16 @@ namespace SmartDigitalPsico.WebAPI.Configure
             {
                 case ETypeDataBase.Mysql:
                     connection = _configuration.GetConnectionString("SmartDigitalPsicoDBConnectionMySQL");
-                    services.AddDbContext<SmartDigitalPsicoDataContext>(optionsBuilder => 
+                    services.AddDbContext<SmartDigitalPsicoDataContext>(optionsBuilder =>
                     optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection)
                     , optionsMySQL =>
                     {
                         optionsMySQL.MigrationsAssembly("SmartDigitalPsico.Data");
-                        optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore);  
+                        optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore);
 
                         //optionsMySQL.CharSetBehavior(CharSetBehavior.NeverAppend);
                         //optionsMySQL.OldCompatibilityMode(); 
-                    })                     
+                    })
                     );
                     break;
                 case ETypeDataBase.MSsqlServer:

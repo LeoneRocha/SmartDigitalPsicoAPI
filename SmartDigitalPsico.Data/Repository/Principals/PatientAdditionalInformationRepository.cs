@@ -13,6 +13,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async Task<List<PatientAdditionalInformation>> FindAllByPatient(long patientId)
         {
             return await dataset
+                .AsNoTracking()
                 .Include(e => e.Patient)
                 .Include(e => e.Patient.Medical)
                 .Include(e => e.Patient.Medical.User)

@@ -62,3 +62,6 @@ secretKey = Convert.ToBase64String(key);
 }
 
 //Migrar o idimas da tabela para arquivo JSON.
+
+
+--------- Para ativar o gatilho do github basta ativar a extensao do azure pipelines 

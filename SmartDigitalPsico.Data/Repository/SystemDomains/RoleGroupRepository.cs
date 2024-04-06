@@ -14,7 +14,9 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         {
             if (roleGroupsIds == null) { return new List<RoleGroup>(); }
 
-            return await dataset.Where(p => roleGroupsIds.Contains(p.Id)).ToListAsync();
+            return await dataset
+                .AsNoTracking()
+                .Where(p => roleGroupsIds.Contains(p.Id)).ToListAsync();
         }
     }
 }

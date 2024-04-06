@@ -28,7 +28,9 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 
         public async Task<ApplicationLanguage> Find(string language, string languageKey, string resourceKey = "SharedResource")
         {
-            return await dataset.SingleAsync(p =>
+            return await dataset
+                .AsNoTracking()
+                .SingleAsync(p =>
             p.ResourceKey.ToUpper().Trim().Equals(resourceKey.ToUpper().Trim())
             && p.LanguageKey.ToUpper().Trim().Equals(languageKey.ToUpper().Trim())
             && p.Language.ToUpper().Trim().Equals(language.ToUpper().Trim())
