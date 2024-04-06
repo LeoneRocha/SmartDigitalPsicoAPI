@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -59,7 +60,7 @@ namespace SmartDigitalPsico.Service.Principals
                 if (string.IsNullOrEmpty(response.Data.FilePath))
                 {
                     FileHelper.GetFromByteSaveTemp(response.Data.FileData, response?.Data?.FileName);
-                    response.Data.FileUrl = FileHelper.GetFilePath("ResourcesTemp", response?.Data?.FileName);
+                    response.Data.FileUrl = FileHelper.GetFilePath(FolderConstants.ConstResourcesTemp, response?.Data?.FileName);
                 }
             }
             return response;

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
@@ -62,7 +63,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         {
             this.setUserIdCurrent();
             var result = await _entityService.DownloadFileById(id);
-            var response = FileHelper.ProccessDownloadToBrowser("ResourcesTemp", result.FileName);
+            var response = FileHelper.ProccessDownloadToBrowser(FolderConstants.ConstResourcesTemp, result.FileName);
             return response;
         }
 
