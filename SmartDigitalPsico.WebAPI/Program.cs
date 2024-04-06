@@ -17,8 +17,7 @@ namespace SmartDigitalPsico.WebAPI
         private static void createApp(WebApplicationBuilder builder)
         {
             var app = builder.Build();
-            ApplicationConfigure.ConfigureApp(app, builder.Environment, builder.Configuration);
-            //app.MapControllers();
+            ApplicationConfigure.ConfigureApp(app, builder.Environment, builder.Configuration); 
             app.Run();
         }
 

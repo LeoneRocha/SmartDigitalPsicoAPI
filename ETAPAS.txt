@@ -18,10 +18,11 @@ https://painelbd.host.uol.com.br/main.html?servicetype=mysql
 07  - MIGRAR DATA NOTATION PARA FLUENT API  ------- Finalizado
 08  - Ajustar a carga de mock ------- Finalizado
 09  - Revisar o service para ver se ainda usa entidadee em vez do ID mudar pra ID as FK ------- Finalizado
-10  - TESTAR O SISTEMA 
-11  - Automação
-12  - HABLITAR DOCKER
-13  - CODE QUALITY
+10  - Mudar para MYSQL ------- Finalizado
+11  - TESTAR O SISTEMA ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
+12  - Automação ------------ EM ANDAMENTO 
+13  - HABLITAR DOCKER
+14  - CODE QUALITY
 
 ----------------------------------------------------
 - 1) Configurar ao realizar pull request para integration disparar pipeline integration 
