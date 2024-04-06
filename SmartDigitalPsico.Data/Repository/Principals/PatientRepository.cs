@@ -17,7 +17,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         /// <returns></returns>
         public async Task<Patient?> FindByPatient(Patient info)
         {
-            return await dataset.FirstAsync(x =>
+            return await dataset
+                .AsNoTracking()
+                .FirstAsync(x =>
                x.Cpf.ToLower().Equals(info.Cpf.ToLower())
             || x.Rg.ToLower().Equals(info.Rg.ToLower())
             || x.Email.ToLower().Equals(info.Email.ToLower())
@@ -27,6 +29,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<Patient?> FindByID(long id)
         {
             return await dataset
+                .AsNoTracking()
                 .Include(e => e.Medical)
                 .Include(e => e.Gender)
                 .Include(e => e.Medical)
@@ -41,7 +44,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         }
         public async Task<Patient?> FindByEmail(string email)
         {
-            Patient? entityResult = await dataset.FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(email.ToLower().Trim()));
+            Patient? entityResult = await dataset
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(email.ToLower().Trim()));
 
             return entityResult;
         }
@@ -49,6 +54,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async Task<List<Patient>> FindAllByMedicalId(long medicalId)
         {
             return await dataset
+                .AsNoTracking()
                .Include(e => e.Gender)
                .Include(e => e.Medical)
                .Include(e => e.Medical.User)

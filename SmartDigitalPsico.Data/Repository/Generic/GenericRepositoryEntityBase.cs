@@ -20,12 +20,12 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
         public virtual async Task<List<T>> FindAll()
         {
-            return await dataset.ToListAsync();
+            return await dataset.AsNoTracking().ToListAsync();
         }
 
         public virtual async Task<T?> FindByID(long id)
         {
-            return await dataset.FirstOrDefaultAsync(p => p.Id.Equals(id)) ;
+            return await dataset.AsNoTracking().FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
 
         public virtual async Task<T> Create(T item)
@@ -122,17 +122,17 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
         public virtual async Task<List<T>> FindWithPagedSearch(string query)
         {
-            return await dataset.FromSqlRaw(query).ToListAsync();
+            return await dataset.FromSqlRaw(query).AsNoTracking().ToListAsync();
         }
 
         public virtual async Task<List<T>> FindByCustomWhere(Expression<Func<T, bool>> predicate)
         {
-            return await dataset.Where(predicate).ToListAsync();
+            return await dataset.AsNoTracking().Where(predicate).ToListAsync();
         }
 
         public virtual async Task<List<T>> FindByCustomWhereWithIncludes(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
-            IQueryable<T> query = dataset.Where(predicate);
+            IQueryable<T> query = dataset.AsNoTracking().Where(predicate);
 
             foreach (var includeProperty in includeProperties)
             {
@@ -141,7 +141,6 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
             return await query.ToListAsync();
         }
-
 
         public virtual async Task<int> GetCount(string query)
         {

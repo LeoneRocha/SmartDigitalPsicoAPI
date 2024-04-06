@@ -13,7 +13,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<PatientFile?> FindByID(long id)
         {
             return await dataset
-                 .Include(e => e.Patient)
+                .AsNoTracking()
+                .Include(e => e.Patient)
                 .Include(e => e.Patient.Medical)
                 .Include(e => e.Patient.Medical.User)
                 .Include(e => e.CreatedUser)
@@ -22,6 +23,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<List<PatientFile>> FindAll()
         {
             return await dataset
+                .AsNoTracking()
                 .Include(e => e.Patient)
                 .Include(e => e.Patient.Medical)
                 .Include(e => e.Patient.Medical.User)
