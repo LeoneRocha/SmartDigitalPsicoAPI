@@ -28,9 +28,8 @@ namespace SmartDigitalPsico.WebAPI
                 .AddEnvironmentVariables();
 
             ApplicationBuilderConfigure.ConfigureServices(builder.Services, builder.Configuration);
-
+            //Test
             return builder;
         }
-
     }
 }
