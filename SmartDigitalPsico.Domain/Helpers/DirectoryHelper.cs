@@ -1,13 +1,15 @@
-﻿using SmartDigitalPsico.Domain.Constants;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
     public static class DirectoryHelper
     {
-        public static string GetDiretoryTemp()
+        public static string GetDiretoryTemp(IConfiguration configuration)
         {
-            return GetDiretory("./" + FolderConstants.ConstResourcesTemp);
+            string? resourcesTemp = configuration["AppSettings:ResourcesTemp"] ?? string.Empty;
+            return GetDiretory(resourcesTemp);
         } 
+
         public static string GetDiretory(string pathCreate)
         {
             string pathResult;

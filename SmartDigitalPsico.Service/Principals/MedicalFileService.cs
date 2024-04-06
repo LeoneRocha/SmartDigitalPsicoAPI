@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -23,23 +23,21 @@ namespace SmartDigitalPsico.Service.Principals
     {
         private readonly IMapper _mapper;
         private readonly IMedicalFileRepository _entityRepository;
-        private readonly IMedicalRepository _medicalRepository;
-        private readonly IUserRepository _userRepository;
         private readonly IFileDiskRepository _repositoryFileDisk;
         private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
+        private readonly IConfiguration _configuration;
 
-        public MedicalFileService(IMapper mapper, IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository
-            , IUserRepository userRepository, IFileDiskRepository repositoryFileDisk
+        public MedicalFileService(IMapper mapper, IMedicalFileRepository entityRepository, IFileDiskRepository repositoryFileDisk
             , IValidator<MedicalFile> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService
-            , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO)
+            , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO
+            , IConfiguration configuration)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
             _entityRepository = entityRepository;
-            _medicalRepository = medicalRepository;
-            _userRepository = userRepository;
             _repositoryFileDisk = repositoryFileDisk;
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
+            _configuration = configuration;
         }
         public override async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAll()
         {
@@ -59,8 +57,9 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 if (string.IsNullOrEmpty(response.Data.FilePath))
                 {
-                    FileHelper.GetFromByteSaveTemp(response.Data.FileData, response?.Data?.FileName);
-                    response.Data.FileUrl = FileHelper.GetFilePath(FolderConstants.ConstResourcesTemp, response?.Data?.FileName);
+                    FileHelper.GetFromByteSaveTemp(response.Data.FileData, response?.Data?.FileName, _configuration);
+
+                    response.Data.FileUrl = FileHelper.GetFilePath(DirectoryHelper.GetDiretoryTemp(_configuration), response?.Data?.FileName ?? string.Empty);
                 }
             }
             return response;
@@ -112,8 +111,8 @@ namespace SmartDigitalPsico.Service.Principals
 
                 MedicalFile entityAdd = _mapper.Map<MedicalFile>(entity);
                 entityAdd.FileName = entity?.FilePath;
-                 
-                entityAdd.MedicalId = entityAdd.MedicalId; 
+
+                entityAdd.MedicalId = entityAdd.MedicalId;
 
                 entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
                 entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
@@ -140,7 +139,7 @@ namespace SmartDigitalPsico.Service.Principals
         }
 
         public async Task<GetMedicalFileVO> DownloadFileById(long fileId)
-        { 
+        {
             var fileEntity = await _entityRepository.FindByID(fileId);
 
             GetMedicalFileVO resultVO = _mapper.Map<GetMedicalFileVO>(fileEntity);
@@ -149,14 +148,14 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.DataBase && fileEntity.TypeLocationSaveFile == ETypeLocationSaveFiles.DataBase)
                 {
-                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName);
+                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
                 }
 
                 if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.Disk && fileEntity.TypeLocationSaveFile == ETypeLocationSaveFiles.Disk)
                 {
                     fileEntity.FileData = await getFromDisk(fileEntity);
 
-                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName);
+                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
                 }
             }
             return resultVO;
