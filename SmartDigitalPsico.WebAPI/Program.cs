@@ -9,9 +9,7 @@ namespace SmartDigitalPsico.WebAPI
         public static void Main(string[] args)
         {
             var builder = CreateHostBuilder(args);
-
-            createApp(builder);
-
+            createApp(builder); 
         }
 
         private static void createApp(WebApplicationBuilder builder)
@@ -23,7 +21,6 @@ namespace SmartDigitalPsico.WebAPI
 
         public static WebApplicationBuilder CreateHostBuilder(string[] args)
         {
-
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
