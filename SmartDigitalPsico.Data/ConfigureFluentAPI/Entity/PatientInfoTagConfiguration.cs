@@ -9,6 +9,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
         public void Configure(EntityTypeBuilder<PatientInfoTag> builder)
         {
             builder.ToTable("PatientInfoTag", "dbo");
+            HelperCharSet.AddCharSet(builder);
             builder.HasKey(e => new { e.InfoTagId, e.PatientId });
             // Properties
             builder.Property(e => e.InfoTagId);

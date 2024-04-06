@@ -2,6 +2,9 @@
 https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
 https://leonecostarocha.visualstudio.com/SMARTDIGITALPSICO/_build
 https://portal.azure.com/#home
+https://painelbd.host.uol.com.br/main.html?servicetype=mysql
+
+** para gerar pro mysql tem que gerar do zero a migracao 
 ----------------------------------------------------
  Readequacao 
 

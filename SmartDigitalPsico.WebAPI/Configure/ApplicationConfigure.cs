@@ -11,15 +11,13 @@ namespace SmartDigitalPsico.WebAPI.Configure
     {
         public static void ConfigureApp(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
         {
-
             // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
             // Migrate latest database changes during startup
-            addAutoMigrate(app, configuration);
+            addAutoMigrate(app);
 
             app.UseHttpsRedirection();
 
@@ -63,27 +61,16 @@ namespace SmartDigitalPsico.WebAPI.Configure
             app.UseMiddleware<RequestCultureMiddleware>();
 
         }
-        private static void addAutoMigrate(IApplicationBuilder app, IConfiguration configuration)
-        {
-            var typeDB = WebApiHelpers.getTypeDataBase(configuration);
-
+        private static void addAutoMigrate(IApplicationBuilder app)
+        { 
             // Migrate latest database changes during startup
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 using (var context = serviceScope.ServiceProvider.GetService<SmartDigitalPsicoDataContext>())
-                {
-                    if (typeDB == ETypeDataBase.MSsqlServer)
-                    {
-                        context?.Database.Migrate();
-                    }
-                    else
-                    {
-                        context?.Database.EnsureCreated();
-
-                    }
+                { 
+                    context?.Database.Migrate(); 
                 }
-            }
-
+            } 
         }
     }
 }
