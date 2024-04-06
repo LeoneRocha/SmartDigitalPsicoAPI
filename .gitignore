@@ -469,3 +469,4 @@ obj/*
 bin/*
  
 /SmartDigitalPsicoAPI/appsettings.Development.json
+/SmartDigitalPsico.WebAPI/appsettings.Development.json
