@@ -1,0 +1,64 @@
+----------------------------------------------------
+https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
+https://lionscorp.visualstudio.com/SMARTDIGITALPSICO
+https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build
+https://portal.azure.com/#home
+https://painelbd.host.uol.com.br/main.html?servicetype=mysql
+
+** para gerar pro mysql tem que gerar do zero a migracao 
+----------------------------------------------------
+ Readequacao 
+
+01  - Domain ------- Finalizado 
+02  - Data ------- Finalizado  
+03  - Service -------  Finalizado 
+04  - API ------- Finalizado 
+05  - Testar Localmente sem DOCKER ------- Finalizado  
+06  - reduzido codigo de generico duplicado ------- Finalizado 
+07  - MIGRAR DATA NOTATION PARA FLUENT API  ------- Finalizado
+08  - Ajustar a carga de mock ------- Finalizado
+09  - Revisar o service para ver se ainda usa entidadee em vez do ID mudar pra ID as FK ------- Finalizado
+10  - Mudar para MYSQL ------- Finalizado
+11  - TESTAR O SISTEMA ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
+12  - Automação ------------ EM ANDAMENTO 
+13  - HABLITAR DOCKER
+14  - CODE QUALITY
+
+----------------------------------------------------
+- 1) Configurar ao realizar pull request para integration disparar pipeline integration 
+
+- 2) Configurar a integration para Deploy automatico 
+
+- 3) Habilitar docker
+
+- 4) Configurar o sonar (CODE QUALITY)
+
+- 5) Atuar nos erros do sonar (CODE QUALITY)
+
+- 6) Configurar ao realizar pull request para staging disparar pipeline staging 
+
+- 7) Configurar ao realizar pull request para master disparar pipeline master
+----------------------------------------------------
+
+
+*** rEPOSITORIO AI INSERIR SETAR ENABLE COMO TRUE
+----------------------------------------------------
+EF TIPS 
+
+COMANDO 1 )					Add-Migration InitialCreate -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+
+COMANDO 2 )					Update-Database -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContext
+
+COMANDO 3 "DELETAR" )		Update-Database -Migration 0 -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContext
+
+
+NO APPSETINGS PARA O JWT FUNCIONAR PRECISA POR A CHAVE 
+
+using (var hmac = new HMACSHA512())
+{
+byte[] key = hmac.Key;
+secretKey = Convert.ToBase64String(key);
+
+}
+
+//Migrar o idimas da tabela para arquivo JSON.
