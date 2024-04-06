@@ -6,7 +6,7 @@ using System.Globalization;
 namespace SmartDigitalPsico.Domain.Helpers
 {
     public class CultureDateTimeHelper
-    { 
+    {
         public CultureDateTimeHelper() { }
 
 
@@ -85,10 +85,19 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static string GetTimeZoneBrazil()
         {
-            return CultureDateTimeHelper.GetTimeZonesIds().First(c =>
-             c.Name.ToUpper().Contains("o Paulo".ToUpper()) || c.Id.ToUpper().Contains("o Paulo".ToUpper())
-             || c.Name.ToUpper().Contains("Brasília".ToUpper()) || c.Id.ToUpper().Contains("Brasília".ToUpper())
-             ).Id;
+            var zt = CultureDateTimeHelper.GetTimeZonesIds().FirstOrDefault(c =>
+             c.Name.ToUpper().Contains("o Paulo".ToUpper())
+             || c.Id.ToUpper().Contains("o Paulo".ToUpper())
+             || c.Name.ToUpper().Contains("Brasília".ToUpper())
+             || c.Id.ToUpper().Contains("Brasília".ToUpper())
+             || c.Id.ToUpper().Contains("South America".ToUpper())
+             );
+            string idZT = "E. South America Standard Time";
+            if (zt != null)
+            {
+                idZT = zt.Id;
+            }
+            return idZT;
         }
         public static string GetCultureBrazil()
         {
