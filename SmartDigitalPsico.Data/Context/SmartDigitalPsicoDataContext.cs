@@ -4,13 +4,17 @@ using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 
 namespace SmartDigitalPsico.Data.Context
 {
-    public sealed class SmartDigitalPsicoDataContext : EntityDataContext
+    public class SmartDigitalPsicoDataContext : EntityDataContext
     {
+        public SmartDigitalPsicoDataContext()
+        {
+
+        }
         public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {  
+        {
             //Configure FLUENT API 
             modelBuilder.ApplyConfiguration(new ApplicationCacheLogConfiguration());
             modelBuilder.ApplyConfiguration(new ApplicationConfigSettingConfiguration());

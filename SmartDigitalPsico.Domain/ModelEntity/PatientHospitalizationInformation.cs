@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     public class PatientHospitalizationInformation : EntityBase, IEntityBaseLogUser
-    {
+    { 
         #region Columns  
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }

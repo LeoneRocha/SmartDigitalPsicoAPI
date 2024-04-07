@@ -5,7 +5,7 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     public class MedicalCalendar : EntityBase, IEntityBaseLogUser
-    {
+    { 
         #region Columns 
         public string Title { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         #endregion Columns 
 
         #region Relationship  
-        public Medical Medical { get; set; } 
+        public Medical Medical { get; set; }
         public long MedicalId { get; set; }
         public Patient? Patient { get; set; }
         public long? PatientId { get; set; }

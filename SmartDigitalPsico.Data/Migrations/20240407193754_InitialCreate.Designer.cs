@@ -12,7 +12,7 @@ using SmartDigitalPsico.Data.Context;
 namespace SmartDigitalPsico.Data.Migrations
 {
     [DbContext(typeof(SmartDigitalPsicoDataContext))]
-    [Migration("20240406135229_InitialCreate")]
+    [Migration("20240407193754_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -187,14 +187,14 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6210),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(812),
                             Description = "Default",
                             Enable = true,
                             EndPointUrl_Cache = "",
                             EndPointUrl_StorageFiles = "",
                             Language = "pt-BR",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6212),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6212),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(815),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(815),
                             TypeLocationCache = (byte)1,
                             TypeLocationQueeMessaging = (byte)0,
                             TypeLocationSaveFiles = (byte)0
@@ -267,495 +267,495 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6489),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1023),
                             Description = "Registro atualizado",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "RegisterUpdated",
                             LanguageValue = "Registro atualizado",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6490),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6489),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1024),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1024),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6492),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1026),
                             Description = "Default",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "Default_ptbr",
                             LanguageValue = "Padrão",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6493),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6492),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1027),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1026),
                             ResourceKey = "ApplicationLanguage"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6494),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1028),
                             Description = "Registro encontrado",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "RegisterIsFound",
                             LanguageValue = "Registro encontrado",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6495),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6495),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1029),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1029),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6497),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1030),
                             Description = "Registro não encontrado",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "RegisterIsNotFound",
                             LanguageValue = "Registro não encontrado",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6497),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6497),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1031),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1031),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6499),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1032),
                             Description = "Registro existe",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "RegisterExist",
                             LanguageValue = "Registro existe",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6500),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6499),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1033),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1033),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6501),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1034),
                             Description = "Registro deletado",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "RegisterDeleted",
                             LanguageValue = "Registro deletado",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6502),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6502),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1035),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1035),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6503),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1037),
                             Description = "Registro localizado",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "RegisterFind",
                             LanguageValue = "Registro localizado",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6504),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6504),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1037),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1037),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6506),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1039),
                             Description = "Registros contabilizados",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "RegisterCounted",
                             LanguageValue = "Registros contabilizados",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6506),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6506),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1039),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1039),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6508),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1041),
                             Description = "Registro criado",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "RegisterCreated",
                             LanguageValue = "Registro criado",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6509),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6508),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1041),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1041),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6510),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1043),
                             Description = "A descrição não pode ser vazia",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Description_Null",
                             LanguageValue = "A descrição não pode ser vazia",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6511),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6511),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1044),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1043),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 11L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6513),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1045),
                             Description = "O idoma não pode ser vazio",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Language_Null",
                             LanguageValue = "O idoma não pode ser vazio",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6513),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6513),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1046),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1045),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 12L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6515),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1047),
                             Description = "O idoma não pode ultrapassar {MaxLength}",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Language_MaximumLength",
                             LanguageValue = "O idoma não pode ultrapassar {MaxLength}",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6516),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6515),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1048),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1047),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 13L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6517),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1049),
                             Description = "Válido",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "LangValid",
                             LanguageValue = "Válido",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6518),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6518),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1050),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1049),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 14L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6520),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1051),
                             Description = "Ocorreram erros!",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "LangErrors",
                             LanguageValue = "Ocorreram erros!",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6520),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6520),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1051),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1051),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 15L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6522),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1053),
                             Description = "O medico deve ser informado.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_MedicalId_Null",
                             LanguageValue = "O medico deve ser informado.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6523),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6522),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1053),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1053),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 16L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6524),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1055),
                             Description = "O medico informado não existe.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_MedicalId_NotFound",
                             LanguageValue = "O medico informado não existe.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6525),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6524),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1055),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1055),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 17L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6526),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1057),
                             Description = "O medico infomado deve ser o mesmo logado. Medicos",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Medical_Changed",
                             LanguageValue = "O medico infomado deve ser o mesmo logado. Medicos nao podem criar arquivos de outro medico.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6527),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6527),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1057),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1057),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 18L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6528),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1059),
                             Description = "O nome não pode ser vazio",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Name_Null",
                             LanguageValue = "O nome não pode ser vazio",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6529),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6529),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1059),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1059),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 19L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6531),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1061),
                             Description = "O Login não pode ser vazio.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Login_Null",
                             LanguageValue = "O Login não pode ser vazio.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6532),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6531),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1061),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1061),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 20L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6533),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1063),
                             Description = "Login deve ser unico.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Login_Unique",
                             LanguageValue = "Login deve ser unico.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6534),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6533),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1063),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1063),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 21L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6535),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1065),
                             Description = "O Email não pode ser vazio",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Email_Null",
                             LanguageValue = "O Email não pode ser vazio",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6538),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6538),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1065),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1065),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 22L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6540),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1066),
                             Description = "O Email é invalido.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Email_Invalid",
                             LanguageValue = "O Email é invalido.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6541),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6540),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1067),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1067),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 23L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6542),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1068),
                             Description = "O Email deve ser unico.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Email_Unique",
                             LanguageValue = "O Email deve ser unico.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6543),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6542),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1069),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1069),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 24L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6544),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1070),
                             Description = "O Credenciamento não pode ser vazio.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Accreditation_Null",
                             LanguageValue = "O Credenciamento não pode ser vazio.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6545),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6545),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1071),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1071),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 25L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6546),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1073),
                             Description = "O Credenciamento deve ser unico.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Accreditation_Unique",
                             LanguageValue = "O Credenciamento deve ser unico.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6547),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6547),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1073),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1073),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 26L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6548),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1075),
                             Description = "O medico infomado deve ser o mesmo logado. Medicos",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_MedicalCreated_Invalid",
                             LanguageValue = "O medico infomado deve ser o mesmo logado. Medicos nao podem criar arquivos de outro medico.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6549),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6549),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1075),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1075),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 27L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6551),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1077),
                             Description = "O medico infomado deve ser o mesmo logado. Medicos",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_MedicalModify_Invalid",
                             LanguageValue = "O medico infomado deve ser o mesmo logado. Medicos nao podem modificar arquivos de outro medico.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6551),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6551),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1077),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1077),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 28L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6552),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1079),
                             Description = "O Paciente deve ser informado.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Patient_Null",
                             LanguageValue = "O Paciente deve ser informado.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6553),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6553),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1079),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1079),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 29L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6555),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1081),
                             Description = "O Paciente informado não existe.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Patient_NotFound",
                             LanguageValue = "O Paciente informado não existe.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6555),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6555),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1081),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1081),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 30L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6557),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1083),
                             Description = "O Paciente não pode ser alterado.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Patient_Changed",
                             LanguageValue = "O Paciente não pode ser alterado.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6557),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6557),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1083),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1083),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 31L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6559),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1085),
                             Description = "Informações do paciente não podem ser adicionadas ",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Patient_Medical_Created",
                             LanguageValue = "Informações do paciente não podem ser adicionadas por outro medico e/ou usuario.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6560),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6559),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1085),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1085),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 32L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6561),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1113),
                             Description = "Informações do paciente não podem ser modificadas ",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Patient_Medical_Modify",
                             LanguageValue = "Informações do paciente não podem ser modificadas por outro medico e/ou usuario.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6562),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6561),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1114),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1113),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 33L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6563),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1115),
                             Description = "O Usuário que está criando deve ser informado.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_CreatedUserId_Null",
                             LanguageValue = "O Usuário que está criando deve ser informado.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6564),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6563),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1116),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1116),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 34L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6565),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1117),
                             Description = "A anotação não pode ser vazia.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Annotation_Null",
                             LanguageValue = "A anotação não pode ser vazia.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6566),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6565),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1118),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1118),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 35L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6567),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1119),
                             Description = "A data da anotação não pode ser vazia.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_AnnotationDate_Null",
                             LanguageValue = "A data da anotação não pode ser vazia.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6568),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6567),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1120),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1120),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 36L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6569),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1121),
                             Description = "Data de nascimento invalido",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_DateOfBirth_Invalid",
                             LanguageValue = "Data de nascimento invalido",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6569),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6569),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1122),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1122),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 37L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6571),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1123),
                             Description = "O Rg não pode ser vazio.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_RG_Null",
                             LanguageValue = "O Rg não pode ser vazio.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6571),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6571),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1124),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1124),
                             ResourceKey = "SharedResource"
                         },
                         new
                         {
                             Id = 38L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6573),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1125),
                             Description = "O CPF não pode ser vazio.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_CPF_Null",
                             LanguageValue = "O CPF não pode ser vazio.",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6573),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6573),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1126),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1125),
                             ResourceKey = "SharedResource"
                         });
                 });
@@ -807,7 +807,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6758),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1240),
                             Description = "Masculino",
                             Enable = true,
                             Language = "pt-BR",
@@ -817,7 +817,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6759),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1242),
                             Description = "Feminino",
                             Enable = true,
                             Language = "pt-BR",
@@ -965,12 +965,12 @@ namespace SmartDigitalPsico.Data.Migrations
                         {
                             Id = 1L,
                             Accreditation = "123456",
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6908),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1347),
                             CreatedUserId = 1L,
                             Email = "medical@sistemas.com",
                             Enable = true,
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6909),
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6909),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1348),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1348),
                             Name = "Medical MOCK ",
                             OfficeId = 1L,
                             SecurityKey = "",
@@ -1200,7 +1200,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7393),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1590),
                             Description = "Psicólogo",
                             Enable = true,
                             Language = "pt-BR",
@@ -1210,7 +1210,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7399),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1592),
                             Description = "Psicóloga",
                             Enable = true,
                             Language = "pt-BR",
@@ -1220,7 +1220,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7400),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1593),
                             Description = "Clínico",
                             Enable = true,
                             Language = "pt-BR",
@@ -1372,7 +1372,7 @@ namespace SmartDigitalPsico.Data.Migrations
                             AddressState = "Bahia",
                             AddressStreet = "Avenida Presidente Médici 264",
                             Cpf = "947.846.605-42",
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7536),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1698),
                             CreatedUserId = 2L,
                             DateOfBirth = new DateTime(1960, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Education = "Superior",
@@ -1381,10 +1381,10 @@ namespace SmartDigitalPsico.Data.Migrations
                             EmergencyContactPhoneNumber = "(73) 98540-4268",
                             Enable = true,
                             GenderId = 1L,
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7537),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1698),
                             MaritalStatus = (byte)0,
                             MedicalId = 1L,
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7537),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1699),
                             Name = "Tiago Thales Mendes",
                             PhoneNumber = "(73) 2877-3408",
                             Profession = "Professor",
@@ -1878,7 +1878,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7679),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1802),
                             Description = "Administrador",
                             Enable = true,
                             Language = "pt-BR",
@@ -1889,7 +1889,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7681),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1804),
                             Description = "Medico",
                             Enable = true,
                             Language = "pt-BR",
@@ -1900,7 +1900,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7682),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1805),
                             Description = "Recepcionista",
                             Enable = true,
                             Language = "pt-BR",
@@ -1911,7 +1911,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7683),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1806),
                             Description = "Paciente",
                             Enable = true,
                             Language = "pt-BR",
@@ -1922,7 +1922,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7684),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1807),
                             Description = "Leitura",
                             Enable = true,
                             Language = "pt-BR",
@@ -1933,7 +1933,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7685),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1808),
                             Description = "Escrita",
                             Enable = true,
                             Language = "pt-BR",
@@ -1990,7 +1990,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7810),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1901),
                             Description = "Psicologia Clínica",
                             Enable = true,
                             Language = "pt-BR",
@@ -2000,7 +2000,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7812),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1924),
                             Description = "Psicologia Social",
                             Enable = true,
                             Language = "pt-BR",
@@ -2010,7 +2010,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7814),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1926),
                             Description = "Psicologia educacional",
                             Enable = true,
                             Language = "pt-BR",
@@ -2020,7 +2020,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7815),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1927),
                             Description = "Psicologia Esportiva ",
                             Enable = true,
                             Language = "pt-BR",
@@ -2030,7 +2030,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7816),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1928),
                             Description = "Psicologia organizacional",
                             Enable = true,
                             Language = "pt-BR",
@@ -2040,7 +2040,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7817),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1929),
                             Description = "Psicologia hospitalar",
                             Enable = true,
                             Language = "pt-BR",
@@ -2050,7 +2050,7 @@ namespace SmartDigitalPsico.Data.Migrations
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7818),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(1930),
                             Description = "Psicologia do trânsito",
                             Enable = true,
                             Language = "pt-BR",
@@ -2155,16 +2155,16 @@ namespace SmartDigitalPsico.Data.Migrations
                         {
                             Id = 1L,
                             Admin = true,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7955),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(2032),
                             Email = "admin@sistemas.com",
                             Enable = true,
                             Language = "pt-BR",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7956),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(2033),
                             Login = "admin",
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7956),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 888, DateTimeKind.Utc).AddTicks(2033),
                             Name = "User MOCK ",
-                            PasswordHash = new byte[] { 156, 209, 247, 199, 169, 99, 42, 244, 24, 54, 91, 69, 133, 20, 240, 57, 55, 249, 209, 85, 136, 243, 66, 254, 242, 130, 54, 226, 66, 182, 37, 9, 132, 13, 199, 132, 123, 129, 69, 141, 245, 34, 179, 99, 236, 147, 159, 114, 135, 248, 179, 214, 25, 101, 215, 51, 134, 119, 101, 216, 234, 216, 99, 202 },
-                            PasswordSalt = new byte[] { 63, 84, 209, 14, 158, 31, 197, 18, 239, 10, 224, 70, 31, 154, 69, 28, 205, 80, 129, 208, 170, 55, 152, 68, 134, 68, 247, 176, 245, 0, 101, 117, 242, 169, 115, 255, 78, 75, 141, 77, 168, 246, 141, 207, 228, 248, 73, 128, 224, 83, 198, 145, 151, 246, 154, 250, 68, 15, 72, 85, 47, 169, 147, 213, 59, 193, 86, 141, 195, 67, 157, 139, 179, 167, 71, 190, 19, 107, 22, 210, 167, 59, 122, 73, 92, 174, 139, 126, 176, 167, 67, 44, 88, 100, 202, 41, 29, 98, 84, 121, 160, 109, 76, 77, 203, 233, 152, 249, 99, 134, 221, 78, 45, 101, 75, 184, 150, 160, 83, 57, 72, 104, 7, 69, 6, 146, 134, 93 },
+                            PasswordHash = new byte[] { 228, 113, 83, 109, 212, 66, 130, 10, 139, 218, 144, 209, 241, 133, 114, 126, 147, 23, 145, 63, 130, 138, 203, 22, 97, 119, 109, 46, 28, 223, 114, 194, 41, 27, 0, 60, 222, 237, 118, 25, 74, 41, 75, 152, 212, 198, 178, 21, 196, 112, 22, 81, 167, 137, 182, 74, 178, 231, 96, 174, 22, 96, 53, 246 },
+                            PasswordSalt = new byte[] { 199, 46, 120, 153, 99, 118, 89, 13, 98, 188, 197, 206, 190, 190, 230, 99, 221, 148, 30, 56, 59, 127, 196, 158, 22, 188, 61, 106, 25, 144, 86, 188, 130, 244, 61, 84, 184, 150, 131, 145, 174, 86, 45, 201, 16, 239, 219, 38, 0, 181, 8, 69, 234, 78, 25, 9, 187, 234, 103, 241, 108, 105, 72, 152, 69, 184, 166, 41, 162, 38, 177, 222, 170, 9, 137, 25, 29, 157, 53, 112, 123, 254, 222, 125, 2, 47, 198, 36, 60, 3, 190, 237, 121, 241, 222, 177, 248, 223, 111, 66, 70, 123, 25, 55, 193, 247, 197, 12, 83, 237, 186, 156, 58, 25, 167, 214, 64, 79, 99, 171, 185, 80, 2, 24, 29, 147, 215, 201 },
                             RefreshToken = "",
                             Role = "Admin",
                             TimeZone = "E. South America Standard Time"
@@ -2173,17 +2173,17 @@ namespace SmartDigitalPsico.Data.Migrations
                         {
                             Id = 2L,
                             Admin = false,
-                            CreatedDate = new DateTime(2024, 4, 6, 13, 52, 29, 457, DateTimeKind.Utc).AddTicks(9557),
+                            CreatedDate = new DateTime(2024, 4, 7, 19, 37, 53, 890, DateTimeKind.Utc).AddTicks(2987),
                             Email = "doctor@sistemas.com",
                             Enable = true,
                             Language = "pt-BR",
-                            LastAccessDate = new DateTime(2024, 4, 6, 13, 52, 29, 457, DateTimeKind.Utc).AddTicks(9558),
+                            LastAccessDate = new DateTime(2024, 4, 7, 19, 37, 53, 890, DateTimeKind.Utc).AddTicks(2988),
                             Login = "doctor",
                             MedicalId = 1L,
-                            ModifyDate = new DateTime(2024, 4, 6, 13, 52, 29, 457, DateTimeKind.Utc).AddTicks(9559),
+                            ModifyDate = new DateTime(2024, 4, 7, 19, 37, 53, 890, DateTimeKind.Utc).AddTicks(2988),
                             Name = "User Medical",
-                            PasswordHash = new byte[] { 255, 55, 99, 12, 14, 172, 156, 19, 197, 208, 47, 169, 186, 97, 180, 10, 122, 72, 222, 246, 89, 110, 93, 130, 28, 70, 73, 123, 130, 140, 206, 38, 181, 83, 137, 18, 228, 249, 249, 0, 246, 56, 195, 38, 133, 30, 29, 9, 53, 60, 65, 112, 21, 148, 174, 98, 16, 96, 19, 232, 141, 228, 105, 71 },
-                            PasswordSalt = new byte[] { 115, 213, 77, 70, 220, 98, 238, 170, 160, 155, 8, 197, 183, 66, 78, 144, 46, 232, 172, 30, 233, 69, 5, 15, 109, 88, 186, 144, 147, 147, 4, 253, 209, 30, 198, 213, 14, 95, 113, 81, 38, 113, 56, 29, 171, 239, 155, 177, 137, 202, 34, 60, 28, 144, 25, 212, 122, 183, 128, 180, 132, 151, 236, 73, 114, 140, 226, 100, 194, 33, 217, 47, 21, 111, 22, 193, 176, 186, 71, 121, 8, 238, 224, 183, 198, 109, 54, 210, 158, 26, 37, 236, 14, 18, 212, 64, 15, 251, 56, 136, 2, 189, 199, 111, 108, 211, 157, 245, 105, 53, 108, 38, 39, 44, 246, 156, 107, 44, 134, 224, 27, 253, 225, 32, 130, 177, 229, 227 },
+                            PasswordHash = new byte[] { 74, 94, 28, 76, 117, 146, 111, 52, 115, 192, 10, 254, 221, 209, 205, 110, 231, 2, 17, 135, 228, 48, 213, 146, 83, 25, 203, 10, 144, 176, 12, 100, 116, 58, 220, 251, 140, 59, 135, 35, 240, 239, 196, 77, 221, 56, 122, 76, 38, 106, 223, 228, 69, 196, 21, 114, 37, 233, 180, 148, 226, 133, 237, 10 },
+                            PasswordSalt = new byte[] { 46, 168, 145, 199, 236, 105, 149, 137, 127, 223, 155, 142, 196, 235, 98, 151, 251, 140, 195, 124, 255, 152, 207, 143, 111, 57, 82, 111, 47, 142, 145, 48, 138, 53, 24, 147, 25, 5, 237, 59, 55, 104, 151, 61, 132, 53, 90, 0, 103, 51, 54, 228, 127, 213, 99, 168, 241, 35, 196, 112, 102, 235, 168, 179, 116, 38, 253, 120, 215, 96, 117, 38, 219, 114, 174, 23, 7, 180, 17, 178, 116, 224, 83, 130, 72, 87, 141, 178, 68, 200, 245, 252, 221, 209, 112, 251, 156, 153, 91, 3, 39, 89, 196, 5, 190, 52, 48, 245, 43, 17, 150, 157, 162, 114, 237, 48, 92, 9, 98, 119, 143, 203, 78, 73, 151, 187, 150, 136 },
                             RefreshToken = "",
                             Role = "Medical",
                             TimeZone = "E. South America Standard Time"

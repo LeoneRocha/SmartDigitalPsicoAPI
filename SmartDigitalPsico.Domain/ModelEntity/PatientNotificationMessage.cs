@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     public class PatientNotificationMessage : EntityBase, IEntityBaseLogUser
-    {
+    { 
         #region Columns  
         public string MessagePatient { get; set; } = string.Empty;         
         public bool IsReaded { get; set; } 

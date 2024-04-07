@@ -6,12 +6,16 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 {
     public class Medical : EntityBaseWithNameEmail, IEntityBaseLogUser
     {
+        public Medical()
+        { 
+            Specialties = new List<Specialty>();
+            Patienties = new List<Patient>();
+            //MedicalSpecialties = new List<MedicalSpecialty>();
+        }
         #region Columns
-
         public string Accreditation { get; set; } = string.Empty;
         public ETypeAccreditation TypeAccreditation { get; set; }
         public string SecurityKey { get; set; } = string.Empty;
-
         #endregion Columns 
 
         #region Relationship 
@@ -24,8 +28,8 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public User? ModifyUser { get; set; }
         public long? ModifyUserId { get; set; }
         public ICollection<Specialty> Specialties { get; set; }
-
-        public List<Patient> Patienties { get; set; }
+        public ICollection<Patient> Patienties { get; set; }
+        //public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
         #endregion Relationship
     }
 }
