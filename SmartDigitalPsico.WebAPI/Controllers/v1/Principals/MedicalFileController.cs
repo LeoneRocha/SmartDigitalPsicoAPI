@@ -19,10 +19,15 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     public class MedicalFileController : ApiBaseController
     {
         private readonly IMedicalFileService _entityService;
+        private readonly IConfiguration _configuration;
+
         public MedicalFileController(IMedicalFileService entitytService
-            , IOptions<AuthConfigurationVO> configurationAuth) : base(configurationAuth)
+            , IOptions<AuthConfigurationVO> configurationAuth,
+            IConfiguration configuration)
+            : base(configurationAuth)
         {
             _entityService = entitytService;
+            _configuration = configuration;
         }
         private void setUserIdCurrent()
         {
@@ -63,7 +68,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         {
             this.setUserIdCurrent();
             var result = await _entityService.DownloadFileById(id);
-            var response = FileHelper.ProccessDownloadToBrowser(FolderConstants.ConstResourcesTemp, result.FileName);
+            var response = FileHelper.ProccessDownloadToBrowser(DirectoryHelper.GetDiretoryTemp(_configuration), result.FileName);
             return response; 
         }
 

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
@@ -19,10 +18,16 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
     public class PatientFileController : ApiBaseController
     {
-        private readonly IPatientFileService _entityService; 
-        public PatientFileController(IPatientFileService entityService, IOptions<AuthConfigurationVO> configurationAuth) : base(configurationAuth)
+        private readonly IPatientFileService _entityService;
+        private readonly IConfiguration _configuration;
+
+        public PatientFileController(IPatientFileService entityService
+            , IOptions<AuthConfigurationVO> configurationAuth
+            , IConfiguration configuration) 
+            : base(configurationAuth)
         {
             _entityService = entityService;
+            _configuration = configuration;
         }
         private void setUserIdCurrent()
         {
@@ -63,7 +68,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         {
             this.setUserIdCurrent();
             var result = await _entityService.DownloadFileById(id);
-            var response = FileHelper.ProccessDownloadToBrowser(FolderConstants.ConstResourcesTemp, result.FileName);
+            var response = FileHelper.ProccessDownloadToBrowser(DirectoryHelper.GetDiretoryTemp(_configuration), result.FileName);
             return response;
         }
 
