@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
-using SmartDigitalPsico.Data.Test.Context;
+using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.Test.Configure
+namespace SmartDigitalPsico.Data.Tests.Configure
 {
     [TestFixture]
     public class RoleGroupConfigurationTests

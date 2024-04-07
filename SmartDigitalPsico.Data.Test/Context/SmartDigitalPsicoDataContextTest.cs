@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
 
-namespace SmartDigitalPsico.Data.Test.Context
+namespace SmartDigitalPsico.Data.Tests.Context
 {  
     public class SmartDigitalPsicoDataContextTest : SmartDigitalPsicoDataContext
     {
