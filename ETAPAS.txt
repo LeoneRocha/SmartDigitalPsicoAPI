@@ -20,7 +20,7 @@ https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 09  - Revisar o service para ver se ainda usa entidadee em vez do ID mudar pra ID as FK ------- Finalizado
 10  - Mudar para MYSQL ------- Finalizado
 11  - Automação ------------ Finalizado
-12  - HABLITAR SONNAR 
+12  - HABLITAR SONNAR ------------ Finalizado
 13  - HABLITAR DOCKER
 14  - CRIAR PROJETO DE TESTE DO DATA 
 15  - TESTAR O SISTEMA ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
