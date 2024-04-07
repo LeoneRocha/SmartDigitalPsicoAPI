@@ -4,6 +4,13 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 {
     public class User : EntityBaseWithNameEmail
     {
+        public User()
+        {
+            //RoleGroups = new List<RoleGroup>();
+            MedicalsCreateds = new List<Medical>();
+            MedicalModifies = new List<Medical>();
+            MedicalsUsers = new List<Medical>();
+        }
         #region Columns 
         public string Login { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = [];
@@ -17,12 +24,13 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         #endregion Columns 
 
         #region Relationship
-        public List<RoleGroup> RoleGroups { get; set; }
-        public List<Medical> MedicalsCreateds { get; set; }
-        public List<Medical> MedicalModifies { get; set; }
-        public List<Medical> MedicalsUsers { get; set; }
+        //public ICollection<RoleGroup> RoleGroups { get; set; }
+        public ICollection<Medical> MedicalsCreateds { get; set; }
+        public ICollection<Medical> MedicalModifies { get; set; }
+        public ICollection<Medical> MedicalsUsers { get; set; }
         public Medical? Medical { get; set; }
         public long? MedicalId { get; set; }
+        public ICollection<RoleGroupUser> UserRoleGroups { get; set; }
         #endregion Relationship
     }
 }

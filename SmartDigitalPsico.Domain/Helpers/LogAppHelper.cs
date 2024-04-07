@@ -29,10 +29,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static Serilog.Core.Logger CreateLogger(IConfiguration configuration)
         {
             return new LoggerConfiguration()
-                      .ReadFrom.Configuration(configuration)
-                      .MinimumLevel.Debug()
-                      .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                      .MinimumLevel.Override("Microsoft.EntityFrameworkCore", Serilog.Events.LogEventLevel.Error)
+                      .ReadFrom.Configuration(configuration) 
                       .Enrich.FromLogContext()
                       .CreateLogger();
         }

@@ -14,7 +14,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             User? userResult = await dataset
                 .AsNoTracking()
-                .Include(e => e.RoleGroups)
+                .Include(e => e.UserRoleGroups)
+                .ThenInclude(e=>e.RoleGroup)
                 .Include(e => e.Medical)
                 .FirstOrDefaultAsync(p => p.Login.ToLower().Trim().Equals(login.ToLower().Trim()));
 
@@ -39,10 +40,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<User?> FindByID(long id)
         {
             return await dataset
-                .AsNoTracking()
-                .Include(e => e.RoleGroups)
-                .Include(e => e.Medical)
-                .Include(e => e.Medical.Specialties)
+                 .Include(e => e.UserRoleGroups)
+                 .ThenInclude(e => e.RoleGroup)
+                .Include(e => e.Medical) 
                 .Include(e => e.Medical.Office)
                 .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
@@ -51,7 +51,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             return await dataset
                 .AsNoTracking()
-                .Include(e => e.RoleGroups)
+                 .Include(e => e.UserRoleGroups)
+                .ThenInclude(e => e.RoleGroup)
                 .ToListAsync();
         }
 
@@ -75,7 +76,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             User? userResult = await dataset
                 .AsNoTracking()
-                .Include(e => e.RoleGroups).FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
+                 .Include(e => e.UserRoleGroups)
+                .ThenInclude(e => e.RoleGroup)
+                .FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
 
             return userResult;
         }

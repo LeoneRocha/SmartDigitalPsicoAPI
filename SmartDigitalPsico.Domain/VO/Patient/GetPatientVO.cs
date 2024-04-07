@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Domain.VO.Patient
     { 
         #region Relationship
         [Required]
-        public GetMedicalVO Medical { get; set; }
+        public GetMedicalVO Medical { get; set; } = new GetMedicalVO();
          
         //TODO: GENDER 
         #endregion Relationship

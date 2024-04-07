@@ -24,8 +24,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async override Task<PatientNotificationMessage?> FindByID(long id)
         {
-            return await dataset
-                .AsNoTracking()
+            return await dataset 
                 .Include(e => e.Patient)
                 .Include(e => e.Patient.Medical)
                 .Include(e => e.Patient.Medical.User)

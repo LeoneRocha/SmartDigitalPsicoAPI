@@ -4,13 +4,17 @@ using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 
 namespace SmartDigitalPsico.Data.Context
 {
-    public sealed class SmartDigitalPsicoDataContext : EntityDataContext
+    public class SmartDigitalPsicoDataContext : EntityDataContext
     {
+        public SmartDigitalPsicoDataContext()
+        {
+
+        }
         public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {  
+        {
             //Configure FLUENT API 
             modelBuilder.ApplyConfiguration(new ApplicationCacheLogConfiguration());
             modelBuilder.ApplyConfiguration(new ApplicationConfigSettingConfiguration());
@@ -32,6 +36,8 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new RoleGroupConfiguration());
             modelBuilder.ApplyConfiguration(new SpecialtyConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new MedicalSpecialtyConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleGroupUserConfiguration());
             //MOCK DATA
             modelBuilder.ApplyConfiguration(new ApplicationConfigSettingMockData());
             modelBuilder.ApplyConfiguration(new ApplicationLanguageMockData());
@@ -42,7 +48,6 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new RoleGroupMockData());
             modelBuilder.ApplyConfiguration(new SpecialtyMockData());
             modelBuilder.ApplyConfiguration(new UserMockData());
-
             base.OnModelCreating(modelBuilder);
         }
     }

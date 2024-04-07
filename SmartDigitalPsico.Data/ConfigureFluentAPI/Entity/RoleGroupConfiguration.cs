@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.Property(e => e.RolePolicyClaimCode).HasMaxLength(25).HasColumnType("varchar(25)");
 
             // Relationship
-            builder.HasMany(m => m.Users).WithMany(s => s.RoleGroups).UsingEntity(j => j.ToTable("RoleGroupUser"));//RolesGroupUser 
+            //builder.HasMany(m => m.Users).WithMany(s => s.RoleGroups).UsingEntity(j => j.ToTable("RoleGroupUser"));//RolesGroupUser 
         }
     }
 }
