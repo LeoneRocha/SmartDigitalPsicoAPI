@@ -9,15 +9,15 @@ namespace SmartDigitalPsico.Domain.VO.Medical.MedicalCalendar
     public class GetMedicalCalendarVO : EntityVOBase, ISupportsHyperMedia
     {
         #region Relationship 
-        public GetMedicalVO Medical { get; set; }
-        public GetPatientVO? Patient { get; set; }
-        public GetUserVO? CreatedUser { get; set; }
-        public GetUserVO? ModifyUser { get; set; }
+        public GetMedicalVO Medical { get; set; } = new GetMedicalVO();
+        public GetPatientVO? Patient { get; set; } = new GetPatientVO();
+        public GetUserVO? CreatedUser { get; set; } = new GetUserVO();
+        public GetUserVO? ModifyUser { get; set; } = new GetUserVO();
         #endregion Relationship
 
         #region Columns 
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
 
         public DateTime StartDate { get; set; }

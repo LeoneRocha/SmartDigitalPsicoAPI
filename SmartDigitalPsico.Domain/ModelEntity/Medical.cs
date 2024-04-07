@@ -8,9 +8,9 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     {
         public Medical()
         { 
-            Specialties = new List<Specialty>();
+            //Specialties = new List<Specialty>();
             Patienties = new List<Patient>();
-            //MedicalSpecialties = new List<MedicalSpecialty>();
+            MedicalSpecialties = new List<MedicalSpecialty>();
         }
         #region Columns
         public string Accreditation { get; set; } = string.Empty;
@@ -27,9 +27,10 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public long? CreatedUserId { get; set; }
         public User? ModifyUser { get; set; }
         public long? ModifyUserId { get; set; }
-        public ICollection<Specialty> Specialties { get; set; }
+        //public ICollection<Specialty> Specialties { get; set; }
         public ICollection<Patient> Patienties { get; set; }
-        //public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
+        
+        public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
         #endregion Relationship
     }
 }

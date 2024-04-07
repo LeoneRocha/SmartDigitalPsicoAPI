@@ -50,8 +50,12 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.OfficeId = item.OfficeId;
 
                 List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
-                entityAdd.Specialties = specialtiesAdd;
-
+                entityAdd.MedicalSpecialties = new List<MedicalSpecialty>();
+                foreach (var specialty in specialtiesAdd)
+                {
+                    entityAdd.MedicalSpecialties.Add(new MedicalSpecialty { Medical = entityAdd, Specialty = specialty });
+                } 
+               
                 #endregion Relationship
 
                 entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
@@ -89,7 +93,15 @@ namespace SmartDigitalPsico.Service.Principals
                     entityUpdate.OfficeId = item.OfficeId;
 
                     List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
-                    entityUpdate.Specialties = specialtiesAdd;
+
+                    entityUpdate.MedicalSpecialties.Clear();
+
+                    foreach (var specialty in specialtiesAdd)
+                    {
+                        entityUpdate.MedicalSpecialties.Add(new MedicalSpecialty { Medical = entityUpdate, Specialty = specialty });
+                    }
+
+                    //entityUpdate.Specialties = specialtiesAdd;
 
                     #endregion Relationship
 

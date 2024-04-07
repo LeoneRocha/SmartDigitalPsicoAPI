@@ -7,12 +7,12 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     {
         public Specialty()
         {
-            Medicals = new List<Medical>();
-            //MedicalSpecialties = new List<MedicalSpecialty>();
+            //Medicals = new List<Medical>();
+            MedicalSpecialties = new List<MedicalSpecialty>();
         }
         public string Description { get; set; } = string.Empty;
         public string Language { get; set; } = string.Empty;
-        public ICollection<Medical> Medicals { get; set; }
-        //public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
+        //public ICollection<Medical> Medicals { get; set; }
+        public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
     }
 }

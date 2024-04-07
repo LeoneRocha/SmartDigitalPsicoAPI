@@ -16,8 +16,8 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.Property(e => e.SpecialtyId);
 
             // Relationship
-            //builder.HasOne(e => e.Medical).WithMany(p => p.MedicalSpecialties).HasForeignKey(e => e.MedicalId).OnDelete(DeleteBehavior.NoAction);
-            //builder.HasOne(e => e.Specialty).WithMany(p => p.MedicalSpecialties).HasForeignKey(e => e.SpecialtyId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(e => e.Medical).WithMany(p => p.MedicalSpecialties).HasForeignKey(e => e.MedicalId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(e => e.Specialty).WithMany(p => p.MedicalSpecialties).HasForeignKey(e => e.SpecialtyId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

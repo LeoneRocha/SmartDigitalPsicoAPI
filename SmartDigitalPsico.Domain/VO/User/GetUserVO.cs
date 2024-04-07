@@ -9,11 +9,11 @@ namespace SmartDigitalPsico.Domain.VO.User
     public class GetUserVO : EntityVOBaseName, ISupportsHyperMedia
     {
         #region Relationship
-        public List<GetRoleGroupVO> RoleGroups { get; set; }
+        public List<GetRoleGroupVO> RoleGroups { get; set; } = new List<GetRoleGroupVO>();
 
         public long? MedicalId { get; set; }
 
-        public GetMedicalVO Medical { get; set; }
+        public GetMedicalVO Medical { get; set; } = new GetMedicalVO();
 
         #endregion Relationship
 

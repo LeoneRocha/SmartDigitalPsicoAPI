@@ -6,7 +6,7 @@ namespace SmartDigitalPsico.Domain.VO.User
     {
 
         #region Relationship
-        public List<long>? RoleGroupsIds { get; set; }
+        public List<long> RoleGroupsIds { get; set; } = new List<long>();
 
         public long? MedicalId { get; set; }
 

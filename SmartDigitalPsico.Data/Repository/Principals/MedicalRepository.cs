@@ -20,16 +20,14 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             return await dataset
                 .AsNoTracking()
-                .Include(e => e.Office)
-                .Include(e => e.Specialties)
+                .Include(e => e.Office) 
                 .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
         public async override Task<List<Medical>> FindAll()
         {
             return await dataset
                 .AsNoTracking()
-                .Include(e => e.Office)
-                .Include(e => e.Specialties)
+                .Include(e => e.Office) 
                 .ToListAsync();
         }
 

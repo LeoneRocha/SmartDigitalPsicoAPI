@@ -41,8 +41,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return await dataset
                 .AsNoTracking()
                 .Include(e => e.RoleGroups)
-                .Include(e => e.Medical)
-                .Include(e => e.Medical.Specialties)
+                .Include(e => e.Medical) 
                 .Include(e => e.Medical.Office)
                 .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
