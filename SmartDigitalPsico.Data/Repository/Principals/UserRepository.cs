@@ -38,8 +38,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async override Task<User?> FindByID(long id)
         {
-            return await dataset
-                .AsNoTracking()
+            return await dataset 
                 .Include(e => e.RoleGroups)
                 .Include(e => e.Medical) 
                 .Include(e => e.Medical.Office)

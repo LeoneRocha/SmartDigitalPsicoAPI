@@ -18,9 +18,10 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         }
         public async override Task<Medical?> FindByID(long id)
         {
-            return await dataset
-                .AsNoTracking()
+            return await dataset 
                 .Include(e => e.Office) 
+                .Include(e => e.MedicalSpecialties)
+                .ThenInclude(ms => ms.Specialty)
                 .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
         public async override Task<List<Medical>> FindAll()

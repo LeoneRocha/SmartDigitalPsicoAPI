@@ -12,6 +12,9 @@ using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
 using SmartDigitalPsico.Domain.Helpers;
+using Microsoft.AspNetCore.Identity;
+using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
+using Azure;
 
 namespace SmartDigitalPsico.Service.Principals
 {
@@ -50,12 +53,8 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.OfficeId = item.OfficeId;
 
                 List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
-                entityAdd.MedicalSpecialties = new List<MedicalSpecialty>();
-                foreach (var specialty in specialtiesAdd)
-                {
-                    entityAdd.MedicalSpecialties.Add(new MedicalSpecialty { Medical = entityAdd, Specialty = specialty });
-                } 
-               
+
+
                 #endregion Relationship
 
                 entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
@@ -69,6 +68,16 @@ namespace SmartDigitalPsico.Service.Principals
                 if (response.Success)
                 {
                     Medical entityResponse = await _entityRepository.Create(entityAdd);
+
+
+                    entityResponse.MedicalSpecialties = new List<MedicalSpecialty>();
+                    foreach (var specialty in specialtiesAdd)
+                    {
+                        entityResponse.MedicalSpecialties.Add(new MedicalSpecialty { Medical = entityAdd, Specialty = specialty });
+                    }
+                    entityResponse = await _entityRepository.Update(entityResponse);
+                    entityResponse = await _entityRepository.FindByID(entityResponse.Id) ?? entityResponse;
+
                     response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
                     response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
                        ("MedicalRegistred", base._applicationLanguageRepository, base._cacheService);
@@ -98,10 +107,8 @@ namespace SmartDigitalPsico.Service.Principals
 
                     foreach (var specialty in specialtiesAdd)
                     {
-                        entityUpdate.MedicalSpecialties.Add(new MedicalSpecialty { Medical = entityUpdate, Specialty = specialty });
+                        entityUpdate.MedicalSpecialties.Add(new MedicalSpecialty { MedicalId = entityUpdate.Id, SpecialtyId = specialty.Id });
                     }
-
-                    //entityUpdate.Specialties = specialtiesAdd;
 
                     #endregion Relationship
 
@@ -173,7 +180,43 @@ namespace SmartDigitalPsico.Service.Principals
             if (!response.Success)
                 return response;
 
-            response = await base.FindByID(id);
+            try
+            {
+                Medical? entityResponse = await _entityRepository.FindByID(id);
+                if (entityResponse != null)
+                {
+                    response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
+
+                    if (response.Data != null)
+                    {
+                        response.Data.Specialties = new List<GetSpecialtyVO>();
+                        foreach (var item in entityResponse.MedicalSpecialties)
+                        {
+                            response.Data.Specialties.Add(new GetSpecialtyVO()
+                            {
+                                Description = item.Specialty.Description,
+                                Id = item.Specialty.Id,
+                                Enable = item.Specialty.Enable,
+                                Language = item.Specialty.Language,
+                            });
+                        }
+                    }
+                }
+                response.Success = true;
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                       ("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return response;
+
+
+
 
             return response;
         }
