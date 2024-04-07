@@ -33,6 +33,7 @@ namespace SmartDigitalPsico.Data.Context
         public virtual DbSet<PatientNotificationMessage> PatientNotificationMessages { get; set; }
         public virtual DbSet<PatientRecord> PatientRecords { get; set; }
         public virtual DbSet<RoleGroup> RoleGroups { get; set; }
+        public virtual DbSet<RoleGroupUser> RoleGroupUsers { get; set; }
         public virtual DbSet<Specialty> Specialties { get; set; }
         public virtual DbSet<User> Users { get; set; }
         #endregion DBsets

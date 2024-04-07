@@ -1,20 +1,17 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
+using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
 using SmartDigitalPsico.Domain.VO.Medical;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
-using SmartDigitalPsico.Domain.Helpers;
-using Microsoft.AspNetCore.Identity;
-using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
-using Azure;
 
 namespace SmartDigitalPsico.Service.Principals
 {
@@ -24,11 +21,10 @@ namespace SmartDigitalPsico.Service.Principals
     {
         private readonly IMapper _mapper;
         private readonly IMedicalRepository _entityRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly IOfficeRepository _officeRepository;
+        private readonly IUserRepository _userRepository; 
         private readonly ISpecialtyRepository _specialtyRepository;
         public MedicalService(IMapper mapper, IMedicalRepository entityRepository,
-            IUserRepository userRepository, IOfficeRepository officeRepository
+            IUserRepository userRepository 
             , ISpecialtyRepository specialtyRepository
             , IValidator<Medical> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
@@ -37,8 +33,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             _mapper = mapper;
             _entityRepository = entityRepository;
-            _userRepository = userRepository;
-            _officeRepository = officeRepository;
+            _userRepository = userRepository; 
             _specialtyRepository = specialtyRepository;
         }
         public override async Task<ServiceResponse<GetMedicalVO>> Create(AddMedicalVO item)
@@ -204,21 +199,14 @@ namespace SmartDigitalPsico.Service.Principals
                 }
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterFind", base._applicationLanguageRepository, base._cacheService);
-
-
+                       ("RegisterFind", base._applicationLanguageRepository, base._cacheService); 
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return response;
-
-
-
-
-            return response;
+            return response; 
         }
 
         private async Task<ServiceResponse<List<GetMedicalVO>>> validAccessdmin()

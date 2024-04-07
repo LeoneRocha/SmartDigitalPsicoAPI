@@ -36,6 +36,8 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new RoleGroupConfiguration());
             modelBuilder.ApplyConfiguration(new SpecialtyConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new MedicalSpecialtyConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleGroupUserConfiguration());
             //MOCK DATA
             modelBuilder.ApplyConfiguration(new ApplicationConfigSettingMockData());
             modelBuilder.ApplyConfiguration(new ApplicationLanguageMockData());
@@ -46,10 +48,6 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new RoleGroupMockData());
             modelBuilder.ApplyConfiguration(new SpecialtyMockData());
             modelBuilder.ApplyConfiguration(new UserMockData());
-
-            modelBuilder.ApplyConfiguration(new MedicalSpecialtyConfiguration());
-
-
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -7,11 +7,13 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     {
         public RoleGroup()
         {
-            Users = new List<User>();
+            UserRoleGroups = new List<RoleGroupUser>(); 
+            //Users = new List<User>();
         }
-        public ICollection<User> Users { get; set; }
         public string Description { get; set; } = string.Empty;         
         public string Language { get; set; } = string.Empty;
         public string RolePolicyClaimCode { get; set; } = string.Empty;
+        //public ICollection<User> Users { get; set; }
+        public ICollection<RoleGroupUser> UserRoleGroups { get; set; }
     }
-}
+} 

@@ -6,7 +6,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     {
         public User()
         {
-            RoleGroups = new List<RoleGroup>();
+            //RoleGroups = new List<RoleGroup>();
             MedicalsCreateds = new List<Medical>();
             MedicalModifies = new List<Medical>();
             MedicalsUsers = new List<Medical>();
@@ -24,12 +24,13 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         #endregion Columns 
 
         #region Relationship
-        public ICollection<RoleGroup> RoleGroups { get; set; }
+        //public ICollection<RoleGroup> RoleGroups { get; set; }
         public ICollection<Medical> MedicalsCreateds { get; set; }
         public ICollection<Medical> MedicalModifies { get; set; }
         public ICollection<Medical> MedicalsUsers { get; set; }
         public Medical? Medical { get; set; }
         public long? MedicalId { get; set; }
+        public ICollection<RoleGroupUser> UserRoleGroups { get; set; }
         #endregion Relationship
     }
 }
