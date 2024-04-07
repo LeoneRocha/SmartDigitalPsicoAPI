@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -13,7 +15,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         {
             using (var sr = new StreamReader(file.OpenReadStream()))
             {
-                var content = await sr.ReadToEndAsync(); 
+                var content = await sr.ReadToEndAsync();
                 return content;
             }
         }
@@ -50,16 +52,16 @@ namespace SmartDigitalPsico.Domain.Helpers
 
                 return decodedString;
             }
-            return string.Empty; 
+            return string.Empty;
         }
 
-        public static async void GetFromByteSaveTemp(byte[] filedata, string fileName)
+        public static async void GetFromByteSaveTemp(byte[] filedata, string fileName, IConfiguration configuration)
         {
             if (filedata != null)
             {
-                var content = new System.IO.MemoryStream(filedata); 
+                var content = new System.IO.MemoryStream(filedata);
 
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "ResourcesTemp", fileName);
+                var path = Path.Combine(DirectoryHelper.GetDiretoryTemp(configuration), fileName);
 
                 await copyStream(content, path);
             }
@@ -105,7 +107,14 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static string GetFilePath(string folderOrigin, string fileName)
         {
-            return Path.Combine(Directory.GetCurrentDirectory(), folderOrigin, fileName);
+            if (Path.IsPathFullyQualified(folderOrigin))
+            {
+                return Path.Combine(folderOrigin, fileName);
+            }
+            else
+            {
+                return Path.Combine(Directory.GetCurrentDirectory(), folderOrigin, fileName);
+            } 
         }
 
         public static string GetSameName(string fileName)

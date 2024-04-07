@@ -81,7 +81,7 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Enable = true;
-                 
+
                 entityAdd.CreatedUserId = this.UserId;
 
                 //response = await base.Validate(entityAdd);
@@ -110,14 +110,14 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.DataBase && fileEntity.TypeLocationSaveFile == ETypeLocationSaveFiles.DataBase)
                 {
-                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName);
+                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
                 }
 
                 if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.Disk && fileEntity.TypeLocationSaveFile == ETypeLocationSaveFiles.Disk)
                 {
                     fileEntity.FileData = await getFromDisk(fileEntity);
 
-                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName);
+                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
                 }
             }
 

@@ -13,7 +13,9 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
           
         public async Task<List<Specialty>> FindByIDs(List<long> idsSpecialties)
         {
-            return await dataset.Where(p =>  idsSpecialties.Contains(p.Id)).ToListAsync();
+            return await dataset
+                .AsNoTracking()
+                .Where(p =>  idsSpecialties.Contains(p.Id)).ToListAsync();
         } 
     }
 }
