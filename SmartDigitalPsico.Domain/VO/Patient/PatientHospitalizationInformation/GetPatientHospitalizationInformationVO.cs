@@ -5,11 +5,10 @@ using SmartDigitalPsico.Domain.VO.Contracts;
 namespace SmartDigitalPsico.Domain.VO.Patient.PatientHospitalizationInformation
 {
     public class GetPatientHospitalizationInformationVO : EntityVOBase, ISupportsHyperMedia
-    {
-        public long Id { get; set; }
+    { 
          
         #region Relationship  
-        public GetPatientVO Patient { get; set; }
+        public GetPatientVO Patient { get; set; } = new GetPatientVO();
 
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
         #endregion Relationship

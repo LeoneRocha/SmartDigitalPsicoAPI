@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     public class PatientRecord : EntityBase, IEntityBaseLogUser
-    {
+    { 
         #region Columns 
         public string Description { get; set; } = string.Empty;
         public string Annotation { get; set; } = string.Empty;

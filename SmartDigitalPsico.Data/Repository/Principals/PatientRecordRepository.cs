@@ -23,15 +23,13 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async override Task<PatientRecord?> FindByID(long id)
         {
-            return await dataset
-                .AsNoTracking()
+            return await dataset 
                 .Include(e => e.Patient)
                 .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
         public async override Task<List<PatientRecord>> FindAll()
         {
-            return await dataset
-                .AsNoTracking()
+            return await dataset 
                 .Include(e => e.Patient)
                 .ToListAsync();
         }

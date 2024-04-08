@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.VO.Patient.PatientFile
     public class GetPatientFileVO : EntityVOBase, ISupportsHyperMedia
     {
         #region Relationship  
-        public GetPatientVO Patient { get; set; }
+        public GetPatientVO Patient { get; set; } = new GetPatientVO();
 
         #endregion Relationship
 

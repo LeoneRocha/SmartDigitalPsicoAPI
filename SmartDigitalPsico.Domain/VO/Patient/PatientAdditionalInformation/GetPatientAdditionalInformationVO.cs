@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation
     public class GetPatientAdditionalInformationVO : EntityVOBase, ISupportsHyperMedia
     { 
         #region Relationship  
-        public GetPatientVO Patient { get; set; }
+        public GetPatientVO Patient { get; set; } = new GetPatientVO(); 
 
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
         #endregion Relationship

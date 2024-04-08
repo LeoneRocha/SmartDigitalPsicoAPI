@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
@@ -11,9 +12,12 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
+using SmartDigitalPsico.Domain.VO.Medical;
 using SmartDigitalPsico.Domain.VO.User;
 using SmartDigitalPsico.Domain.VO.Utils;
 using SmartDigitalPsico.Service.Generic;
+using SmartDigitalPsico.Service.SystemDomains;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -26,8 +30,7 @@ namespace SmartDigitalPsico.Service.Principals
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly IRoleGroupRepository _roleGroupRepository;
-
-        IConfiguration _configuration;
+         
         ITokenConfiguration _configurationToken;
         private readonly ITokenService _tokenService;
         AuthConfigurationVO _configurationAuth;
@@ -35,8 +38,7 @@ namespace SmartDigitalPsico.Service.Principals
               IUserRepository entityRepository
             , IApplicationLanguageRepository applicationLanguageRepository
             , IRoleGroupRepository roleGroupRepository
-            , IMapper mapper
-            , IConfiguration configuration
+            , IMapper mapper 
             , ITokenConfiguration configurationToken
             , ITokenService tokenService
             , IOptions<AuthConfigurationVO> configurationAuth
@@ -47,8 +49,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             _userRepository = entityRepository;
             _roleGroupRepository = roleGroupRepository;
-            _mapper = mapper;
-            _configuration = configuration;
+            _mapper = mapper; 
             _configurationToken = configurationToken;
             _configurationAuth = configurationAuth.Value;
             _tokenService = tokenService;
@@ -146,8 +147,12 @@ namespace SmartDigitalPsico.Service.Principals
                 entityUpdate.MedicalId = updateUser?.MedicalId;
 
                 List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(updateUser?.RoleGroupsIds);
-                entityUpdate.RoleGroups.Clear();
-                roleGroups.ForEach(rg => entityUpdate.RoleGroups.Add(rg));
+                entityUpdate.UserRoleGroups.Clear();
+
+                foreach (var rg in roleGroups)
+                {
+                    entityUpdate.UserRoleGroups.Add(new RoleGroupUser { UserId = entityUpdate.Id, RoleGroupId = rg.Id });
+                } 
 
                 response = await base.Validate(entityUpdate);
 
@@ -186,15 +191,24 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Role = userRegisterVO?.Role; 
-                List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO?.RoleGroupsIds);
-                entityAdd.RoleGroups = new List<RoleGroup>();
-                roleGroups.ForEach(rg => entityAdd.RoleGroups.Add(rg));
 
+                List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO?.RoleGroupsIds);
+                  
                 response = await base.Validate(entityAdd);
 
                 if (response.Success)
                 {
                     User entityResponse = await _userRepository.Register(entityAdd);
+                    entityResponse.UserRoleGroups = new List<RoleGroupUser>();
+
+                    foreach (var rg in roleGroups)
+                    {
+                        entityResponse.UserRoleGroups.Add(new RoleGroupUser { User = entityResponse, RoleGroup = rg });
+                    }
+                    entityResponse = await _userRepository.Update(entityResponse);
+                    entityResponse = await _userRepository.FindByID(entityResponse.Id) ?? entityResponse;
+                     
+
                     response.Data = _mapper.Map<GetUserVO>(entityResponse);
                     response.Message = "User registred.";
                 }
@@ -347,6 +361,44 @@ namespace SmartDigitalPsico.Service.Principals
             catch (Exception)
             {
 
+                throw;
+            }
+
+            return response;
+        }
+
+        public override async Task<ServiceResponse<GetUserVO>> FindByID(long id)
+        {
+            ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
+               
+            try
+            {
+                User? entityResponse = await _userRepository.FindByID(id);
+                if (entityResponse != null)
+                {
+                    response.Data = _mapper.Map<GetUserVO>(entityResponse);
+
+                    if (response.Data != null)
+                    {
+                        response.Data.RoleGroups = new List<GetRoleGroupVO>();
+                        foreach (var item in entityResponse.UserRoleGroups)
+                        {
+                            response.Data.RoleGroups.Add(new GetRoleGroupVO()
+                            {
+                                Description = item.RoleGroup.Description,
+                                Id = item.RoleGroup.Id,
+                                Enable = item.RoleGroup.Enable,
+                                Language = item.RoleGroup.Language,
+                            });
+                        }
+                    }
+                }
+                response.Success = true;
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                       ("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+            }
+            catch (Exception)
+            {
                 throw;
             }
 

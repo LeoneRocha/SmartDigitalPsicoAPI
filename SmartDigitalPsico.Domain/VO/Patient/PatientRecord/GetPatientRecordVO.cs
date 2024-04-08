@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Domain.VO.Patient.PatientRecord
     {
          
         #region Relationship  
-        public GetPatientVO Patient { get; set; }
+        public GetPatientVO Patient { get; set; } = new GetPatientVO();
 
         #endregion Relationship
 

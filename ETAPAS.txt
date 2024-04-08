@@ -4,7 +4,7 @@ https://lionscorp.visualstudio.com/SMARTDIGITALPSICO
 https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build
 https://portal.azure.com/#home
 https://painelbd.host.uol.com.br/main.html?servicetype=mysql
-
+https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 ** para gerar pro mysql tem que gerar do zero a migracao 
 ----------------------------------------------------
  Readequacao 
@@ -19,25 +19,27 @@ https://painelbd.host.uol.com.br/main.html?servicetype=mysql
 08  - Ajustar a carga de mock ------- Finalizado
 09  - Revisar o service para ver se ainda usa entidadee em vez do ID mudar pra ID as FK ------- Finalizado
 10  - Mudar para MYSQL ------- Finalizado
-11  - TESTAR O SISTEMA ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
-12  - Automação ------------ EM ANDAMENTO 
+11  - Automação ------------ Finalizado
+12  - HABLITAR SONNAR ------------ Finalizado
 13  - HABLITAR DOCKER
-14  - CODE QUALITY
+14  - CRIAR PROJETO DE TESTE DO DATA 
+15  - TESTAR O SISTEMA ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
 
 ----------------------------------------------------
-- 1) Configurar ao realizar pull request para integration disparar pipeline integration 
+- 1) Configurar ao realizar pull request para integration disparar pipeline integration  ------- Finalizado
 
-- 2) Configurar a integration para Deploy automatico 
+- 2) Configurar a integration para Deploy automatico  ------- Finalizado
 
-- 3) Habilitar docker
+- 3) Configurar ao realizar pull request para staging disparar pipeline staging  ------- Finalizado
+	
+- 4) Configurar ao realizar pull request para master disparar pipeline master ------- Finalizado
 
-- 4) Configurar o sonar (CODE QUALITY)
+- 5) Configurar o sonar (CODE QUALITY)
+
+- 6) Habilitar docker
 
 - 5) Atuar nos erros do sonar (CODE QUALITY)
 
-- 6) Configurar ao realizar pull request para staging disparar pipeline staging 
-
-- 7) Configurar ao realizar pull request para master disparar pipeline master
 ----------------------------------------------------
 
 

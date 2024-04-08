@@ -6,6 +6,6 @@ namespace SmartDigitalPsico.Domain.VO.Contracts
     {
         public long Id { get; set; }
 
-        public   bool Enable { get; set; } 
+        public bool Enable { get; set; }
     }
 }

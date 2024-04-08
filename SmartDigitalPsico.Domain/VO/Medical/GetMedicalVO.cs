@@ -8,16 +8,16 @@ using SmartDigitalPsico.Domain.VO.Patient;
 namespace SmartDigitalPsico.Domain.VO.Medical
 {
     public class GetMedicalVO : EntityVOBase, ISupportsHyperMedia
-    {
+    { 
         public string Name { get; set; } = string.Empty;
 
         #region Relationship
 
-        public GetOfficeVO Office { get; set; }
+        public GetOfficeVO Office { get; set; } = new GetOfficeVO();
 
-        public List<GetSpecialtyVO> Specialties { get; set; }
+        public List<GetSpecialtyVO> Specialties { get; set; } = new List<GetSpecialtyVO>();
 
-        public List<GetPatientVO> Patients { get; set; }
+        public List<GetPatientVO> Patients { get; set; } = new List<GetPatientVO>();
 
         #endregion Relationship
 

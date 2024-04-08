@@ -256,28 +256,26 @@ namespace SmartDigitalPsico.Data.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    MedicalsId = table.Column<long>(type: "bigint", nullable: false),
-                    SpecialtiesId = table.Column<long>(type: "bigint", nullable: false)
+                    MedicalId = table.Column<long>(type: "bigint", nullable: false),
+                    SpecialtyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MedicalSpecialty", x => new { x.MedicalsId, x.SpecialtiesId });
+                    table.PrimaryKey("PK_MedicalSpecialty", x => new { x.MedicalId, x.SpecialtyId });
                     table.ForeignKey(
-                        name: "FK_MedicalSpecialty_Medical_MedicalsId",
-                        column: x => x.MedicalsId,
+                        name: "FK_MedicalSpecialty_Medical_MedicalId",
+                        column: x => x.MedicalId,
                         principalSchema: "dbo",
                         principalTable: "Medical",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_MedicalSpecialty_Specialty_SpecialtiesId",
-                        column: x => x.SpecialtiesId,
+                        name: "FK_MedicalSpecialty_Specialty_SpecialtyId",
+                        column: x => x.SpecialtyId,
                         principalSchema: "dbo",
                         principalTable: "Specialty",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("MySql:CharSet", "latin1");
 
             migrationBuilder.CreateTable(
                 name: "User",
@@ -458,28 +456,26 @@ namespace SmartDigitalPsico.Data.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    RoleGroupsId = table.Column<long>(type: "bigint", nullable: false),
-                    UsersId = table.Column<long>(type: "bigint", nullable: false)
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    RoleGroupId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleGroupUser", x => new { x.RoleGroupsId, x.UsersId });
+                    table.PrimaryKey("PK_RoleGroupUser", x => new { x.UserId, x.RoleGroupId });
                     table.ForeignKey(
-                        name: "FK_RoleGroupUser_RoleGroup_RoleGroupsId",
-                        column: x => x.RoleGroupsId,
+                        name: "FK_RoleGroupUser_RoleGroup_RoleGroupId",
+                        column: x => x.RoleGroupId,
                         principalSchema: "dbo",
                         principalTable: "RoleGroup",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_RoleGroupUser_User_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_RoleGroupUser_User_UserId",
+                        column: x => x.UserId,
                         principalSchema: "dbo",
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("MySql:CharSet", "latin1");
 
             migrationBuilder.CreateTable(
                 name: "MedicalCalendar",
@@ -857,7 +853,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 schema: "dbo",
                 table: "ApplicationConfigSetting",
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "EndPointUrl_Cache", "EndPointUrl_StorageFiles", "Language", "LastAccessDate", "ModifyDate", "TypeLocationCache", "TypeLocationQueeMessaging", "TypeLocationSaveFiles" },
-                values: new object[] { 1L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6210), "Default", true, "", "", "pt-BR", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6212), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6212), (byte)1, (byte)0, (byte)0 });
+                values: new object[] { 1L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6261), "Default", true, "", "", "pt-BR", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6264), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6264), (byte)1, (byte)0, (byte)0 });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -865,44 +861,44 @@ namespace SmartDigitalPsico.Data.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LanguageKey", "LanguageValue", "LastAccessDate", "ModifyDate", "ResourceKey" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6489), "Registro atualizado", true, "pt-BR", "RegisterUpdated", "Registro atualizado", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6490), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6489), "SharedResource" },
-                    { 2L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6492), "Default", true, "pt-BR", "Default_ptbr", "Padrão", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6493), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6492), "ApplicationLanguage" },
-                    { 3L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6494), "Registro encontrado", true, "pt-BR", "RegisterIsFound", "Registro encontrado", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6495), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6495), "SharedResource" },
-                    { 4L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6497), "Registro não encontrado", true, "pt-BR", "RegisterIsNotFound", "Registro não encontrado", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6497), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6497), "SharedResource" },
-                    { 5L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6499), "Registro existe", true, "pt-BR", "RegisterExist", "Registro existe", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6500), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6499), "SharedResource" },
-                    { 6L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6501), "Registro deletado", true, "pt-BR", "RegisterDeleted", "Registro deletado", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6502), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6502), "SharedResource" },
-                    { 7L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6503), "Registro localizado", true, "pt-BR", "RegisterFind", "Registro localizado", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6504), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6504), "SharedResource" },
-                    { 8L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6506), "Registros contabilizados", true, "pt-BR", "RegisterCounted", "Registros contabilizados", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6506), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6506), "SharedResource" },
-                    { 9L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6508), "Registro criado", true, "pt-BR", "RegisterCreated", "Registro criado", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6509), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6508), "SharedResource" },
-                    { 10L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6510), "A descrição não pode ser vazia", true, "pt-BR", "ErrorValidator_Description_Null", "A descrição não pode ser vazia", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6511), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6511), "SharedResource" },
-                    { 11L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6513), "O idoma não pode ser vazio", true, "pt-BR", "ErrorValidator_Language_Null", "O idoma não pode ser vazio", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6513), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6513), "SharedResource" },
-                    { 12L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6515), "O idoma não pode ultrapassar {MaxLength}", true, "pt-BR", "ErrorValidator_Language_MaximumLength", "O idoma não pode ultrapassar {MaxLength}", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6516), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6515), "SharedResource" },
-                    { 13L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6517), "Válido", true, "pt-BR", "LangValid", "Válido", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6518), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6518), "SharedResource" },
-                    { 14L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6520), "Ocorreram erros!", true, "pt-BR", "LangErrors", "Ocorreram erros!", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6520), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6520), "SharedResource" },
-                    { 15L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6522), "O medico deve ser informado.", true, "pt-BR", "ErrorValidator_MedicalId_Null", "O medico deve ser informado.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6523), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6522), "SharedResource" },
-                    { 16L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6524), "O medico informado não existe.", true, "pt-BR", "ErrorValidator_MedicalId_NotFound", "O medico informado não existe.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6525), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6524), "SharedResource" },
-                    { 17L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6526), "O medico infomado deve ser o mesmo logado. Medicos", true, "pt-BR", "ErrorValidator_Medical_Changed", "O medico infomado deve ser o mesmo logado. Medicos nao podem criar arquivos de outro medico.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6527), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6527), "SharedResource" },
-                    { 18L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6528), "O nome não pode ser vazio", true, "pt-BR", "ErrorValidator_Name_Null", "O nome não pode ser vazio", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6529), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6529), "SharedResource" },
-                    { 19L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6531), "O Login não pode ser vazio.", true, "pt-BR", "ErrorValidator_Login_Null", "O Login não pode ser vazio.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6532), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6531), "SharedResource" },
-                    { 20L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6533), "Login deve ser unico.", true, "pt-BR", "ErrorValidator_Login_Unique", "Login deve ser unico.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6534), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6533), "SharedResource" },
-                    { 21L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6535), "O Email não pode ser vazio", true, "pt-BR", "ErrorValidator_Email_Null", "O Email não pode ser vazio", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6538), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6538), "SharedResource" },
-                    { 22L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6540), "O Email é invalido.", true, "pt-BR", "ErrorValidator_Email_Invalid", "O Email é invalido.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6541), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6540), "SharedResource" },
-                    { 23L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6542), "O Email deve ser unico.", true, "pt-BR", "ErrorValidator_Email_Unique", "O Email deve ser unico.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6543), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6542), "SharedResource" },
-                    { 24L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6544), "O Credenciamento não pode ser vazio.", true, "pt-BR", "ErrorValidator_Accreditation_Null", "O Credenciamento não pode ser vazio.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6545), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6545), "SharedResource" },
-                    { 25L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6546), "O Credenciamento deve ser unico.", true, "pt-BR", "ErrorValidator_Accreditation_Unique", "O Credenciamento deve ser unico.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6547), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6547), "SharedResource" },
-                    { 26L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6548), "O medico infomado deve ser o mesmo logado. Medicos", true, "pt-BR", "ErrorValidator_MedicalCreated_Invalid", "O medico infomado deve ser o mesmo logado. Medicos nao podem criar arquivos de outro medico.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6549), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6549), "SharedResource" },
-                    { 27L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6551), "O medico infomado deve ser o mesmo logado. Medicos", true, "pt-BR", "ErrorValidator_MedicalModify_Invalid", "O medico infomado deve ser o mesmo logado. Medicos nao podem modificar arquivos de outro medico.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6551), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6551), "SharedResource" },
-                    { 28L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6552), "O Paciente deve ser informado.", true, "pt-BR", "ErrorValidator_Patient_Null", "O Paciente deve ser informado.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6553), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6553), "SharedResource" },
-                    { 29L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6555), "O Paciente informado não existe.", true, "pt-BR", "ErrorValidator_Patient_NotFound", "O Paciente informado não existe.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6555), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6555), "SharedResource" },
-                    { 30L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6557), "O Paciente não pode ser alterado.", true, "pt-BR", "ErrorValidator_Patient_Changed", "O Paciente não pode ser alterado.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6557), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6557), "SharedResource" },
-                    { 31L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6559), "Informações do paciente não podem ser adicionadas ", true, "pt-BR", "ErrorValidator_Patient_Medical_Created", "Informações do paciente não podem ser adicionadas por outro medico e/ou usuario.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6560), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6559), "SharedResource" },
-                    { 32L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6561), "Informações do paciente não podem ser modificadas ", true, "pt-BR", "ErrorValidator_Patient_Medical_Modify", "Informações do paciente não podem ser modificadas por outro medico e/ou usuario.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6562), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6561), "SharedResource" },
-                    { 33L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6563), "O Usuário que está criando deve ser informado.", true, "pt-BR", "ErrorValidator_CreatedUserId_Null", "O Usuário que está criando deve ser informado.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6564), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6563), "SharedResource" },
-                    { 34L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6565), "A anotação não pode ser vazia.", true, "pt-BR", "ErrorValidator_Annotation_Null", "A anotação não pode ser vazia.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6566), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6565), "SharedResource" },
-                    { 35L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6567), "A data da anotação não pode ser vazia.", true, "pt-BR", "ErrorValidator_AnnotationDate_Null", "A data da anotação não pode ser vazia.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6568), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6567), "SharedResource" },
-                    { 36L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6569), "Data de nascimento invalido", true, "pt-BR", "ErrorValidator_DateOfBirth_Invalid", "Data de nascimento invalido", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6569), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6569), "SharedResource" },
-                    { 37L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6571), "O Rg não pode ser vazio.", true, "pt-BR", "ErrorValidator_RG_Null", "O Rg não pode ser vazio.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6571), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6571), "SharedResource" },
-                    { 38L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6573), "O CPF não pode ser vazio.", true, "pt-BR", "ErrorValidator_CPF_Null", "O CPF não pode ser vazio.", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6573), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6573), "SharedResource" }
+                    { 1L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6479), "Registro atualizado", true, "pt-BR", "RegisterUpdated", "Registro atualizado", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6480), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6479), "SharedResource" },
+                    { 2L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6481), "Default", true, "pt-BR", "Default_ptbr", "Padrão", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6482), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6482), "ApplicationLanguage" },
+                    { 3L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6483), "Registro encontrado", true, "pt-BR", "RegisterIsFound", "Registro encontrado", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6484), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6484), "SharedResource" },
+                    { 4L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6486), "Registro não encontrado", true, "pt-BR", "RegisterIsNotFound", "Registro não encontrado", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6486), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6486), "SharedResource" },
+                    { 5L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6488), "Registro existe", true, "pt-BR", "RegisterExist", "Registro existe", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6488), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6488), "SharedResource" },
+                    { 6L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6490), "Registro deletado", true, "pt-BR", "RegisterDeleted", "Registro deletado", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6490), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6490), "SharedResource" },
+                    { 7L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6492), "Registro localizado", true, "pt-BR", "RegisterFind", "Registro localizado", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6492), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6492), "SharedResource" },
+                    { 8L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6494), "Registros contabilizados", true, "pt-BR", "RegisterCounted", "Registros contabilizados", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6495), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6494), "SharedResource" },
+                    { 9L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6496), "Registro criado", true, "pt-BR", "RegisterCreated", "Registro criado", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6497), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6496), "SharedResource" },
+                    { 10L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6498), "A descrição não pode ser vazia", true, "pt-BR", "ErrorValidator_Description_Null", "A descrição não pode ser vazia", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6499), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6498), "SharedResource" },
+                    { 11L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6500), "O idoma não pode ser vazio", true, "pt-BR", "ErrorValidator_Language_Null", "O idoma não pode ser vazio", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6501), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6500), "SharedResource" },
+                    { 12L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6502), "O idoma não pode ultrapassar {MaxLength}", true, "pt-BR", "ErrorValidator_Language_MaximumLength", "O idoma não pode ultrapassar {MaxLength}", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6503), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6502), "SharedResource" },
+                    { 13L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6504), "Válido", true, "pt-BR", "LangValid", "Válido", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6505), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6504), "SharedResource" },
+                    { 14L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6506), "Ocorreram erros!", true, "pt-BR", "LangErrors", "Ocorreram erros!", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6507), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6506), "SharedResource" },
+                    { 15L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6508), "O medico deve ser informado.", true, "pt-BR", "ErrorValidator_MedicalId_Null", "O medico deve ser informado.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6509), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6508), "SharedResource" },
+                    { 16L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6510), "O medico informado não existe.", true, "pt-BR", "ErrorValidator_MedicalId_NotFound", "O medico informado não existe.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6511), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6510), "SharedResource" },
+                    { 17L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6512), "O medico infomado deve ser o mesmo logado. Medicos", true, "pt-BR", "ErrorValidator_Medical_Changed", "O medico infomado deve ser o mesmo logado. Medicos nao podem criar arquivos de outro medico.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6513), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6512), "SharedResource" },
+                    { 18L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6514), "O nome não pode ser vazio", true, "pt-BR", "ErrorValidator_Name_Null", "O nome não pode ser vazio", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6515), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6514), "SharedResource" },
+                    { 19L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6516), "O Login não pode ser vazio.", true, "pt-BR", "ErrorValidator_Login_Null", "O Login não pode ser vazio.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6517), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6516), "SharedResource" },
+                    { 20L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6518), "Login deve ser unico.", true, "pt-BR", "ErrorValidator_Login_Unique", "Login deve ser unico.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6519), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6518), "SharedResource" },
+                    { 21L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6520), "O Email não pode ser vazio", true, "pt-BR", "ErrorValidator_Email_Null", "O Email não pode ser vazio", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6521), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6521), "SharedResource" },
+                    { 22L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6522), "O Email é invalido.", true, "pt-BR", "ErrorValidator_Email_Invalid", "O Email é invalido.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6523), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6523), "SharedResource" },
+                    { 23L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6524), "O Email deve ser unico.", true, "pt-BR", "ErrorValidator_Email_Unique", "O Email deve ser unico.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6525), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6525), "SharedResource" },
+                    { 24L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6526), "O Credenciamento não pode ser vazio.", true, "pt-BR", "ErrorValidator_Accreditation_Null", "O Credenciamento não pode ser vazio.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6527), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6526), "SharedResource" },
+                    { 25L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6528), "O Credenciamento deve ser unico.", true, "pt-BR", "ErrorValidator_Accreditation_Unique", "O Credenciamento deve ser unico.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6529), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6529), "SharedResource" },
+                    { 26L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6530), "O medico infomado deve ser o mesmo logado. Medicos", true, "pt-BR", "ErrorValidator_MedicalCreated_Invalid", "O medico infomado deve ser o mesmo logado. Medicos nao podem criar arquivos de outro medico.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6531), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6530), "SharedResource" },
+                    { 27L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6532), "O medico infomado deve ser o mesmo logado. Medicos", true, "pt-BR", "ErrorValidator_MedicalModify_Invalid", "O medico infomado deve ser o mesmo logado. Medicos nao podem modificar arquivos de outro medico.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6533), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6533), "SharedResource" },
+                    { 28L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6534), "O Paciente deve ser informado.", true, "pt-BR", "ErrorValidator_Patient_Null", "O Paciente deve ser informado.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6535), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6535), "SharedResource" },
+                    { 29L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6536), "O Paciente informado não existe.", true, "pt-BR", "ErrorValidator_Patient_NotFound", "O Paciente informado não existe.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6537), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6537), "SharedResource" },
+                    { 30L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6538), "O Paciente não pode ser alterado.", true, "pt-BR", "ErrorValidator_Patient_Changed", "O Paciente não pode ser alterado.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6539), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6539), "SharedResource" },
+                    { 31L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6540), "Informações do paciente não podem ser adicionadas ", true, "pt-BR", "ErrorValidator_Patient_Medical_Created", "Informações do paciente não podem ser adicionadas por outro medico e/ou usuario.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6541), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6541), "SharedResource" },
+                    { 32L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6542), "Informações do paciente não podem ser modificadas ", true, "pt-BR", "ErrorValidator_Patient_Medical_Modify", "Informações do paciente não podem ser modificadas por outro medico e/ou usuario.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6543), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6543), "SharedResource" },
+                    { 33L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6544), "O Usuário que está criando deve ser informado.", true, "pt-BR", "ErrorValidator_CreatedUserId_Null", "O Usuário que está criando deve ser informado.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6545), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6545), "SharedResource" },
+                    { 34L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6577), "A anotação não pode ser vazia.", true, "pt-BR", "ErrorValidator_Annotation_Null", "A anotação não pode ser vazia.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6578), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6578), "SharedResource" },
+                    { 35L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6580), "A data da anotação não pode ser vazia.", true, "pt-BR", "ErrorValidator_AnnotationDate_Null", "A data da anotação não pode ser vazia.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6580), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6580), "SharedResource" },
+                    { 36L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6581), "Data de nascimento invalido", true, "pt-BR", "ErrorValidator_DateOfBirth_Invalid", "Data de nascimento invalido", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6582), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6582), "SharedResource" },
+                    { 37L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6583), "O Rg não pode ser vazio.", true, "pt-BR", "ErrorValidator_RG_Null", "O Rg não pode ser vazio.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6584), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6584), "SharedResource" },
+                    { 38L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6585), "O CPF não pode ser vazio.", true, "pt-BR", "ErrorValidator_CPF_Null", "O CPF não pode ser vazio.", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6586), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6586), "SharedResource" }
                 });
 
             migrationBuilder.InsertData(
@@ -911,8 +907,8 @@ namespace SmartDigitalPsico.Data.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LastAccessDate", "ModifyDate" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6758), "Masculino", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6759), "Feminino", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6700), "Masculino", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6701), "Feminino", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -921,9 +917,9 @@ namespace SmartDigitalPsico.Data.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LastAccessDate", "ModifyDate" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7393), "Psicólogo", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7399), "Psicóloga", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7400), "Clínico", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6896), "Psicólogo", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6898), "Psicóloga", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6899), "Clínico", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -932,12 +928,12 @@ namespace SmartDigitalPsico.Data.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LastAccessDate", "ModifyDate", "RolePolicyClaimCode" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7679), "Administrador", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin" },
-                    { 2L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7681), "Medico", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Medical" },
-                    { 3L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7682), "Recepcionista", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Staff" },
-                    { 4L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7683), "Paciente", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Patient" },
-                    { 5L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7684), "Leitura", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Read" },
-                    { 6L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7685), "Escrita", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Write" }
+                    { 1L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7111), "Administrador", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin" },
+                    { 2L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7113), "Medico", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Medical" },
+                    { 3L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7114), "Recepcionista", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Staff" },
+                    { 4L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7116), "Paciente", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Patient" },
+                    { 5L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7117), "Leitura", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Read" },
+                    { 6L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7118), "Escrita", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Write" }
                 });
 
             migrationBuilder.InsertData(
@@ -946,56 +942,38 @@ namespace SmartDigitalPsico.Data.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Enable", "Language", "LastAccessDate", "ModifyDate" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7810), "Psicologia Clínica", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7812), "Psicologia Social", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7814), "Psicologia educacional", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7815), "Psicologia Esportiva ", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7816), "Psicologia organizacional", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7817), "Psicologia hospitalar", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7818), "Psicologia do trânsito", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7225), "Psicologia Clínica", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7227), "Psicologia Social", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7228), "Psicologia educacional", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7229), "Psicologia Esportiva ", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7230), "Psicologia organizacional", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7232), "Psicologia hospitalar", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7233), "Psicologia do trânsito", true, "pt-BR", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "User",
                 columns: new[] { "Id", "Admin", "CreatedDate", "Email", "Enable", "Language", "LastAccessDate", "Login", "MedicalId", "ModifyDate", "Name", "PasswordHash", "PasswordSalt", "RefreshToken", "Refresh_token_expiry_time", "Role", "TimeZone" },
-                values: new object[] { 1L, true, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7955), "admin@sistemas.com", true, "pt-BR", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7956), "admin", null, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7956), "User MOCK ", new byte[] { 156, 209, 247, 199, 169, 99, 42, 244, 24, 54, 91, 69, 133, 20, 240, 57, 55, 249, 209, 85, 136, 243, 66, 254, 242, 130, 54, 226, 66, 182, 37, 9, 132, 13, 199, 132, 123, 129, 69, 141, 245, 34, 179, 99, 236, 147, 159, 114, 135, 248, 179, 214, 25, 101, 215, 51, 134, 119, 101, 216, 234, 216, 99, 202 }, new byte[] { 63, 84, 209, 14, 158, 31, 197, 18, 239, 10, 224, 70, 31, 154, 69, 28, 205, 80, 129, 208, 170, 55, 152, 68, 134, 68, 247, 176, 245, 0, 101, 117, 242, 169, 115, 255, 78, 75, 141, 77, 168, 246, 141, 207, 228, 248, 73, 128, 224, 83, 198, 145, 151, 246, 154, 250, 68, 15, 72, 85, 47, 169, 147, 213, 59, 193, 86, 141, 195, 67, 157, 139, 179, 167, 71, 190, 19, 107, 22, 210, 167, 59, 122, 73, 92, 174, 139, 126, 176, 167, 67, 44, 88, 100, 202, 41, 29, 98, 84, 121, 160, 109, 76, 77, 203, 233, 152, 249, 99, 134, 221, 78, 45, 101, 75, 184, 150, 160, 83, 57, 72, 104, 7, 69, 6, 146, 134, 93 }, "", null, "Admin", "E. South America Standard Time" });
+                values: new object[] { 1L, true, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7339), "admin@sistemas.com", true, "pt-BR", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7340), "admin", null, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(7340), "User MOCK ", new byte[] { 91, 49, 58, 113, 111, 72, 106, 128, 245, 123, 210, 104, 16, 253, 147, 0, 206, 108, 236, 150, 11, 163, 208, 19, 242, 44, 217, 139, 163, 25, 36, 107, 238, 172, 146, 2, 145, 73, 77, 49, 74, 1, 0, 130, 22, 129, 43, 156, 190, 212, 212, 202, 14, 16, 239, 150, 72, 231, 6, 132, 67, 255, 206, 148 }, new byte[] { 224, 143, 128, 247, 194, 230, 89, 121, 202, 119, 55, 231, 81, 46, 240, 155, 152, 74, 168, 32, 37, 143, 100, 240, 229, 30, 232, 52, 246, 111, 228, 47, 34, 198, 117, 159, 86, 165, 243, 46, 147, 250, 169, 235, 84, 221, 231, 181, 227, 61, 8, 238, 61, 9, 90, 137, 148, 51, 9, 234, 202, 237, 117, 55, 220, 221, 139, 77, 135, 71, 89, 38, 50, 38, 225, 90, 59, 207, 116, 155, 194, 105, 246, 241, 109, 121, 202, 193, 57, 147, 100, 138, 75, 58, 16, 33, 146, 0, 83, 138, 43, 71, 226, 82, 245, 233, 249, 25, 11, 246, 167, 163, 104, 201, 202, 30, 175, 219, 237, 235, 26, 222, 107, 203, 37, 148, 55, 35 }, "", null, "Admin", "E. South America Standard Time" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Medical",
                 columns: new[] { "Id", "Accreditation", "CreatedDate", "CreatedUserId", "Email", "Enable", "LastAccessDate", "ModifyDate", "ModifyUserId", "Name", "OfficeId", "SecurityKey", "TypeAccreditation", "UserId" },
-                values: new object[] { 1L, "123456", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6908), 1L, "medical@sistemas.com", true, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6909), new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(6909), null, "Medical MOCK ", 1L, "", (byte)0, null });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "RoleGroupUser",
-                columns: new[] { "RoleGroupsId", "UsersId" },
-                values: new object[] { 1L, 1L });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "MedicalSpecialty",
-                columns: new[] { "MedicalsId", "SpecialtiesId" },
-                values: new object[] { 1L, 1L });
+                values: new object[] { 1L, "123456", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6804), 1L, "medical@sistemas.com", true, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6805), new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6805), null, "Medical MOCK ", 1L, "", (byte)0, null });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "User",
                 columns: new[] { "Id", "Admin", "CreatedDate", "Email", "Enable", "Language", "LastAccessDate", "Login", "MedicalId", "ModifyDate", "Name", "PasswordHash", "PasswordSalt", "RefreshToken", "Refresh_token_expiry_time", "Role", "TimeZone" },
-                values: new object[] { 2L, false, new DateTime(2024, 4, 6, 13, 52, 29, 457, DateTimeKind.Utc).AddTicks(9557), "doctor@sistemas.com", true, "pt-BR", new DateTime(2024, 4, 6, 13, 52, 29, 457, DateTimeKind.Utc).AddTicks(9558), "doctor", 1L, new DateTime(2024, 4, 6, 13, 52, 29, 457, DateTimeKind.Utc).AddTicks(9559), "User Medical", new byte[] { 255, 55, 99, 12, 14, 172, 156, 19, 197, 208, 47, 169, 186, 97, 180, 10, 122, 72, 222, 246, 89, 110, 93, 130, 28, 70, 73, 123, 130, 140, 206, 38, 181, 83, 137, 18, 228, 249, 249, 0, 246, 56, 195, 38, 133, 30, 29, 9, 53, 60, 65, 112, 21, 148, 174, 98, 16, 96, 19, 232, 141, 228, 105, 71 }, new byte[] { 115, 213, 77, 70, 220, 98, 238, 170, 160, 155, 8, 197, 183, 66, 78, 144, 46, 232, 172, 30, 233, 69, 5, 15, 109, 88, 186, 144, 147, 147, 4, 253, 209, 30, 198, 213, 14, 95, 113, 81, 38, 113, 56, 29, 171, 239, 155, 177, 137, 202, 34, 60, 28, 144, 25, 212, 122, 183, 128, 180, 132, 151, 236, 73, 114, 140, 226, 100, 194, 33, 217, 47, 21, 111, 22, 193, 176, 186, 71, 121, 8, 238, 224, 183, 198, 109, 54, 210, 158, 26, 37, 236, 14, 18, 212, 64, 15, 251, 56, 136, 2, 189, 199, 111, 108, 211, 157, 245, 105, 53, 108, 38, 39, 44, 246, 156, 107, 44, 134, 224, 27, 253, 225, 32, 130, 177, 229, 227 }, "", null, "Medical", "E. South America Standard Time" });
+                values: new object[] { 2L, false, new DateTime(2024, 4, 7, 21, 58, 9, 694, DateTimeKind.Utc).AddTicks(8356), "doctor@sistemas.com", true, "pt-BR", new DateTime(2024, 4, 7, 21, 58, 9, 694, DateTimeKind.Utc).AddTicks(8357), "doctor", 1L, new DateTime(2024, 4, 7, 21, 58, 9, 694, DateTimeKind.Utc).AddTicks(8358), "User Medical", new byte[] { 104, 94, 194, 218, 182, 175, 36, 59, 99, 247, 229, 170, 92, 250, 218, 138, 87, 119, 133, 163, 87, 49, 195, 19, 152, 184, 181, 251, 50, 124, 186, 182, 186, 138, 54, 85, 13, 138, 196, 39, 63, 67, 204, 212, 52, 161, 59, 162, 218, 216, 169, 249, 30, 89, 122, 24, 4, 170, 206, 156, 6, 127, 0, 20 }, new byte[] { 54, 46, 182, 3, 211, 120, 69, 73, 183, 122, 158, 27, 222, 13, 33, 44, 27, 159, 239, 19, 6, 145, 189, 171, 221, 53, 110, 0, 207, 159, 13, 245, 93, 252, 142, 72, 74, 75, 87, 160, 253, 234, 85, 135, 189, 117, 234, 79, 99, 36, 111, 174, 31, 245, 94, 228, 108, 201, 146, 187, 103, 111, 71, 203, 169, 173, 135, 17, 102, 188, 255, 18, 78, 214, 116, 98, 245, 66, 188, 127, 221, 191, 18, 91, 196, 109, 130, 145, 235, 119, 251, 177, 177, 15, 223, 241, 189, 218, 58, 1, 225, 78, 118, 113, 71, 107, 42, 47, 175, 244, 125, 238, 115, 154, 243, 112, 30, 99, 77, 61, 134, 211, 141, 194, 56, 197, 124, 48 }, "", null, "Medical", "E. South America Standard Time" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Patient",
                 columns: new[] { "Id", "AddressCep", "AddressCity", "AddressNeighborhood", "AddressState", "AddressStreet", "Cpf", "CreatedDate", "CreatedUserId", "DateOfBirth", "Education", "Email", "EmergencyContactName", "EmergencyContactPhoneNumber", "Enable", "GenderId", "LastAccessDate", "MaritalStatus", "MedicalId", "ModifyDate", "ModifyUserId", "Name", "PhoneNumber", "Profession", "Rg" },
-                values: new object[] { 1L, "45675-970", "Aurelino Leal", "Centro", "Bahia", "Avenida Presidente Médici 264", "947.846.605-42", new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7536), 2L, new DateTime(1960, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "Superior", "tiago.thales.mendes@andrade.com", "Milena Isabelly Vanessa", "(73) 98540-4268", true, 1L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7537), (byte)0, 1L, new DateTime(2024, 4, 6, 13, 52, 29, 454, DateTimeKind.Utc).AddTicks(7537), null, "Tiago Thales Mendes", "(73) 2877-3408", "Professor", "13.809.283-7" });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "RoleGroupUser",
-                columns: new[] { "RoleGroupsId", "UsersId" },
-                values: new object[] { 2L, 2L });
+                values: new object[] { 1L, "45675-970", "Aurelino Leal", "Centro", "Bahia", "Avenida Presidente Médici 264", "947.846.605-42", new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6997), 2L, new DateTime(1960, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "Superior", "tiago.thales.mendes@andrade.com", "Milena Isabelly Vanessa", "(73) 98540-4268", true, 1L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6997), (byte)0, 1L, new DateTime(2024, 4, 7, 21, 58, 9, 692, DateTimeKind.Utc).AddTicks(6998), null, "Tiago Thales Mendes", "(73) 2877-3408", "Professor", "13.809.283-7" });
 
             migrationBuilder.CreateIndex(
                 name: "Idx_ApplicationLanguage_ResourceKey_Language_LanguageKey_Unique",
@@ -1089,10 +1067,10 @@ namespace SmartDigitalPsico.Data.Migrations
                 column: "ModifyUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MedicalSpecialty_SpecialtiesId",
+                name: "IX_MedicalSpecialty_SpecialtyId",
                 schema: "dbo",
                 table: "MedicalSpecialty",
-                column: "SpecialtiesId");
+                column: "SpecialtyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Patient_CreatedUserId",
@@ -1233,10 +1211,10 @@ namespace SmartDigitalPsico.Data.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleGroupUser_UsersId",
+                name: "IX_RoleGroupUser_RoleGroupId",
                 schema: "dbo",
                 table: "RoleGroupUser",
-                column: "UsersId");
+                column: "RoleGroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_MedicalId",
