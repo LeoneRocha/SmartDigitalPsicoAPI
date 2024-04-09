@@ -43,9 +43,4 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.HasMany(e => e.PatientInfoTags).WithOne(p => p.Patient).HasForeignKey(p => p.PatientId);  
         } 
     } 
-}
-//builder.Property(p => p.Gender);
-
-/* builder.HasOne(e => e.Gender)
-      .WithMany(b => b.Patients)
-      .HasForeignKey(e => e.Gender);*/
+} 
