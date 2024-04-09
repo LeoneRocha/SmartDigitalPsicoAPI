@@ -30,9 +30,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.HasOne(e => e.Medical).WithMany().HasForeignKey(e => e.MedicalId);
             builder.HasMany(e => e.MedicalsCreateds).WithOne(e => e.CreatedUser).HasForeignKey(e => e.CreatedUserId);
             builder.HasMany(e => e.MedicalModifies).WithOne(e => e.ModifyUser).HasForeignKey(e => e.ModifyUserId);
-            builder.HasMany(e => e.MedicalsUsers).WithOne(e => e.User).HasForeignKey(e => e.UserId);
-
-            //builder.HasMany(m => m.RoleGroups).WithMany(s => s.Users).UsingEntity(j => j.ToTable("RoleGroupUser"));//RolesGroupUser 
+            builder.HasMany(e => e.MedicalsUsers).WithOne(e => e.User).HasForeignKey(e => e.UserId); 
         }
     }
 }
