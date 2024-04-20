@@ -1,0 +1,15 @@
+version: '3.4' 
+name: smartdigitalpsico-api-project
+services:  
+   smartdigitalpsico.webapi:
+    image:  ${DOCKER_REGISTRY-}smartdigitalpsicowebapi
+    container_name: smartdigitalpsico_api_container
+    build:
+      context: .
+      dockerfile: SmartDigitalPsico.WebAPI/Dockerfile 
+    ports:   
+       - "80"  
+       - "443"  
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
