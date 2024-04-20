@@ -48,6 +48,9 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new RoleGroupMockData());
             modelBuilder.ApplyConfiguration(new SpecialtyMockData());
             modelBuilder.ApplyConfiguration(new UserMockData());
+            modelBuilder.ApplyConfiguration(new RoleGroupUserMockData());
+
+            
             base.OnModelCreating(modelBuilder);
         }
     }

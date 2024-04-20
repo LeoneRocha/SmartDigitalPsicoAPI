@@ -1,4 +1,5 @@
 using AutoMapper;
+using Azure;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -248,10 +249,13 @@ namespace SmartDigitalPsico.Service.Principals
         {
             TokenVO token = await validateCredentials(user);
             GetUserAuthenticatedVO response = _mapper.Map<GetUserAuthenticatedVO>(user);
+             
+            fillRoleGroupsAuthenticate(response, user);
+
             response.MedicalId = user.Medical?.Id;
             response.TokenAuth = token;
             return response;
-        }
+        } 
 
         private async Task<TokenVO> validateCredentials(User user)
         {
@@ -369,7 +373,7 @@ namespace SmartDigitalPsico.Service.Principals
 
         public override async Task<ServiceResponse<GetUserVO>> FindByID(long id)
         {
-            ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
+                ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
                
             try
             {
@@ -378,20 +382,7 @@ namespace SmartDigitalPsico.Service.Principals
                 {
                     response.Data = _mapper.Map<GetUserVO>(entityResponse);
 
-                    if (response.Data != null)
-                    {
-                        response.Data.RoleGroups = new List<GetRoleGroupVO>();
-                        foreach (var item in entityResponse.UserRoleGroups)
-                        {
-                            response.Data.RoleGroups.Add(new GetRoleGroupVO()
-                            {
-                                Description = item.RoleGroup.Description,
-                                Id = item.RoleGroup.Id,
-                                Enable = item.RoleGroup.Enable,
-                                Language = item.RoleGroup.Language,
-                            });
-                        }
-                    }
+                    fillRoleGroups(response, entityResponse);
                 }
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
@@ -403,6 +394,43 @@ namespace SmartDigitalPsico.Service.Principals
             }
 
             return response;
+        }
+
+        private static void fillRoleGroups(ServiceResponse<GetUserVO> response, User entityResponse)
+        {
+            if (response.Data != null)
+            {
+                response.Data.RoleGroups = new List<GetRoleGroupVO>();
+                foreach (var item in entityResponse.UserRoleGroups)
+                {
+                    response.Data.RoleGroups.Add(new GetRoleGroupVO()
+                    { 
+                        RolePolicyClaimCode = item.RoleGroup.RolePolicyClaimCode,
+                        Description = item.RoleGroup.Description,
+                        Id = item.RoleGroup.Id,
+                        Enable = item.RoleGroup.Enable,
+                        Language = item.RoleGroup.Language,
+                    });
+                }
+            }
+        }
+        private static void fillRoleGroupsAuthenticate(GetUserAuthenticatedVO response, User entityResponse)
+        {
+            if (response != null)
+            {
+                response.RoleGroups = new List<GetRoleGroupVO>();
+                foreach (var item in entityResponse.UserRoleGroups)
+                {
+                    response.RoleGroups.Add(new GetRoleGroupVO()
+                    {
+                        RolePolicyClaimCode = item.RoleGroup.RolePolicyClaimCode,
+                        Description = item.RoleGroup.Description,
+                        Id = item.RoleGroup.Id,
+                        Enable = item.RoleGroup.Enable,
+                        Language = item.RoleGroup.Language,
+                    });
+                }
+            }
         }
     }
 }
