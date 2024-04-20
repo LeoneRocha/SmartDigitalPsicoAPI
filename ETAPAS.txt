@@ -34,7 +34,7 @@ https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 	
 - 4) Configurar ao realizar pull request para master disparar pipeline master ------- Finalizado
 
-- 5) Configurar o sonar (CODE QUALITY)
+- 5) Configurar o sonar (CODE QUALITY) ------- Finalizado
 
 - 6) Habilitar docker
 
