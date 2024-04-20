@@ -5,6 +5,7 @@ https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build
 https://portal.azure.com/#home
 https://painelbd.host.uol.com.br/main.html?servicetype=mysql
 https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
+https://hub.docker.com/repository/docker/leonecr/smartdigitalpsicorepo/general
 ** para gerar pro mysql tem que gerar do zero a migracao 
 ----------------------------------------------------
  Readequacao 
@@ -21,7 +22,15 @@ https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 10  - Mudar para MYSQL ------- Finalizado
 11  - Automação ------------ Finalizado
 12  - HABLITAR SONNAR ------------ Finalizado
-13  - HABLITAR DOCKER
+13  - HABLITAR DOCKER---------- EM ANDAMENTO 
+-- ADICIONADO SUPORTE -- OK 
+-- CRIADO SERVICE CONNECTION
+-- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB
+-- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB 
+--- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO
+
+smartdigitalpsicorepo
+
 14  - CRIAR PROJETO DE TESTE DO DATA 
 15  - TESTAR O SISTEMA ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
 
