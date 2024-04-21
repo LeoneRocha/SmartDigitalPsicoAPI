@@ -85,16 +85,26 @@ docker-compose up
 --VER IMAGENS CRIADA
 docker images 
 
+--docker run -d -p 443:443 --name nome-do-seu-container smartdigitalpsicowebapi_image
+
+--docker run -d -p 443:443  smartdigitalpsicowebapi_image
+
+--verificar se o contêiner Docker está sendo executado corretamente
+docker ps
+
 ---------DOCKER ETPAS MANUAL 
-
-
-
----
-docker build -t smartdigitalpsicowebapi-image -f Dockerfile .
-docker build -t smartdigitalpsicowebapi-image -f Dockerfile ./SmartDigitalPsico.WebAPI
+docker login -u seu-usuario -p sua-senha
 
 # Criar a imagem localmente
-docker build . -t dominio/hello-word-dotnet-api:latest
+docker-compose up --build
 
 #publicar a imagem no registro
-docker push dominio/hello-word-dotnet-api:latest
+docker push leonecr/smartdigitalpsicowebapi_image:latest
+ 
+
+docker push leonecr/smartdigitalpsicowebapi_image:latest
+
+--- 
+docker run -p 54814:80 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app0
+docker run -p 54815:443 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app1
+-p 54815:80: Esta opção mapeia a porta 54815 do seu host para a porta 80 do contêiner Docker. Isso significa que qualquer tráfego que chega à porta 54815 do seu host será encaminhado para a porta 80 do contêiner Docker.

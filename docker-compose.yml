@@ -2,7 +2,7 @@ version: '3.4'
 name: smartdigitalpsico-api-project
 services:  
    smartdigitalpsico.webapi:
-    image:  smartdigitalpsicowebapi_image
+    image:  leonecr/smartdigitalpsicowebapi_image:latest
     container_name: smartdigitalpsico_api_container
     build:
       context: .
