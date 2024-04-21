@@ -2,7 +2,7 @@ version: '3.4'
 name: smartdigitalpsico-api-project
 services:  
    smartdigitalpsico.webapi:
-    image:  ${DOCKER_REGISTRY-}smartdigitalpsicowebapi
+    image:  smartdigitalpsicowebapi_image
     container_name: smartdigitalpsico_api_container
     build:
       context: .

@@ -76,3 +76,25 @@ secretKey = Convert.ToBase64String(key);
 
 
 --------- Para ativar o gatilho do github basta ativar a extensao do azure pipelines 
+--GERAR A IMAGEM E SUBIR NO DOCKER
+docker-compose build --force-rm
+
+-- EXECUTAR 
+docker-compose up
+
+--VER IMAGENS CRIADA
+docker images 
+
+---------DOCKER ETPAS MANUAL 
+
+
+
+---
+docker build -t smartdigitalpsicowebapi-image -f Dockerfile .
+docker build -t smartdigitalpsicowebapi-image -f Dockerfile ./SmartDigitalPsico.WebAPI
+
+# Criar a imagem localmente
+docker build . -t dominio/hello-word-dotnet-api:latest
+
+#publicar a imagem no registro
+docker push dominio/hello-word-dotnet-api:latest
