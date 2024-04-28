@@ -10,6 +10,8 @@ https://hub.docker.com/repository/docker/leonecr/smartdigitalpsicorepo/general
 ----------------------------------------------------
  Readequacao 
 
+ smartdigitalpsicoapidocker
+
 01  - Domain ------- Finalizado 
 02  - Data ------- Finalizado  
 03  - Service -------  Finalizado 
@@ -98,6 +100,8 @@ docker login -u seu-usuario -p sua-senha
 # Criar a imagem localmente
 docker-compose up --build
 
+docker-compose -f docker-compose.yml build --force-rm
+
 #publicar a imagem no registro
 docker push leonecr/smartdigitalpsicowebapi_image:latest
  
@@ -108,3 +112,47 @@ docker push leonecr/smartdigitalpsicowebapi_image:latest
 docker run -p 54814:80 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app0
 docker run -p 54815:443 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app1
 -p 54815:80: Esta opção mapeia a porta 54815 do seu host para a porta 80 do contêiner Docker. Isso significa que qualquer tráfego que chega à porta 54815 do seu host será encaminhado para a porta 80 do contêiner Docker.
+
+
+EM um projeto C# .net 8 web api configurei o docker file e docker compose  e ao rodar 
+docker-compose up a imagem container nao abre as portas 80 vide imagem para detalhes 
+
+
+mESMO ASSIM NAO FUNCIONOU DOCKER INTERNAMENTE RODA POREM NAO CONSIGO ACESSAR NA MAQUINA HOST
+
+
+Entendo que você ainda está enfrentando problemas para acessar o aplicativo na máquina host, mesmo com o Docker rodando internamente. Aqui estão algumas outras coisas que você pode verificar:
+
+Firewall/Segurança de Rede: Verifique se o firewall ou as configurações de segurança da rede estão permitindo o tráfego nas portas que você está tentando usar.
+Verifique o IP do Container Docker: Às vezes, o problema pode estar relacionado ao endereço IP do container Docker. Você pode tentar acessar o aplicativo usando o IP do container Docker em vez de localhost. Você pode obter o IP do container Docker usando o seguinte comando no terminal:
+
+
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' smartdigitalpsico_api_container
+
+
+Verifique o Log do Container: Verifique os logs do container Docker para ver se há alguma mensagem de erro ou aviso que possa indicar o problema. Você pode fazer isso com o seguinte comando:
+docker logs container_id_or_name
+
+Espero que isso ajude! Se você ainda estiver enfrentando problemas, por favor, me avise!
+
+172.19.0.2
+docker logs smartdigitalpsico_api_container
+
+
+Se isso não resolver o problema, pode ser útil verificar se há algum outro serviço na sua máquina host que possa estar usando as portas 80 e 443. Você pode fazer isso usando o comando netstat -ano | findstr :<port_number>. Se algum serviço estiver usando essas portas, você pode precisar parar esse serviço ou usar diferentes portas para o seu aplicativo.
+
+
+netstat -ano | findstr :57190
+
+Obrigado por compartilhar a saída do comando netstat. A partir desta saída, podemos ver que a porta 57190 está de fato aberta e ouvindo conexões. Isso indica que o Docker está configurado corretamente para mapear a porta do container para a porta do host.
+
+Se você ainda não consegue acessar o aplicativo na máquina host, pode ser um problema com o aplicativo em si. Aqui estão algumas coisas que você pode verificar:
+
+Logs do Aplicativo: Verifique os logs do aplicativo para ver se há alguma mensagem de erro ou aviso que possa indicar o problema. Você pode fazer isso com o seguinte comando:
+docker logs smartdigitalpsico_api_container
+
+Configuração do Aplicativo: Certifique-se de que o aplicativo está configurado para ouvir em todas as interfaces de rede (0.0.0.0), não apenas localhost (127.0.0.1).
+Teste de Conectividade Interna: Você pode tentar se conectar ao aplicativo a partir de dentro do próprio container Docker para ver se o aplicativo está funcionando corretamente. Você pode fazer isso com o seguinte comando:
+docker exec -it smartdigitalpsico_api_container curl localhost:80
+
+Espero que isso ajude! Se você ainda estiver enfrentando problemas, por favor, me avise!

@@ -4,12 +4,21 @@ services:
    smartdigitalpsico.webapi:
     image:  leonecr/smartdigitalpsicowebapi_image:latest
     container_name: smartdigitalpsico_api_container
+    environment:
+      TZ: America/Sao_Paulo
+      ASPNETCORE_ENVIRONMENT: Production 
+      ASPNETCORE_URLS: https://+:443;http://+:80
     build:
       context: .
       dockerfile: SmartDigitalPsico.WebAPI/Dockerfile 
-    ports:   
+    ports: # porta do host:porta do container    
        - "80"  
        - "443"  
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - smartdigitalpsiconetwork  
+networks:
+  smartdigitalpsiconetwork:
+    driver: bridge
