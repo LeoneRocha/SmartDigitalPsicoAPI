@@ -6,37 +6,9 @@ https://portal.azure.com/#home
 https://painelbd.host.uol.com.br/main.html?servicetype=mysql
 https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 https://hub.docker.com/u/leonecr
-
-
---
-https://imasters.com.br/devsecops/devops-ci-cd-azure-pipeline-docker-yaml
----
-
- 
- docker-compose -f docker-compose.yml build --force-rm
-
-
-docker build . -t leonecr/smartdigitalpsicowebapi_image:latest
-
-docker run -p 8088:80 leonecr/smartdigitalpsicowebapiimage:dev
-
-docker run -p :80 -p :443 leonecr/smartdigitalpsicowebapiimage:dev
-
- 
-docker port id_do_container"
-
-docker inspect sharp_neumann | findstr "IPAddress"
-
-docker inspect -f '{{range $key, $value := .NetworkSettings.Networks}}{{$key}} {{end}}' sharp_neumann
-
-docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' dockercompose14570377054258267338_smartdigitalpsiconetwork
-
-"
 ** para gerar pro mysql tem que gerar do zero a migracao 
-----------------------------------------------------
- Readequacao 
-
- smartdigitalpsicoapidocker
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ ------------------------------------------------------------------------ Readequacao  1  - CONCLUIDO ------------------------------------------------------------------------ 
 
 01  - Domain ------- Finalizado 
 02  - Data ------- Finalizado  
@@ -50,19 +22,15 @@ docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' dockercompose
 10  - Mudar para MYSQL ------- Finalizado
 11  - Automação ------------ Finalizado
 12  - HABLITAR SONNAR ------------ Finalizado
+
 13  - HABLITAR DOCKER---------- EM ANDAMENTO 
--- ADICIONADO SUPORTE -- OK 
--- CRIADO SERVICE CONNECTION
--- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB
--- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB 
---- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO
+-- ADICIONADO SUPORTE -- OK  -- OK 
+-- CRIADO SERVICE CONNECTION -- OK 
+-- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB - NAO TA RODANDO 
+-- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB - NAO TA RODANDO 
+--- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO- NAO TA RODANDO 
 
-smartdigitalpsicorepo
-
-14  - CRIAR PROJETO DE TESTE DO DATA 
-15  - TESTAR O SISTEMA ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
-
-----------------------------------------------------
+-------------------------------------------------------
 - 1) Configurar ao realizar pull request para integration disparar pipeline integration  ------- Finalizado
 
 - 2) Configurar a integration para Deploy automatico  ------- Finalizado
@@ -73,12 +41,24 @@ smartdigitalpsicorepo
 
 - 5) Configurar o sonar (CODE QUALITY) ------- Finalizado
 
-- 6) Habilitar docker
+- 6) Habilitar docker- PARCIAL COM ERRO EM DEPLOY
+ 
+------------------------------------------------------- 
 
-- 5) Atuar nos erros do sonar (CODE QUALITY)
+------------------------------------------------------------------------ Readequacao  1 - CONCLUIDO ------------------------------------------------------------------------ 
 
-----------------------------------------------------
+ 
+------------------------------------------------------------------------ Readequacao  2 PENDENTE ------------------------------------------------------------------------ 
 
+1) - CRIAR PROJETO DE TESTE UNITARIO DO DATA --   
+2) - TESTAR O SISTEMA VIA TELA  ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
+3) - Atuar nos erros do sonar (CODE QUALITY)
+
+------------------------------------------------------------------------ Readequacao  2 PENDENTE ------------------------------------------------------------------------ 
+ 
+  
+
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 *** rEPOSITORIO AI INSERIR SETAR ENABLE COMO TRUE
 ----------------------------------------------------
@@ -182,3 +162,34 @@ Teste de Conectividade Interna: Você pode tentar se conectar ao aplicativo a par
 docker exec -it smartdigitalpsico_api_container curl localhost:80
 
 Espero que isso ajude! Se você ainda estiver enfrentando problemas, por favor, me avise!
+
+
+
+
+
+
+
+--
+https://imasters.com.br/devsecops/devops-ci-cd-azure-pipeline-docker-yaml
+---
+
+ 
+ docker-compose -f docker-compose.yml build --force-rm
+
+
+docker build . -t leonecr/smartdigitalpsicowebapi_image:latest
+
+docker run -p 8088:80 leonecr/smartdigitalpsicowebapiimage:dev
+
+docker run -p :80 -p :443 leonecr/smartdigitalpsicowebapiimage:dev
+
+ 
+docker port id_do_container"
+
+docker inspect sharp_neumann | findstr "IPAddress"
+
+docker inspect -f '{{range $key, $value := .NetworkSettings.Networks}}{{$key}} {{end}}' sharp_neumann
+
+docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' dockercompose14570377054258267338_smartdigitalpsiconetwork
+
+"
