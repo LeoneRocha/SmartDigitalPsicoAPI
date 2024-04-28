@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443 
+EXPOSE 443  
 
 # Copia dos arquivos do projeto
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -22,6 +22,10 @@ COPY ["SmartDigitalPsico.Domain/SmartDigitalPsico.Domain.csproj", "SmartDigitalP
 # Restaura as dependencias do projeto
 RUN dotnet restore "./SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj"
 
+# Copia do codigo fonte
+COPY . .
+
+# Build da aplicacao
 WORKDIR "/src/SmartDigitalPsico.WebAPI"
 RUN dotnet build "./SmartDigitalPsico.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

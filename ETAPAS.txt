@@ -5,7 +5,33 @@ https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build
 https://portal.azure.com/#home
 https://painelbd.host.uol.com.br/main.html?servicetype=mysql
 https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
-https://hub.docker.com/repository/docker/leonecr/smartdigitalpsicorepo/general
+https://hub.docker.com/u/leonecr
+
+
+--
+https://imasters.com.br/devsecops/devops-ci-cd-azure-pipeline-docker-yaml
+---
+
+ 
+ docker-compose -f docker-compose.yml build --force-rm
+
+
+docker build . -t leonecr/smartdigitalpsicowebapi_image:latest
+
+docker run -p 8088:80 leonecr/smartdigitalpsicowebapiimage:dev
+
+docker run -p :80 -p :443 leonecr/smartdigitalpsicowebapiimage:dev
+
+ 
+docker port id_do_container"
+
+docker inspect sharp_neumann | findstr "IPAddress"
+
+docker inspect -f '{{range $key, $value := .NetworkSettings.Networks}}{{$key}} {{end}}' sharp_neumann
+
+docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' dockercompose14570377054258267338_smartdigitalpsiconetwork
+
+"
 ** para gerar pro mysql tem que gerar do zero a migracao 
 ----------------------------------------------------
  Readequacao 
