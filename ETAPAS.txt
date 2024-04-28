@@ -114,6 +114,9 @@ docker push leonecr/smartdigitalpsicowebapi_image:latest
 
 docker push leonecr/smartdigitalpsicowebapi_image:latest
 
+
+docker build . -t leonecr/smartdigitalpsicowebapi_image:latest
+
 --- 
 docker run -p 54814:80 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app0
 docker run -p 54815:443 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app1
@@ -193,3 +196,80 @@ docker inspect -f '{{range $key, $value := .NetworkSettings.Networks}}{{$key}} {
 docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' dockercompose14570377054258267338_smartdigitalpsiconetwork
 
 "
+
+
+
+
+
+# Imagem base
+FROM mcr.microsoft.com/dotnet/core/sdk:8 AS build-env
+WORKDIR /app
+
+# Copia csproj e restaura dependências
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copia tudo e compila
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Gera imagem de runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:8
+WORKDIR /app
+COPY --from=build-env /app/out .
+
+# Copia o certificado SSL
+COPY certificate.pfx .
+
+# Configura variáveis de ambiente para o certificado SSL
+ENV ASPNETCORE_URLS="https://+;http://+"
+ENV ASPNETCORE_HTTPS_PORT=443
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="password"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path="./certificate.pfx"
+
+# Expõe as portas 80 e 443
+EXPOSE 80
+EXPOSE 443
+
+ENTRYPOINT ["dotnet", "YourWebApi.dll"]
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>()
+                          .UseUrls("http://*:80", "https://*:443"); // Configura o Kestrel para ouvir nas portas 80 e 443
+            });
+}
+
+
+webBuilder.UseKestrel(serverOptions =>
+{
+    serverOptions.Listen(IPAddress.Any, 80);
+    serverOptions.Listen(IPAddress.Any, 443, listenOptions =>
+    {
+        listenOptions.UseHttps("certificate.pfx", "password");
+    });
+})
+.UseStartup<Startup>();
+
+
+
+# Copia o certificado SSL
+COPY certificate.pfx .
+
+# Configura variáveis de ambiente para o certificado SSL
+ENV ASPNETCORE_URLS="https://+;http://+"
+ENV ASPNETCORE_HTTPS_PORT=443
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="password"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
+
+
+

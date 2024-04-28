@@ -1,0 +1,44 @@
+Para gerar um certificado SSL autoassinado e exportá-lo como um arquivo .pfx, você pode usar o OpenSSL, uma ferramenta de código aberto que suporta uma ampla gama de operações de criptografia. Aqui estão os passos:
+
+1. **Instale o OpenSSL**: Se você ainda não tem o OpenSSL instalado, você pode baixá-lo do site oficial do OpenSSL. A instalação varia dependendo do seu sistema operacional.
+
+2. **Gere uma chave privada e um certificado autoassinado**: Abra um terminal e execute o seguinte comando:
+
+    ```bash
+    openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+    ```
+
+    Este comando irá gerar uma nova chave privada (`key.pem`) e um novo certificado autoassinado (`cert.pem`). Você será solicitado a inserir uma senha para a chave privada e algumas informações para o certificado.
+
+3. **Combine a chave privada e o certificado em um arquivo .pfx**: Execute o seguinte comando:
+
+    ```bash
+    openssl pkcs12 -export -out certificate.pfx -inkey key.pem -in cert.pem
+    ```
+
+    Este comando irá gerar um arquivo `certificate.pfx` que contém tanto a chave privada quanto o certificado. Você será solicitado a inserir uma senha para o arquivo .pfx.
+
+Agora que você tem um arquivo .pfx, você pode adicioná-lo ao seu projeto Docker. Aqui está como você pode fazer isso:
+
+1. **Adicione o arquivo .pfx ao seu repositório de código**: Você deve adicionar o arquivo `certificate.pfx` ao mesmo diretório que o seu Dockerfile. Certifique-se de que o arquivo .pfx está incluído no seu sistema de controle de versão.
+
+2. **Atualize o Dockerfile para copiar o arquivo .pfx para o contêiner**: Adicione a seguinte linha ao seu Dockerfile:
+
+    ```Dockerfile
+    COPY certificate.pfx .
+    ```
+
+    Este comando copiará o arquivo `certificate.pfx` do seu repositório de código para o contêiner Docker.
+
+3. **Configure o ASP.NET Core para usar o certificado**: Atualize as variáveis de ambiente no seu Dockerfile para apontar para o novo arquivo .pfx:
+
+    ```Dockerfile
+    ENV ASPNETCORE_Kestrel__Certificates__Default__Password="password"
+    ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
+    ```
+
+    Substitua `"password"` pela senha que você usou ao gerar o arquivo .pfx.
+
+Por favor, note que este é apenas um exemplo básico. Dependendo das necessidades específicas do seu projeto, você pode precisar ajustar ou adicionar mais instruções ao Dockerfile. Além disso, lembre-se de que o uso de certificados SSL em contêineres Docker pode ter implicações de segurança e deve ser feito com cuidado. Recomendo que você consulte a documentação oficial do Docker e do ASP.NET Core para obter mais detalhes. 
+
+Espero que isso ajude! Se você tiver mais perguntas, sinta-se à vontade para perguntar.

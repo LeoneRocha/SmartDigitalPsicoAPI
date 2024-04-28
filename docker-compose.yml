@@ -9,7 +9,7 @@ services:
       ASPNETCORE_URLS: https://+:443;http://+:80
     build:
       context: .
-      dockerfile: SmartDigitalPsico.WebAPI/Dockerfile 
+      dockerfile: Dockerfile 
     ports: # porta do host:porta do container    
        - "80"  
        - "443"  
