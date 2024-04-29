@@ -9,15 +9,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copia do codigo fonte
-#COPY . .
+# Copia do codigo fonte 
 COPY . ./
 
-COPY *.csproj ./
-#COPY ["SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj", "SmartDigitalPsico.WebAPI/"]
-#COPY ["SmartDigitalPsico.Service/SmartDigitalPsico.Service.csproj", "SmartDigitalPsico.Service/"]
-#COPY ["SmartDigitalPsico.Data/SmartDigitalPsico.Data.csproj", "SmartDigitalPsico.Data/"]
-#COPY ["SmartDigitalPsico.Domain/SmartDigitalPsico.Domain.csproj", "SmartDigitalPsico.Domain/"]
+COPY *.csproj ./ 
 
 # Restaura as dependencias do projeto
 RUN dotnet restore "./SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj"
@@ -28,11 +23,13 @@ COPY . ./
 # Build da aplicacao
 WORKDIR "/src/SmartDigitalPsico.WebAPI"
 RUN dotnet build "./SmartDigitalPsico.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
+ 
 # Publicacao da aplicacao
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./SmartDigitalPsico.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+COPY *.pfx . 
 
 # Execucao da aplicacao
 FROM base AS final
@@ -41,16 +38,18 @@ COPY --from=publish /app/publish .
 
 ENV TZ America/Sao_Paulo
 ENV ASPNETCORE_ENVIRONMENT Production
-ENV ASPNETCORE_URLS https://+:443;http://+:80;http://+:5001
+ENV ASPNETCORE_URLS https://+:443;http://+:80
+
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="sdp!2024pfx"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx" 
 
 # Volumes
-VOLUME ["/root/.microsoft/usersecrets"]
-VOLUME ["/root/.aspnet/https"]
+#VOLUME ["/root/.microsoft/usersecrets"]
+#VOLUME ["/root/.aspnet/https"]
 
 # Expõe as portas 80 e 443
 EXPOSE 80
-EXPOSE 443  
-EXPOSE 5001  
+EXPOSE 443   
 #EXPOSE 80 443 5001
 # Define o comando de entrada
 ENTRYPOINT ["dotnet", "SmartDigitalPsico.WebAPI.dll"]
