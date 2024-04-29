@@ -26,9 +26,12 @@ https://hub.docker.com/u/leonecr
 13  - HABLITAR DOCKER---------- EM ANDAMENTO 
 -- ADICIONADO SUPORTE -- OK  -- OK 
 -- CRIADO SERVICE CONNECTION -- OK 
--- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB - NAO TA RODANDO 
--- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB - NAO TA RODANDO 
---- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO- NAO TA RODANDO 
+-- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB -- OK 
+-- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB -- OK 
+
+---- RODAR A IMAGEM DO HUB LOCAL 
+
+-- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO- NAO TA RODANDO 
 
 -------------------------------------------------------
 - 1) Configurar ao realizar pull request para integration disparar pipeline integration  ------- Finalizado
@@ -41,7 +44,7 @@ https://hub.docker.com/u/leonecr
 
 - 5) Configurar o sonar (CODE QUALITY) ------- Finalizado
 
-- 6) Habilitar docker- PARCIAL COM ERRO EM DEPLOY
+- 6) Habilitar docker -- EM ANDAMENTO 
  
 ------------------------------------------------------- 
 
@@ -272,4 +275,8 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Password="password"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
 
 
+
+
+
+docker run -it --rm  leonecr/smartdigitalpsicoapi:latest /bin/bash
 
