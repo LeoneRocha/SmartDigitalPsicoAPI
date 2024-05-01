@@ -14,6 +14,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
+# Copia do codigo fonte
+COPY . ./
+
 COPY *.csproj ./
 
 #COPY ["SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj", "SmartDigitalPsico.WebAPI/"]
@@ -22,10 +25,10 @@ COPY *.csproj ./
 #COPY ["SmartDigitalPsico.Domain/SmartDigitalPsico.Domain.csproj", "SmartDigitalPsico.Domain/"]
 
 # Restaura as dependencias do projeto
-RUN dotnet restore "./SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj"
+RUN dotnet restore "SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj"
 
 # Copia do codigo fonte
-COPY . .
+COPY . ./
 
 # Build da aplicacao
 WORKDIR "/src/SmartDigitalPsico.WebAPI"
