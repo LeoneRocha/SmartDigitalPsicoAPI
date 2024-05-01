@@ -40,8 +40,8 @@ ENV TZ America/Sao_Paulo
 ENV ASPNETCORE_ENVIRONMENT Production
 ENV ASPNETCORE_URLS https://+:443;http://+:80
 
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password="sdp!2024pfx"
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx" 
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="4d67018d-4a23-43cb-8ff1-6249058a5774"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificateAPI.pfx" 
 
 # Volumes
 #VOLUME ["/root/.microsoft/usersecrets"]
