@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 
-# Expıe as portas 80 e 443
+# Exp√µe as portas 80 e 443
 EXPOSE 80
 EXPOSE 443 
 

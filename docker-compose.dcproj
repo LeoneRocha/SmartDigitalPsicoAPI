@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>c6f60bbe-df24-45c5-8178-4989f14a2623</ProjectGuid>
+    <ProjectGuid>63967574-3e7f-495c-b629-9235a390269a</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>smartdigitalpsico.webapi</DockerServiceName>

@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.Data", "S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A08F06B5-C5FF-4B7B-BFB2-2A98146629FB}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		certificate.pfx = certificate.pfx
+		certificateAPI.pfx = certificateAPI.pfx
+		SmartDigitalPsico.WebAPI\Dockerfile = SmartDigitalPsico.WebAPI\Dockerfile
 		ETAPAS.txt = ETAPAS.txt
 	EndProjectSection
 EndProject
@@ -18,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.WebAPI", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.Data.Test", "SmartDigitalPsico.Data.Test\SmartDigitalPsico.Data.Test.csproj", "{2045B577-E721-4ED0-91D9-4A3E42FE0F14}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C6F60BBE-DF24-45C5-8178-4989F14A2623}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{63967574-3E7F-495C-B629-9235A390269A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,10 +50,10 @@ Global
 		{2045B577-E721-4ED0-91D9-4A3E42FE0F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2045B577-E721-4ED0-91D9-4A3E42FE0F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2045B577-E721-4ED0-91D9-4A3E42FE0F14}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6F60BBE-DF24-45C5-8178-4989F14A2623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6F60BBE-DF24-45C5-8178-4989F14A2623}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6F60BBE-DF24-45C5-8178-4989F14A2623}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6F60BBE-DF24-45C5-8178-4989F14A2623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63967574-3E7F-495C-B629-9235A390269A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63967574-3E7F-495C-B629-9235A390269A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63967574-3E7F-495C-B629-9235A390269A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63967574-3E7F-495C-B629-9235A390269A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
