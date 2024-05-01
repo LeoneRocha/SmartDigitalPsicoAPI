@@ -1,0 +1,118 @@
+C:\Users\leocr\AppData\Roaming\ASP.NET\Https
+
+C:\Users\leocr\AppData\Roaming\Microsoft\UserSecrets\2635b1f2-66d1-4197-bb29-908740cba17d
+
+Para gerar um certificado SSL autoassinado e exportá-lo como um arquivo .pfx, você pode usar o OpenSSL, uma ferramenta de código aberto que suporta uma ampla gama de operações de criptografia. Aqui estão os passos:
+
+1. **Instale o OpenSSL**: Se você ainda não tem o OpenSSL instalado, você pode baixá-lo do site oficial do OpenSSL. A instalação varia dependendo do seu sistema operacional.
+
+2. **Gere uma chave privada e um certificado autoassinado**: Abra um terminal e execute o seguinte comando:
+
+    ```bash
+    openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+    ```
+
+
+
+    Este comando irá gerar uma nova chave privada (`key.pem`) e um novo certificado autoassinado (`cert.pem`). Você será solicitado a inserir uma senha para a chave privada e algumas informações para o certificado.
+
+3. **Combine a chave privada e o certificado em um arquivo .pfx**: Execute o seguinte comando:
+
+    ```bash
+    openssl pkcs12 -export -out certificate.pfx -inkey key.pem -in cert.pem
+    ```
+	
+	smartdigitalpsico
+	sdp!2024cert
+	
+	sdp!2024pfx
+
+    Este comando irá gerar um arquivo `certificate.pfx` que contém tanto a chave privada quanto o certificado. Você será solicitado a inserir uma senha para o arquivo .pfx.
+
+Agora que você tem um arquivo .pfx, você pode adicioná-lo ao seu projeto Docker. Aqui está como você pode fazer isso:
+
+1. **Adicione o arquivo .pfx ao seu repositório de código**: Você deve adicionar o arquivo `certificate.pfx` ao mesmo diretório que o seu Dockerfile. Certifique-se de que o arquivo .pfx está incluído no seu sistema de controle de versão.
+
+2. **Atualize o Dockerfile para copiar o arquivo .pfx para o contêiner**: Adicione a seguinte linha ao seu Dockerfile:
+
+    ```Dockerfile
+    COPY certificate.pfx .
+    ```
+
+    Este comando copiará o arquivo `certificate.pfx` do seu repositório de código para o contêiner Docker.
+
+3. **Configure o ASP.NET Core para usar o certificado**: Atualize as variáveis de ambiente no seu Dockerfile para apontar para o novo arquivo .pfx:
+
+    ```Dockerfile
+    ENV ASPNETCORE_Kestrel__Certificates__Default__Password="password"
+    ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
+    ```
+
+    Substitua `"password"` pela senha que você usou ao gerar o arquivo .pfx.
+
+Por favor, note que este é apenas um exemplo básico. Dependendo das necessidades específicas do seu projeto, você pode precisar ajustar ou adicionar mais instruções ao Dockerfile. Além disso, lembre-se de que o uso de certificados SSL em contêineres Docker pode ter implicações de segurança e deve ser feito com cuidado. Recomendo que você consulte a documentação oficial do Docker e do ASP.NET Core para obter mais detalhes. 
+
+Espero que isso ajude! Se você tiver mais perguntas, sinta-se à vontade para perguntar.
+
+
+https://docs.docker.com/engine/security/certificates/
+
+
+
+Estou com erro ao rodar um api .net core 8 com seguinte dockerfile 
+
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# Imagem base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
+WORKDIR /app
+
+# Copia dos arquivos do projeto
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+# Copia do codigo fonte 
+COPY . ./
+
+COPY *.csproj ./ 
+
+# Restaura as dependencias do projeto
+RUN dotnet restore "./SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj"
+
+# Copia do codigo fonte
+COPY . ./
+
+# Build da aplicacao
+WORKDIR "/src/SmartDigitalPsico.WebAPI"
+RUN dotnet build "./SmartDigitalPsico.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Publicacao da aplicacao
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./SmartDigitalPsico.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# Execucao da aplicacao
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+ENV TZ America/Sao_Paulo
+ENV ASPNETCORE_ENVIRONMENT Production
+ENV ASPNETCORE_URLS https://+:443;http://+:80;http://+:5001
+
+COPY certificate.pfx . 
+
+# Volumes
+##VOLUME ["${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets"]
+##VOLUME ["${APPDATA}/ASP.NET/Https:/root/.aspnet/https"]
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="sdp!2024pfx"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
+
+# Expõe as portas 80 e 443
+EXPOSE 80
+EXPOSE 443  
+EXPOSE 5001  
+#EXPOSE 80 443 5001
+# Define o comando de entrada
+ENTRYPOINT ["dotnet", "SmartDigitalPsico.WebAPI.dll"]

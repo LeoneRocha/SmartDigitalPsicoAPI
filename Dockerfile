@@ -47,7 +47,7 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificateAPI.pfx"
 #VOLUME ["/root/.microsoft/usersecrets"]
 #VOLUME ["/root/.aspnet/https"]
 
-# Expıe as portas 80 e 443
+# Exp√µe as portas 80 e 443
 EXPOSE 80
 EXPOSE 443   
 #EXPOSE 80 443 5001

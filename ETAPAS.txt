@@ -5,10 +5,10 @@ https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build
 https://portal.azure.com/#home
 https://painelbd.host.uol.com.br/main.html?servicetype=mysql
 https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
-https://hub.docker.com/repository/docker/leonecr/smartdigitalpsicorepo/general
+https://hub.docker.com/u/leonecr
 ** para gerar pro mysql tem que gerar do zero a migracao 
-----------------------------------------------------
- Readequacao 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ ------------------------------------------------------------------------ Readequacao  1  - CONCLUIDO ------------------------------------------------------------------------ 
 
 01  - Domain ------- Finalizado 
 02  - Data ------- Finalizado  
@@ -22,19 +22,18 @@ https://hub.docker.com/repository/docker/leonecr/smartdigitalpsicorepo/general
 10  - Mudar para MYSQL ------- Finalizado
 11  - Automação ------------ Finalizado
 12  - HABLITAR SONNAR ------------ Finalizado
+
 13  - HABLITAR DOCKER---------- EM ANDAMENTO 
--- ADICIONADO SUPORTE -- OK 
--- CRIADO SERVICE CONNECTION
--- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB
--- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB 
---- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO
+-- ADICIONADO SUPORTE -- OK  -- OK 
+-- CRIADO SERVICE CONNECTION -- OK 
+-- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB -- OK 
+-- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB -- OK 
 
-smartdigitalpsicorepo
+---- RODAR A IMAGEM DO HUB LOCAL 
 
-14  - CRIAR PROJETO DE TESTE DO DATA 
-15  - TESTAR O SISTEMA ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
+-- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO- NAO TA RODANDO 
 
-----------------------------------------------------
+-------------------------------------------------------
 - 1) Configurar ao realizar pull request para integration disparar pipeline integration  ------- Finalizado
 
 - 2) Configurar a integration para Deploy automatico  ------- Finalizado
@@ -45,12 +44,24 @@ smartdigitalpsicorepo
 
 - 5) Configurar o sonar (CODE QUALITY) ------- Finalizado
 
-- 6) Habilitar docker
+- 6) Habilitar docker -- EM ANDAMENTO 
+ 
+------------------------------------------------------- 
 
-- 5) Atuar nos erros do sonar (CODE QUALITY)
+------------------------------------------------------------------------ Readequacao  1 - CONCLUIDO ------------------------------------------------------------------------ 
 
-----------------------------------------------------
+ 
+------------------------------------------------------------------------ Readequacao  2 PENDENTE ------------------------------------------------------------------------ 
 
+1) - CRIAR PROJETO DE TESTE UNITARIO DO DATA --   
+2) - TESTAR O SISTEMA VIA TELA  ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
+3) - Atuar nos erros do sonar (CODE QUALITY)
+
+------------------------------------------------------------------------ Readequacao  2 PENDENTE ------------------------------------------------------------------------ 
+ 
+  
+
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 *** rEPOSITORIO AI INSERIR SETAR ENABLE COMO TRUE
 ----------------------------------------------------
@@ -76,3 +87,207 @@ secretKey = Convert.ToBase64String(key);
 
 
 --------- Para ativar o gatilho do github basta ativar a extensao do azure pipelines 
+--GERAR A IMAGEM E SUBIR NO DOCKER
+docker-compose build --force-rm
+
+-- EXECUTAR 
+docker-compose up
+
+--VER IMAGENS CRIADA
+docker images 
+
+
+
+
+docker build . -t leonecr/smartdigitalpsicowebapi_image:latest --force-rm --no-cache
+
+
+
+
+
+
+
+--docker run -d -p 443:443 --name nome-do-seu-container smartdigitalpsicowebapi_image
+
+--docker run -d -p 443:443  smartdigitalpsicowebapi_image
+
+--verificar se o contêiner Docker está sendo executado corretamente
+docker ps
+
+---------DOCKER ETPAS MANUAL 
+docker login -u seu-usuario -p sua-senha
+
+# Criar a imagem localmente
+docker-compose up --build
+
+docker-compose -f docker-compose.yml build --force-rm
+
+#publicar a imagem no registro
+docker push leonecr/smartdigitalpsicowebapi_image:latest
+ 
+
+docker push leonecr/smartdigitalpsicowebapi_image:latest
+
+
+docker build . -t leonecr/smartdigitalpsicowebapi_image:latest
+
+--- 
+docker run -p 54814:80 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app0
+docker run -p 54815:443 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app1
+-p 54815:80: Esta opção mapeia a porta 54815 do seu host para a porta 80 do contêiner Docker. Isso significa que qualquer tráfego que chega à porta 54815 do seu host será encaminhado para a porta 80 do contêiner Docker.
+
+
+EM um projeto C# .net 8 web api configurei o docker file e docker compose  e ao rodar 
+docker-compose up a imagem container nao abre as portas 80 vide imagem para detalhes 
+
+
+mESMO ASSIM NAO FUNCIONOU DOCKER INTERNAMENTE RODA POREM NAO CONSIGO ACESSAR NA MAQUINA HOST
+
+
+Entendo que você ainda está enfrentando problemas para acessar o aplicativo na máquina host, mesmo com o Docker rodando internamente. Aqui estão algumas outras coisas que você pode verificar:
+
+Firewall/Segurança de Rede: Verifique se o firewall ou as configurações de segurança da rede estão permitindo o tráfego nas portas que você está tentando usar.
+Verifique o IP do Container Docker: Às vezes, o problema pode estar relacionado ao endereço IP do container Docker. Você pode tentar acessar o aplicativo usando o IP do container Docker em vez de localhost. Você pode obter o IP do container Docker usando o seguinte comando no terminal:
+
+
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' smartdigitalpsico_api_container
+
+
+Verifique o Log do Container: Verifique os logs do container Docker para ver se há alguma mensagem de erro ou aviso que possa indicar o problema. Você pode fazer isso com o seguinte comando:
+docker logs container_id_or_name
+
+Espero que isso ajude! Se você ainda estiver enfrentando problemas, por favor, me avise!
+
+172.19.0.2
+docker logs smartdigitalpsico_api_container
+
+
+Se isso não resolver o problema, pode ser útil verificar se há algum outro serviço na sua máquina host que possa estar usando as portas 80 e 443. Você pode fazer isso usando o comando netstat -ano | findstr :<port_number>. Se algum serviço estiver usando essas portas, você pode precisar parar esse serviço ou usar diferentes portas para o seu aplicativo.
+
+
+netstat -ano | findstr :57190
+
+Obrigado por compartilhar a saída do comando netstat. A partir desta saída, podemos ver que a porta 57190 está de fato aberta e ouvindo conexões. Isso indica que o Docker está configurado corretamente para mapear a porta do container para a porta do host.
+
+Se você ainda não consegue acessar o aplicativo na máquina host, pode ser um problema com o aplicativo em si. Aqui estão algumas coisas que você pode verificar:
+
+Logs do Aplicativo: Verifique os logs do aplicativo para ver se há alguma mensagem de erro ou aviso que possa indicar o problema. Você pode fazer isso com o seguinte comando:
+docker logs smartdigitalpsico_api_container
+
+Configuração do Aplicativo: Certifique-se de que o aplicativo está configurado para ouvir em todas as interfaces de rede (0.0.0.0), não apenas localhost (127.0.0.1).
+Teste de Conectividade Interna: Você pode tentar se conectar ao aplicativo a partir de dentro do próprio container Docker para ver se o aplicativo está funcionando corretamente. Você pode fazer isso com o seguinte comando:
+docker exec -it smartdigitalpsico_api_container curl localhost:80
+
+Espero que isso ajude! Se você ainda estiver enfrentando problemas, por favor, me avise!
+
+
+
+
+
+
+
+--
+https://imasters.com.br/devsecops/devops-ci-cd-azure-pipeline-docker-yaml
+---
+
+ 
+ docker-compose -f docker-compose.yml build --force-rm
+
+
+docker build . -t leonecr/smartdigitalpsicowebapi_image:latest
+
+docker run -p 8088:80 leonecr/smartdigitalpsicowebapiimage:dev
+
+docker run -p :80 -p :443 leonecr/smartdigitalpsicowebapiimage:dev
+
+ 
+docker port id_do_container"
+
+docker inspect sharp_neumann | findstr "IPAddress"
+
+docker inspect -f '{{range $key, $value := .NetworkSettings.Networks}}{{$key}} {{end}}' sharp_neumann
+
+docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' dockercompose14570377054258267338_smartdigitalpsiconetwork
+
+"
+
+
+
+
+
+# Imagem base
+FROM mcr.microsoft.com/dotnet/core/sdk:8 AS build-env
+WORKDIR /app
+
+# Copia csproj e restaura dependências
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copia tudo e compila
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Gera imagem de runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:8
+WORKDIR /app
+COPY --from=build-env /app/out .
+
+# Copia o certificado SSL
+COPY certificate.pfx .
+
+# Configura variáveis de ambiente para o certificado SSL
+ENV ASPNETCORE_URLS="https://+;http://+"
+ENV ASPNETCORE_HTTPS_PORT=443
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="password"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path="./certificate.pfx"
+
+# Expõe as portas 80 e 443
+EXPOSE 80
+EXPOSE 443
+
+ENTRYPOINT ["dotnet", "YourWebApi.dll"]
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>()
+                          .UseUrls("http://*:80", "https://*:443"); // Configura o Kestrel para ouvir nas portas 80 e 443
+            });
+}
+
+
+webBuilder.UseKestrel(serverOptions =>
+{
+    serverOptions.Listen(IPAddress.Any, 80);
+    serverOptions.Listen(IPAddress.Any, 443, listenOptions =>
+    {
+        listenOptions.UseHttps("certificate.pfx", "password");
+    });
+})
+.UseStartup<Startup>();
+
+
+
+# Copia o certificado SSL
+COPY certificate.pfx .
+
+# Configura variáveis de ambiente para o certificado SSL
+ENV ASPNETCORE_URLS="https://+;http://+"
+ENV ASPNETCORE_HTTPS_PORT=443
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="password"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
+
+
+
+
+
+docker run -it --rm  leonecr/smartdigitalpsicoapi:latest /bin/bash
+
