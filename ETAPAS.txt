@@ -99,6 +99,16 @@ docker images
 
 
 
+
+
+
+
+
+
+
+PS D:\GITHUB\SmartDigitalPsicoAPI> docker build . -t leonecr/smartdigitalpsicoapi_local:latest --force-rm --no-cache
+
+
 docker build . -t leonecr/smartdigitalpsicowebapi_image:latest --force-rm --no-cache
 
 
