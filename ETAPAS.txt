@@ -96,26 +96,33 @@ docker-compose up
 --VER IMAGENS CRIADA
 docker images 
 
-
-
-
-
-
-
-
-
-
-
+ 
 PS D:\GITHUB\SmartDigitalPsicoAPI> docker build . -t leonecr/smartdigitalpsicoapi_local:latest --force-rm --no-cache
 
 
 docker build . -t leonecr/smartdigitalpsicowebapi_image:latest --force-rm --no-cache
+ 
+
+$env:APPDATA = "C:/Users/leocr/AppData/Roaming"
+
+
+docker run 
+-v C:/Users/leocr/AppData/Roaming/Microsoft/UserSecrets:/root/.microsoft/usersecrets 
+-v C:/Users/leocr/AppData/Roaming/ASP.NET/Https:/root/.aspnet/https 
+-p 0:443 -p 0:3000 -p 0:8080 -p 0:80 leonecr/smartdigitalpsicoapi_local:latest
+
+
+
+
+docker run -v C:/Users/leocr/AppData/Roaming/Microsoft/UserSecrets:/root/.microsoft/usersecrets -v C:/Users/leocr/AppData/Roaming/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets  -v C:/Users/leocr/AppData/Roaming/ASP.NET/Https:/root/.aspnet/https -v C:/Users/leocr/AppData/Roaming/ASP.NET/Https:/home/app/.aspnet/https -p 0:443 -p 0:3000 -p 0:8080 -p 0:80 leonecr/smartdigitalpsicoapi_local:latest
 
 
 
 
 
 
+
+  
 
 --docker run -d -p 443:443 --name nome-do-seu-container smartdigitalpsicowebapi_image
 

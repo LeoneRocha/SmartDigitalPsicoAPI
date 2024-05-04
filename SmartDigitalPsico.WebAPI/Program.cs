@@ -5,13 +5,13 @@ using SmartDigitalPsico.WebAPI.Configure;
 namespace SmartDigitalPsico.WebAPI
 {
     public class Program
-    { 
+    {
         private static Serilog.Core.Logger? _logger;
         public static void Main(string[] args)
         {
             var builder = CreateHostBuilder(args);
-            
-            createApp(builder); 
+
+            createApp(builder);
         }
 
         private static void createApp(WebApplicationBuilder builder)
@@ -22,12 +22,12 @@ namespace SmartDigitalPsico.WebAPI
                 _logger?.Information("Web API Loading at: {time}", DataHelper.GetDateTimeNowToLog());
                 var app = builder.Build();
                 ApplicationConfigure.ConfigureApp(app, builder.Environment, builder.Configuration);
-                app.Run(); 
+                app.Run();
             }
             catch (Exception ex)
             {
                 _logger?.Error(ex, "Web API Error Loading at: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
-            } 
+            }
         }
 
         public static WebApplicationBuilder CreateHostBuilder(string[] args)
@@ -41,8 +41,10 @@ namespace SmartDigitalPsico.WebAPI
             _logger = LogAppHelper.CreateLogger(builder.Configuration);
 
             ApplicationBuilderConfigure.ConfigureServices(builder.Services, builder.Configuration, _logger);
-             
-            //Test
+
+            // Adiciona UseUrls 
+            //builder.WebHost.UseUrls("http://*:80", "https://*:443", "http://*:8080", "https://*:3000"); 
+
             return builder;
         }
     }
