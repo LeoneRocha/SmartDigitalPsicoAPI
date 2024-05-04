@@ -7,9 +7,10 @@ WORKDIR /app
 
 # Expõe as portas 80 e 443
 EXPOSE 80
-EXPOSE 443 
-#EXPOSE 8080 
-#EXPOSE 3000
+#SSL 
+EXPOSE 443
+# ALTERNATE TO 80  
+EXPOSE 8080
 
 # Copia dos arquivos do projeto
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -20,11 +21,7 @@ WORKDIR /src
 COPY . ./
 
 COPY *.csproj ./
-
-#COPY ["SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj", "SmartDigitalPsico.WebAPI/"]
-#COPY ["SmartDigitalPsico.Service/SmartDigitalPsico.Service.csproj", "SmartDigitalPsico.Service/"]
-#COPY ["SmartDigitalPsico.Data/SmartDigitalPsico.Data.csproj", "SmartDigitalPsico.Data/"]
-#COPY ["SmartDigitalPsico.Domain/SmartDigitalPsico.Domain.csproj", "SmartDigitalPsico.Domain/"]
+ 
 
 # Restaura as dependencias do projeto
 RUN dotnet restore "SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj"
@@ -51,20 +48,10 @@ COPY --from=publish /app/publish .
 
 # Ambiente definicoes 
 ENV TZ America/Sao_Paulo
-ENV ASPNETCORE_ENVIRONMENT Production
-#ENV ASPNETCORE_URLS=https://+:443;https://+:3000;http://+:80;http://+:8080
-#ENV ASPNETCORE_URLS=https://*:443;https://*:3000;http://*:80;http://*:8080
+ENV ASPNETCORE_ENVIRONMENT Production 
 
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password="4d67018d-4a23-43cb-8ff1-6249058a5774"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
-
-# Volumes
-#VOLUME ["${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro"]
-#VOLUME ["${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro"]
-#VOLUME ["/root/.microsoft/usersecrets"]
-#VOLUME ["/root/.aspnet/https"]
-#VOLUME ["/home/app/.microsoft/usersecrets"]
-#VOLUME ["/home/app/.aspnet/https"]
-
+  
 # Define o comando de entrada
 ENTRYPOINT ["dotnet", "SmartDigitalPsico.WebAPI.dll"]
