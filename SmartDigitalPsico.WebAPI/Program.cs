@@ -19,10 +19,15 @@ namespace SmartDigitalPsico.WebAPI
             builder.Host.UseSerilog();
             try
             {
-                _logger?.Information("Web API Loading at: {time}", DataHelper.GetDateTimeNowToLog());
-                var app = builder.Build();
-                ApplicationConfigure.ConfigureApp(app, builder.Environment, builder.Configuration);
-                app.Run();
+                if (_logger != null)
+                {
+                    LogAppHelper.PrintLogInformationVersionProduct(_logger);
+                    
+                    var app = builder.Build();
+                    ApplicationConfigure.ConfigureApp(app, builder.Environment, builder.Configuration);
+                    app.Run();
+                    _logger.Information("Web API Loading at: {time}", DataHelper.GetDateTimeNowToLog());
+                }             
             }
             catch (Exception ex)
             {

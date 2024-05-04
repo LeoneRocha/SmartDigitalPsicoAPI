@@ -125,7 +125,9 @@ https://fernando-silva.medium.com/habilitando-api-do-docker-de-forma-segura-a0db
   
   https://www.youtube.com/watch?v=lcaDDxJv260
   https://www.youtube.com/watch?v=rBc93sCcwIE
+  https://www.youtube.com/watch?v=MaTmUlDALfk
 
+  https://www.youtube.com/watch?v=rBc93sCcwIE
 
 --docker run -d -p 443:443 --name nome-do-seu-container smartdigitalpsicowebapi_image
 
