@@ -123,6 +123,7 @@ docker run -v C:/Users/leocr/AppData/Roaming/Microsoft/UserSecrets:/root/.micros
 
 https://fernando-silva.medium.com/habilitando-api-do-docker-de-forma-segura-a0db2e650892
   
+  https://www.youtube.com/watch?v=lcaDDxJv260
 
 --docker run -d -p 443:443 --name nome-do-seu-container smartdigitalpsicowebapi_image
 
