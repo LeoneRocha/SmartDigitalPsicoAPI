@@ -55,16 +55,16 @@ ENV ASPNETCORE_ENVIRONMENT Production
 #ENV ASPNETCORE_URLS=https://+:443;https://+:3000;http://+:80;http://+:8080
 #ENV ASPNETCORE_URLS=https://*:443;https://*:3000;http://*:80;http://*:8080
 
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password="4d67018d-4a23-43cb-8ff1-6249058a5774"
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
+#ENV ASPNETCORE_Kestrel__Certificates__Default__Password="4d67018d-4a23-43cb-8ff1-6249058a5774"
+#ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
 
 # Volumes
-VOLUME ["${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro"]
-VOLUME ["${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro"]
-VOLUME ["/root/.microsoft/usersecrets"]
-VOLUME ["/root/.aspnet/https"]
-VOLUME ["/home/app/.microsoft/usersecrets"]
-VOLUME ["/home/app/.aspnet/https"]
+#VOLUME ["${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro"]
+#VOLUME ["${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro"]
+#VOLUME ["/root/.microsoft/usersecrets"]
+#VOLUME ["/root/.aspnet/https"]
+#VOLUME ["/home/app/.microsoft/usersecrets"]
+#VOLUME ["/home/app/.aspnet/https"]
 
 # Define o comando de entrada
 ENTRYPOINT ["dotnet", "SmartDigitalPsico.WebAPI.dll"]
