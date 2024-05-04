@@ -1,7 +1,7 @@
 name: smartdigitalpsicoapiproject
 services:  
    smartdigitalpsico.webapi:
-    image:  leonecr/smartdigitalpsicowebapiimage:latest
+    image:  leonecr/smartdigitalpsicoapi:latest
     container_name: smartdigitalpsicoapicontainer
     environment:
       TZ: America/Sao_Paulo

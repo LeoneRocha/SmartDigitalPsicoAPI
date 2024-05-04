@@ -8,8 +8,8 @@ WORKDIR /app
 # Expõe as portas 80 e 443
 EXPOSE 80
 EXPOSE 443 
-EXPOSE 8080 
-EXPOSE 3000
+#EXPOSE 8080 
+#EXPOSE 3000
 
 # Copia dos arquivos do projeto
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
