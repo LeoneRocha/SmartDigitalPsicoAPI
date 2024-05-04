@@ -55,8 +55,8 @@ ENV ASPNETCORE_ENVIRONMENT Production
 #ENV ASPNETCORE_URLS=https://+:443;https://+:3000;http://+:80;http://+:8080
 #ENV ASPNETCORE_URLS=https://*:443;https://*:3000;http://*:80;http://*:8080
 
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password="4d67018d-4a23-43cb-8ff1-6249058a5774"
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
+#ENV ASPNETCORE_Kestrel__Certificates__Default__Password="4d67018d-4a23-43cb-8ff1-6249058a5774"
+#ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
 
 # Volumes
 #VOLUME ["${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro"]
