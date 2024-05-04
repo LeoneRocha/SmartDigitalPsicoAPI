@@ -59,12 +59,12 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Password="4d67018d-4a23-43cb-8ff1
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
 
 # Volumes
-VOLUME ["${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro"]
-VOLUME ["${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro"]
-VOLUME ["/root/.microsoft/usersecrets"]
-VOLUME ["/root/.aspnet/https"]
-VOLUME ["/home/app/.microsoft/usersecrets"]
-VOLUME ["/home/app/.aspnet/https"]
+#VOLUME ["${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro"]
+#VOLUME ["${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro"]
+#VOLUME ["/root/.microsoft/usersecrets"]
+#VOLUME ["/root/.aspnet/https"]
+#VOLUME ["/home/app/.microsoft/usersecrets"]
+#VOLUME ["/home/app/.aspnet/https"]
 
 # Define o comando de entrada
 ENTRYPOINT ["dotnet", "SmartDigitalPsico.WebAPI.dll"]
