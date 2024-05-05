@@ -55,7 +55,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             return string.Empty;
         }
 
-        public static async void GetFromByteSaveTemp(byte[] filedata, string fileName, IConfiguration configuration)
+        public static async Task GetFromByteSaveTemp(byte[] filedata, string fileName, IConfiguration configuration)
         {
             if (filedata != null)
             {

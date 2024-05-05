@@ -47,9 +47,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
             return result;
         }
         public override async Task<ServiceResponse<List<GetApplicationLanguageVO>>> FindAll()
-        {
-            long idu = this.UserId;
-
+        {  
             string keyCache = "FindAll_GetApplicationLanguageVO";
 
             ServiceResponse<List<GetApplicationLanguageVO>> result = new ServiceResponse<List<GetApplicationLanguageVO>>();
@@ -63,11 +61,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
                     result = await base.FindAll();
 
                     await CacheService.SaveDataToCache(keyCache, result.Data, base._cacheService);
-                }
-                else
-                {
-                    result.Data = result.Data;
-                }
+                } 
             }
             else
             {

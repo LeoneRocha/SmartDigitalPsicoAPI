@@ -1,7 +1,5 @@
 using AutoMapper;
-using Azure;
 using FluentValidation;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
@@ -14,7 +12,6 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
-using SmartDigitalPsico.Domain.VO.Medical;
 using SmartDigitalPsico.Domain.VO.User;
 using SmartDigitalPsico.Domain.VO.Utils;
 using SmartDigitalPsico.Service.Generic;
@@ -31,7 +28,7 @@ namespace SmartDigitalPsico.Service.Principals
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly IRoleGroupRepository _roleGroupRepository;
-         
+
         ITokenConfiguration _configurationToken;
         private readonly ITokenService _tokenService;
         AuthConfigurationVO _configurationAuth;
@@ -39,7 +36,7 @@ namespace SmartDigitalPsico.Service.Principals
               IUserRepository entityRepository
             , IApplicationLanguageRepository applicationLanguageRepository
             , IRoleGroupRepository roleGroupRepository
-            , IMapper mapper 
+            , IMapper mapper
             , ITokenConfiguration configurationToken
             , ITokenService tokenService
             , IOptions<AuthConfigurationVO> configurationAuth
@@ -50,7 +47,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             _userRepository = entityRepository;
             _roleGroupRepository = roleGroupRepository;
-            _mapper = mapper; 
+            _mapper = mapper;
             _configurationToken = configurationToken;
             _configurationAuth = configurationAuth.Value;
             _tokenService = tokenService;
@@ -142,7 +139,7 @@ namespace SmartDigitalPsico.Service.Principals
                     entityUpdate.PasswordSalt = passwordSalt;
                 }
                 var isAdmin = updateUser?.Admin.GetValueOrDefault();
-                entityUpdate.Role = updateUser?.Role; 
+                entityUpdate.Role = updateUser?.Role;
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                 entityUpdate.MedicalId = updateUser?.MedicalId;
@@ -153,7 +150,7 @@ namespace SmartDigitalPsico.Service.Principals
                 foreach (var rg in roleGroups)
                 {
                     entityUpdate.UserRoleGroups.Add(new RoleGroupUser { UserId = entityUpdate.Id, RoleGroupId = rg.Id });
-                } 
+                }
 
                 response = await base.Validate(entityUpdate);
 
@@ -191,10 +188,10 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
                 entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-                entityAdd.Role = userRegisterVO?.Role; 
+                entityAdd.Role = userRegisterVO?.Role;
 
                 List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO?.RoleGroupsIds);
-                  
+
                 response = await base.Validate(entityAdd);
 
                 if (response.Success)
@@ -208,14 +205,14 @@ namespace SmartDigitalPsico.Service.Principals
                     }
                     entityResponse = await _userRepository.Update(entityResponse);
                     entityResponse = await _userRepository.FindByID(entityResponse.Id) ?? entityResponse;
-                     
+
 
                     response.Data = _mapper.Map<GetUserVO>(entityResponse);
                     response.Message = "User registred.";
                 }
             }
             catch (Exception)
-            { 
+            {
                 throw;
             }
             return response;
@@ -249,22 +246,22 @@ namespace SmartDigitalPsico.Service.Principals
         {
             TokenVO token = await validateCredentials(user);
             GetUserAuthenticatedVO response = _mapper.Map<GetUserAuthenticatedVO>(user);
-             
+
             fillRoleGroupsAuthenticate(response, user);
 
             response.MedicalId = user.Medical?.Id;
             response.TokenAuth = token;
             return response;
-        } 
+        }
 
         private async Task<TokenVO> validateCredentials(User user)
         {
             if (user == null) return new TokenVO();
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")), 
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Name, user.Name), 
+                new Claim(JwtRegisteredClaimNames.Name, user.Name),
             };
 
             var accessToken = _tokenService.GenerateAccessToken(claims);
@@ -287,32 +284,34 @@ namespace SmartDigitalPsico.Service.Principals
 
         public async Task<TokenVO> validateCredentials(TokenVO token)
         {
-            var accessToken = token.AccessToken;
-            var refreshToken = token.RefreshToken;
+            string accessToken = token.AccessToken ?? string.Empty;
+            string refreshToken = token.RefreshToken ?? string.Empty;
 
             var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
 
-            var username = principal?.Identity?.Name;
+            if (principal != null)
+            {
+                var username = principal.Identity?.Name;
 
-            long idUser = 0;
+                long idUser;
+                long.TryParse(username, out idUser);
 
-            long.TryParse(username, out idUser);
+                var user = await _userRepository.FindByID(idUser);
 
-            var user = await _userRepository.FindByID(idUser);
+                if (user == null ||
+                    user.RefreshToken != refreshToken ||
+                    user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNow()) return new TokenVO();
 
-            if (user == null ||
-                user.RefreshToken != refreshToken ||
-                user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNow()) return null;
+                accessToken = _tokenService.GenerateAccessToken(principal.Claims);
+                refreshToken = _tokenService.GenerateRefreshToken();
 
-            accessToken = _tokenService.GenerateAccessToken(principal.Claims);
-            refreshToken = _tokenService.GenerateRefreshToken();
-
-            user.RefreshToken = refreshToken;
-
-            await _userRepository.RefreshUserInfo(user);
+                user.RefreshToken = refreshToken;
+                await _userRepository.RefreshUserInfo(user);
+            }
 
             DateTime createDate = DataHelper.GetDateTimeNow();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
+
             return new TokenVO(
             true,
                 createDate.ToString(DATE_FORMAT),
@@ -373,8 +372,8 @@ namespace SmartDigitalPsico.Service.Principals
 
         public override async Task<ServiceResponse<GetUserVO>> FindByID(long id)
         {
-                ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
-               
+            ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
+
             try
             {
                 User? entityResponse = await _userRepository.FindByID(id);
@@ -404,7 +403,7 @@ namespace SmartDigitalPsico.Service.Principals
                 foreach (var item in entityResponse.UserRoleGroups)
                 {
                     response.Data.RoleGroups.Add(new GetRoleGroupVO()
-                    { 
+                    {
                         RolePolicyClaimCode = item.RoleGroup.RolePolicyClaimCode,
                         Description = item.RoleGroup.Description,
                         Id = item.RoleGroup.Id,
