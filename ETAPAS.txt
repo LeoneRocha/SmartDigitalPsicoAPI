@@ -44,7 +44,7 @@ https://hub.docker.com/u/leonecr
 
 - 5) Configurar o sonar (CODE QUALITY) ------- Finalizado
 
-- 6) Habilitar docker -- EM ANDAMENTO 
+- 6) Habilitar docker  ------- Finalizado
  
 ------------------------------------------------------- 
 

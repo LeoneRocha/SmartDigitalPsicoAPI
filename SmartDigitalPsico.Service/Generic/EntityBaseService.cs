@@ -8,6 +8,7 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Service.SystemDomains;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Helpers;
+using Google.Protobuf.WellKnownTypes;
 
 namespace SmartDigitalPsico.Service.Generic
 {
@@ -176,7 +177,7 @@ namespace SmartDigitalPsico.Service.Generic
             try
             {
                 TEntity? entityResponse = await _genericRepository.FindByID(id);
-                if (entityResponse != null)
+                if (!EqualityComparer<TEntity>.Default.Equals(entityResponse, default(TEntity)))
                 {
                     response.Data = _mapper.Map<TEntityResult>(entityResponse);
                 }

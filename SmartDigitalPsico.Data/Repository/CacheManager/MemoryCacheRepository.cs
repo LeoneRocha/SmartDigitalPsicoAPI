@@ -28,17 +28,10 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
                 };
             }
         }
-        public bool TryGet<T>(string cacheKey, out T value)
+        public bool TryGet<T>(string cacheKey, out T? value)
         {
-            bool isSuccessGet = false;
-            value = _memoryCache.Get<T>(cacheKey);
-
-            _memoryCache.TryGetValue(cacheKey, out value);
-            if (value != null)
-            {
-                isSuccessGet = true;
-            }
-
+            bool isSuccessGet;  
+            isSuccessGet = _memoryCache.TryGetValue(cacheKey, out value);
             return isSuccessGet;
         }
 

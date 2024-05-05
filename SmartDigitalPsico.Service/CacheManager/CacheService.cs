@@ -91,7 +91,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             }
             return result;
         } 
-        public bool TryGet<T>(string? cacheKey, out T valueResult) where T : new()
+        public bool TryGet<T>(string? cacheKey, out T valueResult) where T : class, new()
         {
             T _valueResult = new();
 
@@ -193,7 +193,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             return result;
         }
 
-        private bool checkCacheIsValid<T>(KeyValuePair<bool, T> resultDisk, string cacheKey) where T : new()
+        private bool checkCacheIsValid<T>(KeyValuePair<bool, T> resultDisk, string cacheKey) where T : class, new()
         {
             if (resultDisk.Value != null)
             {
@@ -207,9 +207,9 @@ namespace SmartDigitalPsico.Service.CacheManager
                     bool temData = DateTime.TryParse(valorExpiracao.ToString(), out dataExpiracao);
                     if (temData && dataExpiracao != DateTime.MinValue && DateTime.Now >= dataExpiracao)
                     {
-                        bool resultCacheLogDisk = _diskCacheRepository.RemoveAsync(cacheKey).GetAwaiter().GetResult();
+                        _diskCacheRepository.RemoveAsync(cacheKey).GetAwaiter().GetResult();
 
-                        bool resultCacheLog = _applicationCacheLogRepository.Delete(cacheKey).GetAwaiter().GetResult();
+                        _applicationCacheLogRepository.Delete(cacheKey).GetAwaiter().GetResult();
 
                         return false;
                     }
