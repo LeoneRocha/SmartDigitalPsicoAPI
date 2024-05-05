@@ -44,7 +44,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             {
                 var assemblyApp = assembly.GetName();
 
-                return new AppInformationVersionProduct() { Name = assemblyApp.Name, Version = assemblyApp.Version?.ToString() };
+                var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+                return new AppInformationVersionProduct() { Name = assemblyApp.Name, Version = assemblyApp.Version?.ToString(), EnvironmentName = envName };
             }
             return null;
         }
@@ -54,9 +56,10 @@ namespace SmartDigitalPsico.Domain.Helpers
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
             var assemblyApp = GetInformationVersionProduct();
+
             if (assemblyApp != null)
             {
-                sb.AppendFormat("Name: {0} - Version: {1} {2}", assemblyApp.Name, assemblyApp.Version, Environment.NewLine);
+                sb.AppendFormat("Name: {0} - Version: {1} - {2} {3}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName, Environment.NewLine);
             }
             else
             {
@@ -70,16 +73,25 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static void PrintLogInformationVersionProduct(Serilog.ILogger logger)
         {
             logger.Information("******* PRODUCT INFORMATION *******");
-            var assemblyApp = GetInformationVersionProduct();
+            var assemblyApp = GetInformationVersionProduct(); 
             if (assemblyApp != null)
             {
-                logger.Information("Name: {Name} - Version: {Version}", assemblyApp.Name, assemblyApp.Version);
+                logger.Information("Name: {Name} - Version: {Version} - {envName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
             }
             else
             {
                 logger.Information("Assembly information could not be retrieved.");
             }
             logger.Information("******* PRODUCT INFORMATION *******");
+        }
+
+        public static void Set_ASPNETCORE_ENVIRONMENT(IConfiguration configuration)
+        {
+            string? envVal = configuration["APP_ENVIRONMENT"];
+            if (!string.IsNullOrEmpty(envVal))
+            {
+                Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", envVal);
+            } 
         }
     }
 }
