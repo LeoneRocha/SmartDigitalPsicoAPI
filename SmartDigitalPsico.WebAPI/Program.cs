@@ -21,6 +21,7 @@ namespace SmartDigitalPsico.WebAPI
             {
                 if (_logger != null)
                 {
+                    LogAppHelper.Set_ASPNETCORE_ENVIRONMENT(builder.Configuration);
                     LogAppHelper.PrintLogInformationVersionProduct(_logger);
                     
                     var app = builder.Build();
