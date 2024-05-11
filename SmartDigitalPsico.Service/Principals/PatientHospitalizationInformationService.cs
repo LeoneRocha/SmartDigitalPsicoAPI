@@ -35,35 +35,28 @@ namespace SmartDigitalPsico.Service.Principals
         {
             ServiceResponse<GetPatientHospitalizationInformationVO> response = new ServiceResponse<GetPatientHospitalizationInformationVO>();
 
-            try
+            PatientHospitalizationInformation entityAdd = _mapper.Map<PatientHospitalizationInformation>(item);
+
+            #region Relationship
+
+            entityAdd.CreatedUserId = this.UserId;
+            entityAdd.PatientId = item.PatientId;
+
+            #endregion
+
+            entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+
+            response = await base.Validate(entityAdd);
+
+            if (response.Success)
             {
-                PatientHospitalizationInformation entityAdd = _mapper.Map<PatientHospitalizationInformation>(item);
+                PatientHospitalizationInformation entityResponse = await _entityRepository.Create(entityAdd);
 
-                #region Relationship
-
-                entityAdd.CreatedUserId = this.UserId;
-                entityAdd.PatientId = item.PatientId;
-
-                #endregion
-
-                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                response = await base.Validate(entityAdd);
-
-                if (response.Success)
-                {
-                    PatientHospitalizationInformation entityResponse = await _entityRepository.Create(entityAdd);
-
-                    response.Data = _mapper.Map<GetPatientHospitalizationInformationVO>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                response.Data = _mapper.Map<GetPatientHospitalizationInformationVO>(entityResponse);
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                   ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
             }
 
             return response;
@@ -73,39 +66,32 @@ namespace SmartDigitalPsico.Service.Principals
         {
             ServiceResponse<GetPatientHospitalizationInformationVO> response = new ServiceResponse<GetPatientHospitalizationInformationVO>();
 
-            try
+            PatientHospitalizationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
+
+            #region Relationship                 
+            entityUpdate.ModifyUserId = this.UserId;
+            #endregion
+
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+
+            #region Columns
+            entityUpdate.Enable = item.Enable;
+            entityUpdate.CID = item.CID;
+            entityUpdate.Description = item.Description;
+            entityUpdate.StartDate = item.StartDate;
+            entityUpdate.EndDate = item.EndDate;
+            entityUpdate.Observation = item.Observation;
+            #endregion Columns
+
+            response = await base.Validate(entityUpdate);
+
+            if (response.Success)
             {
-                PatientHospitalizationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
+                PatientHospitalizationInformation entityResponse = await _entityRepository.Update(entityUpdate);
 
-                #region Relationship                 
-                entityUpdate.ModifyUserId = this.UserId;
-                #endregion
-
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                #region Columns
-                entityUpdate.Enable = item.Enable;
-                entityUpdate.CID = item.CID;
-                entityUpdate.Description = item.Description;
-                entityUpdate.StartDate = item.StartDate;
-                entityUpdate.EndDate = item.EndDate;
-                entityUpdate.Observation = item.Observation;
-                #endregion Columns
-
-                response = await base.Validate(entityUpdate);
-
-                if (response.Success)
-                {
-                    PatientHospitalizationInformation entityResponse = await _entityRepository.Update(entityUpdate);
-
-                    response.Data = _mapper.Map<GetPatientHospitalizationInformationVO>(entityResponse);
-                    response.Message = "Patient Updated.";
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                response.Data = _mapper.Map<GetPatientHospitalizationInformationVO>(entityResponse);
+                response.Message = "Patient Updated.";
             }
 
             return response;

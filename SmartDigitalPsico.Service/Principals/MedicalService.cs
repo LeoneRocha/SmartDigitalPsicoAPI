@@ -82,53 +82,48 @@ namespace SmartDigitalPsico.Service.Principals
         public override async Task<ServiceResponse<GetMedicalVO>> Update(UpdateMedicalVO item)
         {
             ServiceResponse<GetMedicalVO> response = new ServiceResponse<GetMedicalVO>();
-            try
+
+            Medical? entityUpdate = await _entityRepository.FindByID(item.Id);
+            if (entityUpdate != null)
             {
-                Medical? entityUpdate = await _entityRepository.FindByID(item.Id);
-                if (entityUpdate != null)
+                #region Relationship
+                entityUpdate.OfficeId = item.OfficeId;
+
+                List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
+
+                entityUpdate.MedicalSpecialties.Clear();
+
+                foreach (var specialty in specialtiesAdd)
                 {
-                    #region Relationship
-                    entityUpdate.OfficeId = item.OfficeId;
+                    entityUpdate.MedicalSpecialties.Add(new MedicalSpecialty { MedicalId = entityUpdate.Id, SpecialtyId = specialty.Id });
+                }
 
-                    List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
+                #endregion Relationship
 
-                    entityUpdate.MedicalSpecialties.Clear();
+                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+                entityUpdate.ModifyUserId = this.UserId;
 
-                    foreach (var specialty in specialtiesAdd)
-                    {
-                        entityUpdate.MedicalSpecialties.Add(new MedicalSpecialty { MedicalId = entityUpdate.Id, SpecialtyId = specialty.Id });
-                    }
+                #region Columns
+                entityUpdate.Enable = item.Enable;
+                entityUpdate.Accreditation = item.Accreditation;
+                entityUpdate.Name = item.Name;
+                entityUpdate.Email = item.Email;
 
-                    #endregion Relationship
+                #endregion Columns
 
-                    entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                    entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-                    entityUpdate.ModifyUserId = this.UserId;
+                response = await base.Validate(entityUpdate);
 
-                    #region Columns
-                    entityUpdate.Enable = item.Enable;
-                    entityUpdate.Accreditation = item.Accreditation;
-                    entityUpdate.Name = item.Name;
-                    entityUpdate.Email = item.Email;
+                if (response.Success)
+                {
+                    Medical entityResponse = await _entityRepository.Update(entityUpdate);
 
-                    #endregion Columns
-
-                    response = await base.Validate(entityUpdate);
-
-                    if (response.Success)
-                    {
-                        Medical entityResponse = await _entityRepository.Update(entityUpdate);
-
-                        response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
-                        response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                           ("MedicalUpdated", base._applicationLanguageRepository, base._cacheService);
-                    }
+                    response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
+                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                       ("MedicalUpdated", base._applicationLanguageRepository, base._cacheService);
                 }
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
             return response;
         }
 

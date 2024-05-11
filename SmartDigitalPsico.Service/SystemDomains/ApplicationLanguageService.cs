@@ -69,46 +69,27 @@ namespace SmartDigitalPsico.Service.SystemDomains
             IApplicationLanguageRepository languageRepository, ICacheService cacheService)
         {
             string resultLocalization = $"NotFoundLocalization|{key}|";
-            try
+
+            var culturenameCurrent = CultureInfo.CurrentCulture;
+            var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
+
+            string keyCache = "FindAll_GetApplicationLanguageVO";
+            ServiceResponse<List<GetApplicationLanguageVO>> resultFromCache = new ServiceResponse<List<GetApplicationLanguageVO>>();
+
+            resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageVO>>(cacheService, keyCache);
+
+            string resourceKey = "SharedResource";
+            string language = culturenameCurrent.Name;
+            if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
             {
-                var culturenameCurrent = CultureInfo.CurrentCulture;
-                var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
+                GetApplicationLanguageVO languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
+                resultLocalization = languageFindFromCache.LanguageValue;
 
-                string keyCache = "FindAll_GetApplicationLanguageVO";
-                ServiceResponse<List<GetApplicationLanguageVO>> resultFromCache = new ServiceResponse<List<GetApplicationLanguageVO>>();
-
-                resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageVO>>(cacheService, keyCache);
-
-                string resourceKey = "SharedResource";
-                string language = culturenameCurrent.Name;
-                if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
-                {
-                    try
-                    {
-                        GetApplicationLanguageVO languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
-                        resultLocalization = languageFindFromCache.LanguageValue;
-                    }
-                    catch (Exception)
-                    {
-                        return resultLocalization;
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        var languageFindDB = await languageRepository.Find(language, key, resourceKey);
-                        resultLocalization = languageFindDB.LanguageValue;
-                    }
-                    catch (Exception)
-                    {
-                        return resultLocalization;
-                    }
-                }
             }
-            catch (Exception)
+            else
             {
-                throw;
+                var languageFindDB = await languageRepository.Find(language, key, resourceKey);
+                resultLocalization = languageFindDB.LanguageValue;
             }
             return resultLocalization;
         }

@@ -36,11 +36,6 @@ namespace SmartDigitalPsico.Data.Context
         public virtual DbSet<RoleGroupUser> RoleGroupUsers { get; set; }
         public virtual DbSet<Specialty> Specialties { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        #endregion DBsets
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        { 
-            base.OnConfiguring(optionsBuilder);
-        }
+        #endregion DBsets 
     }
 }

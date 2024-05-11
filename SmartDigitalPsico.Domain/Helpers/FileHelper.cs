@@ -114,7 +114,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             else
             {
                 return Path.Combine(Directory.GetCurrentDirectory(), folderOrigin, fileName);
-            } 
+            }
         }
 
         public static string GetSameName(string fileName)
@@ -125,25 +125,18 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static FileContentResult ProccessDownloadToBrowser(string folderOrigin, string fileName)
         {
-            try
+            var filePath = FileHelper.GetFilePath(folderOrigin, fileName);
+            var fileStream = System.IO.File.OpenRead(filePath);
+            var contentType = FileHelper.GetContentType(filePath);
+            var fileBytes = new byte[fileStream.Length];
+            fileStream.Read(fileBytes, 0, (int)fileStream.Length);
+            fileStream.Close();
+            var response = new FileContentResult(fileBytes, contentType)
             {
-                var filePath = FileHelper.GetFilePath(folderOrigin, fileName);
-                var fileStream = System.IO.File.OpenRead(filePath);
-                var contentType = FileHelper.GetContentType(filePath);
-                var fileBytes = new byte[fileStream.Length];
-                fileStream.Read(fileBytes, 0, (int)fileStream.Length);
-                fileStream.Close();
-                var response = new FileContentResult(fileBytes, contentType)
-                {
-                    LastModified = DataHelper.GetDateTimeNow(),
-                    FileDownloadName = FileHelper.GetSameName(fileName),
-                };
-                return response;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                LastModified = DataHelper.GetDateTimeNow(),
+                FileDownloadName = FileHelper.GetSameName(fileName),
+            };
+            return response;
         }
     }
 }
