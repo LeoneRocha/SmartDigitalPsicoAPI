@@ -166,7 +166,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     .AddViewLocalization()
                     .AddDataAnnotationsLocalization();
 
-            services.AddScoped<LanguageActionFilter>();
+            services.AddScoped<LanguageActionFilterAttribute>();
 
             services.Configure<RequestLocalizationOptions>(
                 options =>

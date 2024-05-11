@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Filters
 {
-    public class HyperMediaFilter : ResultFilterAttribute
+    public class HyperMediaFilterrAttribute : ResultFilterAttribute
     {
         private readonly HyperMediaFilterOptions _hyperMediaFilterOptions;
 
-        public HyperMediaFilter(HyperMediaFilterOptions hyperMediaFilterOptions)
+        public HyperMediaFilterrAttribute(HyperMediaFilterOptions hyperMediaFilterOptions)
         {
             _hyperMediaFilterOptions = hyperMediaFilterOptions;
         }
