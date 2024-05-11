@@ -32,19 +32,19 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .ToListAsync();
         }
 
-        public async Task<Medical?> FindByEmail(string value)
+        public async Task<Medical?> FindByEmail(string email)
         {
             Medical? entityResult = await dataset
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
+                .FirstOrDefaultAsync(p => p.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
 
             return entityResult;
         } 
-        public async Task<Medical?> FindByAccreditation(string value)
+        public async Task<Medical?> FindByAccreditation(string accreditation)
         {
             Medical? entityResult = await dataset
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Accreditation.ToLower().Trim().Equals(value.ToLower().Trim()));
+                .FirstOrDefaultAsync(p => p.Accreditation.Equals(accreditation, StringComparison.InvariantCultureIgnoreCase));
 
             return entityResult;
         }  

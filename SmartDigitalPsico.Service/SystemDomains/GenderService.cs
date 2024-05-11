@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
     {
         private readonly IMapper _mapper;
         private readonly IGenderRepository _entityRepository;
-        private readonly ICacheService _cacheService;  
+        private readonly ICacheService _cacheService;
         public GenderService(IMapper mapper, IGenderRepository entityRepository, ICacheService cacheService,
             IOptions<AuthConfigurationVO> configurationAuth,
             IValidator<Gender> entityValidator
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
         {
             _mapper = mapper;
             _entityRepository = entityRepository;
-            _cacheService = cacheService; 
+            _cacheService = cacheService;
         }
 
         public override async Task<ServiceResponse<List<GetGenderVO>>> FindAll()
@@ -68,31 +68,25 @@ namespace SmartDigitalPsico.Service.SystemDomains
         public override async Task<ServiceResponse<GetGenderVO>> FindByID(long id)
         {
             ServiceResponse<GetGenderVO> response = new ServiceResponse<GetGenderVO>();
-            try
-            {
-                Gender entityResponse = await _entityRepository.FindByID(id);
 
-                if (entityResponse != null)
-                {
-                    response.Data = _mapper.Map<GetGenderVO>(entityResponse);
-                    response.Success = true;
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                        ("RegisterIsFound", base._applicationLanguageRepository,base._cacheService);  
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService); 
-                }
-            }
-            catch (Exception)
+            Gender entityResponse = await _entityRepository.FindByID(id);
+
+            if (entityResponse != null)
             {
-                throw;
+                response.Data = _mapper.Map<GetGenderVO>(entityResponse);
+                response.Success = true;
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                    ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                   ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
             }
             return response;
         }
-         
+
         public override async Task<ServiceResponse<GetGenderVO>> Update(UpdateGenderVO item)
         {
             ServiceResponse<GetGenderVO> response = new ServiceResponse<GetGenderVO>();
@@ -105,11 +99,11 @@ namespace SmartDigitalPsico.Service.SystemDomains
                 response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
                 return response;
-            }   
+            }
             Gender entityUpdate = await _entityRepository.FindByID(item.Id);
             entityUpdate.Description = item.Description;
             entityUpdate.Enable = item.Enable;
-            entityUpdate.Language = item.Language;            
+            entityUpdate.Language = item.Language;
 
             response = await Validate(entityUpdate);
             entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
@@ -121,7 +115,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
                            ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
-            } 
+            }
             return response;
 
         }

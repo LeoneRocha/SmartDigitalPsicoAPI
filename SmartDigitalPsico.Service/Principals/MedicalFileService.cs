@@ -93,45 +93,40 @@ namespace SmartDigitalPsico.Service.Principals
         public async Task<bool> PostFileAsync(AddMedicalFileVO entity)
         {
             ServiceResponse<GetMedicalFileVO> response = new ServiceResponse<GetMedicalFileVO>();
-            try
+
+            IFormFile? fileData = null;
+            if (entity != null)
             {
-                IFormFile? fileData = null;
-                if (entity != null)
+                fileData = entity.FileDetails;
+                if (fileData != null)
                 {
-                    fileData = entity.FileDetails;
-                    if (fileData != null)
-                    {
-                        string extensioFile = fileData.ContentType.Split('/').Last();
-                        entity.FilePath = fileData.FileName;
-                        entity.FileContentType = fileData.ContentType;
-                        entity.FileExtension = extensioFile.Substring(0, 3);
-                        entity.FileSizeKB = fileData.Length / 1024;
-                    }
+                    string extensioFile = fileData.ContentType.Split('/').Last();
+                    entity.FilePath = fileData.FileName;
+                    entity.FileContentType = fileData.ContentType;
+                    entity.FileExtension = extensioFile.Substring(0, 3);
+                    entity.FileSizeKB = fileData.Length / 1024;
+                }
 
-                    MedicalFile entityAdd = _mapper.Map<MedicalFile>(entity);
+                MedicalFile entityAdd = _mapper.Map<MedicalFile>(entity);
 
-                    entityAdd.FileName = entity.FilePath;
-                    entityAdd.MedicalId = entity.MedicalId;
+                entityAdd.FileName = entity.FilePath;
+                entityAdd.MedicalId = entity.MedicalId;
 
-                    entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                    entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                    entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-                    entityAdd.Enable = true;
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+                entityAdd.Enable = true;
 
-                    entityAdd.CreatedUserId = this.UserId;
-                    //response = await base.Validate(entityAdd);
-                    response.Success = true;
-                    if (response.Success)
-                    {
-                        entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);
-                        MedicalFile entityResponse = await _entityRepository.Create(entityAdd);
-                    }
+                entityAdd.CreatedUserId = this.UserId;
+                //response = await base.Validate(entityAdd);
+                response.Success = true;
+                if (response.Success)
+                {
+                    entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);
+                    MedicalFile entityResponse = await _entityRepository.Create(entityAdd);
                 }
             }
-            catch (Exception)
-            { 
-                throw;
-            }
+
             return response.Success;
         }
 

@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
@@ -18,95 +17,81 @@ namespace SmartDigitalPsico.Service.Principals
 
     {
         private readonly IMapper _mapper;
-        IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
         private readonly IPatientMedicationInformationRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository;
 
-        public PatientMedicationInformationService(IMapper mapper, IPatientMedicationInformationRepository entityRepository, IConfiguration configuration, IUserRepository userRepository, IPatientRepository patientRepository, IValidator<PatientMedicationInformation> entityValidator
+        public PatientMedicationInformationService(IMapper mapper,
+            IPatientMedicationInformationRepository entityRepository, IUserRepository userRepository
+            , IValidator<PatientMedicationInformation> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
-            _configuration = configuration;
             _entityRepository = entityRepository;
             _userRepository = userRepository;
-            _patientRepository = patientRepository;
         }
         public override async Task<ServiceResponse<GetPatientMedicationInformationVO>> Create(AddPatientMedicationInformationVO item)
         {
             ServiceResponse<GetPatientMedicationInformationVO> response = new ServiceResponse<GetPatientMedicationInformationVO>();
-            try
+
+            PatientMedicationInformation entityAdd = _mapper.Map<PatientMedicationInformation>(item);
+
+            #region Relationship
+
+            entityAdd.CreatedUserId = (this.UserId);
+            entityAdd.PatientId = item.PatientId;
+
+            #endregion
+
+            entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+
+            response = await base.Validate(entityAdd);
+
+            if (response.Success)
             {
-                PatientMedicationInformation entityAdd = _mapper.Map<PatientMedicationInformation>(item);
+                PatientMedicationInformation entityResponse = await _entityRepository.Create(entityAdd);
 
-
-                #region Relationship
-                 
-                entityAdd.CreatedUserId = (this.UserId); 
-                entityAdd.PatientId = item.PatientId;
-
-                #endregion
-
-                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                response = await base.Validate(entityAdd);
-
-                if (response.Success)
-                {
-                    PatientMedicationInformation entityResponse = await _entityRepository.Create(entityAdd);
-
-                    response.Data = _mapper.Map<GetPatientMedicationInformationVO>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
-                }
+                response.Data = _mapper.Map<GetPatientMedicationInformationVO>(entityResponse);
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                   ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
             }
-            catch (Exception)
-            { 
-                throw;
-            }
+
             return response;
         }
 
         public override async Task<ServiceResponse<GetPatientMedicationInformationVO>> Update(UpdatePatientMedicationInformationVO item)
         {
             ServiceResponse<GetPatientMedicationInformationVO> response = new ServiceResponse<GetPatientMedicationInformationVO>();
-            try
+
+            PatientMedicationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
+
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+
+            entityUpdate.ModifyUserId = this.UserId;
+
+            #region Columns
+            entityUpdate.Enable = item.Enable;
+            //entityUpdate.Accreditation = item.Accreditation;
+            entityUpdate.StartDate = item.StartDate;
+            entityUpdate.EndDate = item.EndDate;
+            entityUpdate.MainDrug = item.MainDrug;
+            entityUpdate.Description = item.Description;
+            entityUpdate.Dosage = item.Dosage;
+            entityUpdate.Posology = item.Posology;
+            #endregion Columns
+
+            response = await base.Validate(entityUpdate);
+
+            if (response.Success)
             {
-                PatientMedicationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
+                PatientMedicationInformation entityResponse = await _entityRepository.Update(entityUpdate);
 
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-                 
-                entityUpdate.ModifyUserId = this.UserId;
-
-                #region Columns
-                entityUpdate.Enable = item.Enable;
-                //entityUpdate.Accreditation = item.Accreditation;
-                entityUpdate.StartDate = item.StartDate;
-                entityUpdate.EndDate = item.EndDate;
-                entityUpdate.MainDrug = item.MainDrug;
-                entityUpdate.Description = item.Description;
-                entityUpdate.Dosage = item.Dosage;
-                entityUpdate.Posology = item.Posology;
-                #endregion Columns
-
-                response = await base.Validate(entityUpdate);
-
-                if (response.Success)
-                {
-                    PatientMedicationInformation entityResponse = await _entityRepository.Update(entityUpdate);
-
-                    response.Data = _mapper.Map<GetPatientMedicationInformationVO>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                response.Data = _mapper.Map<GetPatientMedicationInformationVO>(entityResponse);
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                   ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
             }
             return response;
         }
@@ -116,7 +101,7 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<List<GetPatientMedicationInformationVO>> response = new ServiceResponse<List<GetPatientMedicationInformationVO>>();
 
             var listResult = await _entityRepository.FindAllByPatient(patientId);
-             
+
             var recordsList = new RecordsList<PatientMedicationInformation>
             {
                 UserIdLogged = base.UserId,
@@ -132,7 +117,7 @@ namespace SmartDigitalPsico.Service.Principals
                 response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
                        ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
                 return response;
-            } 
+            }
             if (listResult == null || listResult.Count == 0)
             {
                 response.Success = false;

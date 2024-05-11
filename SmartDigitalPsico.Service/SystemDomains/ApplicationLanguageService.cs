@@ -17,37 +17,32 @@ namespace SmartDigitalPsico.Service.SystemDomains
 {
     public class ApplicationLanguageService
       : EntityBaseService<ApplicationLanguage, AddApplicationLanguageVO, UpdateApplicationLanguageVO, GetApplicationLanguageVO, IApplicationLanguageRepository>, IApplicationLanguageService
-    {  
+    {
 
         public ApplicationLanguageService(IMapper mapper, IApplicationLanguageRepository entityRepository
              , IValidator<ApplicationLanguage> entityValidator, IApplicationLanguageRepository applicationLanguageRepository,
                ICacheService cacheService)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {  
+        {
 
         }
         public static async Task<string> GetLocalization<T>(string key, Microsoft.Extensions.Localization.IStringLocalizer<T> localizer)
         {
             string result = "NotFoundLocalization";
-            try
-            {
-                var culturenameCurrent = CultureInfo.CurrentCulture;
 
-                var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
-                string message = localizer.GetString(findKey);
+            var culturenameCurrent = CultureInfo.CurrentCulture;
 
-                result = message;
-            }
-            catch (Exception)
-            {
-                return result;
-            }
+            var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
+            string message = localizer.GetString(findKey);
+
+            result = message;
+
             await Task.FromResult(string.Empty);
 
             return result;
         }
         public override async Task<ServiceResponse<List<GetApplicationLanguageVO>>> FindAll()
-        {  
+        {
             string keyCache = "FindAll_GetApplicationLanguageVO";
 
             ServiceResponse<List<GetApplicationLanguageVO>> result = new ServiceResponse<List<GetApplicationLanguageVO>>();
@@ -61,12 +56,12 @@ namespace SmartDigitalPsico.Service.SystemDomains
                     result = await base.FindAll();
 
                     await CacheService.SaveDataToCache(keyCache, result.Data, base._cacheService);
-                } 
+                }
             }
             else
             {
                 result = await base.FindAll();
-            } 
+            }
             return result;
         }
 
@@ -106,9 +101,9 @@ namespace SmartDigitalPsico.Service.SystemDomains
                         resultLocalization = languageFindDB.LanguageValue;
                     }
                     catch (Exception)
-                    { 
+                    {
                         return resultLocalization;
-                    } 
+                    }
                 }
             }
             catch (Exception)

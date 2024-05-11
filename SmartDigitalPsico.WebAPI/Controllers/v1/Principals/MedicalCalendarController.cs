@@ -94,7 +94,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
                 return NotFound(response);
             }
             return Ok(response);
-        }
-
+        } 
     }
 }

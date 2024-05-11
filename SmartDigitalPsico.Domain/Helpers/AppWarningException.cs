@@ -3,7 +3,7 @@
 namespace SmartDigitalPsico.Domain.Helpers
 {
     [Serializable]
-    internal class AppWarningException : Exception
+    public class AppWarningException : Exception
     {
         public AppWarningException()
         {
@@ -16,8 +16,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         public AppWarningException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
-
-        protected AppWarningException(SerializationInfo info, StreamingContext context) : base(info, context)
+        public AppWarningException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

@@ -1,17 +1,16 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
-using SmartDigitalPsico.Domain.Helpers;
-
+    
 namespace SmartDigitalPsico.Service.Principals
 {
     public class PatientAdditionalInformationService : EntityBaseService<PatientAdditionalInformation, AddPatientAdditionalInformationVO, UpdatePatientAdditionalInformationVO, GetPatientAdditionalInformationVO
@@ -19,20 +18,15 @@ namespace SmartDigitalPsico.Service.Principals
 
     {
         private readonly IMapper _mapper;
-        IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
         private readonly IPatientAdditionalInformationRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository;
 
-        public PatientAdditionalInformationService(IMapper mapper, IPatientAdditionalInformationRepository entityRepository, IConfiguration configuration, IUserRepository userRepository, IPatientRepository patientRepository
-             , IValidator<PatientAdditionalInformation> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
+        public PatientAdditionalInformationService(IMapper mapper, IPatientAdditionalInformationRepository entityRepository, IUserRepository userRepository, IValidator<PatientAdditionalInformation> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
-            _configuration = configuration;
             _entityRepository = entityRepository;
             _userRepository = userRepository;
-            _patientRepository = patientRepository;
         }
         public async override Task<ServiceResponse<List<GetPatientAdditionalInformationVO>>> FindAll()
         {
@@ -47,36 +41,31 @@ namespace SmartDigitalPsico.Service.Principals
         public override async Task<ServiceResponse<GetPatientAdditionalInformationVO>> Create(AddPatientAdditionalInformationVO item)
         {
             ServiceResponse<GetPatientAdditionalInformationVO> response = new ServiceResponse<GetPatientAdditionalInformationVO>();
-            try
+
+            PatientAdditionalInformation entityAdd = _mapper.Map<PatientAdditionalInformation>(item);
+
+            #region Relationship
+
+            entityAdd.CreatedUserId = this.UserId;
+            entityAdd.PatientId = item.PatientId;
+
+            #endregion
+
+            entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+
+            response = await base.Validate(entityAdd);
+
+            if (response.Success)
             {
-                PatientAdditionalInformation entityAdd = _mapper.Map<PatientAdditionalInformation>(item);
+                PatientAdditionalInformation entityResponse = await _entityRepository.Create(entityAdd);
 
-                #region Relationship
-
-                entityAdd.CreatedUserId = this.UserId;
-                entityAdd.PatientId = item.PatientId;
-
-                #endregion
-
-                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                response = await base.Validate(entityAdd);
-
-                if (response.Success)
-                {
-                    PatientAdditionalInformation entityResponse = await _entityRepository.Create(entityAdd);
-
-                    response.Data = _mapper.Map<GetPatientAdditionalInformationVO>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
-                }
+                response.Data = _mapper.Map<GetPatientAdditionalInformationVO>(entityResponse);
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                   ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
 
             return response;
         }
@@ -84,40 +73,33 @@ namespace SmartDigitalPsico.Service.Principals
         public override async Task<ServiceResponse<GetPatientAdditionalInformationVO>> Update(UpdatePatientAdditionalInformationVO item)
         {
             ServiceResponse<GetPatientAdditionalInformationVO> response = new ServiceResponse<GetPatientAdditionalInformationVO>();
-            try
+
+            PatientAdditionalInformation entityUpdate = await _entityRepository.FindByID(item.Id);
+
+            #region Relationship 
+            entityUpdate.ModifyUserId = this.UserId;
+
+            #endregion Relationship
+
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+
+            #region Columns
+            entityUpdate.Enable = item.Enable;
+            entityUpdate.FollowUp_Neurological = item.FollowUp_Neurological;
+            entityUpdate.FollowUp_Psychiatric = item.FollowUp_Psychiatric;
+            #endregion Columns
+
+            response = await base.Validate(entityUpdate);
+
+            if (response.Success)
             {
-                PatientAdditionalInformation entityUpdate = await _entityRepository.FindByID(item.Id);
+                PatientAdditionalInformation entityResponse = await _entityRepository.Update(entityUpdate);
 
-                #region Relationship 
-                entityUpdate.ModifyUserId = this.UserId;
-
-                #endregion Relationship
-
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                #region Columns
-                entityUpdate.Enable = item.Enable;
-                entityUpdate.FollowUp_Neurological = item.FollowUp_Neurological;
-                entityUpdate.FollowUp_Psychiatric = item.FollowUp_Psychiatric;
-                #endregion Columns
-
-                response = await base.Validate(entityUpdate);
-
-                if (response.Success)
-                {
-                    PatientAdditionalInformation entityResponse = await _entityRepository.Update(entityUpdate);
-
-                    response.Data = _mapper.Map<GetPatientAdditionalInformationVO>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
-                }
+                response.Data = _mapper.Map<GetPatientAdditionalInformationVO>(entityResponse);
+                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                   ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
             }
-            catch (Exception)
-            {
-                throw;
-            }
-
             return response;
         }
 

@@ -321,13 +321,13 @@ namespace SmartDigitalPsico.Service.Principals
                 );
         }
 
-        public async Task<ServiceResponse<GetUserVO>> UpdateProfile(UpdateUserProfileVO updateUser)
+        public async Task<ServiceResponse<GetUserVO>> UpdateProfile(UpdateUserProfileVO userUpdateProfileVO)
         {
             ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
 
             try
             {
-                User entityUpdate = await _userRepository.FindByID(updateUser.Id);
+                User entityUpdate = await _userRepository.FindByID(userUpdateProfileVO.Id);
 
                 if (entityUpdate == null || entityUpdate?.Id == 0)
                 {
@@ -335,14 +335,14 @@ namespace SmartDigitalPsico.Service.Principals
                     response.Message = "User not found.";
                     return response;
                 }
-                entityUpdate.Name = updateUser.Name;
-                entityUpdate.Email = updateUser.Email;
-                entityUpdate.Language = updateUser.Language;
-                entityUpdate.TimeZone = updateUser.TimeZone;
+                entityUpdate.Name = userUpdateProfileVO.Name;
+                entityUpdate.Email = userUpdateProfileVO.Email;
+                entityUpdate.Language = userUpdateProfileVO.Language;
+                entityUpdate.TimeZone = userUpdateProfileVO.TimeZone;
 
-                if (!string.IsNullOrEmpty(updateUser.Password))
+                if (!string.IsNullOrEmpty(userUpdateProfileVO.Password))
                 {
-                    SecurityHelper.CreatePasswordHash(updateUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                    SecurityHelper.CreatePasswordHash(userUpdateProfileVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
                     entityUpdate.PasswordHash = passwordHash;
                     entityUpdate.PasswordSalt = passwordSalt;
                 }
@@ -374,23 +374,16 @@ namespace SmartDigitalPsico.Service.Principals
         {
             ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
 
-            try
+            User? entityResponse = await _userRepository.FindByID(id);
+            if (entityResponse != null)
             {
-                User? entityResponse = await _userRepository.FindByID(id);
-                if (entityResponse != null)
-                {
-                    response.Data = _mapper.Map<GetUserVO>(entityResponse);
+                response.Data = _mapper.Map<GetUserVO>(entityResponse);
 
-                    fillRoleGroups(response, entityResponse);
-                }
-                response.Success = true;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+                fillRoleGroups(response, entityResponse);
             }
-            catch (Exception)
-            {
-                throw;
-            }
+            response.Success = true;
+            response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                   ("RegisterFind", base._applicationLanguageRepository, base._cacheService);
 
             return response;
         }

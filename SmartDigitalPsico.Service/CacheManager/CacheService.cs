@@ -1,5 +1,3 @@
-using AutoMapper;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -14,23 +12,17 @@ namespace SmartDigitalPsico.Service.CacheManager
 {
     public class CacheService : ICacheService
     {
-        private readonly IMapper _mapper;
-        IConfiguration _configuration;
-        private readonly string _cacheKey = string.Empty;
         private readonly IMemoryCacheRepository _memoryCacheRepository;
         private readonly IDiskCacheRepository _diskCacheRepository;
         private readonly CacheConfigurationVO _cacheConfig;
         private static ETypeLocationCache typeCache;
         private readonly IApplicationCacheLogRepository _applicationCacheLogRepository;
 
-        public CacheService(IMapper mapper, IConfiguration configuration
-            , IMemoryCacheRepository memoryCacheRepository
+        public CacheService(IMemoryCacheRepository memoryCacheRepository
             , IDiskCacheRepository diskCacheRepository
             , IApplicationCacheLogRepository applicationCacheLogRepository
             , IOptions<CacheConfigurationVO> cacheConfig)
         {
-            _mapper = mapper;
-            _configuration = configuration;
             _memoryCacheRepository = memoryCacheRepository;
             _diskCacheRepository = diskCacheRepository;
             _applicationCacheLogRepository = applicationCacheLogRepository;
@@ -72,7 +64,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             switch (typeCache)
             {
                 case ETypeLocationCache.Disk:
-                    result = processCacheRepositoryDisk(cacheKey, value); 
+                    result = processCacheRepositoryDisk(cacheKey, value);
                     break;
                 case ETypeLocationCache.Memory:
                     result = _memoryCacheRepository.Set(cacheKey, value);
@@ -90,8 +82,8 @@ namespace SmartDigitalPsico.Service.CacheManager
                     break;
             }
             return result;
-        } 
-        public bool TryGet<T>(string? cacheKey, out T valueResult) where T : class, new()
+        }
+        public bool TryGet<T>(string? cacheKey, out T value) where T : class, new()
         {
             T _valueResult = new();
 
@@ -120,11 +112,11 @@ namespace SmartDigitalPsico.Service.CacheManager
                     default:
                         break;
                 }
-                valueResult = _valueResult;
+                value = _valueResult;
             }
             catch (Exception)
             {
-                valueResult = _valueResult;
+                value = _valueResult;
                 return result;
             }
             return result;
@@ -154,7 +146,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             await Task.FromResult(0);
 
             ServiceResponse<T> result = new ServiceResponse<T>();
-             
+
             if (cacheService.IsEnable())
             {
                 bool existsCache = cacheService.TryGet<ServiceResponseCacheVO<T>>(keyCache, out ServiceResponseCacheVO<T> cachedResult);
@@ -162,7 +154,7 @@ namespace SmartDigitalPsico.Service.CacheManager
                 {
                     result.Data = cachedResult.Data;
                 }
-            } 
+            }
             return result;
         }
 

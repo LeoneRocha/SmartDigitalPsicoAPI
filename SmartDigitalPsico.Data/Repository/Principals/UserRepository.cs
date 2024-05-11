@@ -60,7 +60,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<User> RefreshUserInfo(User user)
         {
-            if (!dataset.Any(u => u.Id.Equals(user.Id))) return null;
+            if (!dataset.Any(u => u.Id.Equals(user.Id))) return new User();
 
             var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(user.Id));
             if (result != null)
@@ -69,7 +69,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 await _context.SaveChangesAsync();
                 return result;
             }
-            return result;
+            return result ?? new User();
         }
 
         public async Task<User?> FindByEmail(string value)

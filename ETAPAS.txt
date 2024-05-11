@@ -23,15 +23,15 @@ https://hub.docker.com/u/leonecr
 11  - Automação ------------ Finalizado
 12  - HABLITAR SONNAR ------------ Finalizado
 
-13  - HABLITAR DOCKER---------- EM ANDAMENTO 
--- ADICIONADO SUPORTE -- OK  -- OK 
--- CRIADO SERVICE CONNECTION -- OK 
--- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB -- OK 
--- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB -- OK 
+13  - HABLITAR DOCKER----------------- Finalizado
+-- ADICIONADO SUPORTE ------- Finalizado
+-- CRIADO SERVICE CONNECTION ------- Finalizado
+-- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB------- Finalizado
+-- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB ------- Finalizado PARCIAL
 
----- RODAR A IMAGEM DO HUB LOCAL 
+---- RODAR A IMAGEM DO HUB LOCAL  -- OK
 
--- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO- NAO TA RODANDO 
+-- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO  -- PARCIAL
 
 -------------------------------------------------------
 - 1) Configurar ao realizar pull request para integration disparar pipeline integration  ------- Finalizado
@@ -51,15 +51,30 @@ https://hub.docker.com/u/leonecr
 ------------------------------------------------------------------------ Readequacao  1 - CONCLUIDO ------------------------------------------------------------------------ 
 
  
------------------------------------------------------------------------- Readequacao  2 PENDENTE ------------------------------------------------------------------------ 
+------------------------------------------------------------------------ Readequacao  2  EM ANDAMENTO  ------------------------------------------------------------------------ 
+ 
+1) - Atuar nos erros do sonar (CODE QUALITY)
+
+------------------------------------------------------------------------ Readequacao  2  EM ANDAMENTO  ------------------------------------------------------------------------ 
+ 
+  ------------------------------------------------------------------------ Readequacao  3 PENDENTE ------------------------------------------------------------------------ 
 
 1) - CRIAR PROJETO DE TESTE UNITARIO DO DATA --   
-2) - TESTAR O SISTEMA VIA TELA  ------- ON HOLD -- CONFIGURAR O BUILD E DEPLOY AUTOMATICO "Automação"
-3) - Atuar nos erros do sonar (CODE QUALITY)
+2) - TESTAR O SISTEMA VIA TELA  ------  
 
------------------------------------------------------------------------- Readequacao  2 PENDENTE ------------------------------------------------------------------------ 
- 
-  
+
+------------------------------------------------------------------------ Readequacao  3 PENDENTE ------------------------------------------------------------------------ 
+
+
+
+------------------------------------------------------------------------ UI CI CD ------------------------------------------------------------------------ 
+
+  https://www.youtube.com/watch?v=NFqrWsUPCAM
+
+
+
+
+
 
  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 

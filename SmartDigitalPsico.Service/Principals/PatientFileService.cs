@@ -23,12 +23,11 @@ namespace SmartDigitalPsico.Service.Principals
         IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
         private readonly IPatientFileRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository;
         private readonly IFileDiskRepository _repositoryFileDisk;
         private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
 
         public PatientFileService(IMapper mapper, IPatientFileRepository entityRepository, IConfiguration configuration,
-            IUserRepository userRepository, IPatientRepository patientRepository
+            IUserRepository userRepository
             , IValidator<PatientFile> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService
@@ -39,7 +38,6 @@ namespace SmartDigitalPsico.Service.Principals
             _configuration = configuration;
             _entityRepository = entityRepository;
             _userRepository = userRepository;
-            _patientRepository = patientRepository;
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
         }
 
@@ -53,45 +51,40 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<GetPatientFileVO> response = new ServiceResponse<GetPatientFileVO>();
             if (entity != null)
             {
-                try
+
+                IFormFile fileData;
+
+                fileData = entity.FileDetails;
+                if (fileData != null)
                 {
-                    IFormFile fileData;
-
-                    fileData = entity.FileDetails;
-                    if (fileData != null)
-                    {
-                        string extensioFile = fileData.ContentType.Split('/').Last();
-                        entity.FilePath = fileData.FileName;
-                        entity.FileContentType = fileData.ContentType;
-                        entity.FileExtension = extensioFile.Substring(0, 3);
-                        entity.FileSizeKB = fileData.Length / 1024;
-                    }
-
-                    PatientFile entityAdd = _mapper.Map<PatientFile>(entity);
-                    entityAdd.FileName = entity.FilePath;
-                    #region Relationship
-
-                    entityAdd.PatientId = entity.PatientId;
-
-                    #endregion Relationship
-
-                    entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                    entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                    entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-                    entityAdd.Enable = true;
-
-                    entityAdd.CreatedUserId = this.UserId;
-                    //response = await base.Validate(entityAdd);
-                    if (response.Success)
-                    {
-                        entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);
-                        PatientFile entityResponse = await _entityRepository.Create(entityAdd);
-                    }
+                    string extensioFile = fileData.ContentType.Split('/').Last();
+                    entity.FilePath = fileData.FileName;
+                    entity.FileContentType = fileData.ContentType;
+                    entity.FileExtension = extensioFile.Substring(0, 3);
+                    entity.FileSizeKB = fileData.Length / 1024;
                 }
-                catch (Exception)
+
+                PatientFile entityAdd = _mapper.Map<PatientFile>(entity);
+                entityAdd.FileName = entity.FilePath;
+                #region Relationship
+
+                entityAdd.PatientId = entity.PatientId;
+
+                #endregion Relationship
+
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+                entityAdd.Enable = true;
+
+                entityAdd.CreatedUserId = this.UserId;
+                //response = await base.Validate(entityAdd);
+                if (response.Success)
                 {
-                    throw;
+                    entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);
+                    PatientFile entityResponse = await _entityRepository.Create(entityAdd);
                 }
+
             }
             return response.Success;
         }

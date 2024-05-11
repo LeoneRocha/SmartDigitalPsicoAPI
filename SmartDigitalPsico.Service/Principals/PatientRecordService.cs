@@ -18,98 +18,82 @@ namespace SmartDigitalPsico.Service.Principals
 
     {
         private readonly IMapper _mapper;
-        IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
         private readonly IPatientRecordRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository;
 
-        public PatientRecordService(IMapper mapper, IPatientRecordRepository entityRepository, IConfiguration configuration, IUserRepository userRepository, IPatientRepository patientRepository
+        public PatientRecordService(IMapper mapper
+            , IPatientRecordRepository entityRepository, IConfiguration configuration, IUserRepository userRepository, IPatientRepository patientRepository
             , IValidator<PatientRecord> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
-            _configuration = configuration;
             _entityRepository = entityRepository;
             _userRepository = userRepository;
-            _patientRepository = patientRepository;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
         {
             ServiceResponse<GetPatientRecordVO> response = new ServiceResponse<GetPatientRecordVO>();
-            try
+
+            PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
+
+            #region Relationship
+
+            entityAdd.CreatedUserId = this.UserId;
+            entityAdd.PatientId = item.PatientId;
+
+            #endregion Relationship
+
+            entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+            response = await base.Validate(entityAdd);
+
+            if (response.Success)
             {
-                PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
-
-                #region Relationship
-                 
-                entityAdd.CreatedUserId = this.UserId;                 
-                entityAdd.PatientId = item.PatientId;
-
-                #endregion Relationship
-
-                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-                response = await base.Validate(entityAdd);
-
-                if (response.Success)
-                {
-                    PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
-                    response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
-                    response.Message = "Patient registred.";
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
+                PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
+                response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
+                response.Message = "Patient registred.";
             }
             return response;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Update(UpdatePatientRecordVO item)
         {
             ServiceResponse<GetPatientRecordVO> response = new ServiceResponse<GetPatientRecordVO>();
-            try
+
+            PatientRecord entityUpdate = await _entityRepository.FindByID(item.Id);
+
+            #region Set default fields for bussines
+
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+
+            #endregion Set default fields for bussines
+
+            #region User Action
+
+            entityUpdate.ModifyUserId = this.UserId;
+
+            #endregion User Action
+
+            #region Relationship 
+
+            #endregion Relationship
+
+            #region Columns
+            entityUpdate.Enable = item.Enable;
+            entityUpdate.Annotation = item.Annotation;
+            entityUpdate.Description = item.Description;
+            entityUpdate.AnnotationDate = item.AnnotationDate;
+            #endregion Columns
+
+            response = await base.Validate(entityUpdate);
+            if (response.Success)
             {
-                PatientRecord entityUpdate = await _entityRepository.FindByID(item.Id);
-
-                #region Set default fields for bussines
-
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-
-                #endregion Set default fields for bussines
-
-                #region User Action
-                 
-                entityUpdate.ModifyUserId = this.UserId;
-
-                #endregion User Action
-
-                #region Relationship 
-
-                #endregion Relationship
-
-                #region Columns
-                entityUpdate.Enable = item.Enable;
-                entityUpdate.Annotation = item.Annotation;
-                entityUpdate.Description = item.Description;
-                entityUpdate.AnnotationDate = item.AnnotationDate;
-                #endregion Columns
-
-                response = await base.Validate(entityUpdate);
-                if (response.Success)
-                {
-                    PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
-                    response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
-                    response.Message = "Patient Updated.";
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
+                response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
+                response.Message = "Patient Updated.";
             }
             return response;
         }
@@ -158,7 +142,7 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
-        } 
+        }
         public async override Task<ServiceResponse<GetPatientRecordVO>> FindByID(long id)
         {
             return await base.FindByID(id);
