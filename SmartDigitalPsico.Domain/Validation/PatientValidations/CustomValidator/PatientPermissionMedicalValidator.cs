@@ -1,4 +1,5 @@
-﻿using SmartDigitalPsico.Domain.Hypermedia.Utils;
+﻿using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
@@ -12,7 +13,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
                 var error = new ErrorResponse()
                 {
                     Message = "Permissão negada! Deve se informa usuario.",
-                    Name = "validatePermissionMedical"
+                    Name = ValidatorConstants.NameResponseValidate_ValidatePermissionMedical
                 };
                 return error;
             }
@@ -21,7 +22,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
                 var error = new ErrorResponse()
                 {
                     Message = "Permissão negada! Medico Informado deve ser o mesmo logado.",
-                    Name = "validatePermissionMedical"
+                    Name = ValidatorConstants.NameResponseValidate_ValidatePermissionMedical
                 };
 
                 return error;
@@ -36,7 +37,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
                 var error = new ErrorResponse()
                 {
                     Message = "Permissão negada! Deve se informa usuario.",
-                    Name = "validatePermissionMedical"
+                    Name = ValidatorConstants.NameResponseValidate_ValidatePermissionMedical
                 };
                 return error;
             }
@@ -45,7 +46,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
                 var error = new ErrorResponse()
                 {
                     Message = "Permissão negada! Apenas administradores podem acessar.",
-                    Name = "validatePermissionMedical"
+                    Name = ValidatorConstants.NameResponseValidate_ValidatePermissionMedical
                 };
 
                 return error;

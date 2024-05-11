@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -24,7 +25,7 @@ namespace SmartDigitalPsico.Service.Principals
     public class UserService : EntityBaseService<User, AddUserVO, UpdateUserVO, GetUserVO, IUserRepository>, IUserService
 
     {
-        private const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+        
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly IRoleGroupRepository _roleGroupRepository;
@@ -61,7 +62,7 @@ namespace SmartDigitalPsico.Service.Principals
             if (user == null)
             {
                 response.Success = false;
-                response.Message = "User not found.";
+                response.Message = ValidatorConstants.Validade_UserNotFound;
                 return response;
             }
             else if (!SecurityHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
@@ -124,7 +125,7 @@ namespace SmartDigitalPsico.Service.Principals
                 if (entityUpdate == null || entityUpdate?.Id == 0)
                 {
                     response.Success = false;
-                    response.Message = "User not found.";
+                    response.Message = ValidatorConstants.Validade_UserNotFound;
                     return response;
                 }
                 entityUpdate.Name = updateUser.Name;
@@ -232,7 +233,7 @@ namespace SmartDigitalPsico.Service.Principals
             if (!user)
             {
                 response.Success = false;
-                response.Message = "User not found.";
+                response.Message = ValidatorConstants.Validade_UserNotFound;
             }
             else
             {
@@ -275,8 +276,8 @@ namespace SmartDigitalPsico.Service.Principals
             DateTime createDate = DataHelper.GetDateTimeNow();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
             return new TokenVO(true,
-                createDate.ToString(DATE_FORMAT),
-                expirationDate.ToString(DATE_FORMAT),
+                createDate.ToString(AppConfigConstants.DATE_FORMAT),
+                expirationDate.ToString(AppConfigConstants.DATE_FORMAT),
                 accessToken,
                 refreshToken
                 );
@@ -314,8 +315,8 @@ namespace SmartDigitalPsico.Service.Principals
 
             return new TokenVO(
             true,
-                createDate.ToString(DATE_FORMAT),
-                expirationDate.ToString(DATE_FORMAT),
+                createDate.ToString(AppConfigConstants.DATE_FORMAT),
+                expirationDate.ToString(AppConfigConstants.DATE_FORMAT),
                 accessToken,
                 refreshToken
                 );
@@ -332,7 +333,7 @@ namespace SmartDigitalPsico.Service.Principals
                 if (entityUpdate == null || entityUpdate?.Id == 0)
                 {
                     response.Success = false;
-                    response.Message = "User not found.";
+                    response.Message = ValidatorConstants.Validade_UserNotFound;
                     return response;
                 }
                 entityUpdate.Name = userUpdateProfileVO.Name;
