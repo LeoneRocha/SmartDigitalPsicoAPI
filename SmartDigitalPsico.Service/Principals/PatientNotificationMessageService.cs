@@ -99,9 +99,7 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<List<GetPatientNotificationMessageVO>> response = new ServiceResponse<List<GetPatientNotificationMessageVO>>();
 
             var listResult = await _entityRepository.FindAllByPatient(patientId);
-
-            //TODO:VALIDATE USER GET REGISTER
-
+              
             if (listResult == null || listResult.Count == 0)
             {
                 response.Success = false;

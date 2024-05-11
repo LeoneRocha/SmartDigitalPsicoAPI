@@ -73,8 +73,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityUpdate.ModifyUserId = this.UserId;
 
             #region Columns
-            entityUpdate.Enable = item.Enable;
-            //entityUpdate.Accreditation = item.Accreditation;
+            entityUpdate.Enable = item.Enable; 
             entityUpdate.StartDate = item.StartDate;
             entityUpdate.EndDate = item.EndDate;
             entityUpdate.MainDrug = item.MainDrug;

@@ -77,8 +77,7 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Enable = true;
 
-                entityAdd.CreatedUserId = this.UserId;
-                //response = await base.Validate(entityAdd);
+                entityAdd.CreatedUserId = this.UserId; 
                 if (response.Success)
                 {
                     entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);

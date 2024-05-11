@@ -144,10 +144,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     , optionsMySQL =>
                     {
                         optionsMySQL.MigrationsAssembly("SmartDigitalPsico.Data");
-                        optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore);
-
-                        //optionsMySQL.CharSetBehavior(CharSetBehavior.NeverAppend);
-                        //optionsMySQL.OldCompatibilityMode(); 
+                        optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore); 
                     })
                     );
                     break;

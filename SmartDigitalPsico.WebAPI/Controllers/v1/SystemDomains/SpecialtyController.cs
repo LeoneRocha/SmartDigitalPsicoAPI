@@ -88,8 +88,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
             if (!response.Success)
             {
                 return NotFound(response);
-            }
-            //TODO: 1) SE TIVER ERROS RESPONDER BAD REQUEST 
+            } 
             return Ok(response);
         }
     }

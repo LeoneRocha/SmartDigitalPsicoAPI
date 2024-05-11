@@ -39,9 +39,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
             };
             SecurityHelper.CreatePasswordHash("mock123adm", out byte[] passwordHash, out byte[] passwordSalt);
             newAddUser.PasswordHash = passwordHash;
-            newAddUser.PasswordSalt = passwordSalt;
-            //newAddUser.RoleGroups = new List<RoleGroup>();
-            //newAddUser.UserRoleGroups.Add( new RoleGroupUser() { RoleGroupId = (long)1 ,  })
+            newAddUser.PasswordSalt = passwordSalt; 
             var newAddUserMedical = new User
             {
                 Id = 2,

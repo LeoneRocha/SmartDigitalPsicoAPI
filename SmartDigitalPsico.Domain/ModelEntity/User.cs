@@ -5,8 +5,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     public class User : EntityBaseWithNameEmail
     {
         public User()
-        {
-            //RoleGroups = new List<RoleGroup>();
+        { 
             MedicalsCreateds = new List<Medical>();
             MedicalModifies = new List<Medical>();
             MedicalsUsers = new List<Medical>();
@@ -23,8 +22,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public DateTime? RefreshTokenExpiryTime { get; set; }
         #endregion Columns 
 
-        #region Relationship
-        //public ICollection<RoleGroup> RoleGroups { get; set; }
+        #region Relationship 
         public ICollection<Medical> MedicalsCreateds { get; set; }
         public ICollection<Medical> MedicalModifies { get; set; }
         public ICollection<Medical> MedicalsUsers { get; set; }

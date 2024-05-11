@@ -117,8 +117,7 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Enable = true;
 
-                entityAdd.CreatedUserId = this.UserId;
-                //response = await base.Validate(entityAdd);
+                entityAdd.CreatedUserId = this.UserId; 
                 response.Success = true;
                 if (response.Success)
                 {

@@ -47,10 +47,7 @@ namespace SmartDigitalPsico.WebAPI
             _logger = LogAppHelper.CreateLogger(builder.Configuration);
 
             ApplicationBuilderConfigure.ConfigureServices(builder.Services, builder.Configuration, _logger);
-
-            // Adiciona UseUrls 
-            //builder.WebHost.UseUrls("http://*:80", "https://*:443", "http://*:8080", "https://*:3000"); 
-
+              
             return builder;
         }
     }
