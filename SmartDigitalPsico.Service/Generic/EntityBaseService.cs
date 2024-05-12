@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -67,7 +66,7 @@ namespace SmartDigitalPsico.Service.Generic
 
         private async Task<string> getMessageFromLocalization(string key)
         {
-            return await ApplicationLanguageService.GetLocalization<SharedResource>(key, this._applicationLanguageRepository, this._cacheService);
+            return await ApplicationLanguageService.GetLocalization<ISharedResource>(key, this._applicationLanguageRepository, this._cacheService);
         }
 
         public virtual async Task<ServiceResponse<bool>> Delete(long id)
@@ -224,7 +223,7 @@ namespace SmartDigitalPsico.Service.Generic
                 {
                     var errosAdd = new ErrorResponse()
                     {
-                        Message = await ApplicationLanguageService.GetLocalization<SharedResource>(errosItem.Message, this._applicationLanguageRepository, this._cacheService)
+                        Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(errosItem.Message, this._applicationLanguageRepository, this._cacheService)
                         ,
                         Name = errosItem.Name
                     };
@@ -236,7 +235,7 @@ namespace SmartDigitalPsico.Service.Generic
                 response.Errors = errosTranslated;
             }
 
-            response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
 
 
             return response;

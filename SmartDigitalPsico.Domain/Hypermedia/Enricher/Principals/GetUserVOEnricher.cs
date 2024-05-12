@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Hypermedia.Constants;
-using System.Text;
 using SmartDigitalPsico.Domain.VO.User;
 
 namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Principals
 {
     public class GetUserVOEnricher : ContentResponseEnricher<GetUserVO>
 
-    {
-        private readonly object _lock = new object();
+    { 
         protected override Task EnrichModel(GetUserVO content, IUrlHelper urlHelper)
         {
             var path = "api/user/v1".ToLower();
@@ -44,15 +42,6 @@ namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Principals
                 Type = "long"
             });
             return Task.Run(() => { });
-        }
-
-        private string GetLink(long id, IUrlHelper urlHelper, string path)
-        {
-            lock (_lock)
-            {
-                var url = new { controller = path, id };
-                return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
-            };
-        }
+        } 
     }
 }

@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentValidation;
-using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -116,7 +116,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             var result = new ServiceResponse<List<GetPatientNotificationMessageVO>>();
             result.Success = false;
-            result.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;

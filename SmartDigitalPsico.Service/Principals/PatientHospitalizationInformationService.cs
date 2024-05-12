@@ -3,6 +3,7 @@ using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -55,7 +56,7 @@ namespace SmartDigitalPsico.Service.Principals
                 PatientHospitalizationInformation entityResponse = await _entityRepository.Create(entityAdd);
 
                 response.Data = _mapper.Map<GetPatientHospitalizationInformationVO>(entityResponse);
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                    ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
             }
 
@@ -114,7 +115,7 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 response.Errors = validator.GetMapErros(validationResult.Errors);
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
                 return response;
             }
@@ -122,13 +123,13 @@ namespace SmartDigitalPsico.Service.Principals
             if (listResult == null || listResult.Count == 0)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
                 return response;
             }
             response.Data = listResult.Select(c => _mapper.Map<GetPatientHospitalizationInformationVO>(c)).ToList();
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             return response;
         }
@@ -137,7 +138,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             var result = new ServiceResponse<List<GetPatientHospitalizationInformationVO>>();
             result.Success = false;
-            result.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;

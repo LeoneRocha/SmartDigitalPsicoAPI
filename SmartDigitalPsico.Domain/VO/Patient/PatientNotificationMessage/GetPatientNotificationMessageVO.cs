@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage
 
         #region Columns 
 
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
 
         public bool IsReaded { get; set; }
 

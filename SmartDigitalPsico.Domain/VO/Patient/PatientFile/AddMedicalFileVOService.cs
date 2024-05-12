@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Domain.VO.Patient.PatientFile
         public IFormFile FileDetails { get; set; }
 
         [MaxLength(255)]
-        public string? Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         #endregion Relationship 
     }

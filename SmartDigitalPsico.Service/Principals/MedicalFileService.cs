@@ -3,10 +3,10 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -15,6 +15,7 @@ using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SmartDigitalPsico.Service.Principals
 {
@@ -43,7 +44,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             var result = new ServiceResponse<List<GetMedicalFileVO>>();
             result.Success = false;
-            result.Message = await ApplicationLanguageService.GetLocalization<SharedResource>("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+            result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
         }
@@ -72,15 +73,9 @@ namespace SmartDigitalPsico.Service.Principals
 
             var listResult = await _entityRepository.FindAllByMedical(medicalId);
 
-            var recordsList = new RecordsList<MedicalFile>
-            {
-                UserIdLogged = base.UserId,
-                Records = listResult
-
-            };
             response.Data = listResult.Select(c => _mapper.Map<GetMedicalFileVO>(c)).ToList();
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             return response;
         }
@@ -94,13 +89,14 @@ namespace SmartDigitalPsico.Service.Principals
         {
             ServiceResponse<GetMedicalFileVO> response = new ServiceResponse<GetMedicalFileVO>();
 
-            IFormFile? fileData = null;
+            IFormFile? fileData;
             if (entity != null)
             {
                 fileData = entity.FileDetails;
                 if (fileData != null)
                 {
-                    string extensioFile = fileData.ContentType.Split('/').Last();
+                    var splitExtension = fileData.ContentType.Split('/').ToList();
+                    string extensioFile = splitExtension.Last();
                     entity.FilePath = fileData.FileName;
                     entity.FileContentType = fileData.ContentType;
                     entity.FileExtension = extensioFile.Substring(0, 3);
@@ -117,12 +113,14 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Enable = true;
 
-                entityAdd.CreatedUserId = this.UserId; 
+                entityAdd.CreatedUserId = this.UserId;
                 response.Success = true;
                 if (response.Success)
                 {
                     entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);
                     MedicalFile entityResponse = await _entityRepository.Create(entityAdd);
+                    if (response.Data != null)
+                        response.Data.Id = entityResponse.Id;
                 }
             }
 

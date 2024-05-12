@@ -22,13 +22,13 @@ namespace SmartDigitalPsico.Domain.VO.Patient.PatientMedicationInformation
         public DateTime? EndDate { get; set; }
 
         [MaxLength(255)]
-        public string? Dosage { get; set; }
+        public string Dosage { get; set; } = string.Empty;
 
         [MaxLength(255)]
-        public string? Posology { get; set; }
+        public string Posology { get; set; } = string.Empty;
 
         [MaxLength(255)]
-        public string? MainDrug { get; set; }
+        public string MainDrug { get; set; } = string.Empty;
 
         #endregion Columns  
     }

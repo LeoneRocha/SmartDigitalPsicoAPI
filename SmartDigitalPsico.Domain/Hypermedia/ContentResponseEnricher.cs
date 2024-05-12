@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using SmartDigitalPsico.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using System.Collections.Concurrent;
+using System.Text;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {
@@ -88,6 +89,16 @@ namespace SmartDigitalPsico.Domain.Hypermedia
                 }
             }
             await Task.FromResult<object>(new { });
+        }
+
+        protected readonly object _lock = new object();
+        protected string GetLink(long id, IUrlHelper urlHelper, string path)
+        {
+            lock (_lock)
+            {
+                var url = new { controller = path, id };
+                return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
+            }
         }
     }
 }

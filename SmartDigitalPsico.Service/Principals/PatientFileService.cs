@@ -31,7 +31,8 @@ namespace SmartDigitalPsico.Service.Principals
             , IValidator<PatientFile> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService
-            , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO)
+            , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO
+            , IFileDiskRepository repositoryFileDisk)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
@@ -39,6 +40,7 @@ namespace SmartDigitalPsico.Service.Principals
             _entityRepository = entityRepository;
             _userRepository = userRepository;
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
+            _repositoryFileDisk = repositoryFileDisk;
         }
 
         public override Task<ServiceResponse<bool>> Delete(long id)
@@ -57,7 +59,8 @@ namespace SmartDigitalPsico.Service.Principals
                 fileData = entity.FileDetails;
                 if (fileData != null)
                 {
-                    string extensioFile = fileData.ContentType.Split('/').Last();
+                    var splitExtension = fileData.ContentType.Split('/').ToList();
+                    string extensioFile = splitExtension.Last();
                     entity.FilePath = fileData.FileName;
                     entity.FileContentType = fileData.ContentType;
                     entity.FileExtension = extensioFile.Substring(0, 3);
@@ -82,6 +85,8 @@ namespace SmartDigitalPsico.Service.Principals
                 {
                     entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);
                     PatientFile entityResponse = await _entityRepository.Create(entityAdd);
+                    if (response.Data != null)
+                        response.Data.Id = entityResponse.Id;
                 }
 
             }
@@ -89,8 +94,7 @@ namespace SmartDigitalPsico.Service.Principals
         }
 
         public async Task<GetPatientFileVO> DownloadFileById(long fileId)
-        {
-            var userAutenticated = await _userRepository.FindByID(this.UserId);
+        { 
             var fileEntity = await _entityRepository.FindByID(fileId);
             GetPatientFileVO resultVO = _mapper.Map<GetPatientFileVO>(fileEntity);
 

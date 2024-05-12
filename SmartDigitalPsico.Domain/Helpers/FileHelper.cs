@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
@@ -119,8 +118,8 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static string GetSameName(string fileName)
         {
-            string[] nameparts = fileName.Split(new char[] { '.' });
-            return nameparts.First().Trim();
+            string[] nameparts = fileName.Split(new char['.']);
+            return nameparts[0].Trim();
         }
 
         public static FileContentResult ProccessDownloadToBrowser(string folderOrigin, string fileName)

@@ -8,8 +8,7 @@ namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Principals.Patient
 {
     public class GetPatientNotificationMessageVOEnricher : ContentResponseEnricher<GetPatientNotificationMessageVO>
 
-    {
-        private readonly object _lock = new object();
+    { 
         protected override Task EnrichModel(GetPatientNotificationMessageVO content, IUrlHelper urlHelper)
         {
             var path = "api/Patient/v1/PatientNotificationMessage".ToLower();
@@ -44,15 +43,6 @@ namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Principals.Patient
                 Type = "long"
             });
             return Task.Run(() => { });
-        }
-
-        private string GetLink(long id, IUrlHelper urlHelper, string path)
-        {
-            lock (_lock)
-            {
-                var url = new { controller = path, id };
-                return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
-            };
-        }
+        } 
     }
 }

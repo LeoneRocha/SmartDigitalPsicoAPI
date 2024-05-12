@@ -1,7 +1,6 @@
 ----------------------------------------------------
 https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
-https://lionscorp.visualstudio.com/SMARTDIGITALPSICO
-https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build
+https://lionscorp.visualstudio.com/SMARTDIGITALPSICO 
 https://portal.azure.com/#home
 https://painelbd.host.uol.com.br/main.html?servicetype=mysql
 https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico

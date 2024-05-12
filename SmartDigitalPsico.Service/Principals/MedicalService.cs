@@ -1,9 +1,9 @@
 using AutoMapper;
 using FluentValidation;
-using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.Service.Principals
                 entityResponse = await _entityRepository.FindByID(entityResponse.Id) ?? entityResponse;
 
                 response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                    ("MedicalRegistred", base._applicationLanguageRepository, base._cacheService);
             }
             return response;
@@ -119,20 +119,12 @@ namespace SmartDigitalPsico.Service.Principals
                     Medical entityResponse = await _entityRepository.Update(entityUpdate);
 
                     response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("MedicalUpdated", base._applicationLanguageRepository, base._cacheService);
                 }
             }
 
             return response;
-        }
-
-        private async Task<bool> Exists(string accreditation, ETypeAccreditation typeAccreditation)
-        {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-            bool entityResponse = await _entityRepository.Exists(accreditation);
-
-            return entityResponse;
         }
 
         public override Task<ServiceResponse<bool>> Delete(long id)
@@ -172,20 +164,20 @@ namespace SmartDigitalPsico.Service.Principals
                 if (response.Data != null)
                 {
                     response.Data.Specialties = new List<GetSpecialtyVO>();
-                    foreach (var item in entityResponse.MedicalSpecialties)
+                    foreach (var item in entityResponse.MedicalSpecialties.Select(x => x.Specialty))
                     {
                         response.Data.Specialties.Add(new GetSpecialtyVO()
                         {
-                            Description = item.Specialty.Description,
-                            Id = item.Specialty.Id,
-                            Enable = item.Specialty.Enable,
-                            Language = item.Specialty.Language,
+                            Description = item.Description,
+                            Id = item.Id,
+                            Enable = item.Enable,
+                            Language = item.Language,
                         });
                     }
                 }
             }
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                    ("RegisterFind", base._applicationLanguageRepository, base._cacheService);
 
             return response;
@@ -208,7 +200,7 @@ namespace SmartDigitalPsico.Service.Principals
             if (invalidAccess)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("PermissionDenied", base._applicationLanguageRepository, base._cacheService);
 
                 response.Errors = new List<ErrorResponse>();

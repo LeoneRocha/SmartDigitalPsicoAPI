@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             _configuration = configuration;
 
             var tokenConfigurations = new TokenConfiguration();
-            //
+            
             addGetAppConfig(services, tokenConfigurations);
 
             //For In-Memory Caching

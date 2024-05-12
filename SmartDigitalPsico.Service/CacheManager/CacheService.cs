@@ -139,7 +139,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             await Task.FromResult(0);
 
             ServiceResponseCacheVO<T> cacheSave = new ServiceResponseCacheVO<T>(dataToCache, keyCache, cacheService.GetSlidingExpiration());
-            bool resultAction = cacheService.Set<ServiceResponseCacheVO<T>>(keyCache, cacheSave);
+            cacheService.Set(keyCache, cacheSave);
         }
         public static async Task<ServiceResponse<T>> GetDataFromCache<T>(ICacheService cacheService, string keyCache)
         {
@@ -162,9 +162,7 @@ namespace SmartDigitalPsico.Service.CacheManager
         #region PRIVATES
         private bool processCacheRepositoryDisk<T>(string cacheKey, T? value)
         {
-            bool result = false;
-
-            result = _diskCacheRepository.SetAsync(cacheKey, value).GetAwaiter().GetResult();
+            _diskCacheRepository.SetAsync(cacheKey, value).GetAwaiter().GetResult();
 
             DateTime dateTimeSlidingExpiration;
 
@@ -180,9 +178,9 @@ namespace SmartDigitalPsico.Service.CacheManager
                 DateTimeSlidingExpiration = dateTimeSlidingExpiration,
                 Enable = true
             };
-            _applicationCacheLogRepository.Create(addLogCache);
+            _applicationCacheLogRepository.Create(addLogCache).GetAwaiter().GetResult();
 
-            return result;
+            return true;
         }
 
         private bool checkCacheIsValid<T>(KeyValuePair<bool, T> resultDisk, string cacheKey) where T : class, new()

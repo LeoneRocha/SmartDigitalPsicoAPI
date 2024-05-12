@@ -12,6 +12,7 @@ using SmartDigitalPsico.Service.SystemDomains;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Service.Principals
 {
@@ -63,7 +64,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                 Patient entityResponse = await _entityRepository.Create(entityAdd);
                 response.Data = _mapper.Map<GetPatientVO>(entityResponse);
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                    ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
             }
             return response;
@@ -123,7 +124,7 @@ namespace SmartDigitalPsico.Service.Principals
                 {
                     Patient entityResponse = await _entityRepository.Update(entityUpdate);
                     response.Data = _mapper.Map<GetPatientVO>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
                 }
             }
@@ -141,13 +142,13 @@ namespace SmartDigitalPsico.Service.Principals
             if (patientFinded == null)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
                 return response;
             }
             response.Data = _mapper.Map<GetPatientVO>(patientFinded);
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             return response;
 
@@ -175,7 +176,7 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 response.Errors = validator.GetMapErros(validationResult.Errors);
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
                 return response;
             }
@@ -187,7 +188,7 @@ namespace SmartDigitalPsico.Service.Principals
             }
             response.Data = listResult.Select(c => _mapper.Map<GetPatientVO>(c)).ToList();
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                    ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
 
             return response;
@@ -204,7 +205,7 @@ namespace SmartDigitalPsico.Service.Principals
             if (invalidAccess)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
 
                 response.Errors = new List<ErrorResponse>();

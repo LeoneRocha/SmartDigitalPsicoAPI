@@ -1,8 +1,8 @@
 using AutoMapper;
+using Azure;
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
@@ -17,6 +17,7 @@ using SmartDigitalPsico.Domain.VO.User;
 using SmartDigitalPsico.Domain.VO.Utils;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -134,8 +135,7 @@ namespace SmartDigitalPsico.Service.Principals
                     entityUpdate.PasswordHash = passwordHash;
                     entityUpdate.PasswordSalt = passwordSalt;
                 }
-                var isAdmin = updateUser?.Admin.GetValueOrDefault();
-                entityUpdate.Role = updateUser?.Role;
+                entityUpdate.Role = updateUser.Role;
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                 entityUpdate.MedicalId = updateUser?.MedicalId;
@@ -185,7 +185,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
             entityAdd.Role = userRegisterVO?.Role;
 
-            List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO?.RoleGroupsIds);
+            List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO?.RoleGroupsIds.ToList());
 
             response = await base.Validate(entityAdd);
 
@@ -366,7 +366,7 @@ namespace SmartDigitalPsico.Service.Principals
                 fillRoleGroups(response, entityResponse);
             }
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                    ("RegisterFind", base._applicationLanguageRepository, base._cacheService);
 
             return response;
@@ -376,37 +376,32 @@ namespace SmartDigitalPsico.Service.Principals
         {
             if (response.Data != null)
             {
-                response.Data.RoleGroups = new List<GetRoleGroupVO>();
-                foreach (var item in entityResponse.UserRoleGroups)
-                {
-                    response.Data.RoleGroups.Add(new GetRoleGroupVO()
-                    {
-                        RolePolicyClaimCode = item.RoleGroup.RolePolicyClaimCode,
-                        Description = item.RoleGroup.Description,
-                        Id = item.RoleGroup.Id,
-                        Enable = item.RoleGroup.Enable,
-                        Language = item.RoleGroup.Language,
-                    });
-                }
+                response.Data.RoleGroups = getRolesGroups(entityResponse);
             }
-        }
+        } 
         private static void fillRoleGroupsAuthenticate(GetUserAuthenticatedVO response, User entityResponse)
         {
             if (response != null)
             {
-                response.RoleGroups = new List<GetRoleGroupVO>();
-                foreach (var item in entityResponse.UserRoleGroups)
-                {
-                    response.RoleGroups.Add(new GetRoleGroupVO()
-                    {
-                        RolePolicyClaimCode = item.RoleGroup.RolePolicyClaimCode,
-                        Description = item.RoleGroup.Description,
-                        Id = item.RoleGroup.Id,
-                        Enable = item.RoleGroup.Enable,
-                        Language = item.RoleGroup.Language,
-                    });
-                }
+                response.RoleGroups = getRolesGroups(entityResponse);
             }
+        }
+        private static List<GetRoleGroupVO> getRolesGroups(User entityResponse)
+        {
+            List<GetRoleGroupVO> result = new List<GetRoleGroupVO>();
+
+            foreach (var item in entityResponse.UserRoleGroups.Select(x => x.RoleGroup))
+            {
+                result.Add(new GetRoleGroupVO()
+                {
+                    RolePolicyClaimCode = item.RolePolicyClaimCode,
+                    Description = item.Description,
+                    Id = item.Id,
+                    Enable = item.Enable,
+                    Language = item.Language,
+                });
+            }
+            return result;
         }
     }
 }

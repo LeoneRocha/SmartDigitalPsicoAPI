@@ -1,10 +1,9 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -25,8 +24,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
         public GenderService(IMapper mapper, IGenderRepository entityRepository, ICacheService cacheService,
             IOptions<AuthConfigurationVO> configurationAuth,
             IValidator<Gender> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheBusines)
+            , IApplicationLanguageRepository applicationLanguageRepository)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
@@ -39,19 +37,16 @@ namespace SmartDigitalPsico.Service.SystemDomains
             string keyCache = "FindAll_GetGenderVO";
 
             ServiceResponse<List<GetGenderVO>> result = new ServiceResponse<List<GetGenderVO>>();
-            List<GetGenderVO> listEntity = new List<GetGenderVO>();
-
-            long idu = this.UserId;
 
             if (_cacheService.IsEnable())
             {
-                bool existsCache = _cacheService.TryGet<ServiceResponseCacheVO<List<GetGenderVO>>>(keyCache, out ServiceResponseCacheVO<List<GetGenderVO>> cachedResult);
+                bool existsCache = _cacheService.TryGet(keyCache, out ServiceResponseCacheVO<List<GetGenderVO>> cachedResult);
                 if (!existsCache)
                 {
                     result = await base.FindAll();
                     ServiceResponseCacheVO<List<GetGenderVO>> cacheSave = new ServiceResponseCacheVO<List<GetGenderVO>>(result, keyCache, _cacheService.GetSlidingExpiration());
 
-                    bool resultAction = _cacheService.Set<ServiceResponseCacheVO<List<GetGenderVO>>>(keyCache, cacheSave);
+                    result.Success = _cacheService.Set(keyCache, cacheSave);
                 }
                 else
                 {
@@ -75,13 +70,13 @@ namespace SmartDigitalPsico.Service.SystemDomains
             {
                 response.Data = _mapper.Map<GetGenderVO>(entityResponse);
                 response.Success = true;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                     ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             }
             else
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                    ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
             }
             return response;
@@ -96,7 +91,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
             if (!entityExists)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
                 return response;
             }
@@ -113,11 +108,10 @@ namespace SmartDigitalPsico.Service.SystemDomains
 
                 response.Data = _mapper.Map<GetGenderVO>(entityResponse);
                 response.Success = true;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                            ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
             }
             return response;
-
         }
     }
 }

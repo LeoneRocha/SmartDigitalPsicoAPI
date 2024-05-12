@@ -26,29 +26,22 @@ namespace SmartDigitalPsico.Service.SystemDomains
         {
 
         }
-        public static async Task<string> GetLocalization<T>(string key, Microsoft.Extensions.Localization.IStringLocalizer<T> localizer)
+        public static async Task<string> GetLocalization<T>(string key, IStringLocalizer<T> localizer)
         {
-            string result = "NotFoundLocalization";
-
-            var culturenameCurrent = CultureInfo.CurrentCulture;
 
             var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
             string message = localizer.GetString(findKey);
 
-            result = message;
 
-            await Task.FromResult(string.Empty);
+            await Task.FromResult("NotFoundLocalization");
 
-            return result;
+            return message;
         }
         public override async Task<ServiceResponse<List<GetApplicationLanguageVO>>> FindAll()
         {
             string keyCache = "FindAll_GetApplicationLanguageVO";
 
-            ServiceResponse<List<GetApplicationLanguageVO>> result = new ServiceResponse<List<GetApplicationLanguageVO>>();
-            List<GetApplicationLanguageVO> listEntity = new List<GetApplicationLanguageVO>();
-
-            result = await CacheService.GetDataFromCache<List<GetApplicationLanguageVO>>(base._cacheService, keyCache);
+            ServiceResponse<List<GetApplicationLanguageVO>> result = await CacheService.GetDataFromCache<List<GetApplicationLanguageVO>>(base._cacheService, keyCache);
             if (base._cacheService.IsEnable())
             {
                 if (result.Data == null)
@@ -68,15 +61,12 @@ namespace SmartDigitalPsico.Service.SystemDomains
         public static async Task<string> GetLocalization<T>(string key,
             IApplicationLanguageRepository languageRepository, ICacheService cacheService)
         {
-            string resultLocalization = $"NotFoundLocalization|{key}|";
+            string resultLocalization;
 
             var culturenameCurrent = CultureInfo.CurrentCulture;
-            var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
 
             string keyCache = "FindAll_GetApplicationLanguageVO";
-            ServiceResponse<List<GetApplicationLanguageVO>> resultFromCache = new ServiceResponse<List<GetApplicationLanguageVO>>();
-
-            resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageVO>>(cacheService, keyCache);
+            ServiceResponse<List<GetApplicationLanguageVO>> resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageVO>>(cacheService, keyCache);
 
             string resourceKey = "SharedResource";
             string language = culturenameCurrent.Name;
@@ -91,7 +81,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
                 var languageFindDB = await languageRepository.Find(language, key, resourceKey);
                 resultLocalization = languageFindDB.LanguageValue;
             }
-            return resultLocalization;
+            return resultLocalization ?? $"NotFoundLocalization|{key}|";
         }
 
         private static GetApplicationLanguageVO filterAndGetSingle(ServiceResponse<List<GetApplicationLanguageVO>> resultFromCache, string resourceKey, string key, string language)

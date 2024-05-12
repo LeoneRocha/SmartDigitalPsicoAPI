@@ -8,8 +8,7 @@ namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Domains
 {
     public class GetGenderVOEnricher : ContentResponseEnricher<GetGenderVO>
 
-    {
-        private readonly object _lock = new object();
+    { 
         protected override Task EnrichModel(GetGenderVO content, IUrlHelper urlHelper)
         {
             var path = "api/gender/v1".ToLower();
@@ -41,18 +40,9 @@ namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Domains
                 Method = HttpActionVerb.DELETE,
                 Href = link,
                 Rel = RelationType.delete,
-                Type = "int"
+                Type = "long"
             });
             return Task.Run(() => { });
-        }
-
-        private string GetLink(long id, IUrlHelper urlHelper, string path)
-        {
-            lock (_lock)
-            {
-                var url = new { controller = path, id };
-                return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
-            };
-        }
+        } 
     }
 }

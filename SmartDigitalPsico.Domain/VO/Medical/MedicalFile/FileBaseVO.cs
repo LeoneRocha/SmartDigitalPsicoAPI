@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.VO.Medical.MedicalFile
         [MaxLength(2083)]
         public string FilePath { get; set; } = string.Empty;
 
-        public byte[] FileData { get; set; } = [];
+        public byte[] FileData { get; set; } = Array.Empty<byte>(); 
 
         public string FileData64 { get; set; } = string.Empty;
          
