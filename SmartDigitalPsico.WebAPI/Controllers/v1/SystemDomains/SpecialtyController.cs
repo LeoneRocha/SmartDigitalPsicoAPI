@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
             _entityService.SetUserId(base.GetUserIdCurrent());
         }
         [HttpGet("FindAll")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetSpecialtyVO>>>> Get()
         {
                 this.setUserIdCurrent();
@@ -42,7 +42,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpGet("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetSpecialtyVO>>> FindByID(int id)
         {
             this.setUserIdCurrent();
@@ -55,7 +55,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpPost]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetSpecialtyVO>>> Create(AddSpecialtyVO newEntity)
         {
             this.setUserIdCurrent();
@@ -68,7 +68,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpPut]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetSpecialtyVO>>> Update(UpdateSpecialtyVO updateEntity)
         {
             this.setUserIdCurrent();
@@ -88,8 +88,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
             if (!response.Success)
             {
                 return NotFound(response);
-            }
-            //TODO: 1) SE TIVER ERROS RESPONDER BAD REQUEST 
+            } 
             return Ok(response);
         }
     }

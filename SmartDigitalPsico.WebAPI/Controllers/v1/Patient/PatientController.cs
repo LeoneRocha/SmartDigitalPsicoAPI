@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             _entityService.SetUserId(base.GetUserIdCurrent());
         }
         [HttpGet("FindAll")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetPatientVO>>>> FindAll(long medicalId)
         {
             this.setUserIdCurrent();
@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
 
         [HttpGet("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetPatientVO>>> FindByID(long id)
         {
             this.setUserIdCurrent();
@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
 
         [HttpPost]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetPatientVO>>> Create(AddPatientVO newEntity)
         {
             this.setUserIdCurrent();
@@ -51,7 +51,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
 
         [HttpPut]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetPatientVO>>> Update(UpdatePatientVO UpdateEntity)
         {
             this.setUserIdCurrent();            
@@ -64,7 +64,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
 
         [HttpDelete("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
             this.setUserIdCurrent();

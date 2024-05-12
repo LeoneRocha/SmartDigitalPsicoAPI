@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpGet("GetCultures")] 
-        public async Task<ActionResult<List<CultureDisplay>>> Get()
+        public async Task<ActionResult<List<CultureDisplayVO>>> Get()
         { 
             await Task.FromResult(0);
             var response = CultureDateTimeHelper.GetCultures();

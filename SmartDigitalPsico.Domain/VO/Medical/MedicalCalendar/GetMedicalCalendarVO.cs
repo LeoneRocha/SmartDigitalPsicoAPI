@@ -29,13 +29,13 @@ namespace SmartDigitalPsico.Domain.VO.Medical.MedicalCalendar
 
         public int Status { get; set; }
 
-        public string? ColorCategory { get; set; }
+        public string ColorCategory { get; set; } = string.Empty;
 
-        public string? Url { get; set; }
+        public string Url { get; set; } = string.Empty;
 
         public bool PushedCalendar { get; set; }
 
-        public string? TimeZone { get; set; }
+        public string TimeZone { get; set; } = string.Empty;
         #endregion Columns 
 
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();

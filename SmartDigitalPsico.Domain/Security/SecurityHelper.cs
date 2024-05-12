@@ -53,7 +53,7 @@ namespace SmartDigitalPsico.Domain.Security
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokendDescriptor);
 
-            return tokenHandler.WriteToken(token); ;
+            return tokenHandler.WriteToken(token);
         } 
     }
 }

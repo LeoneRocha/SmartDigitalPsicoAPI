@@ -4,11 +4,11 @@ using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.API
 {
-    public class LanguageActionFilter : ActionFilterAttribute
+    public class LanguageActionFilterAttribute : ActionFilterAttribute
     {
         private readonly ILogger _logger;
 
-        public LanguageActionFilter(ILoggerFactory loggerFactory)
+        public LanguageActionFilterAttribute(ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger("LanguageActionFilter");
         }

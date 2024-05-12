@@ -9,8 +9,7 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
         {
             List<ErrorResponse> errorsResult = new List<ErrorResponse>();
             if (!validationResult.IsValid)
-            {
-                StringBuilder sb = new StringBuilder();
+            { 
                 validationResult.Errors.ForEach(erroItem =>
                 {
                     errorsResult.Add(new ErrorResponse()

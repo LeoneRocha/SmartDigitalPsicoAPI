@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Filters
 {
-    public class HyperMediaFilter : ResultFilterAttribute
+    public class HyperMediaFilterrAttribute : ResultFilterAttribute
     {
         private readonly HyperMediaFilterOptions _hyperMediaFilterOptions;
 
-        public HyperMediaFilter(HyperMediaFilterOptions hyperMediaFilterOptions)
+        public HyperMediaFilterrAttribute(HyperMediaFilterOptions hyperMediaFilterOptions)
         {
             _hyperMediaFilterOptions = hyperMediaFilterOptions;
         }
@@ -20,15 +20,15 @@ namespace SmartDigitalPsico.Domain.Hypermedia.Filters
 
         private void TryEnrichResult(ResultExecutingContext context)
         {
-            if (context.Result is OkObjectResult objectResult)
+            if (context.Result is OkObjectResult)
             {
-                var enricher = _hyperMediaFilterOptions.ContentResponseEnricherList.FirstOrDefault(x => x.CanEnrich(context));
+                var enricher = _hyperMediaFilterOptions.ContentResponseEnricherList.Find(x => x.CanEnrich(context));
 
                 if (enricher != null)
                 {
                     Task.FromResult(enricher.Enrich(context));
                 }
-            };
+            }
         }
     }
 }

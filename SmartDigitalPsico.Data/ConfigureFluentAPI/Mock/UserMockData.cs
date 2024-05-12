@@ -10,15 +10,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
     {
         public void Configure(EntityTypeBuilder<User> modelBuilder)
         {
-            modelBuilder.HasData(GetMock());
-
-            /*modelBuilder.HasOne(p => p.UserRoleGroups)
-                .WithOne(p => p.RoleGroup )
-                .''(p => p.User)
-                .UsingEntity(j => j.HasData(
-                    new { RoleGroupsId = (long)1, UsersId = (long)1 },
-                    new { RoleGroupsId = (long)2, UsersId = (long)2 }
-                    )); */
+            modelBuilder.HasData(GetMock()); 
         }
         public static User[] GetMock()
         {
@@ -39,9 +31,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
             };
             SecurityHelper.CreatePasswordHash("mock123adm", out byte[] passwordHash, out byte[] passwordSalt);
             newAddUser.PasswordHash = passwordHash;
-            newAddUser.PasswordSalt = passwordSalt;
-            //newAddUser.RoleGroups = new List<RoleGroup>();
-            //newAddUser.UserRoleGroups.Add( new RoleGroupUser() { RoleGroupId = (long)1 ,  })
+            newAddUser.PasswordSalt = passwordSalt; 
             var newAddUserMedical = new User
             {
                 Id = 2,

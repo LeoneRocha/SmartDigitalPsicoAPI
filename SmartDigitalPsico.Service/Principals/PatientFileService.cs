@@ -20,27 +20,24 @@ namespace SmartDigitalPsico.Service.Principals
 
     {
         private readonly IMapper _mapper;
-        IConfiguration _configuration;
-        private readonly IUserRepository _userRepository;
+        IConfiguration _configuration; 
         private readonly IPatientFileRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository;
         private readonly IFileDiskRepository _repositoryFileDisk;
         private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
 
-        public PatientFileService(IMapper mapper, IPatientFileRepository entityRepository, IConfiguration configuration,
-            IUserRepository userRepository, IPatientRepository patientRepository
+        public PatientFileService(IMapper mapper, IPatientFileRepository entityRepository, IConfiguration configuration            
             , IValidator<PatientFile> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService
-            , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO)
+            , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO
+            , IFileDiskRepository repositoryFileDisk)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
             _configuration = configuration;
-            _entityRepository = entityRepository;
-            _userRepository = userRepository;
-            _patientRepository = patientRepository;
+            _entityRepository = entityRepository; 
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
+            _repositoryFileDisk = repositoryFileDisk;
         }
 
         public override Task<ServiceResponse<bool>> Delete(long id)
@@ -51,26 +48,22 @@ namespace SmartDigitalPsico.Service.Principals
         public async Task<bool> PostFileAsync(AddPatientFileVO entity)
         {
             ServiceResponse<GetPatientFileVO> response = new ServiceResponse<GetPatientFileVO>();
-
-            try
+            if (entity != null)
             {
 
-                IFormFile fileData = null;
-                if (entity != null)
+                IFormFile fileData;
+
+                fileData = entity.FileDetails;
+                if (fileData != null)
                 {
-                    fileData = entity.FileDetails;
-                    if (fileData != null)
-                    {
-                        string extensioFile = fileData.ContentType.Split('/').Last();
-                        entity.FilePath = fileData.FileName;
-                        entity.FileContentType = fileData.ContentType;
-                        entity.FileExtension = extensioFile.Substring(0, 3);
-                        entity.FileSizeKB = fileData.Length / 1024;
-                    }
+                    entity.FilePath = fileData.FileName;
+                    entity.FileContentType = fileData.ContentType;
+                    entity.FileExtension = FileHelper.GetFileExtension(fileData.ContentType);
+                    entity.FileSizeKB = fileData.Length / 1024;
                 }
 
                 PatientFile entityAdd = _mapper.Map<PatientFile>(entity);
-                entityAdd.FileName = entity?.FilePath;
+                entityAdd.FileName = entity.FilePath;
                 #region Relationship
 
                 entityAdd.PatientId = entity.PatientId;
@@ -83,26 +76,20 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.Enable = true;
 
                 entityAdd.CreatedUserId = this.UserId;
-
-                //response = await base.Validate(entityAdd);
-
                 if (response.Success)
                 {
                     entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);
                     PatientFile entityResponse = await _entityRepository.Create(entityAdd);
+                    if (response.Data != null)
+                        response.Data.Id = entityResponse.Id;
                 }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
 
-            return true;
+            }
+            return response.Success;
         }
 
         public async Task<GetPatientFileVO> DownloadFileById(long fileId)
         {
-            var userAutenticated = await _userRepository.FindByID(this.UserId);
             var fileEntity = await _entityRepository.FindByID(fileId);
             GetPatientFileVO resultVO = _mapper.Map<GetPatientFileVO>(fileEntity);
 
@@ -110,21 +97,21 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.DataBase && fileEntity.TypeLocationSaveFile == ETypeLocationSaveFiles.DataBase)
                 {
-                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
+                    await FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
                 }
 
                 if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.Disk && fileEntity.TypeLocationSaveFile == ETypeLocationSaveFiles.Disk)
                 {
                     fileEntity.FileData = await getFromDisk(fileEntity);
 
-                    FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
+                    await FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
                 }
             }
 
             return resultVO;
         }
 
-        private async Task<string?> persistFile(AddPatientFileVO entity, IFormFile fileData, PatientFile entityAdd)
+        private async Task<string> persistFile(AddPatientFileVO entity, IFormFile fileData, PatientFile entityAdd)
         {
             ///MUDAR PARA BUSCAR NA TABELAS DE CONFIGURACOES  
             string pathDomainBussines = Path.Combine(Directory.GetCurrentDirectory(), "ResourcesFileSave");
@@ -151,7 +138,7 @@ namespace SmartDigitalPsico.Service.Principals
                 });
                 entityAdd.TypeLocationSaveFile = ETypeLocationSaveFiles.Disk;
             }
-            return folderDest;
+            return folderDest ?? string.Empty;
         }
 
         private async Task<byte[]> getFromDisk(PatientFile fileEntity)

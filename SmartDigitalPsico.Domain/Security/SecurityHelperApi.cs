@@ -7,14 +7,13 @@ namespace SmartDigitalPsico.Domain.Security
     {
         public static long GetUserIdApi(ClaimsPrincipal user, ETypeApiCredential typeApiCredential)
         {
-            long idUser = 0;
-
-            if (user != null && typeApiCredential == ETypeApiCredential.Jwt)
+            long idUserResult = 0;
+            long idUser;
+            if (user != null && typeApiCredential == ETypeApiCredential.Jwt && long.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out idUser))
             {
-                var userApi = user;
-                long.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out idUser);
+                idUserResult = idUser;
             }
-            return idUser;
+            return idUserResult;
         }
     }
 }

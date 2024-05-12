@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
             _entityService.SetUserId(base.GetUserIdCurrent());
         } 
         [HttpGet("FindAll")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetRoleGroupVO>>>> Get()
         {
             this.setUserIdCurrent();
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpGet("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetRoleGroupVO>>> FindByID(int id)
         {
             this.setUserIdCurrent();
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpPost]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetRoleGroupVO>>> Create(AddRoleGroupVO newEntity)
         {
             this.setUserIdCurrent();
@@ -58,7 +58,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpPut]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetRoleGroupVO>>> Update(UpdateRoleGroupVO updateEntity)
         {
             this.setUserIdCurrent();

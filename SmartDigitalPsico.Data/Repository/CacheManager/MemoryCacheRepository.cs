@@ -9,12 +9,11 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
     public class MemoryCacheRepository : IMemoryCacheRepository
     {
         private readonly IMemoryCache _memoryCache;
-        private readonly CacheConfigurationVO? _cacheConfig;
         private readonly MemoryCacheEntryOptions? _cacheOptions;
         public MemoryCacheRepository(IMemoryCache memoryCache, IOptions<CacheConfigurationVO> cacheConfig)
         {
             _memoryCache = memoryCache;
-            _cacheConfig = cacheConfig.Value;
+            CacheConfigurationVO _cacheConfig = cacheConfig.Value;
             if (_cacheConfig != null)
             {
                 DateTime absoluteExpiration = DataHelper.GetDateTimeNow().AddHours(_cacheConfig.AbsoluteExpirationInHours);
@@ -28,17 +27,10 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
                 };
             }
         }
-        public bool TryGet<T>(string cacheKey, out T value)
+        public bool TryGet<T>(string cacheKey, out T? value)
         {
-            bool isSuccessGet = false;
-            value = _memoryCache.Get<T>(cacheKey);
-
-            _memoryCache.TryGetValue(cacheKey, out value);
-            if (value != null)
-            {
-                isSuccessGet = true;
-            }
-
+            bool isSuccessGet;
+            isSuccessGet = _memoryCache.TryGetValue(cacheKey, out value);
             return isSuccessGet;
         }
 

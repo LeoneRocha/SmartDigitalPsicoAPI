@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
@@ -8,8 +7,14 @@ using System.Text;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
-    public class FileHelper
+    public static class FileHelper
     {
+        public static string GetFileExtension(string contentType)
+        {
+            var splitExtension = contentType.Split('/').ToList();
+            string extensionFile = splitExtension[splitExtension.Count - 1];
+            return extensionFile.Substring(0, 3);
+        }
 
         public static async Task<string> GetFileFormDataUpload(IFormFile file)
         {
@@ -55,7 +60,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             return string.Empty;
         }
 
-        public static async void GetFromByteSaveTemp(byte[] filedata, string fileName, IConfiguration configuration)
+        public static async Task GetFromByteSaveTemp(byte[] filedata, string fileName, IConfiguration configuration)
         {
             if (filedata != null)
             {
@@ -114,36 +119,29 @@ namespace SmartDigitalPsico.Domain.Helpers
             else
             {
                 return Path.Combine(Directory.GetCurrentDirectory(), folderOrigin, fileName);
-            } 
+            }
         }
 
         public static string GetSameName(string fileName)
         {
-            string[] nameparts = fileName.Split(new char[] { '.' });
-            return nameparts.First().Trim();
+            string[] nameparts = fileName.Split(new char['.']);
+            return nameparts[0].Trim();
         }
 
         public static FileContentResult ProccessDownloadToBrowser(string folderOrigin, string fileName)
         {
-            try
+            var filePath = FileHelper.GetFilePath(folderOrigin, fileName);
+            var fileStream = System.IO.File.OpenRead(filePath);
+            var contentType = FileHelper.GetContentType(filePath);
+            var fileBytes = new byte[fileStream.Length];
+            fileStream.Read(fileBytes, 0, (int)fileStream.Length);
+            fileStream.Close();
+            var response = new FileContentResult(fileBytes, contentType)
             {
-                var filePath = FileHelper.GetFilePath(folderOrigin, fileName);
-                var fileStream = System.IO.File.OpenRead(filePath);
-                var contentType = FileHelper.GetContentType(filePath);
-                var fileBytes = new byte[fileStream.Length];
-                fileStream.Read(fileBytes, 0, (int)fileStream.Length);
-                fileStream.Close();
-                var response = new FileContentResult(fileBytes, contentType)
-                {
-                    LastModified = DataHelper.GetDateTimeNow(),
-                    FileDownloadName = FileHelper.GetSameName(fileName),
-                };
-                return response;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                LastModified = DataHelper.GetDateTimeNow(),
+                FileDownloadName = FileHelper.GetSameName(fileName),
+            };
+            return response;
         }
     }
 }

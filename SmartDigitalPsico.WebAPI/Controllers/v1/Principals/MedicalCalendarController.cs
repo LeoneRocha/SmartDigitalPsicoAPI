@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpGet("FindAll")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetMedicalCalendarVO>>>> FindAll()
         {
             this.setUserIdCurrent();
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpGet("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarVO>>> FindByID(int id)
         {
             this.setUserIdCurrent();
@@ -58,7 +58,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPost]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarVO>>> Create(AddMedicalCalendarVO newEntity)
         {
             this.setUserIdCurrent();
@@ -71,7 +71,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPut]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarVO>>> Update(UpdateMedicalCalendarVO UpdateEntity)
         {
             this.setUserIdCurrent();
@@ -84,7 +84,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpDelete("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
             this.setUserIdCurrent();
@@ -94,7 +94,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
                 return NotFound(response);
             }
             return Ok(response);
-        }
-
+        } 
     }
 }

@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpGet("FindAll")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetApplicationConfigSettingVO>>>> Get()
         {
             this.setUserIdCurrent();
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
             return Ok(await result);
         }
         [HttpGet("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingVO>>> FindByID(int id)
         {
             this.setUserIdCurrent();
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpPost]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingVO>>> Create(AddApplicationConfigSettingVO newEntity)
         {
             this.setUserIdCurrent();
@@ -53,7 +53,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpPut]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingVO>>> Update(UpdateApplicationConfigSettingVO updateEntity)
         {
             this.setUserIdCurrent();

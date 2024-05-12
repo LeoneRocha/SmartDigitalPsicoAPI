@@ -1,9 +1,9 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -18,56 +18,46 @@ namespace SmartDigitalPsico.Service.Principals
 
     {
         private readonly IMapper _mapper;
-        IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
         private readonly IPatientHospitalizationInformationRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository;
 
-        public PatientHospitalizationInformationService(IMapper mapper, IPatientHospitalizationInformationRepository entityRepository, IConfiguration configuration, IUserRepository userRepository, IPatientRepository patientRepository
+        public PatientHospitalizationInformationService(IMapper mapper,
+            IPatientHospitalizationInformationRepository entityRepository, IUserRepository userRepository
             , IValidator<PatientHospitalizationInformation> entityValidator, IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
-            _configuration = configuration;
             _entityRepository = entityRepository;
             _userRepository = userRepository;
-            _patientRepository = patientRepository;
         }
 
         public override async Task<ServiceResponse<GetPatientHospitalizationInformationVO>> Create(AddPatientHospitalizationInformationVO item)
         {
             ServiceResponse<GetPatientHospitalizationInformationVO> response = new ServiceResponse<GetPatientHospitalizationInformationVO>();
 
-            try
+            PatientHospitalizationInformation entityAdd = _mapper.Map<PatientHospitalizationInformation>(item);
+
+            #region Relationship
+
+            entityAdd.CreatedUserId = this.UserId;
+            entityAdd.PatientId = item.PatientId;
+
+            #endregion
+
+            entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+
+            response = await base.Validate(entityAdd);
+
+            if (response.Success)
             {
-                PatientHospitalizationInformation entityAdd = _mapper.Map<PatientHospitalizationInformation>(item);
+                PatientHospitalizationInformation entityResponse = await _entityRepository.Create(entityAdd);
 
-                #region Relationship
-                 
-                entityAdd.CreatedUserId = this.UserId; 
-                entityAdd.PatientId = item.PatientId;
-
-                #endregion
-
-                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-                
-                response = await base.Validate(entityAdd);
-
-                if (response.Success)
-                {
-                    PatientHospitalizationInformation entityResponse = await _entityRepository.Create(entityAdd);
-
-                    response.Data = _mapper.Map<GetPatientHospitalizationInformationVO>(entityResponse); 
-                    response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
-                       ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
-                }
-            }
-            catch (Exception)
-            { 
-                throw;
+                response.Data = _mapper.Map<GetPatientHospitalizationInformationVO>(entityResponse);
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                   ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
             }
 
             return response;
@@ -77,39 +67,32 @@ namespace SmartDigitalPsico.Service.Principals
         {
             ServiceResponse<GetPatientHospitalizationInformationVO> response = new ServiceResponse<GetPatientHospitalizationInformationVO>();
 
-            try
+            PatientHospitalizationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
+
+            #region Relationship                 
+            entityUpdate.ModifyUserId = this.UserId;
+            #endregion
+
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+
+            #region Columns
+            entityUpdate.Enable = item.Enable;
+            entityUpdate.CID = item.CID;
+            entityUpdate.Description = item.Description;
+            entityUpdate.StartDate = item.StartDate;
+            entityUpdate.EndDate = item.EndDate;
+            entityUpdate.Observation = item.Observation;
+            #endregion Columns
+
+            response = await base.Validate(entityUpdate);
+
+            if (response.Success)
             {
-                PatientHospitalizationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
-                  
-                #region Relationship                 
-                entityUpdate.ModifyUserId = this.UserId;
-                #endregion
+                PatientHospitalizationInformation entityResponse = await _entityRepository.Update(entityUpdate);
 
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-                 
-                #region Columns
-                entityUpdate.Enable = item.Enable;                
-                entityUpdate.CID = item.CID;
-                entityUpdate.Description = item.Description;
-                entityUpdate.StartDate = item.StartDate;
-                entityUpdate.EndDate = item.EndDate;
-                entityUpdate.Observation = item.Observation;
-                #endregion Columns
-
-                response = await base.Validate(entityUpdate);
-
-                if (response.Success)
-                {
-                    PatientHospitalizationInformation entityResponse = await _entityRepository.Update(entityUpdate);
-
-                    response.Data = _mapper.Map<GetPatientHospitalizationInformationVO>(entityResponse);
-                    response.Message = "Patient Updated.";
-                }
-            }
-            catch (Exception)
-            { 
-                throw;
+                response.Data = _mapper.Map<GetPatientHospitalizationInformationVO>(entityResponse);
+                response.Message = "Patient Updated.";
             }
 
             return response;
@@ -132,7 +115,7 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 response.Errors = validator.GetMapErros(validationResult.Errors);
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
                 return response;
             }
@@ -140,13 +123,13 @@ namespace SmartDigitalPsico.Service.Principals
             if (listResult == null || listResult.Count == 0)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
                 return response;
             }
             response.Data = listResult.Select(c => _mapper.Map<GetPatientHospitalizationInformationVO>(c)).ToList();
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             return response;
         }
@@ -155,11 +138,11 @@ namespace SmartDigitalPsico.Service.Principals
         {
             var result = new ServiceResponse<List<GetPatientHospitalizationInformationVO>>();
             result.Success = false;
-            result.Message = await ApplicationLanguageService.GetLocalization<SharedResource>
+            result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
-        } 
+        }
         public async override Task<ServiceResponse<GetPatientHospitalizationInformationVO>> FindByID(long id)
         {
             return await base.FindByID(id);

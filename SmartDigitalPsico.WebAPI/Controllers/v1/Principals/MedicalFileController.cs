@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpGet("FindAll")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetMedicalFileVO>>>> FindAll(long medicalId)
         {
             this.setUserIdCurrent();
@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpGet("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalFileVO>>> FindByID(long id)
         {
             this.setUserIdCurrent();
@@ -51,7 +51,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpDelete("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
             this.setUserIdCurrent();
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPost("Upload")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalFileVO>>> Create([FromForm] AddMedicalFileVOService newEntity)
         {
             this.setUserIdCurrent();

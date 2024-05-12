@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             _entityService.SetUserId(base.GetUserIdCurrent());
         } 
         [HttpGet("FindAll")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetPatientFileVO>>>> Get()
         {
             this.setUserIdCurrent();
@@ -42,7 +42,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
 
         [HttpGet("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetPatientFileVO>>> FindByID(int id)
         {
             this.setUserIdCurrent();
@@ -50,7 +50,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
 
         [HttpDelete("{id}")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
             this.setUserIdCurrent();
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
 
         [HttpPost("Upload")]
-        [TypeFilter(typeof(HyperMediaFilter))]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<GetPatientFileVO>> Create([FromForm] AddPatientFileVOService newEntity)
         {
             this.setUserIdCurrent();

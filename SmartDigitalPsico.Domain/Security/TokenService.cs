@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Domain.Security
             {
                 rng.GetBytes(randomNumber);
                 return Convert.ToBase64String(randomNumber);
-            };
+            }
         }
 
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)

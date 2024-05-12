@@ -32,14 +32,14 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
             return result;
         }
-        public static List<CultureDisplay> GetCultures()
+        public static List<CultureDisplayVO> GetCultures()
         {
-            List<CultureDisplay> result = new List<CultureDisplay>();
+            List<CultureDisplayVO> result = new List<CultureDisplayVO>();
             CultureInfo[] cinfo = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
 
             foreach (CultureInfo cul in cinfo)
             {
-                result.Add(new CultureDisplay() { Id = cul.Name, Name = cul.DisplayName });
+                result.Add(new CultureDisplayVO() { Id = cul.Name, Name = cul.DisplayName });
             }
             var culturesEnables = getCulturesEnable().Select(cie => cie.Name).ToList();
             result = result.Where(ci => culturesEnables.Contains(ci.Id)).ToList();
@@ -47,17 +47,14 @@ namespace SmartDigitalPsico.Domain.Helpers
             return result;
         }
 
-        public static List<CultureInfo> TranslateCulture(List<CultureDisplay> cultureDisplays)
+        public static List<CultureInfo> TranslateCulture(List<CultureDisplayVO> cultureDisplays)
         {
             return cultureDisplays.Select(cd => new CultureInfo(cd.Id)).ToList();
         }
 
         public static string GetNameAndCulture(string localizedStringKeyName)
-        {
-
-            string culturenameCurrent = CultureInfo.CurrentCulture.Name;
-            return $"{localizedStringKeyName}";
-
+        {  
+            return $"{localizedStringKeyName}"; 
         }
         public static string GetKeyLocalizationRecordFormat(string LanguageKey, string Language)
         {
@@ -68,9 +65,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         {
             string result = "NotFoundLocalization";
             try
-            {
-                var culturenameCurrent = CultureInfo.CurrentCulture;
-
+            {  
                 var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
                 string message = localizer.GetString(findKey);
 
@@ -85,7 +80,7 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static string GetTimeZoneBrazil()
         {
-            var zt = CultureDateTimeHelper.GetTimeZonesIds().FirstOrDefault(c =>
+            var zt = CultureDateTimeHelper.GetTimeZonesIds().Find(c =>
              c.Name.ToUpper().Contains("o Paulo".ToUpper())
              || c.Id.ToUpper().Contains("o Paulo".ToUpper())
              || c.Name.ToUpper().Contains("Brasília".ToUpper())
