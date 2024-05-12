@@ -20,14 +20,12 @@ namespace SmartDigitalPsico.Service.Principals
 
     {
         private readonly IMapper _mapper;
-        IConfiguration _configuration;
-        private readonly IUserRepository _userRepository;
+        IConfiguration _configuration; 
         private readonly IPatientFileRepository _entityRepository;
         private readonly IFileDiskRepository _repositoryFileDisk;
         private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
 
-        public PatientFileService(IMapper mapper, IPatientFileRepository entityRepository, IConfiguration configuration,
-            IUserRepository userRepository
+        public PatientFileService(IMapper mapper, IPatientFileRepository entityRepository, IConfiguration configuration            
             , IValidator<PatientFile> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService
@@ -37,8 +35,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             _mapper = mapper;
             _configuration = configuration;
-            _entityRepository = entityRepository;
-            _userRepository = userRepository;
+            _entityRepository = entityRepository; 
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
             _repositoryFileDisk = repositoryFileDisk;
         }
