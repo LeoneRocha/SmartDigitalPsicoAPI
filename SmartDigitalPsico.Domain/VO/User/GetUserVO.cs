@@ -17,18 +17,17 @@ namespace SmartDigitalPsico.Domain.VO.User
 
         #endregion Relationship
 
-
         public string Login { get; set; } = string.Empty;
 
         #region Columns  
 
-        public string? Role { get; set; }
+        public string Role { get; set; } = string.Empty;
 
-        public bool? Admin { get; set; }
+        public bool Admin { get; set; }
 
-        public string? Language { get; set; }
+        public string Language { get; set; } = string.Empty;
 
-        public string? TimeZone { get; set; }
+        public string TimeZone { get; set; } = string.Empty;
 
         #endregion Columns 
 

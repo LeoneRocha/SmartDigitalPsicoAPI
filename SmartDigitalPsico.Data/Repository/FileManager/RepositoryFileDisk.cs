@@ -21,8 +21,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         }
 
         private async Task<bool> saveFileFromByte(FileData item)
-        {
-            bool result;
+        { 
             // Create random data to write to the file.
             byte[] dataArray = item.FileData;
 

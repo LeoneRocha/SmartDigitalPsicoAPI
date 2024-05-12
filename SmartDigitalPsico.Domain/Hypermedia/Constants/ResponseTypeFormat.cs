@@ -1,11 +1,12 @@
-﻿namespace SmartDigitalPsico.Domain.Hypermedia.Constants
+﻿using SmartDigitalPsico.Domain.Constants;
+
+namespace SmartDigitalPsico.Domain.Hypermedia.Constants
 {
     public sealed class ResponseTypeFormat
-    {
-        public const string DefaultGet = "application/json";
-        public const string DefaultPost = "application/json";
-        public const string DefaultPut = "application/json";
-        public const string DefaultPatch = "application/json";
-
+    { 
+        public const string DefaultGet = AppConfigConstants.ApplicationContentJon;
+        public const string DefaultPost = AppConfigConstants.ApplicationContentJon;
+        public const string DefaultPut = AppConfigConstants.ApplicationContentJon;
+        public const string DefaultPatch = AppConfigConstants.ApplicationContentJon;
     }
 }

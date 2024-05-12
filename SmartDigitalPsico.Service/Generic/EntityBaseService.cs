@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -8,6 +7,7 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Service.SystemDomains;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Helpers;
+using Google.Protobuf.WellKnownTypes;
 
 namespace SmartDigitalPsico.Service.Generic
 {
@@ -66,161 +66,116 @@ namespace SmartDigitalPsico.Service.Generic
 
         private async Task<string> getMessageFromLocalization(string key)
         {
-            try
-            {
-                return await ApplicationLanguageService.GetLocalization<SharedResource>
-                                   (key, this._applicationLanguageRepository, this._cacheService);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await ApplicationLanguageService.GetLocalization<ISharedResource>(key, this._applicationLanguageRepository, this._cacheService);
         }
 
         public virtual async Task<ServiceResponse<bool>> Delete(long id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
-            try
+
+            bool exists = await _genericRepository.Exists(id);
+            if (!exists)
             {
-                bool exists = await _genericRepository.Exists(id);
-                if (!exists)
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+                return response;
+            }
+            else
+            {
+                response.Success = await _genericRepository.Delete(id);
+                if (response.Success)
                 {
-                    response.Success = false;
-                    response.Message = await getMessageFromLocalization("RegisterIsNotFound");
-                    return response;
-                }
-                else
-                {
-                    response.Success = await _genericRepository.Delete(id);
-                    if (response.Success)
-                    {
-                        response.Message = await getMessageFromLocalization("RegisterDeleted");
-                        response.Success = true;
-                    }
+                    response.Message = await getMessageFromLocalization("RegisterDeleted");
+                    response.Success = true;
                 }
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
             return response;
         }
         public virtual async Task<ServiceResponse<TEntityResult>> Update(TEntityUpdate item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
-            try
-            {
-                bool entityExists = await _genericRepository.Exists(item.Id);
-                if (!entityExists)
-                {
-                    response.Success = false;
-                    response.Message = await getMessageFromLocalization("RegisterIsNotFound");
 
-                    return response;
-                }
-                var entityUpdate = _mapper.Map<TEntity>(item);
-                response = await Validate(entityUpdate);
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                if (response.Success)
-                {
-                    TEntity entityResponse = await _genericRepository.Update(entityUpdate);
-                    response.Data = _mapper.Map<TEntityResult>(entityResponse);
-                    response.Message = await getMessageFromLocalization("RegisterUpdated");
-                }
-            }
-            catch (Exception)
+            bool entityExists = await _genericRepository.Exists(item.Id);
+            if (!entityExists)
             {
-                throw;
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+
+                return response;
             }
+            var entityUpdate = _mapper.Map<TEntity>(item);
+            response = await Validate(entityUpdate);
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+            if (response.Success)
+            {
+                TEntity entityResponse = await _genericRepository.Update(entityUpdate);
+                response.Data = _mapper.Map<TEntityResult>(entityResponse);
+                response.Message = await getMessageFromLocalization("RegisterUpdated");
+            }
+
             return response;
         }
         public async Task<ServiceResponse<bool>> Exists(long id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
-            try
-            {
-                bool entityResponse = await _genericRepository.Exists(id);
 
-                response.Data = entityResponse;
-                response.Success = true;
-                response.Message = await getMessageFromLocalization("RegisterExist");
+            bool entityResponse = await _genericRepository.Exists(id);
 
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            response.Data = entityResponse;
+            response.Success = true;
+            response.Message = await getMessageFromLocalization("RegisterExist");
+
+
             return response;
         }
         public virtual async Task<ServiceResponse<List<TEntityResult>>> FindAll()
         {
             ServiceResponse<List<TEntityResult>> response = new ServiceResponse<List<TEntityResult>>();
-            try
-            {
-                List<TEntity> entityResponse = await _genericRepository.FindAll();
 
-                response.Data = entityResponse.Select(c => _mapper.Map<TEntityResult>(c)).ToList();
+            List<TEntity> entityResponse = await _genericRepository.FindAll();
 
-                response.Success = true;
-                response.Message = await getMessageFromLocalization("RegisterExist");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            response.Data = entityResponse.Select(c => _mapper.Map<TEntityResult>(c)).ToList();
+
+            response.Success = true;
+            response.Message = await getMessageFromLocalization("RegisterExist");
+
             return response;
         }
         public virtual async Task<ServiceResponse<TEntityResult>> FindByID(long id)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
-            try
+
+            TEntity? entityResponse = await _genericRepository.FindByID(id);
+            if (!EqualityComparer<TEntity>.Default.Equals(entityResponse, default(TEntity)))
             {
-                TEntity? entityResponse = await _genericRepository.FindByID(id);
-                if (entityResponse != null)
-                {
-                    response.Data = _mapper.Map<TEntityResult>(entityResponse);
-                }
-                response.Success = true;
-                response.Message = await getMessageFromLocalization("RegisterFind");
+                response.Data = _mapper.Map<TEntityResult>(entityResponse);
             }
-            catch (Exception)
-            {
-                throw;
-            }
+            response.Success = true;
+            response.Message = await getMessageFromLocalization("RegisterFind");
 
             return response;
         }
         public virtual async Task<ServiceResponse<List<TEntityResult>>> FindWithPagedSearch(string query)
         {
             ServiceResponse<List<TEntityResult>> response = new ServiceResponse<List<TEntityResult>>();
-            try
-            {
-                List<TEntity> entityResponse = await _genericRepository.FindWithPagedSearch(query);
-                response.Data = entityResponse.Select(c => _mapper.Map<TEntityResult>(c)).ToList();
-                response.Success = true;
-                response.Message = await getMessageFromLocalization("RegisterFind");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+
+            List<TEntity> entityResponse = await _genericRepository.FindWithPagedSearch(query);
+            response.Data = entityResponse.Select(c => _mapper.Map<TEntityResult>(c)).ToList();
+            response.Success = true;
+            response.Message = await getMessageFromLocalization("RegisterFind");
+
             return response;
         }
         public async Task<ServiceResponse<int>> GetCount(string query)
         {
             ServiceResponse<int> response = new ServiceResponse<int>();
-            try
-            {
-                int entityResponse = await _genericRepository.GetCount(query);
 
-                response.Data = entityResponse;
-                response.Success = true;
-                response.Message = await getMessageFromLocalization("RegisterCounted");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            int entityResponse = await _genericRepository.GetCount(query);
+
+            response.Data = entityResponse;
+            response.Success = true;
+            response.Message = await getMessageFromLocalization("RegisterCounted");
 
             return response;
         }
@@ -228,28 +183,22 @@ namespace SmartDigitalPsico.Service.Generic
         public virtual async Task<ServiceResponse<bool>> EnableOrDisable(long id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
-            try
+
+            bool exists = await _genericRepository.Exists(id);
+            if (!exists)
             {
-                bool exists = await _genericRepository.Exists(id);
-                if (!exists)
-                {
-                    response.Success = false;
-                    response.Message = await getMessageFromLocalization("RegisterIsNotFound");
-                    return response;
-                }
-                else
-                {
-                    response.Success = await _genericRepository.EnableOrDisable(id);
-                    if (response.Success)
-                    {
-                        response.Message = await getMessageFromLocalization("RegisterUpdated");
-                        response.Success = true;
-                    }
-                }
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+                return response;
             }
-            catch (Exception)
+            else
             {
-                throw;
+                response.Success = await _genericRepository.EnableOrDisable(id);
+                if (response.Success)
+                {
+                    response.Message = await getMessageFromLocalization("RegisterUpdated");
+                    response.Success = true;
+                }
             }
             return response;
         }
@@ -260,40 +209,35 @@ namespace SmartDigitalPsico.Service.Generic
         public virtual async Task<ServiceResponse<TEntityResult>> Validate(TEntity item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
-            try
-            {
-                var validationResult = await _entityValidator.ValidateAsync(item);
 
-                response.Success = validationResult.IsValid;
-                response.Errors = HelperValidation.GetErrosMap(validationResult);
-                response.Message = HelperValidation.GetMessage(validationResult.IsValid);
-                //Translate Message  
-                if (response.Errors != null)
+            var validationResult = await _entityValidator.ValidateAsync(item);
+
+            response.Success = validationResult.IsValid;
+            response.Errors = HelperValidation.GetErrosMap(validationResult);
+            response.Message = HelperValidation.GetMessage(validationResult.IsValid);
+            //Translate Message  
+            if (response.Errors != null)
+            {
+                List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
+                foreach (var errosItem in response.Errors)
                 {
-                    List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
-                    foreach (var errosItem in response.Errors)
+                    var errosAdd = new ErrorResponse()
                     {
-                        var errosAdd = new ErrorResponse()
-                        {
-                            Message = await ApplicationLanguageService.GetLocalization<SharedResource>(errosItem.Message, this._applicationLanguageRepository, this._cacheService)
-                            ,
-                            Name = errosItem.Name
-                        };
+                        Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(errosItem.Message, this._applicationLanguageRepository, this._cacheService)
+                        ,
+                        Name = errosItem.Name
+                    };
 
-                        errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
+                    errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
 
-                        errosTranslated.Add(errosAdd);
-                    }
-                    response.Errors = errosTranslated;
+                    errosTranslated.Add(errosAdd);
                 }
-
-                response.Message = await ApplicationLanguageService.GetLocalization<SharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
-
+                response.Errors = errosTranslated;
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
+
+
             return response;
         }
     }

@@ -2,14 +2,12 @@
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Hypermedia.Constants;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
-using System.Text;
 
 namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher
 {
     public class GetOfficeVOEnricher : ContentResponseEnricher<GetOfficeVO> 
          
-    {
-        private readonly object _lock = new object();
+    { 
         protected override Task EnrichModel(GetOfficeVO content, IUrlHelper urlHelper)
         {
             var path = "api/office/v1".ToLower();
@@ -41,18 +39,9 @@ namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher
                 Method = HttpActionVerb.DELETE,
                 Href = link,
                 Rel = RelationType.delete,
-                Type = "int"
+                Type = "long"
             });
             return Task.Run(() => { });
-        }
-
-        private string GetLink(long id, IUrlHelper urlHelper, string path)
-        {
-            lock (_lock)
-            {
-                var url = new { controller = path, id };
-                return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
-            };
-        }
+        } 
     }
 }

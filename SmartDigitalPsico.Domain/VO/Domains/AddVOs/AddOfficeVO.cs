@@ -4,6 +4,9 @@ namespace SmartDigitalPsico.Domain.VO.Domains.AddVOs
 {
     public class AddOfficeVO : EntityVOBaseDomainAdd
     {
-
+        public AddOfficeVO()
+        {
+            Language = "en";
+        }
     }
 }

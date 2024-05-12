@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using SmartDigitalPsico.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using System.Collections.Concurrent;
+using System.Text;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {
@@ -17,15 +18,15 @@ namespace SmartDigitalPsico.Domain.Hypermedia
         {
             bool isCanEnrich = contentType == typeof(T) || contentType == typeof(List<T>) || contentType == typeof(PagedSearchVO<T>)
                 || contentType == typeof(ServiceResponse<T>) || contentType == typeof(ServiceResponse<List<T>>);
-             
+
             return isCanEnrich;
         }
 
         protected abstract Task EnrichModel(T content, IUrlHelper urlHelper);
 
-        bool IResponseEnricher.CanEnrich(ResultExecutingContext response)
+        bool IResponseEnricher.CanEnrich(ResultExecutingContext context)
         {
-            if (response.Result is OkObjectResult okObjectResult)
+            if (context.Result is OkObjectResult okObjectResult)
             {
                 var objValidate = okObjectResult.Value.GetType();
 
@@ -33,11 +34,11 @@ namespace SmartDigitalPsico.Domain.Hypermedia
             }
             return false;
         }
-        public async Task Enrich(ResultExecutingContext response)
+        public async Task Enrich(ResultExecutingContext context)
         {
-            var urlHelper = new UrlHelperFactory().GetUrlHelper(response);
+            var urlHelper = new UrlHelperFactory().GetUrlHelper(context);
             //SIngle 
-            if (response.Result is OkObjectResult okObjectResult)
+            if (context.Result is OkObjectResult okObjectResult)
             {
                 if (okObjectResult.Value is ServiceResponse<T> serviceResponse)
                 {
@@ -87,7 +88,17 @@ namespace SmartDigitalPsico.Domain.Hypermedia
                     });
                 }
             }
-            await Task.FromResult<object>(null);
+            await Task.FromResult<object>(new { });
+        }
+
+        protected readonly object _lock = new object();
+        protected string GetLink(long id, IUrlHelper urlHelper, string path)
+        {
+            lock (_lock)
+            {
+                var url = new { controller = path, id };
+                return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
+            }
         }
     }
 }

@@ -25,41 +25,41 @@ namespace SmartDigitalPsico.Domain.VO.Patient
         public DateTime DateOfBirth { get; set; }
 
         [MaxLength(255)]
-        public string? Profession { get; set; }
+        public string Profession { get; set; } = string.Empty;
 
         [MaxLength(15)]
-        public string? Cpf { get; set; }
+        public string Cpf { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(15)]
-        public string Rg { get; set; }
+        public string Rg { get; set; } = string.Empty;
 
         [MaxLength(255)]
-        public string? Education { get; set; }
+        public string Education { get; set; } = string.Empty;
 
         [MaxLength(20)]
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
 
         [MaxLength(255)]
-        public string? AddressStreet { get; set; }
+        public string AddressStreet { get; set; } = string.Empty;
 
         [MaxLength(255)]
-        public string? AddressNeighborhood { get; set; }
+        public string AddressNeighborhood { get; set; } = string.Empty;
 
         [MaxLength(255)]
-        public string? AddressCity { get; set; }
+        public string AddressCity { get; set; } = string.Empty;
 
         [MaxLength(255)]
-        public string? AddressState { get; set; }
+        public string AddressState { get; set; } = string.Empty;
 
         [MaxLength(20)]
-        public string? AddressCep { get; set; }
+        public string AddressCep { get; set; } = string.Empty;
 
         [MaxLength(255)]
-        public string? EmergencyContactName { get; set; }
+        public string EmergencyContactName { get; set; } = string.Empty;
 
         [MaxLength(20)]
-        public string? EmergencyContactPhoneNumber { get; set; }
+        public string EmergencyContactPhoneNumber { get; set; } = string.Empty;
 
         public EMaritalStatus MaritalStatus { get; set; }
 

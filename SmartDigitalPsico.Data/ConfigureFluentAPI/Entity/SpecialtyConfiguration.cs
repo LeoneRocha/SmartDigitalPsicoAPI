@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Constants;
 
 namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
 {
@@ -14,7 +15,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(e => e.Enable);
-            builder.Property(e => e.Description).HasMaxLength(255).HasColumnType("varchar(255)");
+            builder.Property(e => e.Description).HasMaxLength(255).HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
             builder.Property(e => e.Language).HasMaxLength(10).HasColumnType("varchar(10)"); 
         }
     }

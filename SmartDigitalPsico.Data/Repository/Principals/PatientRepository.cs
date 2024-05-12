@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
+using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Data.Repository.Generic;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
@@ -13,16 +13,16 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         /// <summary>
         /// Find by Cpf, Rg , Email
         /// </summary>
-        /// <param name="info"></param>
+        /// <param name="patient"></param>
         /// <returns></returns>
-        public async Task<Patient?> FindByPatient(Patient info)
+        public async Task<Patient?> FindByPatient(Patient patient)
         {
             return await dataset
                 .AsNoTracking()
                 .FirstAsync(x =>
-               x.Cpf.ToLower().Equals(info.Cpf.ToLower())
-            || x.Rg.ToLower().Equals(info.Rg.ToLower())
-            || x.Email.ToLower().Equals(info.Email.ToLower())
+               x.Cpf.ToLower().Equals(patient.Cpf.ToLower())
+            || x.Rg.ToLower().Equals(patient.Rg.ToLower())
+            || x.Email.ToLower().Equals(patient.Email.ToLower())
             );
         }
 

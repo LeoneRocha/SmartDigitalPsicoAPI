@@ -30,19 +30,12 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
         public virtual async Task<T> Create(T item)
         {
-            try
-            {
-                //Fields internal change 
-                item.CreatedDate = DataHelper.GetDateTimeNow();
-                item.Enable = true;
-                dataset.Add(item);
-                await _context.SaveChangesAsync();
-                return item;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            //Fields internal change 
+            item.CreatedDate = DataHelper.GetDateTimeNow();
+            item.Enable = true;
+            dataset.Add(item);
+            await _context.SaveChangesAsync();
+            return item;
         }
 
         public virtual async Task<T> Update(T item)
@@ -50,19 +43,13 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
             if (result != null)
             {
-                try
-                {
-                    //Fields internal change 
-                    item.ModifyDate = DataHelper.GetDateTimeNow();
+                //Fields internal change 
+                item.ModifyDate = DataHelper.GetDateTimeNow();
 
-                    _context.Entry(result).CurrentValues.SetValues(item);
-                    await _context.SaveChangesAsync();
-                    return result;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                _context.Entry(result).CurrentValues.SetValues(item);
+                await _context.SaveChangesAsync();
+                return result;
+
             }
             else
             {
@@ -75,15 +62,8 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
             if (result != null)
             {
-                try
-                {
-                    dataset.Remove(result);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                dataset.Remove(result);
+                await _context.SaveChangesAsync();
             }
 
             return true;
@@ -94,23 +74,8 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
             if (result != null)
             {
-                try
-                {
-                    try
-                    {
-                        result.Enable = !result.Enable;
-                        await _context.SaveChangesAsync();
-
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                result.Enable = !result.Enable;
+                await _context.SaveChangesAsync();
             }
             return true;
         }

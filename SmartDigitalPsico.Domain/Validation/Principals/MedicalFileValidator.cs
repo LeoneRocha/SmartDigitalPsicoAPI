@@ -5,8 +5,7 @@ using SmartDigitalPsico.Domain.ModelEntity;
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class MedicalFileValidator : AbstractValidator<MedicalFile>
-    {
-
+    { 
         private IMedicalFileRepository _entityRepository;
         private IMedicalRepository _medicalRepository;
         public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository)
@@ -59,8 +58,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         }
 
         private async Task<bool> MedicalChanged(MedicalFile entity, long value)
-        {
-            long idUser = entity.CreatedUserId.GetValueOrDefault();
+        { 
             var entityBefore = await _entityRepository.FindByID(value);
             if (entityBefore != null)
             {
@@ -93,7 +91,6 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 return false;
             }
             return true;
-        }
-
+        } 
     }
-}
+} 

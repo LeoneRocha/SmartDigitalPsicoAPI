@@ -13,26 +13,26 @@ namespace SmartDigitalPsico.Domain.ModelEntity.Contracts
         /// </summary>
         [Column("Description", TypeName = "varchar(255)")]
         [MaxLength(255)]
-        public string? Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         [Column("FileName", TypeName = "varchar(255)")]
         [MaxLength(255)]
-        public string? FileName { get; set; }
+        public string FileName { get; set; } = string.Empty;
 
         [Column("FilePath", TypeName = "varchar(2083)")]
         [MaxLength(2083)]
-        public string? FilePath { get; set; }
+        public string FilePath { get; set; } = string.Empty;
 
         [Column("FileData")]
-        public byte[]? FileData { get; set; }
+        public byte[] FileData { get; set; } = [];
 
         [Column("FileExtension", TypeName = "varchar(3)")]
         [MaxLength(3)]
-        public string? FileExtension { get; set; }
+        public string FileExtension { get; set; } = string.Empty;
 
         [Column("FileContentType", TypeName = "varchar(100)")]
         [MaxLength(100)]
-        public string? FileContentType { get; set; }
+        public string FileContentType { get; set; } = string.Empty;
 
         [Column("FileSizeKB")]
         public long FileSizeKB { get; set; }

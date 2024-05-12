@@ -10,12 +10,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
     {
         public void Configure(EntityTypeBuilder<Medical> modelBuilder)
         {
-            modelBuilder.HasData(GetMock());
-
-            //modelBuilder
-            //    .HasMany(p => p.MedicalSpecialties)
-            //    .WithMany(p => p.Specialty)
-            //    .UsingEntity(j => j.HasData(new { SpecialtiesId = (long)1, MedicalsId = (long)1 }));
+            modelBuilder.HasData(GetMock()); 
         }
         public static Medical[] GetMock()
         {

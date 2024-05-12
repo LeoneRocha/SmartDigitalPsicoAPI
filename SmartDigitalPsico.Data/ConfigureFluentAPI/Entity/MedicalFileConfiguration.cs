@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Constants;
 
 namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
 {
@@ -14,8 +15,8 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(e => e.Enable);
-            builder.Property(e => e.Description).HasMaxLength(255).HasColumnType("varchar(255)");
-            builder.Property(e => e.FileName).HasMaxLength(255).HasColumnType("varchar(255)");
+            builder.Property(e => e.Description).HasMaxLength(255).HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
+            builder.Property(e => e.FileName).HasMaxLength(255).HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
             builder.Property(e => e.FilePath).HasMaxLength(2083).HasColumnType("varchar(2083)");
             builder.Property(e => e.FileData);
             builder.Property(e => e.FileExtension).HasMaxLength(3).HasColumnType("varchar(3)");

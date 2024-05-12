@@ -148,8 +148,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
         private async Task<bool> MedicalChanged(Patient entity, long value)
         {
             if (entity?.Id > 0)
-            {
-                long idUser = entity.CreatedUserId.GetValueOrDefault();
+            { 
                 var entityBefore = await _entityRepository.FindByID(value);
                 if (entityBefore != null)
                 {

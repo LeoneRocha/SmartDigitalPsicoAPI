@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -31,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             _configuration = configuration;
 
             var tokenConfigurations = new TokenConfiguration();
-            //
+            
             addGetAppConfig(services, tokenConfigurations);
 
             //For In-Memory Caching
@@ -103,6 +102,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
         #region Cors
         private static void addCors(IServiceCollection services)
         {
+#pragma warning disable S5122 // Disabling Sonar warning for CORS
             services.AddCors(options => options.AddDefaultPolicy(builder =>
             {
                 builder.AllowAnyOrigin()
@@ -110,6 +110,8 @@ namespace SmartDigitalPsico.WebAPI.Configure
                 .AllowAnyHeader()
                 .WithExposedHeaders("Content-Disposition");
             }));
+#pragma warning restore S5122
+
         }
         #endregion
 
@@ -142,10 +144,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     , optionsMySQL =>
                     {
                         optionsMySQL.MigrationsAssembly("SmartDigitalPsico.Data");
-                        optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore);
-
-                        //optionsMySQL.CharSetBehavior(CharSetBehavior.NeverAppend);
-                        //optionsMySQL.OldCompatibilityMode(); 
+                        optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore); 
                     })
                     );
                     break;
@@ -167,7 +166,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     .AddViewLocalization()
                     .AddDataAnnotationsLocalization();
 
-            services.AddScoped<LanguageActionFilter>();
+            services.AddScoped<LanguageActionFilterAttribute>();
 
             services.Configure<RequestLocalizationOptions>(
                 options =>

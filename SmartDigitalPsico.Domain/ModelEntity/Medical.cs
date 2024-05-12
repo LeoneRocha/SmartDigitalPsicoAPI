@@ -7,8 +7,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     public class Medical : EntityBaseWithNameEmail, IEntityBaseLogUser
     {
         public Medical()
-        { 
-            //Specialties = new List<Specialty>();
+        {  
             Patienties = new List<Patient>();
             MedicalSpecialties = new List<MedicalSpecialty>();
         }
@@ -26,8 +25,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public User? CreatedUser { get; set; }
         public long? CreatedUserId { get; set; }
         public User? ModifyUser { get; set; }
-        public long? ModifyUserId { get; set; }
-        //public ICollection<Specialty> Specialties { get; set; }
+        public long? ModifyUserId { get; set; } 
         public ICollection<Patient> Patienties { get; set; }
         
         public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }

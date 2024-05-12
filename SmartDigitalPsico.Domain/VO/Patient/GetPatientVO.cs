@@ -12,8 +12,7 @@ namespace SmartDigitalPsico.Domain.VO.Patient
         #region Relationship
         [Required]
         public GetMedicalVO Medical { get; set; } = new GetMedicalVO();
-         
-        //TODO: GENDER 
+          
         #endregion Relationship
 
         #region Columns
@@ -25,41 +24,41 @@ namespace SmartDigitalPsico.Domain.VO.Patient
         public DateTime DateOfBirth { get; set; }
 
 
-        public string? Profession { get; set; }
+        public string Profession { get; set; } = string.Empty;
 
 
-        public string? Cpf { get; set; }
+        public string Cpf { get; set; } = string.Empty;
 
 
-        public string Rg { get; set; }
+        public string Rg { get; set; } = string.Empty;
 
 
-        public string? Education { get; set; }
+        public string Education { get; set; } = string.Empty;
 
 
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
 
 
-        public string? AddressStreet { get; set; }
+        public string AddressStreet { get; set; } = string.Empty;
 
 
-        public string? AddressNeighborhood { get; set; }
+        public string AddressNeighborhood { get; set; } = string.Empty;
 
 
-        public string? AddressCity { get; set; }
+        public string AddressCity { get; set; } = string.Empty;
 
 
-        public string? AddressState { get; set; }
+        public string AddressState { get; set; } = string.Empty;
 
 
-        public string? AddressCep { get; set; }
+        public string AddressCep { get; set; } = string.Empty;
 
 
-        public string? EmergencyContactName { get; set; }
+        public string EmergencyContactName { get; set; } = string.Empty;
 
         public EMaritalStatus MaritalStatus { get; set; }
 
-        public string? EmergencyContactPhoneNumber { get; set; }
+        public string EmergencyContactPhoneNumber { get; set; } = string.Empty;
 
         #endregion
 

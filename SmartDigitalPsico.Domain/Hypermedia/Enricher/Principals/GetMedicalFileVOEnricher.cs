@@ -2,14 +2,12 @@
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Hypermedia.Constants;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
-using System.Text;
 
 namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Principals
 {
     public class GetMedicalFileVOEnricher : ContentResponseEnricher<GetMedicalFileVO>
 
-    {
-        private readonly object _lock = new object();
+    { 
         protected override Task EnrichModel(GetMedicalFileVO content, IUrlHelper urlHelper)
         {
             var path = "api/Medical/v1/MedicalFile".ToLower();
@@ -44,15 +42,6 @@ namespace SmartDigitalPsico.Data.Model.Hypermedia.Enricher.Principals
                 Type = "long"
             });
             return Task.Run(() => { });
-        }
-
-        private string GetLink(long id, IUrlHelper urlHelper, string path)
-        {
-            lock (_lock)
-            {
-                var url = new { controller = path, id };
-                return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
-            };
-        }
+        } 
     }
 }
