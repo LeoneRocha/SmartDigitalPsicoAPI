@@ -7,8 +7,14 @@ using System.Text;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
-    public class FileHelper
+    public static class FileHelper
     {
+        public static string GetFileExtension(string contentType)
+        {
+            var splitExtension = contentType.Split('/').ToList();
+            string extensionFile = splitExtension[splitExtension.Count - 1];
+            return extensionFile.Substring(0, 3);
+        }
 
         public static async Task<string> GetFileFormDataUpload(IFormFile file)
         {

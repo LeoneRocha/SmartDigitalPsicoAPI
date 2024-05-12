@@ -59,11 +59,9 @@ namespace SmartDigitalPsico.Service.Principals
                 fileData = entity.FileDetails;
                 if (fileData != null)
                 {
-                    var splitExtension = fileData.ContentType.Split('/').ToList();
-                    string extensioFile = splitExtension.Last();
                     entity.FilePath = fileData.FileName;
                     entity.FileContentType = fileData.ContentType;
-                    entity.FileExtension = extensioFile.Substring(0, 3);
+                    entity.FileExtension = FileHelper.GetFileExtension(fileData.ContentType);
                     entity.FileSizeKB = fileData.Length / 1024;
                 }
 
@@ -80,7 +78,7 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
                 entityAdd.Enable = true;
 
-                entityAdd.CreatedUserId = this.UserId; 
+                entityAdd.CreatedUserId = this.UserId;
                 if (response.Success)
                 {
                     entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);
@@ -94,7 +92,7 @@ namespace SmartDigitalPsico.Service.Principals
         }
 
         public async Task<GetPatientFileVO> DownloadFileById(long fileId)
-        { 
+        {
             var fileEntity = await _entityRepository.FindByID(fileId);
             GetPatientFileVO resultVO = _mapper.Map<GetPatientFileVO>(fileEntity);
 

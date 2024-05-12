@@ -95,11 +95,9 @@ namespace SmartDigitalPsico.Service.Principals
                 fileData = entity.FileDetails;
                 if (fileData != null)
                 {
-                    var splitExtension = fileData.ContentType.Split('/').ToList();
-                    string extensioFile = splitExtension.Last();
                     entity.FilePath = fileData.FileName;
                     entity.FileContentType = fileData.ContentType;
-                    entity.FileExtension = extensioFile.Substring(0, 3);
+                    entity.FileExtension = FileHelper.GetFileExtension(fileData.ContentType);
                     entity.FileSizeKB = fileData.Length / 1024;
                 }
 
