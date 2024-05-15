@@ -7,19 +7,19 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
     public class PatientFileValidator : AbstractValidator<PatientFile>
     {
         private readonly IPatientFileRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository; 
+        private readonly IPatientRepository _patientRepository;
 
         public PatientFileValidator(IPatientFileRepository entityRepository,
             IPatientRepository patientRepository, IMedicalRepository medicalRepository, IUserRepository userRepository)
         {
             _entityRepository = entityRepository;
-            _patientRepository = patientRepository; 
+            _patientRepository = patientRepository;
 
             #region Columns
             RuleFor(entity => entity.Description)
                 .MaximumLength(255)
                 .WithMessage("O Description não pode ultrapassar {MaxLength} carateres.");
-             
+
             RuleFor(entity => entity.FilePath)
                 .MaximumLength(2083)
                 .WithMessage("O FilePath não pode ultrapassar {MaxLength} carateres.");
@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             RuleFor(entity => entity.FileExtension)
              .MaximumLength(3)
              .WithMessage("O FileExtension não pode ultrapassar {MaxLength} carateres.");
-             
+
             RuleFor(entity => entity.FileContentType)
              .MaximumLength(100)
              .WithMessage("O FileContentType não pode ultrapassar {MaxLength} carateres.");
@@ -37,19 +37,19 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             #region Relationship
 
             RuleFor(entity => entity.CreatedUserId)
-              .NotNull() 
+              .NotNull()
               .WithMessage("ErrorValidator_CreatedUserId_Null");
 
             RuleFor(entity => entity.PatientId)
-              .NotNull() 
+              .NotNull()
               .WithMessage("ErrorValidator_Patient_Null")
-              .MustAsync(async (entity, value, c) => await PatientIdFound(entity)) 
+              .MustAsync(async (entity, value, c) => await PatientIdFound(entity))
               .WithMessage("ErrorValidator_Patient_NotFound")
-              .MustAsync(async (entity, value, c) => await PatientIdChanged(entity)) 
+              .MustAsync(async (entity, value, c) => await PatientIdChanged(entity))
               .WithMessage("ErrorValidator_Patient_Changed")
-              .MustAsync(async (entity, value, c) => await MedicalCreated(entity)) 
+              .MustAsync(async (entity, value, c) => await MedicalCreated(entity))
               .WithMessage("ErrorValidator_Patient_Medical_Created")
-              .MustAsync(async (entity, value, c) => await MedicalModify(entity)) 
+              .MustAsync(async (entity, value, c) => await MedicalModify(entity))
               .WithMessage("ErrorValidator_Patient_Medical_Modify");
 
             #endregion Relationship  
@@ -67,12 +67,9 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
         private async Task<bool> PatientIdChanged(PatientFile entity)
         {
             var entityBefore = await _entityRepository.FindByID(entity.Id);
-            if (entityBefore != null)
+            if (entityBefore != null && entityBefore.PatientId != entity.PatientId)
             {
-                if (entityBefore.PatientId != entity.PatientId)
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
         }
@@ -81,12 +78,9 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             long idUser = entity.CreatedUserId.GetValueOrDefault();
 
             var patient = await _patientRepository.FindByID(entity.PatientId);
-            if (patient != null)
+            if (patient != null && patient.Medical.UserId != idUser)
             {
-                if (patient.Medical.UserId != idUser)
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
         }
@@ -95,12 +89,9 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             long idUser = entity.ModifyUserId.GetValueOrDefault();
 
             var patient = await _patientRepository.FindByID(entity.PatientId);
-            if (patient != null)
+            if (patient != null && patient.Medical.UserId != idUser)
             {
-                if (patient.Medical.UserId != idUser)
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
         }

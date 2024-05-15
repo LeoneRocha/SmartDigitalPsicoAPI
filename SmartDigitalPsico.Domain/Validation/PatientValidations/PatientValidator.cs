@@ -137,9 +137,8 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             if (isNewEnity && existingEnity != null)
             {
                 return false;
-            }
-            bool changingProp = entityActual != null && entityActual.Email != value;
-            if (changingProp)
+            } 
+            if (entityActual != null && entityActual.Email != value)
             {
                 return false;
             }
@@ -148,14 +147,11 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
         private async Task<bool> MedicalChanged(Patient entity, long value)
         {
             if (entity?.Id > 0)
-            { 
+            {
                 var entityBefore = await _entityRepository.FindByID(value);
-                if (entityBefore != null)
+                if (entityBefore != null && entityBefore.MedicalId != entity.MedicalId)
                 {
-                    if (entityBefore.MedicalId != entity.MedicalId)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
             return true;
@@ -180,7 +176,6 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             if (entity?.Id > 0)
             {
                 long idUser = entity.ModifyUserId.GetValueOrDefault();
-
                 var medical = await _medicalRepository.FindByID(value);
                 if (medical == null || (medical.UserId != null && medical.UserId != idUser))
                 {
