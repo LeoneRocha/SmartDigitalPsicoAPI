@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
 {
-    public class PatientPermissionMedicalValidator
+    public static class PatientPermissionMedicalValidator
     {
         public static ErrorResponse ValidatePermissionMedical(long medicalId, User userAction)
         {
@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
 
                 return error;
             }
-            return null;
+            return new ErrorResponse();
         }
 
         public static ErrorResponse ValidatePermissionAdmin(User userAction)
@@ -36,6 +36,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
             {
                 var error = new ErrorResponse()
                 {
+                    ErrorCode = 401.ToString(),
                     Message = "Permissão negada! Deve se informa usuario.",
                     Name = ValidatorConstants.NameResponseValidate_ValidatePermissionMedical
                 };
@@ -45,13 +46,14 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
             {
                 var error = new ErrorResponse()
                 {
+                    ErrorCode = 401.ToString(),
                     Message = "Permissão negada! Apenas administradores podem acessar.",
                     Name = ValidatorConstants.NameResponseValidate_ValidatePermissionMedical
                 };
 
                 return error;
             }
-            return null;
+            return new ErrorResponse();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
     {
         protected readonly IUserRepository _userRepository;
 
-        public RecordsListValidator(IUserRepository userRepository)
+        protected RecordsListValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
 
@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
             User? userLogged = await this._userRepository.FindByID(userIdLogged);
             if (recordsList.Records.Count == 0 || userLogged == null) { return false; }
 
-            userHasPermission = recordsList.Records.All(rg =>
+            userHasPermission = recordsList.Records.TrueForAll(rg =>
             rg.CreatedUser?.Id == userIdLogged 
             || userLogged.Admin 
             ); 

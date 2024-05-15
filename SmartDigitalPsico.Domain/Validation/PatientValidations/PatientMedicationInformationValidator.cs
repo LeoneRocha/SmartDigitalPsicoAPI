@@ -6,13 +6,13 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
     public class PatientMedicationInformationValidator : AbstractValidator<PatientMedicationInformation>
     {
-        private IPatientMedicationInformationRepository _entityRepository;
-        private IPatientRepository _patientRepository; 
+        private readonly IPatientMedicationInformationRepository _entityRepository;
+        private readonly IPatientRepository _patientRepository;
         public PatientMedicationInformationValidator(IPatientMedicationInformationRepository entityRepository,
             IPatientRepository patientRepository)
         {
             _entityRepository = entityRepository;
-            _patientRepository = patientRepository; 
+            _patientRepository = patientRepository;
 
             #region Columns
 
@@ -49,15 +49,15 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             RuleFor(entity => entity.PatientId)
               .NotNull()
               .WithMessage("ErrorValidator_Patient_Null")
-              .MustAsync(async (entity, value, c) => await PatientIdFound(entity, value))
+              .MustAsync(async (entity, value, c) => await PatientIdFound(entity))
               .WithMessage("ErrorValidator_Patient_NotFound")
-              .MustAsync(async (entity, value, c) => await PatientIdChanged(entity, value))
+              .MustAsync(async (entity, value, c) => await PatientIdChanged(entity))
               .WithMessage("ErrorValidator_Patient_Changed");
 
             #endregion Relationship  
         }
 
-        private async Task<bool> PatientIdFound(PatientMedicationInformation entity, long value)
+        private async Task<bool> PatientIdFound(PatientMedicationInformation entity)
         {
             var entityFind = await _patientRepository.FindByID(entity.PatientId);
             if (entityFind == null)
@@ -66,17 +66,14 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             }
             return true;
         }
-        private async Task<bool> PatientIdChanged(PatientMedicationInformation entity, long value)
+        private async Task<bool> PatientIdChanged(PatientMedicationInformation entity)
         {
             var entityBefore = await _entityRepository.FindByID(entity.Id);
-            if (entityBefore != null)
+            if (entityBefore != null && entityBefore.PatientId != entity.PatientId)
             {
-                if (entityBefore.PatientId != entity.PatientId)
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
-        } 
+        }
     }
 }

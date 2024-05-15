@@ -15,7 +15,6 @@ using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SmartDigitalPsico.Service.Principals
 {
@@ -51,17 +50,12 @@ namespace SmartDigitalPsico.Service.Principals
 
         public async override Task<ServiceResponse<GetMedicalFileVO>> FindByID(long id)
         {
-            ServiceResponse<GetMedicalFileVO> response = new ServiceResponse<GetMedicalFileVO>();
-            response = await base.FindByID(id);
+            ServiceResponse<GetMedicalFileVO> response = await base.FindByID(id);
 
-            if (response.Data != null)
+            if (response.Data != null && string.IsNullOrEmpty(response.Data.FilePath))
             {
-                if (string.IsNullOrEmpty(response.Data.FilePath))
-                {
-                    await FileHelper.GetFromByteSaveTemp(response.Data.FileData, response?.Data?.FileName, _configuration);
-
-                    response.Data.FileUrl = FileHelper.GetFilePath(DirectoryHelper.GetDiretoryTemp(_configuration), response?.Data?.FileName ?? string.Empty);
-                }
+                await FileHelper.GetFromByteSaveTemp(response.Data.FileData, response.Data.FileName, _configuration);
+                response.Data.FileUrl = FileHelper.GetFilePath(DirectoryHelper.GetDiretoryTemp(_configuration), response.Data.FileName ?? string.Empty);
             }
             return response;
         }

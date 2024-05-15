@@ -1,6 +1,6 @@
 ﻿namespace SmartDigitalPsico.Domain.Hypermedia.Constants
 {
-    public sealed class RelationType
+    public static class RelationType
     {
         public const string self = "self";
         public const string post = "post";

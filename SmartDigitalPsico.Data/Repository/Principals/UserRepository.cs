@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             User? userResult = await dataset
                 .AsNoTracking()
                 .Include(e => e.UserRoleGroups)
-                .ThenInclude(e=>e.RoleGroup)
+                .ThenInclude(e => e.RoleGroup)
                 .Include(e => e.Medical)
                 .FirstOrDefaultAsync(p => p.Login.ToLower().Trim().Equals(login.ToLower().Trim()));
 
@@ -23,9 +23,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         }
         public async Task<User> Register(User entityAdd)
         {
-            dataset.Add(entityAdd);
-            await _context.SaveChangesAsync();
-            return entityAdd;
+            return await base.Create(entityAdd);
         }
 
         public async Task<bool> UserExists(string login)
@@ -42,7 +40,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return await dataset
                  .Include(e => e.UserRoleGroups)
                  .ThenInclude(e => e.RoleGroup)
-                .Include(e => e.Medical) 
+                .Include(e => e.Medical)
                 .Include(e => e.Medical.Office)
                 .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
@@ -60,7 +58,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<User> RefreshUserInfo(User user)
         {
-            if (!dataset.Any(u => u.Id.Equals(user.Id))) return new User();
+            if (!(await dataset.AnyAsync(u => u.Id.Equals(user.Id)))) return new User();
 
             var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(user.Id));
             if (result != null)
@@ -69,7 +67,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 await _context.SaveChangesAsync();
                 return result;
             }
-            return result ?? new User();
+            return new User();
         }
 
         public async Task<User?> FindByEmail(string value)

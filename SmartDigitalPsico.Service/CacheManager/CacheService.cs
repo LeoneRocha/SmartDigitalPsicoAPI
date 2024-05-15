@@ -192,7 +192,7 @@ namespace SmartDigitalPsico.Service.CacheManager
                 if (valorData != null)
                 {
                     var valorExpiracao = getPropValue(resultDisk.Value, "DateTimeSlidingExpiration");
-                    DateTime dataExpiracao = DateTime.MinValue;
+                    DateTime dataExpiracao;
 
                     bool temData = DateTime.TryParse(valorExpiracao.ToString(), out dataExpiracao);
                     if (temData && dataExpiracao != DateTime.MinValue && DateTime.Now >= dataExpiracao)

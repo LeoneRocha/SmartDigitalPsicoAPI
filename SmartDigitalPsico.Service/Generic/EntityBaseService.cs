@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Service.SystemDomains;
 using SmartDigitalPsico.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Helpers;
-using Google.Protobuf.WellKnownTypes;
+using SmartDigitalPsico.Service.SystemDomains;
 
 namespace SmartDigitalPsico.Service.Generic
 {
@@ -58,7 +57,7 @@ namespace SmartDigitalPsico.Service.Generic
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex?.Message}-{ex?.InnerException?.Message}" });
+                response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex.Message}-{ex .InnerException?.Message}" });
                 response.Message = await getMessageFromLocalization("RegisterCreated");
             }
             return response;

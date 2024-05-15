@@ -1,9 +1,8 @@
 ﻿using SmartDigitalPsico.Domain.Hypermedia.Utils;
-using System.Text;
 
 namespace SmartDigitalPsico.Domain.Validation.Helper
 {
-    public class HelperValidation
+    public static class HelperValidation
     {
         public static List<ErrorResponse> GetErrosMap(FluentValidation.Results.ValidationResult validationResult)
         {

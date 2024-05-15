@@ -26,17 +26,6 @@ namespace SmartDigitalPsico.Service.SystemDomains
         {
 
         }
-        public static async Task<string> GetLocalization<T>(string key, IStringLocalizer<T> localizer)
-        {
-
-            var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
-            string message = localizer.GetString(findKey);
-
-
-            await Task.FromResult("NotFoundLocalization");
-
-            return message;
-        }
         public override async Task<ServiceResponse<List<GetApplicationLanguageVO>>> FindAll()
         {
             string keyCache = "FindAll_GetApplicationLanguageVO";
@@ -58,8 +47,18 @@ namespace SmartDigitalPsico.Service.SystemDomains
             return result;
         }
 
-        public static async Task<string> GetLocalization<T>(string key,
-            IApplicationLanguageRepository languageRepository, ICacheService cacheService)
+        #region GetLocalization
+        public static async Task<string> GetLocalization<T>(string key, IStringLocalizer<T> localizer)
+        {
+            var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
+            string message = localizer.GetString(findKey);
+
+            await Task.FromResult("NotFoundLocalization");
+
+            return message;
+        }
+
+        public static async Task<string> GetLocalization<T>(string key, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
         {
             string resultLocalization;
 
@@ -83,7 +82,9 @@ namespace SmartDigitalPsico.Service.SystemDomains
             }
             return resultLocalization ?? $"NotFoundLocalization|{key}|";
         }
-
+        
+        #endregion GetLocalization
+         
         private static GetApplicationLanguageVO filterAndGetSingle(ServiceResponse<List<GetApplicationLanguageVO>> resultFromCache, string resourceKey, string key, string language)
         {
             return resultFromCache.Data.Single(p => p.ResourceKey.ToUpper().Trim().Equals(resourceKey.ToUpper().Trim())

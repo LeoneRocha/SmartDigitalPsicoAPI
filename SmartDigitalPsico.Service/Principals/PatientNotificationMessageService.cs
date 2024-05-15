@@ -30,8 +30,6 @@ namespace SmartDigitalPsico.Service.Principals
         }
         public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Create(AddPatientNotificationMessageVO item)
         {
-            ServiceResponse<GetPatientNotificationMessageVO> response = new ServiceResponse<GetPatientNotificationMessageVO>();
-
             PatientNotificationMessage entityAdd = _mapper.Map<PatientNotificationMessage>(item);
 
             #region Relationship
@@ -46,7 +44,8 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-            response = await base.Validate(entityAdd);
+
+            ServiceResponse<GetPatientNotificationMessageVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -61,8 +60,6 @@ namespace SmartDigitalPsico.Service.Principals
 
         public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Update(UpdatePatientNotificationMessageVO item)
         {
-            ServiceResponse<GetPatientNotificationMessageVO> response = new ServiceResponse<GetPatientNotificationMessageVO>();
-
             PatientNotificationMessage entityUpdate = await _entityRepository.FindByID(item.Id);
 
             entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
@@ -82,7 +79,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             #endregion Columns
 
-            response = await base.Validate(entityUpdate);
+            ServiceResponse<GetPatientNotificationMessageVO> response = await base.Validate(entityUpdate);
 
             if (response.Success)
             {
@@ -99,7 +96,7 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<List<GetPatientNotificationMessageVO>> response = new ServiceResponse<List<GetPatientNotificationMessageVO>>();
 
             var listResult = await _entityRepository.FindAllByPatient(patientId);
-              
+
             if (listResult == null || listResult.Count == 0)
             {
                 response.Success = false;
@@ -120,11 +117,6 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
-        }
-        public async override Task<ServiceResponse<GetPatientNotificationMessageVO>> FindByID(long id)
-        {
-            return await base.FindByID(id);
-        }
-
+        }  
     }
 }

@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
         protected SmartDigitalPsicoDataContext _context;
 
         protected DbSet<T> dataset;
-        public GenericRepositoryEntityBase(SmartDigitalPsicoDataContext context)
+        protected GenericRepositoryEntityBase(SmartDigitalPsicoDataContext context)
         {
             _context = context;
             dataset = _context.Set<T>();
@@ -33,7 +33,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             //Fields internal change 
             item.CreatedDate = DataHelper.GetDateTimeNow();
             item.Enable = true;
-            dataset.Add(item);
+            await dataset.AddAsync(item);
             await _context.SaveChangesAsync();
             return item;
         }
@@ -109,19 +109,22 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
         public virtual async Task<int> GetCount(string query)
         {
-            int result = 0;
+            int resultOut = -1;
             using (var connection = _context.Database.GetDbConnection())
             {
-                connection.Open();
+                await connection.OpenAsync();
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = query;
                     var resultAsyn = await command.ExecuteScalarAsync();
-
-                    int.TryParse(resultAsyn.ToString(), out result);
+                    int result = 0;
+                    if (resultAsyn != null && int.TryParse(resultAsyn.ToString(), out result))
+                    {
+                        resultOut = result;
+                    }
                 }
             }
-            return result;
+            return resultOut;
         }
     }
 }
