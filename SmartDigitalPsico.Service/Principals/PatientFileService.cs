@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Service.Principals
 
     {
         private readonly IMapper _mapper;
-        IConfiguration _configuration; 
+        private readonly IConfiguration _configuration; 
         private readonly IPatientFileRepository _entityRepository;
         private readonly IFileDiskRepository _repositoryFileDisk;
         private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;

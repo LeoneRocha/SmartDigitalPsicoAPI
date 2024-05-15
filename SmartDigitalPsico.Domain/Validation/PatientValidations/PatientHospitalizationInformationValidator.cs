@@ -6,8 +6,8 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
     public class PatientHospitalizationInformationValidator : AbstractValidator<PatientHospitalizationInformation>
     {
-        private IPatientHospitalizationInformationRepository _entityRepository;
-        private IPatientRepository _patientRepository; 
+        private readonly IPatientHospitalizationInformationRepository _entityRepository;
+        private readonly IPatientRepository _patientRepository; 
 
         public PatientHospitalizationInformationValidator(IPatientHospitalizationInformationRepository entityRepository,
             IPatientRepository patientRepository)

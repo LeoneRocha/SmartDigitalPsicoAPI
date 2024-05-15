@@ -1,5 +1,4 @@
 using AutoMapper;
-using Azure;
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Constants;
@@ -17,23 +16,19 @@ using SmartDigitalPsico.Domain.VO.User;
 using SmartDigitalPsico.Domain.VO.Utils;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace SmartDigitalPsico.Service.Principals
 {
     public class UserService : EntityBaseService<User, AddUserVO, UpdateUserVO, GetUserVO, IUserRepository>, IUserService
-
     {
-
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly IRoleGroupRepository _roleGroupRepository;
-
-        ITokenConfiguration _configurationToken;
+        private readonly ITokenConfiguration _configurationToken;
         private readonly ITokenService _tokenService;
-        AuthConfigurationVO _configurationAuth;
+        private readonly AuthConfigurationVO _configurationAuth;
         public UserService(
               IUserRepository entityRepository
             , IApplicationLanguageRepository applicationLanguageRepository

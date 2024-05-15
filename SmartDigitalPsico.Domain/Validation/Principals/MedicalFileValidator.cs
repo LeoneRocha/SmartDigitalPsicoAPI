@@ -6,8 +6,8 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class MedicalFileValidator : AbstractValidator<MedicalFile>
     { 
-        private IMedicalFileRepository _entityRepository;
-        private IMedicalRepository _medicalRepository;
+        private readonly IMedicalFileRepository _entityRepository;
+        private readonly IMedicalRepository _medicalRepository;
         public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository)
         {
             _entityRepository = entityRepository;

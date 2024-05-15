@@ -6,8 +6,8 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
     public class PatientNotificationMessageValidator : AbstractValidator<PatientNotificationMessage>
     {
-        private IPatientNotificationMessageRepository _entityRepository;
-        private IPatientRepository _patientRepository;
+        private readonly IPatientNotificationMessageRepository _entityRepository;
+        private readonly IPatientRepository _patientRepository;
         public PatientNotificationMessageValidator(IPatientNotificationMessageRepository entityRepository,
             IPatientRepository patientRepository)
         {
