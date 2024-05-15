@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
     {
         protected readonly IUserRepository _userRepository;
 
-        public RecordsListValidator(IUserRepository userRepository)
+        protected RecordsListValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
 

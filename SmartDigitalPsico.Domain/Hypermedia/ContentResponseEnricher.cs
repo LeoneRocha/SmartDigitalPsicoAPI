@@ -9,11 +9,7 @@ using System.Text;
 namespace SmartDigitalPsico.Domain.Hypermedia
 {
     public abstract class ContentResponseEnricher<T> : IResponseEnricher where T : ISupportsHyperMedia
-    {
-        public ContentResponseEnricher()
-        {
-
-        }
+    { 
         public virtual bool CanEnrich(Type contentType)
         {
             bool isCanEnrich = contentType == typeof(T) || contentType == typeof(List<T>) || contentType == typeof(PagedSearchVO<T>)

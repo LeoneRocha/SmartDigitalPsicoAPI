@@ -15,24 +15,19 @@ namespace SmartDigitalPsico.WebAPI
         }
 
         private static void createApp(WebApplicationBuilder builder)
-        {
-            builder.Host.UseSerilog();
-            try
+        { 
+            if (_logger != null)
             {
-                if (_logger != null)
+                try
                 {
                     LogAppHelper.Set_ASPNETCORE_ENVIRONMENT(builder.Configuration);
-                    LogAppHelper.PrintLogInformationVersionProduct(_logger);
-                    
                     var app = builder.Build();
                     ApplicationConfigure.ConfigureApp(app, builder.Environment, builder.Configuration);
-                    app.Run();
+                    LogAppHelper.PrintLogInformationVersionProduct(_logger);
                     _logger.Information("Web API Loading at: {time}", DataHelper.GetDateTimeNowToLog());
-                }             
-            }
-            catch (Exception ex)
-            {
-                if (_logger != null)
+                    app.Run();  
+                }
+                catch (Exception ex)
                 {
                     _logger.Error(ex, "Web API Error Loading at: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
                 }
@@ -48,9 +43,8 @@ namespace SmartDigitalPsico.WebAPI
                 .AddEnvironmentVariables();
 
             _logger = LogAppHelper.CreateLogger(builder.Configuration);
-
             ApplicationBuilderConfigure.ConfigureServices(builder.Services, builder.Configuration, _logger);
-              
+            builder.Host.UseSerilog();
             return builder;
         }
     }

@@ -1,7 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.IdentityModel.Tokens;
-using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;

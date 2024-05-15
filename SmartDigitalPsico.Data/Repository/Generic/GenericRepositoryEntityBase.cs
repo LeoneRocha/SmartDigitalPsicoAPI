@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
         protected SmartDigitalPsicoDataContext _context;
 
         protected DbSet<T> dataset;
-        public GenericRepositoryEntityBase(SmartDigitalPsicoDataContext context)
+        protected GenericRepositoryEntityBase(SmartDigitalPsicoDataContext context)
         {
             _context = context;
             dataset = _context.Set<T>();
