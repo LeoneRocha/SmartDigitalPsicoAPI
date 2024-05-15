@@ -23,9 +23,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         }
         public async Task<User> Register(User entityAdd)
         {
-            dataset.Add(entityAdd);
-            await _context.SaveChangesAsync();
-            return entityAdd;
+            return await base.Create(entityAdd);
         }
 
         public async Task<bool> UserExists(string login)
@@ -60,7 +58,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<User> RefreshUserInfo(User user)
         {
-            if (!dataset.Any(u => u.Id.Equals(user.Id))) return new User();
+            if (!(await dataset.AnyAsync(u => u.Id.Equals(user.Id)))) return new User();
 
             var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(user.Id));
             if (result != null)
