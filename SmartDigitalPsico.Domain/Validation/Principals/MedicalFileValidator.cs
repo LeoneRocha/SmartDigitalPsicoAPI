@@ -5,9 +5,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class MedicalFileValidator : AbstractValidator<MedicalFile>
-    { 
-        private IMedicalFileRepository _entityRepository;
-        private IMedicalRepository _medicalRepository;
+    {
+        private readonly IMedicalFileRepository _entityRepository;
+        private readonly IMedicalRepository _medicalRepository;
         public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository)
         {
             _entityRepository = entityRepository;
@@ -36,7 +36,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             RuleFor(entity => entity.MedicalId)
             .NotNull()
             .WithMessage("ErrorValidator_MedicalId_Null")
-            .MustAsync(async (entity, value, c) => await MedicalIdFound(entity, value))
+            .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
             .WithMessage("ErrorValidator_MedicalId_NotFound")
             .MustAsync(async (entity, value, c) => await MedicalChanged(entity, value))
             .WithMessage("ErrorValidator_Medical_Changed")
@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             #endregion Relationship
         }
-        private async Task<bool> MedicalIdFound(MedicalFile entity, long value)
+        private async Task<bool> MedicalIdFound(MedicalFile entity)
         {
             var entityFind = await _medicalRepository.FindByID(entity.MedicalId);
             if (entityFind == null)
@@ -58,14 +58,11 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         }
 
         private async Task<bool> MedicalChanged(MedicalFile entity, long value)
-        { 
+        {
             var entityBefore = await _entityRepository.FindByID(value);
-            if (entityBefore != null)
+            if (entityBefore != null && entityBefore.MedicalId != entity.MedicalId)
             {
-                if (entityBefore.MedicalId != entity.MedicalId)
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
         }
@@ -91,6 +88,6 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 return false;
             }
             return true;
-        } 
+        }
     }
-} 
+}

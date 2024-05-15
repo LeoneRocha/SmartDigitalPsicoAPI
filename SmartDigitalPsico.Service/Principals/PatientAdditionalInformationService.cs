@@ -41,8 +41,6 @@ namespace SmartDigitalPsico.Service.Principals
 
         public override async Task<ServiceResponse<GetPatientAdditionalInformationVO>> Create(AddPatientAdditionalInformationVO item)
         {
-            ServiceResponse<GetPatientAdditionalInformationVO> response = new ServiceResponse<GetPatientAdditionalInformationVO>();
-
             PatientAdditionalInformation entityAdd = _mapper.Map<PatientAdditionalInformation>(item);
 
             #region Relationship
@@ -56,7 +54,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
 
-            response = await base.Validate(entityAdd);
+            ServiceResponse<GetPatientAdditionalInformationVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -66,14 +64,11 @@ namespace SmartDigitalPsico.Service.Principals
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                    ("RegisterCreated", base._applicationLanguageRepository, base._cacheService);
             }
-
-
             return response;
         }
 
         public override async Task<ServiceResponse<GetPatientAdditionalInformationVO>> Update(UpdatePatientAdditionalInformationVO item)
         {
-            ServiceResponse<GetPatientAdditionalInformationVO> response = new ServiceResponse<GetPatientAdditionalInformationVO>();
 
             PatientAdditionalInformation entityUpdate = await _entityRepository.FindByID(item.Id);
 
@@ -91,7 +86,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityUpdate.FollowUp_Psychiatric = item.FollowUp_Psychiatric;
             #endregion Columns
 
-            response = await base.Validate(entityUpdate);
+            ServiceResponse<GetPatientAdditionalInformationVO> response = await base.Validate(entityUpdate);
 
             if (response.Success)
             {
@@ -140,10 +135,6 @@ namespace SmartDigitalPsico.Service.Principals
             response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             return response;
-        }
-        public async override Task<ServiceResponse<GetPatientAdditionalInformationVO>> FindByID(long id)
-        {
-            return await base.FindByID(id);
-        }
+        } 
     }
 }

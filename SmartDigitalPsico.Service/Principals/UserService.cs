@@ -1,5 +1,4 @@
 using AutoMapper;
-using Azure;
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Constants;
@@ -17,23 +16,19 @@ using SmartDigitalPsico.Domain.VO.User;
 using SmartDigitalPsico.Domain.VO.Utils;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace SmartDigitalPsico.Service.Principals
 {
     public class UserService : EntityBaseService<User, AddUserVO, UpdateUserVO, GetUserVO, IUserRepository>, IUserService
-
     {
-
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly IRoleGroupRepository _roleGroupRepository;
-
-        ITokenConfiguration _configurationToken;
+        private readonly ITokenConfiguration _configurationToken;
         private readonly ITokenService _tokenService;
-        AuthConfigurationVO _configurationAuth;
+        private readonly AuthConfigurationVO _configurationAuth;
         public UserService(
               IUserRepository entityRepository
             , IApplicationLanguageRepository applicationLanguageRepository
@@ -84,8 +79,6 @@ namespace SmartDigitalPsico.Service.Principals
 
         public async Task<ServiceResponse<GetUserVO>> Register(UserRegisterVO userRegisterVO)
         {
-            ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
-
             SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User entityAdd = _mapper.Map<User>(userRegisterVO);
@@ -98,7 +91,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.Role = "Pending";
             entityAdd.Admin = false;
 
-            response = await base.Validate(entityAdd);
+            ServiceResponse<GetUserVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -118,7 +111,7 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 User entityUpdate = await _userRepository.FindByID(updateUser.Id);
 
-                if (entityUpdate == null || entityUpdate?.Id == 0)
+                if (entityUpdate == null || entityUpdate.Id == 0)
                 {
                     response.Success = false;
                     response.Message = ValidatorConstants.Validade_UserNotFound;
@@ -138,9 +131,9 @@ namespace SmartDigitalPsico.Service.Principals
                 entityUpdate.Role = updateUser.Role;
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                entityUpdate.MedicalId = updateUser?.MedicalId;
+                entityUpdate.MedicalId = updateUser.MedicalId;
 
-                List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(updateUser?.RoleGroupsIds);
+                List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(updateUser.RoleGroupsIds);
                 entityUpdate.UserRoleGroups.Clear();
 
                 foreach (var rg in roleGroups)
@@ -172,8 +165,6 @@ namespace SmartDigitalPsico.Service.Principals
         }
         public override async Task<ServiceResponse<GetUserVO>> Create(AddUserVO userRegisterVO)
         {
-            ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
-
             SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User entityAdd = _mapper.Map<User>(userRegisterVO);
@@ -183,11 +174,11 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-            entityAdd.Role = userRegisterVO?.Role;
+            entityAdd.Role = userRegisterVO.Role;
 
-            List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO?.RoleGroupsIds.ToList());
+            List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO.RoleGroupsIds.ToList());
 
-            response = await base.Validate(entityAdd);
+            ServiceResponse<GetUserVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -280,9 +271,9 @@ namespace SmartDigitalPsico.Service.Principals
 
             var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
 
-            if (principal != null)
+            if (principal != null && principal.Identity != null)
             {
-                var username = principal.Identity?.Name;
+                var username = principal.Identity.Name;
 
                 long idUser;
                 long.TryParse(username, out idUser);
@@ -318,7 +309,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             User entityUpdate = await _userRepository.FindByID(userUpdateProfileVO.Id);
 
-            if (entityUpdate == null || entityUpdate?.Id == 0)
+            if (entityUpdate == null || entityUpdate.Id == 0)
             {
                 response.Success = false;
                 response.Message = ValidatorConstants.Validade_UserNotFound;
@@ -378,7 +369,7 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 response.Data.RoleGroups = getRolesGroups(entityResponse);
             }
-        } 
+        }
         private static void fillRoleGroupsAuthenticate(GetUserAuthenticatedVO response, User entityResponse)
         {
             if (response != null)

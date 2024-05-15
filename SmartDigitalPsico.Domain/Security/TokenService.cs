@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.Security
 {
     public class TokenService : ITokenService
     {
-        private TokenConfiguration _configuration;
+        private readonly TokenConfiguration _configuration;
 
         public TokenService(TokenConfiguration configuration)
         {

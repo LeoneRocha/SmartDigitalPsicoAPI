@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
 
             if (recordsList.Records.Count == 0 || userLogged == null) { return false; }
 
-            userHasPermission = recordsList.Records.All(rg =>
+            userHasPermission = recordsList.Records.TrueForAll(rg =>
             (
             rg.CreatedUser?.Id == userIdLogged
             && userLogged.MedicalId == rg.Patient.MedicalId) 

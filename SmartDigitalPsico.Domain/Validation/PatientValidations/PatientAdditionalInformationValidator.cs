@@ -6,8 +6,8 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
     public class PatientAdditionalInformationValidator : AbstractValidator<PatientAdditionalInformation>
     {
-        private IPatientAdditionalInformationRepository _entityRepository;
-        private IPatientRepository _patientRepository;
+        private readonly IPatientAdditionalInformationRepository _entityRepository;
+        private readonly IPatientRepository _patientRepository;
 
         public PatientAdditionalInformationValidator(IPatientAdditionalInformationRepository entityRepository,
             IPatientRepository patientRepository)
@@ -54,14 +54,11 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
         private async Task<bool> PatientIdChanged(PatientAdditionalInformation entity)
         {
             var entityBefore = await _entityRepository.FindByID(entity.Id);
-            if (entityBefore != null)
+            if (entityBefore != null && entityBefore.PatientId != entity.PatientId)
             {
-                if (entityBefore.PatientId != entity.PatientId)
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
-        } 
+        }
     }
 }

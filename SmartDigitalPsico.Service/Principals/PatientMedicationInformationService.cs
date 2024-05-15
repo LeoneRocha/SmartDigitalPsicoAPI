@@ -33,7 +33,6 @@ namespace SmartDigitalPsico.Service.Principals
         }
         public override async Task<ServiceResponse<GetPatientMedicationInformationVO>> Create(AddPatientMedicationInformationVO item)
         {
-            ServiceResponse<GetPatientMedicationInformationVO> response = new ServiceResponse<GetPatientMedicationInformationVO>();
 
             PatientMedicationInformation entityAdd = _mapper.Map<PatientMedicationInformation>(item);
 
@@ -48,7 +47,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
 
-            response = await base.Validate(entityAdd);
+            ServiceResponse<GetPatientMedicationInformationVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -63,9 +62,7 @@ namespace SmartDigitalPsico.Service.Principals
         }
 
         public override async Task<ServiceResponse<GetPatientMedicationInformationVO>> Update(UpdatePatientMedicationInformationVO item)
-        {
-            ServiceResponse<GetPatientMedicationInformationVO> response = new ServiceResponse<GetPatientMedicationInformationVO>();
-
+        { 
             PatientMedicationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
 
             entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
@@ -74,7 +71,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityUpdate.ModifyUserId = this.UserId;
 
             #region Columns
-            entityUpdate.Enable = item.Enable; 
+            entityUpdate.Enable = item.Enable;
             entityUpdate.StartDate = item.StartDate;
             entityUpdate.EndDate = item.EndDate;
             entityUpdate.MainDrug = item.MainDrug;
@@ -83,7 +80,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityUpdate.Posology = item.Posology;
             #endregion Columns
 
-            response = await base.Validate(entityUpdate);
+            ServiceResponse<GetPatientMedicationInformationVO> response = await base.Validate(entityUpdate);
 
             if (response.Success)
             {
@@ -138,10 +135,6 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
-        }
-        public async override Task<ServiceResponse<GetPatientMedicationInformationVO>> FindByID(long id)
-        {
-            return await base.FindByID(id);
-        }
+        } 
     }
 }

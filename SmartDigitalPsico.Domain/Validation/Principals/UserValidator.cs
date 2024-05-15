@@ -6,7 +6,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
 {
     public class UserValidator : AbstractValidator<User>
     {
-        private IUserRepository _entityRepository;
+        private readonly IUserRepository _entityRepository;
          
         public UserValidator(IUserRepository entityRepository)
         {

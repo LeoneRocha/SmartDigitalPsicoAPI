@@ -21,7 +21,7 @@ using System.Text;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {
-    public class ApplicationBuilderConfigure
+    public static class ApplicationBuilderConfigure
     {
         private static IConfiguration? _configuration;
 

@@ -34,7 +34,6 @@ namespace SmartDigitalPsico.Service.Principals
 
         public override async Task<ServiceResponse<GetPatientHospitalizationInformationVO>> Create(AddPatientHospitalizationInformationVO item)
         {
-            ServiceResponse<GetPatientHospitalizationInformationVO> response = new ServiceResponse<GetPatientHospitalizationInformationVO>();
 
             PatientHospitalizationInformation entityAdd = _mapper.Map<PatientHospitalizationInformation>(item);
 
@@ -49,7 +48,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
 
-            response = await base.Validate(entityAdd);
+            ServiceResponse<GetPatientHospitalizationInformationVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -65,7 +64,6 @@ namespace SmartDigitalPsico.Service.Principals
 
         public override async Task<ServiceResponse<GetPatientHospitalizationInformationVO>> Update(UpdatePatientHospitalizationInformationVO item)
         {
-            ServiceResponse<GetPatientHospitalizationInformationVO> response = new ServiceResponse<GetPatientHospitalizationInformationVO>();
 
             PatientHospitalizationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
 
@@ -85,7 +83,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityUpdate.Observation = item.Observation;
             #endregion Columns
 
-            response = await base.Validate(entityUpdate);
+            ServiceResponse<GetPatientHospitalizationInformationVO> response = await base.Validate(entityUpdate);
 
             if (response.Success)
             {
@@ -142,10 +140,6 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
-        }
-        public async override Task<ServiceResponse<GetPatientHospitalizationInformationVO>> FindByID(long id)
-        {
-            return await base.FindByID(id);
-        }
+        } 
     }
 }

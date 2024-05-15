@@ -23,8 +23,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 var content = await sr.ReadToEndAsync();
                 return content;
             }
-        }
-
+        } 
 
         public static async Task<string> GetFileByRequest(HttpRequest request, string folderNameDestination)
         {
@@ -45,12 +44,10 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
 
             return string.Empty;
-        }
-
-
-        private static async Task<string> GetFileFromBase64String(string dataStringBase64)
+        } 
+        public static string GetFileFromBase64String(string dataStringBase64)
         {
-            if (!string.IsNullOrEmpty(dataStringBase64) && dataStringBase64?.Length > 0)
+            if (!string.IsNullOrEmpty(dataStringBase64) && dataStringBase64.Length > 0)
             {
                 var bytes = Convert.FromBase64String(dataStringBase64);
                 var decodedString = Encoding.UTF8.GetString(bytes);
