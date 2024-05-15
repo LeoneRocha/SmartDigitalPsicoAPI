@@ -51,7 +51,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                 {
                     if (dataArray[i] != fileStream.ReadByte())
                     {
-                        throw new Exception("Error writing data.");
+                        throw new InvalidOperationException("Error writing data.");
                     }
                 }
             }

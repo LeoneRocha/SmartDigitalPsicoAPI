@@ -108,7 +108,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             RuleFor(entity => entity.MedicalId)
             .NotNull()
             .WithMessage("ErrorValidator_MedicalId_Null")
-            .MustAsync(async (entity, value, c) => await MedicalIdFound(entity, value))
+            .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
             .WithMessage("ErrorValidator_MedicalId_NotFound")
             .MustAsync(async (entity, value, c) => await MedicalChanged(entity, value))
             .WithMessage("ErrorValidator_Medical_Changed")
@@ -119,7 +119,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 
             #endregion Relationship 
         }
-        private async Task<bool> MedicalIdFound(Patient entity, long value)
+        private async Task<bool> MedicalIdFound(Patient entity)
         {
             var entityFind = await _medicalRepository.FindByID(entity.MedicalId);
             if (entityFind == null)

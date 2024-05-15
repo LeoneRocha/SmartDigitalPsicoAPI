@@ -189,26 +189,6 @@ namespace SmartDigitalPsico.Service.Principals
                    ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
 
             return response;
-        }
-
-        private async Task<ServiceResponse<List<GetPatientVO>>> validAccessToList(long medicalId)
-        {
-            ServiceResponse<List<GetPatientVO>> response = new ServiceResponse<List<GetPatientVO>>();
-            response.Success = true;
-
-            User userAction = await _userRepository.FindByID(this.UserId);
-            var validateResult = PatientPermissionMedicalValidator.ValidatePermissionMedical(medicalId, userAction);
-            bool invalidAccess = string.IsNullOrEmpty(validateResult.Message);
-            if (invalidAccess)
-            {
-                response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
-
-                response.Errors.Add(validateResult);
-                return response;
-            }
-            return response;
-        }
+        } 
     }
 }
