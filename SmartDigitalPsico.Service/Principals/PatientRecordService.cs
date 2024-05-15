@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Service.Principals
         private readonly IPatientRecordRepository _entityRepository;
 
         public PatientRecordService(IMapper mapper
-            , IPatientRecordRepository entityRepository, IConfiguration configuration, IUserRepository userRepository, IPatientRepository patientRepository
+            , IPatientRecordRepository entityRepository, IUserRepository userRepository
             , IValidator<PatientRecord> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
@@ -35,8 +35,6 @@ namespace SmartDigitalPsico.Service.Principals
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
         {
-            ServiceResponse<GetPatientRecordVO> response = new ServiceResponse<GetPatientRecordVO>();
-
             PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
 
             #region Relationship
@@ -49,7 +47,8 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-            response = await base.Validate(entityAdd);
+
+            ServiceResponse<GetPatientRecordVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -60,9 +59,7 @@ namespace SmartDigitalPsico.Service.Principals
             return response;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Update(UpdatePatientRecordVO item)
-        {
-            ServiceResponse<GetPatientRecordVO> response = new ServiceResponse<GetPatientRecordVO>();
-
+        { 
             PatientRecord entityUpdate = await _entityRepository.FindByID(item.Id);
 
             #region Set default fields for bussines
@@ -89,7 +86,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityUpdate.AnnotationDate = item.AnnotationDate;
             #endregion Columns
 
-            response = await base.Validate(entityUpdate);
+            ServiceResponse<GetPatientRecordVO> response = await base.Validate(entityUpdate);
             if (response.Success)
             {
                 PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
@@ -143,10 +140,6 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
-        }
-        public async override Task<ServiceResponse<GetPatientRecordVO>> FindByID(long id)
-        {
-            return await base.FindByID(id);
-        }
+        } 
     }
 }

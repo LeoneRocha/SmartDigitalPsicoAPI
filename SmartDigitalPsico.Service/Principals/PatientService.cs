@@ -34,9 +34,7 @@ namespace SmartDigitalPsico.Service.Principals
             _userRepository = userRepository;
         }
         public override async Task<ServiceResponse<GetPatientVO>> Create(AddPatientVO item)
-        {
-            ServiceResponse<GetPatientVO> response = new ServiceResponse<GetPatientVO>();
-
+        { 
             Patient entityAdd = _mapper.Map<Patient>(item);
 
             #region Set default fields for bussines
@@ -53,7 +51,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             #endregion User Action
 
-            response = await base.Validate(entityAdd);
+            ServiceResponse<GetPatientVO> response = await base.Validate(entityAdd);
             if (response.Success)
             {
                 #region Relationship 
@@ -72,12 +70,11 @@ namespace SmartDigitalPsico.Service.Principals
 
         public override async Task<ServiceResponse<GetPatientVO>> Update(UpdatePatientVO item)
         {
-            ServiceResponse<GetPatientVO> response = new ServiceResponse<GetPatientVO>();
 
+            ServiceResponse<GetPatientVO> response = new ServiceResponse<GetPatientVO>();
             Patient? entityUpdate = await _entityRepository.FindByID(item.Id);
             if (entityUpdate != null)
-            {
-
+            { 
                 #region Set default fields for bussines
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
@@ -207,8 +204,7 @@ namespace SmartDigitalPsico.Service.Principals
                 response.Success = false;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
-
-                response.Errors = new List<ErrorResponse>();
+                 
                 response.Errors.Add(validateResult);
                 return response;
             }

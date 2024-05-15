@@ -32,7 +32,10 @@ namespace SmartDigitalPsico.WebAPI
             }
             catch (Exception ex)
             {
-                _logger?.Error(ex, "Web API Error Loading at: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                if (_logger != null)
+                {
+                    _logger.Error(ex, "Web API Error Loading at: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                }
             }
         }
 

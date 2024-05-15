@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation;
+using Microsoft.IdentityModel.Tokens;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
@@ -38,8 +39,6 @@ namespace SmartDigitalPsico.Service.Principals
         }
         public override async Task<ServiceResponse<GetMedicalVO>> Create(AddMedicalVO item)
         {
-            ServiceResponse<GetMedicalVO> response = new ServiceResponse<GetMedicalVO>();
-
             Medical entityAdd = _mapper.Map<Medical>(item);
 
             #region Relationship
@@ -47,7 +46,6 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.OfficeId = item.OfficeId;
 
             List<Specialty> specialtiesAdd = await _specialtyRepository.FindByIDs(item.SpecialtiesIds);
-
 
             #endregion Relationship
 
@@ -57,7 +55,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.CreatedUserId = this.UserId;
             entityAdd.Enable = true;
 
-            response = await base.Validate(entityAdd);
+            ServiceResponse<GetMedicalVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -134,10 +132,7 @@ namespace SmartDigitalPsico.Service.Principals
 
         public override async Task<ServiceResponse<List<GetMedicalVO>>> FindAll()
         {
-            ServiceResponse<List<GetMedicalVO>> response = new ServiceResponse<List<GetMedicalVO>>();
-
-            response = await validAccessdmin();
-
+            ServiceResponse<List<GetMedicalVO>> response = await validAccessdmin();
 
             if (!response.Success)
                 return response;
@@ -194,10 +189,8 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 return response;
             }
-            var validateResult
-                = PatientPermissionMedicalValidator.ValidatePermissionAdmin(userAction);
-            bool invalidAccess = validateResult != null;
-            if (invalidAccess)
+            var validateResult = PatientPermissionMedicalValidator.ValidatePermissionAdmin(userAction);          
+            if (!string.IsNullOrEmpty(validateResult.ErrorCode))
             {
                 response.Success = false;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
