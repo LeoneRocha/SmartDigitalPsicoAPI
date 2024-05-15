@@ -52,3 +52,7 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
   
 # Define o comando de entrada
 ENTRYPOINT ["dotnet", "SmartDigitalPsico.WebAPI.dll"]
+
+# Adiciona o comando HEALTHCHECK
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD curl --fail http://localhost:80/health || exit 1
