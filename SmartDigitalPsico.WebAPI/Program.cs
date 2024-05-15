@@ -4,7 +4,7 @@ using SmartDigitalPsico.WebAPI.Configure;
 
 namespace SmartDigitalPsico.WebAPI
 {
-    public class Program
+    public static class Program
     {
         private static Serilog.Core.Logger? _logger;
         public static void Main(string[] args)

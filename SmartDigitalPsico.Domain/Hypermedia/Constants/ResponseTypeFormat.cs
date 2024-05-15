@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Constants
 {
-    public sealed class ResponseTypeFormat
+    public static class ResponseTypeFormat
     { 
         public const string DefaultGet = AppConfigConstants.ApplicationContentJon;
         public const string DefaultPost = AppConfigConstants.ApplicationContentJon;

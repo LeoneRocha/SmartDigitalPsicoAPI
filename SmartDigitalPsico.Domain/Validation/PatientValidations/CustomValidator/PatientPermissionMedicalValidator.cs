@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
 {
-    public class PatientPermissionMedicalValidator
+    public static class PatientPermissionMedicalValidator
     {
         public static ErrorResponse ValidatePermissionMedical(long medicalId, User userAction)
         {
@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
 
                 return error;
             }
-            return null;
+            return new ErrorResponse();
         }
 
         public static ErrorResponse ValidatePermissionAdmin(User userAction)

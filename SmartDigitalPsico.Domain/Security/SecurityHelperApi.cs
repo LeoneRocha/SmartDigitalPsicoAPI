@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace SmartDigitalPsico.Domain.Security
 {
-    public class SecurityHelperApi
+    public static class SecurityHelperApi
     {
         public static long GetUserIdApi(ClaimsPrincipal user, ETypeApiCredential typeApiCredential)
         {
