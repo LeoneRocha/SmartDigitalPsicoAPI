@@ -60,31 +60,39 @@ namespace SmartDigitalPsico.Service.SystemDomains
 
         public static async Task<string> GetLocalization<T>(string key, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
         {
-            string resultLocalization;
+            string resultLocalization = string.Empty;
 
             var culturenameCurrent = CultureInfo.CurrentCulture;
 
             string keyCache = "FindAll_GetApplicationLanguageVO";
             ServiceResponse<List<GetApplicationLanguageVO>> resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageVO>>(cacheService, keyCache);
 
-            string resourceKey = "SharedResource";
+            string resourceKey = typeof(T).Name.Replace("I", "");
             string language = culturenameCurrent.Name;
-            if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
+            try
             {
-                GetApplicationLanguageVO languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
-                resultLocalization = languageFindFromCache.LanguageValue;
+                if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
+                {
+                    GetApplicationLanguageVO languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
+                    resultLocalization = languageFindFromCache.LanguageValue;
 
+                }
+                else
+                {
+                    var languageFindDB = await languageRepository.Find(language, key, resourceKey);
+                    resultLocalization = languageFindDB.LanguageValue;
+                }
             }
-            else
+            catch (Exception)
             {
-                var languageFindDB = await languageRepository.Find(language, key, resourceKey);
-                resultLocalization = languageFindDB.LanguageValue;
+                resultLocalization = string.IsNullOrEmpty(resultLocalization) ? $"NotFoundLocalization|{key}|" : resultLocalization;
             }
-            return resultLocalization ?? $"NotFoundLocalization|{key}|";
+            return resultLocalization;
         }
-        
+
+
         #endregion GetLocalization
-         
+
         private static GetApplicationLanguageVO filterAndGetSingle(ServiceResponse<List<GetApplicationLanguageVO>> resultFromCache, string resourceKey, string key, string language)
         {
             return resultFromCache.Data.Single(p => p.ResourceKey.ToUpper().Trim().Equals(resourceKey.ToUpper().Trim())

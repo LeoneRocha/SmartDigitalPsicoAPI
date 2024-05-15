@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Domain.VO.User
         #endregion Relationship
 
         #region Columns  
-        public string Password { get; set; } = string.Empty;
+        public string? Password { get; set; } = string.Empty;
 
         public string Role { get; set; } = string.Empty;
 

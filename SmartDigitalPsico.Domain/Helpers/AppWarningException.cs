@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Domain.Helpers
     [Serializable]
     public class AppWarningException : Exception
     {
-        public AppWarningException()
+        protected AppWarningException()
         {
         }
 

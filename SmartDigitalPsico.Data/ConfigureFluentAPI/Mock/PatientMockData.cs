@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
                 AddressState = "Bahia",
                 AddressStreet = "Avenida Presidente Médici 264",
                 Cpf = "947.846.605-42",
-                DateOfBirth = new DateTime(1960, 03, 11),
+                DateOfBirth = new DateTime(1960, 03, 11, 0, 0, 0, DateTimeKind.Utc),
                 Education = "Superior",
                 EmergencyContactName = "Milena Isabelly Vanessa",
                 EmergencyContactPhoneNumber = "(73) 98540-4268",
