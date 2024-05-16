@@ -427,25 +427,50 @@ https://www.codium.ai/?gad_source=1&gclid=Cj0KCQjw3ZayBhDRARIsAPWzx8opfHMeBxKDpv
 
 
 
-Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Rename this class to remove "Exception" or correct its inheritance. Classes named like "Exception" should extend "Exception" or a subclass"
-
+Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing a new exception instance"
 Trecho:  
-public static class HandleException
-
+            if (
+info == null)
+Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing a new exception instance
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
 Codigo:
-
-public static class HandleException
+ public async Task<TokenVO> validateCredentials(TokenVO token)
 {
-    public static List<ErrorResponse> GerateListErrorResponse(Exception ex)
-    {
-        List<ErrorResponse> result = new List<ErrorResponse>();
-        result.Add(new ErrorResponse() { Name = ex.Source ?? "SmartDigitalPsico", Message = ex.Message, ErrorCode = ex.HResult.ToString() });
+    string accessToken = token.AccessToken ?? string.Empty;
+    string refreshToken = token.RefreshToken ?? string.Empty;
 
-        return result;
+    var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
+
+    if (principal != null && principal.Identity != null)
+    {
+        var username = principal.Identity.Name;
+
+        long idUser;
+        long.TryParse(username, out idUser);
+
+        var user = await _userRepository.FindByID(idUser);
+
+        if (user == null ||
+            user.RefreshToken != refreshToken ||
+            user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNow()) return new TokenVO();
+
+        accessToken = _tokenService.GenerateAccessToken(principal.Claims);
+        refreshToken = _tokenService.GenerateRefreshToken();
+
+        user.RefreshToken = refreshToken;
+        await _userRepository.RefreshUserInfo(user);
     }
 
-    public static string GetMessage(Exception ex)
-    {
-        return $" {ex.Message} - {ex.InnerException?.Message}";
-    }
+    DateTime createDate = DataHelper.GetDateTimeNow();
+    DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
+
+    return new TokenVO(
+    true,
+        createDate.ToString(AppConfigConstants.DATE_FORMAT),
+        expirationDate.ToString(AppConfigConstants.DATE_FORMAT),
+        accessToken,
+        refreshToken
+        );
 }

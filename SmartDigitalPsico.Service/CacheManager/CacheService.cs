@@ -184,8 +184,7 @@ namespace SmartDigitalPsico.Service.CacheManager
 
             return true;
         }
-
-
+         
         private bool checkCacheIsValid<T>(KeyValuePair<bool, T> resultDisk, string cacheKey) where T : class, new()
         {
             if (resultDisk.Value != null)
@@ -197,7 +196,8 @@ namespace SmartDigitalPsico.Service.CacheManager
                     var valorExpiracao = getPropValue(resultDisk.Value, "DateTimeSlidingExpiration");
                     DateTime dataExpiracao;
 
-                    bool temData = DateTime.TryParse(valorExpiracao.ToString(), out dataExpiracao);
+                    bool temData = DateTime.TryParseExact(valorExpiracao.ToString(), "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dataExpiracao);
+
                     if (temData && dataExpiracao != DateTime.MinValue && DateTime.Now >= dataExpiracao)
                     {
                         _diskCacheRepository.RemoveAsync(cacheKey).GetAwaiter().GetResult();
