@@ -106,12 +106,16 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
                     string contentString = Encoding.UTF8.GetString(fileCacheByte, 0, fileCacheByte.Length);
 
                     T? resultCache = JsonSerializer.Deserialize<T>(contentString);
-                    result = true;
-                    return new KeyValuePair<bool, T>(result, resultCache);
+                    if (resultCache != null)
+                    {
+                        result = true;
+                        return new KeyValuePair<bool, T>(result, resultCache);
+                    }
                 }
             }
             return new KeyValuePair<bool, T>(result, new());
         }
+
 
         private static string getPathSaveCache(string pathCache)
         {

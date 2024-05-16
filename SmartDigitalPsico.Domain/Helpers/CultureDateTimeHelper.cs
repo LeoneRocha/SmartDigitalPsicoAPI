@@ -94,7 +94,7 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static string GetCultureBrazil()
         {
-            return CultureDateTimeHelper.GetCultures().First(c => c.Id.ToUpper().Contains("pt-br".ToUpper())).Id;
+            return CultureDateTimeHelper.GetCultures().First(c => c.Id.Contains("pt-br", StringComparison.OrdinalIgnoreCase)).Id;
         }
     }
 }

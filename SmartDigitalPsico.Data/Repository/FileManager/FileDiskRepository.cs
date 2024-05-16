@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             return result;
         }
 
-        private async Task<bool> saveFileFromByte(FileData item)
+        private static async Task<bool> saveFileFromByte(FileData item)
         {
             // Create random data to write to the file.
             byte[] dataArray = item.FileData;
@@ -74,7 +74,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                 }
             }
             return result;
-        } 
+        }
 
         public async Task Delete(FileData fileCriteria)
         {
