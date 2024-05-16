@@ -21,7 +21,7 @@ Tabela de conteúdos
 =================
 <!--ts-->
    * [Sobre o projeto](#-sobre-o-projeto) 
-   * [Links Front e Back](#-Links-Front-Back)
+   * [Links de acesso (Frontend e Backend)](#-Links-Front-Back)
    * [Como executar o projeto](#-como-executar-o-projeto)
      * [Pré-requisitos](#pré-requisitos)
      * [Rodando o Backend (servidor)](#user-content--rodando-o-backend-servidor)
@@ -66,7 +66,7 @@ Tabela de conteúdos
 
 ### Backend (API) :  
 
-| **Ambiente** | **Build** | **Quality Gate**   |  **Snyk**  | **Deploy**  |
+| **Ambiente** | **Status Pacote** | **Quality Gate**   |  **Vulnerabilidades**  | **Publicação**  |
 |--|--|--|--|--|
 | Homologação| [![Build status](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_apis/build/status/Homologation/CI-Homologation-SMARTDIGITALPSICO-API)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build/latest?definitionId=20)  | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lionscorp_smartdigitalpsico&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lionscorp_smartdigitalpsico) | [![Snykstatus](https://snyk.io/test/github/LeoneRocha/SmartDigitalPsicoAPI/badge.svg)](https://snyk.io/test/github/LeoneRocha/SmartDigitalPsicoAPI/badge.svg)|[![Release status](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/5/5)](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/5/5)
 ||||||
@@ -74,7 +74,7 @@ Tabela de conteúdos
 
 ### Front (Web) :  
 
-| **Ambiente** | **Build** | **Quality Gate**   |  **Snyk**  | **Deploy**  |
+| **Ambiente** | **Status Pacote** | **Quality Gate**   |  **Vulnerabilidades**  | **Publicação**  |
 |--|--|--|--|--|
 | Homologação| [![Build status](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_apis/build/status/Homologation/CI-Homologation-SMARTDIGITALPSICO-UI)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build/latest?definitionId=28) | - | - |[![Release status](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/10/10)](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/10/10)
 ||||||
@@ -95,7 +95,7 @@ Tabela de conteúdos
  
 ---
 
-## ⚙️ Links Front e Back
+## ⚙️ Links de acesso (Frontend e Backend)
 
 ### Produção:  
    - [Backend](https://smartdigitalpsicoapi.azurewebsites.net) 
