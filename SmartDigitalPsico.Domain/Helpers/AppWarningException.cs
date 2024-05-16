@@ -1,9 +1,6 @@
-﻿using System.Runtime.Serialization;
-
-namespace SmartDigitalPsico.Domain.Helpers
+﻿namespace SmartDigitalPsico.Domain.Helpers
 {
-    [Serializable]
-    public class AppWarningException : Exception, ISerializable
+    public class AppWarningException : Exception 
     {
         public AppWarningException()
         {
@@ -15,16 +12,6 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public AppWarningException(string? message, Exception? innerException) : base(message, innerException)
         {
-        }
-
-        protected AppWarningException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            ArgumentNullException.ThrowIfNull(info, nameof(info));
-            base.GetObjectData(info, context);
-        }
-    }
+        } 
+    } 
 }

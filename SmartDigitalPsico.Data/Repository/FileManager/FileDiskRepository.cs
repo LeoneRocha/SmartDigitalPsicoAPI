@@ -3,9 +3,9 @@ using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Data.Repository.FileManager
 {
-    public class RepositoryFileDisk : IFileDiskRepository
+    public class FileDiskRepository : IFileDiskRepository
     {
-        public RepositoryFileDisk()
+        public FileDiskRepository()
         {
 
         }
@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         }
 
         private async Task<bool> saveFileFromByte(FileData item)
-        { 
+        {
             // Create random data to write to the file.
             byte[] dataArray = item.FileData;
 
@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             {
                 // Write the data to the file, byte by byte.
 
-                await fileStream.WriteAsync(dataArray, 0, dataArray.Length);
+                await fileStream.WriteAsync(dataArray.AsMemory());
 
 
                 // Set the stream position to the beginning of the file.
@@ -56,7 +56,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                 }
             }
             return true;
-        } 
+        }
 
         public async Task<byte[]?> Get(FileData fileCriteria)
         {
@@ -70,11 +70,11 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                 using (FileStream SourceStream = File.Open(fileInfo, FileMode.Open))
                 {
                     result = new byte[SourceStream.Length];
-                    await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
+                    await SourceStream.ReadAsync(result.AsMemory());
                 }
             }
             return result;
-        }
+        } 
 
         public async Task Delete(FileData fileCriteria)
         {

@@ -427,50 +427,25 @@ https://www.codium.ai/?gad_source=1&gclid=Cj0KCQjw3ZayBhDRARIsAPWzx8opfHMeBxKDpv
 
 
 
-Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing a new exception instance"
+Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Change the 'ReadAsync' method call to use the 'Stream.ReadAsync(Memory<byte>, CancellationToken)' overload"
 Trecho:  
-            if (
-info == null)
-Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing a new exception instance
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
-Codigo:
- public async Task<TokenVO> validateCredentials(TokenVO token)
-{
-    string accessToken = token.AccessToken ?? string.Empty;
-    string refreshToken = token.RefreshToken ?? string.Empty;
+await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
 
-    var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
+Codigo: 
+   public async Task<byte[]?> Get(FileData fileCriteria)
+  {
+      byte[]? result = null;
+      string pathFile = String.IsNullOrEmpty(fileCriteria.FilePath) ? string.Empty : fileCriteria.FilePath;
 
-    if (principal != null && principal.Identity != null)
-    {
-        var username = principal.Identity.Name;
+      string fileInfo = Path.Combine(pathFile, fileCriteria.FileName);
 
-        long idUser;
-        long.TryParse(username, out idUser);
-
-        var user = await _userRepository.FindByID(idUser);
-
-        if (user == null ||
-            user.RefreshToken != refreshToken ||
-            user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNow()) return new TokenVO();
-
-        accessToken = _tokenService.GenerateAccessToken(principal.Claims);
-        refreshToken = _tokenService.GenerateRefreshToken();
-
-        user.RefreshToken = refreshToken;
-        await _userRepository.RefreshUserInfo(user);
-    }
-
-    DateTime createDate = DataHelper.GetDateTimeNow();
-    DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
-
-    return new TokenVO(
-    true,
-        createDate.ToString(AppConfigConstants.DATE_FORMAT),
-        expirationDate.ToString(AppConfigConstants.DATE_FORMAT),
-        accessToken,
-        refreshToken
-        );
-}
+      if (File.Exists(fileInfo))
+      {
+          using (FileStream SourceStream = File.Open(fileInfo, FileMode.Open))
+          {
+              result = new byte[SourceStream.Length];
+              await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
+          }
+      }
+      return result;
+  }

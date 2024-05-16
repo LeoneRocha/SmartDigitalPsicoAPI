@@ -218,7 +218,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             return property?.GetValue(source);
         }
 
-        private string getCacheKey<T>(string? cacheKey)
+        private static string getCacheKey<T>(string? cacheKey)
         {
             if (string.IsNullOrEmpty(cacheKey))
             {
