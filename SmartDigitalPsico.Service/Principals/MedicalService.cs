@@ -187,7 +187,7 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 return response;
             }
-            var validateResult = PatientPermissionMedicalValidator.ValidatePermissionAdmin(userAction);          
+            var validateResult = PatientPermissionMedicalValidator.ValidatePermissionAdmin(userAction);
             if (!string.IsNullOrEmpty(validateResult.ErrorCode))
             {
                 response.Success = false;
@@ -196,14 +196,11 @@ namespace SmartDigitalPsico.Service.Principals
 
                 response.Errors = new List<ErrorResponse>();
                 response.Unauthorized = true;
-                if (validateResult != null)
-                {
-                    response.Errors.Add(validateResult);
-                }
+                response.Errors.Add(validateResult);
                 return response;
             }
             return response;
-
         }
+
     }
 }

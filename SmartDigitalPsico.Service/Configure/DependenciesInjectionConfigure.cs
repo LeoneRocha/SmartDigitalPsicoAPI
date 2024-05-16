@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.WebAPI.Helper
         #region INTERFACES
         private static void addRepositories(IServiceCollection Service)
         {
-            Service.AddScoped<IFileDiskRepository, RepositoryFileDisk>();
+            Service.AddScoped<IFileDiskRepository, FileDiskRepository>();
             Service.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
             Service.AddScoped<IDiskCacheRepository, DiskCacheRepository>();
 

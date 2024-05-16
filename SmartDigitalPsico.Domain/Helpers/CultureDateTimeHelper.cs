@@ -78,11 +78,11 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static string GetTimeZoneBrazil()
         {
             var zt = CultureDateTimeHelper.GetTimeZonesIds().Find(c =>
-             c.Name.ToUpper().Contains("o Paulo".ToUpper())
-             || c.Id.ToUpper().Contains("o Paulo".ToUpper())
-             || c.Name.ToUpper().Contains("Brasília".ToUpper())
-             || c.Id.ToUpper().Contains("Brasília".ToUpper())
-             || c.Id.ToUpper().Contains("South America".ToUpper())
+             c.Name.Contains("o Paulo", StringComparison.OrdinalIgnoreCase)
+             || c.Id.Contains("o Paulo", StringComparison.OrdinalIgnoreCase)
+             || c.Name.Contains("Brasília", StringComparison.OrdinalIgnoreCase)
+             || c.Id.Contains("Brasília", StringComparison.OrdinalIgnoreCase)
+             || c.Id.Contains("South America", StringComparison.OrdinalIgnoreCase)
              );
             string idZT = "E. South America Standard Time";
             if (zt != null)
@@ -91,6 +91,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
             return idZT;
         }
+
         public static string GetCultureBrazil()
         {
             return CultureDateTimeHelper.GetCultures().First(c => c.Id.ToUpper().Contains("pt-br".ToUpper())).Id;

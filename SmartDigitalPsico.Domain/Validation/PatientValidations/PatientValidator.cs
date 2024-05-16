@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                .MustAsync(async (entity, value, c) => await UniqueEmail(entity, value))
               .WithMessage("ErrorValidator_Email_Unique");
 
-            RuleFor(p => p.DateOfBirth).Must(BeAValidAge)
+            RuleFor(p => p.DateOfBirth).Must(beAValidAge)
                 .WithMessage("ErrorValidator_DateOfBirth_Invalid");
 
             RuleFor(p => p.Rg)
@@ -185,7 +185,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             return true;
         }
 
-        protected bool BeAValidAge(DateTime date)
+        private static bool beAValidAge(DateTime date)
         {
             int currentYear = DataHelper.GetDateTimeNow().Year;
             int dobYear = date.Year;

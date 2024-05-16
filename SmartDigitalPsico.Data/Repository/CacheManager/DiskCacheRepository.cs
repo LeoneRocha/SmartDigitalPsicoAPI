@@ -113,7 +113,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             return new KeyValuePair<bool, T>(result, new());
         }
 
-        private string getPathSaveCache(string pathCache)
+        private static string getPathSaveCache(string pathCache)
         {
             string pathToSaveCache; 
             // Verifica se o caminho é absoluto

@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
@@ -19,17 +18,14 @@ namespace SmartDigitalPsico.Service.SystemDomains
       : EntityBaseService<Gender, AddGenderVO, UpdateGenderVO, GetGenderVO, IGenderRepository>, IGenderService
     {
         private readonly IMapper _mapper;
-        private readonly IGenderRepository _entityRepository;
-        private readonly ICacheService _cacheService;
-        public GenderService(IMapper mapper, IGenderRepository entityRepository, ICacheService cacheService,
-            IOptions<AuthConfigurationVO> configurationAuth,
+        private readonly IGenderRepository _entityRepository; 
+        public GenderService(IMapper mapper, IGenderRepository entityRepository, ICacheService cacheService,            
             IValidator<Gender> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
-            _entityRepository = entityRepository;
-            _cacheService = cacheService;
+            _entityRepository = entityRepository; 
         }
 
         public override async Task<ServiceResponse<List<GetGenderVO>>> FindAll()
