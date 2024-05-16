@@ -157,8 +157,8 @@ namespace SmartDigitalPsico.Service.Principals
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Errors = Domain.Helpers.HandleException.GerateListErrorResponse(ex);
-                response.Message = Domain.Helpers.HandleException.GetMessage(ex);
+                response.Errors = Domain.Helpers.ExceptionHandler.GerateListErrorResponse(ex);
+                response.Message = Domain.Helpers.ExceptionHandler.GetMessage(ex);
             }
 
             return response;
@@ -276,19 +276,20 @@ namespace SmartDigitalPsico.Service.Principals
                 var username = principal.Identity.Name;
 
                 long idUser;
-                long.TryParse(username, out idUser);
+                if (long.TryParse(username, out idUser))
+                {
+                    var user = await _userRepository.FindByID(idUser);
 
-                var user = await _userRepository.FindByID(idUser);
+                    if (user == null ||
+                        user.RefreshToken != refreshToken ||
+                        user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNow()) return new TokenVO();
 
-                if (user == null ||
-                    user.RefreshToken != refreshToken ||
-                    user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNow()) return new TokenVO();
+                    accessToken = _tokenService.GenerateAccessToken(principal.Claims);
+                    refreshToken = _tokenService.GenerateRefreshToken();
 
-                accessToken = _tokenService.GenerateAccessToken(principal.Claims);
-                refreshToken = _tokenService.GenerateRefreshToken();
-
-                user.RefreshToken = refreshToken;
-                await _userRepository.RefreshUserInfo(user);
+                    user.RefreshToken = refreshToken;
+                    await _userRepository.RefreshUserInfo(user);
+                }
             }
 
             DateTime createDate = DataHelper.GetDateTimeNow();

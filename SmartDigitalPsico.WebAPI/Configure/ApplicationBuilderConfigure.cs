@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             _configuration = configuration;
 
             var tokenConfigurations = new TokenConfiguration();
-            
+
             addGetAppConfig(services, tokenConfigurations);
 
             //For In-Memory Caching
@@ -70,7 +70,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
         }
 
         private static void addLog(IServiceCollection services, Serilog.Core.Logger _logger)
-        { 
+        {
             services.AddLogging();
             services.AddSingleton<Serilog.ILogger>(sp =>
             {
@@ -144,7 +144,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     , optionsMySQL =>
                     {
                         optionsMySQL.MigrationsAssembly("SmartDigitalPsico.Data");
-                        optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore); 
+                        optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore);
                     })
                     );
                     break;
@@ -189,26 +189,26 @@ namespace SmartDigitalPsico.WebAPI.Configure
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
+            }).AddJwtBearer(options =>
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = tokenConfigurations.Issuer,
-                ValidAudience = tokenConfigurations.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
-            };
-        });
-
-            services.AddAuthorization(auth =>
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = tokenConfigurations.Issuer,
+                    ValidAudience = tokenConfigurations.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
+                };
+            });
+            services.AddAuthorizationCore(auth =>
             {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser().Build());
+                auth.AddPolicy("Bearer", policyBuilder =>
+                {
+                    policyBuilder.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                        .RequireAuthenticatedUser();
+                });
             });
         }
 

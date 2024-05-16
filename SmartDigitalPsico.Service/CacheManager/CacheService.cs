@@ -6,6 +6,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Domains;
+using System.Globalization;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Service.CacheManager
@@ -15,7 +16,7 @@ namespace SmartDigitalPsico.Service.CacheManager
         private readonly IMemoryCacheRepository _memoryCacheRepository;
         private readonly IDiskCacheRepository _diskCacheRepository;
         private readonly CacheConfigurationVO _cacheConfig;
-        private static ETypeLocationCache typeCache;
+        private readonly ETypeLocationCache _eTypeLocationCache;
         private readonly IApplicationCacheLogRepository _applicationCacheLogRepository;
 
         public CacheService(IMemoryCacheRepository memoryCacheRepository
@@ -27,7 +28,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             _diskCacheRepository = diskCacheRepository;
             _applicationCacheLogRepository = applicationCacheLogRepository;
             _cacheConfig = cacheConfig.Value;
-            typeCache = getTypeCache();
+            _eTypeLocationCache = _cacheConfig.TypeCache;
         }
 
         public bool Remove<T>(string? cacheKey)
@@ -35,7 +36,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             bool result = false;
             cacheKey = getCacheKey<T>(cacheKey);
 
-            switch (typeCache)
+            switch (_eTypeLocationCache)
             {
                 case ETypeLocationCache.Disk:
                     break;
@@ -61,7 +62,7 @@ namespace SmartDigitalPsico.Service.CacheManager
         {
             cacheKey = getCacheKey<T>(cacheKey);
             bool result = false;
-            switch (typeCache)
+            switch (_eTypeLocationCache)
             {
                 case ETypeLocationCache.Disk:
                     result = processCacheRepositoryDisk(cacheKey, value);
@@ -91,7 +92,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             try
             {
                 cacheKey = getCacheKey<T>(cacheKey);
-                switch (typeCache)
+                switch (_eTypeLocationCache)
                 {
                     case ETypeLocationCache.Disk:
                         var resultDisk = _diskCacheRepository.TryGetAsync<T>(cacheKey).GetAwaiter().GetResult();
@@ -165,8 +166,9 @@ namespace SmartDigitalPsico.Service.CacheManager
             _diskCacheRepository.SetAsync(cacheKey, value).GetAwaiter().GetResult();
 
             DateTime dateTimeSlidingExpiration;
+            string dateTimeStr = getPropValue(value, "DateTimeSlidingExpiration").ToString();
+            DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeSlidingExpiration);
 
-            DateTime.TryParse(getPropValue(value, "DateTimeSlidingExpiration").ToString(), out dateTimeSlidingExpiration);
             string _cacheId = getPropValue(value, "CacheId").ToString();
             var addLogCache = new ApplicationCacheLog()
             {
@@ -182,7 +184,7 @@ namespace SmartDigitalPsico.Service.CacheManager
 
             return true;
         }
-
+         
         private bool checkCacheIsValid<T>(KeyValuePair<bool, T> resultDisk, string cacheKey) where T : class, new()
         {
             if (resultDisk.Value != null)
@@ -194,7 +196,8 @@ namespace SmartDigitalPsico.Service.CacheManager
                     var valorExpiracao = getPropValue(resultDisk.Value, "DateTimeSlidingExpiration");
                     DateTime dataExpiracao;
 
-                    bool temData = DateTime.TryParse(valorExpiracao.ToString(), out dataExpiracao);
+                    bool temData = DateTime.TryParseExact(valorExpiracao.ToString(), "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dataExpiracao);
+
                     if (temData && dataExpiracao != DateTime.MinValue && DateTime.Now >= dataExpiracao)
                     {
                         _diskCacheRepository.RemoveAsync(cacheKey).GetAwaiter().GetResult();
@@ -215,22 +218,14 @@ namespace SmartDigitalPsico.Service.CacheManager
             return property?.GetValue(source);
         }
 
-        private string getCacheKey<T>(string? cacheKey)
+        private static string getCacheKey<T>(string? cacheKey)
         {
             if (string.IsNullOrEmpty(cacheKey))
             {
                 cacheKey = $"{typeof(T)}";
             }
             return cacheKey;
-        }
-        private ETypeLocationCache getTypeCache()
-        {
-            ETypeLocationCache typeCache = _cacheConfig.TypeCache;
-
-            return typeCache;
-        }
-
-
+        } 
         #endregion
     }
 }

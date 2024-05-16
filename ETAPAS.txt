@@ -329,9 +329,123 @@ docker run -it --rm  leonecr/smartdigitalpsicoapi:latest /bin/bash
 
 
 
-EM C# ajuste o codigo para o erro mencionado pelo sonarcloud "'System.Exception' should not be thrown by user code." seja resolvido 
+EM C# ajuste o codigo para o erro mencionado pelo sonarcloud "Update this implementation of 'ISerializable' to conform to the recommended serialization pattern. Make the serialization constructor 'protected'." should not be thrown by user code." seja resolvido 
+using System.Runtime.Serialization;
 
-if (dataArray[i] != fileStream.ReadByte())
+namespace SmartDigitalPsico.Domain.Helpers
 {
-throw new Exception("Error writing data.");
+    [Serializable]
+    public class AppWarningException : Exception
+    {
+        protected AppWarningException()
+        {
+        }
+
+        public AppWarningException(string? message) : base(message)
+        {
+        }
+
+        public AppWarningException(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
+        public AppWarningException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
 }
+
+
+
+Gere para mim um readme para git hub que tenha todas as secoes possiveis para documentar uma API rest full em C# .NET core 8 e usando docker sendo publicado no azure e com as pipelines e releases via azure devops 
+crie a secao Badges de build e de releases gere tudo em markdown. 
+
+Segue um breve resumo: 
+Nome do sistema : SmartDigitalPsico
+
+Descricao breve: Atendimento Inteligente Digital De Pacientes de Psicologia
+
+Objetivo: Sistema de cadastro de prontuário de paciente de psicologia.
+
+
+https://blog.rocketseat.com.br/como-fazer-um-bom-readme/
+
+
+https://github.com/tgmarinho/README-ecoleta/blob/master/README.md
+
+
+https://gist.github.com/reginadiana/e044fe93ed81aa04a10361cb841c0409
+
+
+
+
+
+
+
+
+
+
+
+
+# SmartDigitalPsico
+
+!Build Status
+!Release Status
+
+## Descrição
+
+Atendimento Inteligente Digital De Pacientes de Psicologia. Sistema de cadastro de prontuário de paciente de psicologia.
+
+## Índice
+
+- Instalação
+- Uso
+- Documentação da API
+- Testes
+- Deploy
+- Contribuição
+
+## Instalação
+
+Este projeto usa .NET Core 8 e Docker. Instruções para instalar:
+
+```bash
+# clone o repositório
+git clone https://github.com/seuusuario/SmartDigitalPsico.git
+
+# navegue até o diretório do projeto
+cd SmartDigitalPsico
+
+# construa a imagem Docker
+docker build -t smartdigitalpsico .
+
+# execute o contêiner Docker
+docker run -p 8080:80 smartdigitalpsico
+
+
+--- IA  
+https://www.codium.ai/?gad_source=1&gclid=Cj0KCQjw3ZayBhDRARIsAPWzx8opfHMeBxKDpv0RxPJXdrNvnNoWmVN5OnaMjXYm17OAvoVwSvd3yL8aAoiYEALw_wcB
+
+
+
+Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Change the 'ReadAsync' method call to use the 'Stream.ReadAsync(Memory<byte>, CancellationToken)' overload"
+Trecho:  
+await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
+
+Codigo: 
+   public async Task<byte[]?> Get(FileData fileCriteria)
+  {
+      byte[]? result = null;
+      string pathFile = String.IsNullOrEmpty(fileCriteria.FilePath) ? string.Empty : fileCriteria.FilePath;
+
+      string fileInfo = Path.Combine(pathFile, fileCriteria.FileName);
+
+      if (File.Exists(fileInfo))
+      {
+          using (FileStream SourceStream = File.Open(fileInfo, FileMode.Open))
+          {
+              result = new byte[SourceStream.Length];
+              await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
+          }
+      }
+      return result;
+  }
