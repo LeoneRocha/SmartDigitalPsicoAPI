@@ -327,3 +327,11 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/certificate.pfx"
 
 docker run -it --rm  leonecr/smartdigitalpsicoapi:latest /bin/bash
 
+
+
+EM C# ajuste o codigo para o erro mencionado pelo sonarcloud "'System.Exception' should not be thrown by user code." seja resolvido 
+
+if (dataArray[i] != fileStream.ReadByte())
+{
+throw new Exception("Error writing data.");
+}

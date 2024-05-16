@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
-    public class CultureDateTimeHelper
+    public static class CultureDateTimeHelper
     {   
         private static List<CultureInfo> getCulturesEnable()
         {
