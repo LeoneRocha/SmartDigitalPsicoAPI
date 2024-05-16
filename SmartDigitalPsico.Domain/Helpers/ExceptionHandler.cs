@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
-    public static class HandleException
+    public static class ExceptionHandler
     {
         public static List<ErrorResponse> GerateListErrorResponse(Exception ex)
         {

@@ -157,8 +157,8 @@ namespace SmartDigitalPsico.Service.Principals
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Errors = Domain.Helpers.HandleException.GerateListErrorResponse(ex);
-                response.Message = Domain.Helpers.HandleException.GetMessage(ex);
+                response.Errors = Domain.Helpers.ExceptionHandler.GerateListErrorResponse(ex);
+                response.Message = Domain.Helpers.ExceptionHandler.GetMessage(ex);
             }
 
             return response;
