@@ -62,6 +62,18 @@ Tabela de conteúdos
 
 ---
 
+## ⚙️ Links de acesso (Frontend e Backend)
+
+### Produção:  
+   - [Backend](https://smartdigitalpsicoapi.azurewebsites.net) 
+   - [Frontend](https://smartdigitalpsicoui.azurewebsites.net) 
+
+### Homologação:  
+   - [Backend](https://smartdigitalpsicoapi-staging.azurewebsites.net) 
+   - [Frontend](https://smartdigitalpsicoui-staging.azurewebsites.net) 
+
+---
+
 ## ⚙️ Build Status e 🚀 Deploy Status
 
 ### Backend (API) :  
@@ -93,18 +105,6 @@ Tabela de conteúdos
 - [Quality Gate - SonarCloud](https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico)
 - [Vulnerabilities Gate - Snyk](https://app.snyk.io/org/leonerocha/projects?groupBy=targets&before&after&searchQuery=&sortBy=highest+severity&filters[Show]=&filters[Integrations]=&filters[CollectionIds]=)
  
----
-
-## ⚙️ Links de acesso (Frontend e Backend)
-
-### Produção:  
-   - [Backend](https://smartdigitalpsicoapi.azurewebsites.net) 
-   - [Frontend](https://smartdigitalpsicoui.azurewebsites.net) 
-
-### Homologação:  
-   - [Backend](https://smartdigitalpsicoapi-staging.azurewebsites.net) 
-   - [Frontend](https://smartdigitalpsicoui-staging.azurewebsites.net) 
-
 ---
    
 ##  ⚙️ Pré-requisitos
