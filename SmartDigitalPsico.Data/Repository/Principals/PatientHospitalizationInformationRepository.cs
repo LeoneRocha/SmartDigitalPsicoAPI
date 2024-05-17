@@ -14,19 +14,20 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             return await dataset
                 .AsNoTracking()
-                .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .Include(e => e.Patient) 
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User) 
                 .Include(e => e.CreatedUser)
-                .Where(x => x.Patient.Id == patientId).ToListAsync();
+                .Where(x => x.Patient != null && x.Patient.Id == patientId).ToListAsync();
+
         }
          
         public async override Task<PatientHospitalizationInformation> FindByID(long id)
         {
             return await dataset 
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
         }
@@ -35,8 +36,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return await dataset
                 .AsNoTracking()
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
                 .ToListAsync();
         }
