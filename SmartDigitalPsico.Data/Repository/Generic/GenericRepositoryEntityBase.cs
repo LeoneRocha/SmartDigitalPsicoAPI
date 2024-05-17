@@ -48,14 +48,13 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
                 _context.Entry(result).CurrentValues.SetValues(item);
                 await _context.SaveChangesAsync();
-                return result;
-
             }
             else
             {
-                return result;
+                throw new InvalidOperationException("Register not found");
             }
-        }
+            return result;
+        } 
 
         public virtual async Task<bool> Delete(long id)
         {

@@ -130,7 +130,7 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 await _repositoryFileDisk.Save(new FileData()
                 {
-                    FolderDestination = folderDest,
+                    FolderDestination = folderDest ?? string.Empty,
                     FileData = fileDataSave,
                     FileName = fileData.FileName,
                     FilePath = pathSave,
@@ -143,8 +143,8 @@ namespace SmartDigitalPsico.Service.Principals
 
         private async Task<byte[]> getFromDisk(PatientFile fileEntity)
         {
-            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = DataHelper.GetDateTimeNow() });
+            var result = await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = DataHelper.GetDateTimeNow() });
+            return result ?? Array.Empty<byte>();
         }
-
     }
 }

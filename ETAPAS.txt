@@ -425,27 +425,20 @@ docker run -p 8080:80 smartdigitalpsico
 --- IA  
 https://www.codium.ai/?gad_source=1&gclid=Cj0KCQjw3ZayBhDRARIsAPWzx8opfHMeBxKDpv0RxPJXdrNvnNoWmVN5OnaMjXYm17OAvoVwSvd3yL8aAoiYEALw_wcB
 
+ <NoWarn>$(NoWarn);S1192</NoWarn>
+ 
+   <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable> 
+  </PropertyGroup>
 
-
-Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Change the 'ReadAsync' method call to use the 'Stream.ReadAsync(Memory<byte>, CancellationToken)' overload"
+Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Possible null reference return."
 Trecho:  
-await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
-
+      return property?.GetValue(source);
 Codigo: 
-   public async Task<byte[]?> Get(FileData fileCriteria)
-  {
-      byte[]? result = null;
-      string pathFile = String.IsNullOrEmpty(fileCriteria.FilePath) ? string.Empty : fileCriteria.FilePath;
-
-      string fileInfo = Path.Combine(pathFile, fileCriteria.FileName);
-
-      if (File.Exists(fileInfo))
-      {
-          using (FileStream SourceStream = File.Open(fileInfo, FileMode.Open))
-          {
-              result = new byte[SourceStream.Length];
-              await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
-          }
-      }
-      return result;
-  }
+ private static object getPropValue(object source, string propertyName)
+ {
+     var property = source.GetType().GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
+     return property?.GetValue(source);
+ }

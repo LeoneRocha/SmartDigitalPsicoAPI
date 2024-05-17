@@ -86,7 +86,7 @@ namespace SmartDigitalPsico.Service.CacheManager
         }
         public bool TryGet<T>(string? cacheKey, out T value) where T : class, new()
         {
-            T _valueResult = new();
+            T _valueResult = new T();
 
             bool result = false;
             try
@@ -113,15 +113,16 @@ namespace SmartDigitalPsico.Service.CacheManager
                     default:
                         break;
                 }
-                value = _valueResult;
+                value = _valueResult ?? new T();
             }
             catch (Exception)
             {
-                value = _valueResult;
+                value = _valueResult ?? new T();
                 return result;
             }
             return result;
         }
+
 
         public bool IsEnable()
         {
@@ -163,28 +164,39 @@ namespace SmartDigitalPsico.Service.CacheManager
         #region PRIVATES
         private bool processCacheRepositoryDisk<T>(string cacheKey, T? value)
         {
-            _diskCacheRepository.SetAsync(cacheKey, value).GetAwaiter().GetResult();
-
-            DateTime dateTimeSlidingExpiration;
-            string dateTimeStr = getPropValue(value, "DateTimeSlidingExpiration").ToString();
-            DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeSlidingExpiration);
-
-            string _cacheId = getPropValue(value, "CacheId").ToString();
-            var addLogCache = new ApplicationCacheLog()
+            if (!EqualityComparer<T>.Default.Equals(value, default))
             {
-                CacheKey = cacheKey,
-                CacheId = _cacheId,
-                CreatedDate = DataHelper.GetDateTimeNow(),
-                ModifyDate = DataHelper.GetDateTimeNow(),
-                LastAccessDate = DataHelper.GetDateTimeNow(),
-                DateTimeSlidingExpiration = dateTimeSlidingExpiration,
-                Enable = true
-            };
-            _applicationCacheLogRepository.Create(addLogCache).GetAwaiter().GetResult();
+                var result = _diskCacheRepository.SetAsync(cacheKey, value).GetAwaiter().GetResult();
 
-            return true;
+                if (result)
+                {
+                    var dateTimeObj = getPropValue(value ?? new object(), "DateTimeSlidingExpiration");
+
+                    string? dateTimeStr = dateTimeObj != null ? dateTimeObj.ToString() : string.Empty;
+
+                    var cacheIdObj = getPropValue(value ?? new object(), "CacheId");
+                    string? _cacheId = cacheIdObj != null ? cacheIdObj.ToString() : string.Empty;
+
+                    DateTime dateTimeSlidingExpiration;
+                    DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeSlidingExpiration);
+
+                    var addLogCache = new ApplicationCacheLog()
+                    {
+                        CacheKey = cacheKey,
+                        CacheId = _cacheId ?? string.Empty,
+                        CreatedDate = DataHelper.GetDateTimeNow(),
+                        ModifyDate = DataHelper.GetDateTimeNow(),
+                        LastAccessDate = DataHelper.GetDateTimeNow(),
+                        DateTimeSlidingExpiration = dateTimeSlidingExpiration,
+                        Enable = true
+                    };
+                    _applicationCacheLogRepository.Create(addLogCache).GetAwaiter().GetResult();
+                }
+                return true;
+            }
+            return false;
         }
-         
+
         private bool checkCacheIsValid<T>(KeyValuePair<bool, T> resultDisk, string cacheKey) where T : class, new()
         {
             if (resultDisk.Value != null)
@@ -215,7 +227,7 @@ namespace SmartDigitalPsico.Service.CacheManager
         private static object getPropValue(object source, string propertyName)
         {
             var property = source.GetType().GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
-            return property?.GetValue(source);
+            return property?.GetValue(source) ?? new object();
         }
 
         private static string getCacheKey<T>(string? cacheKey)
@@ -225,7 +237,7 @@ namespace SmartDigitalPsico.Service.CacheManager
                 cacheKey = $"{typeof(T)}";
             }
             return cacheKey;
-        } 
+        }
         #endregion
     }
 }

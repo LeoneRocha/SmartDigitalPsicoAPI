@@ -161,7 +161,7 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 await _repositoryFileDisk.Save(new FileData()
                 {
-                    FolderDestination = folderDest,
+                    FolderDestination = folderDest ?? string.Empty,
                     FileData = fileDataSave,
                     FileName = fileData.FileName,
                     FilePath = pathSave,
