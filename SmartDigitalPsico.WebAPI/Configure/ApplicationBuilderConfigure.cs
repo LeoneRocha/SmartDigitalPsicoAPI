@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -83,13 +82,10 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
         private static void addGetAppConfig(IServiceCollection services, TokenConfiguration tokenConfigurations)
         {
+            services.Configure<CacheConfigurationVO>(ConfigurationAppSettingsHelper.GetCacheConfiguration(_configuration));
+            services.Configure<AuthConfigurationVO>(ConfigurationAppSettingsHelper.GetAuthConfiguration(_configuration));
 
-            services.Configure<CacheConfigurationVO>(_configuration.GetSection("CacheConfiguration"));
-
-            services.Configure<AuthConfigurationVO>(_configuration.GetSection("AuthConfiguration"));
-
-
-            new ConfigureFromConfigurationOptions<TokenConfiguration>(_configuration.GetSection("TokenConfigurations"))
+            new ConfigureFromConfigurationOptions<TokenConfiguration>(ConfigurationAppSettingsHelper.GetTokenConfigurations(_configuration))
                 .Configure(tokenConfigurations);
             services.AddSingleton(tokenConfigurations);
         }
@@ -138,7 +134,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             switch (etypeDataBase)
             {
                 case ETypeDataBase.Mysql:
-                    connection = _configuration.GetConnectionString("SmartDigitalPsicoDBConnectionMySQL");
+                    connection = ConfigurationAppSettingsHelper.GetConnectionStringMySQL(_configuration);
                     services.AddDbContext<SmartDigitalPsicoDataContext>(optionsBuilder =>
                     optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection)
                     , optionsMySQL =>
@@ -149,7 +145,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     );
                     break;
                 case ETypeDataBase.MSsqlServer:
-                    connection = _configuration.GetConnectionString("SmartDigitalPsicoDBConnectionSQLServer");
+                    connection = ConfigurationAppSettingsHelper.GetConnectionStringSQL(_configuration);  
                     services.AddDbContext<SmartDigitalPsicoDataContext>(optionsBuilder => optionsBuilder.UseSqlServer(connection,
                         optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data")));
                     break;

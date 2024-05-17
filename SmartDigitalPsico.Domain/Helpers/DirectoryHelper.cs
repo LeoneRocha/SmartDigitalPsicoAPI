@@ -6,9 +6,9 @@ namespace SmartDigitalPsico.Domain.Helpers
     {
         public static string GetDiretoryTemp(IConfiguration configuration)
         {
-            string? resourcesTemp = configuration["AppSettings:ResourcesTemp"] ?? string.Empty;
+            string resourcesTemp = ConfigurationAppSettingsHelper.GetAppSettingsResourcesTemp(configuration);
             return GetDiretory(resourcesTemp);
-        } 
+        }
 
         public static string GetDiretory(string pathCreate)
         {
