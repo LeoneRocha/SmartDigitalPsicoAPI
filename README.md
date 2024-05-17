@@ -4,7 +4,7 @@
 </h1>
 
 <h3 align="center">
-    💚 Atendimento Inteligente Digital De Pacientes de Psicologia. 
+    💚 Atendimento Inteligente Digital De Pacientes de Psicologia. 🩺
 </h3>
  
 <p align="center"> 
@@ -38,11 +38,11 @@ Tabela de conteúdos
 
 ## 💻 Sobre o projeto
 
-🏥 Atendimento Inteligente Digital De Pacientes de Psicologia. Sistema de cadastro de prontuário de paciente de psicologia.
+🏥 Atendimento Inteligente Digital De Pacientes de Psicologia. Sistema de cadastro de prontuário de paciente de psicologia. 🩺
 
 ---
 
-## ⚙️ Funcionalidades
+## 🧰 Funcionalidades
 
 - Cadastros de Perfil administrativo:
   - [x] Cadastro de Codnigurações gerais do sistema
@@ -64,7 +64,7 @@ Tabela de conteúdos
 
 ---
 
-## ⚙️ Links de acesso (Frontend e Backend)
+## 🔗 Links de acesso (Frontend e Backend)
 
 ### Produção:  
    - [Backend](https://smartdigitalpsicoapi.azurewebsites.net) 
@@ -95,7 +95,7 @@ Tabela de conteúdos
 | Produção | [![Build status](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_apis/build/status/Production/CI-Production-SMARTDIGITALPSICO-UI)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build/latest?definitionId=30)| - |-|[![Release status](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/11/11)](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/11/11)|
    
 ---
-## ⚙️ Links do Projeto
+## 🔗 Links do Projeto
  
 - [Repositorio - Git Hub ](https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer) 
 - [DevOps](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO) 
@@ -109,7 +109,7 @@ Tabela de conteúdos
  
 ---
    
-##  ⚙️ Pré-requisitos
+##  📝 Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/). 
@@ -159,7 +159,7 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 - Visual Studio 2022
 - Visual Studio Code
 
-## 🚀 Documentação API
+## 📘 Documentação API
 
 <br />
 
@@ -169,7 +169,7 @@ https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
 
 ---
 
-## 🚀 Como executar o projeto
+## ▶️ Como executar o projeto
 
 Este projeto é divido em duas partes:
 1. Backend  
@@ -184,12 +184,11 @@ Este projeto é divido em duas partes:
 # Clone este repositório
 $ git clone git@github.com:tgmarinho/README-ecoleta.git
 
- 
+```
 
 #### 🧭 Rodando a aplicação web (Frontend)
 
 ```bash
-
 # Clone este repositório
 $ git clone git@github.com:tgmarinho/README-ecoleta.git
 
@@ -198,7 +197,7 @@ $ git clone git@github.com:tgmarinho/README-ecoleta.git
 ```
 
 ## 🦸 Autor
-
+<br />
 <a href="https://www.linkedin.com/in/leone-costa-rocha-14049722">
  <b>Leone Costa Rocha</b></a>
  <br />
@@ -210,11 +209,11 @@ $ git clone git@github.com:tgmarinho/README-ecoleta.git
 
 ---
 
-## 📝 Contribuindo
+## 💹 Contribuindo
 Contribuições são sempre bem-vindas. Se você deseja contribuir com o projeto, por favor, abra uma Issue ou um Pull Request.
 
 ---
-## 📝 Como contribuir
+## 💰 Como contribuir
 
 Faça um fork do repositório
 Crie uma branch para a sua feature: git checkout -b minha-feature
@@ -224,7 +223,7 @@ Abra um Pull Request
 
 ---
 
-## 📝 Licença
+## 🔑 Licença
 
 Este projeto esta sobe a licença [MIT](./LICENSE).
 
