@@ -16,13 +16,13 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .AsNoTracking()
                 .AnyAsync(x => x.Accreditation.ToLower().Equals(accreditation.ToLower()));
         }
-        public async override Task<Medical?> FindByID(long id)
+        public async override Task<Medical> FindByID(long id)
         {
             return await dataset 
                 .Include(e => e.Office) 
                 .Include(e => e.MedicalSpecialties)
                 .ThenInclude(ms => ms.Specialty)
-                .FirstOrDefaultAsync(p => p.Id.Equals(id));
+                .FirstAsync(p => p.Id.Equals(id));
         }
         public async override Task<List<Medical>> FindAll()
         {

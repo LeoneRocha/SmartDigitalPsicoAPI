@@ -44,20 +44,30 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
         }
         private async Task<bool> PatientIdFound(PatientAdditionalInformation entity)
         {
-            var entityFind = await _patientRepository.FindByID(entity.PatientId);
-            if (entityFind == null)
+            try
+            {
+                await _patientRepository.FindExistsByID(entity.PatientId);
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
-            }
-            return true;
+            } 
         }
         private async Task<bool> PatientIdChanged(PatientAdditionalInformation entity)
         {
-            var entityBefore = await _entityRepository.FindByID(entity.Id);
-            if (entityBefore != null && entityBefore.PatientId != entity.PatientId)
+            try
             {
-                return false;
+                var entityBefore = await _entityRepository.FindByID(entity.Id);
+                if (entityBefore.PatientId != entity.PatientId)
+                {
+                    return false;
+                } 
             }
+            catch (Exception)
+            { 
+                return false;
+            } 
             return true;
         }
     }

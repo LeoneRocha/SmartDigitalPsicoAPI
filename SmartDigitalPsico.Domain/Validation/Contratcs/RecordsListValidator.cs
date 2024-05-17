@@ -18,25 +18,30 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
 
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission");  
+                .WithMessage("ErrorValidator_User_Not_Permission");
         }
 
         protected virtual async Task<bool> HasPermissionAsync(RecordsList<T> recordsList, long userIdLogged, CancellationToken cancellationToken)
         {
-            bool userHasPermission = false;
-            User? userLogged = await this._userRepository.FindByID(userIdLogged);
-            if (recordsList.Records.Count == 0 || userLogged == null) { return false; }
+            try
+            {
+                User userLogged = await this._userRepository.FindByID(userIdLogged);
+                if (recordsList.Records.Count == 0 || userLogged == null) { return false; }
 
-            userHasPermission = recordsList.Records.TrueForAll(rg =>
-            rg.CreatedUser?.Id == userIdLogged 
-            || userLogged.Admin 
-            ); 
-
-            return userHasPermission;
+                bool userHasPermission = recordsList.Records.TrueForAll(rg =>
+                rg.CreatedUser?.Id == userIdLogged
+                || userLogged.Admin
+                );
+                return userHasPermission;
+            }
+            catch (Exception)
+            { 
+                return false;
+            }  
         }
         public List<ErrorResponse> GetMapErros(List<ValidationFailure> errors)
         {
-            return errors.DistinctBy(d=> d.PropertyName).Select(er => new ErrorResponse() { ErrorCode = er.ErrorCode, Message = er.ErrorMessage, Name = er.PropertyName }).ToList();
+            return errors.DistinctBy(d => d.PropertyName).Select(er => new ErrorResponse() { ErrorCode = er.ErrorCode, Message = er.ErrorMessage, Name = er.PropertyName }).ToList();
         }
     }
 }

@@ -369,22 +369,18 @@ Objetivo: Sistema de cadastro de prontuário de paciente de psicologia.
 
 https://blog.rocketseat.com.br/como-fazer-um-bom-readme/
 
-
 https://github.com/tgmarinho/README-ecoleta/blob/master/README.md
-
 
 https://gist.github.com/reginadiana/e044fe93ed81aa04a10361cb841c0409
 
+https://github.com/mauricioromagnollo/ecoleta
 
+https://github.com/Ileriayo/markdown-badges
 
+https://github.com/alexandresanlim/Badges4-README.md-Profile?tab=readme-ov-file#-analytics-
 
-
-
-
-
-
-
-
+https://gist.github.com/rxaviers/7360908
+https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#objects
 
 # SmartDigitalPsico
 
@@ -433,12 +429,23 @@ https://www.codium.ai/?gad_source=1&gclid=Cj0KCQjw3ZayBhDRARIsAPWzx8opfHMeBxKDpv
     <Nullable>enable</Nullable> 
   </PropertyGroup>
 
-Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Possible null reference return."
+
+
+Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Non-nullable property  must contain a non-null value when exiting constructor. Consider declaring the property as nullable."
 Trecho:  
-      return property?.GetValue(source);
+    public User LoggedInUser { get; set; }
+
 Codigo: 
- private static object getPropValue(object source, string propertyName)
- {
-     var property = source.GetType().GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
-     return property?.GetValue(source);
- }
+   public class RecordsList<T>
+  {
+      public long UserIdLogged { get; set; }
+      public User LoggedInUser { get; set; }
+      public List<T> Records { get; set; }
+  }
+
+  public class Record<T>
+  {
+      public long UserIdLogged { get; set; }
+      public User LoggedInUser { get; set; }
+      public T RecordEntity { get; set; }
+  }

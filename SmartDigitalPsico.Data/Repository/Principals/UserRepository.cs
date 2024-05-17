@@ -35,14 +35,14 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return false;
         }
 
-        public async override Task<User?> FindByID(long id)
+        public async override Task<User> FindByID(long id)
         {
             return await dataset
                  .Include(e => e.UserRoleGroups)
                  .ThenInclude(e => e.RoleGroup)
                 .Include(e => e.Medical)
                 .Include(e => e.Medical.Office)
-                .FirstOrDefaultAsync(p => p.Id.Equals(id));
+                .FirstAsync(p => p.Id.Equals(id));
         }
 
         public async override Task<List<User>> FindAll()

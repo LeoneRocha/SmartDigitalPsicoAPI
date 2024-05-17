@@ -17,18 +17,23 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
         }
         protected override async Task<bool> HasPermissionAsync(RecordsList<PatientAdditionalInformation> recordsList, long userIdLogged, CancellationToken cancellationToken)
         {
-            bool userHasPermission = false;
-            User? userLogged = await base._userRepository.FindByID(userIdLogged);
+            try
+            {
+                User userLogged = await base._userRepository.FindByID(userIdLogged);
 
-            if (recordsList.Records.Count == 0 || userLogged == null) { return false; }
+                if (recordsList.Records.Count == 0) { return false; }
 
-            userHasPermission = recordsList.Records.TrueForAll(rg =>
-            (
-            rg.CreatedUser?.Id == userIdLogged
-            && userLogged.MedicalId == rg.Patient.MedicalId) 
-            );
-
-            return userHasPermission;
+                bool userHasPermission = recordsList.Records.TrueForAll(rg =>
+                (
+                rg.CreatedUser?.Id == userIdLogged
+                && userLogged.MedicalId == rg.Patient.MedicalId)
+                ); 
+                return userHasPermission;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
 
