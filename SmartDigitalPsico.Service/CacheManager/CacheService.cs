@@ -166,13 +166,13 @@ namespace SmartDigitalPsico.Service.CacheManager
         {
             _diskCacheRepository.SetAsync(cacheKey, value).GetAwaiter().GetResult();
 
-            DateTime dateTimeSlidingExpiration = DateTime.MinValue;
             if (value != null)
             {
 
                 var dateTimeObj = getPropValue(value, "DateTimeSlidingExpiration");
 
                 string? dateTimeStr = dateTimeObj != null ? dateTimeObj.ToString() : string.Empty;
+                DateTime dateTimeSlidingExpiration;
                 DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeSlidingExpiration);
 
                 var cacheIdObj = getPropValue(value, "CacheId");
