@@ -66,7 +66,7 @@ namespace SmartDigitalPsico.Service.Principals
                     entityResponse.MedicalSpecialties.Add(new MedicalSpecialty { Medical = entityAdd, Specialty = specialty });
                 }
                 entityResponse = await _entityRepository.Update(entityResponse);
-                entityResponse = await _entityRepository.FindByID(entityResponse.Id) ?? entityResponse;
+                entityResponse = await _entityRepository.FindByID(entityResponse.Id);
 
                 response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>

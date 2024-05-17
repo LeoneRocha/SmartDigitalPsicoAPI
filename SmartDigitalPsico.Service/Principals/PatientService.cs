@@ -69,8 +69,7 @@ namespace SmartDigitalPsico.Service.Principals
         }
 
         public override async Task<ServiceResponse<GetPatientVO>> Update(UpdatePatientVO item)
-        {
-
+        { 
             ServiceResponse<GetPatientVO> response = new ServiceResponse<GetPatientVO>();
             Patient? entityUpdate = await _entityRepository.FindByID(item.Id);
             if (entityUpdate != null)

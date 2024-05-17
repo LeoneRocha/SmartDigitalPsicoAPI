@@ -7,59 +7,74 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
     public class UserValidator : AbstractValidator<User>
     {
         private readonly IUserRepository _entityRepository;
-         
+
         public UserValidator(IUserRepository entityRepository)
         {
             _entityRepository = entityRepository;
 
             RuleFor(entity => entity.Name)
-                .NotNull().NotEmpty() 
+                .NotNull().NotEmpty()
                 .WithMessage("ErrorValidator_Name_Null");
 
             RuleFor(entity => entity.Login)
-                .NotNull().NotEmpty() 
+                .NotNull().NotEmpty()
                 .WithMessage("ErrorValidator_Login_Null")
                 .MaximumLength(25)
                 .WithMessage("O Login não pode ultrapassar {MaxLength} carateres.")
-                .MustAsync(async (entity, value, c) => await UniqueLogin(entity, value)) 
+                .MustAsync(async (entity, value, c) => await UniqueLogin(entity, value))
                .WithMessage("ErrorValidator_Login_Unique");
 
             RuleFor(entity => entity.Email)
-               .NotNull().NotEmpty() 
+               .NotNull().NotEmpty()
                .WithMessage("ErrorValidator_Email_Null")
-               .EmailAddress() 
+               .EmailAddress()
                .WithMessage("ErrorValidator_Email_Invalid")
                .MaximumLength(100)
                .WithMessage("O Email não pode ultrapassar {MaxLength} carateres.")
-               .MustAsync(async (entity, value, c) => await UniqueEmail(entity, value)) 
+               .MustAsync(async (entity, value, c) => await UniqueEmail(entity, value))
                .WithMessage("ErrorValidator_Email_Unique");
 
         }
         private async Task<bool> UniqueEmail(User entity, string value)
         {
-            var userActual = await _entityRepository.FindByID(entity.Id);
-            bool newUser = userActual == null; 
-            var user = await _entityRepository.FindByEmail(value);
-            if (newUser && user == null || user?.Id == 0)
+            try
             {
-                return true;
-            } 
-            bool changingEmail = userActual != null && userActual.Email != value;
-            if (!changingEmail)
+                var userActual = await _entityRepository.FindByID(entity.Id);
+                bool newUser = userActual == null;
+                var user = await _entityRepository.FindByEmail(value);
+                if (newUser && user == null || user?.Id == 0)
+                {
+                    return true;
+                }
+                bool changingEmail = userActual != null && userActual.Email != value;
+                if (!changingEmail)
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
             {
-                return true;
-            } 
+                return false;
+            }
+
             return false;
         }
         private async Task<bool> UniqueLogin(User entity, string value)
         {
-            var userActual = await _entityRepository.FindByID(entity.Id);
-            bool newUser = userActual == null; 
-            var user = await _entityRepository.FindByLogin(value);
-            if (newUser && user == null || user?.Id == 0)
+            User? userActual = null; 
+            try
             {
-                return true;
-            } 
+                userActual = await _entityRepository.FindByID(entity.Id);
+            }
+            catch (Exception)
+            {
+                bool newUser = userActual == null;
+                User? user = await _entityRepository.FindByLogin(value);
+                if (newUser && user == null || user?.Id == 0)
+                {
+                    return true;
+                }
+            }  
             bool changingEmail = userActual != null && userActual.Login != value;
             if (!changingEmail)
             {

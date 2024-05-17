@@ -190,7 +190,7 @@ namespace SmartDigitalPsico.Service.Principals
                     entityResponse.UserRoleGroups.Add(new RoleGroupUser { User = entityResponse, RoleGroup = rg });
                 }
                 entityResponse = await _userRepository.Update(entityResponse);
-                entityResponse = await _userRepository.FindByID(entityResponse.Id) ?? entityResponse;
+                entityResponse = await _userRepository.FindByID(entityResponse.Id);
 
 
                 response.Data = _mapper.Map<GetUserVO>(entityResponse);
@@ -280,8 +280,7 @@ namespace SmartDigitalPsico.Service.Principals
                 {
                     var user = await _userRepository.FindByID(idUser);
 
-                    if (user == null ||
-                        user.RefreshToken != refreshToken ||
+                    if (user.RefreshToken != refreshToken ||
                         user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNow()) return new TokenVO();
 
                     accessToken = _tokenService.GenerateAccessToken(principal.Claims);

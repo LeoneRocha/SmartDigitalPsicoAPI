@@ -161,7 +161,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 if (entity?.Id > 0)
                 {
                     var entityBefore = await _entityRepository.FindByID(value);
-                    if (entityBefore != null && entityBefore.MedicalId != entity.MedicalId)
+                    if (entityBefore.MedicalId != entity.MedicalId)
                     {
                         return false;
                     }
@@ -183,7 +183,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 {
                     long idUser = entity.CreatedUserId.GetValueOrDefault();
                     var medical = await _medicalRepository.FindByID(value);
-                    if ((medical.UserId != null && medical.UserId != idUser))
+                    if ((medical.UserId != idUser))
                     {
                         return false;
                     }
@@ -204,7 +204,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 {
                     long idUser = entity.ModifyUserId.GetValueOrDefault();
                     var medical = await _medicalRepository.FindByID(value);
-                    if ((medical.UserId != null && medical.UserId != idUser))
+                    if ((medical.UserId != idUser))
                     {
                         return false;
                     }
