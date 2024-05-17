@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 var content = await sr.ReadToEndAsync();
                 return content;
             }
-        } 
+        }
 
         public static async Task<string> GetFileByRequest(HttpRequest request, string folderNameDestination)
         {
@@ -31,7 +31,13 @@ namespace SmartDigitalPsico.Domain.Helpers
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderNameDestination);
             if (file.Length > 0)
             {
-                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+                var fileName = contentDisposition.FileName;
+                if (fileName == null)
+                {
+                    throw new ArgumentNullException(nameof(fileName), "FileName cannot be null.");
+                }
+                fileName = fileName.Trim('"');
                 var fullPath = Path.Combine(pathToSave, fileName);
                 var dbPath = Path.Combine(folderNameDestination, fileName);
 
@@ -40,11 +46,11 @@ namespace SmartDigitalPsico.Domain.Helpers
                     await file.CopyToAsync(stream);
                 }
                 return dbPath;
-
             }
 
             return string.Empty;
-        } 
+        }
+
         public static string GetFileFromBase64String(string dataStringBase64)
         {
             if (!string.IsNullOrEmpty(dataStringBase64) && dataStringBase64.Length > 0)
@@ -99,13 +105,13 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static string GetContentType(string filePath)
         {
             var provider = new FileExtensionContentTypeProvider();
-            string contentType;
+            string? contentType;
             if (!provider.TryGetContentType(filePath, out contentType))
             {
                 contentType = "application/octet-stream";
             }
             return contentType;
-        }
+        } 
 
         public static string GetFilePath(string folderOrigin, string fileName)
         {

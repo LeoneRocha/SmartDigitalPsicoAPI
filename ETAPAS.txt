@@ -100,6 +100,10 @@ secretKey = Convert.ToBase64String(key);
 //Migrar o idimas da tabela para arquivo JSON.
 
 
+
+Add-Migration UpdateConfig_01 -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+
+
 --------- Para ativar o gatilho do github basta ativar a extensao do azure pipelines 
 --GERAR A IMAGEM E SUBIR NO DOCKER
 docker-compose build --force-rm
@@ -431,21 +435,9 @@ https://www.codium.ai/?gad_source=1&gclid=Cj0KCQjw3ZayBhDRARIsAPWzx8opfHMeBxKDpv
 
 
 
-Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Non-nullable property  must contain a non-null value when exiting constructor. Consider declaring the property as nullable."
-Trecho:  
-    public User LoggedInUser { get; set; }
-
-Codigo: 
-   public class RecordsList<T>
-  {
-      public long UserIdLogged { get; set; }
-      public User LoggedInUser { get; set; }
-      public List<T> Records { get; set; }
-  }
-
-  public class Record<T>
-  {
-      public long UserIdLogged { get; set; }
-      public User LoggedInUser { get; set; }
-      public T RecordEntity { get; set; }
-  }
+Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Dereference of a possibly null reference."
+  
+Trecho:   
+ 
+Codigo:  
+ 

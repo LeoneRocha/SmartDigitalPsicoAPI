@@ -5,10 +5,11 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     public class User : EntityBaseWithNameEmail
     {
         public User()
-        { 
+        {  
             MedicalsCreateds = new List<Medical>();
             MedicalModifies = new List<Medical>();
             MedicalsUsers = new List<Medical>();
+            UserRoleGroups = new List<RoleGroupUser>();
         }
         #region Columns 
         public string Login { get; set; } = string.Empty;
