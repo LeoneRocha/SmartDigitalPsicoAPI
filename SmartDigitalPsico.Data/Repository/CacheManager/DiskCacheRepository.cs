@@ -106,16 +106,20 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
                     string contentString = Encoding.UTF8.GetString(fileCacheByte, 0, fileCacheByte.Length);
 
                     T? resultCache = JsonSerializer.Deserialize<T>(contentString);
-                    result = true;
-                    return new KeyValuePair<bool, T>(result, resultCache);
+                    if (!EqualityComparer<T>.Default.Equals(resultCache, default))
+                    {
+                        result = true;
+                        return new KeyValuePair<bool, T>(result, resultCache ?? new());
+                    }
                 }
             }
             return new KeyValuePair<bool, T>(result, new());
         }
 
+
         private static string getPathSaveCache(string pathCache)
         {
-            string pathToSaveCache; 
+            string pathToSaveCache;
             // Verifica se o caminho é absoluto
             if (Path.IsPathFullyQualified(pathCache))
             {
@@ -125,18 +129,18 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             {
                 pathCache = pathCache.Replace(".", "");
                 string currentDir = Directory.GetCurrentDirectory();
-                string[] dirs = pathCache.Split('/'); 
+                string[] dirs = pathCache.Split('/');
                 pathToSaveCache = Path.Combine(currentDir, dirs[0]);
                 for (int i = 1; i < dirs.Length; i++)
                 {
                     pathToSaveCache = Path.Combine(pathToSaveCache, dirs[i]);
                 }
-            } 
+            }
             // Verifica se o diretório existe, se não, cria o diretório
             if (!Directory.Exists(pathToSaveCache))
             {
                 Directory.CreateDirectory(pathToSaveCache);
-            } 
+            }
             return pathToSaveCache;
         }
     }

@@ -36,19 +36,30 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
 
 
-        public static AppInformationVersionProduct? GetInformationVersionProduct()
+        public static AppInformationVersionProduct GetInformationVersionProduct()
         {
             var assembly = Assembly.GetEntryAssembly();
+            var appDTO = new AppInformationVersionProduct() { Name = "Unknown", Version = "Unknown", EnvironmentName = "Unknown" };
+
             if (assembly != null)
             {
                 var assemblyApp = assembly.GetName();
+                if (assemblyApp != null)
+                {
+                    var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Undefined";
+                    var nameApp = assemblyApp.Name ?? "Undefined";
+                    var version = "Undefined";
+                    if (assemblyApp.Version != null)
+                        version = assemblyApp.Version.ToString();
 
-                var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-                return new AppInformationVersionProduct() { Name = assemblyApp.Name, Version = assemblyApp.Version?.ToString(), EnvironmentName = envName };
+                    appDTO.Name = nameApp;
+                    appDTO.Version = version;
+                    appDTO.EnvironmentName = envName;
+                }
             }
-            return null;
+            return appDTO;
         }
+
 
         public static string ShowInformationVersionProduct()
         {
@@ -72,7 +83,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static void PrintLogInformationVersionProduct(Serilog.ILogger logger)
         {
             logger.Information("******* PRODUCT INFORMATION *******");
-            var assemblyApp = GetInformationVersionProduct(); 
+            var assemblyApp = GetInformationVersionProduct();
             if (assemblyApp != null)
             {
                 logger.Information("Name: {Name} - Version: {Version} - {envName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
@@ -90,7 +101,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             if (!string.IsNullOrEmpty(envVal))
             {
                 Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", envVal);
-            } 
+            }
         }
     }
 }
