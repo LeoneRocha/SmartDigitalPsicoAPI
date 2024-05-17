@@ -162,42 +162,40 @@ namespace SmartDigitalPsico.Service.CacheManager
 
 
         #region PRIVATES
-        private bool processCacheRepositoryDisk<T>(string cacheKey, T? value) where T : class
+        private bool processCacheRepositoryDisk<T>(string cacheKey, T? value)
         {
-            _diskCacheRepository.SetAsync(cacheKey, value).GetAwaiter().GetResult();
-
             if (!EqualityComparer<T>.Default.Equals(value, default))
             {
+                var result = _diskCacheRepository.SetAsync(cacheKey, value).GetAwaiter().GetResult();
 
-                var dateTimeObj = getPropValue(value, "DateTimeSlidingExpiration");
-
-                string? dateTimeStr = dateTimeObj != null ? dateTimeObj.ToString() : string.Empty;
-            
-
-                var cacheIdObj = getPropValue(value, "CacheId");
-                string? _cacheId = cacheIdObj != null ? cacheIdObj.ToString() : string.Empty;
-                
-                DateTime dateTimeSlidingExpiration;
-                DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeSlidingExpiration);
-
-                var addLogCache = new ApplicationCacheLog()
+                if (result)
                 {
-                    CacheKey = cacheKey,
-                    CacheId = _cacheId ?? string.Empty,
-                    CreatedDate = DataHelper.GetDateTimeNow(),
-                    ModifyDate = DataHelper.GetDateTimeNow(),
-                    LastAccessDate = DataHelper.GetDateTimeNow(),
-                    DateTimeSlidingExpiration = dateTimeSlidingExpiration,
-                    Enable = true
-                };
-                _applicationCacheLogRepository.Create(addLogCache).GetAwaiter().GetResult();
+                    var dateTimeObj = getPropValue(value ?? new object(), "DateTimeSlidingExpiration");
 
+                    string? dateTimeStr = dateTimeObj != null ? dateTimeObj.ToString() : string.Empty;
+
+                    var cacheIdObj = getPropValue(value ?? new object(), "CacheId");
+                    string? _cacheId = cacheIdObj != null ? cacheIdObj.ToString() : string.Empty;
+
+                    DateTime dateTimeSlidingExpiration;
+                    DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeSlidingExpiration);
+
+                    var addLogCache = new ApplicationCacheLog()
+                    {
+                        CacheKey = cacheKey,
+                        CacheId = _cacheId ?? string.Empty,
+                        CreatedDate = DataHelper.GetDateTimeNow(),
+                        ModifyDate = DataHelper.GetDateTimeNow(),
+                        LastAccessDate = DataHelper.GetDateTimeNow(),
+                        DateTimeSlidingExpiration = dateTimeSlidingExpiration,
+                        Enable = true
+                    };
+                    _applicationCacheLogRepository.Create(addLogCache).GetAwaiter().GetResult();
+                }
                 return true;
             }
             return false;
         }
-
-
 
         private bool checkCacheIsValid<T>(KeyValuePair<bool, T> resultDisk, string cacheKey) where T : class, new()
         {
@@ -230,7 +228,7 @@ namespace SmartDigitalPsico.Service.CacheManager
         {
             var property = source.GetType().GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
             return property?.GetValue(source) ?? new object();
-        } 
+        }
 
         private static string getCacheKey<T>(string? cacheKey)
         {
