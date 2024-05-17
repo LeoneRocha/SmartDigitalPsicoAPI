@@ -162,21 +162,24 @@ namespace SmartDigitalPsico.Service.CacheManager
 
 
         #region PRIVATES
-        private bool processCacheRepositoryDisk<T>(string cacheKey, T? value)
+        private bool processCacheRepositoryDisk<T>(string cacheKey, T? value) where T : class
         {
             _diskCacheRepository.SetAsync(cacheKey, value).GetAwaiter().GetResult();
 
-            if (value != null)
+            if (!EqualityComparer<T>.Default.Equals(value, default))
             {
 
                 var dateTimeObj = getPropValue(value, "DateTimeSlidingExpiration");
 
                 string? dateTimeStr = dateTimeObj != null ? dateTimeObj.ToString() : string.Empty;
-                DateTime dateTimeSlidingExpiration;
-                DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeSlidingExpiration);
+            
 
                 var cacheIdObj = getPropValue(value, "CacheId");
                 string? _cacheId = cacheIdObj != null ? cacheIdObj.ToString() : string.Empty;
+                
+                DateTime dateTimeSlidingExpiration;
+                DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeSlidingExpiration);
+
                 var addLogCache = new ApplicationCacheLog()
                 {
                     CacheKey = cacheKey,
@@ -193,6 +196,7 @@ namespace SmartDigitalPsico.Service.CacheManager
             }
             return false;
         }
+
 
 
         private bool checkCacheIsValid<T>(KeyValuePair<bool, T> resultDisk, string cacheKey) where T : class, new()
