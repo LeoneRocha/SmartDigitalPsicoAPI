@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         #endregion Columns 
 
         #region Relationship  
-        public Medical Medical { get; set; }
+        public Medical? Medical { get; set; }
         public long MedicalId { get; set; }
         public Patient? Patient { get; set; }
         public long? PatientId { get; set; }

@@ -383,14 +383,17 @@ namespace SmartDigitalPsico.Service.Principals
 
             foreach (var item in entityResponse.UserRoleGroups.Select(x => x.RoleGroup))
             {
-                result.Add(new GetRoleGroupVO()
+                if (item != null)
                 {
-                    RolePolicyClaimCode = item.RolePolicyClaimCode,
-                    Description = item.Description,
-                    Id = item.Id,
-                    Enable = item.Enable,
-                    Language = item.Language,
-                });
+                    result.Add(new GetRoleGroupVO()
+                    {
+                        RolePolicyClaimCode = item.RolePolicyClaimCode,
+                        Description = item.Description,
+                        Id = item.Id,
+                        Enable = item.Enable,
+                        Language = item.Language,
+                    });
+                }
             }
             return result;
         }

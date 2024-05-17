@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         #endregion Columns 
 
         #region Relationship   
-        public Patient Patient { get; set; }
+        public Patient? Patient { get; set; }
         public long PatientId { get; set; }
         public User? CreatedUser { get; set; }
         public User? ModifyUser { get; set; }

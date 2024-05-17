@@ -71,8 +71,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             }
             catch (Exception)
             {
-
-                throw;
+                return false;
             }
            
             return true;
