@@ -121,8 +121,11 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
         }
         private async Task<bool> MedicalIdFound(Patient entity)
         {
-            var entityFind = await _medicalRepository.FindByID(entity.MedicalId);
-            if (entityFind == null)
+            try
+            {
+                await _medicalRepository.FindExistsByID(entity.MedicalId);
+            }
+            catch (Exception)
             {
                 return false;
             }
@@ -131,14 +134,21 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 
         private async Task<bool> UniqueEmail(Patient entity, string value)
         {
-            var entityActual = await _entityRepository.FindByID(entity.Id);
-            bool isNewEnity = entityActual == null;
-            var existingEnity = await _entityRepository.FindByEmail(value);
-            if (isNewEnity && existingEnity != null)
+            try
             {
-                return false;
-            } 
-            if (entityActual != null && entityActual.Email != value)
+                var entityActual = await _entityRepository.FindByID(entity.Id);
+                bool isNewEnity = entityActual == null;
+                var existingEnity = await _entityRepository.FindByEmail(value);
+                if (isNewEnity && existingEnity != null)
+                {
+                    return false;
+                }
+                if (entityActual != null && entityActual.Email != value)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
             {
                 return false;
             }
@@ -146,42 +156,65 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
         }
         private async Task<bool> MedicalChanged(Patient entity, long value)
         {
-            if (entity?.Id > 0)
+            try
             {
-                var entityBefore = await _entityRepository.FindByID(value);
-                if (entityBefore != null && entityBefore.MedicalId != entity.MedicalId)
+                if (entity?.Id > 0)
                 {
-                    return false;
+                    var entityBefore = await _entityRepository.FindByID(value);
+                    if (entityBefore.MedicalId != entity.MedicalId)
+                    {
+                        return false;
+                    }
                 }
             }
+            catch (Exception)
+            {
+                return false;
+            }
+
             return true;
         }
 
         private async Task<bool> MedicalCreated(Patient entity, long value)
         {
-            if (entity?.Id == 0)
+            try
             {
-                long idUser = entity.CreatedUserId.GetValueOrDefault();
-                var medical = await _medicalRepository.FindByID(value);
-                if (medical == null || (medical.UserId != null && medical.UserId != idUser))
+                if (entity?.Id == 0)
                 {
-                    return false;
+                    long idUser = entity.CreatedUserId.GetValueOrDefault();
+                    var medical = await _medicalRepository.FindByID(value);
+                    if ((medical.UserId != idUser))
+                    {
+                        return false;
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                return false;
             }
             return true;
         }
 
         private async Task<bool> MedicalModify(Patient entity, long value)
         {
-            if (entity?.Id > 0)
+            try
             {
-                long idUser = entity.ModifyUserId.GetValueOrDefault();
-                var medical = await _medicalRepository.FindByID(value);
-                if (medical == null || (medical.UserId != null && medical.UserId != idUser))
+                if (entity?.Id > 0)
                 {
-                    return false;
+                    long idUser = entity.ModifyUserId.GetValueOrDefault();
+                    var medical = await _medicalRepository.FindByID(value);
+                    if ((medical.UserId != idUser))
+                    {
+                        return false;
+                    }
                 }
             }
+            catch (Exception)
+            {
+                return false;
+            }
+
             return true;
         }
 

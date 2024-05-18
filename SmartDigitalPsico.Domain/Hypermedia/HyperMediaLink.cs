@@ -4,9 +4,9 @@ namespace SmartDigitalPsico.Domain.Hypermedia
 {
     public class HyperMediaLink
     {
-        public string Rel { get; set; }
+        public string Rel { get; set; } = string.Empty;
 
-        private string href;
+        private string href = string.Empty; 
         public string Href
         {
             get
@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Domain.Hypermedia
                 href = value;
             }
         }
-        public string Type { get; set; }
-        public string Method { get; set; }
+        public string Type { get; set; } = string.Empty;
+        public string Method { get; set; } = string.Empty;
     }
 }

@@ -86,7 +86,7 @@ namespace SmartDigitalPsico.Service.CacheManager
         }
         public bool TryGet<T>(string? cacheKey, out T value) where T : class, new()
         {
-            T _valueResult = new T();
+            T? _valueResult = new T();
 
             bool result = false;
             try

@@ -34,14 +34,14 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 
         #region Relationship  
 
-        public Medical Medical { get; set; }
+        public Medical? Medical { get; set; }
         public long MedicalId { get; set; }
 
         public User? CreatedUser { get; set; }
         public long? CreatedUserId { get; set; }
         public User? ModifyUser { get; set; }
         public long? ModifyUserId { get; set; }
-        public Gender Gender { get; set; }
+        public Gender? Gender { get; set; }
         public long GenderId { get; set; }
 
         public ICollection<PatientInfoTag> PatientInfoTags { get; set; }

@@ -6,7 +6,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     public class PatientFile : FileBase, IEntityBaseLogUser
     { 
         #region Relationship 
-        public Patient Patient { get; set; }  
+        public Patient? Patient { get; set; }  
         public long PatientId { get; set; }
         public User? CreatedUser { get; set; }
         public User? ModifyUser { get; set; }

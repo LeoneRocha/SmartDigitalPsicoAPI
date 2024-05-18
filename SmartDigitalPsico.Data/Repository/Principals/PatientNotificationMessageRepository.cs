@@ -9,37 +9,42 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     public class PatientNotificationMessageRepository : GenericRepositoryEntityBase<PatientNotificationMessage>, IPatientNotificationMessageRepository
     {
         public PatientNotificationMessageRepository(SmartDigitalPsicoDataContext context) : base(context) { }
-         
+
         public async Task<List<PatientNotificationMessage>> FindAllByPatient(long patientId)
         {
+#pragma warning disable CS8602
             return await dataset
                 .AsNoTracking()
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
-                .Where(x => x.Patient.Id == patientId).ToListAsync();
+                .Where(x => x.Patient != null && x.Patient.Id == patientId).ToListAsync();
+#pragma warning restore CS8602
         }
 
-
-        public async override Task<PatientNotificationMessage?> FindByID(long id)
+#pragma warning disable CS8602
+        public async override Task<PatientNotificationMessage> FindByID(long id)
         {
-            return await dataset 
+            return await dataset
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
-                .FirstOrDefaultAsync(p => p.Id.Equals(id));
+                .FirstAsync(p => p.Id.Equals(id));
+#pragma warning restore CS8602
         }
         public async override Task<List<PatientNotificationMessage>> FindAll()
         {
+#pragma warning disable CS8602
             return await dataset
                 .AsNoTracking()
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
                 .ToListAsync();
+#pragma warning restore CS8602
         }
 
     }

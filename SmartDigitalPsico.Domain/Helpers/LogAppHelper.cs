@@ -97,7 +97,7 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static void Set_ASPNETCORE_ENVIRONMENT(IConfiguration configuration)
         {
-            string? envVal = configuration["APP_ENVIRONMENT"];
+            string envVal = ConfigurationAppSettingsHelper.GetValueStringConfiguration(configuration, "APP_ENVIRONMENT");
             if (!string.IsNullOrEmpty(envVal))
             {
                 Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", envVal);

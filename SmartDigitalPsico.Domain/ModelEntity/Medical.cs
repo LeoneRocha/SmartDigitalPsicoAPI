@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 
         #region Relationship 
         public long OfficeId { get; set; }
-        public Office Office { get; set; }
+        public Office? Office { get; set; }
         public User? User { get; set; }
         public long? UserId { get; set; }
         public User? CreatedUser { get; set; }

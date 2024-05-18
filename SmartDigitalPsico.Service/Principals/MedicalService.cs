@@ -66,7 +66,7 @@ namespace SmartDigitalPsico.Service.Principals
                     entityResponse.MedicalSpecialties.Add(new MedicalSpecialty { Medical = entityAdd, Specialty = specialty });
                 }
                 entityResponse = await _entityRepository.Update(entityResponse);
-                entityResponse = await _entityRepository.FindByID(entityResponse.Id) ?? entityResponse;
+                entityResponse = await _entityRepository.FindByID(entityResponse.Id);
 
                 response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
@@ -159,13 +159,17 @@ namespace SmartDigitalPsico.Service.Principals
                     response.Data.Specialties = new List<GetSpecialtyVO>();
                     foreach (var item in entityResponse.MedicalSpecialties.Select(x => x.Specialty))
                     {
-                        response.Data.Specialties.Add(new GetSpecialtyVO()
+                        if (item != null)
                         {
-                            Description = item.Description,
-                            Id = item.Id,
-                            Enable = item.Enable,
-                            Language = item.Language,
-                        });
+                            response.Data.Specialties.Add(new GetSpecialtyVO()
+                            {
+                                Description = item.Description,
+                                Id = item.Id,
+                                Enable = item.Enable,
+                                Language = item.Language,
+                            });
+                        }
+
                     }
                 }
             }

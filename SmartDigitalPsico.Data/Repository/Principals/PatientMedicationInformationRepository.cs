@@ -12,33 +12,39 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<List<PatientMedicationInformation>> FindAllByPatient(long patientId)
         {
+#pragma warning disable CS8602
             return await dataset
                 .AsNoTracking()
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
-                .Where(x => x.Patient.Id == patientId).ToListAsync();
+                .Where(x => x.Patient != null && x.Patient.Id == patientId).ToListAsync();
+#pragma warning restore CS8602
         }
 
-        public async override Task<PatientMedicationInformation?> FindByID(long id)
+        public async override Task<PatientMedicationInformation> FindByID(long id)
         {
-            return await dataset 
+#pragma warning disable CS8602
+            return await dataset
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
-                .FirstOrDefaultAsync(p => p.Id.Equals(id));
+                .FirstAsync(p => p.Id.Equals(id));
+#pragma warning restore CS8602
         }
         public async override Task<List<PatientMedicationInformation>> FindAll()
         {
+#pragma warning disable CS8602
             return await dataset
                 .AsNoTracking()
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
                 .ToListAsync();
+#pragma warning restore CS8602
         }
 
     }

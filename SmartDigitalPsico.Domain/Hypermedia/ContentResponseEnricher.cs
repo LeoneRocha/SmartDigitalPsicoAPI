@@ -24,8 +24,12 @@ namespace SmartDigitalPsico.Domain.Hypermedia
         {
             if (context.Result is OkObjectResult okObjectResult)
             {
-                var objValidate = okObjectResult.Value.GetType();
+                if (okObjectResult.Value == null)
+                {
+                    throw new ArgumentNullException(nameof(okObjectResult.Value), "Value cannot be null.");
+                }
 
+                var objValidate = okObjectResult.Value.GetType();
                 return CanEnrich(objValidate);
             }
             return false;
@@ -78,10 +82,13 @@ namespace SmartDigitalPsico.Domain.Hypermedia
                 }
                 else if (okObjectResult.Value is PagedSearchVO<T> pagedSearch)
                 {
-                    Parallel.ForEach(pagedSearch.List.ToList(), (element) =>
+                    if (pagedSearch.List != null)
                     {
-                        EnrichModel(element, urlHelper);
-                    });
+                        Parallel.ForEach(pagedSearch.List.ToList(), (element) =>
+                        {
+                            EnrichModel(element, urlHelper);
+                        });
+                    }
                 }
             }
             await Task.FromResult<object>(new { });
