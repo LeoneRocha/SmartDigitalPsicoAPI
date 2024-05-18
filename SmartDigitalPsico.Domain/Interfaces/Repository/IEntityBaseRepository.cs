@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
     public interface IEntityBaseRepository<T> where T : IEntityBase
     {
         Task<T> Create(T item);
-        Task<T?> FindByID(long id);
+        Task<T> FindByID(long id);
         Task<List<T>> FindAll();
         Task<T> Update(T item);
         Task<bool> Delete(long id);
@@ -17,5 +17,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
         Task<List<T>> FindByCustomWhere(Expression<Func<T, bool>> predicate);
 
         Task<List<T>> FindByCustomWhereWithIncludes(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
+
+        Task FindExistsByID(long id);
     }
 }

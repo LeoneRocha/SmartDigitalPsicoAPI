@@ -23,13 +23,17 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
 
         protected virtual async Task<bool> HasPermissionAsync(Record<T> enittyRecord, long userIdLogged, CancellationToken cancellationToken)
         {
-            bool userHasPermission = false;
-            User? userLogged = await _userRepository.FindByID(userIdLogged);
-            if (userLogged != null)
+            try
             {
+                bool userHasPermission = false;
+                User userLogged = await _userRepository.FindByID(userIdLogged);
                 userHasPermission = enittyRecord.RecordEntity.CreatedUser?.Id == userIdLogged || userLogged.Admin;
+                return userHasPermission;
             }
-            return userHasPermission;
+            catch (Exception)
+            {
+                return false;
+            }
         }
         public List<ErrorResponse> GetMapErros(List<ValidationFailure> errors)
         {

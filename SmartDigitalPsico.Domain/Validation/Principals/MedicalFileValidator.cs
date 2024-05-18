@@ -49,8 +49,11 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         }
         private async Task<bool> MedicalIdFound(MedicalFile entity)
         {
-            var entityFind = await _medicalRepository.FindByID(entity.MedicalId);
-            if (entityFind == null)
+            try
+            {
+                await _medicalRepository.FindExistsByID(entity.MedicalId);
+            }
+            catch (Exception)
             {
                 return false;
             }
@@ -59,8 +62,15 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
         private async Task<bool> MedicalChanged(MedicalFile entity, long value)
         {
-            var entityBefore = await _entityRepository.FindByID(value);
-            if (entityBefore != null && entityBefore.MedicalId != entity.MedicalId)
+            try
+            {
+                var entityBefore = await _entityRepository.FindByID(value);
+                if (entityBefore.MedicalId != entity.MedicalId)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
             {
                 return false;
             }
@@ -69,21 +79,34 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
         private async Task<bool> MedicalCreated(MedicalFile entity, long value)
         {
-            long idUser = entity.CreatedUserId.GetValueOrDefault();
-            var medical = await _medicalRepository.FindByID(value);
-            if (medical == null || medical.UserId != idUser)
+            try
+            {
+                long idUser = entity.CreatedUserId.GetValueOrDefault();
+                var medical = await _medicalRepository.FindByID(value);
+                if (medical.UserId != idUser)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
             {
                 return false;
-            }
+            } 
             return true;
         }
 
         private async Task<bool> MedicalModify(MedicalFile entity, long value)
         {
-            long idUser = entity.ModifyUserId.GetValueOrDefault();
-
-            var medical = await _medicalRepository.FindByID(value);
-            if (medical == null || medical.UserId != idUser)
+            try
+            {
+                long idUser = entity.ModifyUserId.GetValueOrDefault();
+                var medical = await _medicalRepository.FindByID(value);
+                if (medical.UserId != idUser)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
             {
                 return false;
             }

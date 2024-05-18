@@ -52,37 +52,52 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
         private async Task<bool> IsUniqueAccreditation(Medical entity, string value)
         {
-            var entityActual = await _entityRepository.FindByID(entity.Id);
-            bool isNewEnity = entityActual == null;
+            try
+            {
+                var entityActual = await _entityRepository.FindByID(entity.Id);
+                bool isNewEnity = entityActual == null;
 
-            var existingEnity = await _entityRepository.FindByAccreditation(value);
+                var existingEnity = await _entityRepository.FindByAccreditation(value);
 
-            if (isNewEnity && existingEnity != null)
+                if (isNewEnity && existingEnity != null)
+                {
+                    return false;
+                }
+                bool changingProp = entityActual != null && entityActual.Accreditation != value;
+                if (changingProp)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
             {
                 return false;
             }
-            bool changingProp = entityActual != null && entityActual.Accreditation != value;
-            if (changingProp)
-            {
-                return false;
-            }
+           
             return true;
         }
 
         private async Task<bool> IsUniqueEmail(Medical entity, string value)
         {
-            var entityActual = await _entityRepository.FindByID(entity.Id);
-            bool isNewEnity = entityActual == null;
-            var existingEnity = await _entityRepository.FindByEmail(value);
-            if (isNewEnity && existingEnity != null)
+            try
+            {
+                var entityActual = await _entityRepository.FindByID(entity.Id);
+                bool isNewEnity = entityActual == null;
+                var existingEnity = await _entityRepository.FindByEmail(value);
+                if (isNewEnity && existingEnity != null)
+                {
+                    return false;
+                }
+                bool changingProp = entityActual != null && entityActual.Email != value;
+                if (changingProp)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
             {
                 return false;
-            }
-            bool changingProp = entityActual != null && entityActual.Email != value;
-            if (changingProp)
-            {
-                return false;
-            }
+            } 
             return true;
         }
     }

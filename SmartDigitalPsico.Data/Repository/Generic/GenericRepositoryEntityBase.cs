@@ -23,9 +23,9 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             return await dataset.AsNoTracking().ToListAsync();
         }
 
-        public virtual async Task<T?> FindByID(long id)
+        public virtual async Task<T> FindByID(long id)
         {
-            return await dataset.FirstOrDefaultAsync(p => p.Id.Equals(id));
+            return await dataset.FirstAsync(p => p.Id.Equals(id));
         }
 
         public virtual async Task<T> Create(T item)
@@ -54,7 +54,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
                 throw new InvalidOperationException("Register not found");
             }
             return result;
-        } 
+        }
 
         public virtual async Task<bool> Delete(long id)
         {
@@ -82,6 +82,11 @@ namespace SmartDigitalPsico.Data.Repository.Generic
         public virtual async Task<bool> Exists(long id)
         {
             return await dataset.AnyAsync(p => p.Id.Equals(id));
+        }
+
+        public virtual async Task FindExistsByID(long id)
+        {
+            await dataset.AsNoTracking().Select(x=> x.Id).FirstAsync(p => p.Equals(id));
         }
 
         public virtual async Task<List<T>> FindWithPagedSearch(string query)

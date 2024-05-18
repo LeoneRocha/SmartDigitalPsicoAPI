@@ -10,24 +10,28 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     {
         public PatientFileRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
-        public async override Task<PatientFile?> FindByID(long id)
+        public async override Task<PatientFile> FindByID(long id)
         {
+#pragma warning disable CS8602
             return await dataset 
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
-                .FirstOrDefaultAsync(p => p.Id.Equals(id));
+                .FirstAsync(p => p.Id.Equals(id));
+#pragma warning restore CS8602
         }
         public async override Task<List<PatientFile>> FindAll()
         {
+#pragma warning disable CS8602
             return await dataset
                 .AsNoTracking()
                 .Include(e => e.Patient)
-                .Include(e => e.Patient.Medical)
-                .Include(e => e.Patient.Medical.User)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
                 .ToListAsync();
+#pragma warning restore CS8602
         }
 
     }

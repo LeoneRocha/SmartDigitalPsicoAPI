@@ -6,6 +6,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
     {
         Task<List<Patient>> FindAllByMedicalId(long medicalId);
         Task<Patient?> FindByEmail(string email);
-        Task<Patient?> FindByPatient(Patient patient);
+        Task<Patient> FindByPatient(Patient patient);
     }
 }
