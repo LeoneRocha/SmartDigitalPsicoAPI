@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Data.Tests.Repository
 {
     [TestFixture]
     public class GenderRepositoryTests : BaseTests
-    { 
+    {
         private GenderRepository? _entityRepository;
 
         [SetUp]
@@ -25,10 +25,10 @@ namespace SmartDigitalPsico.Data.Tests.Repository
             var mockDataList = mockData.ToList();
             // Arrange
             _mockContext = new SmartDigitalPsicoDataContextTest();
-             
+
             _mockContext.Genders.AddRange(mockDataList);
-            _mockContext.SaveChanges();             
-        } 
+            _mockContext.SaveChanges();
+        }
 
         [Test]
         public async Task Create_Success()
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Data.Tests.Repository
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
             SetupContext(mockFull);
             var mockData = GenderMockHelper.GetMock().Take(1).AsQueryable().First();
-            var data = createEntity(mockData);
+            var data = createNewEntity(mockData);
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
 
             // Inicialize  Repository
@@ -46,7 +46,7 @@ namespace SmartDigitalPsico.Data.Tests.Repository
             // Act
             var result = await _entityRepository.Create(data);
 
-            var target = await _mockContext.Genders.FirstAsync(e => e.Id == data.Id);
+            var target = await _mockContext.Genders.FirstAsync(e => e.Description.Equals(data.Description, StringComparison.OrdinalIgnoreCase));
 
             //Assert  
             Assert.Multiple(() =>
@@ -60,7 +60,7 @@ namespace SmartDigitalPsico.Data.Tests.Repository
         public async Task Create_Success_With_Bogus()
         {
             // Arrange
-            var faker = new Faker<Gender>("pt_BR")  
+            var faker = new Faker<Gender>("pt_BR")
                 .RuleFor(g => g.Description, f => string.Join(" ", f.Lorem.Words(3))) // Gera uma frase com 7 palavras
                 .RuleFor(g => g.Language, f => f.Random.String2(10)); // Respeita o limite de 10 caracteres
 
@@ -84,15 +84,14 @@ namespace SmartDigitalPsico.Data.Tests.Repository
             });
         }
 
-
-        private Gender createEntity(Gender mockData)
+        private static Gender createNewEntity(Gender mockData)
         {
             return new Gender()
             {
                 Id = (long)int.MaxValue,
                 ModifyDate = mockData.ModifyDate,
                 CreatedDate = mockData.CreatedDate,
-                Description = mockData.Description,
+                Description = "New Gender",
                 Enable = mockData.Enable,
                 Language = mockData.Language,
                 LastAccessDate = mockData.LastAccessDate

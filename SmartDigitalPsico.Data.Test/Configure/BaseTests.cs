@@ -1,8 +1,7 @@
 ﻿using SmartDigitalPsico.Data.Tests.Context;
 
 namespace SmartDigitalPsico.Data.Test.Configure
-{
-    [TestFixture]
+{ 
     public class BaseTests
     {
         protected SmartDigitalPsicoDataContextTest? _mockContext;
