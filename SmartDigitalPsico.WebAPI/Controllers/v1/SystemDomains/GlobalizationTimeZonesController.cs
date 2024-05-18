@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {
-    [ApiController]  
+    [ApiController]
+    [Authorize("Bearer")]
     [Route("api/[controller]/v1")]
     public class GlobalizationTimeZonesController : ControllerBase
     {

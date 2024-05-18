@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 var fileName = contentDisposition.FileName;
                 if (fileName == null)
                 {
-                    throw new ArgumentNullException(nameof(fileName), "FileName cannot be null.");
+                    throw new AppWarningException("GetFileByRequest FileName cannot be null.");
                 }
                 fileName = fileName.Trim('"');
                 var fullPath = Path.Combine(pathToSave, fileName);
@@ -50,6 +50,7 @@ namespace SmartDigitalPsico.Domain.Helpers
 
             return string.Empty;
         }
+
 
         public static string GetFileFromBase64String(string dataStringBase64)
         {
