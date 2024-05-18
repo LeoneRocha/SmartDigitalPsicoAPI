@@ -21,8 +21,7 @@ using SmartDigitalPsico.Service.SystemDomains;
 namespace SmartDigitalPsico.WebAPI.Helper
 {
     public static class DependenciesInjectionConfigure
-    {
-
+    { 
         public static void AddDependenciesInjection(IServiceCollection Service)
         {
             addRepositories(Service);
@@ -34,6 +33,7 @@ namespace SmartDigitalPsico.WebAPI.Helper
         #region INTERFACES
         private static void addRepositories(IServiceCollection Service)
         {
+            Service.AddScoped<IFilePersistor, FilePersistor>();
             Service.AddScoped<IFileDiskRepository, FileDiskRepository>();
             Service.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
             Service.AddScoped<IDiskCacheRepository, DiskCacheRepository>();

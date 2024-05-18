@@ -435,19 +435,16 @@ https://www.codium.ai/?gad_source=1&gclid=Cj0KCQjw3ZayBhDRARIsAPWzx8opfHMeBxKDpv
 
 
 
-Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Non-nullable property 'FileDetails' must contain a non-null value when exiting constructor. Consider declaring the property as nullable."
+Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "The parameter name 'fileName' is not declared in the argument list."
   
 Trecho:   
- IFormFile FileDetails
+ throw new ArgumentNullException(nameof(fileName), "FileName cannot be null.");
+  
  
+ 
+Codigo:    
+ 
+ 
+ 
+Em C# refatore codigo abaixo para reduzir complexidade e seguir boas praticas de codigo limpo 
 Codigo:  
- public class AddMedicalFileVO : FileBaseVO, IEntityVOAdd
-{ 
-    #region Relationship 
-    [Required]
-    public long MedicalId { get; set; }
-    public IFormFile FileDetails { get; set; }
-
-
-    #endregion Relationship 
-}

@@ -37,14 +37,16 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async override Task<User> FindByID(long id)
         {
+#pragma warning disable CS8602
             return await dataset
                 .Include(e => e.UserRoleGroups)
                 .ThenInclude(e => e.RoleGroup)
                 .Include(e => e.Medical)
                 .ThenInclude(m => m.Office)  
                 .FirstAsync(p => p.Id.Equals(id));
+#pragma warning restore CS8602
         }
-          
+
         public async override Task<List<User>> FindAll()
         {
             return await dataset
@@ -72,7 +74,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             User? userResult = await dataset
                 .AsNoTracking()
-                 .Include(e => e.UserRoleGroups)
+                .Include(e => e.UserRoleGroups)
                 .ThenInclude(e => e.RoleGroup)
                 .FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
 

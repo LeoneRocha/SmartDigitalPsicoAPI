@@ -10,7 +10,6 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 using SmartDigitalPsico.Service.Generic;
@@ -19,25 +18,28 @@ using SmartDigitalPsico.Service.SystemDomains;
 namespace SmartDigitalPsico.Service.Principals
 {
     public class MedicalFileService : EntityBaseService<MedicalFile, AddMedicalFileVO, UpdateMedicalFileVO, GetMedicalFileVO, IMedicalFileRepository>, IMedicalFileService
-
     {
         private readonly IMapper _mapper;
-        private readonly IMedicalFileRepository _entityRepository;
-        private readonly IFileDiskRepository _repositoryFileDisk;
-        private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
         private readonly IConfiguration _configuration;
-
-        public MedicalFileService(IMapper mapper, IMedicalFileRepository entityRepository, IFileDiskRepository repositoryFileDisk
-            , IValidator<MedicalFile> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService
+        private readonly IMedicalFileRepository _entityRepository;
+        private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
+        private readonly IFilePersistor _filePersistor;
+        public MedicalFileService(IMapper mapper
+            , IConfiguration configuration
+            , IMedicalFileRepository entityRepository
+            , IValidator<MedicalFile> entityValidator
             , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO
-            , IConfiguration configuration)
+            , ICacheService cacheService
+            , IApplicationLanguageRepository applicationLanguageRepository
+            , IFilePersistor filePersistor
+            )
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
-            _entityRepository = entityRepository;
-            _repositoryFileDisk = repositoryFileDisk;
-            _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
             _configuration = configuration;
+            _entityRepository = entityRepository;
+            _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
+            _filePersistor = filePersistor;
         }
         public override async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAll()
         {
@@ -109,7 +111,7 @@ namespace SmartDigitalPsico.Service.Principals
                 response.Success = true;
                 if (response.Success)
                 {
-                    entityAdd.FilePath = await persistFile(entity, fileData, entityAdd);
+                    entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, entity.MedicalId.ToString());
                     MedicalFile entityResponse = await _entityRepository.Create(entityAdd);
                     if (response.Data != null)
                         response.Data.Id = entityResponse.Id;
@@ -121,60 +123,15 @@ namespace SmartDigitalPsico.Service.Principals
 
         public async Task<GetMedicalFileVO> DownloadFileById(long fileId)
         {
-            var fileEntity = await _entityRepository.FindByID(fileId);
+            MedicalFile? fileEntity = await _entityRepository.FindByID(fileId);
 
+            var resultData = await _filePersistor.DownloadFileById(fileEntity) as MedicalFile;
+            if (resultData != null)
+            {
+                fileEntity.FileData = resultData.FileData;
+            }
             GetMedicalFileVO resultVO = _mapper.Map<GetMedicalFileVO>(fileEntity);
-
-            if (fileEntity != null)
-            {
-                if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.DataBase && fileEntity.TypeLocationSaveFile == ETypeLocationSaveFiles.DataBase)
-                {
-                    await FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
-                }
-
-                if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.Disk && fileEntity.TypeLocationSaveFile == ETypeLocationSaveFiles.Disk)
-                {
-                    fileEntity.FileData = await getFromDisk(fileEntity);
-
-                    await FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
-                }
-            }
             return resultVO;
-        }
-
-        private async Task<string> persistFile(AddMedicalFileVO entity, IFormFile fileData, MedicalFile entityAdd)
-        {
-            ///MUDAR PARA BUSCAR NA TABELAS DE CONFIGURACOES  
-            string pathDomainBussines = Path.Combine(Directory.GetCurrentDirectory(), "ResourcesFileSave");
-            string? folderDest = Path.Combine(pathDomainBussines, entity.MedicalId.ToString());
-            var pathSave = Path.Combine(folderDest, fileData.FileName);
-
-            byte[] fileDataSave = await FileHelper.GetByteDataFromIFormFile(fileData);
-
-            if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.DataBase)
-            {
-                entityAdd.FileData = fileDataSave;
-                entityAdd.TypeLocationSaveFile = ETypeLocationSaveFiles.DataBase;
-                folderDest = null;
-            }
-            if (_locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.Disk)
-            {
-                await _repositoryFileDisk.Save(new FileData()
-                {
-                    FolderDestination = folderDest ?? string.Empty,
-                    FileData = fileDataSave,
-                    FileName = fileData.FileName,
-                    FilePath = pathSave,
-                    CreatedDate = DataHelper.GetDateTimeNow()
-                });
-                entityAdd.TypeLocationSaveFile = ETypeLocationSaveFiles.Disk;
-            }
-            return folderDest ?? string.Empty;
-        }
-
-        private async Task<byte[]> getFromDisk(MedicalFile fileEntity)
-        {
-            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = DataHelper.GetDateTimeNow() }) ?? [];
         }
     }
 }
