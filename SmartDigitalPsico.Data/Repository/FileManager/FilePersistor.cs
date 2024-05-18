@@ -60,7 +60,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
 
 
         }
-        private void SaveToDatabase(FileBase entityAdd, byte[] fileDataSave)
+        private static void SaveToDatabase(FileBase entityAdd, byte[] fileDataSave)
         {
             entityAdd.FileData = fileDataSave;
             entityAdd.TypeLocationSaveFile = ETypeLocationSaveFiles.DataBase;
@@ -91,7 +91,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                         fileEntity.FileData = await GetFromDisk(fileEntity);
                         await FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
                         break;
-                } 
+                }
             }
             return fileEntity;
         }

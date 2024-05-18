@@ -2,15 +2,12 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
@@ -21,14 +18,12 @@ namespace SmartDigitalPsico.Service.Principals
     {
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        private readonly IMedicalFileRepository _entityRepository;
-        private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
+        private readonly IMedicalFileRepository _entityRepository; 
         private readonly IFilePersistor _filePersistor;
         public MedicalFileService(IMapper mapper
             , IConfiguration configuration
             , IMedicalFileRepository entityRepository
-            , IValidator<MedicalFile> entityValidator
-            , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO
+            , IValidator<MedicalFile> entityValidator 
             , ICacheService cacheService
             , IApplicationLanguageRepository applicationLanguageRepository
             , IFilePersistor filePersistor
@@ -37,8 +32,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             _mapper = mapper;
             _configuration = configuration;
-            _entityRepository = entityRepository;
-            _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
+            _entityRepository = entityRepository; 
             _filePersistor = filePersistor;
         }
         public override async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAll()

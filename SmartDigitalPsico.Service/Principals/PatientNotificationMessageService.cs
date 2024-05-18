@@ -72,10 +72,10 @@ namespace SmartDigitalPsico.Service.Principals
             entityUpdate.MessagePatient = item.Message;
 
             entityUpdate.IsReaded = item.IsReaded;
-            entityUpdate.ReadingDate = item.IsReaded ? DateTime.Now : null;
+            entityUpdate.ReadingDate = item.IsReaded ? DataHelper.GetDateTimeNow() : null;
 
             entityUpdate.Notified = item.Notified;
-            entityUpdate.NotifiedDate = item.Notified ? DateTime.Now : null;
+            entityUpdate.NotifiedDate = item.Notified ? DataHelper.GetDateTimeNow() : null;
 
             #endregion Columns
 
@@ -117,6 +117,6 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
-        }  
+        }
     }
 }

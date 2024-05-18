@@ -3,14 +3,12 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
 using SmartDigitalPsico.Service.Generic;
 
@@ -20,14 +18,12 @@ namespace SmartDigitalPsico.Service.Principals
 
     {
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration; 
-        private readonly IPatientFileRepository _entityRepository;        
-        private readonly LocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
+        private readonly IPatientFileRepository _entityRepository;
         private readonly IFilePersistor _filePersistor;
         private readonly IPatientRepository _patientRepository;
-         
+
         public PatientFileService(IMapper mapper
-            , IConfiguration configuration            
+            , IConfiguration configuration
             , ICacheService cacheService
             , IApplicationLanguageRepository applicationLanguageRepository
             , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO
@@ -38,9 +34,7 @@ namespace SmartDigitalPsico.Service.Principals
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
-            _configuration = configuration;
-            _entityRepository = entityRepository; 
-            _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO.Value;
+            _entityRepository = entityRepository;
             _filePersistor = filePersistor;
             _patientRepository = patientRepository;
         }
@@ -85,7 +79,7 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.CreatedUserId = this.UserId;
                 if (response.Success)
                 {
-                    entityAdd.FilePath = await _filePersistor.PersistFile(  fileData, entityAdd, $"{patient.MedicalId}_{entity.PatientId}" );
+                    entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, $"{patient.MedicalId}_{entity.PatientId}");
                     PatientFile entityResponse = await _entityRepository.Create(entityAdd);
                     if (response.Data != null)
                         response.Data.Id = entityResponse.Id;
@@ -105,8 +99,8 @@ namespace SmartDigitalPsico.Service.Principals
                 fileEntity.FileData = resultData.FileData;
             }
             GetPatientFileVO resultVO = _mapper.Map<GetPatientFileVO>(fileEntity);
-            
+
             return resultVO;
-        } 
+        }
     }
 }
