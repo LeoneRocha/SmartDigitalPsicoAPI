@@ -4,8 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SmartDigitalPsico.Domain.VO.Medical.MedicalFile
 {
-    public class AddMedicalFileVOService : IEntityVOAdd 
+    public class AddMedicalFileVOService : IEntityVOAdd
     {
+        public AddMedicalFileVOService()
+        {
+            FileDetails = new FormFile(Stream.Null, 0, 0, string.Empty, string.Empty);
+        }
         #region Relationship 
         [Required]
         public long MedicalId { get; set; }

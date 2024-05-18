@@ -101,7 +101,7 @@ secretKey = Convert.ToBase64String(key);
 
 
 
-Add-Migration UpdateConfig_02 -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+Add-Migration UpdateConfig_03 -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
 
 
 --------- Para ativar o gatilho do github basta ativar a extensao do azure pipelines 
@@ -435,9 +435,19 @@ https://www.codium.ai/?gad_source=1&gclid=Cj0KCQjw3ZayBhDRARIsAPWzx8opfHMeBxKDpv
 
 
 
-Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Dereference of a possibly null reference."
+Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "Non-nullable property 'FileDetails' must contain a non-null value when exiting constructor. Consider declaring the property as nullable."
   
 Trecho:   
+ IFormFile FileDetails
  
 Codigo:  
- 
+ public class AddMedicalFileVO : FileBaseVO, IEntityVOAdd
+{ 
+    #region Relationship 
+    [Required]
+    public long MedicalId { get; set; }
+    public IFormFile FileDetails { get; set; }
+
+
+    #endregion Relationship 
+}

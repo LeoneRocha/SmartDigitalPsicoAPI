@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
         private readonly IPatientRepository _patientRepository;
 
         public PatientFileValidator(IPatientFileRepository entityRepository,
-            IPatientRepository patientRepository, IMedicalRepository medicalRepository, IUserRepository userRepository)
+            IPatientRepository patientRepository)
         {
             _entityRepository = entityRepository;
             _patientRepository = patientRepository;
@@ -89,7 +89,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             try
             {
                 var patient = await _patientRepository.FindByID(entity.PatientId);
-                if (patient.Medical.UserId != idUser)
+                if (patient.Medical != null && patient.Medical.UserId != idUser)
                 {
                     return false;
                 }
@@ -107,7 +107,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             try
             {
                 var patient = await _patientRepository.FindByID(entity.PatientId);
-                if (patient.Medical.UserId != idUser)
+                if (patient.Medical != null && patient.Medical.UserId != idUser)
                 {
                     return false;
                 }

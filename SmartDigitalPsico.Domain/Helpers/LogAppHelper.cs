@@ -69,7 +69,7 @@ namespace SmartDigitalPsico.Domain.Helpers
 
             if (assemblyApp != null)
             {
-                sb.AppendFormat("Name: {0} - Version: {1} - {2} {3}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName, Environment.NewLine);
+                sb.AppendFormat("Name: {0} | Version: {1} | Environment: {2} {3}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName, Environment.NewLine);
             }
             else
             {
@@ -86,7 +86,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             var assemblyApp = GetInformationVersionProduct();
             if (assemblyApp != null)
             {
-                logger.Information("Name: {Name} - Version: {Version} - {envName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
+                logger.Information("Name: {Name} | Version: {Version} | Environment: {envName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
             }
             else
             {

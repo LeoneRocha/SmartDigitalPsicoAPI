@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
             : base(userRepository)
         {
             RuleFor(recordsList => recordsList.UserIdLogged)
-                .MustAsync(this.HasPermissionAsync)
+                .MustAsync(HasPermissionAsync)
                 .WithMessage("ErrorValidator_User_Not_Permission");
         }
         protected override async Task<bool> HasPermissionAsync(RecordsList<PatientAdditionalInformation> recordsList, long userIdLogged, CancellationToken cancellationToken)
@@ -24,10 +24,10 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
                 if (recordsList.Records.Count == 0) { return false; }
 
                 bool userHasPermission = recordsList.Records.TrueForAll(rg =>
-                (
+                rg.Patient != null && (
                 rg.CreatedUser?.Id == userIdLogged
                 && userLogged.MedicalId == rg.Patient.MedicalId)
-                ); 
+                );
                 return userHasPermission;
             }
             catch (Exception)
