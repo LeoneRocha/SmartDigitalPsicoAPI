@@ -95,9 +95,15 @@ namespace SmartDigitalPsico.Service.SystemDomains
 
         private static GetApplicationLanguageVO filterAndGetSingle(ServiceResponse<List<GetApplicationLanguageVO>> resultFromCache, string resourceKey, string key, string language)
         {
-            return resultFromCache.Data.Single(p => p.ResourceKey.ToUpper().Trim().Equals(resourceKey.ToUpper().Trim())
-            && p.LanguageKey.ToUpper().Trim().Equals(key.ToUpper().Trim())
-            && p.Language.ToUpper().Trim().Equals(language.ToUpper().Trim()));
-        }
+            if (resultFromCache.Data == null)
+            {
+                throw new AppWarningException("filterAndGetSingle: Data cannot be null.");
+            } 
+            return resultFromCache.Data.Single(p => 
+            p.ResourceKey.Trim().Equals(resourceKey.Trim(), StringComparison.OrdinalIgnoreCase)
+            && p.LanguageKey.Trim().Equals(key.Trim(), StringComparison.OrdinalIgnoreCase)
+            && p.Language.Trim().Equals(language.Trim(), StringComparison.OrdinalIgnoreCase)
+            );
+        } 
     }
 }
