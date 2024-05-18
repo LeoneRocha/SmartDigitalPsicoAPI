@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Bogus;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
@@ -53,7 +54,37 @@ namespace SmartDigitalPsico.Data.Tests.Repository
                 Assert.That(result, Is.EqualTo(data));
                 Assert.That(target, Is.Not.Null);
             });
-        } 
+        }
+
+        [Test]
+        public async Task Create_Success_With_Bogus()
+        {
+            // Arrange
+            var faker = new Faker<Gender>("pt_BR")  
+                .RuleFor(g => g.Description, f => string.Join(" ", f.Lorem.Words(3))) // Gera uma frase com 7 palavras
+                .RuleFor(g => g.Language, f => f.Random.String2(10)); // Respeita o limite de 10 caracteres
+
+            var data = faker.Generate();
+
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+
+            // Inicialize  Repository
+            _entityRepository = new GenderRepository(_mockContext);
+
+            // Act
+            var result = await _entityRepository.Create(data);
+
+            var target = await _mockContext.Genders.FirstAsync(e => e.Id == data.Id);
+
+            //Assert  
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.EqualTo(data));
+                Assert.That(target, Is.Not.Null);
+            });
+        }
+
+
         private Gender createEntity(Gender mockData)
         {
             return new Gender()
