@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Routing;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using System.Collections.Concurrent;
@@ -26,9 +27,8 @@ namespace SmartDigitalPsico.Domain.Hypermedia
             {
                 if (okObjectResult.Value == null)
                 {
-                    throw new ArgumentNullException(nameof(okObjectResult.Value), "Value cannot be null.");
-                }
-
+                    throw new AppWarningException("EnrichModel Value cannot be null.");
+                } 
                 var objValidate = okObjectResult.Value.GetType();
                 return CanEnrich(objValidate);
             }
@@ -37,63 +37,61 @@ namespace SmartDigitalPsico.Domain.Hypermedia
         public async Task Enrich(ResultExecutingContext context)
         {
             var urlHelper = new UrlHelperFactory().GetUrlHelper(context);
-            //SIngle 
             if (context.Result is OkObjectResult okObjectResult)
             {
-                if (okObjectResult.Value is ServiceResponse<T> serviceResponse)
-                {
-                    if (serviceResponse.Data is T model)
-                    {
-                        await EnrichModel(model, urlHelper);
-                    }
-                    else if (serviceResponse.Data is List<T> collection)
-                    {
-                        ConcurrentBag<T> bag = new ConcurrentBag<T>(collection);
-                        Parallel.ForEach(bag, (element) =>
-                        {
-                            EnrichModel(element, urlHelper);
-                        });
-                    }
-                }
-                //LIST
-                else if (okObjectResult.Value is ServiceResponse<List<T>> serviceResponse2)
-                {
-                    if (serviceResponse2.Data is List<T> collection)
-                    {
-                        ConcurrentBag<T> bag = new ConcurrentBag<T>(collection);
-                        Parallel.ForEach(bag, (element) =>
-                        {
-                            EnrichModel(element, urlHelper);
-                        });
-                    }
-
-                }
-                else if (okObjectResult.Value is T model)
-                {
-                    await EnrichModel(model, urlHelper);
-                }
-                else if (okObjectResult.Value is List<T> collection)
-                {
-                    ConcurrentBag<T> bag = new ConcurrentBag<T>(collection);
-                    Parallel.ForEach(bag, (element) =>
-                    {
-                        EnrichModel(element, urlHelper);
-                    });
-                }
-                else if (okObjectResult.Value is PagedSearchVO<T> pagedSearch)
-                {
-                    if (pagedSearch.List != null)
-                    {
-                        Parallel.ForEach(pagedSearch.List.ToList(), (element) =>
-                        {
-                            EnrichModel(element, urlHelper);
-                        });
-                    }
-                }
+                await HandleOkObjectResult(okObjectResult, urlHelper);
             }
-            await Task.FromResult<object>(new { });
+            await Task.CompletedTask;
         }
 
+        private async Task HandleOkObjectResult(OkObjectResult okObjectResult, IUrlHelper urlHelper)
+        {
+            switch (okObjectResult.Value)
+            {
+                case ServiceResponse<T> serviceResponse:
+                    await HandleServiceResponse(serviceResponse, urlHelper);
+                    break;
+                case ServiceResponse<List<T>> serviceResponseList:
+                    HandleServiceResponseList(serviceResponseList, urlHelper);
+                    break;
+                case T model:
+                    await EnrichModel(model, urlHelper);
+                    break;
+                case List<T> collection:
+                    HandleCollection(collection, urlHelper);
+                    break;
+                case PagedSearchVO<T> pagedSearch when pagedSearch.List != null:
+                    HandleCollection(pagedSearch.List.ToList(), urlHelper);
+                    break;
+            }
+        }
+
+        private async Task HandleServiceResponse(ServiceResponse<T> serviceResponse, IUrlHelper urlHelper)
+        {
+            if (serviceResponse.Data is T model)
+            {
+                await EnrichModel(model, urlHelper);
+            }
+            else if (serviceResponse.Data is List<T> collection)
+            {
+                HandleCollection(collection, urlHelper);
+            } 
+        }
+
+        private void HandleServiceResponseList(ServiceResponse<List<T>> serviceResponseList, IUrlHelper urlHelper)
+        {
+            if (serviceResponseList.Data is List<T> collection)
+            {
+                HandleCollection(collection, urlHelper);
+            }
+        }
+
+        private void HandleCollection(List<T> collection, IUrlHelper urlHelper)
+        {
+            ConcurrentBag<T> bag = new ConcurrentBag<T>(collection);
+            Parallel.ForEach(bag, element => EnrichModel(element, urlHelper));
+        }
+         
         protected readonly object _lock = new object();
         protected string GetLink(long id, IUrlHelper urlHelper, string path)
         {
