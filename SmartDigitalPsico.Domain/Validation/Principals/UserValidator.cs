@@ -42,7 +42,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
                 if (!await _entityRepository.Exists(entity.Id))
                 {    
                     var user = await _entityRepository.FindByEmail(value);
-                    if (user == null || user?.Id == 0)
+                    if (user == null || user.Id == 0)
                     {
                         return true;
                     }
