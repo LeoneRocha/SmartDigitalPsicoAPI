@@ -1,19 +1,15 @@
 ﻿using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
-    public class PatientMedicationInformationValidator : AbstractValidator<PatientMedicationInformation>
-    {
-        private readonly IPatientMedicationInformationRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository;
+    public class PatientMedicationInformationValidator : PatientBaseValidator<PatientMedicationInformation>
+    { 
         public PatientMedicationInformationValidator(IPatientMedicationInformationRepository entityRepository,
-            IPatientRepository patientRepository)
-        {
-            _entityRepository = entityRepository;
-            _patientRepository = patientRepository;
-
+            IPatientRepository patientRepository) : base(patientRepository, entityRepository)
+        {  
             #region Columns
 
             RuleFor(entity => entity.Description)
@@ -55,36 +51,6 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
               .WithMessage("ErrorValidator_Patient_Changed");
 
             #endregion Relationship  
-        }
-
-        private async Task<bool> PatientIdFound(PatientMedicationInformation entity)
-        {
-            try
-            {
-                await _patientRepository.FindExistsByID(entity.PatientId);
-            }
-            catch (Exception)
-            {
-
-                return false;
-            }
-            return true;
-        }
-        private async Task<bool> PatientIdChanged(PatientMedicationInformation entity)
-        {
-            try
-            {
-                var entityBefore = await _entityRepository.FindByID(entity.Id);
-                if (entityBefore.PatientId != entity.PatientId)
-                {
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            } 
-            return true;
-        }
+        } 
     }
 }

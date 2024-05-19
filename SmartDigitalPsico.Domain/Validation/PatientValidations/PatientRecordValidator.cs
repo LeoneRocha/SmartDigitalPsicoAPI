@@ -1,19 +1,15 @@
 ﻿using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
-    public class PatientRecordValidator : AbstractValidator<PatientRecord>
+    public class PatientRecordValidator : PatientBaseValidator<PatientRecord>
     {
-        private readonly IPatientRecordRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository;
 
-        public PatientRecordValidator(IPatientRecordRepository entityRepository, IPatientRepository patientRepository)
+        public PatientRecordValidator(IPatientRecordRepository entityRepository, IPatientRepository patientRepository) : base(patientRepository, entityRepository)
         {
-            _entityRepository = entityRepository;
-            _patientRepository = patientRepository;
-
             #region Columns
 
             RuleFor(entity => entity.Description)
@@ -48,35 +44,6 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
              .WithMessage("ErrorValidator_Patient_Changed");
 
             #endregion Relationship  
-        }
-
-        private async Task<bool> PatientIdFound(PatientRecord entity)
-        {
-            try
-            {
-                await _patientRepository.FindExistsByID(entity.PatientId);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-        private async Task<bool> PatientIdChanged(PatientRecord entity)
-        {
-            try
-            {
-                var entityBefore = await _entityRepository.FindByID(entity.Id);
-                if (entityBefore.PatientId != entity.PatientId)
-                {
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            } 
-            return true;
-        }
+        } 
     }
 }

@@ -19,7 +19,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<Medical> FindByID(long id)
         {
             return await dataset 
-                .Include(e => e.Office) 
+                .Include(e => e.User)
+                .Include(e => e.Office)
                 .Include(e => e.MedicalSpecialties)
                 .ThenInclude(ms => ms.Specialty)
                 .FirstAsync(p => p.Id.Equals(id));
@@ -36,7 +37,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             Medical? entityResult = await dataset
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+                .FirstOrDefaultAsync(p => p.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
 
             return entityResult;
         } 
@@ -44,7 +45,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             Medical? entityResult = await dataset
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Accreditation.Equals(accreditation, StringComparison.InvariantCultureIgnoreCase));
+                .FirstOrDefaultAsync(p => p.Accreditation.Equals(accreditation, StringComparison.OrdinalIgnoreCase));
 
             return entityResult;
         }  
