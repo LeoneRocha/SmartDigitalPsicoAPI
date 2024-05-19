@@ -9,6 +9,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
+using SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
 
@@ -102,7 +103,8 @@ namespace SmartDigitalPsico.Service.Principals
                 entityAdd.Enable = true;
 
                 entityAdd.CreatedUserId = this.UserId;
-                response.Success = true;
+
+                response  = await base.Validate(entityAdd);                
                 if (response.Success)
                 {
                     entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, entity.MedicalId.ToString());

@@ -1,7 +1,9 @@
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
-    public class PatientInfoTag
-    { 
+    public class PatientInfoTag : IEntityPatientBase
+    {
         #region Relationship 
         public InfoTag? InfoTag { get; set; }
         public long InfoTagId { get; set; }

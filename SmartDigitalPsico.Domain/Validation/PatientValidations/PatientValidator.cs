@@ -2,18 +2,16 @@
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
-    public class PatientValidator : AbstractValidator<Patient>
+    public class PatientValidator : MedicalBaseValidator<Patient>
     {
-        private readonly IPatientRepository _entityRepository;
-        private readonly IMedicalRepository _medicalRepository;
-
-        public PatientValidator(IPatientRepository entityRepository, IMedicalRepository medicalRepository)
+        private new readonly IPatientRepository _entityRepository; 
+        public PatientValidator(IPatientRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
         {
-            _entityRepository = entityRepository;
-            _medicalRepository = medicalRepository;
+            _entityRepository = entityRepository; 
 
             #region Columns
 
@@ -110,84 +108,39 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             .WithMessage("ErrorValidator_MedicalId_Null")
             .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
             .WithMessage("ErrorValidator_MedicalId_NotFound")
-            .MustAsync(async (entity, value, c) => await MedicalChanged(entity, value))
+            .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
             .WithMessage("ErrorValidator_Medical_Changed")
-            .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value))
+            .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
             .WithMessage("ErrorValidator_MedicalCreated_Invalid")
-            .MustAsync(async (entity, value, c) => await MedicalModify(entity, value))
+            .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
             .WithMessage("ErrorValidator_MedicalModify_Invalid");
 
             #endregion Relationship 
-        }
-        private async Task<bool> MedicalIdFound(Patient entity)
-        {
-            try
-            {
-                await _medicalRepository.FindExistsByID(entity.MedicalId);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
         }
 
         private async Task<bool> UniqueEmail(Patient entity, string value)
         {
             try
-            {
-                var entityActual = await _entityRepository.FindByID(entity.Id);
-                bool isNewEnity = entityActual == null;
-                var existingEnity = await _entityRepository.FindByEmail(value);
-                if (isNewEnity && existingEnity != null)
+            { 
+                if (!await _entityRepository.Exists(entity.Id))
                 {
-                    return false;
+
+                    var existingEnity = await _entityRepository.FindByEmail(value);
+
+                    if (existingEnity == null)
+                    {
+                        return true;
+                    }
                 }
-                if (entityActual != null && entityActual.Email != value)
+                else
                 {
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-        private async Task<bool> MedicalChanged(Patient entity, long value)
-        {
-            try
-            {
-                if (entity?.Id > 0)
-                {
-                    var entityBefore = await _entityRepository.FindByID(value);
-                    if (entityBefore.MedicalId != entity.MedicalId)
+                    var existingEnity = await _entityRepository.FindByID(entity.Id);
+                    bool changingProp = !existingEnity.Email.Equals(value, StringComparison.OrdinalIgnoreCase);
+                    if (changingProp)
                     {
                         return false;
                     }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private async Task<bool> MedicalCreated(Patient entity, long value)
-        {
-            try
-            {
-                if (entity?.Id == 0)
-                {
-                    long idUser = entity.CreatedUserId.GetValueOrDefault();
-                    var medical = await _medicalRepository.FindByID(value);
-                    if ((medical.UserId != idUser))
-                    {
-                        return false;
-                    }
-                }
+                } 
             }
             catch (Exception)
             {
@@ -196,27 +149,6 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             return true;
         }
 
-        private async Task<bool> MedicalModify(Patient entity, long value)
-        {
-            try
-            {
-                if (entity?.Id > 0)
-                {
-                    long idUser = entity.ModifyUserId.GetValueOrDefault();
-                    var medical = await _medicalRepository.FindByID(value);
-                    if ((medical.UserId != idUser))
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
 
         private static bool beAValidAge(DateTime date)
         {

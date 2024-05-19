@@ -1,20 +1,15 @@
 ﻿using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
-    public class PatientFileValidator : AbstractValidator<PatientFile>
-    {
-        private readonly IPatientFileRepository _entityRepository;
-        private readonly IPatientRepository _patientRepository;
-
+    public class PatientFileValidator :  PatientBaseValidator<PatientFile>
+    {  
         public PatientFileValidator(IPatientFileRepository entityRepository,
-            IPatientRepository patientRepository)
-        {
-            _entityRepository = entityRepository;
-            _patientRepository = patientRepository;
-
+            IPatientRepository patientRepository) : base(patientRepository, entityRepository)
+        {  
             #region Columns
             RuleFor(entity => entity.Description)
                 .MaximumLength(255)
@@ -47,76 +42,13 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
               .WithMessage("ErrorValidator_Patient_NotFound")
               .MustAsync(async (entity, value, c) => await PatientIdChanged(entity))
               .WithMessage("ErrorValidator_Patient_Changed")
-              .MustAsync(async (entity, value, c) => await MedicalCreated(entity))
+              .MustAsync(async (entity, value, c) => await MedicalCreated(entity, entity.CreatedUserId))
               .WithMessage("ErrorValidator_Patient_Medical_Created")
-              .MustAsync(async (entity, value, c) => await MedicalModify(entity))
+              .MustAsync(async (entity, value, c) => await MedicalModify(entity, entity.ModifyUserId))
               .WithMessage("ErrorValidator_Patient_Medical_Modify");
 
             #endregion Relationship  
-        }
-
-        private async Task<bool> PatientIdFound(PatientFile entity)
-        {
-            try
-            {
-                await _patientRepository.FindExistsByID(entity.PatientId);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-        private async Task<bool> PatientIdChanged(PatientFile entity)
-        {
-            try
-            {
-                var entityBefore = await _entityRepository.FindByID(entity.Id);
-                if (entityBefore.PatientId != entity.PatientId)
-                {
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-        private async Task<bool> MedicalCreated(PatientFile entity)
-        {
-            long idUser = entity.CreatedUserId.GetValueOrDefault();
-            try
-            {
-                var patient = await _patientRepository.FindByID(entity.PatientId);
-                if (patient.Medical != null && patient.Medical.UserId != idUser)
-                {
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-        private async Task<bool> MedicalModify(PatientFile entity)
-        {
-            long idUser = entity.ModifyUserId.GetValueOrDefault();
-            try
-            {
-                var patient = await _patientRepository.FindByID(entity.PatientId);
-                if (patient.Medical != null && patient.Medical.UserId != idUser)
-                {
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
+        } 
+        
     }
 }

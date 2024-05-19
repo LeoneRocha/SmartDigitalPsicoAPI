@@ -14,25 +14,25 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             #region Columns
 
             RuleFor(entity => entity.Name)
-                .NotNull().NotEmpty() 
+                .NotNull().NotEmpty()
                 .WithMessage("ErrorValidator_Name_Null");
 
             RuleFor(entity => entity.Accreditation)
-                .NotNull().NotEmpty() 
+                .NotNull().NotEmpty()
                 .WithMessage("ErrorValidator_Accreditation_Null")
                 .MaximumLength(10)
                 .WithMessage("O Accreditation não pode ultrapassar {MaxLength} carateres.")
-                .MustAsync(async (entity, value, c) => await IsUniqueAccreditation(entity, value)) 
-               .WithMessage("ErrorValidator_Accreditation_Unique"); 
+                .MustAsync(async (entity, value, c) => await IsUniqueAccreditation(entity, value))
+               .WithMessage("ErrorValidator_Accreditation_Unique");
 
             RuleFor(entity => entity.Email)
-               .NotNull().NotEmpty() 
+               .NotNull().NotEmpty()
                .WithMessage("ErrorValidator_Email_Null")
-               .EmailAddress() 
+               .EmailAddress()
                 .WithMessage("ErrorValidator_Email_Invalid")
                .MaximumLength(100)
                .WithMessage("O Email não pode ultrapassar {MaxLength} carateres.")
-               .MustAsync(async (entity, value, c) => await IsUniqueEmail(entity, value)) 
+               .MustAsync(async (entity, value, c) => await IsUniqueEmail(entity, value))
                .WithMessage("ErrorValidator_Email_Unique");
 
             RuleFor(p => p.SecurityKey)
@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             #region Relationship
 
             RuleFor(entity => entity.CreatedUserId)
-              .NotNull() 
+              .NotNull()
               .WithMessage("ErrorValidator_CreatedUserId_Invalid");
 
             #endregion Relationship 
@@ -54,26 +54,31 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         {
             try
             {
-                var entityActual = await _entityRepository.FindByID(entity.Id);
-                bool isNewEnity = entityActual == null;
-
-                var existingEnity = await _entityRepository.FindByAccreditation(value);
-
-                if (isNewEnity && existingEnity != null)
+                if (!await _entityRepository.Exists(entity.Id))
                 {
-                    return false;
+
+                    var existingEnity = await _entityRepository.FindByAccreditation(value);
+
+                    if (existingEnity == null)
+                    {
+                        return true;
+                    }
                 }
-                bool changingProp = entityActual != null && entityActual.Accreditation != value;
-                if (changingProp)
+                else
                 {
-                    return false;
+                    var existingEnity = await _entityRepository.FindByID(entity.Id);
+                    bool changingProp = !existingEnity.Accreditation.Equals(value, StringComparison.OrdinalIgnoreCase);
+                    if (changingProp)
+                    {
+                        return false;
+                    }
                 }
             }
             catch (Exception)
             {
                 return false;
             }
-           
+
             return true;
         }
 
@@ -81,23 +86,29 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         {
             try
             {
-                var entityActual = await _entityRepository.FindByID(entity.Id);
-                bool isNewEnity = entityActual == null;
-                var existingEnity = await _entityRepository.FindByEmail(value);
-                if (isNewEnity && existingEnity != null)
+                if (!await _entityRepository.Exists(entity.Id))
                 {
-                    return false;
+                    var existingEnity = await _entityRepository.FindByEmail(value);
+
+                    if (existingEnity == null)
+                    {
+                        return true;
+                    }
                 }
-                bool changingProp = entityActual != null && entityActual.Email != value;
-                if (changingProp)
+                else
                 {
-                    return false;
+                    var existingEnity = await _entityRepository.FindByID(entity.Id);
+                    bool changingProp = !existingEnity.Email.Equals(value, StringComparison.OrdinalIgnoreCase);
+                    if (changingProp)
+                    {
+                        return false;
+                    }
                 }
             }
             catch (Exception)
             {
                 return false;
-            } 
+            }
             return true;
         }
     }

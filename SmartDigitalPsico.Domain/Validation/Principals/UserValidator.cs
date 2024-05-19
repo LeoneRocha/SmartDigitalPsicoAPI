@@ -39,17 +39,22 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
         {
             try
             {
-                var userActual = await _entityRepository.FindByID(entity.Id);
-                bool newUser = userActual == null;
-                var user = await _entityRepository.FindByEmail(value);
-                if (newUser && user == null || user?.Id == 0)
-                {
-                    return true;
+                if (!await _entityRepository.Exists(entity.Id))
+                {    
+                    var user = await _entityRepository.FindByEmail(value);
+                    if (user == null || user.Id == 0)
+                    {
+                        return true;
+                    }
                 }
-                bool changingEmail = userActual != null && userActual.Email != value;
-                if (!changingEmail)
+                else
                 {
-                    return true;
+                    var existingEnity = await _entityRepository.FindByID(entity.Id);
+                    bool changingProp = !existingEnity.Email.Equals(value, StringComparison.OrdinalIgnoreCase);
+                    if (changingProp)
+                    {
+                        return false;
+                    }
                 }
             }
             catch (Exception)
@@ -60,25 +65,30 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
             return false;
         }
         private async Task<bool> UniqueLogin(User entity, string value)
-        {
-            User? userActual = null; 
+        { 
             try
             {
-                userActual = await _entityRepository.FindByID(entity.Id);
+                if (!await _entityRepository.Exists(entity.Id))
+                {
+                    var user = await _entityRepository.FindByLogin(value);
+                    if (user == null)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    var existingEnity = await _entityRepository.FindByID(entity.Id);
+                    bool changingProp = !existingEnity.Login.Equals(value, StringComparison.OrdinalIgnoreCase);
+                    if (changingProp)
+                    {
+                        return false;
+                    }
+                } 
             }
             catch (Exception)
             {
-                bool newUser = userActual == null;
-                User? user = await _entityRepository.FindByLogin(value);
-                if (newUser && user == null || user?.Id == 0)
-                {
-                    return true;
-                }
-            }  
-            bool changingEmail = userActual != null && userActual.Login != value;
-            if (!changingEmail)
-            {
-                return true;
+                return false;
             } 
             return false;
         }
