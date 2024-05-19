@@ -81,7 +81,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
         public virtual async Task<bool> Exists(long id)
         {
-            return await dataset.AnyAsync(p => p.Id.Equals(id));
+            return await dataset.AsNoTracking().AnyAsync(p => p.Id.Equals(id));
         }
 
         public virtual async Task FindExistsByID(long id)
