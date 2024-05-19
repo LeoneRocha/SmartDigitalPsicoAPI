@@ -6,7 +6,7 @@ using SmartDigitalPsico.Domain.Validation.PatientValidations.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
-    public class PatientAdditionalInformationValidator : PatientBaseValidator<PatientAdditionalInformation>, IPatientBaseValidator<PatientAdditionalInformation>
+    public class PatientAdditionalInformationValidator : PatientBaseValidator<PatientAdditionalInformation>
     {
         public PatientAdditionalInformationValidator(IPatientAdditionalInformationRepository entityRepository,
            IPatientRepository patientRepository) : base(patientRepository, entityRepository)
@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
               .WithMessage("ErrorValidator_Patient_NotFound")
               .MustAsync(async (entity, value, c) => await PatientIdChanged(entity))
               .WithMessage("ErrorValidator_Patient_Changed");
-             
+
             #endregion Relationship  
         }
     }
