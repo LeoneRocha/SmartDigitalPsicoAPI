@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class MedicalFileValidator : MedicalBaseValidator<MedicalFile>
     { 
-        public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository) : base(medicalRepository, entityRepository)
+        public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
         { 
 
             #region Columns
