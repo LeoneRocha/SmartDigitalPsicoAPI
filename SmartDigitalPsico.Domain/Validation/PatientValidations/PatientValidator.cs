@@ -121,18 +121,26 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
         private async Task<bool> UniqueEmail(Patient entity, string value)
         {
             try
-            {
-                var entityActual = await _entityRepository.FindByID(entity.Id);
-                bool isNewEnity = entityActual == null;
-                var existingEnity = await _entityRepository.FindByEmail(value);
-                if (isNewEnity && existingEnity != null)
+            { 
+                if (!await _entityRepository.Exists(entity.Id))
                 {
-                    return false;
+
+                    var existingEnity = await _entityRepository.FindByEmail(value);
+
+                    if (existingEnity == null)
+                    {
+                        return true;
+                    }
                 }
-                if (entityActual != null && entityActual.Email != value)
+                else
                 {
-                    return false;
-                }
+                    var existingEnity = await _entityRepository.FindByID(entity.Id);
+                    bool changingProp = !existingEnity.Email.Equals(value, StringComparison.OrdinalIgnoreCase);
+                    if (changingProp)
+                    {
+                        return false;
+                    }
+                } 
             }
             catch (Exception)
             {
