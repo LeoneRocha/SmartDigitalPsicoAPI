@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Validation;
 
-namespace SmartDigitalPsico.Domain.Validation.PatientValidations.Base
+namespace SmartDigitalPsico.Domain.Validation.Base
 {
     public class PatientBaseValidator<T> : AbstractValidator<T>, IPatientBaseValidator<T> where T : IEntityPatientBase, IEntityBase
     {
@@ -40,6 +40,42 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.Base
         {
             bool result = await _patientRepository.Exists(entity.PatientId);
             return result;
+        }
+
+        public virtual async Task<bool> MedicalCreated(T entity, long? createdUserId)
+        {
+            long idUser = createdUserId.GetValueOrDefault();
+            try
+            {
+                var patient = await _patientRepository.FindByID(entity.PatientId);
+                if (patient.Medical != null && patient.Medical.UserId != idUser)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public virtual async Task<bool> MedicalModify(T entity, long? modifyUserId)
+        {
+            long idUser = modifyUserId.GetValueOrDefault();
+            try
+            {
+                var patient = await _patientRepository.FindByID(entity.PatientId);
+                if (patient.Medical != null && patient.Medical.UserId != idUser)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

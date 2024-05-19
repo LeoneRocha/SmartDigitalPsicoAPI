@@ -4,10 +4,10 @@ using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
-    public class Patient : EntityBaseWithNameEmail, IEntityBaseLogUser
+    public class Patient : EntityBaseWithNameEmail, IEntityBaseLogUser, IEntityMedicalBase
     {
         public Patient()
-        { 
+        {
             PatientInfoTags = new List<PatientInfoTag>();
             PatientAdditionalInformations = new List<PatientAdditionalInformation>();
             PatientHospitalizationInformations = new List<PatientHospitalizationInformation>();

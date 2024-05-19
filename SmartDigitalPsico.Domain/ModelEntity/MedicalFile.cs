@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
-    public class MedicalFile : FileBase, IEntityBaseLogUser
+    public class MedicalFile : FileBase, IEntityBaseLogUser, IEntityMedicalBase
     { 
         #region Relationship         
         public Medical? Medical { get; set; }         
