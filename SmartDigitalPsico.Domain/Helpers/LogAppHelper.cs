@@ -36,10 +36,10 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
 
 
-        public static AppInformationVersionProduct GetInformationVersionProduct()
+        public static AppInformationVersionProductVO GetInformationVersionProduct()
         {
             var assembly = Assembly.GetEntryAssembly();
-            var appDTO = new AppInformationVersionProduct() { Name = "Unknown", Version = "Unknown", EnvironmentName = "Unknown" };
+            var appDTO = new AppInformationVersionProductVO() { Name = "Unknown", Version = "Unknown", EnvironmentName = "Unknown" };
 
             if (assembly != null)
             {
@@ -55,29 +55,31 @@ namespace SmartDigitalPsico.Domain.Helpers
                     appDTO.Name = nameApp;
                     appDTO.Version = version;
                     appDTO.EnvironmentName = envName;
+
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
+                    sb.AppendFormat("Name: {0} | Version: {1} | Environment: {2} {3}", appDTO.Name, appDTO.Version, appDTO.EnvironmentName, Environment.NewLine);
+                    sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
+                    appDTO.Message = sb.ToString();
                 }
             }
+            else
+            {
+                appDTO.Message = string.Format("Assembly information could not be retrieved.{0}", Environment.NewLine);
+            } 
             return appDTO;
-        }
+        } 
 
-
-        public static string ShowInformationVersionProduct()
+        public static string ShowInformationVersionProductString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
             var assemblyApp = GetInformationVersionProduct();
 
             if (assemblyApp != null)
             {
-                sb.AppendFormat("Name: {0} | Version: {1} | Environment: {2} {3}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName, Environment.NewLine);
+                return assemblyApp.Message;
             }
-            else
-            {
-                sb.AppendFormat("Assembly information could not be retrieved.{0}", Environment.NewLine);
-            }
-            sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
-
-            return sb.ToString();
+            return "Assembly information could not be retrieved.";
         }
 
         public static void PrintLogInformationVersionProduct(Serilog.ILogger logger)
