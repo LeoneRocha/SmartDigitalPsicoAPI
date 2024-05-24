@@ -7,6 +7,10 @@ https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 https://hub.docker.com/u/leonecr
 ** para gerar pro mysql tem que gerar do zero a migracao 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Regras a validar e implantar
+
+ADM nao pode ver arquivos do medico
+
  ------------------------------------------------------------------------ Readequacao  1  - CONCLUIDO ------------------------------------------------------------------------ 
 
 01  - Domain ------- Finalizado 
@@ -452,3 +456,10 @@ Codigo:
  
 Em C# refatore codigo abaixo para reduzir complexidade e seguir boas praticas de codigo limpo 
 Codigo:  
+
+
+
+
+
+
+
