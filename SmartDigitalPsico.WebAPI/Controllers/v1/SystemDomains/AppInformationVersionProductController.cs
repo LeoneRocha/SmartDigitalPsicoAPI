@@ -24,12 +24,12 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         {
             await Task.FromResult(0);
             var responseVO = LogAppHelper.GetInformationVersionProduct();
-            List<AppInformationVersionProductVO> response = new List<AppInformationVersionProductVO> { responseVO };
-            if (response.Count <= 0)
+            if (responseVO != null)
             {
-                return NotFound(response);
+                List<AppInformationVersionProductVO> response = new List<AppInformationVersionProductVO> { responseVO };
+                return Ok(response);
             }
-            return Ok(response);
-        } 
+            return NotFound(responseVO);
+        }
     }
 }
