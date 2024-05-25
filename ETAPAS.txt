@@ -463,3 +463,8 @@ Codigo:
 
 
 
+ng build --configuration=production
+
+ng build --configuration=homologation
+
+ng serve --configuration=production
