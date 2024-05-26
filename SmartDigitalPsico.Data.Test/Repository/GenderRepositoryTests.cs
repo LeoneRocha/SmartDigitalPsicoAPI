@@ -41,6 +41,7 @@ namespace SmartDigitalPsico.Data.Tests.Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
 
             // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new GenderRepository(_mockContext);
 
             // Act
@@ -55,6 +56,28 @@ namespace SmartDigitalPsico.Data.Tests.Repository
                 Assert.That(target, Is.Not.Null);
             });
         }
+
+        [Test]
+        public void Create_Error()
+        {
+            var mockFull = GenderMockHelper.GetMock().AsQueryable();
+            SetupContext(mockFull);
+
+            var mockData = GenderMockHelper.GetMock().Take(1).AsQueryable().First();
+
+            var data = createNewEntity(mockData);
+            data.Id = 1L;
+
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new GenderRepository(_mockContext);
+
+            Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            {
+                await _entityRepository.Create(data);
+            });
+        }
+
 
         [Test]
         public async Task Create_Success_With_Bogus()
@@ -84,6 +107,83 @@ namespace SmartDigitalPsico.Data.Tests.Repository
             });
         }
 
+        [Test]
+        public async Task FindAll_Success()
+        {
+            // Arrange
+            var mockDataList = GenderMockHelper.GetMock();
+
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new GenderRepository(_mockContext);
+             
+            // Act
+            var listResult = await _entityRepository.FindAll();
+            var listCount = listResult.Count();
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(listResult, Is.Not.Null);
+                Assert.That(listResult, Is.InstanceOf<List<Gender>>());
+                Assert.That(listResult, Has.Count.EqualTo(2));
+                Assert.That(listCount, Is.EqualTo(2));
+            });
+        }
+
+        [Test]
+        public async Task FindByID_Success()
+        {
+            // Arrange
+            var mockDataList = GenderMockHelper.GetMock(); 
+            var mockData = mockDataList.Take(1).AsQueryable();
+            var idToFind = mockData.First().Id; 
+              
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new GenderRepository(_mockContext);
+
+            // Act
+            var result = await _entityRepository.FindByID(idToFind);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null); 
+                Assert.That(result.Id, Is.EqualTo(idToFind));
+            });
+        }
+
+        [Test]
+        public async Task Update_Success()
+        {
+            // Arrange
+            var mockFull = GenderMockHelper.GetMock().AsQueryable();
+            SetupContext(mockFull);
+
+            var mockData = GenderMockHelper.GetMock().Take(1).AsQueryable().First();
+            var mockDataUpdate = createNewEntity(mockData);
+            mockDataUpdate.Id = mockData.Id;
+            mockDataUpdate.Description = "Description teste"; 
+
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new GenderRepository(_mockContext);
+
+            // Act
+            var result = await _entityRepository.Update(mockDataUpdate);
+             
+            var target = await _mockContext.Genders.FirstOrDefaultAsync(e => e.Id == result.Id);
+
+            //Assert  
+            Assert.Multiple(() =>
+            {
+                Assert.That(target, Is.Not.Null);
+                Assert.That(target?.Id, Is.EqualTo(mockDataUpdate.Id));
+                Assert.That(mockDataUpdate.Description, Is.EqualTo(target?.Description));
+            }); 
+        }
+
         private static Gender createNewEntity(Gender mockData)
         {
             return new Gender()
@@ -97,6 +197,5 @@ namespace SmartDigitalPsico.Data.Tests.Repository
                 LastAccessDate = mockData.LastAccessDate
             };
         }
-
     }
 }
