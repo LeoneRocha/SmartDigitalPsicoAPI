@@ -12,14 +12,14 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async override Task<List<MedicalFile>> FindAll()
         {
-            return await dataset
+            return await _dataset
                 .AsNoTracking()
                 .Include(e => e.Medical).ToListAsync();
         }
 
         public async Task<List<MedicalFile>> FindAllByMedical(long medicalId)
         {
-            return await dataset
+            return await _dataset
                 .AsNoTracking()
                 .Where(e => e.MedicalId == medicalId).Include(e => e.Medical).ToListAsync();
         }

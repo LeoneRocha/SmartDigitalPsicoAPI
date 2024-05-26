@@ -482,24 +482,7 @@ ng serve --configuration=production
 
 Em C# .net core 8 usando NUnit 4 usando padrao novo That  e Moq gere teste unitario seguindo padroes de nomeclatura, gere o teste do codigo abaixo, o teste precisa ter um cenario de sucesso. para mais de um assert use o Assert.Multiple
 
-
-        public virtual async Task<T> Update(T item)
-        {
-            var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
-            if (result != null)
-            {
-                //Fields internal change 
-                item.ModifyDate = DataHelper.GetDateTimeNow();
-
-                _context.Entry(result).CurrentValues.SetValues(item);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new InvalidOperationException("Register not found");
-            }
-            return result;
-        }
+ 
 
 USE DE EXEMPLO O CODIGO ABAIXO 
   [Test]

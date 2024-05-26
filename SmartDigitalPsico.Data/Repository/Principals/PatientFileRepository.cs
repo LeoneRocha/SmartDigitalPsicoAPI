@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<PatientFile> FindByID(long id)
         {
 #pragma warning disable CS8602
-            return await dataset 
+            return await _dataset 
                 .Include(e => e.Patient)
                 .ThenInclude(e => e.Medical)
                 .ThenInclude(e => e.User)
@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<List<PatientFile>> FindAll()
         {
 #pragma warning disable CS8602
-            return await dataset
+            return await _dataset
                 .AsNoTracking()
                 .Include(e => e.Patient)
                 .ThenInclude(e => e.Medical)
