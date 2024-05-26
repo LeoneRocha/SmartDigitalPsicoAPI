@@ -70,7 +70,7 @@ namespace SmartDigitalPsico.Data.Tests.Repository
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<List<RoleGroup>>());
-                Assert.That(result.Count, Is.EqualTo(3));
+                Assert.That(result, Has.Count.EqualTo(3));
             });
         } 
     }
