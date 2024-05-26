@@ -184,6 +184,24 @@ namespace SmartDigitalPsico.Data.Tests.Repository
         }
 
         [Test]
+        public void Update_Failure_RegisterNotFound()
+        {
+            // Arrange
+            var mockFull = GenderMockHelper.GetMock().AsQueryable();
+            SetupContext(mockFull);
+
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new GenderRepository(_mockContext);
+
+            // Arrange
+            var nonExistingGender = new Gender { Id = 999, Description = "Non-Existing Gender" };
+
+            // Act & Assert
+            Assert.ThrowsAsync<InvalidOperationException>(async () => await _entityRepository.Update(nonExistingGender));
+        }
+
+        [Test]
         public async Task Delete_Success()
         {
             // Arrange
@@ -338,7 +356,7 @@ namespace SmartDigitalPsico.Data.Tests.Repository
                 Assert.That(listResult.First().Patients, Has.Count.EqualTo(1));
 
             });
-        } 
+        }
         [Test]
         public async Task GetCount_Success()
         {
