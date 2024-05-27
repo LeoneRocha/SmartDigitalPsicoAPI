@@ -8,7 +8,7 @@ using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
 using System.Linq.Expressions;
 
-namespace SmartDigitalPsico.Data.Tests.Repository
+namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
     public class GenderAndGenericRepositoryTests : BaseTests
@@ -386,7 +386,7 @@ namespace SmartDigitalPsico.Data.Tests.Repository
         {
             return new Gender()
             {
-                Id = (long)int.MaxValue,
+                Id = int.MaxValue,
                 ModifyDate = mockData.ModifyDate,
                 CreatedDate = mockData.CreatedDate,
                 Description = "New Gender",

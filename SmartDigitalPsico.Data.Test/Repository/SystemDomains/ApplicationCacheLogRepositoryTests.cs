@@ -5,7 +5,7 @@ using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.Tests.Repository
+namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
     public class ApplicationCacheLogRepositoryTests : BaseTests

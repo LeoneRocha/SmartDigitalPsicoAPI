@@ -4,39 +4,39 @@ using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.Tests.Repository
+namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
-    public class ApplicationConfigSettingRepositoryTests : BaseTests
+    public class OfficeRepositoryTests : BaseTests
     {
-        private ApplicationConfigSettingRepository? _entityRepository;
+        private OfficeRepository? _entityRepository;
 
         [SetUp]
         public override void Setup()
         {
-            var mockData = ApplicationConfigSettingMockData.GetMock().Take(1).AsQueryable();
+            var mockData = OfficeMockData.GetMock().Take(3).AsQueryable();
             // Arrange 
             SetupContext(mockData);
         }
-        private void SetupContext(IQueryable<ApplicationConfigSetting> mockData)
+        private void SetupContext(IQueryable<Office> mockData)
         {
             var mockDataList = mockData.ToList();
             // Arrange
             _mockContext = new SmartDigitalPsicoDataContextTest();
 
-            _mockContext.ApplicationConfigSettings.AddRange(mockDataList);
+            _mockContext.Offices.AddRange(mockDataList);
             _mockContext.SaveChanges();
         }
-         
+
         [Test]
         public async Task FindAll_Success()
         {
             // Arrange
-            var mockDataList = OfficeMockData.GetMock().Take(1).AsQueryable();
+            var mockDataList = OfficeMockData.GetMock().Take(3).AsQueryable();
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new ApplicationConfigSettingRepository(_mockContext);
+            _entityRepository = new OfficeRepository(_mockContext);
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -46,10 +46,11 @@ namespace SmartDigitalPsico.Data.Tests.Repository
             Assert.Multiple(() =>
             {
                 Assert.That(listResult, Is.Not.Null);
-                Assert.That(listResult, Is.InstanceOf<List<ApplicationConfigSetting>>());
-                Assert.That(listResult, Has.Count.EqualTo(1));
-                Assert.That(listCount, Is.EqualTo(1));
+                Assert.That(listResult, Is.InstanceOf<List<Office>>());
+                Assert.That(listResult, Has.Count.EqualTo(3));
+                Assert.That(listCount, Is.EqualTo(3));
             });
-        } 
+        }
+
     }
 }

@@ -37,12 +37,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.CreatedUser) 
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        }
-        public async override Task<List<Patient>> FindAll()
-        {
-            await Task.Yield();
-            throw new NotImplementedException();
-        }
+        } 
         public async Task<Patient?> FindByEmail(string email)
         {
             Patient? entityResult = await _dataset

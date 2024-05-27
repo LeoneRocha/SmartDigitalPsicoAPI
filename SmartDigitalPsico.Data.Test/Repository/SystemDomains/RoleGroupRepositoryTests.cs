@@ -4,39 +4,39 @@ using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Data.Tests.Repository
+namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
-    public class ApplicationLanguageRepositoryTests : BaseTests
+    public class RoleGroupRepositoryTests : BaseTests
     {
-        private ApplicationLanguageRepository? _entityRepository;
+        private RoleGroupRepository? _entityRepository;
 
         [SetUp]
         public override void Setup()
         {
-            var mockData = ApplicationLanguageMockData.GetMock().Take(38).AsQueryable();
+            var mockData = RoleGroupMockData.GetMock().Take(6).AsQueryable();
             // Arrange 
             SetupContext(mockData);
         }
-        private void SetupContext(IQueryable<ApplicationLanguage> mockData)
+        private void SetupContext(IQueryable<RoleGroup> mockData)
         {
             var mockDataList = mockData.ToList();
             // Arrange
             _mockContext = new SmartDigitalPsicoDataContextTest();
 
-            _mockContext.ApplicationLanguages.AddRange(mockDataList);
+            _mockContext.RoleGroups.AddRange(mockDataList);
             _mockContext.SaveChanges();
         }
-         
+
         [Test]
         public async Task FindAll_Success()
         {
             // Arrange
-            var mockDataList = ApplicationLanguageMockData.GetMock().Take(38).AsQueryable();
+            var mockDataList = RoleGroupMockData.GetMock().Take(6).AsQueryable();
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new ApplicationLanguageRepository(_mockContext);
+            _entityRepository = new RoleGroupRepository(_mockContext);
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -46,35 +46,31 @@ namespace SmartDigitalPsico.Data.Tests.Repository
             Assert.Multiple(() =>
             {
                 Assert.That(listResult, Is.Not.Null);
-                Assert.That(listResult, Is.InstanceOf<List<ApplicationLanguage>>());
-                Assert.That(listResult, Has.Count.EqualTo(38));
-                Assert.That(listCount, Is.EqualTo(38));
+                Assert.That(listResult, Is.InstanceOf<List<RoleGroup>>());
+                Assert.That(listResult, Has.Count.EqualTo(6));
+                Assert.That(listCount, Is.EqualTo(6));
             });
         }
 
-
         [Test]
-        public async Task Find_Success()
+        public async Task FindByIDs_Success()
         {
             // Arrange
-            var mockData = ApplicationLanguageMockData.GetMock().Take(38).AsQueryable().First();
-            // Arrange
-            var language = mockData.Language;
-            var languageKey = mockData.LanguageKey;
-            var resourceKey = mockData.ResourceKey;
+            var roleGroupIds = new List<long> { 1, 2, 3 };
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new ApplicationLanguageRepository(_mockContext);
-             
+            _entityRepository = new RoleGroupRepository(_mockContext);
+
             // Act
-            var result = await _entityRepository.Find(language, languageKey, resourceKey);
+            var result = await _entityRepository.FindByIDs(roleGroupIds);
 
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.InstanceOf<ApplicationLanguage>()); 
+                Assert.That(result, Is.InstanceOf<List<RoleGroup>>());
+                Assert.That(result, Has.Count.EqualTo(3));
             });
         }
     }
