@@ -23,9 +23,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 #pragma warning restore CS8602
         }
 
-#pragma warning disable CS8602
         public async override Task<PatientNotificationMessage> FindByID(long id)
         {
+#pragma warning disable CS8602
             return await _dataset
                 .Include(e => e.Patient)
                 .ThenInclude(e => e.Medical)

@@ -7,9 +7,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
-    public class PatientRecordRepositoryTests : BaseTests
+    public class PatientNotificationMessageRepositoryTests : BaseTests
     {
-        private PatientRecordRepository? _entityRepository;
+        private PatientNotificationMessageRepository? _entityRepository;
         private static int totalRegister = 3;
 
         [SetUp]
@@ -28,8 +28,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var mockDataListMedical = MedicalMockHelper.GetMock().AsQueryable();
             var mockDataListGender = GenderMockHelper.GetMock().AsQueryable();
 
-            var mockDataPatientRecordlist = PatientRecordMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable().ToList();
-
             // Arrange
             _mockContext = new SmartDigitalPsicoDataContextTest();
             _mockContext.Users.AddRange(mockDataListUser);
@@ -40,7 +38,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
             _mockContext.Patients.AddRange(mockDataPatientList2);
             _mockContext.SaveChanges();
-            _mockContext.PatientRecords.AddRange(mockDataPatientRecordlist);
+            
+            
+            var mockDataPatientRecordlist = PatientNotificationMessageMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable().ToList();
+            _mockContext.PatientNotificationMessages.AddRange(mockDataPatientRecordlist);
             _mockContext.SaveChanges();
         }
 
@@ -49,17 +50,17 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         {
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRecordRepository(_mockContext);
+            _entityRepository = new PatientNotificationMessageRepository(_mockContext);
 
             // Act
             var listResult = await _entityRepository.FindAll();
-            var listCount = _mockContext.PatientRecords.ToList().Count;
+            var listCount = _mockContext.PatientNotificationMessages.ToList().Count;
 
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(listResult, Is.Not.Null);
-                Assert.That(listResult, Is.InstanceOf<List<PatientRecord>>());
+                Assert.That(listResult, Is.InstanceOf<List<PatientNotificationMessage>>());
                 Assert.That(listResult, Has.Count.EqualTo(3));
                 Assert.That(listCount, Is.EqualTo(3));
             });
@@ -73,7 +74,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
              
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRecordRepository(_mockContext);
+            _entityRepository = new PatientNotificationMessageRepository(_mockContext);
              
             // Act
             var result = await _entityRepository.FindAllByPatient(mockDataPatient.Id);
@@ -82,19 +83,19 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.InstanceOf<List<PatientRecord>>());
+                Assert.That(result, Is.InstanceOf<List<PatientNotificationMessage>>());
                 Assert.That(result, Has.Count.EqualTo(2));
             });
         }
 
         [Test]
-        public async Task FindByID_Success_ReturnsPatientRecord()
+        public async Task FindByID_Success_ReturnsPatientNotificationMessage()
         { 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRecordRepository(_mockContext);
+            _entityRepository = new PatientNotificationMessageRepository(_mockContext);
             // Arrange 
-            var mockData = _mockContext.PatientRecords.First();
+            var mockData = _mockContext.PatientNotificationMessages.First();
 
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
@@ -102,11 +103,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.InstanceOf<PatientRecord>());
+                Assert.That(result, Is.InstanceOf<PatientNotificationMessage>());
                 Assert.That(result.Id, Is.EqualTo(mockData.Id));
-                Assert.That(result.Patient, Is.Not.Null);                
+                Assert.That(result.Patient, Is.Not.Null);
                 Assert.That(result.CreatedUser, Is.Not.Null);
+                Assert.That(result.Patient?.Medical, Is.Not.Null); 
             });
         }
     }
-}
+} 
