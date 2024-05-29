@@ -84,8 +84,30 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<List<PatientRecord>>());
-                Assert.That(result.Count, Is.EqualTo(2)); // Verifique o número correto de registros
+                Assert.That(result, Has.Count.EqualTo(2));
             });
-        } 
+        }
+
+        [Test]
+        public async Task FindByID_Success_ReturnsPatientRecord()
+        { 
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new PatientRecordRepository(_mockContext);
+            // Arrange 
+            var mockData = _mockContext.PatientRecords.First();
+
+            // Act
+            var result = await _entityRepository.FindByID(mockData.Id);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result, Is.InstanceOf<PatientRecord>());
+                Assert.That(result.Id, Is.EqualTo(mockData.Id));
+                Assert.That(result.Patient, Is.Not.Null);                
+                Assert.That(result.CreatedUser, Is.Not.Null);
+            });
+        }
     }
 }
