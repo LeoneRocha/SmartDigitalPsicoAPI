@@ -11,8 +11,8 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
         Task<bool> Delete(long id);
         Task<bool> EnableOrDisable(long id);
         Task<bool> Exists(long id);
-        Task<List<T>> FindWithPagedSearch(string query);
-        Task<int> GetCount(string query);
+
+        Task<int> GetCount(Expression<Func<T, bool>> predicate);
 
         Task<List<T>> FindByCustomWhere(Expression<Func<T, bool>> predicate);
 

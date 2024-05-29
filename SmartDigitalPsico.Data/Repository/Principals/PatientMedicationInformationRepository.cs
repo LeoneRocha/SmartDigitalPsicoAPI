@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async Task<List<PatientMedicationInformation>> FindAllByPatient(long patientId)
         {
 #pragma warning disable CS8602
-            return await dataset
+            return await _dataset
                 .AsNoTracking()
                 .Include(e => e.Patient)
                 .ThenInclude(e => e.Medical)
@@ -26,26 +26,13 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<PatientMedicationInformation> FindByID(long id)
         {
 #pragma warning disable CS8602
-            return await dataset
+            return await _dataset
                 .Include(e => e.Patient)
                 .ThenInclude(e => e.Medical)
                 .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        }
-        public async override Task<List<PatientMedicationInformation>> FindAll()
-        {
-#pragma warning disable CS8602
-            return await dataset
-                .AsNoTracking()
-                .Include(e => e.Patient)
-                .ThenInclude(e => e.Medical)
-                .ThenInclude(e => e.User)
-                .Include(e => e.CreatedUser)
-                .ToListAsync();
-#pragma warning restore CS8602
-        }
-
+        }  
     }
 }

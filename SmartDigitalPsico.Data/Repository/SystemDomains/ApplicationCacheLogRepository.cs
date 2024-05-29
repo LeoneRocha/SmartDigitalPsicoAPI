@@ -14,10 +14,10 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 
         public async Task<bool> Delete(string cacheKey)
         {
-            var result = await dataset.SingleOrDefaultAsync(p => p.CacheKey.ToLower().Equals(cacheKey.ToLower()));
+            var result = await _dataset.SingleOrDefaultAsync(p => p.CacheKey.ToLower().Equals(cacheKey.ToLower()));
             if (result != null)
             {
-                dataset.Remove(result);
+                _dataset.Remove(result);
                 await _context.SaveChangesAsync();
             }
 

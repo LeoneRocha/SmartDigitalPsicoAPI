@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Data.Context
         public virtual DbSet<Medical> Medicals { get; set; }
         public virtual DbSet<MedicalCalendar> MedicalCalendars { get; set; }
         public virtual DbSet<MedicalFile> MedicalFiles { get; set; }   
-        public virtual DbSet<MedicalFile> MedicalSpecialties { get; set; }
+        public virtual DbSet<MedicalSpecialty> MedicalSpecialties { get; set; }
         public virtual DbSet<Office> Offices { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<PatientAdditionalInformation> PatientAdditionalInformations { get; set; }

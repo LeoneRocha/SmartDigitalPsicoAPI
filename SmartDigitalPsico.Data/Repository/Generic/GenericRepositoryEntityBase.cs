@@ -11,21 +11,21 @@ namespace SmartDigitalPsico.Data.Repository.Generic
     {
         protected SmartDigitalPsicoDataContext _context;
 
-        protected DbSet<T> dataset;
+        protected DbSet<T> _dataset;
         protected GenericRepositoryEntityBase(SmartDigitalPsicoDataContext context)
         {
             _context = context;
-            dataset = _context.Set<T>();
+            _dataset = _context.Set<T>();
         }
 
         public virtual async Task<List<T>> FindAll()
         {
-            return await dataset.AsNoTracking().ToListAsync();
+            return await _dataset.AsNoTracking().ToListAsync();
         }
 
         public virtual async Task<T> FindByID(long id)
         {
-            return await dataset.FirstAsync(p => p.Id.Equals(id));
+            return await _dataset.FirstAsync(p => p.Id.Equals(id));
         }
 
         public virtual async Task<T> Create(T item)
@@ -33,14 +33,14 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             //Fields internal change 
             item.CreatedDate = DataHelper.GetDateTimeNow();
             item.Enable = true;
-            await dataset.AddAsync(item);
+            await _dataset.AddAsync(item);
             await _context.SaveChangesAsync();
             return item;
         }
 
         public virtual async Task<T> Update(T item)
         {
-            var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
+            var result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
             if (result != null)
             {
                 //Fields internal change 
@@ -58,10 +58,10 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
         public virtual async Task<bool> Delete(long id)
         {
-            var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
+            var result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
             if (result != null)
             {
-                dataset.Remove(result);
+                _dataset.Remove(result);
                 await _context.SaveChangesAsync();
             }
 
@@ -70,7 +70,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
         public virtual async Task<bool> EnableOrDisable(long id)
         {
-            var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
+            var result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
             if (result != null)
             {
                 result.Enable = !result.Enable;
@@ -81,27 +81,22 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
         public virtual async Task<bool> Exists(long id)
         {
-            return await dataset.AsNoTracking().AnyAsync(p => p.Id.Equals(id));
+            return await _dataset.AsNoTracking().AnyAsync(p => p.Id.Equals(id));
         }
 
         public virtual async Task FindExistsByID(long id)
         {
-            await dataset.AsNoTracking().Select(x=> x.Id).FirstAsync(p => p.Equals(id));
-        }
-
-        public virtual async Task<List<T>> FindWithPagedSearch(string query)
-        {
-            return await dataset.FromSqlRaw(query).ToListAsync();
+            await _dataset.AsNoTracking().Select(x => x.Id).FirstAsync(p => p.Equals(id));
         }
 
         public virtual async Task<List<T>> FindByCustomWhere(Expression<Func<T, bool>> predicate)
         {
-            return await dataset.Where(predicate).ToListAsync();
+            return await _dataset.Where(predicate).ToListAsync();
         }
 
         public virtual async Task<List<T>> FindByCustomWhereWithIncludes(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
-            IQueryable<T> query = dataset.Where(predicate);
+            IQueryable<T> query = _dataset.Where(predicate);
 
             foreach (var includeProperty in includeProperties)
             {
@@ -111,24 +106,9 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             return await query.ToListAsync();
         }
 
-        public virtual async Task<int> GetCount(string query)
+        public virtual async Task<int> GetCount(Expression<Func<T, bool>> predicate)
         {
-            int resultOut = -1;
-            using (var connection = _context.Database.GetDbConnection())
-            {
-                await connection.OpenAsync();
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = query;
-                    var resultAsyn = await command.ExecuteScalarAsync();
-                    int result = 0;
-                    if (resultAsyn != null && int.TryParse(resultAsyn.ToString(), out result))
-                    {
-                        resultOut = result;
-                    }
-                }
-            }
-            return resultOut;
+            return await _dataset.AsNoTracking().CountAsync(predicate);
         }
     }
 }

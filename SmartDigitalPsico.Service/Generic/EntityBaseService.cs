@@ -7,6 +7,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Service.SystemDomains;
+using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Service.Generic
 {
@@ -57,7 +58,7 @@ namespace SmartDigitalPsico.Service.Generic
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex.Message}-{ex .InnerException?.Message}" });
+                response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
                 response.Message = await getMessageFromLocalization("RegisterCreated");
             }
             return response;
@@ -155,22 +156,14 @@ namespace SmartDigitalPsico.Service.Generic
 
             return response;
         }
-        public virtual async Task<ServiceResponse<List<TEntityResult>>> FindWithPagedSearch(string query)
-        {
-            ServiceResponse<List<TEntityResult>> response = new ServiceResponse<List<TEntityResult>>();
 
-            List<TEntity> entityResponse = await _genericRepository.FindWithPagedSearch(query);
-            response.Data = entityResponse.Select(c => _mapper.Map<TEntityResult>(c)).ToList();
-            response.Success = true;
-            response.Message = await getMessageFromLocalization("RegisterFind");
-
-            return response;
-        }
-        public async Task<ServiceResponse<int>> GetCount(string query)
+        public virtual async Task<ServiceResponse<int>> GetCount()
         {
+            Expression<Func<TEntity, bool>> predicate = g => g.Id > 0;
+
             ServiceResponse<int> response = new ServiceResponse<int>();
 
-            int entityResponse = await _genericRepository.GetCount(query);
+            int entityResponse = await _genericRepository.GetCount(predicate);
 
             response.Data = entityResponse;
             response.Success = true;

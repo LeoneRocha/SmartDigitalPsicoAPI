@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         /// <returns></returns>
         public async Task<Patient> FindByPatient(Patient patient)
         {
-            return await dataset
+            return await _dataset
                 .AsNoTracking()
                 .FirstAsync(x =>
                x.Cpf.ToLower().Equals(patient.Cpf.ToLower())
@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<Patient> FindByID(long id)
         {
 #pragma warning disable CS8602
-            return await dataset 
+            return await _dataset 
                 .Include(e => e.Medical)
                 .Include(e => e.Gender)
                 .Include(e => e.Medical)
@@ -37,15 +37,10 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.CreatedUser) 
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        }
-        public async override Task<List<Patient>> FindAll()
-        {
-            await Task.Yield();
-            throw new NotImplementedException();
-        }
+        } 
         public async Task<Patient?> FindByEmail(string email)
         {
-            Patient? entityResult = await dataset
+            Patient? entityResult = await _dataset
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(email.ToLower().Trim()));
 
@@ -55,7 +50,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async Task<List<Patient>> FindAllByMedicalId(long medicalId)
         {
 #pragma warning disable CS8602
-            return await dataset
+            return await _dataset
                 .AsNoTracking()
                .Include(e => e.Gender)
                .Include(e => e.Medical)

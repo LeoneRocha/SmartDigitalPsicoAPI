@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<User?> FindByLogin(string login)
         {
-            User? userResult = await dataset
+            User? userResult = await _dataset
                 .AsNoTracking()
                 .Include(e => e.UserRoleGroups)
                 .ThenInclude(e => e.RoleGroup)
@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<bool> UserExists(string login)
         {
-            if (await dataset.AnyAsync(x => x.Login.ToLower().Equals(login.ToLower())))
+            if (await _dataset.AnyAsync(x => x.Login.ToLower().Equals(login.ToLower())))
             {
                 return true;
             }
@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<User> FindByID(long id)
         {
 #pragma warning disable CS8602
-            return await dataset
+            return await _dataset
                 .Include(e => e.UserRoleGroups)
                 .ThenInclude(e => e.RoleGroup)
                 .Include(e => e.Medical)
@@ -49,7 +49,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async override Task<List<User>> FindAll()
         {
-            return await dataset
+            return await _dataset
                 .AsNoTracking()
                  .Include(e => e.UserRoleGroups)
                 .ThenInclude(e => e.RoleGroup)
@@ -58,12 +58,12 @@ namespace SmartDigitalPsico.Data.Repository.Principals
          
         public async Task<User> RefreshUserInfo(User user)
         {
-            if (!(await dataset.AnyAsync(u => u.Id.Equals(user.Id)))) return new User();
+            if (!(await _dataset.AnyAsync(u => u.Id.Equals(user.Id)))) return new User();
 
-            var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(user.Id));
+            var result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(user.Id));
             if (result != null)
             {
-                dataset.Entry(result).CurrentValues.SetValues(user);
+                _dataset.Entry(result).CurrentValues.SetValues(user);
                 await _context.SaveChangesAsync();
                 return result;
             }
@@ -72,7 +72,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<User?> FindByEmail(string value)
         {
-            User? userResult = await dataset
+            User? userResult = await _dataset
                 .AsNoTracking()
                 .Include(e => e.UserRoleGroups)
                 .ThenInclude(e => e.RoleGroup)

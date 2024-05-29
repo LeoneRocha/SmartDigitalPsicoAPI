@@ -468,3 +468,46 @@ ng build --configuration=production
 ng build --configuration=homologation
 
 ng serve --configuration=production
+
+
+
+
+
+
+
+
+
+
+-------------------- TESTE UNITARIO 
+
+Em C# .net core 8 usando NUnit 4 usando padrao novo That  e Moq gere teste unitario seguindo padroes de nomeclatura, gere o teste do codigo abaixo, o teste precisa ter um cenario de sucesso. para mais de um assert use o Assert.Multiple
+
+ 
+
+USE DE EXEMPLO O CODIGO ABAIXO 
+  [Test]
+        public async Task Create_Success()
+        {
+            // Arrange
+            var mockFull = GenderMockHelper.GetMock().AsQueryable();
+            SetupContext(mockFull);
+            var mockData = GenderMockHelper.GetMock().Take(1).AsQueryable().First();
+            var data = createNewEntity(mockData);
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new GenderRepository(_mockContext);
+
+            // Act
+            var result = await _entityRepository.Create(data);
+
+            var target = await _mockContext.Genders.FirstAsync(e => e.Description.Equals(data.Description, StringComparison.OrdinalIgnoreCase));
+
+            //Assert  
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.EqualTo(data));
+                Assert.That(target, Is.Not.Null);
+            });
+        }
