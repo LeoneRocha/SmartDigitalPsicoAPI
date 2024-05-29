@@ -111,6 +111,8 @@ secretKey = Convert.ToBase64String(key);
 
 Add-Migration UpdateConfig_03 -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
 
+Remove-Migration -Context SmartDigitalPsicoDataContext -Project SmartDigitalPsico.Data
+
 
 --------- Para ativar o gatilho do github basta ativar a extensao do azure pipelines 
 --GERAR A IMAGEM E SUBIR NO DOCKER
