@@ -33,13 +33,6 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        }
-        public async override Task<List<PatientAdditionalInformation>> FindAll()
-        {
-            return await _dataset
-                .Include(e => e.Patient)
-                .ToListAsync();
-        }
-
+        } 
     }
 }

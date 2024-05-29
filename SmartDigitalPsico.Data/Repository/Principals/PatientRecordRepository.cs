@@ -29,13 +29,6 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.Patient)
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
-        }
-        public async override Task<List<PatientRecord>> FindAll()
-        {
-            return await _dataset 
-                .Include(e => e.Patient) 
-                .Include(e => e.CreatedUser)
-                .ToListAsync();
-        }
+        } 
     }
-}
+} 
