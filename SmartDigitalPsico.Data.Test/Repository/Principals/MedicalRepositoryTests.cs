@@ -10,8 +10,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
     [TestFixture]
     public class MedicalRepositoryTests : BaseTests
     {
-        private MedicalRepository? _entityRepository;
-        private static int totalRegister = 3;
+        private MedicalRepository? _entityRepository; 
 
         [SetUp]
         public override void Setup()
