@@ -7,8 +7,8 @@
     <UserSecretsId>2635b1f2-66d1-4197-bb29-908740cba17d</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-    <AssemblyVersion>2024.05.26.01</AssemblyVersion>
-    <FileVersion>2024.05.26.01</FileVersion>
+    <AssemblyVersion>2024.05.29.01</AssemblyVersion>
+    <FileVersion>2024.05.29.01</FileVersion>
   </PropertyGroup>
 
 
