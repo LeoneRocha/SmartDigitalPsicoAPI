@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
             Medical? entityResult = (await _dataset
                 .AsNoTracking()
-                .Where(p => p.Email == normalizedEmail).ToListAsync()).ToList()
+                .Where(p => p.Email.ToUpper() == normalizedEmail).ToListAsync()).ToList()
                 .FirstOrDefault(p => p.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
 
             return entityResult;
@@ -61,7 +61,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.MedicalSpecialties)
                 .ThenInclude(ms => ms.Specialty)
                 .Include(e => e.CreatedUser)
-                .Where(p => p.Accreditation == normalizedAccreditation).ToListAsync())
+                .Where(p => p.Accreditation.ToUpper() == normalizedAccreditation).ToListAsync())
                 .FirstOrDefault(p => p.Accreditation.Equals(normalizedAccreditation, StringComparison.OrdinalIgnoreCase));
 
             return entityResult;
