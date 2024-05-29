@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
+using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Data.Repository.Generic;
-using MySql.EntityFrameworkCore.Extensions;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
@@ -41,18 +40,18 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<Medical?> FindByEmail(string email)
         {
-            var normalizedEmail = email.ToUpper();
+            var normalizedEmail = email.ToLower();
 
             Medical? entityResult = (await _dataset
                 .AsNoTracking()
-                .Where(p => p.Email.ToUpper() == normalizedEmail).ToListAsync()).ToList()
-                .FirstOrDefault(p => p.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+                .Where(p => p.Email == normalizedEmail).ToListAsync())
+                .Find(p => p.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
 
             return entityResult;
         }
         public async Task<Medical?> FindByAccreditation(string accreditation)
         {
-            var normalizedAccreditation = accreditation.ToUpper();
+            var normalizedAccreditation = accreditation.ToLower();
 
             Medical? entityResult = (await _dataset
                 .AsNoTracking()
@@ -61,8 +60,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.MedicalSpecialties)
                 .ThenInclude(ms => ms.Specialty)
                 .Include(e => e.CreatedUser)
-                .Where(p => p.Accreditation.ToUpper() == normalizedAccreditation).ToListAsync())
-                .FirstOrDefault(p => p.Accreditation.Equals(normalizedAccreditation, StringComparison.OrdinalIgnoreCase));
+                .Where(p => p.Accreditation == normalizedAccreditation).ToListAsync())                
+                .Find(p => p.Accreditation.Equals(normalizedAccreditation, StringComparison.OrdinalIgnoreCase));
 
             return entityResult;
         }

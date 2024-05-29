@@ -59,10 +59,10 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
                     var existingEnity = await _entityRepository.FindByAccreditation(value);
 
-                    if (existingEnity == null)
+                    if (existingEnity != null)
                     {
-                        return true;
-                    }
+                        return false;
+                    } 
                 }
                 else
                 {
@@ -90,9 +90,9 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 {
                     var existingEnity = await _entityRepository.FindByEmail(value);
 
-                    if (existingEnity == null)
+                    if (existingEnity != null)
                     {
-                        return true;
+                        return false;
                     }
                 }
                 else
