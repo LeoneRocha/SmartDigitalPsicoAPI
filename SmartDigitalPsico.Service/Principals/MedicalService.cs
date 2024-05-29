@@ -53,7 +53,10 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.CreatedUserId = this.UserId;
             entityAdd.Enable = true;
 
-            ServiceResponse<GetMedicalVO> response = await base.Validate(entityAdd);
+            entityAdd.Email = entityAdd.Email.ToLower();
+            entityAdd.Accreditation = entityAdd.Accreditation.ToLower();
+             
+            ServiceResponse <GetMedicalVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -105,6 +108,9 @@ namespace SmartDigitalPsico.Service.Principals
                 entityUpdate.Accreditation = item.Accreditation;
                 entityUpdate.Name = item.Name;
                 entityUpdate.Email = item.Email;
+
+                entityUpdate.Email = entityUpdate.Email.ToLower();
+                entityUpdate.Accreditation = entityUpdate.Accreditation.ToLower();
 
                 #endregion Columns
 
