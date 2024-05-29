@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async Task<List<PatientNotificationMessage>> FindAllByPatient(long patientId)
         {
 #pragma warning disable CS8602
-            return await dataset
+            return await _dataset
                 .AsNoTracking()
                 .Include(e => e.Patient)
                 .ThenInclude(e => e.Medical)
@@ -23,29 +23,16 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 #pragma warning restore CS8602
         }
 
-#pragma warning disable CS8602
         public async override Task<PatientNotificationMessage> FindByID(long id)
         {
-            return await dataset
+#pragma warning disable CS8602
+            return await _dataset
                 .Include(e => e.Patient)
                 .ThenInclude(e => e.Medical)
                 .ThenInclude(e => e.User)
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        }
-        public async override Task<List<PatientNotificationMessage>> FindAll()
-        {
-#pragma warning disable CS8602
-            return await dataset
-                .AsNoTracking()
-                .Include(e => e.Patient)
-                .ThenInclude(e => e.Medical)
-                .ThenInclude(e => e.User)
-                .Include(e => e.CreatedUser)
-                .ToListAsync();
-#pragma warning restore CS8602
-        }
-
+        } 
     }
 }
