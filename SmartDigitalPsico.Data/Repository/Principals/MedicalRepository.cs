@@ -23,13 +23,18 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.Office)
                 .Include(e => e.MedicalSpecialties)
                 .ThenInclude(ms => ms.Specialty)
+                .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
         }
         public async override Task<List<Medical>> FindAll()
         {
             return await _dataset
                 .AsNoTracking()
-                .Include(e => e.Office) 
+                .Include(e => e.User)
+                .Include(e => e.Office)
+                .Include(e => e.MedicalSpecialties)
+                .ThenInclude(ms => ms.Specialty)
+                .Include(e => e.CreatedUser)
                 .ToListAsync();
         }
 
@@ -45,6 +50,11 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             Medical? entityResult = await _dataset
                 .AsNoTracking()
+                .Include(e => e.User)
+                .Include(e => e.Office)
+                .Include(e => e.MedicalSpecialties)
+                .ThenInclude(ms => ms.Specialty)
+                .Include(e => e.CreatedUser)
                 .FirstOrDefaultAsync(p => p.Accreditation.Equals(accreditation, StringComparison.OrdinalIgnoreCase));
 
             return entityResult;
