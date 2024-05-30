@@ -10,7 +10,6 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
@@ -106,11 +105,11 @@ namespace SmartDigitalPsico.Service.Principals
             return resultVO;
         }
 
-        public async Task<ServiceResponse<List<GetPatientFileVO>>> FindAllByPatient(long medicalId) 
+        public async Task<ServiceResponse<List<GetPatientFileVO>>> FindAllByPatient(long patientId) 
         {
             ServiceResponse<List<GetPatientFileVO>> response = new ServiceResponse<List<GetPatientFileVO>>();
 
-            var listResult = await _entityRepository.FindAllByPatient(medicalId);
+            var listResult = await _entityRepository.FindAllByPatient(patientId);
 
             response.Data = listResult.Select(c => _mapper.Map<GetPatientFileVO>(c)).ToList();
             response.Success = true;
