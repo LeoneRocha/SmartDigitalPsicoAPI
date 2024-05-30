@@ -7,6 +7,7 @@ using SmartDigitalPsico.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
 
 
@@ -32,13 +33,13 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         private void setUserIdCurrent()
         {
             _entityService.SetUserId(base.GetUserIdCurrent());
-        } 
+        }
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetPatientFileVO>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetPatientFileVO>>>> FindAll(long medicalId)
         {
             this.setUserIdCurrent();
-            return Ok(await _entityService.FindAll());
+            return Ok(await _entityService.FindAllByPatient(medicalId));
         }
 
         [HttpGet("{id}")]

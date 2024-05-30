@@ -20,6 +20,14 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        }  
+        }
+
+        public async Task<List<PatientFile>> FindAllByPatient(long patientId)
+        {
+            return await _dataset
+                .AsNoTracking()
+                .Where(e => e.PatientId == patientId)
+                .Include(e => e.Patient).ToListAsync();
+        }
     }
 } 

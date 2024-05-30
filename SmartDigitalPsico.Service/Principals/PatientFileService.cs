@@ -5,12 +5,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
 using SmartDigitalPsico.Service.Generic;
+using SmartDigitalPsico.Service.SystemDomains;
 
 namespace SmartDigitalPsico.Service.Principals
 {
@@ -101,6 +104,19 @@ namespace SmartDigitalPsico.Service.Principals
             GetPatientFileVO resultVO = _mapper.Map<GetPatientFileVO>(fileEntity);
 
             return resultVO;
+        }
+
+        public async Task<ServiceResponse<List<GetPatientFileVO>>> FindAllByPatient(long medicalId) 
+        {
+            ServiceResponse<List<GetPatientFileVO>> response = new ServiceResponse<List<GetPatientFileVO>>();
+
+            var listResult = await _entityRepository.FindAllByPatient(medicalId);
+
+            response.Data = listResult.Select(c => _mapper.Map<GetPatientFileVO>(c)).ToList();
+            response.Success = true;
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                       ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
+            return response;
         }
     }
 }
