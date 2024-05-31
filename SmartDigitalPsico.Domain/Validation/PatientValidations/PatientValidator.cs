@@ -148,8 +148,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             }
             return true;
         }
-
-
+         
         private static bool beAValidAge(DateTime date)
         {
             int currentYear = DataHelper.GetDateTimeNow().Year;

@@ -2,31 +2,31 @@
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Validation.Contratcs;
 
-namespace SmartDigitalPsico.Domain.Validation.Contratcs
+namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
 {
-    public class PatientFileSelectListValidator : RecordsListValidator<PatientFile>
+    public class PatientSelectListValidator : RecordsListValidator<Patient>
     {
-
-        public PatientFileSelectListValidator(IUserRepository userRepository)
+        public PatientSelectListValidator(IUserRepository userRepository)
             : base(userRepository)
         {
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission");  
+                .WithMessage("ErrorValidator_User_Not_Permission");
         }
-        protected override async Task<bool> HasPermissionAsync(RecordsList<PatientFile> recordsList, long userIdLogged, CancellationToken cancellationToken)
+        protected override async Task<bool> HasPermissionAsync(RecordsList<Patient> recordsList, long userIdLogged, CancellationToken cancellationToken)
         {
             try
             {
-                User userLogged = await base._userRepository.FindByID(userIdLogged);
+                User userLogged = await _userRepository.FindByID(userIdLogged);
 
                 if (recordsList.Records.Count == 0) { return false; }
 
                 bool userHasPermission = recordsList.Records.TrueForAll(rg =>
-                rg.Patient != null && (
+
                 rg.CreatedUser?.Id == userIdLogged
-                && userLogged.MedicalId == rg.Patient.MedicalId)
+                && userLogged.MedicalId == rg.MedicalId
                 );
                 return userHasPermission;
             }

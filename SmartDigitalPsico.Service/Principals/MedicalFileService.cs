@@ -11,7 +11,6 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
-using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
 
@@ -62,8 +61,7 @@ namespace SmartDigitalPsico.Service.Principals
             }
             return response;
         }
-
-
+         
         public async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAllByMedical(long medicalId)
         {
             ServiceResponse<List<GetMedicalFileVO>> response = new ServiceResponse<List<GetMedicalFileVO>>();
