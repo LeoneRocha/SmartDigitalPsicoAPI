@@ -5,16 +5,17 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.Contratcs
 {
-    public class PatientMedicationInformationSelectListValidator : RecordsListValidator<PatientMedicationInformation>
-    { 
-        public PatientMedicationInformationSelectListValidator(IUserRepository userRepository)
+    public class PatientFileSelectListValidator : RecordsListValidator<PatientFile>
+    {
+
+        public PatientFileSelectListValidator(IUserRepository userRepository)
             : base(userRepository)
         {
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
                 .WithMessage("ErrorValidator_User_Not_Permission");  
         }
-        protected override async Task<bool> HasPermissionAsync(RecordsList<PatientMedicationInformation> recordsList, long userIdLogged, CancellationToken cancellationToken)
+        protected override async Task<bool> HasPermissionAsync(RecordsList<PatientFile> recordsList, long userIdLogged, CancellationToken cancellationToken)
         {
             try
             {

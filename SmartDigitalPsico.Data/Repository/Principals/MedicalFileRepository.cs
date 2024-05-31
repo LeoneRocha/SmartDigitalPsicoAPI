@@ -14,6 +14,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             return await _dataset
                 .AsNoTracking()
+                .Include(e => e.CreatedUser)//validation required
                 .Include(e => e.Medical).ToListAsync();
         }
 
@@ -21,7 +22,10 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             return await _dataset
                 .AsNoTracking()
-                .Where(e => e.MedicalId == medicalId).Include(e => e.Medical).ToListAsync();
+                .Where(e => e.MedicalId == medicalId)
+                .Include(e => e.Medical)
+                .Include(e => e.CreatedUser)//validation required
+                .ToListAsync();
         }
     }
 }

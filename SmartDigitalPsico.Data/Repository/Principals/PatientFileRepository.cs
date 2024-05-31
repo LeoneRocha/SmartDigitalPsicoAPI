@@ -27,7 +27,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return await _dataset
                 .AsNoTracking()
                 .Where(e => e.PatientId == patientId)
-                .Include(e => e.Patient).ToListAsync();
+                .Include(e => e.CreatedUser)//validation required
+                .Include(e => e.Patient)
+                .ToListAsync();
         }
     }
 } 
