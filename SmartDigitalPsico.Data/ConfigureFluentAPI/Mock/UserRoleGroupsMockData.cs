@@ -8,18 +8,37 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
     {
         public void Configure(EntityTypeBuilder<RoleGroupUser> modelBuilder)
         {
-            modelBuilder.HasData(GetMock()); 
+            modelBuilder.HasData(GetMock());
         }
         public static RoleGroupUser[] GetMock()
         {
             var userAdmin = new RoleGroupUser
-            { 
+            {
                 RoleGroupId = 1,
                 UserId = 1,
-            }; 
+            };
 
             return [
-                userAdmin 
+                userAdmin
+            ];
+        }
+
+        public static RoleGroupUser[] GetMockUnitTest()
+        {
+            var userAdmin = new RoleGroupUser
+            {
+                RoleGroupId = 1,
+                UserId = 1,
+            };
+
+            var userMedical = new RoleGroupUser
+            {
+                RoleGroupId = 2,
+                UserId = 2,
+            };
+
+            return [
+                userAdmin ,userMedical
             ];
         }
     }

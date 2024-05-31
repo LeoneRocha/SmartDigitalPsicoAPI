@@ -20,13 +20,23 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         }
         private void SetupContext(IQueryable<MedicalFile> mockData)
         {
-            var mockDataMedicalList = MedicalMockHelper.GetMockFromBogus().AsQueryable();
-
+            var mockDataListUser = UserMockHelper.GetMock().AsQueryable().ToList();
+            var mockDataListUser2 = UserMockHelper.GetMockFromBogus().AsQueryable().ToList();
+             
+            var mockDataListMedical = MedicalMockHelper.GetMock().AsQueryable().ToList();
+            var mockDataListMedical2 = MedicalMockHelper.GetMockFromBogus().Take(3).AsQueryable().ToList();
+             
             var mockDataList = mockData.ToList();
             // Arrange
             _mockContext = new SmartDigitalPsicoDataContextTest();
+            _mockContext.Users.AddRange(mockDataListUser);
+            _mockContext.Medicals.AddRange(mockDataListMedical);
+            _mockContext.SaveChanges();
 
-            _mockContext.Medicals.AddRange(mockDataMedicalList);
+            _mockContext.Users.AddRange(mockDataListUser2);
+            _mockContext.Medicals.AddRange(mockDataListMedical2); 
+            _mockContext.SaveChanges();
+
             _mockContext.MedicalFiles.AddRange(mockDataList);
             _mockContext.SaveChanges();
         }
@@ -77,6 +87,31 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(listResult, Has.Count.EqualTo(2));
                 Assert.That(listResult.All(f => f.MedicalId == mockDataList[0].MedicalId), Is.True);
             });
+        }
+
+        [Test]
+        public async Task FindByID_Success()
+        {
+            // Arrange 
+            var mockDataList = MedicalFileMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable().ToList();
+            SetupContext(mockDataList.AsQueryable());
+
+            var mockData = mockDataList[0];
+
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new MedicalFileRepository(_mockContext);
+
+            // Act
+            var result = await _entityRepository.FindByID(mockData.Id);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.Id, Is.EqualTo(mockData.Id));
+
+            }); 
         }
     }
 }

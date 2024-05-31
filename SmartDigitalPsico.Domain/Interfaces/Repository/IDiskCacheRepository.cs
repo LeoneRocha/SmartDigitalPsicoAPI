@@ -1,6 +1,6 @@
 ﻿namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IDiskCacheRepository : ICacheRepository
+    public interface IDiskCacheRepository  
     {
         public Task<KeyValuePair<bool, T>> TryGetAsync<T>(string cacheKey) where T : new();
 
