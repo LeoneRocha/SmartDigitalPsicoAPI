@@ -31,11 +31,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
                 PathCache = "./ResourcesTempCache",
                 AbsoluteExpirationInHours = 1,
                 AbsoluteExpirationInMinutes = 30,
-                SlidingExpirationInMinutes = 15
-                // Adicione outras propriedades conforme necessário
-            };
-
-            // Criar uma instância de IOptions<CacheConfigurationVO> usando Moq
+                SlidingExpirationInMinutes = 15 
+            }; 
             var mockOptions = new Mock<IOptions<CacheConfigurationVO>>();
             mockOptions.Setup(o => o.Value).Returns(cacheConfig);
 
@@ -62,8 +59,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
             var result = _memoryCacheRepository.TryGet<Gender[]>(cacheKey, out var actualValue);
 
             // Assert
-            Assert.That(result, Is.True);
-            Assert.That(actualValue, Is.EqualTo(mockData));
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(actualValue, Is.EqualTo(mockData));
+            });
         }
         [Test]
         public void Set_ValidInput_ReturnsTrue()
@@ -95,6 +95,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
 
             // Assert
             Assert.That(result, Is.True);
-        } 
+        }
     }
 }
