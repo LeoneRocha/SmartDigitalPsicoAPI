@@ -2,14 +2,16 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
-using SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation;
+using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
 
@@ -21,9 +23,12 @@ namespace SmartDigitalPsico.Service.Principals
         private readonly IConfiguration _configuration;
         private readonly IMedicalFileRepository _entityRepository; 
         private readonly IFilePersistor _filePersistor;
+        private readonly IUserRepository _userRepository;
+
         public MedicalFileService(IMapper mapper
             , IConfiguration configuration
             , IMedicalFileRepository entityRepository
+            , IUserRepository userRepository
             , IValidator<MedicalFile> entityValidator 
             , ICacheService cacheService
             , IApplicationLanguageRepository applicationLanguageRepository
@@ -35,6 +40,7 @@ namespace SmartDigitalPsico.Service.Principals
             _configuration = configuration;
             _entityRepository = entityRepository; 
             _filePersistor = filePersistor;
+            _userRepository = userRepository;
         }
         public override async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAll()
         {
@@ -63,11 +69,37 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<List<GetMedicalFileVO>> response = new ServiceResponse<List<GetMedicalFileVO>>();
 
             var listResult = await _entityRepository.FindAllByMedical(medicalId);
+             
+            var recordsList = new RecordsList<MedicalFile>
+            {
+                UserIdLogged = base.UserId,
+                Records = listResult,
 
+            };
+            var validator = new MedicalFileSelectListValidator(_userRepository);
+            var validationResult = await validator.ValidateAsync(recordsList);
+
+            if (!validationResult.IsValid)
+            {
+                response.Errors = validator.GetMapErros(validationResult.Errors);
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                       ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
+                return response;
+            }
+
+            if (listResult == null || listResult.Count == 0)
+            {
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                       ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+                return response;
+            }
             response.Data = listResult.Select(c => _mapper.Map<GetMedicalFileVO>(c)).ToList();
             response.Success = true;
             response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
+             
             return response;
         }
 
