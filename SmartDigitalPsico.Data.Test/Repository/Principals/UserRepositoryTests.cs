@@ -1,10 +1,8 @@
-﻿using MySqlX.XDevAPI.Common;
-using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
+﻿using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
@@ -26,6 +24,9 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var mockDataListMedical = MedicalMockHelper.GetMock().AsQueryable().ToList();
             var mockDataListMedical2 = MedicalMockHelper.GetMockFromBogus().Take(3).AsQueryable().ToList();
 
+            var mockDataListPatient = PatientMockHelper.GetMock().AsQueryable().ToList();
+            var mockDataListPatient2 = PatientMockHelper.GetMockFromBogus().AsQueryable().ToList();
+
             var mockDataListRoleGroup = RoleGroupMockData.GetMock().Take(6).AsQueryable().ToList();
 
             var mockDataListRoleGroupUsers = RoleGroupUserMockData.GetMockUnitTest().Take(3).AsQueryable().ToList();
@@ -37,9 +38,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.RoleGroups.AddRange(mockDataListRoleGroup);
             _mockContext.Users.AddRange(mockDataListUser);
             _mockContext.Medicals.AddRange(mockDataListMedical);
+            _mockContext.Patients.AddRange(mockDataListPatient);
+             
 
             _mockContext.SaveChanges();
             _mockContext.Medicals.AddRange(mockDataListMedical2);
+            _mockContext.Patients.AddRange(mockDataListPatient2);
             _mockContext.SaveChanges();
 
             _mockContext.Users.AddRange(mockDataListUser2);
