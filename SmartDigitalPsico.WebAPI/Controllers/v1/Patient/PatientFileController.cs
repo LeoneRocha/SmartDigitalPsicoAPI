@@ -32,13 +32,13 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         private void setUserIdCurrent()
         {
             _entityService.SetUserId(base.GetUserIdCurrent());
-        } 
+        }
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetPatientFileVO>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetPatientFileVO>>>> FindAll(long patientId)
         {
             this.setUserIdCurrent();
-            return Ok(await _entityService.FindAll());
+            return Ok(await _entityService.FindAllByPatient(patientId));
         }
 
         [HttpGet("{id}")]
