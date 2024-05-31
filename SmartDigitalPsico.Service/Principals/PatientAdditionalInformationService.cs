@@ -7,7 +7,8 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
+using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
+using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
@@ -135,6 +136,45 @@ namespace SmartDigitalPsico.Service.Principals
             response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             return response;
-        } 
+        }
+        /// <summary>
+        /// MODELO SELECT 1 VALIDACAO 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public override async Task<ServiceResponse<GetPatientAdditionalInformationVO>> FindByID(long id)
+        {
+            ServiceResponse<GetPatientAdditionalInformationVO> response = new ServiceResponse<GetPatientAdditionalInformationVO>();
+            try
+            {
+                PatientAdditionalInformation entityResponse = await _entityRepository.FindByID(id);
+
+                var recordData = new Record<PatientAdditionalInformation>
+                {
+                    UserIdLogged = base.UserId,
+                    RecordEntity = entityResponse
+                };
+
+                var validator = new PatientAdditionalInformationSelectOneValidator(_userRepository);
+                var validationResult = await validator.ValidateAsync(recordData);
+                if (!validationResult.IsValid)
+                {
+                    response.Errors = validator.GetMapErros(validationResult.Errors);
+                    response.Success = false;
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                           ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
+                    return response;
+                }
+                response.Data = _mapper.Map<GetPatientAdditionalInformationVO>(entityResponse);
+                response.Success = true;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+            }
+            catch (Exception)
+            {
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+            }
+            return response;
+        }
     }
 }

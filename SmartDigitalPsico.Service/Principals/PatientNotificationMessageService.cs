@@ -1,11 +1,13 @@
 using AutoMapper;
 using FluentValidation;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
@@ -19,14 +21,16 @@ namespace SmartDigitalPsico.Service.Principals
         private readonly IMapper _mapper;
         private readonly IPatientNotificationMessageRepository _entityRepository;
         private readonly IPatientRepository _patientRepository;
+        private readonly IUserRepository _userRepository;
 
-        public PatientNotificationMessageService(IMapper mapper, IPatientNotificationMessageRepository entityRepository, IPatientRepository patientRepository
+        public PatientNotificationMessageService(IMapper mapper, IPatientNotificationMessageRepository entityRepository,  IUserRepository userRepository, IPatientRepository patientRepository
              , IValidator<PatientNotificationMessage> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
             : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _mapper = mapper;
             _entityRepository = entityRepository;
             _patientRepository = patientRepository;
+            _userRepository = userRepository;
         }
         public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Create(AddPatientNotificationMessageVO item)
         {
@@ -117,6 +121,42 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
 
             return result;
+        }
+
+
+        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> FindByID(long id)
+        {
+            ServiceResponse<GetPatientNotificationMessageVO> response = new ServiceResponse<GetPatientNotificationMessageVO>();
+            try
+            {
+                PatientNotificationMessage entityResponse = await _entityRepository.FindByID(id);
+
+                var recordData = new Record<PatientNotificationMessage>
+                {
+                    UserIdLogged = base.UserId,
+                    RecordEntity = entityResponse
+                };
+
+                var validator = new PatientNotificationMessageSelectOneValidator(_userRepository);
+                var validationResult = await validator.ValidateAsync(recordData);
+                if (!validationResult.IsValid)
+                {
+                    response.Errors = validator.GetMapErros(validationResult.Errors);
+                    response.Success = false;
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                           ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
+                    return response;
+                }
+                response.Data = _mapper.Map<GetPatientNotificationMessageVO>(entityResponse);
+                response.Success = true;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+            }
+            catch (Exception)
+            {
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+            }
+            return response;
         }
     }
 }

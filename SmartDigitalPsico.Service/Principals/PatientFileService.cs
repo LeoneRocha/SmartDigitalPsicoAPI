@@ -2,15 +2,20 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.Validation.Contratcs;
+using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
+using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
+using SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation;
 using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
 using SmartDigitalPsico.Service.Generic;
+using SmartDigitalPsico.Service.SystemDomains;
 
 namespace SmartDigitalPsico.Service.Principals
 {
@@ -21,13 +26,14 @@ namespace SmartDigitalPsico.Service.Principals
         private readonly IPatientFileRepository _entityRepository;
         private readonly IFilePersistor _filePersistor;
         private readonly IPatientRepository _patientRepository;
+        private readonly IUserRepository _userRepository;
 
         public PatientFileService(IMapper mapper
             , IConfiguration configuration
             , ICacheService cacheService
             , IApplicationLanguageRepository applicationLanguageRepository
-            , IOptions<LocationSaveFileConfigurationVO> locationSaveFileConfigurationVO
             , IPatientFileRepository entityRepository
+            , IUserRepository userRepository
             , IValidator<PatientFile> entityValidator
             , IFilePersistor filePersistor
             , IPatientRepository patientRepository)
@@ -37,6 +43,7 @@ namespace SmartDigitalPsico.Service.Principals
             _entityRepository = entityRepository;
             _filePersistor = filePersistor;
             _patientRepository = patientRepository;
+            _userRepository = userRepository;
         }
 
         public override Task<ServiceResponse<bool>> Delete(long id)
@@ -101,6 +108,80 @@ namespace SmartDigitalPsico.Service.Principals
             GetPatientFileVO resultVO = _mapper.Map<GetPatientFileVO>(fileEntity);
 
             return resultVO;
+        }
+
+        public async Task<ServiceResponse<List<GetPatientFileVO>>> FindAllByPatient(long patientId)
+        {
+            ServiceResponse<List<GetPatientFileVO>> response = new ServiceResponse<List<GetPatientFileVO>>();
+
+            var listResult = await _entityRepository.FindAllByPatient(patientId);
+
+            var recordsList = new RecordsList<PatientFile>
+            {
+                UserIdLogged = base.UserId,
+                Records = listResult,
+
+            };
+            var validator = new PatientFileSelectListValidator(_userRepository);
+            var validationResult = await validator.ValidateAsync(recordsList);
+             
+            if (!validationResult.IsValid)
+            {
+                response.Errors = validator.GetMapErros(validationResult.Errors);
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                       ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
+                return response;
+            }
+
+            if (listResult == null || listResult.Count == 0)
+            {
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                       ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+                return response;
+            }
+            response.Data = listResult.Select(c => _mapper.Map<GetPatientFileVO>(c)).ToList();
+            response.Success = true;
+            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                       ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
+            return response;
+
+        }
+
+        public override async Task<ServiceResponse<GetPatientFileVO>> FindByID(long id)
+        {
+            ServiceResponse<GetPatientFileVO> response = new ServiceResponse<GetPatientFileVO>();
+            try
+            {
+                PatientFile entityResponse = await _entityRepository.FindByID(id);
+
+                var recordData = new Record<PatientFile>
+                {
+                    UserIdLogged = base.UserId,
+                    RecordEntity = entityResponse
+                };
+
+                var validator = new PatientFileSelectOneValidator(_userRepository);
+                var validationResult = await validator.ValidateAsync(recordData);
+                if (!validationResult.IsValid)
+                {
+                    response.Errors = validator.GetMapErros(validationResult.Errors);
+                    response.Success = false;
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                           ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
+                    return response;
+                }
+                response.Data = _mapper.Map<GetPatientFileVO>(entityResponse);
+                response.Success = true;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+            }
+            catch (Exception)
+            {
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+            }
+            return response;
         }
     }
 }

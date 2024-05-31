@@ -2,16 +2,18 @@
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Domain.Validation.Contratcs
+namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
 {
-    public class PatientMedicationInformationSelectListValidator : RecordsListValidator<PatientMedicationInformation>
-    { 
+    public class PatientMedicationInformationSelectListValidator
+        : BasePatientSelectListValidator<PatientMedicationInformation>
+
+    {
         public PatientMedicationInformationSelectListValidator(IUserRepository userRepository)
             : base(userRepository)
         {
             RuleFor(recordsList => recordsList.UserIdLogged)
-                .MustAsync(base.HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission");  
+                .MustAsync(HasPermissionAsync)
+                .WithMessage("ErrorValidator_User_Not_Permission");
         }
     }
 }
