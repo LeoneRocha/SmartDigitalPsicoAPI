@@ -1,8 +1,10 @@
-﻿using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
+﻿using MySqlX.XDevAPI.Common;
+using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
+using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
@@ -39,12 +41,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
             _mockContext.Medicals.AddRange(mockDataListMedical2);
             _mockContext.SaveChanges();
-            
+
             _mockContext.Users.AddRange(mockDataListUser2);
             _mockContext.SaveChanges();
 
             _mockContext.RoleGroupUsers.AddRange(mockDataListRoleGroupUsers);
-            _mockContext.SaveChanges(); 
+            _mockContext.SaveChanges();
         }
 
         [Test]
@@ -65,6 +67,139 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(listResult, Is.InstanceOf<List<User>>());
                 Assert.That(listResult, Has.Count.EqualTo(5));
                 Assert.That(listCount, Is.EqualTo(5));
+            });
+        }
+
+        [Test]
+        public async Task FindByLogin_Success_Admin()
+        {
+            // Arrange
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new UserRepository(_mockContext);
+
+            var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[0];
+
+            // Act
+            var result = await _entityRepository.FindByLogin(mockDataUser.Login);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result?.Login, Is.EqualTo(mockDataUser.Login));
+                Assert.That(result?.UserRoleGroups, Is.Not.Null);
+                Assert.That(result?.Medical, Is.Null);
+            });
+        }
+
+        [Test]
+        public async Task FindByLogin_Success_Medical()
+        {
+            // Arrange
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new UserRepository(_mockContext);
+
+            var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[1];
+
+            // Act
+            var result = await _entityRepository.FindByLogin(mockDataUser.Login);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result?.Login, Is.EqualTo(mockDataUser.Login));
+                Assert.That(result?.UserRoleGroups, Is.Not.Null);
+                Assert.That(result?.Medical, Is.Not.Null);
+            });
+        }
+
+        [Test]
+        public async Task UserExists_Success_ReturnsTrue()
+        {
+            // Arrange
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new UserRepository(_mockContext);
+
+            var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[0];
+
+            // Act
+            var result = await _entityRepository.UserExists(mockDataUser.Login);
+
+            // Assert
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        public async Task FindByID_Success_ReturnsUser()
+        {
+            // Arrange
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new UserRepository(_mockContext);
+
+            var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[0];
+
+            // Act
+            var result = await _entityRepository.FindByID(mockDataUser.Id);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.Id, Is.EqualTo(mockDataUser.Id));
+                Assert.That(result.UserRoleGroups, Is.Not.Null);
+                Assert.That(result.Medical, Is.Null);
+            });
+        }
+
+        [Test]
+        public async Task FindByEmail_Success_ReturnsUser()
+        {
+            // Arrange
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new UserRepository(_mockContext);
+
+            var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[0];
+
+            // Act
+            var result = await _entityRepository.FindByEmail(mockDataUser.Email);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result?.Id, Is.EqualTo(mockDataUser.Id));
+                Assert.That(result?.UserRoleGroups, Is.Not.Null);
+                Assert.That(result?.Medical, Is.Null);
+            });
+        }
+
+        [Test]
+        public async Task RefreshUserInfo_UserExists_ReturnsUpdatedUser()
+        {
+            // Arrange
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new UserRepository(_mockContext);
+
+            var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[1];
+
+            mockDataUser.Name = "Updated Medical";
+
+            // Act
+            var result = await _entityRepository.RefreshUserInfo(mockDataUser);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.Id, Is.EqualTo(mockDataUser.Id));
+                Assert.That(result.Name, Is.EqualTo(mockDataUser.Name));
             });
         }
     }

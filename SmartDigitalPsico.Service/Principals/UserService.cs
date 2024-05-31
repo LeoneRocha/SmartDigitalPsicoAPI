@@ -95,7 +95,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             if (response.Success)
             {
-                User entityResponse = await _userRepository.Register(entityAdd);
+                User entityResponse = await _userRepository.Create(entityAdd);
                 response.Data = _mapper.Map<GetUserVO>(entityResponse);
                 response.Message = "User registred.";
             }
@@ -185,7 +185,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             if (response.Success)
             {
-                User entityResponse = await _userRepository.Register(entityAdd);
+                User entityResponse = await _userRepository.Create(entityAdd);
                 entityResponse.UserRoleGroups = new List<RoleGroupUser>();
                 if (roleGroups.Count > 0)
                 {
