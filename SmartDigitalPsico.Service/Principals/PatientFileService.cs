@@ -10,6 +10,9 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
+using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
+using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
+using SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation;
 using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
@@ -144,6 +147,41 @@ namespace SmartDigitalPsico.Service.Principals
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
             return response;
 
+        }
+
+        public override async Task<ServiceResponse<GetPatientFileVO>> FindByID(long id)
+        {
+            ServiceResponse<GetPatientFileVO> response = new ServiceResponse<GetPatientFileVO>();
+            try
+            {
+                PatientFile entityResponse = await _entityRepository.FindByID(id);
+
+                var recordData = new Record<PatientFile>
+                {
+                    UserIdLogged = base.UserId,
+                    RecordEntity = entityResponse
+                };
+
+                var validator = new PatientFileSelectOneValidator(_userRepository);
+                var validationResult = await validator.ValidateAsync(recordData);
+                if (!validationResult.IsValid)
+                {
+                    response.Errors = validator.GetMapErros(validationResult.Errors);
+                    response.Success = false;
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                           ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
+                    return response;
+                }
+                response.Data = _mapper.Map<GetPatientFileVO>(entityResponse);
+                response.Success = true;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+            }
+            catch (Exception)
+            {
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+            }
+            return response;
         }
     }
 }
