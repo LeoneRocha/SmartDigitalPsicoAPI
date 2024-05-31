@@ -18,32 +18,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             _repositoryFileDisk = repositoryFileDisk;
             _cacheConfig = cacheConfig.Value;
 
-        }
-
-        public bool Remove(string cacheKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> RemoveAsync(string cacheKey)
-        {
-            bool result = false;
-
-            string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
-
-            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename, CreatedDate = DataHelper.GetDateTimeNow() };
-
-            await _repositoryFileDisk.Delete(criteriaFind);
-
-            result = true;
-
-            return result;
-        }
-
-        public bool Set<T>(string cacheKey, T value)
-        {
-            throw new NotImplementedException();
-        }
+        } 
 
         public async Task<bool> SetAsync<T>(string cacheKey, T value)
         {
@@ -64,7 +39,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             string jsonString = JsonSerializer.Serialize(value);
             byte[] bytesString = Encoding.UTF8.GetBytes(jsonString);
 
-            string pathSaveCache = getPathSaveCache(_cacheConfig.PathCache);
+            string pathSaveCache = DirectoryHelper.GetPathSaveCache(_cacheConfig.PathCache);
 
             var fileDataSave = new FileData()
             {
@@ -80,17 +55,12 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             return result;
         }
 
-        public bool TryGet<T>(string cacheKey, out T value)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<KeyValuePair<bool, T>> TryGetAsync<T>(string cacheKey) where T : new()
         {
             bool result = false;
             string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
 
-            string pathSaveCache = getPathSaveCache(_cacheConfig.PathCache);
+            string pathSaveCache = DirectoryHelper.GetPathSaveCache(_cacheConfig.PathCache);
 
             var criteriaFind = new FileData() { FilePath = pathSaveCache, FileName = filename, CreatedDate = DataHelper.GetDateTimeNow() };
 
@@ -116,32 +86,15 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             return new KeyValuePair<bool, T>(result, new());
         }
 
-
-        private static string getPathSaveCache(string pathCache)
+        public async Task<bool> RemoveAsync(string cacheKey)
         {
-            string pathToSaveCache;
-            // Verifica se o caminho é absoluto
-            if (Path.IsPathFullyQualified(pathCache))
-            {
-                pathToSaveCache = pathCache;
-            }
-            else
-            {
-                pathCache = pathCache.Replace(".", "");
-                string currentDir = Directory.GetCurrentDirectory();
-                string[] dirs = pathCache.Split('/');
-                pathToSaveCache = Path.Combine(currentDir, dirs[0]);
-                for (int i = 1; i < dirs.Length; i++)
-                {
-                    pathToSaveCache = Path.Combine(pathToSaveCache, dirs[i]);
-                }
-            }
-            // Verifica se o diretório existe, se não, cria o diretório
-            if (!Directory.Exists(pathToSaveCache))
-            {
-                Directory.CreateDirectory(pathToSaveCache);
-            }
-            return pathToSaveCache;
+            string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
+
+            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename, CreatedDate = DataHelper.GetDateTimeNow() };
+
+            await _repositoryFileDisk.Delete(criteriaFind);
+
+            return true;
         }
     }
 }

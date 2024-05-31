@@ -6,8 +6,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
     {
         Task<User?> FindByEmail(string value);
         Task<User?> FindByLogin(string login);
-        Task<User> RefreshUserInfo(User user);
-        Task<User> Register(User entityAdd);
+        Task<User> RefreshUserInfo(User user); 
         Task<bool> UserExists(string login);
     }
 }

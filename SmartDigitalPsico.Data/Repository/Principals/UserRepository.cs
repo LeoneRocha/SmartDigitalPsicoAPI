@@ -10,6 +10,15 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     {
         public UserRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
+        public async override Task<List<User>> FindAll()
+        {
+            return await _dataset
+                .AsNoTracking()
+                 .Include(e => e.UserRoleGroups)
+                .ThenInclude(e => e.RoleGroup)
+                .ToListAsync();
+        }
+
         public async Task<User?> FindByLogin(string login)
         {
             User? userResult = await _dataset
@@ -20,11 +29,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .FirstOrDefaultAsync(p => p.Login.ToLower().Trim().Equals(login.ToLower().Trim()));
 
             return userResult;
-        }
-        public async Task<User> Register(User entityAdd)
-        {
-            return await base.Create(entityAdd);
-        }
+        } 
 
         public async Task<bool> UserExists(string login)
         {
@@ -45,17 +50,18 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .ThenInclude(m => m.Office)  
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        }
-
-        public async override Task<List<User>> FindAll()
+        } 
+      
+        public async Task<User?> FindByEmail(string value)
         {
-            return await _dataset
+            User? userResult = await _dataset
                 .AsNoTracking()
-                 .Include(e => e.UserRoleGroups)
+                .Include(e => e.UserRoleGroups)
                 .ThenInclude(e => e.RoleGroup)
-                .ToListAsync();
-        }
-         
+                .FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
+
+            return userResult;
+        } 
         public async Task<User> RefreshUserInfo(User user)
         {
             if (!(await _dataset.AnyAsync(u => u.Id.Equals(user.Id)))) return new User();
@@ -68,17 +74,6 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 return result;
             }
             return new User();
-        }
-
-        public async Task<User?> FindByEmail(string value)
-        {
-            User? userResult = await _dataset
-                .AsNoTracking()
-                .Include(e => e.UserRoleGroups)
-                .ThenInclude(e => e.RoleGroup)
-                .FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
-
-            return userResult;
-        }
+        } 
     }
 }

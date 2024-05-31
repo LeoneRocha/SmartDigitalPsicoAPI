@@ -40,9 +40,9 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
             try
             {
                 if (!await _entityRepository.Exists(entity.Id))
-                {    
+                {
                     var user = await _entityRepository.FindByEmail(value);
-                    if (user == null || user.Id == 0)
+                    if (user == null)
                     {
                         return true;
                     }
@@ -55,6 +55,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
                     {
                         return false;
                     }
+                    return true;
                 }
             }
             catch (Exception)
@@ -65,7 +66,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
             return false;
         }
         private async Task<bool> UniqueLogin(User entity, string value)
-        { 
+        {
             try
             {
                 if (!await _entityRepository.Exists(entity.Id))
@@ -84,12 +85,13 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
                     {
                         return false;
                     }
-                } 
+                    return true;
+                }
             }
             catch (Exception)
             {
                 return false;
-            } 
+            }
             return false;
         }
     }

@@ -95,7 +95,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             if (response.Success)
             {
-                User entityResponse = await _userRepository.Register(entityAdd);
+                User entityResponse = await _userRepository.Create(entityAdd);
                 response.Data = _mapper.Map<GetUserVO>(entityResponse);
                 response.Message = "User registred.";
             }
@@ -131,16 +131,19 @@ namespace SmartDigitalPsico.Service.Principals
                 entityUpdate.Role = updateUser.Role;
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                entityUpdate.MedicalId = updateUser.MedicalId;
+                
+                if (updateUser.MedicalId > 0)
+                    entityUpdate.MedicalId = updateUser.MedicalId;
 
                 List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(updateUser.RoleGroupsIds);
-                entityUpdate.UserRoleGroups.Clear();
-
-                foreach (var rg in roleGroups)
+                if (roleGroups.Count > 0)
                 {
-                    entityUpdate.UserRoleGroups.Add(new RoleGroupUser { UserId = entityUpdate.Id, RoleGroupId = rg.Id });
-                }
-
+                    entityUpdate.UserRoleGroups.Clear();
+                    foreach (var rg in roleGroups)
+                    {
+                        entityUpdate.UserRoleGroups.Add(new RoleGroupUser { UserId = entityUpdate.Id, RoleGroupId = rg.Id });
+                    }
+                } 
                 response = await base.Validate(entityUpdate);
 
                 if (response.Success)
@@ -182,17 +185,21 @@ namespace SmartDigitalPsico.Service.Principals
 
             if (response.Success)
             {
-                User entityResponse = await _userRepository.Register(entityAdd);
+                User entityResponse = await _userRepository.Create(entityAdd);
                 entityResponse.UserRoleGroups = new List<RoleGroupUser>();
-
-                foreach (var rg in roleGroups)
+                if (roleGroups.Count > 0)
                 {
-                    entityResponse.UserRoleGroups.Add(new RoleGroupUser { User = entityResponse, RoleGroup = rg });
+                    foreach (var rg in roleGroups)
+                    {
+                        entityResponse.UserRoleGroups.Add(new RoleGroupUser { User = entityResponse, RoleGroup = rg });
+                    }
+                    response = await base.Validate(entityResponse);
+                    if (response.Success)
+                    {
+                        entityResponse = await _userRepository.Update(entityResponse);
+                        entityResponse = await _userRepository.FindByID(entityResponse.Id);
+                    }
                 }
-                entityResponse = await _userRepository.Update(entityResponse);
-                entityResponse = await _userRepository.FindByID(entityResponse.Id);
-
-
                 response.Data = _mapper.Map<GetUserVO>(entityResponse);
                 response.Message = "User registred.";
             }

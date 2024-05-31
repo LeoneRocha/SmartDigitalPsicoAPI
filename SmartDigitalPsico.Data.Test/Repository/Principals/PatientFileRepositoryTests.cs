@@ -20,13 +20,28 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         }
         private void SetupContext(IQueryable<PatientFile> mockData)
         {
-            var mockDataPatientList = PatientMockHelper.GetMockFromBogus().AsQueryable();
+            var mockDataListUser = UserMockHelper.GetMock().AsQueryable().ToList();
+            var mockDataListUser2 = UserMockHelper.GetMockFromBogus().AsQueryable().ToList();
 
+            var mockDataListMedical = MedicalMockHelper.GetMock().AsQueryable().ToList();
+            var mockDataListMedical2 = MedicalMockHelper.GetMockFromBogus().Take(3).AsQueryable().ToList();
+
+            var mockDataListPatient = PatientMockHelper.GetMock().AsQueryable().ToList();
+            var mockDataListPatient2 = PatientMockHelper.GetMockFromBogus().AsQueryable().ToList();
+            
             var mockDataList = mockData.ToList();
             // Arrange
             _mockContext = new SmartDigitalPsicoDataContextTest();
+            _mockContext.Users.AddRange(mockDataListUser);
+            _mockContext.Medicals.AddRange(mockDataListMedical);
+            _mockContext.Patients.AddRange(mockDataListPatient);
+            _mockContext.SaveChanges();
 
-            _mockContext.Patients.AddRange(mockDataPatientList);
+            _mockContext.Users.AddRange(mockDataListUser2);
+            _mockContext.Medicals.AddRange(mockDataListMedical2);
+            _mockContext.Patients.AddRange(mockDataListPatient2);
+            _mockContext.SaveChanges();
+            
             _mockContext.PatientFiles.AddRange(mockDataList);
             _mockContext.SaveChanges();
         }
@@ -78,5 +93,29 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(listResult.All(f => f.PatientId == mockDataList[0].PatientId), Is.True);
             });
         }
+        [Test]
+        public async Task FindByID_Success()
+        {
+            // Arrange 
+            var mockDataList = PatientFileMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable().ToList();
+            SetupContext(mockDataList.AsQueryable());
+
+            var mockData = mockDataList[0];
+            
+            // Inicialize  Repository
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _entityRepository = new PatientFileRepository(_mockContext);
+
+            // Act
+            var result = await _entityRepository.FindByID(mockData.Id);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.Id, Is.EqualTo(mockData.Id));
+
+            });
+        } 
     }
 }
