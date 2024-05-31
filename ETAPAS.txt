@@ -67,7 +67,7 @@ ADM nao pode ver arquivos do medico
 https://macoratti.net/20/08/c_faked1.htm
 https://www.nuget.org/packages/bogus
 
-2) - TESTAR O SISTEMA VIA TELA  ------  
+2) - TESTAR O SISTEMA VIA TELA  ------  CONCLUIDO
 
 
 ------------------------------------------------------------------------ Readequacao  3 PENDENTE ------------------------------------------------------------------------ 
