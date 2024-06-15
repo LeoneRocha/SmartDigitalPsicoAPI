@@ -10,6 +10,7 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
@@ -98,6 +99,7 @@ namespace SmartDigitalPsico.WebAPI.Helper
 
             Service.AddScoped<ITokenConfiguration, TokenConfiguration>();
             Service.AddScoped<ITokenService, TokenService>();
+            Service.AddSingleton<IPolicyConfig, PolicyConfig>();
         }
         private static void addValidations(IServiceCollection Service)
         {
