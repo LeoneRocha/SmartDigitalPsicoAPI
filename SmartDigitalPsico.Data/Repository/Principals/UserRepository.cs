@@ -3,12 +3,13 @@ using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class UserRepository : GenericRepositoryEntityBase<User>, IUserRepository
     {
-        public UserRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public UserRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
 
         public async override Task<List<User>> FindAll()
         {

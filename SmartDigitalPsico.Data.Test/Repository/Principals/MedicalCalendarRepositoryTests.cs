@@ -3,6 +3,7 @@ using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
@@ -37,7 +38,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
              
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new MedicalCalendarRepository(_mockContext);
+            _entityRepository = new MedicalCalendarRepository(_mockContext, new PolicyConfig());;
 
             // Act
             var listResult = await _entityRepository.FindAll();

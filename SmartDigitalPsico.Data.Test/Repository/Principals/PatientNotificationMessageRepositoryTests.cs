@@ -3,6 +3,7 @@ using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
@@ -50,7 +51,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         {
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientNotificationMessageRepository(_mockContext);
+            _entityRepository = new PatientNotificationMessageRepository(_mockContext, new PolicyConfig());
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -74,7 +75,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
              
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientNotificationMessageRepository(_mockContext);
+            _entityRepository = new PatientNotificationMessageRepository(_mockContext, new PolicyConfig());
              
             // Act
             var result = await _entityRepository.FindAllByPatient(mockDataPatient.Id);
@@ -93,7 +94,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         { 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientNotificationMessageRepository(_mockContext);
+            _entityRepository = new PatientNotificationMessageRepository(_mockContext, new PolicyConfig());
             // Arrange 
             var mockData = _mockContext.PatientNotificationMessages.First();
 

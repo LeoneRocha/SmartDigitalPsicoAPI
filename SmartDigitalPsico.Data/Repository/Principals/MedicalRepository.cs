@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -8,7 +9,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class MedicalRepository : GenericRepositoryEntityBase<Medical>, IMedicalRepository
     {
-        public MedicalRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public MedicalRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
 
         public async Task<bool> Exists(string accreditation)
         {

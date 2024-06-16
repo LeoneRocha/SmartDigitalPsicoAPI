@@ -501,7 +501,7 @@ USE DE EXEMPLO O CODIGO ABAIXO
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var result = await _entityRepository.Create(data);

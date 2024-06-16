@@ -99,7 +99,7 @@ namespace SmartDigitalPsico.WebAPI.Helper
 
             Service.AddScoped<ITokenConfiguration, TokenConfiguration>();
             Service.AddScoped<ITokenService, TokenService>();
-            Service.AddSingleton<IPolicyConfig, PolicyConfig>();
+            Service.AddScoped<IPolicyConfig, PolicyConfig>();
         }
         private static void addValidations(IServiceCollection Service)
         {
