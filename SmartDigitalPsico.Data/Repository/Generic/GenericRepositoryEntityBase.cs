@@ -15,12 +15,12 @@ namespace SmartDigitalPsico.Data.Repository.Generic
         protected SmartDigitalPsicoDataContext _context;
         private readonly IPolicyConfig _policyConfig;
         protected DbSet<T> _dataset;
-        protected GenericRepositoryEntityBase(SmartDigitalPsicoDataContext context)
-        {
-            _context = context;
-            _dataset = _context.Set<T>();
-            _policyConfig = new PolicyConfig();
-        }
+        //protected GenericRepositoryEntityBase(SmartDigitalPsicoDataContext context)
+        //{
+        //    _context = context;
+        //    _dataset = _context.Set<T>();
+        //    _policyConfig = new PolicyConfig();
+        //} 
 
         /// <summary>
         /// Precisa depois refazer arquitetura para passar por config no repositorio

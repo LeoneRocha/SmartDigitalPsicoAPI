@@ -3,12 +3,13 @@ using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientAdditionalInformationRepository : GenericRepositoryEntityBase<PatientAdditionalInformation>, IPatientAdditionalInformationRepository
     {
-        public PatientAdditionalInformationRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public PatientAdditionalInformationRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
 
         public async Task<List<PatientAdditionalInformation>> FindAllByPatient(long patientId)
         {

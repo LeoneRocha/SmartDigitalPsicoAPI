@@ -78,12 +78,14 @@ namespace SmartDigitalPsico.WebAPI.Configure
             // Bind the PolicyConfig section of appsettings.json to the PolicyConfig class
             var policyConfig = new PolicyConfig();
 
-            new ConfigureFromConfigurationOptions<PolicyConfig>(ConfigurationAppSettingsHelper.GetPolicyConfig(_configuration))
+            var configValue = ConfigurationAppSettingsHelper.GetPolicyConfig(_configuration);
+
+            new ConfigureFromConfigurationOptions<PolicyConfig>(configValue)
              .Configure(policyConfig);
 
 
             // Register the PolicyConfig instance as a singleton
-            services.AddSingleton(policyConfig);
+            services.AddSingleton<IPolicyConfig>(policyConfig);
         }
 
         private static void addLog(IServiceCollection services, Serilog.Core.Logger _logger)

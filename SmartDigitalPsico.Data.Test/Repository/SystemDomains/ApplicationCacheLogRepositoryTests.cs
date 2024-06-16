@@ -4,6 +4,7 @@ using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
@@ -37,7 +38,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new ApplicationCacheLogRepository(_mockContext);
+            _entityRepository = new ApplicationCacheLogRepository(_mockContext, new PolicyConfig());;
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -65,7 +66,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new ApplicationCacheLogRepository(_mockContext);
+            _entityRepository = new ApplicationCacheLogRepository(_mockContext, new PolicyConfig());;
 
             _mockContext.ApplicationCacheLogs.Add(existingEnity);
             await _mockContext.SaveChangesAsync();

@@ -4,6 +4,7 @@ using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
@@ -58,7 +59,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         {
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new UserRepository(_mockContext);
+            _entityRepository = new UserRepository(_mockContext, new PolicyConfig());
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -80,7 +81,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new UserRepository(_mockContext);
+            _entityRepository = new UserRepository(_mockContext, new PolicyConfig());
 
             var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[0];
 
@@ -103,7 +104,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new UserRepository(_mockContext);
+            _entityRepository = new UserRepository(_mockContext, new PolicyConfig());
 
             var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[1];
 
@@ -126,7 +127,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new UserRepository(_mockContext);
+            _entityRepository = new UserRepository(_mockContext, new PolicyConfig());
 
             var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[0];
 
@@ -143,7 +144,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new UserRepository(_mockContext);
+            _entityRepository = new UserRepository(_mockContext, new PolicyConfig());
 
             var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[0];
 
@@ -166,7 +167,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new UserRepository(_mockContext);
+            _entityRepository = new UserRepository(_mockContext, new PolicyConfig());
 
             var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[0];
 
@@ -189,7 +190,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new UserRepository(_mockContext);
+            _entityRepository = new UserRepository(_mockContext, new PolicyConfig());
 
             var mockDataUser = UserMockHelper.GetMock().AsQueryable().ToList()[1];
 
