@@ -3,12 +3,13 @@ using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientFileRepository : GenericRepositoryEntityBase<PatientFile>, IPatientFileRepository
     {
-        public PatientFileRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public PatientFileRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
 
         public async override Task<PatientFile> FindByID(long id)
         {

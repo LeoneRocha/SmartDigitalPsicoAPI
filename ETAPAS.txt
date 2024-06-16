@@ -12,7 +12,9 @@ Regras a validar e implantar
 ADM nao pode ver arquivos do medico
 
  ------------------------------------------------------------------------ Readequacao  1  - CONCLUIDO ------------------------------------------------------------------------ 
-
+ --resiliency-
+ Em uma consulta EF pode se aplicar retry police que excutara o codigo de consulta de acordo com a politica criada
+ ---------------------
 01  - Domain ------- Finalizado 
 02  - Data ------- Finalizado  
 03  - Service -------  Finalizado 
@@ -499,7 +501,7 @@ USE DE EXEMPLO O CODIGO ABAIXO
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var result = await _entityRepository.Create(data);

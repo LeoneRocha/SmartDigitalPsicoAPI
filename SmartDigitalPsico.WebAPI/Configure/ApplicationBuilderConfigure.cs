@@ -11,11 +11,14 @@ using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Mapper;
+using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.WebAPI.Helper;
 using Swashbuckle.AspNetCore.Filters;
+using System.Configuration;
 using System.Text;
 
 namespace SmartDigitalPsico.WebAPI.Configure
@@ -65,7 +68,24 @@ namespace SmartDigitalPsico.WebAPI.Configure
             //Add log 
             addLog(services, _logger);
 
+            //ResiliencePolicies
+            addResiliencePolicies(services, _configuration);
             services.AddEndpointsApiExplorer();
+        }
+
+        private static void addResiliencePolicies(IServiceCollection services, IConfiguration _configuration)
+        {
+            // Bind the PolicyConfig section of appsettings.json to the PolicyConfig class
+            var policyConfig = new PolicyConfig();
+
+            var configValue = ConfigurationAppSettingsHelper.GetPolicyConfig(_configuration);
+
+            new ConfigureFromConfigurationOptions<PolicyConfig>(configValue)
+             .Configure(policyConfig);
+
+
+            // Register the PolicyConfig instance as a singleton
+            services.AddSingleton<IPolicyConfig>(policyConfig);
         }
 
         private static void addLog(IServiceCollection services, Serilog.Core.Logger _logger)
@@ -87,6 +107,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             new ConfigureFromConfigurationOptions<TokenConfiguration>(ConfigurationAppSettingsHelper.GetTokenConfigurations(_configuration))
                 .Configure(tokenConfigurations);
+
             services.AddSingleton(tokenConfigurations);
         }
 
@@ -145,7 +166,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     );
                     break;
                 case ETypeDataBase.MSsqlServer:
-                    connection = ConfigurationAppSettingsHelper.GetConnectionStringSQL(_configuration);  
+                    connection = ConfigurationAppSettingsHelper.GetConnectionStringSQL(_configuration);
                     services.AddDbContext<SmartDigitalPsicoDataContext>(optionsBuilder => optionsBuilder.UseSqlServer(connection,
                         optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data")));
                     break;

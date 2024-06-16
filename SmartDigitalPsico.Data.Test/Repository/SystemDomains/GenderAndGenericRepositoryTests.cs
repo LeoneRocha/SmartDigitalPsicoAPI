@@ -6,6 +6,7 @@ using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Resiliency;
 using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
@@ -43,7 +44,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());;
 
             // Act
             var result = await _entityRepository.Create(data);
@@ -70,7 +71,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
             {
@@ -91,7 +92,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var result = await _entityRepository.Create(data);
@@ -114,7 +115,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -140,7 +141,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var result = await _entityRepository.FindByID(idToFind);
@@ -167,7 +168,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var result = await _entityRepository.Update(mockDataUpdate);
@@ -192,7 +193,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Arrange
             var nonExistingGender = new Gender { Id = 999, Description = "Non-Existing Gender" };
@@ -211,7 +212,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var result = await _entityRepository.Delete(mockData.Id);
@@ -237,7 +238,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var result = await _entityRepository.EnableOrDisable(mockData.Id);
@@ -263,7 +264,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var result = await _entityRepository.Exists(mockData.Id);
@@ -282,7 +283,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act 
             // Assert
@@ -308,7 +309,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var listResult = await _entityRepository.FindByCustomWhere(predicate);
@@ -339,7 +340,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var listResult = await _entityRepository.FindByCustomWhereWithIncludes(predicate, includeProperties);
@@ -369,7 +370,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new GenderRepository(_mockContext);
+            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act
             var result = await _entityRepository.GetCount(predicate);

@@ -3,12 +3,13 @@ using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientMedicationInformationRepository : GenericRepositoryEntityBase<PatientMedicationInformation>, IPatientMedicationInformationRepository
     {
-        public PatientMedicationInformationRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public PatientMedicationInformationRepository(SmartDigitalPsicoDataContext context, IPolicyConfig policyConfig) : base(context, policyConfig) { }
 
         public async Task<List<PatientMedicationInformation>> FindAllByPatient(long patientId)
         {
@@ -33,6 +34,6 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        }  
+        }
     }
 }
