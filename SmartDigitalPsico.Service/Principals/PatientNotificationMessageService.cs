@@ -17,18 +17,21 @@ namespace SmartDigitalPsico.Service.Principals
     public class PatientNotificationMessageService
         : EntityBaseService<PatientNotificationMessage, AddPatientNotificationMessageVO, UpdatePatientNotificationMessageVO, GetPatientNotificationMessageVO, IPatientNotificationMessageRepository>, IPatientNotificationMessageService
 
-    {
-        private readonly IMapper _mapper;
-        private readonly IPatientNotificationMessageRepository _entityRepository;
+    {  
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
-        public PatientNotificationMessageService(IMapper mapper, IPatientNotificationMessageRepository entityRepository,  IUserRepository userRepository, IPatientRepository patientRepository
-             , IValidator<PatientNotificationMessage> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _entityRepository = entityRepository;
+        public PatientNotificationMessageService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IPatientNotificationMessageRepository entityRepository
+            , IUserRepository userRepository
+            , IPatientRepository patientRepository
+            , IValidator<PatientNotificationMessage> entityValidator
+            , IApplicationLanguageRepository applicationLanguageRepository
+            , ICacheService cacheService)
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        {  
             _patientRepository = patientRepository;
             _userRepository = userRepository;
         }

@@ -17,21 +17,20 @@ namespace SmartDigitalPsico.Service.Principals
     public class MedicalService
         : EntityBaseService<Medical, AddMedicalVO, UpdateMedicalVO, GetMedicalVO, IMedicalRepository>, IMedicalService
 
-    {
-        private readonly IMapper _mapper;
-        private readonly IMedicalRepository _entityRepository;
+    {  
         private readonly IUserRepository _userRepository;
         private readonly ISpecialtyRepository _specialtyRepository;
-        public MedicalService(IMapper mapper, IMedicalRepository entityRepository,
-            IUserRepository userRepository
+        public MedicalService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IMedicalRepository entityRepository
+            , IUserRepository userRepository
             , ISpecialtyRepository specialtyRepository
             , IValidator<Medical> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _entityRepository = entityRepository;
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        {  
             _userRepository = userRepository;
             _specialtyRepository = specialtyRepository;
         }
@@ -55,8 +54,8 @@ namespace SmartDigitalPsico.Service.Principals
 
             entityAdd.Email = entityAdd.Email.ToLower();
             entityAdd.Accreditation = entityAdd.Accreditation.ToLower();
-             
-            ServiceResponse <GetMedicalVO> response = await base.Validate(entityAdd);
+
+            ServiceResponse<GetMedicalVO> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {

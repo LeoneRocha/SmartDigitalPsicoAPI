@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new ApplicationLanguageRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new ApplicationLanguageRepository(_mockContext);
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -66,7 +66,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new ApplicationLanguageRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new ApplicationLanguageRepository(_mockContext);
 
             // Act
             var result = await _entityRepository.Find(language, languageKey, resourceKey);

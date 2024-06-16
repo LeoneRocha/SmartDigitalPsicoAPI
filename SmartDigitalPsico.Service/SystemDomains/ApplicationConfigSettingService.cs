@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -12,14 +13,16 @@ namespace SmartDigitalPsico.Service.SystemDomains
 {
     public class ApplicationConfigSettingService
       : EntityBaseService<ApplicationConfigSetting, AddApplicationConfigSettingVO, UpdateApplicationConfigSettingVO, GetApplicationConfigSettingVO, IApplicationConfigSettingRepository>, IApplicationConfigSettingService
-    {  
-        public ApplicationConfigSettingService(IMapper mapper,
-            IApplicationConfigSettingRepository entityRepository
+    {
+        public ApplicationConfigSettingService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IApplicationConfigSettingRepository entityRepository
             , IValidator<ApplicationConfigSetting> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        { 
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        {
         }
     }
 }

@@ -18,20 +18,19 @@ namespace SmartDigitalPsico.Service.Principals
     public class PatientRecordService
         : EntityBaseService<PatientRecord, AddPatientRecordVO, UpdatePatientRecordVO, GetPatientRecordVO, IPatientRecordRepository>, IPatientRecordService
 
-    {
-        private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
-        private readonly IPatientRecordRepository _entityRepository;
+    { 
+        private readonly IUserRepository _userRepository; 
 
         public PatientRecordService(IMapper mapper
-            , IPatientRecordRepository entityRepository, IUserRepository userRepository
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IPatientRecordRepository entityRepository
+            , IUserRepository userRepository
             , IValidator<PatientRecord> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _entityRepository = entityRepository;
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        {  
             _userRepository = userRepository;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
@@ -60,7 +59,7 @@ namespace SmartDigitalPsico.Service.Principals
             return response;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Update(UpdatePatientRecordVO item)
-        { 
+        {
             PatientRecord entityUpdate = await _entityRepository.FindByID(item.Id);
 
             #region Set default fields for bussines

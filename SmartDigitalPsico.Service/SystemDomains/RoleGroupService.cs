@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -13,8 +14,13 @@ namespace SmartDigitalPsico.Service.SystemDomains
     public class RoleGroupService : EntityBaseService<RoleGroup, AddRoleGroupVO, UpdateRoleGroupVO, GetRoleGroupVO, IRoleGroupRepository>, IRoleGroupService
 
     {
-        public RoleGroupService(IMapper _mapper, IRoleGroupRepository entityRepository
-            , IValidator<RoleGroup> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
-            : base(_mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService) { }
+        public RoleGroupService(IMapper _mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IRoleGroupRepository entityRepository
+            , IValidator<RoleGroup> entityValidator
+            , IApplicationLanguageRepository applicationLanguageRepository
+            , ICacheService cacheService)
+            : base(_mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService) { }
     }
 }

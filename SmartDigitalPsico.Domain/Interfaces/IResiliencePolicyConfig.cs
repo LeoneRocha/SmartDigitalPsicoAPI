@@ -1,6 +1,6 @@
 ﻿namespace SmartDigitalPsico.Domain.Interfaces
 {
-    public interface IPolicyConfig
+    public interface IResiliencePolicyConfig
     {
         string PolicyName { get; set; }
         int RetryCount { get; set; }

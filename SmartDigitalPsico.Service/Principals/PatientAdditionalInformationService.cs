@@ -18,16 +18,19 @@ namespace SmartDigitalPsico.Service.Principals
     public class PatientAdditionalInformationService : EntityBaseService<PatientAdditionalInformation, AddPatientAdditionalInformationVO, UpdatePatientAdditionalInformationVO, GetPatientAdditionalInformationVO
         , IPatientAdditionalInformationRepository>, IPatientAdditionalInformationService
 
-    {
-        private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
-        private readonly IPatientAdditionalInformationRepository _entityRepository;
+    { 
+        private readonly IUserRepository _userRepository; 
 
-        public PatientAdditionalInformationService(IMapper mapper, IPatientAdditionalInformationRepository entityRepository, IUserRepository userRepository, IValidator<PatientAdditionalInformation> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _entityRepository = entityRepository;
+        public PatientAdditionalInformationService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IPatientAdditionalInformationRepository entityRepository
+            , IUserRepository userRepository
+            , IValidator<PatientAdditionalInformation> entityValidator
+            , IApplicationLanguageRepository applicationLanguageRepository
+            , ICacheService cacheService)
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        {  
             _userRepository = userRepository;
         }
         public async override Task<ServiceResponse<List<GetPatientAdditionalInformationVO>>> FindAll()

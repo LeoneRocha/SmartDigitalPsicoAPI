@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new ApplicationCacheLogRepository(_mockContext, new PolicyConfig());;
+            _entityRepository = new ApplicationCacheLogRepository(_mockContext);
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -66,7 +66,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new ApplicationCacheLogRepository(_mockContext, new PolicyConfig());;
+            _entityRepository = new ApplicationCacheLogRepository(_mockContext);
 
             _mockContext.ApplicationCacheLogs.Add(existingEnity);
             await _mockContext.SaveChangesAsync();

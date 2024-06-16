@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Localization;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -19,10 +20,14 @@ namespace SmartDigitalPsico.Service.SystemDomains
       : EntityBaseService<ApplicationLanguage, AddApplicationLanguageVO, UpdateApplicationLanguageVO, GetApplicationLanguageVO, IApplicationLanguageRepository>, IApplicationLanguageService
     {
 
-        public ApplicationLanguageService(IMapper mapper, IApplicationLanguageRepository entityRepository
-             , IValidator<ApplicationLanguage> entityValidator, IApplicationLanguageRepository applicationLanguageRepository,
-               ICacheService cacheService)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        public ApplicationLanguageService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IApplicationLanguageRepository entityRepository
+            , IValidator<ApplicationLanguage> entityValidator
+            , IApplicationLanguageRepository applicationLanguageRepository
+            , ICacheService cacheService)
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
 
         }
@@ -98,12 +103,12 @@ namespace SmartDigitalPsico.Service.SystemDomains
             if (resultFromCache.Data == null)
             {
                 throw new AppWarningException("filterAndGetSingle: Data cannot be null.");
-            } 
-            return resultFromCache.Data.Single(p => 
+            }
+            return resultFromCache.Data.Single(p =>
             p.ResourceKey.Trim().Equals(resourceKey.Trim(), StringComparison.OrdinalIgnoreCase)
             && p.LanguageKey.Trim().Equals(key.Trim(), StringComparison.OrdinalIgnoreCase)
             && p.Language.Trim().Equals(language.Trim(), StringComparison.OrdinalIgnoreCase)
             );
-        } 
+        }
     }
 }

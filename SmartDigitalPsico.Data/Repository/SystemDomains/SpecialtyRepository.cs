@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class SpecialtyRepository : GenericRepositoryEntityBase<Specialty>, ISpecialtyRepository 
     {
-        public SpecialtyRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public SpecialtyRepository(SmartDigitalPsicoDataContext context) : base(context) { }
           
         public async Task<List<Specialty>> FindByIDs(List<long> idsSpecialties)
         {

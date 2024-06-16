@@ -17,19 +17,19 @@ namespace SmartDigitalPsico.Service.Principals
 {
     public class PatientMedicationInformationService : EntityBaseService<PatientMedicationInformation, AddPatientMedicationInformationVO, UpdatePatientMedicationInformationVO, GetPatientMedicationInformationVO, IPatientMedicationInformationRepository>, IPatientMedicationInformationService
 
-    {
-        private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
-        private readonly IPatientMedicationInformationRepository _entityRepository;
+    { 
+        private readonly IUserRepository _userRepository; 
 
-        public PatientMedicationInformationService(IMapper mapper,
-            IPatientMedicationInformationRepository entityRepository, IUserRepository userRepository
+        public PatientMedicationInformationService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IPatientMedicationInformationRepository entityRepository
+            , IUserRepository userRepository
             , IValidator<PatientMedicationInformation> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _entityRepository = entityRepository;
+            , IApplicationLanguageRepository applicationLanguageRepository
+            , ICacheService cacheService)
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        {  
             _userRepository = userRepository;
         }
         public override async Task<ServiceResponse<GetPatientMedicationInformationVO>> Create(AddPatientMedicationInformationVO item)
@@ -63,7 +63,7 @@ namespace SmartDigitalPsico.Service.Principals
         }
 
         public override async Task<ServiceResponse<GetPatientMedicationInformationVO>> Update(UpdatePatientMedicationInformationVO item)
-        { 
+        {
             PatientMedicationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
 
             entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();

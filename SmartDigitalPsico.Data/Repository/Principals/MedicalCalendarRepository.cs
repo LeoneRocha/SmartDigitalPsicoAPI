@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class MedicalCalendarRepository : GenericRepositoryEntityBase<MedicalCalendar>, IMedicalCalendarRepository
     {
-        public MedicalCalendarRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public MedicalCalendarRepository(SmartDigitalPsicoDataContext context) : base(context) { }
          
     }
 }

@@ -76,16 +76,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
         private static void addResiliencePolicies(IServiceCollection services, IConfiguration _configuration)
         {
             // Bind the PolicyConfig section of appsettings.json to the PolicyConfig class
-            var policyConfig = new PolicyConfig();
-
-            var configValue = ConfigurationAppSettingsHelper.GetPolicyConfig(_configuration);
-
-            new ConfigureFromConfigurationOptions<PolicyConfig>(configValue)
-             .Configure(policyConfig);
-
-
+            var policyConfig = new ResiliencePolicyConfig();
+            var configValue = ConfigurationAppSettingsHelper.GetIResiliencePolicyConfig(_configuration);
+            new ConfigureFromConfigurationOptions<ResiliencePolicyConfig>(configValue)
+             .Configure(policyConfig); 
             // Register the PolicyConfig instance as a singleton
-            services.AddSingleton<IPolicyConfig>(policyConfig);
+            services.AddSingleton<IResiliencePolicyConfig>(policyConfig);
         }
 
         private static void addLog(IServiceCollection services, Serilog.Core.Logger _logger)

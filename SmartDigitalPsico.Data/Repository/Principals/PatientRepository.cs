@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientRepository : GenericRepositoryEntityBase<Patient>, IPatientRepository
     {
-        public PatientRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public PatientRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
         /// <summary>
         /// Find by Cpf, Rg , Email
