@@ -21,6 +21,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 
         public virtual async Task<List<T>> FindAll()
         {
+            throw new Exception("ERRO NO BANCO");
             return await _dataset.AsNoTracking().ToListAsync();
         }
 
