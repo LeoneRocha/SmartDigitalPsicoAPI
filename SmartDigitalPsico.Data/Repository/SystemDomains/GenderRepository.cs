@@ -8,6 +8,6 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class GenderRepository : GenericRepositoryEntityBase<Gender>, IGenderRepository
     {
-        public GenderRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public GenderRepository(SmartDigitalPsicoDataContext context) : base(context) { }
     }
 }

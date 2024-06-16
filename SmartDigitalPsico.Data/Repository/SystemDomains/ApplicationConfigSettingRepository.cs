@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class ApplicationConfigSettingRepository : GenericRepositoryEntityBase<ApplicationConfigSetting>, IApplicationConfigSettingRepository
     {
-        public ApplicationConfigSettingRepository(SmartDigitalPsicoDataContext context, IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public ApplicationConfigSettingRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
     }
 }

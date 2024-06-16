@@ -17,27 +17,25 @@ using SmartDigitalPsico.Service.SystemDomains;
 namespace SmartDigitalPsico.Service.Principals
 {
     public class MedicalFileService : EntityBaseService<MedicalFile, AddMedicalFileVO, UpdateMedicalFileVO, GetMedicalFileVO, IMedicalFileRepository>, IMedicalFileService
-    {
-        private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
-        private readonly IMedicalFileRepository _entityRepository; 
+    { 
+        private readonly IConfiguration _configuration; 
         private readonly IFilePersistor _filePersistor;
         private readonly IUserRepository _userRepository;
 
         public MedicalFileService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
             , IConfiguration configuration
             , IMedicalFileRepository entityRepository
             , IUserRepository userRepository
-            , IValidator<MedicalFile> entityValidator 
+            , IValidator<MedicalFile> entityValidator
             , ICacheService cacheService
             , IApplicationLanguageRepository applicationLanguageRepository
             , IFilePersistor filePersistor
             )
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _configuration = configuration;
-            _entityRepository = entityRepository; 
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        { 
+            _configuration = configuration; 
             _filePersistor = filePersistor;
             _userRepository = userRepository;
         }
@@ -61,13 +59,13 @@ namespace SmartDigitalPsico.Service.Principals
             }
             return response;
         }
-         
+
         public async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAllByMedical(long medicalId)
         {
             ServiceResponse<List<GetMedicalFileVO>> response = new ServiceResponse<List<GetMedicalFileVO>>();
 
             var listResult = await _entityRepository.FindAllByMedical(medicalId);
-             
+
             var recordsList = new RecordsList<MedicalFile>
             {
                 UserIdLogged = base.UserId,
@@ -97,7 +95,7 @@ namespace SmartDigitalPsico.Service.Principals
             response.Success = true;
             response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
-             
+
             return response;
         }
 
@@ -134,7 +132,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                 entityAdd.CreatedUserId = this.UserId;
 
-                response  = await base.Validate(entityAdd);                
+                response = await base.Validate(entityAdd);
                 if (response.Success)
                 {
                     entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, entity.MedicalId.ToString());

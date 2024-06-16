@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class ApplicationLanguageRepository : GenericRepositoryEntityBase<ApplicationLanguage>, IApplicationLanguageRepository
     {
-        public ApplicationLanguageRepository(SmartDigitalPsicoDataContext context, IPolicyConfig policyConfig) : base(context, policyConfig) 
+        public ApplicationLanguageRepository(SmartDigitalPsicoDataContext context) : base(context) 
         {
 
         }

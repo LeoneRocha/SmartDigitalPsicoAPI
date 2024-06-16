@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Resiliency
 {
-    public class PolicyConfig : IPolicyConfig
+    public class ResiliencePolicyConfig : IResiliencePolicyConfig
     {
         public string PolicyName { get; set; } = string.Empty;
         public int RetryCount { get; set; }

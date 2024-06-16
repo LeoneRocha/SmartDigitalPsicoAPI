@@ -14,18 +14,17 @@ using SmartDigitalPsico.Service.Generic;
 
 namespace SmartDigitalPsico.Service.SystemDomains
 {
-    public class GenderService
-      : EntityBaseService<Gender, AddGenderVO, UpdateGenderVO, GetGenderVO, IGenderRepository>, IGenderService
+    public class GenderService : EntityBaseService<Gender, AddGenderVO, UpdateGenderVO, GetGenderVO, IGenderRepository>, IGenderService
     {
-        private readonly IMapper _mapper;
-        private readonly IGenderRepository _entityRepository; 
-        public GenderService(IMapper mapper, IGenderRepository entityRepository, ICacheService cacheService,            
-            IValidator<Gender> entityValidator
+        public GenderService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IGenderRepository entityRepository
+            , ICacheService cacheService
+            , IValidator<Gender> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _entityRepository = entityRepository; 
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        { 
         }
 
         public override async Task<ServiceResponse<List<GetGenderVO>>> FindAll()

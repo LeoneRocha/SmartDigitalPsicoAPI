@@ -17,19 +17,19 @@ namespace SmartDigitalPsico.Service.Principals
 {
     public class PatientHospitalizationInformationService : EntityBaseService<PatientHospitalizationInformation, AddPatientHospitalizationInformationVO, UpdatePatientHospitalizationInformationVO, GetPatientHospitalizationInformationVO, IPatientHospitalizationInformationRepository>, IPatientHospitalizationInformationService
 
-    {
-        private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
-        private readonly IPatientHospitalizationInformationRepository _entityRepository;
+    { 
+        private readonly IUserRepository _userRepository; 
 
-        public PatientHospitalizationInformationService(IMapper mapper,
-            IPatientHospitalizationInformationRepository entityRepository, IUserRepository userRepository
-            , IValidator<PatientHospitalizationInformation> entityValidator, IApplicationLanguageRepository applicationLanguageRepository
+        public PatientHospitalizationInformationService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IPatientHospitalizationInformationRepository entityRepository
+            , IUserRepository userRepository
+            , IValidator<PatientHospitalizationInformation> entityValidator
+            , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _entityRepository = entityRepository;
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        {  
             _userRepository = userRepository;
         }
 

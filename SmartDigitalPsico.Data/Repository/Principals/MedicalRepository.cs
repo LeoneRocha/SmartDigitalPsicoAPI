@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class MedicalRepository : GenericRepositoryEntityBase<Medical>, IMedicalRepository
     {
-        public MedicalRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public MedicalRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
         public async Task<bool> Exists(string accreditation)
         {
