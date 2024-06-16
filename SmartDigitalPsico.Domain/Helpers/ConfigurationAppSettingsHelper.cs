@@ -72,9 +72,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return GetValueStringConfiguration(configuration, "AppSettings:ResourcesTemp");
         }
 
-        public static IConfiguration GetPolicyConfig(IConfiguration configuration)
+        public static IConfiguration GetIResiliencePolicyConfig(IConfiguration configuration)
         {
-            return GetSectionApp(configuration, "PolicyConfig");
+            return GetSectionApp(configuration, "ResiliencePolicyConfig");
         }
     }
 }

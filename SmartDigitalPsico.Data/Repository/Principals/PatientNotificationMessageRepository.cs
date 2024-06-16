@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientNotificationMessageRepository : GenericRepositoryEntityBase<PatientNotificationMessage>, IPatientNotificationMessageRepository
     {
-        public PatientNotificationMessageRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public PatientNotificationMessageRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
         public async Task<List<PatientNotificationMessage>> FindAllByPatient(long patientId)
         {

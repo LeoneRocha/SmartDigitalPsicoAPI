@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class ApplicationCacheLogRepository : GenericRepositoryEntityBase<ApplicationCacheLog>, IApplicationCacheLogRepository
     {
-        public ApplicationCacheLogRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public ApplicationCacheLogRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
 
 

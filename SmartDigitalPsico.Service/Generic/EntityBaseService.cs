@@ -5,6 +5,7 @@ using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
+using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Service.SystemDomains;
 using System.Linq.Expressions;
@@ -20,216 +21,307 @@ namespace SmartDigitalPsico.Service.Generic
         where Repo : IEntityBaseRepository<TEntity>
 
     {
-        private readonly IMapper _mapper;
-        private readonly Repo _genericRepository;
-        private readonly IValidator<TEntity> _entityValidator;
+        protected readonly IMapper _mapper;
+        protected readonly Repo _entityRepository;
+        protected readonly IValidator<TEntity> _entityValidator;
         protected long UserId { get; private set; }
         protected readonly IApplicationLanguageRepository _applicationLanguageRepository;
         protected readonly ICacheService _cacheService;
+        protected readonly Serilog.ILogger _logger;
+        protected readonly IResiliencePolicyConfig _policyConfig;
 
-        public EntityBaseService(IMapper mapper, Repo UserRepository, IValidator<TEntity> entityValidator, IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
+
+        public EntityBaseService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , Repo entityRepository
+            , IValidator<TEntity> entityValidator
+            , IApplicationLanguageRepository applicationLanguageRepository
+            , ICacheService cacheService)
         {
             _mapper = mapper;
-            _genericRepository = UserRepository;
+            _entityRepository = entityRepository;
             _entityValidator = entityValidator;
             _applicationLanguageRepository = applicationLanguageRepository;
             _cacheService = cacheService;
-        }
-        public virtual async Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item)
-        {
-            ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
-            try
-            {
-                TEntity entityAdd = _mapper.Map<TEntity>(item);
-                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-                entityAdd.Enable = true;
-
-                response = await Validate(entityAdd);
-                if (response.Success)
-                {
-                    TEntity entityResponse = await _genericRepository.Create(entityAdd);
-                    response.Data = _mapper.Map<TEntityResult>(entityResponse);
-                    response.Message = await getMessageFromLocalization("RegisterCreated");
-
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
-                response.Message = await getMessageFromLocalization("RegisterCreated");
-            }
-            return response;
-        }
-
-        private async Task<string> getMessageFromLocalization(string key)
-        {
-            return await ApplicationLanguageService.GetLocalization<ISharedResource>(key, this._applicationLanguageRepository, this._cacheService);
-        }
-
-        public virtual async Task<ServiceResponse<bool>> Delete(long id)
-        {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-
-            bool exists = await _genericRepository.Exists(id);
-            if (!exists)
-            {
-                response.Success = false;
-                response.Message = await getMessageFromLocalization("RegisterIsNotFound");
-                return response;
-            }
-            else
-            {
-                response.Success = await _genericRepository.Delete(id);
-                if (response.Success)
-                {
-                    response.Message = await getMessageFromLocalization("RegisterDeleted");
-                    response.Success = true;
-                }
-            }
-
-            return response;
-        }
-        public virtual async Task<ServiceResponse<TEntityResult>> Update(TEntityUpdate item)
-        {
-            ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
-
-            bool entityExists = await _genericRepository.Exists(item.Id);
-            if (!entityExists)
-            {
-                response.Success = false;
-                response.Message = await getMessageFromLocalization("RegisterIsNotFound");
-
-                return response;
-            }
-            var entityUpdate = _mapper.Map<TEntity>(item);
-            response = await Validate(entityUpdate);
-            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-            if (response.Success)
-            {
-                TEntity entityResponse = await _genericRepository.Update(entityUpdate);
-                response.Data = _mapper.Map<TEntityResult>(entityResponse);
-                response.Message = await getMessageFromLocalization("RegisterUpdated");
-            }
-
-            return response;
-        }
-        public async Task<ServiceResponse<bool>> Exists(long id)
-        {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-
-            bool entityResponse = await _genericRepository.Exists(id);
-
-            response.Data = entityResponse;
-            response.Success = true;
-            response.Message = await getMessageFromLocalization("RegisterExist");
-
-
-            return response;
-        }
-        public virtual async Task<ServiceResponse<List<TEntityResult>>> FindAll()
-        {
-            ServiceResponse<List<TEntityResult>> response = new ServiceResponse<List<TEntityResult>>();
-
-            List<TEntity> entityResponse = await _genericRepository.FindAll();
-
-            response.Data = entityResponse.Select(c => _mapper.Map<TEntityResult>(c)).ToList();
-
-            response.Success = true;
-            response.Message = await getMessageFromLocalization("RegisterExist");
-
-            return response;
-        }
-        public virtual async Task<ServiceResponse<TEntityResult>> FindByID(long id)
-        {
-            ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
-
-            TEntity? entityResponse = await _genericRepository.FindByID(id);
-            if (!EqualityComparer<TEntity>.Default.Equals(entityResponse, default(TEntity)))
-            {
-                response.Data = _mapper.Map<TEntityResult>(entityResponse);
-            }
-            response.Success = true;
-            response.Message = await getMessageFromLocalization("RegisterFind");
-
-            return response;
-        }
-
-        public virtual async Task<ServiceResponse<int>> GetCount()
-        {
-            Expression<Func<TEntity, bool>> predicate = g => g.Id > 0;
-
-            ServiceResponse<int> response = new ServiceResponse<int>();
-
-            int entityResponse = await _genericRepository.GetCount(predicate);
-
-            response.Data = entityResponse;
-            response.Success = true;
-            response.Message = await getMessageFromLocalization("RegisterCounted");
-
-            return response;
-        }
-
-        public virtual async Task<ServiceResponse<bool>> EnableOrDisable(long id)
-        {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-
-            bool exists = await _genericRepository.Exists(id);
-            if (!exists)
-            {
-                response.Success = false;
-                response.Message = await getMessageFromLocalization("RegisterIsNotFound");
-                return response;
-            }
-            else
-            {
-                response.Success = await _genericRepository.EnableOrDisable(id);
-                if (response.Success)
-                {
-                    response.Message = await getMessageFromLocalization("RegisterUpdated");
-                    response.Success = true;
-                }
-            }
-            return response;
+            _logger = logger;
+            _policyConfig = policyConfig;
         }
         public void SetUserId(long id)
         {
             this.UserId = id;
         }
+        private async Task<string> getMessageFromLocalization(string key)
+        {
+            return await ApplicationLanguageService.GetLocalization<ISharedResource>(key, this._applicationLanguageRepository, this._cacheService);
+        }
+
+        public virtual async Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item)
+        {
+            ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
+            try
+            {
+                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+                {
+                    TEntity entityAdd = _mapper.Map<TEntity>(item);
+                    entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+                    entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+                    entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+                    entityAdd.Enable = true;
+
+                    response = await Validate(entityAdd);
+                    if (response.Success)
+                    {
+                        TEntity entityResponse = await _entityRepository.Create(entityAdd);
+                        response.Data = _mapper.Map<TEntityResult>(entityResponse);
+                        response.Message = await getMessageFromLocalization("RegisterCreated");
+
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
+                response.Message = await getMessageFromLocalization("GenericErroMessage");
+                _logger.Error(ex, "Create: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
+            return response;
+        }
+        public virtual async Task<ServiceResponse<bool>> Delete(long id)
+        {
+            ServiceResponse<bool> response = new ServiceResponse<bool>();
+            try
+            {
+                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+                {
+                    bool exists = await _entityRepository.Exists(id);
+                    if (!exists)
+                    {
+                        response.Success = false;
+                        response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+                    }
+                    else
+                    {
+                        response.Success = await _entityRepository.Delete(id);
+                        if (response.Success)
+                        {
+                            response.Message = await getMessageFromLocalization("RegisterDeleted");
+                            response.Success = true;
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Errors.Add(new ErrorResponse() { Name = "Delete", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
+                response.Message = await getMessageFromLocalization("GenericErroMessage");
+                _logger.Error(ex, "Delete: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
+            return response;
+        }
+        public virtual async Task<ServiceResponse<TEntityResult>> Update(TEntityUpdate item)
+        {
+            ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
+            try
+            {
+                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+                {
+
+                    bool entityExists = await _entityRepository.Exists(item.Id);
+                    if (!entityExists)
+                    {
+                        response.Success = false;
+                        response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+
+                    }
+                    var entityUpdate = _mapper.Map<TEntity>(item);
+                    response = await Validate(entityUpdate);
+                    entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+                    if (response.Success)
+                    {
+                        TEntity entityResponse = await _entityRepository.Update(entityUpdate);
+                        response.Data = _mapper.Map<TEntityResult>(entityResponse);
+                        response.Message = await getMessageFromLocalization("RegisterUpdated");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("GenericErroMessage");
+                _logger.Error(ex, "Update: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
+            return response;
+        }
+        public async Task<ServiceResponse<bool>> Exists(long id)
+        {
+            ServiceResponse<bool> response = new ServiceResponse<bool>();
+            try
+            {
+                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+                 {
+                     bool entityResponse = await _entityRepository.Exists(id);
+
+                     response.Data = entityResponse;
+                     response.Success = true;
+                     response.Message = await getMessageFromLocalization("RegisterExist");
+                 });
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("GenericErroMessage");
+                _logger.Error(ex, "Exists: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
+            return response;
+        }
+        public virtual async Task<ServiceResponse<List<TEntityResult>>> FindAll()
+        {
+            ServiceResponse<List<TEntityResult>> response = new ServiceResponse<List<TEntityResult>>();
+            try
+            {
+                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+                {
+                    List<TEntity> entityResponse = await _entityRepository.FindAll();
+
+                    response.Data = entityResponse.Select(c => _mapper.Map<TEntityResult>(c)).ToList();
+
+                    response.Success = true;
+                    response.Message = await getMessageFromLocalization("RegisterExist");
+                });
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("GenericErroMessage");
+                _logger.Error(ex, "FindAll: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
+            return response;
+        }
+        public virtual async Task<ServiceResponse<TEntityResult>> FindByID(long id)
+        {
+            ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
+            try
+            {
+                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+                {
+                    TEntity? entityResponse = await _entityRepository.FindByID(id);
+                    if (!EqualityComparer<TEntity>.Default.Equals(entityResponse, default(TEntity)))
+                    {
+                        response.Data = _mapper.Map<TEntityResult>(entityResponse);
+                    }
+                    response.Success = true;
+                    response.Message = await getMessageFromLocalization("RegisterFind");
+                });
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("GenericErroMessage");
+                _logger.Error(ex, "FindByID: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
+            return response;
+        }
+        public virtual async Task<ServiceResponse<int>> GetCount()
+        {
+            ServiceResponse<int> response = new ServiceResponse<int>();
+            try
+            {
+                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+                {
+                    Expression<Func<TEntity, bool>> predicate = g => g.Id > 0;
+                    int entityResponse = await _entityRepository.GetCount(predicate);
+
+                    response.Data = entityResponse;
+                    response.Success = true;
+                    response.Message = await getMessageFromLocalization("RegisterCounted");
+                });
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("GenericErroMessage");
+                _logger.Error(ex, "GetCount: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
+            return response;
+        }
+        public virtual async Task<ServiceResponse<bool>> EnableOrDisable(long id)
+        {
+            ServiceResponse<bool> response = new ServiceResponse<bool>();
+            try
+            {
+                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+                {
+                    bool exists = await _entityRepository.Exists(id);
+                    if (!exists)
+                    {
+                        response.Success = false;
+                        response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+                    }
+                    else
+                    {
+                        response.Success = await _entityRepository.EnableOrDisable(id);
+                        if (response.Success)
+                        {
+                            response.Message = await getMessageFromLocalization("RegisterUpdated");
+                            response.Success = true;
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("GenericErroMessage");
+                _logger.Error(ex, "EnableOrDisable: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
+            return response;
+        }
         public virtual async Task<ServiceResponse<TEntityResult>> Validate(TEntity item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
-
-            var validationResult = await _entityValidator.ValidateAsync(item);
-
-            response.Success = validationResult.IsValid;
-            response.Errors = HelperValidation.GetErrosMap(validationResult);
-            response.Message = HelperValidation.GetMessage(validationResult.IsValid);
-            //Translate Message  
-            if (response.Errors != null)
+            try
             {
-                List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
-                foreach (var errosItem in response.Errors)
+                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
                 {
-                    var errosAdd = new ErrorResponse()
+                    var validationResult = await _entityValidator.ValidateAsync(item);
+
+                    response.Success = validationResult.IsValid;
+                    response.Errors = HelperValidation.GetErrosMap(validationResult);
+                    response.Message = HelperValidation.GetMessage(validationResult.IsValid);
+                    //Translate Message  
+                    if (response.Errors != null)
                     {
-                        Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(errosItem.Message, this._applicationLanguageRepository, this._cacheService)
-                        ,
-                        Name = errosItem.Name
-                    };
+                        List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
+                        foreach (var errosItem in response.Errors)
+                        {
+                            var errosAdd = new ErrorResponse()
+                            {
+                                Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(errosItem.Message, this._applicationLanguageRepository, this._cacheService)
+                                ,
+                                Name = errosItem.Name
+                            };
 
-                    errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
+                            errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
 
-                    errosTranslated.Add(errosAdd);
-                }
-                response.Errors = errosTranslated;
+                            errosTranslated.Add(errosAdd);
+                        }
+                        response.Errors = errosTranslated;
+                    }
+
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
+                });
+
             }
-
-            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
-
-
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = await getMessageFromLocalization("GenericErroMessage");
+                _logger.Error(ex, "Validate: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
             return response;
         }
     }

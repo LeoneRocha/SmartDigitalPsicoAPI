@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Domain.Resiliency
                     TimeSpan.FromSeconds(3)
             });
 
-        public static IAsyncPolicy CustomRetryPolicy(IPolicyConfig policyConfig)
+        public static IAsyncPolicy CustomRetryPolicy(IResiliencePolicyConfig policyConfig)
         {
             // Use default values if not specified in the configuration
             var retryCount = policyConfig.RetryCount > 0 ? policyConfig.RetryCount : 3;
@@ -33,7 +33,7 @@ namespace SmartDigitalPsico.Domain.Resiliency
                     .Select(retryAttempt => TimeSpan.FromSeconds(retryDelayInSeconds * retryAttempt)));
         }
 
-        public static IAsyncPolicy GetPolicyFromConfig(IPolicyConfig policyConfig)
+        public static IAsyncPolicy GetPolicyFromConfig(IResiliencePolicyConfig policyConfig)
         {
             if (!string.IsNullOrEmpty(policyConfig.PolicyName))
             {

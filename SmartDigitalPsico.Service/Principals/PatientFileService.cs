@@ -1,7 +1,6 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
@@ -9,10 +8,8 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
-using SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation;
 using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
 using SmartDigitalPsico.Service.Generic;
 using SmartDigitalPsico.Service.SystemDomains;
@@ -21,15 +18,14 @@ namespace SmartDigitalPsico.Service.Principals
 {
     public class PatientFileService : EntityBaseService<PatientFile, AddPatientFileVO, UpdatePatientFileVO, GetPatientFileVO, IPatientFileRepository>, IPatientFileService
 
-    {
-        private readonly IMapper _mapper;
-        private readonly IPatientFileRepository _entityRepository;
+    {  
         private readonly IFilePersistor _filePersistor;
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
         public PatientFileService(IMapper mapper
-            , IConfiguration configuration
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
             , ICacheService cacheService
             , IApplicationLanguageRepository applicationLanguageRepository
             , IPatientFileRepository entityRepository
@@ -37,10 +33,8 @@ namespace SmartDigitalPsico.Service.Principals
             , IValidator<PatientFile> entityValidator
             , IFilePersistor filePersistor
             , IPatientRepository patientRepository)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _mapper = mapper;
-            _entityRepository = entityRepository;
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        {  
             _filePersistor = filePersistor;
             _patientRepository = patientRepository;
             _userRepository = userRepository;
@@ -124,7 +118,7 @@ namespace SmartDigitalPsico.Service.Principals
             };
             var validator = new PatientFileSelectListValidator(_userRepository);
             var validationResult = await validator.ValidateAsync(recordsList);
-             
+
             if (!validationResult.IsValid)
             {
                 response.Errors = validator.GetMapErros(validationResult.Errors);

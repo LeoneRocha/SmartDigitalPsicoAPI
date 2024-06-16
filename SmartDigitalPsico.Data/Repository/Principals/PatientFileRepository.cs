@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientFileRepository : GenericRepositoryEntityBase<PatientFile>, IPatientFileRepository
     {
-        public PatientFileRepository(SmartDigitalPsicoDataContext context,IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public PatientFileRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
         public async override Task<PatientFile> FindByID(long id)
         {

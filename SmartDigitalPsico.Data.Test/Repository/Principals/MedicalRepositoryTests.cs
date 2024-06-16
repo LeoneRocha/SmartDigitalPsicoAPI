@@ -53,7 +53,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         {
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new MedicalRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new MedicalRepository(_mockContext);
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -74,7 +74,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         {
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new MedicalRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new MedicalRepository(_mockContext);
 
             // Arrange
             var mockData  = MedicalMockHelper.GetMock().AsQueryable().First();
@@ -96,7 +96,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new MedicalRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new MedicalRepository(_mockContext);
 
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
@@ -121,7 +121,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new MedicalRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new MedicalRepository(_mockContext);
 
             // Act
             var result = await _entityRepository.FindByAccreditation(mockData.Accreditation);
@@ -148,7 +148,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new MedicalRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new MedicalRepository(_mockContext);
 
             // Act
             var result = await _entityRepository.FindByEmail(mockData.Email);

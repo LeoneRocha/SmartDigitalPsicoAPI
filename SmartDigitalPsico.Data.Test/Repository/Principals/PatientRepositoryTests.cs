@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         {
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new PatientRepository(_mockContext);
 
             // Act
             var listResult = await _entityRepository.FindAll();
@@ -71,7 +71,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new PatientRepository(_mockContext);
 
             var patientFind = new Patient
             {
@@ -97,7 +97,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new PatientRepository(_mockContext);
 
             var patientFind = new Patient
             {
@@ -123,7 +123,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new PatientRepository(_mockContext);
 
             var patientFind = new Patient
             {
@@ -150,7 +150,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new PatientRepository(_mockContext);
 
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
@@ -173,7 +173,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new PatientRepository(_mockContext);
 
             // Act
             var result = await _entityRepository.FindByEmail(mockData.Email);
@@ -193,7 +193,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new PatientRepository(_mockContext, new PolicyConfig());
+            _entityRepository = new PatientRepository(_mockContext);
 
             // Act
             var listResult = await _entityRepository.FindAllByMedicalId(mockData.MedicalId);

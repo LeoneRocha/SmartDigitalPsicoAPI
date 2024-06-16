@@ -18,18 +18,17 @@ namespace SmartDigitalPsico.Service.Principals
     public class PatientService : EntityBaseService<Patient, AddPatientVO, UpdatePatientVO, GetPatientVO, IPatientRepository>, IPatientService
 
     {
-        private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
-        private readonly IPatientRepository _entityRepository;
-
         public PatientService(IMapper mapper
-            , IPatientRepository entityRepository, IUserRepository userRepository
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IPatientRepository entityRepository
+            , IUserRepository userRepository
             , IValidator<Patient> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository, ICacheService cacheService)
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+            , IApplicationLanguageRepository applicationLanguageRepository
+            , ICacheService cacheService)
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
-            _mapper = mapper;
-            _entityRepository = entityRepository;
             _userRepository = userRepository;
         }
         public override async Task<ServiceResponse<GetPatientVO>> Create(AddPatientVO item)
@@ -68,7 +67,7 @@ namespace SmartDigitalPsico.Service.Principals
         }
 
         public override async Task<ServiceResponse<GetPatientVO>> Update(UpdatePatientVO item)
-        { 
+        {
             ServiceResponse<GetPatientVO> response = new ServiceResponse<GetPatientVO>();
             Patient? entityUpdate = await _entityRepository.FindByID(item.Id);
             if (entityUpdate != null)

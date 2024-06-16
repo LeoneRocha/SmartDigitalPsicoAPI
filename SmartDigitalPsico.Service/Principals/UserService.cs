@@ -22,29 +22,26 @@ using System.Security.Claims;
 namespace SmartDigitalPsico.Service.Principals
 {
     public class UserService : EntityBaseService<User, AddUserVO, UpdateUserVO, GetUserVO, IUserRepository>, IUserService
-    {
-        private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
+    {  
         private readonly IRoleGroupRepository _roleGroupRepository;
         private readonly ITokenConfiguration _configurationToken;
         private readonly ITokenService _tokenService;
         private readonly AuthConfigurationVO _configurationAuth;
-        public UserService(
-              IUserRepository entityRepository
+        public UserService(IMapper mapper
+            , Serilog.ILogger logger
+            , IResiliencePolicyConfig policyConfig
+            , IUserRepository entityRepository
             , IApplicationLanguageRepository applicationLanguageRepository
             , IRoleGroupRepository roleGroupRepository
-            , IMapper mapper
             , ITokenConfiguration configurationToken
             , ITokenService tokenService
             , IOptions<AuthConfigurationVO> configurationAuth
             , IValidator<User> entityValidator
             , ICacheService cacheService
             )
-            : base(mapper, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {
-            _userRepository = entityRepository;
-            _roleGroupRepository = roleGroupRepository;
-            _mapper = mapper;
+            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        { 
+            _roleGroupRepository = roleGroupRepository; 
             _configurationToken = configurationToken;
             _configurationAuth = configurationAuth.Value;
             _tokenService = tokenService;
@@ -54,7 +51,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             var response = new ServiceResponse<GetUserAuthenticatedVO>();
 
-            var user = await _userRepository.FindByLogin(login);
+            var user = await _entityRepository.FindByLogin(login);
             if (user == null)
             {
                 response.Success = false;
@@ -95,7 +92,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             if (response.Success)
             {
-                User entityResponse = await _userRepository.Create(entityAdd);
+                User entityResponse = await _entityRepository.Create(entityAdd);
                 response.Data = _mapper.Map<GetUserVO>(entityResponse);
                 response.Message = "User registred.";
             }
@@ -109,7 +106,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             try
             {
-                User entityUpdate = await _userRepository.FindByID(updateUser.Id);
+                User entityUpdate = await _entityRepository.FindByID(updateUser.Id);
 
                 if (entityUpdate == null || entityUpdate.Id == 0)
                 {
@@ -131,7 +128,7 @@ namespace SmartDigitalPsico.Service.Principals
                 entityUpdate.Role = updateUser.Role;
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                
+
                 if (updateUser.MedicalId > 0)
                     entityUpdate.MedicalId = updateUser.MedicalId;
 
@@ -143,13 +140,13 @@ namespace SmartDigitalPsico.Service.Principals
                     {
                         entityUpdate.UserRoleGroups.Add(new RoleGroupUser { UserId = entityUpdate.Id, RoleGroupId = rg.Id });
                     }
-                } 
+                }
                 response = await base.Validate(entityUpdate);
 
                 if (response.Success)
                 {
 
-                    User entityResponse = await _userRepository.Update(entityUpdate);
+                    User entityResponse = await _entityRepository.Update(entityUpdate);
                     response.Success = true;
                     response.Data = _mapper.Map<GetUserVO>(entityResponse);
 
@@ -185,7 +182,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             if (response.Success)
             {
-                User entityResponse = await _userRepository.Create(entityAdd);
+                User entityResponse = await _entityRepository.Create(entityAdd);
                 entityResponse.UserRoleGroups = new List<RoleGroupUser>();
                 if (roleGroups.Count > 0)
                 {
@@ -196,8 +193,8 @@ namespace SmartDigitalPsico.Service.Principals
                     response = await base.Validate(entityResponse);
                     if (response.Success)
                     {
-                        entityResponse = await _userRepository.Update(entityResponse);
-                        entityResponse = await _userRepository.FindByID(entityResponse.Id);
+                        entityResponse = await _entityRepository.Update(entityResponse);
+                        entityResponse = await _entityRepository.FindByID(entityResponse.Id);
                     }
                 }
                 response.Data = _mapper.Map<GetUserVO>(entityResponse);
@@ -209,7 +206,7 @@ namespace SmartDigitalPsico.Service.Principals
 
         public async Task<bool> UserExists(string login)
         {
-            bool response = await _userRepository.UserExists(login);
+            bool response = await _entityRepository.UserExists(login);
 
             return response;
         }
@@ -217,7 +214,7 @@ namespace SmartDigitalPsico.Service.Principals
         public async Task<ServiceResponse<bool>> Logout(string login)
         {
             var response = new ServiceResponse<bool>();
-            bool user = await _userRepository.UserExists(login);
+            bool user = await _entityRepository.UserExists(login);
             if (!user)
             {
                 response.Success = false;
@@ -259,7 +256,7 @@ namespace SmartDigitalPsico.Service.Principals
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DataHelper.GetDateTimeNow().AddDays(_configurationToken.DaysToExpiry);
 
-            await _userRepository.RefreshUserInfo(user);
+            await _entityRepository.RefreshUserInfo(user);
 
             DateTime createDate = DataHelper.GetDateTimeNow();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
@@ -285,7 +282,7 @@ namespace SmartDigitalPsico.Service.Principals
                 long idUser;
                 if (long.TryParse(username, out idUser))
                 {
-                    var user = await _userRepository.FindByID(idUser);
+                    var user = await _entityRepository.FindByID(idUser);
 
                     if (user.RefreshToken != refreshToken ||
                         user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNow()) return new TokenVO();
@@ -294,7 +291,7 @@ namespace SmartDigitalPsico.Service.Principals
                     refreshToken = _tokenService.GenerateRefreshToken();
 
                     user.RefreshToken = refreshToken;
-                    await _userRepository.RefreshUserInfo(user);
+                    await _entityRepository.RefreshUserInfo(user);
                 }
             }
 
@@ -314,7 +311,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
 
-            User entityUpdate = await _userRepository.FindByID(userUpdateProfileVO.Id);
+            User entityUpdate = await _entityRepository.FindByID(userUpdateProfileVO.Id);
 
             if (entityUpdate == null || entityUpdate.Id == 0)
             {
@@ -340,7 +337,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             if (response.Success)
             {
-                User entityResponse = await _userRepository.Update(entityUpdate);
+                User entityResponse = await _entityRepository.Update(entityUpdate);
                 response.Success = true;
                 response.Data = _mapper.Map<GetUserVO>(entityResponse);
 
@@ -356,7 +353,7 @@ namespace SmartDigitalPsico.Service.Principals
         {
             ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
 
-            User? entityResponse = await _userRepository.FindByID(id);
+            User? entityResponse = await _entityRepository.FindByID(id);
             if (entityResponse != null)
             {
                 response.Data = _mapper.Map<GetUserVO>(entityResponse);

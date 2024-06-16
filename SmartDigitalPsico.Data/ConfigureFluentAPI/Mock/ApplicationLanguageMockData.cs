@@ -509,6 +509,19 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Mock
                 CreatedDate = DataHelper.GetDateTimeNow(),
                 ModifyDate = DataHelper.GetDateTimeNow(),
                 LastAccessDate = DataHelper.GetDateTimeNow()
+            },
+            new ApplicationLanguage
+            {
+                Id = 39,
+                Enable = true,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = "Ocorreu erro no processo.",
+                LanguageKey = "GenericErroMessage",
+                ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
+                LanguageValue = "Ocorreu erro no processo.",
+                CreatedDate = DataHelper.GetDateTimeNow(),
+                ModifyDate = DataHelper.GetDateTimeNow(),
+                LastAccessDate = DataHelper.GetDateTimeNow()
             }
             ];
         }

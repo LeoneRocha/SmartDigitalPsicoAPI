@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientHospitalizationInformationRepository : GenericRepositoryEntityBase<PatientHospitalizationInformation>, IPatientHospitalizationInformationRepository
     {
-        public PatientHospitalizationInformationRepository(SmartDigitalPsicoDataContext context, IPolicyConfig policyConfig) : base(context, policyConfig) { }
+        public PatientHospitalizationInformationRepository(SmartDigitalPsicoDataContext context) : base(context) { }
 
         public async Task<List<PatientHospitalizationInformation>> FindAllByPatient(long patientId)
         {

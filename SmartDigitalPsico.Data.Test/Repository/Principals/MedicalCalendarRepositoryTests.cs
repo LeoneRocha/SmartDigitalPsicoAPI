@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
              
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-            _entityRepository = new MedicalCalendarRepository(_mockContext, new PolicyConfig());;
+            _entityRepository = new MedicalCalendarRepository(_mockContext);
 
             // Act
             var listResult = await _entityRepository.FindAll();
