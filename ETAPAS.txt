@@ -1,4 +1,4 @@
-----------------------------------------------------
+ï»¿----------------------------------------------------
 https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
 https://lionscorp.visualstudio.com/SMARTDIGITALPSICO 
 https://portal.azure.com/#home
@@ -25,7 +25,7 @@ ADM nao pode ver arquivos do medico
 08  - Ajustar a carga de mock ------- Finalizado
 09  - Revisar o service para ver se ainda usa entidadee em vez do ID mudar pra ID as FK ------- Finalizado
 10  - Mudar para MYSQL ------- Finalizado
-11  - Automação ------------ Finalizado
+11  - AutomaÃ§Ã£o ------------ Finalizado
 12  - HABLITAR SONNAR ------------ Finalizado
 
 13  - HABLITAR DOCKER----------------- Finalizado
@@ -163,7 +163,7 @@ https://fernando-silva.medium.com/habilitando-api-do-docker-de-forma-segura-a0db
 
 --docker run -d -p 443:443  smartdigitalpsicowebapi_image
 
---verificar se o contêiner Docker está sendo executado corretamente
+--verificar se o contÃªiner Docker estÃ¡ sendo executado corretamente
 docker ps
 
 ---------DOCKER ETPAS MANUAL 
@@ -186,7 +186,7 @@ docker build . -t leonecr/smartdigitalpsicowebapi_image:latest
 --- 
 docker run -p 54814:80 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app0
 docker run -p 54815:443 smartdigitalpsicowebapi_image --name smartdigitalpsicowebapi_app1
--p 54815:80: Esta opção mapeia a porta 54815 do seu host para a porta 80 do contêiner Docker. Isso significa que qualquer tráfego que chega à porta 54815 do seu host será encaminhado para a porta 80 do contêiner Docker.
+-p 54815:80: Esta opÃ§Ã£o mapeia a porta 54815 do seu host para a porta 80 do contÃªiner Docker. Isso significa que qualquer trÃ¡fego que chega Ã  porta 54815 do seu host serÃ¡ encaminhado para a porta 80 do contÃªiner Docker.
 
 
 EM um projeto C# .net 8 web api configurei o docker file e docker compose  e ao rodar 
@@ -196,41 +196,41 @@ docker-compose up a imagem container nao abre as portas 80 vide imagem para deta
 mESMO ASSIM NAO FUNCIONOU DOCKER INTERNAMENTE RODA POREM NAO CONSIGO ACESSAR NA MAQUINA HOST
 
 
-Entendo que você ainda está enfrentando problemas para acessar o aplicativo na máquina host, mesmo com o Docker rodando internamente. Aqui estão algumas outras coisas que você pode verificar:
+Entendo que vocÃª ainda estÃ¡ enfrentando problemas para acessar o aplicativo na mÃ¡quina host, mesmo com o Docker rodando internamente. Aqui estÃ£o algumas outras coisas que vocÃª pode verificar:
 
-Firewall/Segurança de Rede: Verifique se o firewall ou as configurações de segurança da rede estão permitindo o tráfego nas portas que você está tentando usar.
-Verifique o IP do Container Docker: Às vezes, o problema pode estar relacionado ao endereço IP do container Docker. Você pode tentar acessar o aplicativo usando o IP do container Docker em vez de localhost. Você pode obter o IP do container Docker usando o seguinte comando no terminal:
+Firewall/SeguranÃ§a de Rede: Verifique se o firewall ou as configuraÃ§Ãµes de seguranÃ§a da rede estÃ£o permitindo o trÃ¡fego nas portas que vocÃª estÃ¡ tentando usar.
+Verifique o IP do Container Docker: Ã€s vezes, o problema pode estar relacionado ao endereÃ§o IP do container Docker. VocÃª pode tentar acessar o aplicativo usando o IP do container Docker em vez de localhost. VocÃª pode obter o IP do container Docker usando o seguinte comando no terminal:
 
 
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' smartdigitalpsico_api_container
 
 
-Verifique o Log do Container: Verifique os logs do container Docker para ver se há alguma mensagem de erro ou aviso que possa indicar o problema. Você pode fazer isso com o seguinte comando:
+Verifique o Log do Container: Verifique os logs do container Docker para ver se hÃ¡ alguma mensagem de erro ou aviso que possa indicar o problema. VocÃª pode fazer isso com o seguinte comando:
 docker logs container_id_or_name
 
-Espero que isso ajude! Se você ainda estiver enfrentando problemas, por favor, me avise!
+Espero que isso ajude! Se vocÃª ainda estiver enfrentando problemas, por favor, me avise!
 
 172.19.0.2
 docker logs smartdigitalpsico_api_container
 
 
-Se isso não resolver o problema, pode ser útil verificar se há algum outro serviço na sua máquina host que possa estar usando as portas 80 e 443. Você pode fazer isso usando o comando netstat -ano | findstr :<port_number>. Se algum serviço estiver usando essas portas, você pode precisar parar esse serviço ou usar diferentes portas para o seu aplicativo.
+Se isso nÃ£o resolver o problema, pode ser Ãºtil verificar se hÃ¡ algum outro serviÃ§o na sua mÃ¡quina host que possa estar usando as portas 80 e 443. VocÃª pode fazer isso usando o comando netstat -ano | findstr :<port_number>. Se algum serviÃ§o estiver usando essas portas, vocÃª pode precisar parar esse serviÃ§o ou usar diferentes portas para o seu aplicativo.
 
 
 netstat -ano | findstr :57190
 
-Obrigado por compartilhar a saída do comando netstat. A partir desta saída, podemos ver que a porta 57190 está de fato aberta e ouvindo conexões. Isso indica que o Docker está configurado corretamente para mapear a porta do container para a porta do host.
+Obrigado por compartilhar a saÃ­da do comando netstat. A partir desta saÃ­da, podemos ver que a porta 57190 estÃ¡ de fato aberta e ouvindo conexÃµes. Isso indica que o Docker estÃ¡ configurado corretamente para mapear a porta do container para a porta do host.
 
-Se você ainda não consegue acessar o aplicativo na máquina host, pode ser um problema com o aplicativo em si. Aqui estão algumas coisas que você pode verificar:
+Se vocÃª ainda nÃ£o consegue acessar o aplicativo na mÃ¡quina host, pode ser um problema com o aplicativo em si. Aqui estÃ£o algumas coisas que vocÃª pode verificar:
 
-Logs do Aplicativo: Verifique os logs do aplicativo para ver se há alguma mensagem de erro ou aviso que possa indicar o problema. Você pode fazer isso com o seguinte comando:
+Logs do Aplicativo: Verifique os logs do aplicativo para ver se hÃ¡ alguma mensagem de erro ou aviso que possa indicar o problema. VocÃª pode fazer isso com o seguinte comando:
 docker logs smartdigitalpsico_api_container
 
-Configuração do Aplicativo: Certifique-se de que o aplicativo está configurado para ouvir em todas as interfaces de rede (0.0.0.0), não apenas localhost (127.0.0.1).
-Teste de Conectividade Interna: Você pode tentar se conectar ao aplicativo a partir de dentro do próprio container Docker para ver se o aplicativo está funcionando corretamente. Você pode fazer isso com o seguinte comando:
+ConfiguraÃ§Ã£o do Aplicativo: Certifique-se de que o aplicativo estÃ¡ configurado para ouvir em todas as interfaces de rede (0.0.0.0), nÃ£o apenas localhost (127.0.0.1).
+Teste de Conectividade Interna: VocÃª pode tentar se conectar ao aplicativo a partir de dentro do prÃ³prio container Docker para ver se o aplicativo estÃ¡ funcionando corretamente. VocÃª pode fazer isso com o seguinte comando:
 docker exec -it smartdigitalpsico_api_container curl localhost:80
 
-Espero que isso ajude! Se você ainda estiver enfrentando problemas, por favor, me avise!
+Espero que isso ajude! Se vocÃª ainda estiver enfrentando problemas, por favor, me avise!
 
 
 
@@ -271,7 +271,7 @@ docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' dockercompose
 FROM mcr.microsoft.com/dotnet/core/sdk:8 AS build-env
 WORKDIR /app
 
-# Copia csproj e restaura dependências
+# Copia csproj e restaura dependÃªncias
 COPY *.csproj ./
 RUN dotnet restore
 
@@ -287,13 +287,13 @@ COPY --from=build-env /app/out .
 # Copia o certificado SSL
 COPY certificate.pfx .
 
-# Configura variáveis de ambiente para o certificado SSL
+# Configura variÃ¡veis de ambiente para o certificado SSL
 ENV ASPNETCORE_URLS="https://+;http://+"
 ENV ASPNETCORE_HTTPS_PORT=443
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password="password"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path="./certificate.pfx"
 
-# Expõe as portas 80 e 443
+# ExpÃµe as portas 80 e 443
 EXPOSE 80
 EXPOSE 443
 
@@ -331,7 +331,7 @@ webBuilder.UseKestrel(serverOptions =>
 # Copia o certificado SSL
 COPY certificate.pfx .
 
-# Configura variáveis de ambiente para o certificado SSL
+# Configura variÃ¡veis de ambiente para o certificado SSL
 ENV ASPNETCORE_URLS="https://+;http://+"
 ENV ASPNETCORE_HTTPS_PORT=443
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password="password"
@@ -380,7 +380,7 @@ Nome do sistema : SmartDigitalPsico
 
 Descricao breve: Atendimento Inteligente Digital De Pacientes de Psicologia
 
-Objetivo: Sistema de cadastro de prontuário de paciente de psicologia.
+Objetivo: Sistema de cadastro de prontuÃ¡rio de paciente de psicologia.
 
 
 https://blog.rocketseat.com.br/como-fazer-um-bom-readme/
@@ -403,34 +403,34 @@ https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#objects
 !Build Status
 !Release Status
 
-## Descrição
+## DescriÃ§Ã£o
 
-Atendimento Inteligente Digital De Pacientes de Psicologia. Sistema de cadastro de prontuário de paciente de psicologia.
+Atendimento Inteligente Digital De Pacientes de Psicologia. Sistema de cadastro de prontuÃ¡rio de paciente de psicologia.
 
-## Índice
+## Ãndice
 
-- Instalação
+- InstalaÃ§Ã£o
 - Uso
-- Documentação da API
+- DocumentaÃ§Ã£o da API
 - Testes
 - Deploy
-- Contribuição
+- ContribuiÃ§Ã£o
 
-## Instalação
+## InstalaÃ§Ã£o
 
-Este projeto usa .NET Core 8 e Docker. Instruções para instalar:
+Este projeto usa .NET Core 8 e Docker. InstruÃ§Ãµes para instalar:
 
 ```bash
-# clone o repositório
+# clone o repositÃ³rio
 git clone https://github.com/seuusuario/SmartDigitalPsico.git
 
-# navegue até o diretório do projeto
+# navegue atÃ© o diretÃ³rio do projeto
 cd SmartDigitalPsico
 
 # construa a imagem Docker
 docker build -t smartdigitalpsico .
 
-# execute o contêiner Docker
+# execute o contÃªiner Docker
 docker run -p 8080:80 smartdigitalpsico
 
 
@@ -515,3 +515,125 @@ USE DE EXEMPLO O CODIGO ABAIXO
                 Assert.That(target, Is.Not.Null);
             });
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Em C# .net core 8 o codigo abaixao usando o FluentValidation melhore o codigo para validar os campos FileExtension e FileContentType para apenas tipos de arquivos como imagens word e excel e pdf e impedir arquivos maliciosos e que exceda mais que 100 mb e que os tipos de arquivos seja possivel definir via appsetings 
+
+ public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
+ { 
+
+     #region Columns
+     RuleFor(entity => entity.Description)
+         .MaximumLength(255)
+         .WithMessage("O Description nÃ£o pode ultrapassar {MaxLength} carateres.");
+
+     RuleFor(entity => entity.FilePath)
+         .MaximumLength(2083)
+         .WithMessage("O FilePath nÃ£o pode ultrapassar {MaxLength} carateres.");
+
+     RuleFor(entity => entity.FileExtension)
+      .MaximumLength(3)
+      .WithMessage("O FileExtension nÃ£o pode ultrapassar {MaxLength} carateres.");
+
+     RuleFor(entity => entity.FileContentType)
+      .MaximumLength(100)
+      .WithMessage("O FileContentType nÃ£o pode ultrapassar {MaxLength} carateres.");
+
+     #endregion Columns
+
+     #region Relationship
+     RuleFor(entity => entity.MedicalId)
+     .NotNull()
+     .WithMessage("ErrorValidator_MedicalId_Null")
+     .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
+     .WithMessage("ErrorValidator_MedicalId_NotFound")
+     .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
+     .WithMessage("ErrorValidator_Medical_Changed")
+     .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
+     .WithMessage("ErrorValidator_MedicalCreated_Invalid")
+     .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
+     .WithMessage("ErrorValidator_MedicalModify_Invalid");
+
+     #endregion Relationship
+ }
+
+Claro! Aqui estÃ¡ uma versÃ£o aprimorada do cÃ³digo para validar os campos `FileExtension` e `FileContentType` usando FluentValidation em C# .NET Core 8. Este cÃ³digo garante que apenas arquivos de imagem, Word, Excel e PDF sejam aceitos, impede arquivos maliciosos e limita o tamanho dos arquivos a 100 MB.
+
+```csharp
+using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
+
+public class FileValidator : AbstractValidator<IFormFile>
+{
+    private readonly string[] _permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".doc", ".docx", ".xls", ".xlsx", ".pdf" };
+    private readonly string[] _permittedContentTypes = { "image/jpeg", "image/png", "image/gif", "image/bmp", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/pdf" };
+    private const long MaxFileSize = 100 * 1024 * 1024; // 100 MB
+
+    public FileValidator()
+    {
+        RuleFor(file => file.Length)
+            .NotNull()
+            .LessThanOrEqualTo(MaxFileSize)
+            .WithMessage("O tamanho do arquivo nÃ£o pode exceder 100 MB.");
+
+        RuleFor(file => file.FileName)
+            .NotNull()
+            .Must(HavePermittedExtension)
+            .WithMessage("Tipo de arquivo nÃ£o permitido.");
+
+        RuleFor(file => file.ContentType)
+            .NotNull()
+            .Must(HavePermittedContentType)
+            .WithMessage("Tipo de conteÃºdo do arquivo nÃ£o permitido.");
+    }
+
+    private bool HavePermittedExtension(string fileName)
+    {
+        var extension = System.IO.Path.GetExtension(fileName).ToLowerInvariant();
+        return _permittedExtensions.Contains(extension);
+    }
+
+    private bool HavePermittedContentType(string contentType)
+    {
+        return _permittedContentTypes.Contains(contentType);
+    }
+}
+
+public class CustomViewModel
+{
+    public IList<IFormFile> Files { get; set; }
+}
+
+public class CustomValidator : AbstractValidator<CustomViewModel>
+{
+    public CustomValidator()
+    {
+        RuleForEach(x => x.Files).SetValidator(new FileValidator());
+    }
+}
+```
+
+Este cÃ³digo define um `FileValidator` que verifica a extensÃ£o e o tipo de conteÃºdo do arquivo, alÃ©m de garantir que o tamanho do arquivo nÃ£o exceda 100 MB. O `CustomValidator` aplica essas regras a cada arquivo na lista de arquivos do `CustomViewModel`.
+
+Se precisar de mais alguma coisa, estou aqui para ajudar! ðŸ˜Š
+
+Fonte: conversa com o Copilot, 07/08/2024
+(1) asp.net core - How to validate uploaded files by FluentValidation .... https://stackoverflow.com/questions/59358252/how-to-validate-uploaded-files-by-fluentvalidation.
+(2) c# - How to validate files with FluentValidation - Stack Overflow. https://stackoverflow.com/questions/72866914/how-to-validate-files-with-fluentvalidation.
+(3) github.com. https://github.com/kiembully/cheapestessay_v2/tree/f77ad873c94c450ab90a16b7c023be10556075ee/functions%2Fdist%2Fam-starter-pack%2Fserver%2Fmain.js.
