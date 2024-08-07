@@ -10,9 +10,9 @@ using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Domains.AddVOs;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
 using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
-using SmartDigitalPsico.Service.Generic;
+using SmartDigitalPsico.Service.DataEntity.Generic;
 
-namespace SmartDigitalPsico.Service.SystemDomains
+namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     public class GenderService : EntityBaseService<Gender, AddGenderVO, UpdateGenderVO, GetGenderVO, IGenderRepository>, IGenderService
     {
@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
             , IValidator<Gender> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        { 
+        {
         }
 
         public override async Task<ServiceResponse<List<GetGenderVO>>> FindAll()
@@ -66,13 +66,13 @@ namespace SmartDigitalPsico.Service.SystemDomains
                 response.Data = _mapper.Map<GetGenderVO>(entityResponse);
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                    ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
+                    ("RegisterIsFound", _applicationLanguageRepository, _cacheService);
             }
             else
             {
                 response.Success = false;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                   ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+                   ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
             }
             return response;
         }
@@ -87,7 +87,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
             {
                 response.Success = false;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+                       ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
                 return response;
             }
             Gender entityUpdate = await _entityRepository.FindByID(item.Id);
@@ -104,7 +104,7 @@ namespace SmartDigitalPsico.Service.SystemDomains
                 response.Data = _mapper.Map<GetGenderVO>(entityResponse);
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                           ("RegisterUpdated", base._applicationLanguageRepository, base._cacheService);
+                           ("RegisterUpdated", _applicationLanguageRepository, _cacheService);
             }
             return response;
         }

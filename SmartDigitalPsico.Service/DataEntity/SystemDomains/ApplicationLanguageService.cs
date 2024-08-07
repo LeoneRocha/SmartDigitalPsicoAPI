@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
+using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
@@ -10,11 +11,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Domains.AddVOs;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
 using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
-using SmartDigitalPsico.Service.CacheManager;
-using SmartDigitalPsico.Service.Generic;
+using SmartDigitalPsico.Service.DataEntity.Generic;
+using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 using System.Globalization;
 
-namespace SmartDigitalPsico.Service.SystemDomains
+namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     public class ApplicationLanguageService
       : EntityBaseService<ApplicationLanguage, AddApplicationLanguageVO, UpdateApplicationLanguageVO, GetApplicationLanguageVO, IApplicationLanguageRepository>, IApplicationLanguageService
@@ -35,14 +36,14 @@ namespace SmartDigitalPsico.Service.SystemDomains
         {
             string keyCache = "FindAll_GetApplicationLanguageVO";
 
-            ServiceResponse<List<GetApplicationLanguageVO>> result = await CacheService.GetDataFromCache<List<GetApplicationLanguageVO>>(base._cacheService, keyCache);
-            if (base._cacheService.IsEnable())
+            ServiceResponse<List<GetApplicationLanguageVO>> result = await CacheService.GetDataFromCache<List<GetApplicationLanguageVO>>(_cacheService, keyCache);
+            if (_cacheService.IsEnable())
             {
                 if (result.Data == null)
                 {
                     result = await base.FindAll();
 
-                    await CacheService.SaveDataToCache(keyCache, result.Data, base._cacheService);
+                    await CacheService.SaveDataToCache(keyCache, result.Data, _cacheService);
                 }
             }
             else

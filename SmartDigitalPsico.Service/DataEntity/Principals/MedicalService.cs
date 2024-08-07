@@ -9,15 +9,15 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
 using SmartDigitalPsico.Domain.VO.Medical;
-using SmartDigitalPsico.Service.Generic;
-using SmartDigitalPsico.Service.SystemDomains;
+using SmartDigitalPsico.Service.DataEntity.Generic;
+using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
-namespace SmartDigitalPsico.Service.Principals
+namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     public class MedicalService
         : EntityBaseService<Medical, AddMedicalVO, UpdateMedicalVO, GetMedicalVO, IMedicalRepository>, IMedicalService
 
-    {  
+    {
         private readonly IUserRepository _userRepository;
         private readonly ISpecialtyRepository _specialtyRepository;
         public MedicalService(IMapper mapper
@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.Service.Principals
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {  
+        {
             _userRepository = userRepository;
             _specialtyRepository = specialtyRepository;
         }
@@ -49,7 +49,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-            entityAdd.CreatedUserId = this.UserId;
+            entityAdd.CreatedUserId = UserId;
             entityAdd.Enable = true;
 
             entityAdd.Email = entityAdd.Email.ToLower();
@@ -72,7 +72,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                 response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                   ("MedicalRegistred", base._applicationLanguageRepository, base._cacheService);
+                   ("MedicalRegistred", _applicationLanguageRepository, _cacheService);
             }
             return response;
         }
@@ -100,7 +100,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                 entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
-                entityUpdate.ModifyUserId = this.UserId;
+                entityUpdate.ModifyUserId = UserId;
 
                 #region Columns
                 entityUpdate.Enable = item.Enable;
@@ -121,7 +121,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                     response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
                     response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("MedicalUpdated", base._applicationLanguageRepository, base._cacheService);
+                       ("MedicalUpdated", _applicationLanguageRepository, _cacheService);
                 }
             }
 
@@ -180,7 +180,7 @@ namespace SmartDigitalPsico.Service.Principals
             }
             response.Success = true;
             response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                   ("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+                   ("RegisterFind", _applicationLanguageRepository, _cacheService);
 
             return response;
         }
@@ -190,7 +190,7 @@ namespace SmartDigitalPsico.Service.Principals
             ServiceResponse<List<GetMedicalVO>> response = new ServiceResponse<List<GetMedicalVO>>();
             response.Success = true;
 
-            User? userAction = await _userRepository.FindByID(this.UserId);
+            User? userAction = await _userRepository.FindByID(UserId);
             response.Success = userAction != null;
             if (userAction == null)
             {
@@ -201,7 +201,7 @@ namespace SmartDigitalPsico.Service.Principals
             {
                 response.Success = false;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("PermissionDenied", base._applicationLanguageRepository, base._cacheService);
+                       ("PermissionDenied", _applicationLanguageRepository, _cacheService);
 
                 response.Errors = new List<ErrorResponse>();
                 response.Unauthorized = true;

@@ -16,9 +16,8 @@ using SmartDigitalPsico.Domain.Mapper;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.WebAPI.Helper;
+using SmartDigitalPsico.Service.Configure;
 using Swashbuckle.AspNetCore.Filters;
-using System.Configuration;
 using System.Text;
 
 namespace SmartDigitalPsico.WebAPI.Configure

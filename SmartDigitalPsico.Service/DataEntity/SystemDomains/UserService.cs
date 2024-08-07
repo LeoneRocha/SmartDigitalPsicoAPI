@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -14,15 +15,14 @@ using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
 using SmartDigitalPsico.Domain.VO.User;
 using SmartDigitalPsico.Domain.VO.Utils;
-using SmartDigitalPsico.Service.Generic;
-using SmartDigitalPsico.Service.SystemDomains;
+using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace SmartDigitalPsico.Service.Principals
+namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     public class UserService : EntityBaseService<User, AddUserVO, UpdateUserVO, GetUserVO, IUserRepository>, IUserService
-    {  
+    {
         private readonly IRoleGroupRepository _roleGroupRepository;
         private readonly ITokenConfiguration _configurationToken;
         private readonly ITokenService _tokenService;
@@ -40,8 +40,8 @@ namespace SmartDigitalPsico.Service.Principals
             , ICacheService cacheService
             )
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        { 
-            _roleGroupRepository = roleGroupRepository; 
+        {
+            _roleGroupRepository = roleGroupRepository;
             _configurationToken = configurationToken;
             _configurationAuth = configurationAuth.Value;
             _tokenService = tokenService;
@@ -157,8 +157,8 @@ namespace SmartDigitalPsico.Service.Principals
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Errors = Domain.Helpers.ExceptionHandler.GerateListErrorResponse(ex);
-                response.Message = Domain.Helpers.ExceptionHandler.GetMessage(ex);
+                response.Errors = ExceptionHandler.GerateListErrorResponse(ex);
+                response.Message = ExceptionHandler.GetMessage(ex);
             }
 
             return response;
@@ -362,7 +362,7 @@ namespace SmartDigitalPsico.Service.Principals
             }
             response.Success = true;
             response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                   ("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+                   ("RegisterFind", _applicationLanguageRepository, _cacheService);
 
             return response;
         }

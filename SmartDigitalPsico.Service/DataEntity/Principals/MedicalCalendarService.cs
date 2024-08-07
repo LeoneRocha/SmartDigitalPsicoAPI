@@ -5,9 +5,9 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Medical.MedicalCalendar;
-using SmartDigitalPsico.Service.Generic;
+using SmartDigitalPsico.Service.DataEntity.Generic;
 
-namespace SmartDigitalPsico.Service.Principals
+namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     public class MedicalCalendarService : EntityBaseService<MedicalCalendar, AddMedicalCalendarVO, UpdateMedicalCalendarVO, GetMedicalCalendarVO, IMedicalCalendarRepository>, IMedicalCalendarService
 

@@ -7,6 +7,7 @@ using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -15,14 +16,15 @@ using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
-using SmartDigitalPsico.Service.CacheManager;
-using SmartDigitalPsico.Service.Principals;
-using SmartDigitalPsico.Service.SystemDomains;
+using SmartDigitalPsico.Service.DataEntity.Principals;
+using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
+using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 
-namespace SmartDigitalPsico.WebAPI.Helper
+namespace SmartDigitalPsico.Service.Configure
 {
     public static class DependenciesInjectionConfigure
-    { 
+    {
         public static void AddDependenciesInjection(IServiceCollection Service)
         {
             addRepositories(Service);
@@ -38,6 +40,7 @@ namespace SmartDigitalPsico.WebAPI.Helper
             Service.AddScoped<IFileDiskRepository, FileDiskRepository>();
             Service.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
             Service.AddScoped<IDiskCacheRepository, DiskCacheRepository>();
+            Service.AddScoped<IStorageClientAdapter, AzureStorageClientAdapterService>();
 
             Service.AddScoped<IUserRepository, UserRepository>();
             Service.AddScoped<IMedicalRepository, MedicalRepository>();
@@ -57,7 +60,6 @@ namespace SmartDigitalPsico.WebAPI.Helper
             Service.AddScoped<IApplicationLanguageRepository, ApplicationLanguageRepository>();
             Service.AddScoped<IApplicationConfigSettingRepository, ApplicationConfigSettingRepository>();
             Service.AddScoped<IApplicationCacheLogRepository, ApplicationCacheLogRepository>();
-
 
             Service.AddScoped<IGenderRepository, GenderRepository>();
             Service.AddScoped<IOfficeRepository, OfficeRepository>();
