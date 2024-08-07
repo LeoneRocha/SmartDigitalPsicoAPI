@@ -12,20 +12,19 @@ namespace SmartDigitalPsico.Domain.Validation.Base
 {
     public class FileValidator : AbstractValidator<FileBase>
     {
-        private readonly string[]? _permittedExtensions;
-        private readonly string[]? _permittedContentTypes;
-        private readonly long _maxFileSize;
+        private readonly string[] _permittedExtensions;
+        private readonly string[] _permittedContentTypes;
 
         public FileValidator(IConfiguration configuration)
         {
-            _permittedExtensions = configuration.GetSection("AllowedFileExtensions").Get<string[]>();
-            _permittedContentTypes = configuration.GetSection("AllowedContentTypes").Get<string[]>();
-            _maxFileSize  = configuration.GetValue<long>("MaxFileSizeMegabytes");
+            _permittedExtensions = configuration.GetSection("AllowedFileExtensions").Get<string[]>() ?? [];
+            _permittedContentTypes = configuration.GetSection("AllowedContentTypes").Get<string[]>() ?? [];
+            long _maxFileSize = configuration.GetValue<long>("MaxFileSizeMegabytes");
 
             RuleFor(file => file.FileSizeKB)
                 .NotNull()
             .LessThanOrEqualTo(_maxFileSize)
-            .WithMessage($"O tamanho do arquivo não pode exceder {ConvertBytesToMegabytes(_maxFileSize)} MB.");
+            .WithMessage($"O tamanho do arquivo não pode exceder {convertBytesToMegabytes(_maxFileSize)} MB.");
 
 
             RuleFor(file => file.FileExtension)
@@ -41,14 +40,14 @@ namespace SmartDigitalPsico.Domain.Validation.Base
 
         private bool HavePermittedExtension(string extension)
         {
-            return _permittedExtensions == null ? false : _permittedExtensions.Contains(extension);
+            return _permittedExtensions.Contains(extension);
         }
 
         private bool HavePermittedContentType(string contentType)
         {
-            return _permittedContentTypes == null ? false : _permittedContentTypes.Contains(contentType);
+            return _permittedContentTypes.Contains(contentType);
         }
-        private double ConvertBytesToMegabytes(long bytes)
+        private static double convertBytesToMegabytes(long bytes)
         {
             return (double)bytes / (1024);
         }
