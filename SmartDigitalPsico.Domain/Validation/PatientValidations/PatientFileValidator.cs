@@ -1,15 +1,16 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
-    public class PatientFileValidator :  PatientBaseValidator<PatientFile>
-    {  
-        public PatientFileValidator(IPatientFileRepository entityRepository,
+    public class PatientFileValidator : PatientBaseValidator<PatientFile>
+    {
+        public PatientFileValidator(IConfiguration configuration, IPatientFileRepository entityRepository,
             IPatientRepository patientRepository) : base(patientRepository, entityRepository)
-        {  
+        {
             #region Columns
             RuleFor(entity => entity.Description)
                 .MaximumLength(255)
@@ -26,6 +27,9 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             RuleFor(entity => entity.FileContentType)
              .MaximumLength(100)
              .WithMessage("O FileContentType não pode ultrapassar {MaxLength} carateres.");
+             
+            RuleFor(entity => entity)
+                .SetValidator(new FileValidator(configuration));
 
             #endregion Columns
 
@@ -48,7 +52,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
               .WithMessage("ErrorValidator_Patient_Medical_Modify");
 
             #endregion Relationship  
-        } 
-        
+        }
+
     }
 }
