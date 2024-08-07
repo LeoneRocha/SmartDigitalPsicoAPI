@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Domain.Validation.Base
             RuleFor(file => file.FileSizeKB)
                 .NotNull()
             .LessThanOrEqualTo(_maxFileSize)
-            .WithMessage($"O tamanho do arquivo não pode exceder {convertBytesToMegabytes(_maxFileSize)} MB.");
+            .WithMessage($"O tamanho do arquivo não pode exceder {ConvertBytesToMegabytes(_maxFileSize)} MB.");
 
 
             RuleFor(file => file.FileExtension)
@@ -41,7 +41,7 @@ namespace SmartDigitalPsico.Domain.Validation.Base
         {
             return _permittedContentTypes.Contains(contentType);
         }
-        private static double convertBytesToMegabytes(long bytes)
+        private static double ConvertBytesToMegabytes(long bytes)
         {
             return (double)bytes / (1024);
         }
