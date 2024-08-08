@@ -76,5 +76,10 @@ namespace SmartDigitalPsico.Domain.Helpers
         {
             return GetSectionApp(configuration, "ResiliencePolicyConfig");
         }
+
+        public static IConfiguration GetLocationSaveFileConfigurationVO(IConfiguration configuration)
+        {
+            return GetSectionApp(configuration, "LocationSaveFileConfigurationVO");
+        }
     }
 }

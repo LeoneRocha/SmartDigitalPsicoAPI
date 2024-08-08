@@ -13,8 +13,5 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataEntity\temp\" />
-  </ItemGroup>
 
 </Project>

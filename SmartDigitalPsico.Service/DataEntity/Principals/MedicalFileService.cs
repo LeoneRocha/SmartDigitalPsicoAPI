@@ -135,7 +135,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 response = await base.Validate(entityAdd);
                 if (response.Success)
                 {
-                    entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, entity.MedicalId.ToString());
+                    entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, "medicalfiles", entity.MedicalId.ToString());
                     MedicalFile entityResponse = await _entityRepository.Create(entityAdd);
                     if (response.Data != null)
                         response.Data.Id = entityResponse.Id;

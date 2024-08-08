@@ -2,7 +2,6 @@
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.AppException;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Security;
 
@@ -11,13 +10,17 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
     public class AzureStorageClientAdapterService : IStorageClientAdapter
 
     {
-        private readonly BlobServiceClient _blobServiceClient;
+        private readonly BlobServiceClient? _blobServiceClient;
         private readonly IConfiguration? _configuration;
 
         public AzureStorageClientAdapterService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _blobServiceClient = new BlobServiceClient(configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty);
+            string conBSC = configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty;
+            if (!string.IsNullOrEmpty(conBSC))
+            {
+                _blobServiceClient = new BlobServiceClient(conBSC);
+            }
         }
 
         public AzureStorageClientAdapterService(IConfiguration configuration, BlobServiceClient blobServiceClient)
@@ -28,89 +31,95 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 
         public async Task<string> UploadFileReturnUrl(BlobFileVO blobFileVO)
         {
-            await CreateContainerIfNotExists(blobFileVO.ContainerName);
-
-            var containerClient = _blobServiceClient.GetBlobContainerClient(blobFileVO.ContainerName);
-
-            var blobHttpHeaders = AzureStorageHelper.GetBlobHeaders(blobFileVO.FilePath);
-            if (blobFileVO.BlobHeaders != null)
+            if (_blobServiceClient != null)
             {
-                blobHttpHeaders = blobFileVO.BlobHeaders;
-            }
-            var blobName = Path.GetFileName(blobFileVO.FilePath);
+                await CreateContainerIfNotExists(blobFileVO.ContainerName);
 
-            if (!string.IsNullOrEmpty(blobFileVO.BlobName))
-            {
-                blobName = blobFileVO.BlobName;
-            }
-            var blobClient = containerClient.GetBlobClient(blobName);
+                var containerClient = _blobServiceClient.GetBlobContainerClient(blobFileVO.ContainerName);
 
-            await blobClient.UploadAsync(blobFileVO.FilePath, blobHttpHeaders);
+                var blobName = Path.GetFileName(blobFileVO.FilePath);
 
-            return blobClient.Uri.AbsoluteUri;
+                if (!string.IsNullOrEmpty(blobFileVO.BlobName))
+                {
+                    blobName = blobFileVO.BlobName;
+                }
+                var blobClient = containerClient.GetBlobClient(blobName);
+
+                await blobClient.UploadAsync(blobFileVO.FilePath, blobFileVO.BlobHeaders);
+
+                return blobClient.Uri.AbsoluteUri;
+            } 
+            return string.Empty;
         }
 
         public async Task CreateContainerIfNotExists(string containerName)
         {
-            if (string.IsNullOrWhiteSpace(containerName) || containerName.Length > 63)
+            if (_blobServiceClient != null)
             {
-                throw new AppWarningException("Container Name invalid");
-            }
-            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+                if (string.IsNullOrWhiteSpace(containerName) || containerName.Length > 63)
+                {
+                    throw new AppWarningException("Container Name invalid");
+                }
+                BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
 
-            await containerClient.CreateIfNotExistsAsync();
+                await containerClient.CreateIfNotExistsAsync();
+            }
         }
 
         public async Task<string> GetFileStorageUrlPublic(string containerName, string blobName)
         {
-            int daysExpireBlobSas;
-            if (!int.TryParse(_configuration?.GetSection("StorageServices:AzureStorage")["DaysExpiresBlobSas"], out daysExpireBlobSas))
+            if (_blobServiceClient != null)
             {
-                daysExpireBlobSas = 15;
-            }
-            string transcriptTextUrl = string.Empty;
-
-            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-
-            BlobClient blobClient = containerClient.GetBlobClient(blobName);
-
-            if (blobClient.CanGenerateSasUri)
-            {
-                // Define Sas
-                var blobSasBuilder = new BlobSasBuilder
+                int daysExpireBlobSas;
+                if (!int.TryParse(_configuration?.GetSection("StorageServices:AzureStorage")["DaysExpiresBlobSas"], out daysExpireBlobSas))
                 {
-                    BlobContainerName = containerName,
-                    BlobName = blobName,
-                    Resource = "b",
-                    StartsOn = DateTimeOffset.UtcNow,
-                    ExpiresOn = DateTimeOffset.UtcNow.AddDays(daysExpireBlobSas),
-                };
-                // SetPermissions
-                blobSasBuilder.SetPermissions(BlobSasPermissions.Read);
-
-                Uri sasURI = blobClient.GenerateSasUri(blobSasBuilder);
-                if (sasURI != null)
-                {
-                    transcriptTextUrl = sasURI.ToString();
+                    daysExpireBlobSas = 15;
                 }
-            }
-            await Task.Delay(50);
-            return transcriptTextUrl;
+                string fileURL = string.Empty;
 
+                BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+
+                BlobClient blobClient = containerClient.GetBlobClient(blobName);
+
+                if (blobClient.CanGenerateSasUri)
+                {
+                    // Define Sas
+                    var blobSasBuilder = new BlobSasBuilder
+                    {
+                        BlobContainerName = containerName,
+                        BlobName = blobName,
+                        Resource = "b",
+                        StartsOn = DateTimeOffset.UtcNow,
+                        ExpiresOn = DateTimeOffset.UtcNow.AddDays(daysExpireBlobSas),
+                    };
+                    // SetPermissions
+                    blobSasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+                    Uri sasURI = blobClient.GenerateSasUri(blobSasBuilder);
+                    if (sasURI != null)
+                    {
+                        fileURL = sasURI.ToString();
+                    }
+                }
+                await Task.Delay(50);
+                return fileURL;
+            }
+            return string.Empty;
         }
 
         public async Task DownloadFile(string containerName, string blobName, string targetPath)
         {
-            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-
-            BlobClient blobClient = containerClient.GetBlobClient(blobName);
-
-            using (FileStream downloadFileStream = File.OpenWrite(targetPath))
+            if (_blobServiceClient != null)
             {
-                await blobClient.DownloadToAsync(downloadFileStream);
+                BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+
+                BlobClient blobClient = containerClient.GetBlobClient(blobName);
+
+                using (FileStream downloadFileStream = File.OpenWrite(targetPath))
+                {
+                    await blobClient.DownloadToAsync(downloadFileStream);
+                }
             }
         }
     }
-
-
 }

@@ -80,7 +80,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityAdd.CreatedUserId = UserId;
                 if (response.Success)
                 {
-                    entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, $"{patient.MedicalId}_{entity.PatientId}");
+                    entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, "patientfiles", $"{patient.MedicalId}_{entity.PatientId}");
                     PatientFile entityResponse = await _entityRepository.Create(entityAdd);
                     if (response.Data != null)
                         response.Data.Id = entityResponse.Id;

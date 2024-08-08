@@ -16,6 +16,7 @@ using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
+using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
@@ -102,6 +103,7 @@ namespace SmartDigitalPsico.Service.Configure
             Service.AddScoped<ITokenConfiguration, TokenConfiguration>();
             Service.AddScoped<ITokenService, TokenService>();
             Service.AddScoped<IResiliencePolicyConfig, ResiliencePolicyConfig>();
+            Service.AddScoped<ILocationSaveFileConfigurationVO, LocationSaveFileConfigurationVO>();
         }
         private static void addValidations(IServiceCollection Service)
         {
