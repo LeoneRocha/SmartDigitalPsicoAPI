@@ -9,7 +9,7 @@ using SmartDigitalPsico.Domain.VO.Domains;
 using System.Globalization;
 using System.Reflection;
 
-namespace SmartDigitalPsico.Service.CacheManager
+namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
 {
     public class CacheService : ICacheService
     {
@@ -151,7 +151,7 @@ namespace SmartDigitalPsico.Service.CacheManager
 
             if (cacheService.IsEnable())
             {
-                bool existsCache = cacheService.TryGet<ServiceResponseCacheVO<T>>(keyCache, out ServiceResponseCacheVO<T> cachedResult);
+                bool existsCache = cacheService.TryGet(keyCache, out ServiceResponseCacheVO<T> cachedResult);
                 if (existsCache)
                 {
                     result.Data = cachedResult.Data;

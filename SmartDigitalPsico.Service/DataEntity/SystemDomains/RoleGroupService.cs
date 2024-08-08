@@ -7,18 +7,18 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Domains.AddVOs;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
 using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
-using SmartDigitalPsico.Service.Generic;
+using SmartDigitalPsico.Service.DataEntity.Generic;
 
-namespace SmartDigitalPsico.Service.SystemDomains
+namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class OfficeService : EntityBaseService<Office, AddOfficeVO, UpdateOfficeVO, GetOfficeVO, IOfficeRepository>, IOfficeService
+    public class RoleGroupService : EntityBaseService<RoleGroup, AddRoleGroupVO, UpdateRoleGroupVO, GetRoleGroupVO, IRoleGroupRepository>, IRoleGroupService
 
     {
-        public OfficeService(IMapper _mapper
+        public RoleGroupService(IMapper _mapper
             , Serilog.ILogger logger
             , IResiliencePolicyConfig policyConfig
-            , IOfficeRepository entityRepository
-            , IValidator<Office> entityValidator
+            , IRoleGroupRepository entityRepository
+            , IValidator<RoleGroup> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
             : base(_mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService) { }

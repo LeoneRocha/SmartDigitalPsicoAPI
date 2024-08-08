@@ -10,16 +10,16 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO.Patient.PatientRecord;
-using SmartDigitalPsico.Service.Generic;
-using SmartDigitalPsico.Service.SystemDomains;
+using SmartDigitalPsico.Service.DataEntity.Generic;
+using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
-namespace SmartDigitalPsico.Service.Principals
+namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     public class PatientRecordService
         : EntityBaseService<PatientRecord, AddPatientRecordVO, UpdatePatientRecordVO, GetPatientRecordVO, IPatientRecordRepository>, IPatientRecordService
 
-    { 
-        private readonly IUserRepository _userRepository; 
+    {
+        private readonly IUserRepository _userRepository;
 
         public PatientRecordService(IMapper mapper
             , Serilog.ILogger logger
@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.Service.Principals
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {  
+        {
             _userRepository = userRepository;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
@@ -39,7 +39,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             #region Relationship
 
-            entityAdd.CreatedUserId = this.UserId;
+            entityAdd.CreatedUserId = UserId;
             entityAdd.PatientId = item.PatientId;
 
             #endregion Relationship
@@ -71,7 +71,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             #region User Action
 
-            entityUpdate.ModifyUserId = this.UserId;
+            entityUpdate.ModifyUserId = UserId;
 
             #endregion User Action
 
@@ -104,7 +104,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             var recordsList = new RecordsList<PatientRecord>
             {
-                UserIdLogged = base.UserId,
+                UserIdLogged = UserId,
                 Records = listResult
 
             };
@@ -115,7 +115,7 @@ namespace SmartDigitalPsico.Service.Principals
                 response.Errors = validator.GetMapErros(validationResult.Errors);
                 response.Success = false;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
+                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
                 return response;
             }
 
@@ -128,7 +128,7 @@ namespace SmartDigitalPsico.Service.Principals
             response.Data = listResult.Select(c => _mapper.Map<GetPatientRecordVO>(c)).ToList();
             response.Success = true;
             response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsFound", base._applicationLanguageRepository, base._cacheService);
+                       ("RegisterIsFound", _applicationLanguageRepository, _cacheService);
 
             return response;
         }
@@ -137,7 +137,7 @@ namespace SmartDigitalPsico.Service.Principals
             var result = new ServiceResponse<List<GetPatientRecordVO>>();
             result.Success = false;
             result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+                       ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
 
             return result;
         }
@@ -151,7 +151,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                 var recordData = new Record<PatientRecord>
                 {
-                    UserIdLogged = base.UserId,
+                    UserIdLogged = UserId,
                     RecordEntity = entityResponse
                 };
 
@@ -162,17 +162,17 @@ namespace SmartDigitalPsico.Service.Principals
                     response.Errors = validator.GetMapErros(validationResult.Errors);
                     response.Success = false;
                     response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                           ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
+                           ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
                     return response;
                 }
                 response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
                 response.Success = true;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", _applicationLanguageRepository, _cacheService);
             }
             catch (Exception)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
             }
             return response;
         }

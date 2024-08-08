@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Domain.AppException;
 using System.Net.Http.Headers;
 using System.Text;
 

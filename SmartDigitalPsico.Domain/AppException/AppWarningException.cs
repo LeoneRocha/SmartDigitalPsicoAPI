@@ -1,6 +1,6 @@
-﻿namespace SmartDigitalPsico.Domain.Helpers
+﻿namespace SmartDigitalPsico.Domain.AppException
 {
-    public class AppWarningException : Exception 
+    public class AppWarningException : Exception
     {
         public AppWarningException()
         {
@@ -12,6 +12,6 @@
 
         public AppWarningException(string? message, Exception? innerException) : base(message, innerException)
         {
-        } 
-    } 
+        }
+    }
 }

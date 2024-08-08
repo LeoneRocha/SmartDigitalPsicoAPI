@@ -9,15 +9,15 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage;
-using SmartDigitalPsico.Service.Generic;
-using SmartDigitalPsico.Service.SystemDomains;
+using SmartDigitalPsico.Service.DataEntity.Generic;
+using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
-namespace SmartDigitalPsico.Service.Principals
+namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     public class PatientNotificationMessageService
         : EntityBaseService<PatientNotificationMessage, AddPatientNotificationMessageVO, UpdatePatientNotificationMessageVO, GetPatientNotificationMessageVO, IPatientNotificationMessageRepository>, IPatientNotificationMessageService
 
-    {  
+    {
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Service.Principals
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
-        {  
+        {
             _patientRepository = patientRepository;
             _userRepository = userRepository;
         }
@@ -41,7 +41,7 @@ namespace SmartDigitalPsico.Service.Principals
 
             #region Relationship
 
-            entityAdd.CreatedUserId = this.UserId;
+            entityAdd.CreatedUserId = UserId;
 
             Patient patientAdd = await _patientRepository.FindByPatient(new Patient() { Cpf = item.CPF, Rg = item.RG, Email = item.Email }) ?? new Patient();
             entityAdd.PatientId = patientAdd.Id;
@@ -72,7 +72,7 @@ namespace SmartDigitalPsico.Service.Principals
             entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
             entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
 
-            entityUpdate.ModifyUserId = this.UserId;
+            entityUpdate.ModifyUserId = UserId;
 
             #region Columns
             entityUpdate.Enable = item.Enable;
@@ -121,7 +121,7 @@ namespace SmartDigitalPsico.Service.Principals
             var result = new ServiceResponse<List<GetPatientNotificationMessageVO>>();
             result.Success = false;
             result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+                       ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
 
             return result;
         }
@@ -136,7 +136,7 @@ namespace SmartDigitalPsico.Service.Principals
 
                 var recordData = new Record<PatientNotificationMessage>
                 {
-                    UserIdLogged = base.UserId,
+                    UserIdLogged = UserId,
                     RecordEntity = entityResponse
                 };
 
@@ -147,17 +147,17 @@ namespace SmartDigitalPsico.Service.Principals
                     response.Errors = validator.GetMapErros(validationResult.Errors);
                     response.Success = false;
                     response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                           ("ErrorValidator_User_Not_Permission", base._applicationLanguageRepository, base._cacheService);
+                           ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
                     return response;
                 }
                 response.Data = _mapper.Map<GetPatientNotificationMessageVO>(entityResponse);
                 response.Success = true;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", base._applicationLanguageRepository, base._cacheService);
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", _applicationLanguageRepository, _cacheService);
             }
             catch (Exception)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", base._applicationLanguageRepository, base._cacheService);
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
             }
             return response;
         }

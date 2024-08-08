@@ -12,7 +12,7 @@ using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 {
-    [ApiController] 
+    [ApiController]
     [Authorize("Bearer")]
     [Route("api/medical/v1/[controller]")]
 
@@ -63,13 +63,13 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             return Ok(response);
         }
 
-        [HttpGet("Download/{id}")]        
+        [HttpGet("Download/{id}")]
         public async Task<ActionResult> DownloadFileById(long id)
         {
             this.setUserIdCurrent();
             var result = await _entityService.DownloadFileById(id);
             var response = FileHelper.ProccessDownloadToBrowser(DirectoryHelper.GetDiretoryTemp(_configuration), result.FileName);
-            return response; 
+            return response;
         }
 
         [HttpPost("Upload")]
@@ -82,14 +82,15 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             try
             {
                 var addEntity = new AddMedicalFileVO() { MedicalId = newEntity.MedicalId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };
+                response = await _entityService.PostFileAsync(addEntity);
                 response.Data = null;
-                response.Success = await _entityService.PostFileAsync(addEntity);
-                response.Message = $"Upload success!";
+
                 if (!response.Success)
                 {
                     response.Message = $"Upload fail";
                     return BadRequest(response);
                 }
+                response.Message = $"Upload success!";
                 return Ok(response);
             }
             catch (Exception)
