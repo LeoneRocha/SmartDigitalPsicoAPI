@@ -1,6 +1,6 @@
 ﻿using SmartDigitalPsico.Domain.Hypermedia.Utils;
 
-namespace SmartDigitalPsico.Domain.Helpers
+namespace SmartDigitalPsico.Domain.AppException
 {
     public static class ExceptionHandler
     {

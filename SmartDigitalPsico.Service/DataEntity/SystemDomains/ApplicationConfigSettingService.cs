@@ -7,9 +7,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO.Domains.AddVOs;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
 using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
-using SmartDigitalPsico.Service.Generic;
+using SmartDigitalPsico.Service.DataEntity.Generic;
 
-namespace SmartDigitalPsico.Service.SystemDomains
+namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     public class ApplicationConfigSettingService
       : EntityBaseService<ApplicationConfigSetting, AddApplicationConfigSettingVO, UpdateApplicationConfigSettingVO, GetApplicationConfigSettingVO, IApplicationConfigSettingRepository>, IApplicationConfigSettingService

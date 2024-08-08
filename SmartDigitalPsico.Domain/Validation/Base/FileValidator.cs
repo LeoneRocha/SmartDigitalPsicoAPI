@@ -11,9 +11,9 @@ namespace SmartDigitalPsico.Domain.Validation.Base
 
         public FileValidator(IConfiguration configuration)
         {
-            _permittedExtensions = configuration.GetSection("AllowedFileExtensions").Get<string[]>() ?? [];
-            _permittedContentTypes = configuration.GetSection("AllowedContentTypes").Get<string[]>() ?? [];
-            long _maxFileSize = configuration.GetValue<long>("MaxFileSizeMegabytes");
+            _permittedExtensions = configuration.GetSection("AppSettings:AllowedFileExtensions").Get<string[]>() ?? [];
+            _permittedContentTypes = configuration.GetSection("AppSettings:AllowedContentTypes").Get<string[]>() ?? [];
+            long _maxFileSize = configuration.GetValue<long>("AppSettings:MaxFileSizeMegabytes");
 
             RuleFor(file => file.FileSizeKB)
                 .NotNull()

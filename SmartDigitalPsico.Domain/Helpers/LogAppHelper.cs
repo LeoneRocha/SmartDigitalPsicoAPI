@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog;
+using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.VO;
 using System.Diagnostics;
 using System.Reflection;

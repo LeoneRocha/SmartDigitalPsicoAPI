@@ -8,10 +8,10 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Validation.Helper;
-using SmartDigitalPsico.Service.SystemDomains;
+using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using System.Linq.Expressions;
 
-namespace SmartDigitalPsico.Service.Generic
+namespace SmartDigitalPsico.Service.DataEntity.Generic
 {
     public class EntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult, Repo>
         : IEntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
@@ -50,11 +50,11 @@ namespace SmartDigitalPsico.Service.Generic
         }
         public void SetUserId(long id)
         {
-            this.UserId = id;
+            UserId = id;
         }
         private async Task<string> getMessageFromLocalization(string key)
         {
-            return await ApplicationLanguageService.GetLocalization<ISharedResource>(key, this._applicationLanguageRepository, this._cacheService);
+            return await ApplicationLanguageService.GetLocalization<ISharedResource>(key, _applicationLanguageRepository, _cacheService);
         }
 
         public virtual async Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item)
@@ -209,7 +209,7 @@ namespace SmartDigitalPsico.Service.Generic
                 await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
                 {
                     TEntity? entityResponse = await _entityRepository.FindByID(id);
-                    if (!EqualityComparer<TEntity>.Default.Equals(entityResponse, default(TEntity)))
+                    if (!EqualityComparer<TEntity>.Default.Equals(entityResponse, default))
                     {
                         response.Data = _mapper.Map<TEntityResult>(entityResponse);
                     }
@@ -301,7 +301,7 @@ namespace SmartDigitalPsico.Service.Generic
                         {
                             var errosAdd = new ErrorResponse()
                             {
-                                Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(errosItem.Message, this._applicationLanguageRepository, this._cacheService)
+                                Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(errosItem.Message, _applicationLanguageRepository, _cacheService)
                                 ,
                                 Name = errosItem.Name
                             };
@@ -313,7 +313,7 @@ namespace SmartDigitalPsico.Service.Generic
                         response.Errors = errosTranslated;
                     }
 
-                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(response.Message, this._applicationLanguageRepository, this._cacheService);
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(response.Message, _applicationLanguageRepository, _cacheService);
                 });
 
             }

@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
     public interface IFilePersistor
     {
-        Task<string> PersistFile(IFormFile? fileData, FileBase entityAdd, string folderIdentity);
+        Task<string> PersistFile(IFormFile? fileData, FileBase entityAdd, string folderContainer, string folderIdentity);
 
         Task<byte[]> GetFromDisk(FileBase fileEntity);
 

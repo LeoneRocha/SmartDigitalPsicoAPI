@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
@@ -16,9 +17,8 @@ using SmartDigitalPsico.Domain.Mapper;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.WebAPI.Helper;
+using SmartDigitalPsico.Service.Configure;
 using Swashbuckle.AspNetCore.Filters;
-using System.Configuration;
 using System.Text;
 
 namespace SmartDigitalPsico.WebAPI.Configure
@@ -70,6 +70,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             //ResiliencePolicies
             addResiliencePolicies(services, _configuration);
+            setupVOsConfigs(services, _configuration); 
             services.AddEndpointsApiExplorer();
         }
 
@@ -82,6 +83,17 @@ namespace SmartDigitalPsico.WebAPI.Configure
              .Configure(policyConfig); 
             // Register the PolicyConfig instance as a singleton
             services.AddSingleton<IResiliencePolicyConfig>(policyConfig);
+        }
+
+        private static void setupVOsConfigs(IServiceCollection services, IConfiguration _configuration)
+        { 
+            var locationSaveFileConfigurationVO = new LocationSaveFileConfigurationVO();
+            var configValue = ConfigurationAppSettingsHelper.GetLocationSaveFileConfigurationVO(_configuration);
+             
+            new ConfigureFromConfigurationOptions<LocationSaveFileConfigurationVO>(configValue)
+             .Configure(locationSaveFileConfigurationVO);
+            // Register the PolicyConfig instance as a singleton
+            services.AddSingleton<ILocationSaveFileConfigurationVO>(locationSaveFileConfigurationVO);
         }
 
         private static void addLog(IServiceCollection services, Serilog.Core.Logger _logger)
