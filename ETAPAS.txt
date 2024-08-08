@@ -11,6 +11,20 @@ Regras a validar e implantar
 
 ADM nao pode ver arquivos do medico
 
+
+------------------------------------------------------------------------ UPLOAD ARQUIVOS  CLOUD -   ------------------------------------------------------------------------ 
+
+ ---1) FAZER UPLOAD NO STORAGE - OK 
+
+ ---2) FAZER DOWNLOAD NO STORAGE - 
+  
+ ---3) DELETAR NO STORAGE - 
+
+ ---3) APLICAR RBAC para somente ter permisao o proprio usuario que subiu "medico" -- SO VAI SER POSSIVEL APOS IMPLANTAR O AZURE AD (ENTRA)
+
+------------------------------------------------------------------------ UPLOAD ARQUIVOS  CLOUD -   ------------------------------------------------------------------------ 
+   
+
  ------------------------------------------------------------------------ Readequacao  1  - CONCLUIDO ------------------------------------------------------------------------ 
  --resiliency-
  Em uma consulta EF pode se aplicar retry police que excutara o codigo de consulta de acordo com a politica criada
