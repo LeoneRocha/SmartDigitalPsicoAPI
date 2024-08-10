@@ -48,7 +48,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
                 await blobClient.UploadAsync(blobFileVO.FilePath, blobFileVO.BlobHeaders);
 
                 return blobClient.Uri.AbsoluteUri;
-            } 
+            }
             return string.Empty;
         }
 

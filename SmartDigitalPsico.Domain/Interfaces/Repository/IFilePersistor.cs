@@ -11,6 +11,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
 
         Task<byte[]> GetFromDisk(FileBase fileEntity);
 
-        Task<FileBase?> DownloadFileById(FileBase fileEntity);
+        Task<FileBase?> DownloadFileById(FileBase fileEntity, string folderIdentity);
     }
 }

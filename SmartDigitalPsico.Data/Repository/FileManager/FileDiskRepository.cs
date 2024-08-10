@@ -81,15 +81,13 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             string pathFile = String.IsNullOrEmpty(fileCriteria.FilePath) ? string.Empty : fileCriteria.FilePath;
             string fileInfo = Path.Combine(pathFile, fileCriteria.FileName);
 
-            bool result = false;
-            if (Directory.Exists(pathFile))
+            if (await Task.Run(() => File.Exists(pathFile)))
             {
-                result = File.Exists(fileInfo);
-                if (result)
-                {
-                    await File.AppendAllTextAsync(fileInfo, "");
-                    File.Delete(fileInfo);
-                }
+                await Task.Run(() => File.Delete(pathFile));
+            }
+            if (await Task.Run(() => File.Exists(fileInfo)))
+            {
+                await Task.Run(() => File.Delete(fileInfo));
             }
         }
 

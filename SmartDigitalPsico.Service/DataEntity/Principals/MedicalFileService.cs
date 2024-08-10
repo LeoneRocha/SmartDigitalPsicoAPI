@@ -149,7 +149,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             MedicalFile? fileEntity = await _entityRepository.FindByID(fileId);
 
-            var resultData = await _filePersistor.DownloadFileById(fileEntity) as MedicalFile;
+            var resultData = await _filePersistor.DownloadFileById(fileEntity, fileEntity.MedicalId.ToString()) as MedicalFile;
             if (resultData != null)
             {
                 fileEntity.FileData = resultData.FileData;
