@@ -16,7 +16,7 @@ ADM nao pode ver arquivos do medico
 
  ---1) FAZER UPLOAD NO STORAGE - OK 
 
- ---2) FAZER DOWNLOAD NO STORAGE - 
+ ---2) FAZER DOWNLOAD NO STORAGE  - OK 
   
  ---3) DELETAR NO STORAGE - 
 
@@ -128,7 +128,7 @@ secretKey = Convert.ToBase64String(key);
 Add-Migration UpdateConfig_03 -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
 
 Remove-Migration -Context SmartDigitalPsicoDataContext -Project SmartDigitalPsico.Data
-
+Add-Migration UpdateFileTableCloud -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
 
 --------- Para ativar o gatilho do github basta ativar a extensao do azure pipelines 
 --GERAR A IMAGEM E SUBIR NO DOCKER

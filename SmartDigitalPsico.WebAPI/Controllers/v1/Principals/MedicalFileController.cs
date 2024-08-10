@@ -77,14 +77,11 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         public async Task<ActionResult<ServiceResponse<GetMedicalFileVO>>> Create([FromForm] AddMedicalFileVOService newEntity)
         {
             this.setUserIdCurrent();
-            ServiceResponse<GetMedicalFileVO> response = new ServiceResponse<GetMedicalFileVO>();
-
             try
             {
                 var addEntity = new AddMedicalFileVO() { MedicalId = newEntity.MedicalId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };
-                response = await _entityService.PostFileAsync(addEntity);
+                var response = await _entityService.PostFileAsync(addEntity);
                 response.Data = null;
-
                 if (!response.Success)
                 {
                     response.Message = $"Upload fail";
@@ -95,7 +92,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             }
             catch (Exception)
             {
-                response.Message = $"Upload fail";
+                var response = new ServiceResponse<GetMedicalFileVO>
+                {
+                    Message = $"Upload fail"
+                };
                 return BadRequest(response);
             }
         }

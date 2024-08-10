@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Service.Configure
         #region INTERFACES
         private static void addRepositories(IServiceCollection Service)
         {
-            Service.AddScoped<IFilePersistor, FilePersistor>();
+            Service.AddScoped<IFileManager, FileManager>();
             Service.AddScoped<IFileDiskRepository, FileDiskRepository>();
             Service.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
             Service.AddScoped<IDiskCacheRepository, DiskCacheRepository>();

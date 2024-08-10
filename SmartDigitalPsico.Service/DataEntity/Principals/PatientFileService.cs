@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     public class PatientFileService : EntityBaseService<PatientFile, AddPatientFileVO, UpdatePatientFileVO, GetPatientFileVO, IPatientFileRepository>, IPatientFileService
 
     {
-        private readonly IFilePersistor _filePersistor;
+        private readonly IFileManager _filePersistor;
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             , IPatientFileRepository entityRepository
             , IUserRepository userRepository
             , IValidator<PatientFile> entityValidator
-            , IFilePersistor filePersistor
+            , IFileManager filePersistor
             , IPatientRepository patientRepository)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
@@ -94,7 +94,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             var fileEntity = await _entityRepository.FindByID(fileId);
 
-            var resultData = await _filePersistor.DownloadFileById(fileEntity) as PatientFile;
+            #region Relationship
+              
+            Patient patient = await _patientRepository.FindByID(fileEntity.PatientId);
+
+            #endregion Relationship
+
+            var resultData = await _filePersistor.DownloadFileById(fileEntity, $"{patient.MedicalId}_{fileEntity.PatientId}") as PatientFile;
             if (resultData != null)
             {
                 fileEntity.FileData = resultData.FileData;
