@@ -73,6 +73,14 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                     await SourceStream.ReadAsync(result.AsMemory());
                 }
             }
+            if (File.Exists(fileCriteria.FilePath))
+            {
+                using (FileStream SourceStream = File.Open(fileCriteria.FilePath, FileMode.Open))
+                {
+                    result = new byte[SourceStream.Length];
+                    await SourceStream.ReadAsync(result.AsMemory());
+                }
+            }
             return result;
         }
 

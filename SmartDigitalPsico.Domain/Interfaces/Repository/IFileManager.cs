@@ -1,16 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
-using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface IFilePersistor
+    public interface IFileManager
     {
         Task<string> PersistFile(IFormFile? fileData, FileBase entityAdd, string folderContainer, string folderIdentity);
-
-        Task<byte[]> GetFromDisk(FileBase fileEntity);
-
         Task<FileBase?> DownloadFileById(FileBase fileEntity, string folderIdentity);
+        Task<bool> DeleteFile(FileBase fileEntity, string folderIdentity);
     }
 }

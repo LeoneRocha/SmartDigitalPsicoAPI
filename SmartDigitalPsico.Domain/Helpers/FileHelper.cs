@@ -76,7 +76,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 await copyStream(content, path);
             }
         }
-
+         
         private static async Task copyStream(MemoryStream stream, string downloadPath)
         {
             using (var fileStream = new FileStream(downloadPath, FileMode.Create, FileAccess.Write))
@@ -113,7 +113,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 contentType = "application/octet-stream";
             }
             return contentType;
-        } 
+        }
 
         public static string GetFilePath(string folderOrigin, string fileName)
         {

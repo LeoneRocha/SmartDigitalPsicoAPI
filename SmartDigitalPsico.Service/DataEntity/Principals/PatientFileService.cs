@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     public class PatientFileService : EntityBaseService<PatientFile, AddPatientFileVO, UpdatePatientFileVO, GetPatientFileVO, IPatientFileRepository>, IPatientFileService
 
     {
-        private readonly IFilePersistor _filePersistor;
+        private readonly IFileManager _filePersistor;
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             , IPatientFileRepository entityRepository
             , IUserRepository userRepository
             , IValidator<PatientFile> entityValidator
-            , IFilePersistor filePersistor
+            , IFileManager filePersistor
             , IPatientRepository patientRepository)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
