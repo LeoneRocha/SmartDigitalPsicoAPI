@@ -40,6 +40,14 @@ namespace SmartDigitalPsico.Domain.ModelEntity.Contracts
         [Column("TypeLocationSaveFile")]
         public ETypeLocationSaveFiles TypeLocationSaveFile { get; set; }
 
+
+        [Column("FileCloudContainer", TypeName = "varchar(60)")]
+        [MaxLength(60)]
+        public string FileCloudContainer { get; set; } = string.Empty;
+        [Column("FileBlobName", TypeName = "varchar(255)")]
+        [MaxLength(255)]
+        public string FileBlobName { get; set; } = string.Empty;
+
         #endregion Columns 
     }
 }

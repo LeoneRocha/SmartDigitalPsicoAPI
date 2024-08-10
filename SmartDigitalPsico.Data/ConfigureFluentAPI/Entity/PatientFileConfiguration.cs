@@ -24,6 +24,9 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.Property(e => e.FileSizeKB);
             builder.Property(e => e.TypeLocationSaveFile).HasConversion<byte>();
 
+            builder.Property(e => e.FileCloudContainer).HasMaxLength(60).HasColumnType("varchar(60)");
+            builder.Property(e => e.FileBlobName).HasMaxLength(255).HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
+
             // Relationship
             builder.HasOne(e => e.CreatedUser).WithMany().HasForeignKey(e => e.CreatedUserId);
             builder.HasOne(e => e.ModifyUser).WithMany().HasForeignKey(e => e.ModifyUserId);

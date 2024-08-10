@@ -8,7 +8,6 @@ using SmartDigitalPsico.Domain.Security;
 namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 {
     public class AzureStorageClientAdapterService : IStorageClientAdapter
-
     {
         private readonly BlobServiceClient? _blobServiceClient;
         private readonly IConfiguration? _configuration;
@@ -48,7 +47,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
                 await blobClient.UploadAsync(blobFileVO.FilePath, blobFileVO.BlobHeaders);
 
                 return blobClient.Uri.AbsoluteUri;
-            } 
+            }
             return string.Empty;
         }
 
@@ -119,6 +118,16 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
                 {
                     await blobClient.DownloadToAsync(downloadFileStream);
                 }
+            }
+        }
+        public async Task DeleteBlobAsync(string containerName, string blobName)
+        {
+            if (_blobServiceClient != null)
+            {
+                BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+                BlobClient blobClient = containerClient.GetBlobClient(blobName);
+
+                await blobClient.DeleteIfExistsAsync();
             }
         }
     }

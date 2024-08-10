@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     public class MedicalFileService : EntityBaseService<MedicalFile, AddMedicalFileVO, UpdateMedicalFileVO, GetMedicalFileVO, IMedicalFileRepository>, IMedicalFileService
     {
         private readonly IConfiguration _configuration;
-        private readonly IFilePersistor _filePersistor;
+        private readonly IFileManager _filePersistor;
         private readonly IUserRepository _userRepository;
 
         public MedicalFileService(IMapper mapper
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             , IValidator<MedicalFile> entityValidator
             , ICacheService cacheService
             , IApplicationLanguageRepository applicationLanguageRepository
-            , IFilePersistor filePersistor
+            , IFileManager filePersistor
             )
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
@@ -149,13 +149,24 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             MedicalFile? fileEntity = await _entityRepository.FindByID(fileId);
 
-            var resultData = await _filePersistor.DownloadFileById(fileEntity) as MedicalFile;
+            var resultData = await _filePersistor.DownloadFileById(fileEntity, fileEntity.MedicalId.ToString()) as MedicalFile;
             if (resultData != null)
             {
                 fileEntity.FileData = resultData.FileData;
             }
             GetMedicalFileVO resultVO = _mapper.Map<GetMedicalFileVO>(fileEntity);
             return resultVO;
+        }
+        public async override Task<ServiceResponse<bool>> Delete(long id)
+        {
+            MedicalFile? fileEntity = await _entityRepository.FindByID(id);
+
+            bool result = await _filePersistor.DeleteFile(fileEntity, fileEntity.MedicalId.ToString());
+            if (result)
+            {
+                return new ServiceResponse<bool>() { Success = await _entityRepository.Delete(id) };
+            }
+            return new ServiceResponse<bool>() { Success = false };
         }
     }
 }
