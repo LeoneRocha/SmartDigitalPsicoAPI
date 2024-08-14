@@ -1,0 +1,126 @@
+Para integrar o Azure Active Directory (Azure AD) com sua aplicação Angular e sua API Web em C# .NET Core 8, você pode seguir os passos abaixo:
+
+### Passos para Angular (TypeScript)
+
+1. **Registrar a Aplicação no Azure AD**:
+   - Vá ao portal do Azure e registre sua aplicação.
+   - Configure os URLs de redirecionamento e permissões da API.
+
+2. **Instalar Bibliotecas Necessárias**:
+   - No seu projeto Angular, instale as bibliotecas MSAL:
+     ```bash
+     npm install @azure/msal-browser @azure/msal-angular
+     ```
+
+3. **Configurar MSAL em Angular**:
+   - Crie um arquivo `auth-config.ts` para armazenar as configurações do Azure AD:
+     ```typescript
+     export const msalConfig = {
+       auth: {
+         clientId: 'YOUR_CLIENT_ID',
+         authority: 'https://login.microsoftonline.com/YOUR_TENANT_ID',
+         redirectUri: 'http://localhost:4200'
+       },
+       cache: {
+         cacheLocation: 'localStorage',
+         storeAuthStateInCookie: true
+       }
+     };
+     ```
+
+   - No `app.module.ts`, configure o MSAL:
+     ```typescript
+     import { MsalModule, MsalInterceptor, MsalGuard } from '@azure/msal-angular';
+     import { msalConfig } from './auth-config';
+
+     @NgModule({
+       imports: [
+         MsalModule.forRoot(msalConfig, {
+           interactionType: InteractionType.Redirect,
+           authRequest: {
+             scopes: ['user.read']
+           }
+         })
+       ],
+       providers: [
+         {
+           provide: HTTP_INTERCEPTORS,
+           useClass: MsalInterceptor,
+           multi: true
+         },
+         MsalGuard
+       ]
+     })
+     export class AppModule { }
+     ```
+
+4. **Proteger Rotas**:
+   - No `app-routing.module.ts`, proteja as rotas com o `MsalGuard`:
+     ```typescript
+     const routes: Routes = [
+       { path: 'profile', component: ProfileComponent, canActivate: [MsalGuard] }
+     ];
+     ```
+
+### Passos para API Web em C# .NET Core 8
+
+1. **Adicionar Pacotes Necessários**:
+   - Adicione o pacote `Microsoft.Identity.Web` ao seu projeto:
+     ```bash
+     dotnet add package Microsoft.Identity.Web
+     ```
+
+2. **Configurar Autenticação**:
+   - No `appsettings.json`, adicione as configurações do Azure AD:
+     ```json
+     "AzureAd": {
+       "Instance": "https://login.microsoftonline.com/",
+       "Domain": "YOUR_DOMAIN",
+       "TenantId": "YOUR_TENANT_ID",
+       "ClientId": "YOUR_CLIENT_ID",
+       "ClientSecret": "YOUR_CLIENT_SECRET"
+     }
+     ```
+
+   - No `Program.cs`, configure a autenticação:
+     ```csharp
+     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+         .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
+     builder.Services.AddAuthorization();
+     ```
+
+3. **Proteger Endpoints**:
+   - No seu controlador, adicione o atributo `[Authorize]` para proteger os endpoints:
+     ```csharp
+     [Authorize]
+     [ApiController]
+     [Route("[controller]")]
+     public class WeatherForecastController : ControllerBase
+     {
+         // Seu código aqui
+     }
+     ```
+
+### Testar a Integração
+
+1. **Inicie a Aplicação Angular**:
+   - Execute `ng serve` para iniciar sua aplicação Angular.
+
+2. **Inicie a API Web**:
+   - Execute `dotnet run` para iniciar sua API Web.
+
+3. **Verifique a Autenticação**:
+   - Acesse a aplicação Angular e tente acessar uma rota protegida. Você deve ser redirecionado para a página de login do Azure AD.
+   - Após o login, você deve conseguir acessar os endpoints protegidos da API Web.
+
+Seguindo esses passos, você deve conseguir integrar o Azure AD com sua aplicação Angular e API Web em C# .NET Core 8, utilizando JWT para autenticação. Se precisar de mais detalhes ou ajuda, estou à disposição!
+
+Fonte: conversa com o Copilot, 14/08/2024
+(1) Angular Azure Active Directory(ad) Authentication Using msal. https://www.youtube.com/watch?v=vjpKYSmvRKQ.
+(2) Authenticate .NET Core with Azure AD. https://www.youtube.com/watch?v=2cWIxn-LOp8.
+(3) Configure authentication in Angular and WEB API by using Azure Active Directory B2C | LSC. https://www.youtube.com/watch?v=vEwLQYgQvGI.
+(4) Enable authentication in an Angular application by using Azure Active .... https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-angular-spa-app.
+(5) Adding Authentication with Azure AD to a .NET Angular Web App with MSAL. https://dev.to/theaswanson/adding-authentication-with-azure-ad-to-a-net-angular-web-app-with-msal-11a5.
+(6) GitHub - microsoft/identity-dev-lab: Set of sample projects to .... https://github.com/Microsoft/identity-dev-lab.
+(7) Azure AD Integration With Angular And ASP.NET Core Web API - C# Corner. https://www.c-sharpcorner.com/blogs/azure-ad-integration-with-angular-and-asp-net-core-web-api.

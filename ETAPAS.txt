@@ -18,6 +18,14 @@ ADM nao pode ver arquivos do medico
  --- IMPLANTAR STORAGE TABLE PARA CACHE 
 
  -- IMPLANTAR AUTENTICACAO AZURE 
+ https://learn.microsoft.com/en-us/entra/identity-platform/tutorial-v2-angular-auth-code
+ https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-angular-spa-app
+
+ https://medium.com/@sifatandel4nov/simplified-guide-integrating-msal-and-azure-ad-authentication-in-your-angular-application-e223f4a8b058
+
+ https://learn.microsoft.com/en-us/samples/azure-samples/ms-identity-ciam-javascript-tutorial/ms-identity-ciam-javascript-tutorial-2-sign-in-angular/
+
+ tenho uma aplicacao em angular typescript  e uma web api em C# .net 8 core quero implantar o azure active directory entra id e tambem deixar o jwt token  tambem funcionando 
 
 
 

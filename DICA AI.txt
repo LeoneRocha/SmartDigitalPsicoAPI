@@ -18,6 +18,14 @@ https://ollama.com/
  
 https://youtu.be/MloQ3qOAs5s?si=JE9mgT10vXuPg75Y
 
+https://docs.useanything.com/installation/self-hosted/local-docker
+
+
+
+
+
+
+
 Em C# Melhore esse codigo e aplique boas praticas de codigo  
  public async Task DeleteBlobAsync(string containerName, string blobName)
         {
