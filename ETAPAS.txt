@@ -11,19 +11,30 @@ Regras a validar e implantar
 
 ADM nao pode ver arquivos do medico
 
+  
+ ------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
+ --- IMPLANTAR STORAGE BLOB PARA ARQUIVOS 
 
------------------------------------------------------------------------- UPLOAD ARQUIVOS  CLOUD -   ------------------------------------------------------------------------ 
+ --- IMPLANTAR STORAGE TABLE PARA CACHE 
+
+ -- IMPLANTAR AUTENTICACAO AZURE 
+
+
+
+ ------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
+
+ ------------------------------------------------------------------------ UPLOAD ARQUIVOS  CLOUD -   ------------------------------------------------------------------------ 
 
  ---1) FAZER UPLOAD NO STORAGE - OK 
 
  ---2) FAZER DOWNLOAD NO STORAGE  - OK 
   
- ---3) DELETAR NO STORAGE - 
+ ---3) DELETAR NO STORAGE   - OK 
 
  ---3) APLICAR RBAC para somente ter permisao o proprio usuario que subiu "medico" -- SO VAI SER POSSIVEL APOS IMPLANTAR O AZURE AD (ENTRA)
 
 ------------------------------------------------------------------------ UPLOAD ARQUIVOS  CLOUD -   ------------------------------------------------------------------------ 
-   
+
 
  ------------------------------------------------------------------------ Readequacao  1  - CONCLUIDO ------------------------------------------------------------------------ 
  --resiliency-
@@ -651,3 +662,10 @@ Fonte: conversa com o Copilot, 07/08/2024
 (1) asp.net core - How to validate uploaded files by FluentValidation .... https://stackoverflow.com/questions/59358252/how-to-validate-uploaded-files-by-fluentvalidation.
 (2) c# - How to validate files with FluentValidation - Stack Overflow. https://stackoverflow.com/questions/72866914/how-to-validate-files-with-fluentvalidation.
 (3) github.com. https://github.com/kiembully/cheapestessay_v2/tree/f77ad873c94c450ab90a16b7c023be10556075ee/functions%2Fdist%2Fam-starter-pack%2Fserver%2Fmain.js.
+
+
+
+
+
+
+ 

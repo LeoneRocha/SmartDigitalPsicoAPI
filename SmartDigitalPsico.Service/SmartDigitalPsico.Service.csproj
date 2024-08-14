@@ -9,6 +9,8 @@
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.21.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Microsoft.Azure.Management.Authorization" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Graph" Version="5.56.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj" />
