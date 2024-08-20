@@ -7,7 +7,6 @@ using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 using SmartDigitalPsico.Domain.Security;
-using System.Configuration;
 
 namespace SmartDigitalPsico.Data.Repository.FileManager
 {

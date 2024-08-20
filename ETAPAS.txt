@@ -1,4 +1,6 @@
-﻿----------------------------------------------------
+﻿Padrao de projetos https://refactoring.guru/pt-br/design-patterns/catalog
+
+----------------------------------------------------
 https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
 https://lionscorp.visualstudio.com/SMARTDIGITALPSICO 
 https://portal.azure.com/#home

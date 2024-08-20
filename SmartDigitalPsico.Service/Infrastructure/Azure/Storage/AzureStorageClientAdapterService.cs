@@ -102,8 +102,6 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             await Task.Delay(1);
             return sasUri?.ToString() ?? string.Empty;
         }
-
-
         public async Task DownloadFile(string containerName, string blobName, string targetPath)
         {
             if (_blobServiceClient == null)
