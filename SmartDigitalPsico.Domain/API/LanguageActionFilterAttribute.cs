@@ -4,6 +4,7 @@ using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.API
 {
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class LanguageActionFilterAttribute : ActionFilterAttribute
     {
         private readonly ILogger _logger;
@@ -19,11 +20,11 @@ namespace SmartDigitalPsico.Domain.API
             _logger.LogInformation("Setting the culture from the URL: {culture}", culture);
 
 #if NET451
-            System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+        System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+        System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
 #elif NET46
-            System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+        System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+        System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
 #else
             CultureInfo.CurrentCulture = new CultureInfo(culture);
             CultureInfo.CurrentUICulture = new CultureInfo(culture);
@@ -31,4 +32,5 @@ namespace SmartDigitalPsico.Domain.API
             base.OnActionExecuting(context);
         }
     }
+
 }

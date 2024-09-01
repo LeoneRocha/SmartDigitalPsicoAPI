@@ -15,11 +15,9 @@ namespace SmartDigitalPsico.Domain.Security
             _iv = iv ?? throw new ArgumentNullException(nameof(iv));
         }
         public AesCryptoAdpter(string base64Key, string base64IV)   
-        {
-            var KeyBytes = Convert.FromBase64String(base64Key);
-            var IVBytes = Convert.FromBase64String(base64IV);
-            _key = KeyBytes ?? throw new ArgumentNullException(nameof(KeyBytes));
-            _iv = IVBytes ?? throw new ArgumentNullException(nameof(IVBytes));
+        { 
+            _key = Convert.FromBase64String(base64Key);
+            _iv = Convert.FromBase64String(base64IV);
         }
 
         public byte[] Encrypt(string plainText)

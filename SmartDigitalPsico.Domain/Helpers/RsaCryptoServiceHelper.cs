@@ -12,16 +12,15 @@ namespace SmartDigitalPsico.Domain.Helpers
                 // Exportando as chaves
                 var publicKey = rsa.ExportParameters(false);
                 var privateKey = rsa.ExportParameters(true);
-
-                // Convertendo a chave pública para Base64
-                string publicKeyBase64 = ConvertToBase64(publicKey);
-                //Console.WriteLine($"Public Key (Base64): {publicKeyBase64}");
-
-                // Recriando a chave pública a partir da string Base64
-                var recreatedPublicKey = ConvertFromBase64(publicKeyBase64, rsaSize);
-                //Console.WriteLine("Public Key successfully recreated from Base64 string.");
-
-                return new RsaCryptoVO { };
+                  
+                // Retornando o objeto com as chaves
+                return new RsaCryptoVO
+                {
+                    PrivateKey = privateKey,
+                    PrivateKeyBase64 = ConvertToBase64(privateKey),
+                    PublicKey = publicKey,
+                    PublicKeyBase64 = ConvertToBase64(publicKey),
+                };
             }
         }
 
