@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Security;
+using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.VO.Domains;
 using System.Globalization;
 

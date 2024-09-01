@@ -9,6 +9,7 @@ using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Resiliency;
@@ -17,6 +18,7 @@ using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
 using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.VO.Security;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
@@ -100,7 +102,7 @@ namespace SmartDigitalPsico.Service.Configure
         {
             Service.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            Service.AddScoped<ITokenConfiguration, TokenConfiguration>();
+            Service.AddScoped<ITokenConfigurationVO,  TokenConfigurationVO>();
             Service.AddScoped<ITokenService, TokenService>();
             Service.AddScoped<IResiliencePolicyConfig, ResiliencePolicyConfig>();
             Service.AddScoped<ILocationSaveFileConfigurationVO, LocationSaveFileConfigurationVO>();

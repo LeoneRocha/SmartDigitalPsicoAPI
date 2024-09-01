@@ -5,12 +5,13 @@ using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
 using SmartDigitalPsico.Domain.VO.User;
@@ -24,7 +25,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     public class UserService : EntityBaseService<User, AddUserVO, UpdateUserVO, GetUserVO, IUserRepository>, IUserService
     {
         private readonly IRoleGroupRepository _roleGroupRepository;
-        private readonly ITokenConfiguration _configurationToken;
+        private readonly ITokenConfigurationVO _configurationToken;
         private readonly ITokenService _tokenService;
         private readonly AuthConfigurationVO _configurationAuth;
         public UserService(IMapper mapper
@@ -33,7 +34,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             , IUserRepository entityRepository
             , IApplicationLanguageRepository applicationLanguageRepository
             , IRoleGroupRepository roleGroupRepository
-            , ITokenConfiguration configurationToken
+            , ITokenConfigurationVO configurationToken
             , ITokenService tokenService
             , IOptions<AuthConfigurationVO> configurationAuth
             , IValidator<User> entityValidator

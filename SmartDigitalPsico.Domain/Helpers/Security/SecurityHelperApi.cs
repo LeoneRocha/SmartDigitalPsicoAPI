@@ -1,7 +1,7 @@
 ﻿using SmartDigitalPsico.Domain.Enuns;
 using System.Security.Claims;
 
-namespace SmartDigitalPsico.Domain.Security
+namespace SmartDigitalPsico.Domain.Helpers.Security
 {
     public static class SecurityHelperApi
     {
