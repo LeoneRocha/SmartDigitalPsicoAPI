@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
@@ -16,7 +15,6 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Mapper;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Security;
 using SmartDigitalPsico.Service.Configure;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;

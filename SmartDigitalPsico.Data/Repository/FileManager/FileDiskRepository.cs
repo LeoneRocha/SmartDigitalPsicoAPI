@@ -59,8 +59,8 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         }
         public async Task<byte[]?> Get(FileData fileCriteria)
         {
-            if (fileCriteria == null) throw new ArgumentNullException(nameof(fileCriteria));
-             
+            ArgumentNullException.ThrowIfNull(fileCriteria);
+
             string pathFile = string.IsNullOrEmpty(fileCriteria.FilePath) ? string.Empty : fileCriteria.FilePath;
             string fileInfo = Path.Combine(pathFile, fileCriteria.FileName);
             byte[] result = [];
@@ -75,7 +75,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             return result;
         }
 
-        private async Task<byte[]> ReadFileAsync(string filePath)
+        private static async Task<byte[]> ReadFileAsync(string filePath)
         {
             byte[] result;
             using (FileStream sourceStream = File.Open(filePath, FileMode.Open))

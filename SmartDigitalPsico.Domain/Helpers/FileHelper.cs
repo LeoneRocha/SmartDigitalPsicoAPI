@@ -76,7 +76,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 await copyStream(content, path);
             }
         }
-         
+
         private static async Task copyStream(MemoryStream stream, string downloadPath)
         {
             using (var fileStream = new FileStream(downloadPath, FileMode.Create, FileAccess.Write))
@@ -135,18 +135,24 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static FileContentResult ProccessDownloadToBrowser(string folderOrigin, string fileName)
         {
-            var filePath = FileHelper.GetFilePath(folderOrigin, fileName);
-            var fileStream = System.IO.File.OpenRead(filePath);
-            var contentType = FileHelper.GetContentType(filePath);
-            var fileBytes = new byte[fileStream.Length];
-            fileStream.Read(fileBytes, 0, (int)fileStream.Length);
-            fileStream.Close();
-            var response = new FileContentResult(fileBytes, contentType)
+            var filePath = GetFilePath(folderOrigin, fileName);
+            using (var fileStream = File.OpenRead(filePath))
             {
-                LastModified = DataHelper.GetDateTimeNow(),
-                FileDownloadName = FileHelper.GetSameName(fileName),
-            };
-            return response;
-        }
+                var contentType = GetContentType(filePath);
+                var fileBytes = new byte[fileStream.Length];
+                int bytesRead = fileStream.Read(fileBytes, 0, (int)fileStream.Length);
+
+                if (bytesRead != fileStream.Length)
+                {
+                    throw new IOException("Could not read the entire file.");
+                } 
+                var response = new FileContentResult(fileBytes, contentType)
+                {
+                    LastModified = DataHelper.GetDateTimeNow(),
+                    FileDownloadName = GetSameName(fileName),
+                };
+                return response;
+            }
+        } 
     }
 }
