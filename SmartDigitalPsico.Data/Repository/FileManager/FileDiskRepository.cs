@@ -57,28 +57,34 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             }
             return true;
         }
-
         public async Task<byte[]?> Get(FileData fileCriteria)
         {
-            byte[]? result = null;
-            string pathFile = String.IsNullOrEmpty(fileCriteria.FilePath) ? string.Empty : fileCriteria.FilePath;
+            ArgumentNullException.ThrowIfNull(fileCriteria);
 
+            string pathFile = string.IsNullOrEmpty(fileCriteria.FilePath) ? string.Empty : fileCriteria.FilePath;
             string fileInfo = Path.Combine(pathFile, fileCriteria.FileName);
-
+            byte[] result = [];
             if (File.Exists(fileInfo))
             {
-                using (FileStream SourceStream = File.Open(fileInfo, FileMode.Open))
-                {
-                    result = new byte[SourceStream.Length];
-                    await SourceStream.ReadAsync(result.AsMemory());
-                }
+                result = await ReadFileAsync(fileInfo) ?? [];
             }
-            if (File.Exists(fileCriteria.FilePath))
+            else if (File.Exists(fileCriteria.FilePath))
             {
-                using (FileStream SourceStream = File.Open(fileCriteria.FilePath, FileMode.Open))
+                result = await ReadFileAsync(pathFile) ?? [];
+            }
+            return result;
+        }
+
+        private static async Task<byte[]> ReadFileAsync(string filePath)
+        {
+            byte[] result;
+            using (FileStream sourceStream = File.Open(filePath, FileMode.Open))
+            {
+                result = new byte[sourceStream.Length];
+                int bytesRead = await sourceStream.ReadAsync(result.AsMemory());
+                if (bytesRead != result.Length)
                 {
-                    result = new byte[SourceStream.Length];
-                    await SourceStream.ReadAsync(result.AsMemory());
+                    throw new IOException("Could not read the entire file.");
                 }
             }
             return result;

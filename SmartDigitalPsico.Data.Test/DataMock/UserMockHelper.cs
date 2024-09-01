@@ -3,8 +3,8 @@ using Bogus.DataSets;
 using Serilog;
 using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.VO.User;
 using System.Data;
 

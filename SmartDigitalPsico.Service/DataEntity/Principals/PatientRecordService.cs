@@ -7,6 +7,7 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO.Patient.PatientRecord;
@@ -20,6 +21,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
     {
         private readonly IUserRepository _userRepository;
+        private readonly ICryptoService _cryptoService;
 
         public PatientRecordService(IMapper mapper
             , Serilog.ILogger logger
@@ -28,10 +30,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             , IUserRepository userRepository
             , IValidator<PatientRecord> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService)
+            , ICacheService cacheService
+            , ICryptoService cryptoService)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _userRepository = userRepository;
+            _cryptoService = cryptoService;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
         {
@@ -52,6 +56,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (response.Success)
             {
+                entityAdd.Annotation = _cryptoService.Encrypt(item.Annotation);
+
                 PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
                 response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
                 response.Message = "Patient registred.";
@@ -89,6 +95,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ServiceResponse<GetPatientRecordVO> response = await base.Validate(entityUpdate);
             if (response.Success)
             {
+                entityUpdate.Annotation = _cryptoService.Encrypt(item.Annotation);
+
                 PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
                 response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
                 response.Message = "Patient Updated.";
@@ -165,6 +173,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                            ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
                     return response;
                 }
+
+                entityResponse.Annotation = _cryptoService.Decrypt(entityResponse.Annotation);
+
                 response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", _applicationLanguageRepository, _cacheService);
