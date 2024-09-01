@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Filters
 {
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class HyperMediaFilterrAttribute : ResultFilterAttribute
     {
         private readonly HyperMediaFilterOptions _hyperMediaFilterOptions;

@@ -15,8 +15,14 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(e => e.Enable);
-            builder.Property(e => e.Description).HasMaxLength(255).IsRequired().HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
-            builder.Property(e => e.Annotation).IsRequired();
+            builder.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsRequired()
+                .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
+            builder.Property(e => e.Annotation)
+                .HasMaxLength(4000)
+                .HasColumnType(EntityTypeConfigurationConstants.Type_Text)
+                .IsRequired();
             builder.Property(e => e.AnnotationDate);
 
             // Relationship

@@ -1,9 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Security;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace SmartDigitalPsico.Domain.Security
+namespace SmartDigitalPsico.Domain.Helpers.Security
 {
     public static class SecurityHelper
     {
@@ -33,7 +33,7 @@ namespace SmartDigitalPsico.Domain.Security
 
 
         public static string CreateToken(SecurityVO secVo)
-        {  
+        {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, secVo.Id),
@@ -54,6 +54,17 @@ namespace SmartDigitalPsico.Domain.Security
             var token = tokenHandler.CreateToken(tokendDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        public static bool IsBase64String(string base64)
+        {
+            if (string.IsNullOrEmpty(base64))
+            {
+                return false;
+            }
+
+            Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
+            return Convert.TryFromBase64String(base64, buffer, out _);
         } 
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
@@ -15,7 +14,6 @@ using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Mapper;
 using SmartDigitalPsico.Domain.Resiliency;
-using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Service.Configure;
 using Swashbuckle.AspNetCore.Filters;
@@ -31,7 +29,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
         {
             _configuration = configuration;
 
-            var tokenConfigurations = new TokenConfiguration();
+            var tokenConfigurations = new Domain.VO.Security.TokenConfigurationVO();
 
             addGetAppConfig(services, tokenConfigurations);
 
@@ -108,12 +106,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
         #region PRIVATE
 
 
-        private static void addGetAppConfig(IServiceCollection services, TokenConfiguration tokenConfigurations)
+        private static void addGetAppConfig(IServiceCollection services, Domain.VO.Security.TokenConfigurationVO tokenConfigurations)
         {
             services.Configure<CacheConfigurationVO>(ConfigurationAppSettingsHelper.GetCacheConfiguration(_configuration));
             services.Configure<AuthConfigurationVO>(ConfigurationAppSettingsHelper.GetAuthConfiguration(_configuration));
 
-            new ConfigureFromConfigurationOptions<TokenConfiguration>(ConfigurationAppSettingsHelper.GetTokenConfigurations(_configuration))
+            new ConfigureFromConfigurationOptions<Domain.VO.Security.TokenConfigurationVO>(ConfigurationAppSettingsHelper.GetTokenConfigurations(_configuration))
                 .Configure(tokenConfigurations);
 
             services.AddSingleton(tokenConfigurations);
@@ -208,7 +206,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
         #endregion
 
         #region SEGURANCA
-        private static void addSecurity(IServiceCollection services, TokenConfiguration tokenConfigurations)
+        private static void addSecurity(IServiceCollection services, Domain.VO.Security.TokenConfigurationVO tokenConfigurations)
         {
             services.AddAuthentication(options =>
             {
