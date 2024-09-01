@@ -118,7 +118,7 @@ https://www.nuget.org/packages/bogus
 
 
 
-
+  Add-Migration UpdateDescriptionRecordPatient -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
 
  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 

@@ -4,7 +4,7 @@ namespace SmartDigitalPsico.Domain.Security
 {
     public interface ICryptoService
     {
-        string Decrypt(byte[] cipherText);
-        byte[] Encrypt(string plainText);
+        string Encrypt(string plainText);
+        string Decrypt(string cipherTextBase64);
     }
 }

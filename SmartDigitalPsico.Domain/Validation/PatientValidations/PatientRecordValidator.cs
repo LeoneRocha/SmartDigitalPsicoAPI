@@ -13,14 +13,17 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             #region Columns
 
             RuleFor(entity => entity.Description)
-              .NotNull().NotEmpty()
+              .NotNull()
+              .NotEmpty()
               .WithMessage("ErrorValidator_Description_Null")
               .MaximumLength(255)
               .WithMessage("O Description não pode ultrapassar {MaxLength} carateres.");
 
 
             RuleFor(entity => entity.Annotation)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(4000)
                 .WithMessage("ErrorValidator_Annotation_Null");
 
             RuleFor(entity => entity.AnnotationDate)

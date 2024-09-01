@@ -1,4 +1,5 @@
 ﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Security;
 
@@ -9,7 +10,7 @@ namespace SmartDigitalPsico.Service.Security
         private readonly ECryptoServiceType _cryptoServiceType;
         private readonly string _key;
         private readonly string _ivOrPublicKey;
-         
+
         private readonly ICryptoServiceFactory _cryptoServiceFactory;
 
         public CryptoService(ICryptoServiceFactory cryptoServiceFactory)
@@ -20,16 +21,27 @@ namespace SmartDigitalPsico.Service.Security
             _cryptoServiceFactory = cryptoServiceFactory;
         }
 
-        public byte[] Encrypt(string plainText)
+        public string Encrypt(string plainText)
         {
             var cryptoService = _cryptoServiceFactory.CreateCryptoService(_cryptoServiceType, _key, _ivOrPublicKey);
-            return cryptoService.Encrypt(plainText);
+            var cipherText = cryptoService.Encrypt(plainText);
+
+            var cipherTextBase64 = Convert.ToBase64String(cipherText);
+            return cipherTextBase64;
         }
 
-        public string Decrypt(byte[] cipherText)
+        public string Decrypt(string cipherTextBase64)
         {
-            var cryptoService = _cryptoServiceFactory.CreateCryptoService(_cryptoServiceType, _key, _ivOrPublicKey);
-            return cryptoService.Decrypt(cipherText);
+            if (!string.IsNullOrWhiteSpace(cipherTextBase64) && SecurityHelper.IsBase64String(cipherTextBase64))
+            {
+                var cryptoService = _cryptoServiceFactory.CreateCryptoService(_cryptoServiceType, _key, _ivOrPublicKey);
+
+                var cipherTextBytes = Convert.FromBase64String(cipherTextBase64);
+
+                var plainText = cryptoService.Decrypt(cipherTextBytes);
+                return plainText;
+            }
+            return string.Empty;
         }
     }
 }

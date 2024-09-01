@@ -1,5 +1,4 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Security;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -56,5 +55,16 @@ namespace SmartDigitalPsico.Domain.Helpers.Security
 
             return tokenHandler.WriteToken(token);
         }
+
+        public static bool IsBase64String(string base64)
+        {
+            if (string.IsNullOrEmpty(base64))
+            {
+                return false;
+            }
+
+            Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
+            return Convert.TryFromBase64String(base64, buffer, out _);
+        } 
     }
 }
