@@ -23,17 +23,25 @@ using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
+using SmartDigitalPsico.Service.Security;
 
 namespace SmartDigitalPsico.Service.Configure
 {
     public static class DependenciesInjectionConfigure
     {
-        public static void AddDependenciesInjection(IServiceCollection Service)
+        public static void AddDependenciesInjection(IServiceCollection services)
         {
-            addRepositories(Service);
-            addService(Service);
-            addDependencies(Service);
-            addValidations(Service);
+            addRepositories(services);
+            addService(services);
+            addDependencies(services);
+            addValidations(services);
+            addSecurity(services);
+        }
+
+        private static void addSecurity(IServiceCollection services)
+        {
+            services.AddTransient<ICryptoServiceFactory, CryptoServiceFactory>();
+            services.AddTransient<ICryptoService, CryptoService>();
         }
 
         #region INTERFACES
@@ -102,7 +110,7 @@ namespace SmartDigitalPsico.Service.Configure
         {
             Service.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            Service.AddScoped<ITokenConfigurationVO,  TokenConfigurationVO>();
+            Service.AddScoped<ITokenConfigurationVO, TokenConfigurationVO>();
             Service.AddScoped<ITokenService, TokenService>();
             Service.AddScoped<IResiliencePolicyConfig, ResiliencePolicyConfig>();
             Service.AddScoped<ILocationSaveFileConfigurationVO, LocationSaveFileConfigurationVO>();
