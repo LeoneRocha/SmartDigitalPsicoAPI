@@ -18,6 +18,8 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public User? ModifyUser { get; set; }
         public long? CreatedUserId { get; set; }
         public long? ModifyUserId { get; set; }
+        
+        public string TableStorageRowKey { get; set; } = string.Empty;
         #endregion Relationship
     }
 }

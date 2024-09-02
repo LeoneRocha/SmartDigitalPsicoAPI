@@ -6,14 +6,17 @@ using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
+using SmartDigitalPsico.Data.TableEntityRepository;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
+using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Security;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
@@ -21,6 +24,7 @@ using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Security;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Service.Infrastructure;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 using SmartDigitalPsico.Service.Security;
@@ -36,6 +40,14 @@ namespace SmartDigitalPsico.Service.Configure
             addDependencies(services);
             addValidations(services);
             addSecurity(services);
+            addNoSQLDependencies(services);
+        }
+
+        private static void addNoSQLDependencies(IServiceCollection services)
+        {
+            services.AddSingleton<IStorageTableServiceFactory, TableStorageServiceFactory>();
+            services.AddSingleton<ITableEntityRepository<PatientRecordTableEntity>>(provider =>
+                        new PatientRecordTableEntityRepository(provider.GetRequiredService<IStorageTableServiceFactory>()));
         }
 
         private static void addSecurity(IServiceCollection services)
@@ -51,7 +63,7 @@ namespace SmartDigitalPsico.Service.Configure
             Service.AddScoped<IFileDiskRepository, FileDiskRepository>();
             Service.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
             Service.AddScoped<IDiskCacheRepository, DiskCacheRepository>();
-            Service.AddScoped<IStorageClientAdapter, AzureStorageClientAdapterService>();
+            Service.AddScoped<IStorageBlobAdapter, AzureStorageBlobAdapter>();
 
             Service.AddScoped<IUserRepository, UserRepository>();
             Service.AddScoped<IMedicalRepository, MedicalRepository>();

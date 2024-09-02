@@ -27,18 +27,7 @@ https://docs.useanything.com/installation/self-hosted/local-docker
 
 
 Em C# Melhore esse codigo e aplique boas praticas de codigo  
- public async Task DeleteBlobAsync(string containerName, string blobName)
-        {
-            if (_blobServiceClient != null)
-            {
-                BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-                BlobClient blobClient = containerClient.GetBlobClient(blobName);
-
-                await blobClient.DeleteIfExistsAsync();
-            }
-        }
-
-
+  
 Proteger dados confidenciais em um sistema C# com banco de dados é crucial, especialmente quando se trata de informações sensíveis como dados de pacientes. Aqui estão algumas práticas recomendadas para garantir a segurança dos dados:
 
 
@@ -81,6 +70,6 @@ Fonte: conversa com o Copilot, 17/08/2024
 
 
 
-
+	
 
  

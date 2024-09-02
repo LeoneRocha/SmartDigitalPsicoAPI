@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Domain.Security
 {
     public class CryptoServiceFactory : ICryptoServiceFactory
     {
-        public ICryptoAdpter CreateCryptoService(ECryptoServiceType cryptoServiceType, string key, string ivOrPublicKey)
+        public ICryptoAdpter Create(ECryptoServiceType cryptoServiceType, string key, string ivOrPublicKey)
         {
             switch (cryptoServiceType)
             {
