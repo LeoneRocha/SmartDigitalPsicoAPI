@@ -121,7 +121,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        private PatientRecordTableEntity CreateTableEntity(PatientRecord item)
+        private static PatientRecordTableEntity CreateTableEntity(PatientRecord item)
         {
             return new PatientRecordTableEntity()
             {

@@ -6,11 +6,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 {
     public class AzureStorageTableAdapter<T> : IStorageTableAdapter<T> where T : class, ITableEntity, new()
     {
-        private readonly TableClient? _tableClient;
-        private readonly IConfiguration _configuration;
+        private readonly TableClient? _tableClient; 
         public AzureStorageTableAdapter(IConfiguration configuration, string tableName)
-        {
-            _configuration = configuration;
+        { 
             string storageConnectionString = configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty;
 
             if (!string.IsNullOrEmpty(storageConnectionString))
