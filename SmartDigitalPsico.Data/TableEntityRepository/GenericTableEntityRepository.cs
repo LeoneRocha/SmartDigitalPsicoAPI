@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Data.TableEntityRepository
     {
         private readonly IStorageTableAdapter<T> _tableStorageAdapter;
 
-        protected    GenericTableEntityRepository(IStorageTableServiceFactory tableStorageServiceFactory, string tableName)
+        protected GenericTableEntityRepository(IStorageTableServiceFactory tableStorageServiceFactory, string tableName)
         {
             _tableStorageAdapter = tableStorageServiceFactory.Create<T>(tableName);
         }
