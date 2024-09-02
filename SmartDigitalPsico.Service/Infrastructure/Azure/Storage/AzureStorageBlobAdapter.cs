@@ -7,12 +7,12 @@ using SmartDigitalPsico.Domain.Security;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 {
-    public class AzureStorageClientAdapterService : IStorageClientAdapter
+    public class AzureStorageBlobAdapter : IStorageBlobAdapter
     {
         private readonly BlobServiceClient? _blobServiceClient;
         private readonly IConfiguration? _configuration;
 
-        public AzureStorageClientAdapterService(IConfiguration configuration)
+        public AzureStorageBlobAdapter(IConfiguration configuration)
         {
             _configuration = configuration;
             string conBSC = configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty;
@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             }
         }
 
-        public AzureStorageClientAdapterService(IConfiguration configuration, BlobServiceClient blobServiceClient)
+        public AzureStorageBlobAdapter(IConfiguration configuration, BlobServiceClient blobServiceClient)
         {
             _configuration = configuration;
             _blobServiceClient = blobServiceClient;

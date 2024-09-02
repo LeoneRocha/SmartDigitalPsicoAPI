@@ -15,11 +15,11 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         private readonly IConfiguration _configuration;
         private readonly ILocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
         private readonly IFileDiskRepository _repositoryFileDisk;
-        private readonly IStorageClientAdapter _storageClientAdapter;
+        private readonly IStorageBlobAdapter _storageClientAdapter;
 
         public FileManager(IConfiguration configuration
             , ILocationSaveFileConfigurationVO locationSaveFileConfigurationVO
-            , IFileDiskRepository repositoryFileDisk, IStorageClientAdapter storageClientAdapter)
+            , IFileDiskRepository repositoryFileDisk, IStorageBlobAdapter storageClientAdapter)
         {
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO;
             _repositoryFileDisk = repositoryFileDisk;

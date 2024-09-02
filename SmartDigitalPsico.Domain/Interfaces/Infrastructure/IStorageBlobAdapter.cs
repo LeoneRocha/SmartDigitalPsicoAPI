@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {
-    public interface IStorageClientAdapter
+    public interface IStorageBlobAdapter
     {
         Task CreateContainerIfNotExists(string containerName);
         Task DownloadFile(string containerName, string blobName, string targetPath);
