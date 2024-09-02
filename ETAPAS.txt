@@ -171,6 +171,10 @@ secretKey = Convert.ToBase64String(key);
 
 
 
+Add-Migration UpdateRecordPatientStorage -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+
+
+
 Add-Migration UpdateConfig_03 -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
 
 Remove-Migration -Context SmartDigitalPsicoDataContext -Project SmartDigitalPsico.Data
@@ -704,3 +708,37 @@ Fonte: conversa com o Copilot, 07/08/2024
 
 
  
+
+
+ Para garantir a qualidade do código, segurança, build, testes, e um bom CI/CD em uma aplicação Web API em C# e .NET Core, aqui estão algumas tarefas recomendadas:
+
+### Qualidade de Código
+1. **Análise Estática de Código**: Utilize ferramentas como SonarQube ou ReSharper para identificar problemas de qualidade e vulnerabilidades no código.
+2. **Linting**: Ferramentas como StyleCop ajudam a manter um estilo de código consistente.
+3. **Code Reviews**: Implementar revisões de código regulares para garantir que o código segue as melhores práticas.
+
+### Vulnerabilidades
+1. **Análise de Vulnerabilidades**: Ferramentas como OWASP Dependency-Check podem ser usadas para identificar vulnerabilidades em dependências.
+2. **Testes de Segurança**: Realize testes de penetração e utilize ferramentas como ZAP (Zed Attack Proxy) para identificar possíveis falhas de segurança.
+
+### Build e Testes
+1. **Build Automatizado**: Utilize ferramentas como Azure DevOps, Jenkins ou GitHub Actions para automatizar o processo de build.
+2. **Testes Unitários**: Escreva testes unitários utilizando frameworks como xUnit ou NUnit.
+3. **Testes de Integração**: Garanta que diferentes partes do sistema funcionem bem juntas.
+4. **Testes de Performance**: Utilize ferramentas como Apache JMeter para testar a performance da aplicação.
+
+### CI/CD
+1. **Integração Contínua (CI)**: Configure pipelines de CI para compilar e testar o código automaticamente a cada commit.
+2. **Entrega Contínua (CD)**: Configure pipelines de CD para automatizar a implantação da aplicação em diferentes ambientes (desenvolvimento, homologação, produção).
+3. **Monitoramento e Logging**: Utilize ferramentas como ELK Stack (Elasticsearch, Logstash, Kibana) ou Application Insights para monitorar a aplicação e coletar logs.
+
+Essas práticas ajudam a manter a qualidade, segurança e eficiência do desenvolvimento e implantação da sua aplicação Web API em C# e .NET Core¹²³.
+
+Se precisar de mais detalhes sobre alguma dessas tarefas, estou aqui para ajudar!
+
+Fonte: conversa com o Copilot, 01/09/2024
+(1) Tutorial: criar uma API Web com o ASP.NET Core. https://learn.microsoft.com/pt-br/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0.
+(2) Um ótimo guia sobre como construir APIs RESTful com ASP.NET Core. https://www.freecodecamp.org/portuguese/news/um-otimo-guia-sobre-como-construir-apis-rest-com-asp-net-core/.
+(3) Criar uma API Web com os controladores do ASP.NET Core. https://learn.microsoft.com/pt-br/training/modules/build-web-api-aspnet-core/.
+(4) ASP.NET Core | Estrutura da Web de software livre para .NET. https://dotnet.microsoft.com/pt-br/apps/aspnet.
+(5) O que é API em C# – APIBrasil. https://blog.apibrasil.com.br/o-que-e-api-em-c/.

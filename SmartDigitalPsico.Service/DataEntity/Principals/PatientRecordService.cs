@@ -1,4 +1,5 @@
 using AutoMapper;
+using Azure;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
@@ -6,8 +7,10 @@ using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
+using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Security;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO.Patient.PatientRecord;
@@ -22,6 +25,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;
+        private readonly ITableEntityRepository<PatientRecordTableEntity> _tableEntityRepository;
 
         public PatientRecordService(IMapper mapper
             , Serilog.ILogger logger
@@ -31,11 +35,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             , IValidator<PatientRecord> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService
-            , ICryptoService cryptoService)
+            , ICryptoService cryptoService
+            , ITableEntityRepository<PatientRecordTableEntity> tableEntityRepository)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
+            _tableEntityRepository = tableEntityRepository;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
         {
@@ -57,6 +63,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (response.Success)
             {
                 entityAdd.Annotation = _cryptoService.Encrypt(item.Annotation);
+                entityAdd.TableStorageRowKey = Guid.NewGuid().ToString();
+                 
+                var addTableEntity = CreateTableEntity(entityAdd);
+                await _tableEntityRepository.UpdateAsync(addTableEntity);
+                entityAdd.TableStorageRowKey = addTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
                 response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
@@ -90,6 +101,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.Annotation = item.Annotation;
             entityUpdate.Description = item.Description;
             entityUpdate.AnnotationDate = item.AnnotationDate;
+            entityUpdate.TableStorageRowKey = string.IsNullOrEmpty(entityUpdate.TableStorageRowKey) ? Guid.NewGuid().ToString()
+                : entityUpdate.TableStorageRowKey;
             #endregion Columns
 
             ServiceResponse<GetPatientRecordVO> response = await base.Validate(entityUpdate);
@@ -97,11 +110,29 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 entityUpdate.Annotation = _cryptoService.Encrypt(item.Annotation);
 
+                var updateTableEntity = CreateTableEntity(entityUpdate);
+                await _tableEntityRepository.UpdateAsync(updateTableEntity);
+                entityUpdate.TableStorageRowKey = updateTableEntity.RowKey;
+
                 PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
                 response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
                 response.Message = "Patient Updated.";
             }
             return response;
+        }
+
+        private static PatientRecordTableEntity CreateTableEntity(PatientRecord item)
+        {
+            return new PatientRecordTableEntity()
+            {
+                PatientId = item.PatientId,
+                PatientRecordId = item.Id,
+                RowKey = item.TableStorageRowKey,
+                Annotation = item.Annotation,
+                ETag = ETag.All,
+                PartitionKey = string.Concat("PatientRecord-", item.PatientId.ToString()),
+                Timestamp = DataHelper.GetDateTimeNow(),
+            };
         }
 
         public async Task<ServiceResponse<List<GetPatientRecordVO>>> FindAllByPatient(long patientId)

@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Service.Security
 
         public string Encrypt(string plainText)
         {
-            var cryptoService = _cryptoServiceFactory.CreateCryptoService(_cryptoServiceType, _key, _ivOrPublicKey);
+            var cryptoService = _cryptoServiceFactory.Create(_cryptoServiceType, _key, _ivOrPublicKey);
             var cipherText = cryptoService.Encrypt(plainText);
 
             var cipherTextBase64 = Convert.ToBase64String(cipherText);
@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Service.Security
         {
             if (!string.IsNullOrWhiteSpace(cipherTextBase64) && SecurityHelper.IsBase64String(cipherTextBase64))
             {
-                var cryptoService = _cryptoServiceFactory.CreateCryptoService(_cryptoServiceType, _key, _ivOrPublicKey);
+                var cryptoService = _cryptoServiceFactory.Create(_cryptoServiceType, _key, _ivOrPublicKey);
 
                 var cipherTextBytes = Convert.FromBase64String(cipherTextBase64);
 

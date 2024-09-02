@@ -29,7 +29,11 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             builder.HasOne(e => e.CreatedUser).WithMany().HasForeignKey(e => e.CreatedUserId);
             builder.HasOne(e => e.ModifyUser).WithMany().HasForeignKey(e => e.ModifyUserId);
              
-            builder.HasOne(e => e.Patient).WithMany(p => p.PatientRecords).HasForeignKey(e => e.PatientId);
+            builder.HasOne(e => e.Patient).WithMany(p => p.PatientRecords).HasForeignKey(e => e.PatientId); 
+            
+            builder.Property(e => e.TableStorageRowKey)
+                .HasMaxLength(40)
+                .IsRequired(false);
         }
     }
 
