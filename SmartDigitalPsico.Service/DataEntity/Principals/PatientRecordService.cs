@@ -126,6 +126,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return new PatientRecordTableEntity()
             {
                 PatientId = item.PatientId,
+                PatientRecordId = item.Id,
                 RowKey = item.TableStorageRowKey,
                 Annotation = item.Annotation,
                 ETag = ETag.All,
