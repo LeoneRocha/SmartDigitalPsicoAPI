@@ -1,10 +1,7 @@
-﻿using Azure.Data.Tables;
-
-namespace SmartDigitalPsico.Domain.Interfaces.TableEntity
+﻿namespace SmartDigitalPsico.Domain.Interfaces.TableEntity
 {
-    public interface ITableEntityRepository<T> where T : class, ITableEntity, new()
-    { 
-
+    public interface IStorageTableService<T> where T : class , new()
+    {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetByIdAsync(string partitionKey, string rowKey);
         Task InsertAsync(T entity);

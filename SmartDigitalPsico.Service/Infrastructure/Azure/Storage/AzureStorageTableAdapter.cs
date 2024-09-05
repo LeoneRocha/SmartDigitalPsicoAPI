@@ -1,14 +1,15 @@
 ﻿using Azure.Data.Tables;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 {
-    public class AzureStorageTableAdapter<T> : IStorageTableAdapter<T> where T : class, ITableEntity, new()
+    public class AzureStorageTableAdapter<T> : IStorageTableAdapter<T> where T : BaseEntityTable, new()
     {
-        private readonly TableClient? _tableClient; 
+        private readonly TableClient? _tableClient;
         public AzureStorageTableAdapter(IConfiguration configuration, string tableName)
-        { 
+        {
             string storageConnectionString = configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty;
 
             if (!string.IsNullOrEmpty(storageConnectionString))
