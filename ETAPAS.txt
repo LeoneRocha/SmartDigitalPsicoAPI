@@ -8,7 +8,29 @@ https://painelbd.host.uol.com.br/main.html?servicetype=mysql
 https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 https://hub.docker.com/u/leonecr
 ** para gerar pro mysql tem que gerar do zero a migracao 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Ideias a implantar: 
+
+
+-- Calendario com agendamento pelo medico 
+-- Area paciente para recados ao medico e solicitar cancelamento e reagendamento de horario sendo possive visualizar horarios disponiveis com um prazo minimo estipulado pelo medico ex: 24 horas de atencedencia os horarios livres podem ser solicitados ( Client em React com redux)
+
+-- Criar service de email. 
+-- Ao criar um medico dispara email com as informacoes de acesso 
+
+-- Criar url para redefinir senha ou acesso. 
+
+-- Implantar processo de gerar log e relatorios de logs inicialmente pela api apenas com regras de acesso somente medico pode visualizar quando referente aos pacientes. 
+
+--- A chave de seguranca deve ser atrelada parcialmente ao cadastro do medico que deve ser guardada no banco e enviado p/ email
+
+
+
+
+
+
+-------------------------------------
 Regras a validar e implantar
 
 ADM nao pode ver arquivos do medico

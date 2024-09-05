@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Security
 {
-    public interface ICryptoServiceFactory
+    public interface ICryptoAdapterFactory
     {
         ICryptoAdpter Create(ECryptoServiceType cryptoServiceType, string key, string ivOrPublicKey);
     }

@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.Interfaces.Security;
 
 namespace SmartDigitalPsico.Domain.Security
 {
-    public class CryptoServiceFactory : ICryptoServiceFactory
+    public class CryptoAdapterFactory : ICryptoAdapterFactory
     {
         public ICryptoAdpter Create(ECryptoServiceType cryptoServiceType, string key, string ivOrPublicKey)
         {

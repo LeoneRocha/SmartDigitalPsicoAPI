@@ -56,7 +56,7 @@ namespace SmartDigitalPsico.Service.Configure
 
         private static void addSecurity(IServiceCollection services)
         {
-            services.AddTransient<ICryptoServiceFactory, CryptoServiceFactory>();
+            services.AddTransient<ICryptoAdapterFactory, CryptoAdapterFactory>();
             services.AddTransient<ICryptoService, CryptoService>();
         }
 
