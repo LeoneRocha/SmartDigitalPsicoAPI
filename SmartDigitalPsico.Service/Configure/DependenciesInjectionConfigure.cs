@@ -6,7 +6,7 @@ using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
-using SmartDigitalPsico.Data.TableEntityRepository;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Service.Configure
         {
             addRepositories(services);
             addService(services);
-            addDependencies(services);
+            addDependenciesSingleton(services);
             addValidations(services);
             addSecurity(services);
             addNoSQLDependencies(services);
@@ -45,9 +45,13 @@ namespace SmartDigitalPsico.Service.Configure
 
         private static void addNoSQLDependencies(IServiceCollection services)
         {
-            services.AddSingleton<IStorageTableServiceFactory, TableStorageServiceFactory>();
-            services.AddSingleton<ITableEntityRepository<PatientRecordTableEntity>>(provider =>
-                        new PatientRecordTableEntityRepository(provider.GetRequiredService<IStorageTableServiceFactory>()));
+            services.AddTransient<IStorageTableRepositoryFactory, StorageTableRepositoryFactory>();
+
+            services.AddScoped<IStorageTableService<PatientRecordTableEntity>>(provider =>
+            {
+                var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
+                return new StorageTableEntityService<PatientRecordTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
+            });
         }
 
         private static void addSecurity(IServiceCollection services)
@@ -118,14 +122,14 @@ namespace SmartDigitalPsico.Service.Configure
             Service.AddScoped<IPatientNotificationMessageService, PatientNotificationMessageService>();
             #endregion PATIENT
         }
-        private static void addDependencies(IServiceCollection Service)
+        private static void addDependenciesSingleton(IServiceCollection Service)
         {
             Service.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            Service.AddScoped<ITokenConfigurationVO, TokenConfigurationVO>();
-            Service.AddScoped<ITokenService, TokenService>();
-            Service.AddScoped<IResiliencePolicyConfig, ResiliencePolicyConfig>();
-            Service.AddScoped<ILocationSaveFileConfigurationVO, LocationSaveFileConfigurationVO>();
+            Service.AddSingleton<ITokenConfigurationVO, TokenConfigurationVO>();
+            Service.AddSingleton<ITokenService, TokenService>();
+            Service.AddSingleton<IResiliencePolicyConfig, ResiliencePolicyConfig>();
+            Service.AddSingleton<ILocationSaveFileConfigurationVO, LocationSaveFileConfigurationVO>();
         }
         private static void addValidations(IServiceCollection Service)
         {
