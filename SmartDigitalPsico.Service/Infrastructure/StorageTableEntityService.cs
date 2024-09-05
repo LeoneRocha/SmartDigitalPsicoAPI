@@ -6,16 +6,12 @@ namespace SmartDigitalPsico.Service.Infrastructure
 {
     public class StorageTableEntityService<T> : IStorageTableService<T> where T : BaseEntityTable, new()
     {
-        private readonly IStorageTableRepositoryFactory _storageTableAdapterFactory; 
-        private readonly EStorageAdapterType _storageAdapterType;
+        private readonly IStorageTableEntityRepository<T> _storageTableEntityRepository;
 
-        private readonly IStorageTableEntityRepository<T>  _storageTableEntityRepository;
-
-        public StorageTableEntityService(IStorageTableRepositoryFactory serviceFactory, string tableName)
+        public StorageTableEntityService(IStorageTableRepositoryFactory storageTableRepositoryFactory, string tableName)
         {
-            _storageTableAdapterFactory = serviceFactory;
-            _storageAdapterType = EStorageAdapterType.Azure;
-            _storageTableEntityRepository = _storageTableAdapterFactory.Create<T>(_storageAdapterType, tableName); 
+            EStorageAdapterType _storageAdapterType = EStorageAdapterType.Azure;
+            _storageTableEntityRepository = storageTableRepositoryFactory.Create<T>(_storageAdapterType, tableName);
         }
 
         public async Task DeleteAsync(string partitionKey, string rowKey)
