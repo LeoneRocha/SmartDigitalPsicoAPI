@@ -1,15 +1,16 @@
 ﻿using Azure.Data.Tables;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Data.TableEntityRepository
 {
-    public abstract class GenericTableEntityRepository<T> : ITableEntityRepository<T> where T : class, ITableEntity, new()
+    public class GenericTableEntityRepository<T> : IStorageTableEntityRepository<T> where T : BaseEntityTable, new()
     {
         private readonly IStorageTableAdapter<T> _tableStorageAdapter;
 
-        protected GenericTableEntityRepository(IStorageTableServiceFactory tableStorageServiceFactory, string tableName)
+        public GenericTableEntityRepository(IStorageTableAdapter<T> tableStorageAdapter, string tableName)
         {
-            _tableStorageAdapter = tableStorageServiceFactory.Create<T>(tableName);
+            _tableStorageAdapter = tableStorageAdapter;
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()

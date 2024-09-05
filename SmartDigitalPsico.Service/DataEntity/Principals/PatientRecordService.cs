@@ -24,9 +24,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
     {
         private readonly IUserRepository _userRepository;
-        private readonly ICryptoService _cryptoService;
-        private readonly ITableEntityRepository<PatientRecordTableEntity> _tableEntityRepository;
-
+        private readonly ICryptoService _cryptoService; 
+        private readonly IStorageTableService<PatientRecordTableEntity> _storageTableService;
+         
         public PatientRecordService(IMapper mapper
             , Serilog.ILogger logger
             , IResiliencePolicyConfig policyConfig
@@ -36,12 +36,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService
             , ICryptoService cryptoService
-            , ITableEntityRepository<PatientRecordTableEntity> tableEntityRepository)
+            , IStorageTableService<PatientRecordTableEntity> storageTableService)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
-            _tableEntityRepository = tableEntityRepository;
+            _storageTableService = storageTableService;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
         {
@@ -66,7 +66,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityAdd.TableStorageRowKey = Guid.NewGuid().ToString();
                  
                 var addTableEntity = CreateTableEntity(entityAdd);
-                await _tableEntityRepository.UpdateAsync(addTableEntity);
+                await _storageTableService.UpdateAsync(addTableEntity);
                 entityAdd.TableStorageRowKey = addTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
@@ -111,7 +111,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityUpdate.Annotation = _cryptoService.Encrypt(item.Annotation);
 
                 var updateTableEntity = CreateTableEntity(entityUpdate);
-                await _tableEntityRepository.UpdateAsync(updateTableEntity);
+                await _storageTableService.UpdateAsync(updateTableEntity);
                 entityUpdate.TableStorageRowKey = updateTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
