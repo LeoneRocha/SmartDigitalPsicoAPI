@@ -46,16 +46,13 @@ namespace SmartDigitalPsico.Service.Configure
 
         private static void addNoSQLDependencies(IServiceCollection services)
         {
-            services.AddTransient<IStorageTableRepositoryFactory, StorageTableRepositoryFactory>(); 
+            services.AddTransient<IStorageTableRepositoryFactory, StorageTableRepositoryFactory>();
 
             services.AddScoped<IStorageTableService<PatientRecordTableEntity>>(provider =>
             {
                 var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
                 return new StorageTableEntityService<PatientRecordTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
             });
-             
-            //services.AddSingleton<IStorageTableEntityRepository<PatientRecordTableEntity>>(provider => 
-            //new PatientRecordTableEntityRepository(provider.GetRequiredService<IStorageTableAdapterFactory>()));
         }
 
         private static void addSecurity(IServiceCollection services)

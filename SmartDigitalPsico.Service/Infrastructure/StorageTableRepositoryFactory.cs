@@ -17,11 +17,9 @@ namespace SmartDigitalPsico.Service.Infrastructure
         }
         public IStorageTableEntityRepository<T> Create<T>(EStorageAdapterType eStorageAdapterType, string tableName) where T : BaseEntityTable, new()
         { 
-
+            //Add logic Factory
             var azureStorageTableAdapter = new AzureStorageTableAdapter<T>(_configuration, tableName);
-            return new GenericTableEntityRepository<T>(azureStorageTableAdapter, tableName);
-
-             
+            return new GenericTableEntityRepository<T>(azureStorageTableAdapter, tableName); 
         }
     }
 }
