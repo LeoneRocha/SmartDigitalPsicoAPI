@@ -6,7 +6,6 @@ using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
-using SmartDigitalPsico.Data.TableEntityRepository;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;

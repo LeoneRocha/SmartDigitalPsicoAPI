@@ -6,8 +6,7 @@ namespace SmartDigitalPsico.Service.Infrastructure
 {
     public class StorageTableEntityService<T> : IStorageTableService<T> where T : BaseEntityTable, new()
     {
-        private readonly IStorageTableRepositoryFactory _storageTableAdapterFactory;
-        //private readonly IStorageTableAdapter<T> _storageTableAdapter;
+        private readonly IStorageTableRepositoryFactory _storageTableAdapterFactory; 
         private readonly EStorageAdapterType _storageAdapterType;
 
         private readonly IStorageTableEntityRepository<T>  _storageTableEntityRepository;
@@ -16,8 +15,7 @@ namespace SmartDigitalPsico.Service.Infrastructure
         {
             _storageTableAdapterFactory = serviceFactory;
             _storageAdapterType = EStorageAdapterType.Azure;
-            _storageTableEntityRepository = _storageTableAdapterFactory.Create<T>(_storageAdapterType, tableName);
-            // aqui na verdade eu crio o servico passado o tipo 
+            _storageTableEntityRepository = _storageTableAdapterFactory.Create<T>(_storageAdapterType, tableName); 
         }
 
         public async Task DeleteAsync(string partitionKey, string rowKey)
