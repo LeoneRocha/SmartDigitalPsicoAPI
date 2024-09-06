@@ -1,17 +1,21 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
+using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Resiliency;
@@ -22,18 +26,20 @@ using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
 using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Security;
+using SmartDigitalPsico.Domain.VO.SMTP;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
+using SmartDigitalPsico.Service.Infrastructure.Smtp;
 using SmartDigitalPsico.Service.Security;
 
 namespace SmartDigitalPsico.Service.Configure
 {
     public static class DependenciesInjectionConfigure
     {
-        public static void AddDependenciesInjection(IServiceCollection services)
+        public static void AddDependenciesInjection(IServiceCollection services, IConfiguration _configuration)
         {
             addRepositories(services);
             addService(services);
@@ -41,6 +47,21 @@ namespace SmartDigitalPsico.Service.Configure
             addValidations(services);
             addSecurity(services);
             addNoSQLDependencies(services);
+            addSmtpDependencies(services, _configuration);
+        } 
+        private static void addSmtpDependencies(IServiceCollection services, IConfiguration _configuration)
+        { 
+            services.AddSingleton<IEmailStrategyFactory, EmailStrategyFactory>();
+            services.AddSingleton<EmailContext>();
+             
+            // Bind the PolicyConfig section of appsettings.json to the PolicyConfig class
+            var smtpSettings = new SmtpSettingsVO();
+
+            var configValue = ConfigurationAppSettingsHelper.GetSmtpSettings(_configuration);
+            new ConfigureFromConfigurationOptions<SmtpSettingsVO>(configValue)
+             .Configure(smtpSettings);
+            // Register the PolicyConfig instance as a singleton
+            services.AddSingleton<ISmtpSettingsVO>(smtpSettings);  
         }
 
         private static void addNoSQLDependencies(IServiceCollection services)

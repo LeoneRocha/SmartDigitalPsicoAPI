@@ -25,8 +25,7 @@ Ideias a implantar:
 
 --- A chave de seguranca deve ser atrelada parcialmente ao cadastro do medico que deve ser guardada no banco e enviado p/ email
 
-
-
+-- Implantar relatorio tanto exportar para pdf ou excel dos dados de atendimento e do paciente (Historico)
 
 
 

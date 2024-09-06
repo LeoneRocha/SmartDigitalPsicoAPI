@@ -61,7 +61,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             addORM(services, WebApiHelpers.getTypeDataBase(_configuration));
 
             //Dependency Injection
-            DependenciesInjectionConfigure.AddDependenciesInjection(services);
+            DependenciesInjectionConfigure.AddDependenciesInjection(services, _configuration);
 
             //Add log 
             addLog(services, _logger);
