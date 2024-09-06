@@ -80,6 +80,10 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static IConfiguration GetLocationSaveFileConfigurationVO(IConfiguration configuration)
         {
             return GetSectionApp(configuration, "LocationSaveFileConfigurationVO");
+        } 
+        public static IConfiguration GetSmtpSettings(IConfiguration configuration)
+        {
+            return GetSectionApp(configuration, "SmtpSettings");
         }
     }
 }

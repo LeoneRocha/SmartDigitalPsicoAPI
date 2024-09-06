@@ -11,20 +11,20 @@ namespace SmartDigitalPsico.Service.Security
         private readonly string _key;
         private readonly string _ivOrPublicKey;
 
-        private readonly ICryptoServiceFactory _cryptoServiceFactory;
+        private readonly ICryptoAdapterFactory _cryptoAdapterFactory;
 
-        public CryptoService(ICryptoServiceFactory cryptoServiceFactory)
+        public CryptoService(ICryptoAdapterFactory cryptoAdapterFactory)
         {
             _key = "kuPiJg4r/IY1dTndthO56883V+SdxxPMahlIzCz32KM=";//Mudar para appConfig e depois config do medico
             _ivOrPublicKey = "37mVgkf+tXUTlaEhBPUIeA==";//Mudar para appConfig e depois config do medico 
             _cryptoServiceType = ECryptoServiceType.Aes;  //Mudar para appConfig e depois config do medico 
-            _cryptoServiceFactory = cryptoServiceFactory;
+            _cryptoAdapterFactory = cryptoAdapterFactory;
         }
 
         public string Encrypt(string plainText)
         {
-            var cryptoService = _cryptoServiceFactory.Create(_cryptoServiceType, _key, _ivOrPublicKey);
-            var cipherText = cryptoService.Encrypt(plainText);
+            var cryptoAdpter = _cryptoAdapterFactory.Create(_cryptoServiceType, _key, _ivOrPublicKey);
+            var cipherText = cryptoAdpter.Encrypt(plainText);
 
             var cipherTextBase64 = Convert.ToBase64String(cipherText);
             return cipherTextBase64;
@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Service.Security
         {
             if (!string.IsNullOrWhiteSpace(cipherTextBase64) && SecurityHelper.IsBase64String(cipherTextBase64))
             {
-                var cryptoService = _cryptoServiceFactory.Create(_cryptoServiceType, _key, _ivOrPublicKey);
+                var cryptoService = _cryptoAdapterFactory.Create(_cryptoServiceType, _key, _ivOrPublicKey);
 
                 var cipherTextBytes = Convert.FromBase64String(cipherTextBase64);
 
