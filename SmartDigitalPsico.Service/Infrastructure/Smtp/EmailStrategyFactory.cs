@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Enuns;
+﻿using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Domain.VO.SMTP;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Smtp
 {

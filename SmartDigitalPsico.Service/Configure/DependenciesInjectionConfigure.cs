@@ -69,7 +69,7 @@ namespace SmartDigitalPsico.Service.Configure
         {
             services.AddTransient<IStorageTableRepositoryFactory, StorageTableRepositoryFactory>();
 
-            services.AddScoped<IStorageTableService<PatientRecordTableEntity>>(provider =>
+            services.AddScoped<IStorageTableContract<PatientRecordTableEntity>>(provider =>
             {
                 var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
                 return new StorageTableEntityService<PatientRecordTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);

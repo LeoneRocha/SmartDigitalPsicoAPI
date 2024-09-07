@@ -4,11 +4,11 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Data.TableEntityRepository
 {
-    public class GenericTableEntityRepository<T> : IStorageTableEntityRepository<T> where T : BaseEntityTable, new()
+    public class GenericTableEntityRepository<T> : IStorageTableContract<T> where T : BaseEntityTable, new()
     {
-        private readonly IStorageTableAdapter<T> _tableStorageAdapter;
+        private readonly IStorageTableContract<T> _tableStorageAdapter;
 
-        public GenericTableEntityRepository(IStorageTableAdapter<T> tableStorageAdapter, string tableName)
+        public GenericTableEntityRepository(IStorageTableContract<T> tableStorageAdapter, string tableName)
         {
             _tableStorageAdapter = tableStorageAdapter;
         }

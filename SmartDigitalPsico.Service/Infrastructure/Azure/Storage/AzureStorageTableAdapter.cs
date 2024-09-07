@@ -5,7 +5,7 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 {
-    public class AzureStorageTableAdapter<T> : IStorageTableAdapter<T> where T : BaseEntityTable, new()
+    public class AzureStorageTableAdapter<T> : IStorageTableContract<T> where T : BaseEntityTable, new()
     {
         private readonly TableClient? _tableClient;
         public AzureStorageTableAdapter(IConfiguration configuration, string tableName)
@@ -80,4 +80,4 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             await _tableClient.DeleteEntityAsync(partitionKey, rowKey);
         }
     }
-}
+} 

@@ -17,6 +17,7 @@ Ideias a implantar:
 -- Area paciente para recados ao medico e solicitar cancelamento e reagendamento de horario sendo possive visualizar horarios disponiveis com um prazo minimo estipulado pelo medico ex: 24 horas de atencedencia os horarios livres podem ser solicitados ( Client em React com redux)
 
 -- Criar service de email. 
+https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 -- Ao criar um medico dispara email com as informacoes de acesso 
 
 -- Criar url para redefinir senha ou acesso. 
