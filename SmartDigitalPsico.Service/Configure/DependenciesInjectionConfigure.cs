@@ -50,7 +50,8 @@ namespace SmartDigitalPsico.Service.Configure
             addSmtpDependencies(services, _configuration);
         } 
         private static void addSmtpDependencies(IServiceCollection services, IConfiguration _configuration)
-        { 
+        {
+            services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IEmailStrategyFactory, EmailStrategyFactory>();
             services.AddSingleton<EmailContext>();
              
