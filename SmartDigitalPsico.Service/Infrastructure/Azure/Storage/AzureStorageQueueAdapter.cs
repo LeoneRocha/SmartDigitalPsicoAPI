@@ -7,13 +7,10 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 {
     public class AzureStorageQueueAdapter : IStorageQueueContract
     {
-        private readonly QueueClient? _queueClient;
-
-        private readonly IConfiguration? _configuration;
+        private readonly QueueClient? _queueClient; 
 
         public AzureStorageQueueAdapter(IConfiguration configuration, string queueName)
-        {
-            _configuration = configuration;
+        { 
             string conBSC = configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty;
             if (!string.IsNullOrEmpty(conBSC))
             {
