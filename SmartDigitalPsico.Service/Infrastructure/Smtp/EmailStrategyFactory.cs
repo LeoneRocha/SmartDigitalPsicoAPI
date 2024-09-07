@@ -1,17 +1,15 @@
-﻿using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Enuns;
+﻿using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Domain.VO.SMTP;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Smtp
 {
     public class EmailStrategyFactory : IEmailStrategyFactory
     {
-        private readonly SmtpSettingsVO _smtpSettings;
+        private readonly ISmtpSettingsVO _smtpSettings;
 
-        public EmailStrategyFactory(IOptions<SmtpSettingsVO> smtpSettings)
+        public EmailStrategyFactory(ISmtpSettingsVO smtpSettings)
         {
-            _smtpSettings = smtpSettings.Value;
+            _smtpSettings = smtpSettings;
         }
 
         public IEmailStrategy CreateStrategy(EEmailStrategyType strategyType)

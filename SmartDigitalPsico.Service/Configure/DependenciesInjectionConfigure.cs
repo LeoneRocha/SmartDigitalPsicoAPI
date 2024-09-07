@@ -48,9 +48,11 @@ namespace SmartDigitalPsico.Service.Configure
             addSecurity(services);
             addNoSQLDependencies(services);
             addSmtpDependencies(services, _configuration);
+            addQueueDependencies(services);
         } 
         private static void addSmtpDependencies(IServiceCollection services, IConfiguration _configuration)
-        { 
+        {
+            services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IEmailStrategyFactory, EmailStrategyFactory>();
             services.AddSingleton<EmailContext>();
              
@@ -68,11 +70,21 @@ namespace SmartDigitalPsico.Service.Configure
         {
             services.AddTransient<IStorageTableRepositoryFactory, StorageTableRepositoryFactory>();
 
-            services.AddScoped<IStorageTableService<PatientRecordTableEntity>>(provider =>
+            services.AddScoped<IStorageTableContract<PatientRecordTableEntity>>(provider =>
             {
                 var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
                 return new StorageTableEntityService<PatientRecordTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
             });
+        }
+
+        private static void addQueueDependencies(IServiceCollection services)
+        {
+            services.AddTransient<IStorageQueueRepositoryFactory, StorageQueueRepositoryFactory>(); 
+            services.AddScoped<IStorageQueueContract>(provider =>
+            {
+                var serviceFactory = provider.GetRequiredService<IStorageQueueRepositoryFactory>();
+                return new StorageQueueService(serviceFactory, StorageQueueNameConstants.GeneralQueue);
+            }); 
         }
 
         private static void addSecurity(IServiceCollection services)

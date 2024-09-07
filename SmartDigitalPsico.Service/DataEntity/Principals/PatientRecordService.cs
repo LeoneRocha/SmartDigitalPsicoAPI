@@ -25,7 +25,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService; 
-        private readonly IStorageTableService<PatientRecordTableEntity> _storageTableService;
+        private readonly IStorageTableContract<PatientRecordTableEntity> _storageTableService;
          
         public PatientRecordService(IMapper mapper
             , Serilog.ILogger logger
@@ -36,7 +36,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             , IApplicationLanguageRepository applicationLanguageRepository
             , ICacheService cacheService
             , ICryptoService cryptoService
-            , IStorageTableService<PatientRecordTableEntity> storageTableService)
+            , IStorageTableContract<PatientRecordTableEntity> storageTableService)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _userRepository = userRepository;

@@ -1,12 +1,13 @@
 ﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Infrastructure
 {
-    public class StorageTableEntityService<T> : IStorageTableService<T> where T : BaseEntityTable, new()
+    public class StorageTableEntityService<T> : IStorageTableContract<T> where T : BaseEntityTable, new()
     {
-        private readonly IStorageTableEntityRepository<T> _storageTableEntityRepository;
+        private readonly IStorageTableContract<T> _storageTableEntityRepository;
 
         public StorageTableEntityService(IStorageTableRepositoryFactory storageTableRepositoryFactory, string tableName)
         {

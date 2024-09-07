@@ -4,12 +4,12 @@ using System.Net;
 using System.Net.Mail;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Smtp
-{ 
+{
     public class SmtpEmailStrategy : IEmailStrategy
     {
-        private readonly SmtpSettingsVO _smtpSettings;
+        private readonly ISmtpSettingsVO _smtpSettings;
 
-        public SmtpEmailStrategy(SmtpSettingsVO smtpSettings)
+        public SmtpEmailStrategy(ISmtpSettingsVO smtpSettings)
         {
             _smtpSettings = smtpSettings;
         }
@@ -18,24 +18,24 @@ namespace SmartDigitalPsico.Service.Infrastructure.Smtp
         {
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(_smtpSettings.SenderEmail, _smtpSettings.SenderName),
                 Subject = emailMessage.Subject,
                 Body = emailMessage.Message,
-                IsBodyHtml = true
-            };
+                IsBodyHtml = true,
+                From = new MailAddress(_smtpSettings.SenderEmail, _smtpSettings.SenderName)
+            }; 
 
             foreach (var toEmail in emailMessage.ToEmails)
             {
                 mailMessage.To.Add(new MailAddress(toEmail));
             }
 
-            using var client = new SmtpClient(_smtpSettings.Server, _smtpSettings.Port)
+            using (var client = new SmtpClient(_smtpSettings.Server, _smtpSettings.Port))
             {
-                Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password),
-                EnableSsl = true
-            };
-
-            await client.SendMailAsync(mailMessage);
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password);
+                client.EnableSsl = true;
+                await client.SendMailAsync(mailMessage);
+            } 
         }
     }
-} 
+}
