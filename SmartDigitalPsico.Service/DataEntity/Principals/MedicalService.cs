@@ -5,10 +5,12 @@ using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
+using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
 using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
 using SmartDigitalPsico.Domain.VO.Medical;
+using SmartDigitalPsico.Domain.VO.SMTP;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
@@ -20,6 +22,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     {
         private readonly IUserRepository _userRepository;
         private readonly ISpecialtyRepository _specialtyRepository;
+        private readonly IEmailService _emailService;
         public MedicalService(IMapper mapper
             , Serilog.ILogger logger
             , IResiliencePolicyConfig policyConfig
@@ -28,11 +31,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             , ISpecialtyRepository specialtyRepository
             , IValidator<Medical> entityValidator
             , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService)
+            , ICacheService cacheService
+            , IEmailService emailService)
             : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
         {
             _userRepository = userRepository;
             _specialtyRepository = specialtyRepository;
+            _emailService = emailService;
         }
         public override async Task<ServiceResponse<GetMedicalVO>> Create(AddMedicalVO item)
         {
@@ -122,10 +127,23 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
                     response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("MedicalUpdated", _applicationLanguageRepository, _cacheService);
+
+                    sendAlertEmail(entityResponse);
                 }
             }
 
             return response;
+        }
+
+        private void sendAlertEmail(Medical entityResponse)
+        {
+            EmailMessageVO emailMessageVO = new EmailMessageVO()
+            {
+                Subject = $"Atualização médico",
+                Message = $"Médico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
+                ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
+            };
+            _emailService.SendEmailAsync(emailMessageVO);
         }
 
         public override Task<ServiceResponse<bool>> Delete(long id)
