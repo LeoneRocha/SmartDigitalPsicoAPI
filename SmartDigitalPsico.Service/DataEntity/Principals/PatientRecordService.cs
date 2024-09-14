@@ -1,11 +1,12 @@
 using AutoMapper;
 using Azure;
 using FluentValidation;
-using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -17,7 +18,6 @@ using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO.Patient.PatientRecord;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
-using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -31,25 +31,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IMedicalRepository _medicalRepository;
         private readonly IPatientRepository _patientRepository;
 
-        public PatientRecordService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , IPatientRecordRepository entityRepository
-            , IMedicalRepository medicalRepository
-            , IPatientRepository patientRepository
-            , IUserRepository userRepository
-            , IValidator<PatientRecord> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService
-            , ICryptoService cryptoService
-            , IStorageTableContract<PatientRecordTableEntity> storageTableService)
-            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        public PatientRecordService(IPatientRepositories repositories, IPatientRecordServiceConfig config)
+        : base(config.Mapper, config.Logger, config.PolicyConfig, repositories.PatientRecordRepository, config.EntityValidator, config.ApplicationLanguageRepository, config.CacheService)
         {
-            _userRepository = userRepository;
-            _cryptoService = cryptoService;
-            _storageTableService = storageTableService;
-            _medicalRepository = medicalRepository;
-            _patientRepository = patientRepository;
+            _userRepository = repositories.UserRepository;
+            _cryptoService = config.CryptoService;
+            _storageTableService = config.StorageTableService;
+            _medicalRepository = repositories.MedicalRepository;
+            _patientRepository = repositories.PatientRepository;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
         {
