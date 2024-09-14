@@ -1,10 +1,10 @@
-using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -23,21 +23,20 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
-        public PatientFileService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , ICacheService cacheService
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , IPatientFileRepository entityRepository
-            , IUserRepository userRepository
-            , IValidator<PatientFile> entityValidator
-            , IFileManager filePersistor
-            , IPatientRepository patientRepository)
-            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        public PatientFileService(
+            ISharedServices sharedServices,
+            ISharedDependenciesConfig sharedDependenciesConfig,
+            ISharedRepositories sharedRepositories,
+            IPatientFileRepository entityRepository,           
+            IValidator<PatientFile> entityValidator,
+            IFileManager filePersistor,
+            IPatientRepository patientRepository
+            )
+            : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
             _filePersistor = filePersistor;
             _patientRepository = patientRepository;
-            _userRepository = userRepository;
+            _userRepository = sharedRepositories.UserRepository;
         }
 
         public override Task<ServiceResponse<bool>> Delete(long id)

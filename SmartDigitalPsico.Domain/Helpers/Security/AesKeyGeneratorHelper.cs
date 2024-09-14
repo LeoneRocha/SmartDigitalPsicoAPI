@@ -1,8 +1,8 @@
 ﻿using System.Security.Cryptography;
 
-namespace SmartDigitalPsico.Domain.Helpers
+namespace SmartDigitalPsico.Domain.Helpers.Security
 {
-    public static class AesKeyGenerator
+    public static class AesKeyGeneratorHelper
     {
 
         public static string GenerateKey()

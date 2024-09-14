@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
 using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
@@ -11,7 +12,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 
         public AzureStorageQueueAdapter(IConfiguration configuration, string queueName)
         { 
-            string conBSC = configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty;
+            string conBSC = ConfigurationAppSettingsHelper.GetStorageServicesAzureStorageConnectionString(configuration);
             if (!string.IsNullOrEmpty(conBSC))
             {
                 _queueClient = new QueueClient(conBSC, queueName);

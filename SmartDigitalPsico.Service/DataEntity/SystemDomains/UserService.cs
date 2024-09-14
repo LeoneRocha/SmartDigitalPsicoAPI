@@ -8,6 +8,7 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -28,19 +29,17 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly ITokenConfigurationVO _configurationToken;
         private readonly ITokenService _tokenService;
         private readonly AuthConfigurationVO _configurationAuth;
-        public UserService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , IUserRepository entityRepository
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , IRoleGroupRepository roleGroupRepository
-            , ITokenConfigurationVO configurationToken
-            , ITokenService tokenService
-            , IOptions<AuthConfigurationVO> configurationAuth
-            , IValidator<User> entityValidator
-            , ICacheService cacheService
+        public UserService(
+            ISharedServices sharedServices,
+            ISharedDependenciesConfig sharedDependenciesConfig,
+            ISharedRepositories sharedRepositories,
+            IRoleGroupRepository roleGroupRepository,
+            ITokenConfigurationVO configurationToken,
+            ITokenService tokenService,
+            IOptions<AuthConfigurationVO> configurationAuth,
+            IValidator<User> entityValidator
             )
-            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+            : base(sharedServices, sharedDependenciesConfig, sharedRepositories, sharedRepositories.UserRepository, entityValidator)
         {
             _roleGroupRepository = roleGroupRepository;
             _configurationToken = configurationToken;

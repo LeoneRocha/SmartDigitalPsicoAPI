@@ -6,6 +6,9 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
     {
         Task<T> Create(T item);
         Task<T> FindByID(long id);
+        Task<T> FindByID(long id, params Expression<Func<T, object>>[] includes);
+        Task<T> FindByID(long id, Action<IQueryable<T>> includeAction);
+
         Task<List<T>> FindAll();
         Task<T> Update(T item);
         Task<bool> Delete(long id);

@@ -4,6 +4,7 @@ using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Resiliency;
@@ -32,21 +33,21 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         protected readonly IResiliencePolicyConfig _policyConfig;
 
 
-        public EntityBaseService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , Repo entityRepository
-            , IValidator<TEntity> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService)
+        public EntityBaseService(
+              ISharedServices sharedServices,
+              ISharedDependenciesConfig sharedDependenciesConfig,
+              ISharedRepositories sharedRepositories,
+              Repo entityRepository,
+              IValidator<TEntity> entityValidator
+            )
         {
-            _mapper = mapper;
+            _mapper = sharedDependenciesConfig.Mapper;
+            _logger = sharedDependenciesConfig.Logger;
+            _applicationLanguageRepository = sharedRepositories.ApplicationLanguageRepository;
+            _cacheService = sharedServices.CacheService;
+            _policyConfig = sharedDependenciesConfig.PolicyConfig;
             _entityRepository = entityRepository;
             _entityValidator = entityValidator;
-            _applicationLanguageRepository = applicationLanguageRepository;
-            _cacheService = cacheService;
-            _logger = logger;
-            _policyConfig = policyConfig;
         }
         public void SetUserId(long id)
         {

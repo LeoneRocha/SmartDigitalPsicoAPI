@@ -9,8 +9,10 @@ using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
@@ -49,13 +51,24 @@ namespace SmartDigitalPsico.Service.Configure
             addNoSQLDependencies(services);
             addSmtpDependencies(services, _configuration);
             addQueueDependencies(services);
-        } 
+            addCollectionDependencies(services);
+        }
+
+        private static void addCollectionDependencies(IServiceCollection services)
+        {
+            services.AddScoped<IPatientRecordServiceConfig, PatientRecordServiceConfig>();
+            services.AddScoped<IPatientRepositories, PatientRepositories>();
+            services.AddScoped<ISharedDependenciesConfig, SharedDependenciesConfig>();
+            services.AddScoped<ISharedRepositories, SharedRepositories>();
+            services.AddScoped<ISharedServices, SharedServices>();
+        }
+
         private static void addSmtpDependencies(IServiceCollection services, IConfiguration _configuration)
         {
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IEmailStrategyFactory, EmailStrategyFactory>();
             services.AddSingleton<EmailContext>();
-             
+
             // Bind the PolicyConfig section of appsettings.json to the PolicyConfig class
             var smtpSettings = new SmtpSettingsVO();
 
@@ -63,7 +76,7 @@ namespace SmartDigitalPsico.Service.Configure
             new ConfigureFromConfigurationOptions<SmtpSettingsVO>(configValue)
              .Configure(smtpSettings);
             // Register the PolicyConfig instance as a singleton
-            services.AddSingleton<ISmtpSettingsVO>(smtpSettings);  
+            services.AddSingleton<ISmtpSettingsVO>(smtpSettings);
         }
 
         private static void addNoSQLDependencies(IServiceCollection services)
@@ -79,12 +92,12 @@ namespace SmartDigitalPsico.Service.Configure
 
         private static void addQueueDependencies(IServiceCollection services)
         {
-            services.AddTransient<IStorageQueueRepositoryFactory, StorageQueueRepositoryFactory>(); 
+            services.AddTransient<IStorageQueueRepositoryFactory, StorageQueueRepositoryFactory>();
             services.AddScoped<IStorageQueueContract>(provider =>
             {
                 var serviceFactory = provider.GetRequiredService<IStorageQueueRepositoryFactory>();
                 return new StorageQueueService(serviceFactory, StorageQueueNameConstants.GeneralQueue);
-            }); 
+            });
         }
 
         private static void addSecurity(IServiceCollection services)
