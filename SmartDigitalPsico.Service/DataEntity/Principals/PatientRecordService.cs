@@ -56,10 +56,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
 
             #region Relationship
-
-            Expression<Func<Patient, object>>[] includeProperties = { g => g.Medical ?? new Medical() };
-
-
+             
             entityAdd.CreatedUserId = UserId;
             entityAdd.PatientId = item.PatientId;
 

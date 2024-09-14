@@ -11,7 +11,6 @@ namespace SmartDigitalPsico.Service.Security
         private readonly ECryptoServiceType _cryptoServiceType;
         private readonly string _key;
         private readonly string _ivOrPublicKey;
-
         private readonly ICryptoAdapterFactory _cryptoAdapterFactory;
 
         public CryptoService(IConfiguration configuration, ICryptoAdapterFactory cryptoAdapterFactory)
@@ -26,22 +25,19 @@ namespace SmartDigitalPsico.Service.Security
         {
             return executeEncrypt(_key, plainText);
         }
-
+        public string Encrypt(string keyBase64, string plainText)
+        {
+            return executeEncrypt(keyBase64, plainText);
+        } 
         public string Decrypt(string cipherTextBase64)
         {
             return executeDecrypt(_key, cipherTextBase64);
         }
-         
-        public string Encrypt(string keyBase64, string plainText)
-        {
-            return executeEncrypt(keyBase64, plainText);
-        }
-
         public string Decrypt(string keyBase64, string cipherTextBase64)
         {
             return executeDecrypt(keyBase64, cipherTextBase64);
         }
-
+        #region PRIVATE
         private string executeEncrypt(string keyBase64, string plainText)
         {
             var cryptoAdpter = _cryptoAdapterFactory.Create(_cryptoServiceType, keyBase64, _ivOrPublicKey);
@@ -64,5 +60,6 @@ namespace SmartDigitalPsico.Service.Security
             }
             return string.Empty;
         }
+        #endregion
     }
 }
