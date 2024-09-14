@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Domain.Validation.Base
@@ -11,9 +12,9 @@ namespace SmartDigitalPsico.Domain.Validation.Base
 
         public FileValidator(IConfiguration configuration)
         {
-            _permittedExtensions = configuration.GetSection("AppSettings:AllowedFileExtensions").Get<string[]>() ?? [];
-            _permittedContentTypes = configuration.GetSection("AppSettings:AllowedContentTypes").Get<string[]>() ?? [];
-            long _maxFileSize = configuration.GetValue<long>("AppSettings:MaxFileSizeMegabytes");
+            _permittedExtensions = ConfigurationAppSettingsHelper.GetAllowedContentTypes(configuration);
+            _permittedContentTypes = ConfigurationAppSettingsHelper.GetAllowedFileExtensions(configuration);
+            long _maxFileSize = ConfigurationAppSettingsHelper.GetMaxFileSizeMegabytes(configuration);
 
             RuleFor(file => file.FileSizeKB)
                 .NotNull()

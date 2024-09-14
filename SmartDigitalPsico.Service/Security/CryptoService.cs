@@ -1,7 +1,8 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+﻿using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Interfaces.Security;
-using SmartDigitalPsico.Domain.Security;
 
 namespace SmartDigitalPsico.Service.Security
 {
@@ -13,32 +14,52 @@ namespace SmartDigitalPsico.Service.Security
 
         private readonly ICryptoAdapterFactory _cryptoAdapterFactory;
 
-        public CryptoService(ICryptoAdapterFactory cryptoAdapterFactory)
+        public CryptoService(IConfiguration configuration, ICryptoAdapterFactory cryptoAdapterFactory)
         {
-            _key = "kuPiJg4r/IY1dTndthO56883V+SdxxPMahlIzCz32KM=";//Mudar para appConfig e depois config do medico
-            _ivOrPublicKey = "37mVgkf+tXUTlaEhBPUIeA==";//Mudar para appConfig e depois config do medico 
-            _cryptoServiceType = ECryptoServiceType.Aes;  //Mudar para appConfig e depois config do medico 
+            _key = ConfigurationAppSettingsHelper.GetSecuritySettingsAesSettingAesKey(configuration);
+            _ivOrPublicKey = ConfigurationAppSettingsHelper.GetSecuritySettingsAesSettingAesIv(configuration);
+            _cryptoServiceType = ECryptoServiceType.Aes;
             _cryptoAdapterFactory = cryptoAdapterFactory;
         }
 
         public string Encrypt(string plainText)
         {
-            var cryptoAdpter = _cryptoAdapterFactory.Create(_cryptoServiceType, _key, _ivOrPublicKey);
+            return executeEncrypt(_key, plainText);
+        }
+
+        public string Decrypt(string cipherTextBase64)
+        {
+            return executeDecrypt(_key, cipherTextBase64);
+        }
+         
+        public string Encrypt(string keyBase64, string plainText)
+        {
+            return executeEncrypt(keyBase64, plainText);
+        }
+
+        public string Decrypt(string keyBase64, string cipherTextBase64)
+        {
+            return executeDecrypt(keyBase64, cipherTextBase64);
+        }
+
+        private string executeEncrypt(string keyBase64, string plainText)
+        {
+            var cryptoAdpter = _cryptoAdapterFactory.Create(_cryptoServiceType, keyBase64, _ivOrPublicKey);
             var cipherText = cryptoAdpter.Encrypt(plainText);
 
             var cipherTextBase64 = Convert.ToBase64String(cipherText);
             return cipherTextBase64;
         }
-
-        public string Decrypt(string cipherTextBase64)
+        private string executeDecrypt(string keyBase64, string cipherTextBase64)
         {
             if (!string.IsNullOrWhiteSpace(cipherTextBase64) && SecurityHelper.IsBase64String(cipherTextBase64))
             {
-                var cryptoService = _cryptoAdapterFactory.Create(_cryptoServiceType, _key, _ivOrPublicKey);
+                var cryptoAdapter = _cryptoAdapterFactory.Create(_cryptoServiceType, keyBase64, _ivOrPublicKey);
 
                 var cipherTextBytes = Convert.FromBase64String(cipherTextBase64);
 
-                var plainText = cryptoService.Decrypt(cipherTextBytes);
+
+                var plainText = cryptoAdapter.Decrypt(cipherTextBytes);
                 return plainText;
             }
             return string.Empty;

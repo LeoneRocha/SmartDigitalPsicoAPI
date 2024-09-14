@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -64,8 +65,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (response.Success)
             {
-                Medical entityResponse = await _entityRepository.Create(entityAdd);
 
+                entityAdd.SecurityKey = AesKeyGeneratorHelper.GenerateKey();
+                Medical entityResponse = await _entityRepository.Create(entityAdd);
 
                 entityResponse.MedicalSpecialties = new List<MedicalSpecialty>();
                 foreach (var specialty in specialtiesAdd)
@@ -122,6 +124,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 if (response.Success)
                 {
+                    if (string.IsNullOrEmpty(entityUpdate.SecurityKey))
+                        entityUpdate.SecurityKey = AesKeyGeneratorHelper.GenerateKey();
+
                     Medical entityResponse = await _entityRepository.Update(entityUpdate);
 
                     response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
