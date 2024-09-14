@@ -1,9 +1,9 @@
-using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -20,17 +20,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     {
         private readonly IUserRepository _userRepository;
 
-        public PatientMedicationInformationService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , IPatientMedicationInformationRepository entityRepository
-            , IUserRepository userRepository
-            , IValidator<PatientMedicationInformation> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService)
-            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        public PatientMedicationInformationService(
+            ISharedServices sharedServices,
+            ISharedDependenciesConfig sharedDependenciesConfig,
+            ISharedRepositories sharedRepositories,
+            IPatientMedicationInformationRepository entityRepository, 
+            IValidator<PatientMedicationInformation> entityValidator            
+            )
+            : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
-            _userRepository = userRepository;
+            _userRepository = sharedRepositories.UserRepository;
         }
         public override async Task<ServiceResponse<GetPatientMedicationInformationVO>> Create(AddPatientMedicationInformationVO item)
         {

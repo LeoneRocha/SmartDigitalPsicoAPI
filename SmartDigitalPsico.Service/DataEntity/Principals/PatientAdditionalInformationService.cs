@@ -1,9 +1,9 @@
-using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -21,15 +21,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     {
         private readonly IUserRepository _userRepository;
 
-        public PatientAdditionalInformationService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , IPatientAdditionalInformationRepository entityRepository
-            , IUserRepository userRepository
-            , IValidator<PatientAdditionalInformation> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService)
-            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        public PatientAdditionalInformationService(
+            ISharedServices sharedServices,
+            ISharedDependenciesConfig sharedDependenciesConfig,
+            ISharedRepositories sharedRepositories,
+            IPatientAdditionalInformationRepository entityRepository,
+            IUserRepository userRepository,
+            IValidator<PatientAdditionalInformation> entityValidator
+            )
+            : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
             _userRepository = userRepository;
         }

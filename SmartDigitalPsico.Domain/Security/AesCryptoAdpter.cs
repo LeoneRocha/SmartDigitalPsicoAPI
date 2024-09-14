@@ -51,24 +51,31 @@ namespace SmartDigitalPsico.Domain.Security
             if (cipherText == null || cipherText.Length <= 0)
                 throw new ArgumentException("Cipher text cannot be null or empty", nameof(cipherText));
 
-            using (var aesAlg = Aes.Create())
+            try
             {
-                aesAlg.Key = _key;
-                aesAlg.IV = _iv;
-
-                var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-                using (var msDecrypt = new MemoryStream(cipherText))
+                using (var aesAlg = Aes.Create())
                 {
-                    using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    aesAlg.Key = _key;
+                    aesAlg.IV = _iv;
+
+                    var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                    using (var msDecrypt = new MemoryStream(cipherText))
                     {
-                        using (var srDecrypt = new StreamReader(csDecrypt))
+                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                         {
-                            return srDecrypt.ReadToEnd();
+                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                return srDecrypt.ReadToEnd();
+                            }
                         }
                     }
                 }
             }
+            catch (Exception)
+            {
+                return string.Empty;
+            } 
         }
     }
 }

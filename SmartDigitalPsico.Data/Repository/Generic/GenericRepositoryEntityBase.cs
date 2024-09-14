@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
         }
 
         public virtual async Task<List<T>> FindAll()
-        { 
+        {
             return await _dataset.AsNoTracking().ToListAsync();
         }
 
@@ -28,6 +28,22 @@ namespace SmartDigitalPsico.Data.Repository.Generic
         {
             return await _dataset.FirstAsync(p => p.Id.Equals(id));
         }
+
+        public virtual async Task<T> FindByID(long id, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _dataset; 
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            } 
+            return await _dataset.FirstAsync(p => p.Id.Equals(id));
+        }
+        public virtual async Task<T> FindByID(long id, Action<IQueryable<T>> includeAction)
+        {
+            IQueryable<T> query = _dataset;
+            includeAction(query);
+            return await query.FirstAsync(p => p.Id.Equals(id));
+        } 
         public virtual async Task<T> Create(T item)
         {
             //Fields internal change 

@@ -2,14 +2,16 @@ using AutoMapper;
 using Azure;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
@@ -24,24 +26,24 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
     {
         private readonly IUserRepository _userRepository;
-        private readonly ICryptoService _cryptoService; 
+        private readonly ICryptoService _cryptoService;
         private readonly IStorageTableContract<PatientRecordTableEntity> _storageTableService;
-         
-        public PatientRecordService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , IPatientRecordRepository entityRepository
-            , IUserRepository userRepository
-            , IValidator<PatientRecord> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService
-            , ICryptoService cryptoService
-            , IStorageTableContract<PatientRecordTableEntity> storageTableService)
-            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        private readonly IMedicalRepository _medicalRepository;
+        private readonly IPatientRepository _patientRepository;
+
+        public PatientRecordService(IPatientRepositories repositories, IPatientRecordServiceConfig config)
+        : base(
+              config.SharedServices,
+              config.SharedDependenciesConfig,
+              config.SharedRepositories,
+              repositories.PatientRecordRepository,
+              config.EntityValidator)
         {
-            _userRepository = userRepository;
-            _cryptoService = cryptoService;
-            _storageTableService = storageTableService;
+            _userRepository = repositories.SharedRepositories.UserRepository;
+            _cryptoService = config.SharedServices.CryptoService;
+            _storageTableService = config.StorageTableService;
+            _medicalRepository = repositories.MedicalRepository;
+            _patientRepository = repositories.PatientRepository;
         }
         public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
         {
@@ -62,16 +64,19 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (response.Success)
             {
-                entityAdd.Annotation = _cryptoService.Encrypt(item.Annotation);
+                var patient = await _patientRepository.FindByID(entityAdd.PatientId);
+                var medical = await _medicalRepository.FindByID(patient.MedicalId);
+                entityAdd.Annotation = _cryptoService.Encrypt(medical.SecurityKey, item.Annotation);
+
                 entityAdd.TableStorageRowKey = Guid.NewGuid().ToString();
-                 
+
                 var addTableEntity = CreateTableEntity(entityAdd);
                 await _storageTableService.UpdateAsync(addTableEntity);
                 entityAdd.TableStorageRowKey = addTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
                 response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
-                response.Message = "Patient registred.";
+                response.Message = "Patient Record registred.";
             }
             return response;
         }
@@ -79,6 +84,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             PatientRecord entityUpdate = await _entityRepository.FindByID(item.Id);
 
+            #region Relationship
+
+            #endregion Relationship
             #region Set default fields for bussines
 
             entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
@@ -92,9 +100,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #endregion User Action
 
-            #region Relationship 
-
-            #endregion Relationship
 
             #region Columns
             entityUpdate.Enable = item.Enable;
@@ -108,7 +113,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ServiceResponse<GetPatientRecordVO> response = await base.Validate(entityUpdate);
             if (response.Success)
             {
-                entityUpdate.Annotation = _cryptoService.Encrypt(item.Annotation);
+                var medical = await _medicalRepository.FindByID(entityUpdate.Patient?.MedicalId ?? 0);
+                entityUpdate.Annotation = _cryptoService.Encrypt(medical.SecurityKey, item.Annotation);
 
                 var updateTableEntity = CreateTableEntity(entityUpdate);
                 await _storageTableService.UpdateAsync(updateTableEntity);
@@ -204,8 +210,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                            ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
                     return response;
                 }
+                var patient = await _patientRepository.FindByID(entityResponse.PatientId, p => p.Medical ?? new Medical());
 
-                entityResponse.Annotation = _cryptoService.Decrypt(entityResponse.Annotation);
+
+                entityResponse.Annotation = _cryptoService.Decrypt(patient.Medical?.SecurityKey ?? string.Empty, entityResponse.Annotation);
 
                 response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
                 response.Success = true;

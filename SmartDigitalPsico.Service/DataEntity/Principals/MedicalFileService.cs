@@ -6,6 +6,7 @@ using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -22,22 +23,19 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IFileManager _filePersistor;
         private readonly IUserRepository _userRepository;
 
-        public MedicalFileService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , IConfiguration configuration
-            , IMedicalFileRepository entityRepository
-            , IUserRepository userRepository
-            , IValidator<MedicalFile> entityValidator
-            , ICacheService cacheService
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , IFileManager filePersistor
+        public MedicalFileService(
+            ISharedServices sharedServices,
+            ISharedDependenciesConfig sharedDependenciesConfig,
+            ISharedRepositories sharedRepositories,
+            IMedicalFileRepository entityRepository,
+            IValidator<MedicalFile> entityValidator,
+            IFileManager filePersistor
             )
-            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+            : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
-            _configuration = configuration;
+            _configuration = sharedDependenciesConfig.Configuration;
             _filePersistor = filePersistor;
-            _userRepository = userRepository;
+            _userRepository = sharedRepositories.UserRepository;
         }
         public override async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAll()
         {

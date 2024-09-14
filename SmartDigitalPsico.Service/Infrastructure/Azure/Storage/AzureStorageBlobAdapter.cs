@@ -2,6 +2,7 @@
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Security;
 
@@ -10,12 +11,12 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
     public class AzureStorageBlobAdapter : IStorageBlobAdapter
     {
         private readonly BlobServiceClient? _blobServiceClient;
-        private readonly IConfiguration? _configuration;
+        private readonly IConfiguration _configuration;
 
         public AzureStorageBlobAdapter(IConfiguration configuration)
         {
             _configuration = configuration;
-            string conBSC = configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty;
+            string conBSC = ConfigurationAppSettingsHelper.GetStorageServicesAzureStorageConnectionString(configuration);
             if (!string.IsNullOrEmpty(conBSC))
             {
                 _blobServiceClient = new BlobServiceClient(conBSC);
@@ -74,7 +75,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             }
 
             int daysExpireBlobSas;
-            if (!int.TryParse(_configuration?.GetSection("StorageServices:AzureStorage")["DaysExpiresBlobSas"], out daysExpireBlobSas))
+            if (!int.TryParse(ConfigurationAppSettingsHelper.GetStorageServicesAzureStorageDaysExpiresBlobSas(_configuration), out daysExpireBlobSas))
             {
                 daysExpireBlobSas = 15;
             }
