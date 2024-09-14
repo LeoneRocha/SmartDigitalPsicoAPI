@@ -4,6 +4,7 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Interfaces.Smtp;
@@ -24,19 +25,18 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IUserRepository _userRepository;
         private readonly ISpecialtyRepository _specialtyRepository;
         private readonly IEmailService _emailService;
-        public MedicalService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , IMedicalRepository entityRepository
-            , IUserRepository userRepository
-            , ISpecialtyRepository specialtyRepository
-            , IValidator<Medical> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService
-            , IEmailService emailService)
-            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        public MedicalService(
+            ISharedServices sharedServices,
+            ISharedDependenciesConfig sharedDependenciesConfig,
+            ISharedRepositories sharedRepositories,
+            IMedicalRepository entityRepository,
+            ISpecialtyRepository specialtyRepository,
+            IValidator<Medical> entityValidator,
+            IEmailService emailService
+            )
+            : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
-            _userRepository = userRepository;
+            _userRepository = sharedRepositories.UserRepository;
             _specialtyRepository = specialtyRepository;
             _emailService = emailService;
         }

@@ -7,6 +7,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
         IMedicalRepository MedicalRepository { get; }
         IPatientRecordRepository PatientRecordRepository { get; }
         IPatientRepository PatientRepository { get; }
-        IUserRepository UserRepository { get; }
+        ISharedRepositories SharedRepositories { get; }
     }
 }

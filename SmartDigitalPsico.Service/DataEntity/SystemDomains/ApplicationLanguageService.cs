@@ -1,10 +1,9 @@
-using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
-using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -21,14 +20,14 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
       : EntityBaseService<ApplicationLanguage, AddApplicationLanguageVO, UpdateApplicationLanguageVO, GetApplicationLanguageVO, IApplicationLanguageRepository>, IApplicationLanguageService
     {
 
-        public ApplicationLanguageService(IMapper mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , IApplicationLanguageRepository entityRepository
-            , IValidator<ApplicationLanguage> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService)
-            : base(mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService)
+        public ApplicationLanguageService(
+            ISharedServices sharedServices,
+            ISharedDependenciesConfig sharedDependenciesConfig,
+            ISharedRepositories sharedRepositories,
+            IApplicationLanguageRepository entityRepository,
+            IValidator<ApplicationLanguage> entityValidator
+            )
+            : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
 
         }

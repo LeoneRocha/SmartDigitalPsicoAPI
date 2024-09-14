@@ -1,6 +1,5 @@
-using AutoMapper;
 using FluentValidation;
-using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -14,13 +13,13 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     public class SpecialtyService
         : EntityBaseService<Specialty, AddSpecialtyVO, UpdateSpecialtyVO, GetSpecialtyVO, ISpecialtyRepository>, ISpecialtyService
     {
-        public SpecialtyService(IMapper _mapper
-            , Serilog.ILogger logger
-            , IResiliencePolicyConfig policyConfig
-            , ISpecialtyRepository entityRepository
-            , IValidator<Specialty> entityValidator
-            , IApplicationLanguageRepository applicationLanguageRepository
-            , ICacheService cacheService)
-            : base(_mapper, logger, policyConfig, entityRepository, entityValidator, applicationLanguageRepository, cacheService) { }
+        public SpecialtyService(
+            ISharedServices sharedServices,
+            ISharedDependenciesConfig sharedDependenciesConfig,
+            ISharedRepositories sharedRepositories,
+            ISpecialtyRepository entityRepository,
+            IValidator<Specialty> entityValidator
+            )
+            : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator) { }
     }
 }

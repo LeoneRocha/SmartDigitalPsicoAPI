@@ -32,10 +32,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IPatientRepository _patientRepository;
 
         public PatientRecordService(IPatientRepositories repositories, IPatientRecordServiceConfig config)
-        : base(config.Mapper, config.Logger, config.PolicyConfig, repositories.PatientRecordRepository, config.EntityValidator, config.ApplicationLanguageRepository, config.CacheService)
+        : base(
+              config.SharedServices,
+              config.SharedDependenciesConfig,
+              config.SharedRepositories,
+              repositories.PatientRecordRepository,
+              config.EntityValidator)
         {
-            _userRepository = repositories.UserRepository;
-            _cryptoService = config.CryptoService;
+            _userRepository = repositories.SharedRepositories.UserRepository;
+            _cryptoService = config.SharedServices.CryptoService;
             _storageTableService = config.StorageTableService;
             _medicalRepository = repositories.MedicalRepository;
             _patientRepository = repositories.PatientRepository;
@@ -45,7 +50,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
 
             #region Relationship
-             
+
             entityAdd.CreatedUserId = UserId;
             entityAdd.PatientId = item.PatientId;
 
