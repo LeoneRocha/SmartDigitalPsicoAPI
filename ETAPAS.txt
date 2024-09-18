@@ -29,6 +29,22 @@ https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 -- Implantar relatorio tanto exportar para pdf ou excel dos dados de atendimento e do paciente (Historico)
 
 
+-------------------------------------------
+
+--Criar um service pro relatorio -- XXX
+
+-- Metodo que  pesquisa de detalhes do paciente (TUDO)
+
+-- Criar um metodo e um controller para chamar o report 
+
+-- Metodo que exporta todo para json (controler)
+
+-- Metodo que gera excel com a pesquisa de detalhes 
+
+-- Metodo que gera PDF com a pesquisa de detalhes 
+
+
+------------------------
 
 -------------------------------------
 Regras a validar e implantar

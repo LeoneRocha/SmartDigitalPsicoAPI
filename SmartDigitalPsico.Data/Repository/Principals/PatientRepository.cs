@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Data.Repository.Generic;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -30,15 +29,15 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<Patient> FindByID(long id)
         {
 #pragma warning disable CS8602
-            return await _dataset 
+            return await _dataset
                 .Include(e => e.Medical)
                 .Include(e => e.Gender)
                 .Include(e => e.Medical)
                 .ThenInclude(e => e.User)
-                .Include(e => e.CreatedUser) 
+                .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        } 
+        }
         public async Task<Patient?> FindByEmail(string email)
         {
             Patient? entityResult = await _dataset
@@ -56,10 +55,27 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                .Include(e => e.Gender)
                .Include(e => e.Medical)
                .ThenInclude(e => e.User)
-               .Include(e => e.CreatedUser) 
+               .Include(e => e.CreatedUser)
                .Where(p => p.MedicalId == medicalId)
                .ToListAsync();
 #pragma warning restore CS8602
+        } 
+        public async Task<Patient> GetPatientDetailsByIdAsync(long id)
+        {
+            Patient entityResponse = await _dataset
+                .AsNoTracking()
+                .Include(p => p.Medical)
+                .ThenInclude(e => e.User)
+                .Include(p => p.CreatedUser)
+                .Include(p => p.ModifyUser)
+                .Include(p => p.Gender)
+                .Include(p => p.PatientInfoTags)
+                .Include(p => p.PatientAdditionalInformations)
+                .Include(p => p.PatientHospitalizationInformations)
+                .Include(p => p.PatientMedicationInformations)
+                .Include(p => p.PatientRecords)
+                .FirstAsync(p => p.Id == id);
+            return entityResponse;
         }
     }
 }
