@@ -31,13 +31,15 @@ https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 
 -------------------------------------------
 
---Criar um service pro relatorio -- XXX
+--Criar um service pro relatorio -- OK
 
--- Metodo que  pesquisa de detalhes do paciente (TUDO)
+-- Metodo que  pesquisa de detalhes do paciente (TUDO) -- OK
 
--- Criar um metodo e um controller para chamar o report 
+ -- Criar um metodo e um controller para chamar o report  -- OK
 
--- Metodo que exporta todo para json (controler)
+-- Metodo que exporta todo para json (controler) -- OK
+
+-----REFATORAR OBJETOS DE REPORT CRIAR OBJETOS SEPARADO ---- XXXXXXXXXXX<<<<<<<<<<<<<<<
 
 -- Metodo que gera excel com a pesquisa de detalhes 
 

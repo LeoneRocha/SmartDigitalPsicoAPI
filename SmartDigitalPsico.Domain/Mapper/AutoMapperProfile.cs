@@ -14,6 +14,7 @@ using SmartDigitalPsico.Domain.VO.Patient.PatientHospitalizationInformation;
 using SmartDigitalPsico.Domain.VO.Patient.PatientMedicationInformation;
 using SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage;
 using SmartDigitalPsico.Domain.VO.Patient.PatientRecord;
+using SmartDigitalPsico.Domain.VO.Report.Patient;
 using SmartDigitalPsico.Domain.VO.User;
 
 namespace SmartDigitalPsico.Domain.Mapper
@@ -133,7 +134,9 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<GetPatientVO, Patient>();
             CreateMap<AddPatientVO, Patient>();
             CreateMap<UpdatePatientVO, Patient>();
-
+             
+            CreateMap<Patient, PatientDetailReportVO>(); 
+            CreateMap<PatientDetailReportVO, Patient>();
             #endregion Patient 
 
             #region PatientRecord

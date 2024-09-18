@@ -27,8 +27,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
             _entityService.SetUserId(GetUserIdCurrent());
         }
        
-        [HttpGet("{id}")]
-        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        [HttpGet("{id}")] 
         public async Task<ActionResult<ServiceResponse<GetPatientVO>>> GetPatientDetailsByIdAsync(long id)
         {
             setUserIdCurrent();
