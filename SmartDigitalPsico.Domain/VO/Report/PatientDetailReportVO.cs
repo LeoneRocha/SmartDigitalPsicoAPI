@@ -8,6 +8,9 @@ namespace SmartDigitalPsico.Domain.VO.Report.Patient
     public class PatientDetailReportVO
     {
         [JsonIgnore]
+        public int Id { get; set; }
+
+        [JsonIgnore]
         public GenderReportVO Gender { get; set; } = new GenderReportVO();
 
         [Order(2)]

@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.Domain.Report
             stylePart.Stylesheet = GetStylesheet();
         }
 
-        private MergeCells? GetMergeCell(ReportSheetDataBaseVO sheetData)
+        private MergeCells? GetMergeCell(ReportSheetDataVO sheetData)
         {
             var mergeCells = new MergeCells();
             if (sheetData.MergeCellReferences?.Any() == true)
@@ -178,34 +178,7 @@ namespace SmartDigitalPsico.Domain.Report
 
             };
         }
-        // Helper method to convert column name to index
-        private static int GetColumnIndexFromName(string columnName)
-        {
-            int columnIndex = 0;
-            int factor = 1;
-            for (int i = columnName.Length - 1; i >= 0; i--)
-            {
-                char c = columnName[i];
-                columnIndex += factor * (c - 'A' + 1);
-                factor *= 26;
-            }
-            return columnIndex - 1;
-        }
 
-        // Helper method to calculate column width based on cell content
-        private static double CalculateColumnWidth(CellValue cellValue, double columnWidth)
-        {
-            if (cellValue == null)
-            {
-                return columnWidth;
-            }
-            double fontSize = 11; // Adjust as necessary
-            double characterWidth = 7; // Adjust as necessary
-            double textWidth = cellValue.Text.Length * characterWidth;
-            double padding = 5; // Adjust as necessary
-            double newColumnWidth = Math.Max(textWidth + padding, columnWidth);
-            return newColumnWidth;
-        }
         public static Stylesheet GetStylesheet()
         {
             Fonts fonts = new Fonts(
@@ -228,7 +201,7 @@ namespace SmartDigitalPsico.Domain.Report
 
             Borders borders = new Borders(
                     new Border(), // index 0 default
-                    new Border( 
+                    new Border(
                         new LeftBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
                         new RightBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
                         new TopBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },

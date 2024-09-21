@@ -103,15 +103,15 @@ namespace SmartDigitalPsico.Service.Report.Entity
             
             var report = new ReportWorkbookDataVO()
             {
-                WorkbookName = $"PatientDetailReport_{data.Name}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
-                Sheets = new List<ReportSheetDataBaseVO>
+                WorkbookName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
+                Sheets = new List<ReportSheetDataVO>
                 {
-                    new ReportSheetDataBaseVO { Order = 1, SheetName = "Patient", Rows = reportPatient,
-                        PropertiesToIgnore = new List<string>(){ "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
-                    new ReportSheetDataBaseVO  { Order = 2, SheetName = "Informations", Rows = infos },
-                    new ReportSheetDataBaseVO  { Order = 3, SheetName = "Hospitalizations", Rows = hospitalizations },
-                    new ReportSheetDataBaseVO  { Order = 4, SheetName = "Medications", Rows = medications },
-                    new ReportSheetDataBaseVO  { Order = 5, SheetName = "Records", Rows = records },
+                    new ReportSheetDataVO { Order = 1, SheetName = "Patient", Rows = reportPatient,
+                        PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
+                    new ReportSheetDataVO  { Order = 2, SheetName = "Informations", Rows = infos },
+                    new ReportSheetDataVO  { Order = 3, SheetName = "Hospitalizations", Rows = hospitalizations },
+                    new ReportSheetDataVO  { Order = 4, SheetName = "Medications", Rows = medications },
+                    new ReportSheetDataVO  { Order = 5, SheetName = "Records", Rows = records },
                 }
 
             };
