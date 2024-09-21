@@ -14,6 +14,7 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
+using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.Interfaces.Report;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
@@ -35,6 +36,7 @@ using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
+using SmartDigitalPsico.Service.Infrastructure.Report;
 using SmartDigitalPsico.Service.Infrastructure.Smtp;
 using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Security;
@@ -54,6 +56,13 @@ namespace SmartDigitalPsico.Service.Configure
             addSmtpDependencies(services, _configuration);
             addQueueDependencies(services);
             addCollectionDependencies(services);
+            addReportDependencies(services);
+        }
+
+        private static void addReportDependencies(IServiceCollection services)
+        {
+            services.AddScoped<IExcelGeneratorService, ExcelGeneratorService>();
+            services.AddScoped<IExcelGeneratorFactory, ExcelGeneratorFactory>();
         }
 
         private static void addCollectionDependencies(IServiceCollection services)
