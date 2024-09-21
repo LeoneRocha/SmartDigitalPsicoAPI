@@ -1,4 +1,6 @@
 ﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Helpers;
+using System.Text.Json.Serialization;
 
 namespace SmartDigitalPsico.Domain.VO.Report.Patient
 {
@@ -45,6 +47,7 @@ namespace SmartDigitalPsico.Domain.VO.Report.Patient
 
         public string EmergencyContactName { get; set; } = string.Empty;
 
+        [JsonConverter(typeof(EnumDescriptionConverter<EMaritalStatus>))]
         public EMaritalStatus MaritalStatus { get; set; }
 
         public string EmergencyContactPhoneNumber { get; set; } = string.Empty;
