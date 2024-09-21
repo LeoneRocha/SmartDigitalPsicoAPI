@@ -246,9 +246,7 @@ namespace SmartDigitalPsico.Domain.Report
 
             };
         }
-
-        // Desabilita o aviso IDE0063
-        // Código que viola a regra IDE0063
+         
         public static Stylesheet GetStylesheet()
         {
             Fonts fonts = new Fonts(
