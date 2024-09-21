@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -11,26 +12,46 @@ namespace SmartDigitalPsico.Domain.Helpers
             var description = reader.GetString();
             foreach (var field in typeToConvert.GetFields())
             {
-                if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+                if (!string.IsNullOrEmpty(description) &&
+                    (TryGetEnumValueFromDescription(field, description, out T value) ||
+                    TryGetEnumValueFromName(field, description, out value)
+                    ))
                 {
-                    if (attribute.Description == description && field != null)
-                    {
-                        var objR = field.GetValue(null);
-                        if (objR != null)
-                            return (T)objR;
-                    }
-                }
-                else
-                {
-                    if (field.Name == description)
-                    {
-                        var objR = field.GetValue(null);
-                        if (objR != null)
-                            return (T)objR;
-                    }
+                    return value;
                 }
             }
             throw new ArgumentException("Not found.");
+        }
+
+        private bool TryGetEnumValueFromDescription(FieldInfo field, string description, out T value)
+        {
+            if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute &&
+                attribute.Description == description)
+            {
+                var objR = field.GetValue(null);
+                if (objR != null)
+                {
+                    value = (T)objR;
+                    return true;
+                }
+            }
+            value = default!;
+            return false;
+        }
+
+        private bool TryGetEnumValueFromName(FieldInfo field, string name, out T value)
+        {
+            if (field.Name == name)
+            {
+                var objR = field.GetValue(null);
+                if (objR != null)
+                {
+                    value = (T)objR;
+                    return true;
+                }
+            }
+            value = default!;
+            return false;
         }
 
         public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
