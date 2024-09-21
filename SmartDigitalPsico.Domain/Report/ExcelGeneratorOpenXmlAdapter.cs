@@ -5,11 +5,13 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.VO.Report;
 using System.ComponentModel;
+using System.Text;
 
 namespace SmartDigitalPsico.Domain.Report
 {
     public class ExcelGeneratorOpenXmlAdapter : IExcelGenerator
     {
+#pragma warning disable S3220
         public async Task Generate(ReportWorkbookDataVO workbookDataInput, string filePath)
         {
             await Task.Run(() => GenerateExcel(workbookDataInput, filePath));
@@ -52,7 +54,7 @@ namespace SmartDigitalPsico.Domain.Report
         private static MergeCells? GetMergeCell(ReportSheetDataVO sheetData)
         {
             var mergeCells = new MergeCells();
-            if (sheetData.MergeCellReferences?.Any() == true)
+            if (sheetData.MergeCellReferences?.Count > 0)
             {
                 foreach (var reference in sheetData.MergeCellReferences)
                 {
@@ -107,15 +109,15 @@ namespace SmartDigitalPsico.Domain.Report
 
         private static void PopulateSheetData(WorksheetPart worksheetPart, List<object> rows, List<string> propertiesToIgnore)
         {
-            if (worksheetPart == null) throw new ArgumentNullException(nameof(worksheetPart));
-            if (rows == null) throw new ArgumentNullException(nameof(rows));
-            if (propertiesToIgnore == null) throw new ArgumentNullException(nameof(propertiesToIgnore));
+            ArgumentNullException.ThrowIfNull(worksheetPart);
+            ArgumentNullException.ThrowIfNull(rows);
+            ArgumentNullException.ThrowIfNull(propertiesToIgnore);
 
             var sheetDataElement = worksheetPart.Worksheet.GetFirstChild<SheetData>()
                 ?? throw new InvalidOperationException("SheetData not found.");
 
             // Adiciona a linha de cabeçalho
-            AddHeaderRow(rows.First(), propertiesToIgnore, sheetDataElement);
+            AddHeaderRow(rows[0], propertiesToIgnore, sheetDataElement);
 
             // Verifica se T é uma classe
             AddRowsData(rows, propertiesToIgnore, sheetDataElement);
@@ -128,7 +130,7 @@ namespace SmartDigitalPsico.Domain.Report
         private static void AddAutoFilter(WorksheetPart worksheetPart, List<object> rows, List<string> propertiesToIgnore)
         {
             // Calcula a referência do AutoFilter dinamicamente
-            int columnCount = rows.First().GetType().GetProperties().Count(p => !propertiesToIgnore.Contains(p.Name));
+            int columnCount = rows[0].GetType().GetProperties().Count(p => !propertiesToIgnore.Contains(p.Name));
             string endColumn = GetExcelColumnName(columnCount);
             AutoFilter autoFilter = new AutoFilter() { Reference = $"A1:{endColumn}1" };
             worksheetPart.Worksheet.Append(autoFilter);
@@ -145,15 +147,16 @@ namespace SmartDigitalPsico.Domain.Report
         // Método auxiliar para obter o nome da coluna no formato Excel (A, B, ..., Z, AA, AB, ...)
         private static string GetExcelColumnName(int columnNumber)
         {
-            string columnName = "";
+            var columnName = new StringBuilder();
             while (columnNumber > 0)
             {
                 int modulo = (columnNumber - 1) % 26;
-                columnName = Convert.ToChar(65 + modulo) + columnName;
+                columnName.Insert(0, Convert.ToChar(65 + modulo));
                 columnNumber = (columnNumber - modulo) / 26;
             }
-            return columnName;
+            return columnName.ToString();
         }
+
 
         private static void AddHeaderRow(object firstRow, List<string> propertiesToIgnore, SheetData sheetDataElement)
         {
@@ -244,6 +247,8 @@ namespace SmartDigitalPsico.Domain.Report
             };
         }
 
+        // Desabilita o aviso IDE0063
+        // Código que viola a regra IDE0063
         public static Stylesheet GetStylesheet()
         {
             Fonts fonts = new Fonts(
@@ -284,5 +289,6 @@ namespace SmartDigitalPsico.Domain.Report
             Stylesheet styleSheet = new Stylesheet(fonts, fills, borders, cellFormats);
             return styleSheet;
         }
+#pragma warning restore S3220 // Reabilita o aviso IDE0063
     }
 }

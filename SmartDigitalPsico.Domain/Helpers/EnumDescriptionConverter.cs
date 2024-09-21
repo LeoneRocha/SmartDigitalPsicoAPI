@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             throw new ArgumentException("Not found.");
         }
 
-        private bool TryGetEnumValueFromDescription(FieldInfo field, string description, out T value)
+        private static bool TryGetEnumValueFromDescription(FieldInfo field, string description, out T value)
         {
             if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute &&
                 attribute.Description == description)
@@ -39,7 +39,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             return false;
         }
 
-        private bool TryGetEnumValueFromName(FieldInfo field, string name, out T value)
+        private static bool TryGetEnumValueFromName(FieldInfo field, string name, out T value)
         {
             if (field.Name == name)
             {
