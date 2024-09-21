@@ -52,9 +52,9 @@ namespace SmartDigitalPsico.Domain.VO.Report.Patient
 
         public string EmergencyContactPhoneNumber { get; set; } = string.Empty;
 
-        public ICollection<PatientAdditionalInformationReportVO> PatientAdditionalInformations { get; set; } = new List<PatientAdditionalInformationReportVO>();
-        public ICollection<PatientHospitalizationInformationReportVO> PatientHospitalizationInformations { get; set; } = new List<PatientHospitalizationInformationReportVO>();
-        public ICollection<PatientMedicationInformationReportVO> PatientMedicationInformations { get; set; } = new List<PatientMedicationInformationReportVO>();
-        public ICollection<PatientRecordReportVO> PatientRecords { get; set; } = new List<PatientRecordReportVO>();
+        public PatientAdditionalInformationReportVO[] PatientAdditionalInformations { get; set; } = [];
+        public PatientHospitalizationInformationReportVO[] PatientHospitalizationInformations { get; set; } = [];
+        public PatientMedicationInformationReportVO[] PatientMedicationInformations { get; set; } = [];
+        public PatientRecordReportVO[] PatientRecords { get; set; } = [];
     }
 }

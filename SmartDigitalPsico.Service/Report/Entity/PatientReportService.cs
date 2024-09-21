@@ -62,9 +62,12 @@ namespace SmartDigitalPsico.Service.Report.Entity
                     response.Success = false;
                     response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
                     return response;
-                }
-
+                } 
                 response.Data = _mapper.Map<PatientDetailReportVO>(entityResponse);
+
+                var listRecords = response.Data.PatientRecords.ToList();
+                listRecords.ForEach(pr => pr.Annotation = _cryptoService.Decrypt(entityResponse.Medical?.SecurityKey ?? string.Empty, pr.Annotation));
+                response.Data.PatientRecords = listRecords.ToArray();
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", _applicationLanguageRepository, _cacheService);
             }
