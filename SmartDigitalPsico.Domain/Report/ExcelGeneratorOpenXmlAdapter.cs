@@ -14,8 +14,14 @@ namespace SmartDigitalPsico.Domain.Report
         {
             await Task.Run(() => GenerateExcel(workbookDataInput, filePath));
         }
-        private void GenerateExcel(ReportWorkbookDataVO workbookDataInput, string filePath)
+
+        private static void GenerateExcel(ReportWorkbookDataVO workbookDataInput, string filePath)
         {
+            string directoryPath = Path.GetDirectoryName(filePath)!;
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            } 
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
             {
                 WorkbookPart workbookPart = CreateWorkbookPart(document);
@@ -37,13 +43,13 @@ namespace SmartDigitalPsico.Domain.Report
             }
         }
 
-        private void AddWorkbookStyles(WorkbookPart workbookPart)
+        private static void AddWorkbookStyles(WorkbookPart workbookPart)
         {
             WorkbookStylesPart stylePart = workbookPart.AddNewPart<WorkbookStylesPart>();
             stylePart.Stylesheet = GetStylesheet();
         }
 
-        private MergeCells? GetMergeCell(ReportSheetDataVO sheetData)
+        private static MergeCells? GetMergeCell(ReportSheetDataVO sheetData)
         {
             var mergeCells = new MergeCells();
             if (sheetData.MergeCellReferences?.Any() == true)
@@ -56,7 +62,7 @@ namespace SmartDigitalPsico.Domain.Report
             }
             return null;
         }
-        private WorkbookPart CreateWorkbookPart(SpreadsheetDocument document)
+        private static WorkbookPart CreateWorkbookPart(SpreadsheetDocument document)
         {
             WorkbookPart workbookPart = document.AddWorkbookPart();
             workbookPart.Workbook = new Workbook();
@@ -64,14 +70,14 @@ namespace SmartDigitalPsico.Domain.Report
             return workbookPart;
         }
 
-        private WorksheetPart CreateWorksheetPart(WorkbookPart workbookPart)
+        private static WorksheetPart CreateWorksheetPart(WorkbookPart workbookPart)
         {
             WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
             worksheetPart.Worksheet = new Worksheet(new SheetData());
             return worksheetPart;
         }
 
-        private void AddSheetToWorkbook(WorkbookPart workbookPart, WorksheetPart worksheetPart,
+        private static void AddSheetToWorkbook(WorkbookPart workbookPart, WorksheetPart worksheetPart,
             string sheetName, uint sheetId, MergeCells? mergeCells)
         {
             if (workbookPart != null)
@@ -99,7 +105,7 @@ namespace SmartDigitalPsico.Domain.Report
             }
         }
 
-        private void PopulateSheetData(WorksheetPart worksheetPart, List<object> rows, List<string> propertiesToIgnore)
+        private static void PopulateSheetData(WorksheetPart worksheetPart, List<object> rows, List<string> propertiesToIgnore)
         {
             if (worksheetPart == null) throw new ArgumentNullException(nameof(worksheetPart));
             if (rows == null) throw new ArgumentNullException(nameof(rows));
@@ -112,7 +118,7 @@ namespace SmartDigitalPsico.Domain.Report
             AddHeaderRow(rows.First(), propertiesToIgnore, sheetDataElement);
 
             // Verifica se T é uma classe
-            addRowsData(rows, propertiesToIgnore, sheetDataElement);
+            AddRowsData(rows, propertiesToIgnore, sheetDataElement);
 
             AddBestFit(worksheetPart);
 
@@ -149,7 +155,6 @@ namespace SmartDigitalPsico.Domain.Report
             return columnName;
         }
 
-
         private static void AddHeaderRow(object firstRow, List<string> propertiesToIgnore, SheetData sheetDataElement)
         {
             if (firstRow == null) return;
@@ -181,7 +186,7 @@ namespace SmartDigitalPsico.Domain.Report
                         .Cast<OrderAttribute>().FirstOrDefault()?.Order ?? int.MaxValue);
         }
 
-        private static void addRowsData(List<object> rows, List<string> propertiesToIgnore, SheetData sheetDataElement)
+        private static void AddRowsData(List<object> rows, List<string> propertiesToIgnore, SheetData sheetDataElement)
         {
             foreach (var rowData in rows)
             {
@@ -191,12 +196,41 @@ namespace SmartDigitalPsico.Domain.Report
                 foreach (var property in properties)
                 {
                     var cellValue = property.GetValue(rowData)?.ToString() ?? string.Empty;
-                    var cell = CreateTextCell(cellValue, 4);
+                    var cell = CreateCell(cellValue, property.PropertyType, 4);
                     row.Append(cell);
                 }
 
                 sheetDataElement.Append(row);
             }
+        }
+
+        private static Cell CreateCell(string cellValue, Type propertyType, uint styleIndex = 0)
+        {
+            CellValues dataType;
+
+            if (propertyType == typeof(int) || propertyType == typeof(double) || propertyType == typeof(float) || propertyType == typeof(decimal))
+            {
+                dataType = CellValues.Number;
+            }
+            else if (propertyType == typeof(bool))
+            {
+                dataType = CellValues.Boolean;
+            }
+            else if (propertyType == typeof(DateTime))
+            {
+                dataType = CellValues.Date;
+            }
+            else
+            {
+                dataType = CellValues.String;
+            }
+
+            return new Cell
+            {
+                CellValue = new CellValue(cellValue),
+                DataType = dataType,
+                StyleIndex = styleIndex
+            };
         }
 
         private static Cell CreateTextCell(string cellValue, uint styleIndex = 0)

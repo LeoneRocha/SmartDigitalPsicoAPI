@@ -103,6 +103,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
             
             var report = new ReportWorkbookDataVO()
             {
+                FolderOutput = "Reports",
                 WorkbookName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 Sheets = new List<ReportSheetDataVO>
                 {

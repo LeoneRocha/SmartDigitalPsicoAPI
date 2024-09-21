@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
         {
             string filePath = ConfigurationAppSettingsHelper.GetAppSettingsResourcesTemp(_configuration);
             var excelGenerator = _excelGeneratorFactory.Create();
-            filePath = Path.Combine(filePath, $"{workbook.WorkbookName}.xlsx");
+            filePath = Path.Combine(filePath, workbook.FolderOutput, $"{workbook.WorkbookName}.xlsx");
             await excelGenerator.Generate(workbook, filePath);
         }
     }
