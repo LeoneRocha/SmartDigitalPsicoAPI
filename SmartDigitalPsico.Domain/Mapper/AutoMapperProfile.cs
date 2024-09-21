@@ -14,6 +14,7 @@ using SmartDigitalPsico.Domain.VO.Patient.PatientHospitalizationInformation;
 using SmartDigitalPsico.Domain.VO.Patient.PatientMedicationInformation;
 using SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage;
 using SmartDigitalPsico.Domain.VO.Patient.PatientRecord;
+using SmartDigitalPsico.Domain.VO.Report;
 using SmartDigitalPsico.Domain.VO.Report.Patient;
 using SmartDigitalPsico.Domain.VO.User;
 
@@ -134,9 +135,7 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<GetPatientVO, Patient>();
             CreateMap<AddPatientVO, Patient>();
             CreateMap<UpdatePatientVO, Patient>();
-             
-            CreateMap<Patient, PatientDetailReportVO>(); 
-            CreateMap<PatientDetailReportVO, Patient>();
+
             #endregion Patient 
 
             #region PatientRecord
@@ -178,6 +177,26 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<UpdatePatientNotificationMessageVO, PatientNotificationMessage>();
 
             #endregion PatientNotificationMessage 
+
+            #region REPORT 
+            CreateMap<Patient, PatientDetailReportVO>();
+            CreateMap<PatientDetailReportVO, Patient>();
+            //Gender
+            CreateMap<Gender, GenderReportVO>();
+            CreateMap<GenderReportVO, Gender>();
+            //PatientAdditionalInformation
+            CreateMap<PatientAdditionalInformation, PatientAdditionalInformationReportVO>();
+            CreateMap<PatientAdditionalInformationReportVO, PatientAdditionalInformation>();
+            //PatientHospitalizationInformation
+            CreateMap<PatientHospitalizationInformation, PatientHospitalizationInformationReportVO>();
+            CreateMap<PatientHospitalizationInformationReportVO, PatientHospitalizationInformation>();
+            //PatientMedicationInformation
+            CreateMap<PatientMedicationInformation, PatientMedicationInformationReportVO>();
+            CreateMap<PatientMedicationInformationReportVO, PatientMedicationInformation>();
+            //PatientRecord
+            CreateMap<PatientRecord, PatientRecordReportVO>();
+            CreateMap<PatientRecordReportVO, PatientRecord>();
+            #endregion REPORT
         }
     }
 }

@@ -19,8 +19,8 @@ namespace SmartDigitalPsico.Domain.VO.Patient.PatientRecord
         public string Annotation { get; set; } = string.Empty;
         public DateTime AnnotationDate { get; set; }
 
-        public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
         #endregion Columns  
+        public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
 
     }
 }

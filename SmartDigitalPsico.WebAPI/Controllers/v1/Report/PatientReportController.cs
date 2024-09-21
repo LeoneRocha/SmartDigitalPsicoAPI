@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Report;
 using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Patient;
+using SmartDigitalPsico.Domain.VO.Report.Patient;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
 {
@@ -28,7 +27,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
         }
        
         [HttpGet("{id}")] 
-        public async Task<ActionResult<ServiceResponse<GetPatientVO>>> GetPatientDetailsByIdAsync(long id)
+        public async Task<ActionResult<ServiceResponse<PatientDetailReportVO>>> GetPatientDetailsByIdAsync(long id)
         {
             setUserIdCurrent();
             return Ok(await _entityService.GetPatientDetailsByIdAsync(id));
