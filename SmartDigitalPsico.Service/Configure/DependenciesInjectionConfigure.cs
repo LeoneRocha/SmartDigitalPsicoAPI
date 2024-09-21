@@ -14,6 +14,8 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
+using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
+using SmartDigitalPsico.Domain.Interfaces.Report;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -34,7 +36,9 @@ using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
+using SmartDigitalPsico.Service.Infrastructure.Report;
 using SmartDigitalPsico.Service.Infrastructure.Smtp;
+using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Security;
 
 namespace SmartDigitalPsico.Service.Configure
@@ -52,6 +56,13 @@ namespace SmartDigitalPsico.Service.Configure
             addSmtpDependencies(services, _configuration);
             addQueueDependencies(services);
             addCollectionDependencies(services);
+            addReportDependencies(services);
+        }
+
+        private static void addReportDependencies(IServiceCollection services)
+        {
+            services.AddScoped<IExcelGeneratorService, ExcelGeneratorService>();
+            services.AddScoped<IExcelGeneratorFactory, ExcelGeneratorFactory>();
         }
 
         private static void addCollectionDependencies(IServiceCollection services)
@@ -142,31 +153,33 @@ namespace SmartDigitalPsico.Service.Configure
         }
 
 
-        private static void addService(IServiceCollection Service)
+        private static void addService(IServiceCollection service)
         {
-            Service.AddScoped<ICacheService, CacheService>();
+            service.AddScoped<ICacheService, CacheService>();
 
-            Service.AddScoped<IApplicationLanguageService, ApplicationLanguageService>();
-            Service.AddScoped<IApplicationConfigSettingService, ApplicationConfigSettingService>();
+            service.AddScoped<IApplicationLanguageService, ApplicationLanguageService>();
+            service.AddScoped<IApplicationConfigSettingService, ApplicationConfigSettingService>();
 
-            Service.AddScoped<IGenderService, GenderService>();
-            Service.AddScoped<IOfficeService, OfficeService>();
-            Service.AddScoped<IRoleGroupService, RoleGroupService>();
-            Service.AddScoped<ISpecialtyService, SpecialtyService>();
+            service.AddScoped<IGenderService, GenderService>();
+            service.AddScoped<IOfficeService, OfficeService>();
+            service.AddScoped<IRoleGroupService, RoleGroupService>();
+            service.AddScoped<ISpecialtyService, SpecialtyService>();
 
-            Service.AddScoped<IUserService, UserService>();
-            Service.AddScoped<IMedicalService, MedicalService>();
+            service.AddScoped<IUserService, UserService>();
+            service.AddScoped<IMedicalService, MedicalService>();
 
-            Service.AddScoped<IPatientFileService, PatientFileService>();
-            Service.AddScoped<IMedicalFileService, MedicalFileService>();
+            service.AddScoped<IPatientFileService, PatientFileService>();
+            service.AddScoped<IMedicalFileService, MedicalFileService>();
             #region PATIENT
-            Service.AddScoped<IPatientService, PatientService>();
-            Service.AddScoped<IPatientRecordService, PatientRecordService>();
-            Service.AddScoped<IPatientMedicationInformationService, PatientMedicationInformationService>();
-            Service.AddScoped<IPatientHospitalizationInformationService, PatientHospitalizationInformationService>();
-            Service.AddScoped<IPatientAdditionalInformationService, PatientAdditionalInformationService>();
-            Service.AddScoped<IPatientNotificationMessageService, PatientNotificationMessageService>();
-            #endregion PATIENT
+            service.AddScoped<IPatientService, PatientService>();
+            service.AddScoped<IPatientRecordService, PatientRecordService>();
+            service.AddScoped<IPatientMedicationInformationService, PatientMedicationInformationService>();
+            service.AddScoped<IPatientHospitalizationInformationService, PatientHospitalizationInformationService>();
+            service.AddScoped<IPatientAdditionalInformationService, PatientAdditionalInformationService>();
+            service.AddScoped<IPatientNotificationMessageService, PatientNotificationMessageService>();
+            #endregion PATIENT  
+             
+            service.AddScoped<IPatientReportService, PatientReportService>();
         }
         private static void addDependenciesSingleton(IServiceCollection Service)
         {
