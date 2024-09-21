@@ -114,11 +114,42 @@ namespace SmartDigitalPsico.Domain.Report
             // Verifica se T é uma classe
             addRowsData(rows, propertiesToIgnore, sheetDataElement);
 
+            AddBestFit(worksheetPart);
+
+            AddAutoFilter(worksheetPart, rows, propertiesToIgnore);
+        }
+
+        private static void AddAutoFilter(WorksheetPart worksheetPart, List<object> rows, List<string> propertiesToIgnore)
+        {
+            // Calcula a referência do AutoFilter dinamicamente
+            int columnCount = rows.First().GetType().GetProperties().Count(p => !propertiesToIgnore.Contains(p.Name));
+            string endColumn = GetExcelColumnName(columnCount);
+            AutoFilter autoFilter = new AutoFilter() { Reference = $"A1:{endColumn}1" };
+            worksheetPart.Worksheet.Append(autoFilter);
+        }
+
+        private static void AddBestFit(WorksheetPart worksheetPart)
+        {
             foreach (Column column in worksheetPart.Worksheet.Descendants<Column>())
             {
                 column.BestFit = true;
             }
         }
+
+        // Método auxiliar para obter o nome da coluna no formato Excel (A, B, ..., Z, AA, AB, ...)
+        private static string GetExcelColumnName(int columnNumber)
+        {
+            string columnName = "";
+            while (columnNumber > 0)
+            {
+                int modulo = (columnNumber - 1) % 26;
+                columnName = Convert.ToChar(65 + modulo) + columnName;
+                columnNumber = (columnNumber - modulo) / 26;
+            }
+            return columnName;
+        }
+
+
         private static void AddHeaderRow(object firstRow, List<string> propertiesToIgnore, SheetData sheetDataElement)
         {
             if (firstRow == null) return;
