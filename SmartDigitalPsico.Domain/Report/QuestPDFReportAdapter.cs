@@ -137,29 +137,54 @@ namespace SmartDigitalPsico.Domain.Report
             {
                 pageAdd.Rows.ForEach(row =>
                 {
-                    properties.ForEach(prop =>
-                    {
-                        var label = prop.Name;
-                        var value = prop.GetValue(row)?.ToString() ?? string.Empty;
-
-                        column.Item().Element(container =>
-                        {
-                            container.Text(text =>
-                            {
-                                text.Span(label).Bold();
-                            });
-                        });
-
-                        // Adiciona uma linha azul entre o label e o valor                        
-                        column.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Blue.Medium);
-                        column.Item().Text(value);
-                        column.Item().Text(""); // Linha em branco para espaçamento
-                    });
+                    AddRowContent(column, row, properties);
                 });
             });
-
         }
-         
-        
+
+        private static void AddRowContent(ColumnDescriptor column, object row, List<PropertyInfo> properties)
+        {
+            properties.ForEach(prop =>
+            {
+                AddRowContentProperties(column, row, prop);
+            });
+        }
+
+        private static void AddRowContentProperties(ColumnDescriptor column, object row, PropertyInfo prop)
+        {
+            var label = prop.Name;
+            var value = prop.GetValue(row)?.ToString() ?? string.Empty;
+
+            AddLabel(column, label);
+            AddSeparator(column);
+            AddValue(column, value);
+            AddSpacing(column);
+        }
+
+        private static void AddSpacing(ColumnDescriptor column)
+        {
+            column.Item().Text(""); // Linha em branco para espaçamento
+        }
+
+        private static void AddValue(ColumnDescriptor column, string value)
+        {
+            column.Item().Text(value);
+        }
+
+        private static void AddSeparator(ColumnDescriptor column)
+        {
+            column.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Blue.Medium);
+        }
+
+        private static void AddLabel(ColumnDescriptor column, string label)
+        {
+            column.Item().Element(container =>
+            {
+                container.Text(text =>
+                {
+                    text.Span(label).Bold();
+                });
+            });
+        }
     }
 }
