@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Domain.Report
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
-            } 
+            }
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
             {
                 WorkbookPart workbookPart = CreateWorkbookPart(document);
@@ -167,12 +167,7 @@ namespace SmartDigitalPsico.Domain.Report
 
             foreach (var property in properties)
             {
-                var headerText = property.Name;
-                var descriptionAttribute = property.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
-                if (descriptionAttribute != null)
-                {
-                    headerText = descriptionAttribute.Description;
-                }
+                var headerText = ReflectionHelpers.GetLabelProperty(property);
 
                 var cell = CreateTextCell(headerText, 2);
                 headerRow.Append(cell);
@@ -181,7 +176,7 @@ namespace SmartDigitalPsico.Domain.Report
             sheetDataElement.Append(headerRow);
         }
 
-    
+
         private static void AddRowsData(List<object> rows, List<string> propertiesToIgnore, SheetData sheetDataElement)
         {
             foreach (var rowData in rows)
@@ -239,7 +234,7 @@ namespace SmartDigitalPsico.Domain.Report
 
             };
         }
-         
+
         public static Stylesheet GetStylesheet()
         {
             Fonts fonts = new Fonts(

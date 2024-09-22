@@ -152,7 +152,7 @@ namespace SmartDigitalPsico.Domain.Report
 
         private static void AddRowContentProperties(ColumnDescriptor column, object row, PropertyInfo prop)
         {
-            var label = prop.Name;
+            var label = ReflectionHelpers.GetLabelProperty(prop);
             var value = prop.GetValue(row)?.ToString() ?? string.Empty;
 
             AddLabel(column, label);
