@@ -24,10 +24,9 @@ namespace SmartDigitalPsico.Service.Report.Entity
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;
         private readonly IPatientRepository _patientRepository;
-        private readonly IExcelGeneratorService _excelGeneratorService;
-        private readonly IPdfReportService _pdfReportService;
+        private readonly IReportServiceConfig _reportServiceConfig;
 
-        public PatientReportService(IPatientRepositories repositories, IPatientRecordServiceConfig config, IExcelGeneratorService excelGeneratorService, IPdfReportService pdfReportService)
+        public PatientReportService(IPatientRepositories repositories, IPatientRecordServiceConfig config, IReportServiceConfig reportServiceConfig)
         : base(
               config.SharedServices,
               config.SharedDependenciesConfig,
@@ -38,10 +37,8 @@ namespace SmartDigitalPsico.Service.Report.Entity
             _userRepository = repositories.SharedRepositories.UserRepository;
             _cryptoService = config.SharedServices.CryptoService;
             _patientRepository = repositories.PatientRepository;
-            _excelGeneratorService = excelGeneratorService;
-            _pdfReportService = pdfReportService;
+            _reportServiceConfig = reportServiceConfig;
         }
-
         public async Task<ServiceResponse<PatientDetailReportVO>> GetPatientDetailsByIdAsync(long id)
         {
             ServiceResponse<PatientDetailReportVO> response = new ServiceResponse<PatientDetailReportVO>();
@@ -120,7 +117,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
                 }
 
             };
-            await _excelGeneratorService.Generate(reportExcel);
+            await _reportServiceConfig.ExcelGeneratorService.Generate(reportExcel);
 
             var reportPDF = new ReportContent()
             {
@@ -137,7 +134,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
                     new ReportPageDataVO  { Order = 5, Name = "Records", Rows = records },
                 }
             };
-            _pdfReportService.Generate(reportPDF);
+            _reportServiceConfig.PdfReportService.Generate(reportPDF);
         }
     }
 }

@@ -63,13 +63,15 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IExcelGeneratorService, ExcelGeneratorService>();
             services.AddScoped<IExcelGeneratorFactory, ExcelGeneratorFactory>();
 
-            services.AddScoped<IPdfReportAdapterFactory, PdfReportAdapterFactory>(); 
-            services.AddScoped<IPdfReportService, PdfReportService>(); 
+            services.AddScoped<IPdfReportAdapterFactory, PdfReportAdapterFactory>();
+            services.AddScoped<IPdfReportService, PdfReportService>();
             #region ENTITIES
 
             services.AddScoped<IPatientReportService, PatientReportService>();
 
             #endregion
+
+            services.AddScoped<IReportServiceConfig, ReportServiceConfig>();
         }
 
         private static void addCollectionDependencies(IServiceCollection services)
