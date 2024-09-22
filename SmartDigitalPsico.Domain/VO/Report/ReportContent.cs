@@ -7,6 +7,6 @@
 
         public string FolderOutput { get; set; } = string.Empty;
 
-        public List<ReportDataVO> Pages { get; set; } = new List<ReportDataVO>();
+        public List<ReportPageDataVO> Pages { get; set; } = new List<ReportPageDataVO>();
     }
 }

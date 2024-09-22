@@ -17,12 +17,12 @@ namespace SmartDigitalPsico.Domain.Report
         {
             var document = Document.Create(container =>
             {
-                createDocument(content, container);
+                createDocumentTable(content, container);
             });
             document.GeneratePdf(filePath);
         }
 
-        private static void createDocument(ReportContent content, IDocumentContainer container)
+        private static void createDocumentTable(ReportContent content, IDocumentContainer container)
         {
             foreach (var pageAdd in content.Pages)
             {
@@ -60,7 +60,7 @@ namespace SmartDigitalPsico.Domain.Report
                         .AlignCenter()
                         .Text(x =>
                         {
-                            x.Span("Página ");
+                            x.Span(pageAdd.FooterTitle);
                             x.CurrentPageNumber();
                         });
                 });

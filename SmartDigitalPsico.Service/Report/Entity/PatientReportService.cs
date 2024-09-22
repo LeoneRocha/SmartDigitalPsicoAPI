@@ -1,4 +1,5 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
@@ -24,7 +25,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
         private readonly IPatientRepository _patientRepository;
         private readonly IExcelGeneratorService _excelGeneratorService;
         private readonly IPdfReportService _pdfReportService;
-        
+
         public PatientReportService(IPatientRepositories repositories, IPatientRecordServiceConfig config, IExcelGeneratorService excelGeneratorService, IPdfReportService pdfReportService)
         : base(
               config.SharedServices,
@@ -96,13 +97,13 @@ namespace SmartDigitalPsico.Service.Report.Entity
 
             var hospitalizations = new List<object>();
             hospitalizations.AddRange(data.PatientHospitalizationInformations.ToList());
-            
+
             var medications = new List<object>();
             medications.AddRange(data.PatientMedicationInformations.ToList());
 
             var records = new List<object>();
-            records.AddRange(data.PatientRecords.ToList()); 
-            
+            records.AddRange(data.PatientRecords.ToList());
+
             var reportExcel = new ReportWorkbookDataVO()
             {
                 FolderOutput = "Reports",
@@ -119,22 +120,22 @@ namespace SmartDigitalPsico.Service.Report.Entity
 
             };
             await _excelGeneratorService.Generate(reportExcel);
-            
-            var reportPDF = new ReportContent() 
+
+            var reportPDF = new ReportContent()
             {
                 FileName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 FolderOutput = "Reports_PDF",
                 Title = "Report Patient",
-                Pages = new List<ReportDataVO>() 
+                Pages = new List<ReportPageDataVO>()
                 {
-                    new ReportDataVO { Order = 1, Name = "Patient Detail", Rows = reportPatient,
+                    new ReportPageDataVO { Order = 1, Name = "Patient Detail", Rows = reportPatient,
                         PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
-                    new ReportDataVO  { Order = 2, Name = "Informations", Rows = infos },
-                    new ReportDataVO  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
-                    new ReportDataVO  { Order = 4, Name = "Medications", Rows = medications },
-                    new ReportDataVO  { Order = 5, Name = "Records", Rows = records },
+                    new ReportPageDataVO  { Order = 2, Name = "Informations", Rows = infos },
+                    new ReportPageDataVO  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
+                    new ReportPageDataVO  { Order = 4, Name = "Medications", Rows = medications },
+                    new ReportPageDataVO  { Order = 5, Name = "Records", Rows = records },
                 }
-            }; 
+            };
             _pdfReportService.Generate(reportPDF);
         }
     }
