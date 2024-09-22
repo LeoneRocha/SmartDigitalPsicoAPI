@@ -88,13 +88,7 @@ namespace SmartDigitalPsico.Domain.Report
                     container.Border(1).Padding(5).Text(value);
                 });
             }
-        }
-
-
-        private void CellStyle(IContainer container)
-        {
-            container.Border(1).Padding(5);
-        }
+        } 
         public byte[] Generate(ReportContent content)
         {
             var document = Document.Create(container =>
