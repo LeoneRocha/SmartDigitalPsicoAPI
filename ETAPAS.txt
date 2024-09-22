@@ -39,9 +39,9 @@ https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 
 -- Metodo que exporta todo para json (controler) -- OK
 
------REFATORAR OBJETOS DE REPORT CRIAR OBJETOS SEPARADO ---- XXXXXXXXXXX<<<<<<<<<<<<<<<
+-----REFATORAR OBJETOS DE REPORT CRIAR OBJETOS SEPARADO -- OK
 
--- Metodo que gera excel com a pesquisa de detalhes 
+-- Metodo que gera excel com a pesquisa de detalhes -- OK
 
 -- Metodo que gera PDF com a pesquisa de detalhes 
 

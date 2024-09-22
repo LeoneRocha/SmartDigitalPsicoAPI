@@ -25,6 +25,21 @@ namespace SmartDigitalPsico.Domain.Helpers
                 return content;
             }
         }
+        public static string NormalizePath(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentException("The file path cannot be null or empty.", nameof(filePath));
+            }
+
+            // Obtém o caminho completo e normalizado
+            string fullPath = Path.GetFullPath(filePath);
+
+            // Normaliza os separadores de diretório para o formato do sistema operacional atual
+            string normalizedPath = fullPath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+
+            return normalizedPath;
+        }
 
         public static async Task<string> GetFileByRequest(HttpRequest request, string folderNameDestination)
         {
