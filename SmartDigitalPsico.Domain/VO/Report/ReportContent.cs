@@ -4,9 +4,7 @@
     {
         public string Title { get; set; } = string.Empty;
         public string FileName { get; set; } =  string.Empty;
-
         public string FolderOutput { get; set; } = string.Empty;
-
         public List<ReportPageDataVO> Pages { get; set; } = new List<ReportPageDataVO>();
     }
 }

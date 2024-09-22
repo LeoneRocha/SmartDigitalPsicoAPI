@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
@@ -128,7 +129,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
                 Title = "Report Patient",
                 Pages = new List<ReportPageDataVO>()
                 {
-                    new ReportPageDataVO { Order = 1, Name = "Patient Detail", Rows = reportPatient,
+                    new ReportPageDataVO { Order = 1, Name = "Patient Detail", Rows = reportPatient, PageType =  EReportPageType.Text,
                         PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
                     new ReportPageDataVO  { Order = 2, Name = "Informations", Rows = infos },
                     new ReportPageDataVO  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
