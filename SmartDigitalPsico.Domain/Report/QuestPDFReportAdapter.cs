@@ -8,6 +8,7 @@ using System.Reflection;
 
 namespace SmartDigitalPsico.Domain.Report
 {
+    //https://www.questpdf.com/api-reference/line.html
     public class QuestPDFReportAdapter : IPdfReportAdapter
     {
         public QuestPDFReportAdapter()
@@ -53,7 +54,7 @@ namespace SmartDigitalPsico.Domain.Report
                 container.Page(page =>
                 {
                     ConfigurePage(page, pageAdd);
-                    AddHeader(page, pageAdd.Name);
+                    AddHeader(page, pageAdd);
                     AddSimpleTextContent(page, pageAdd);
                     AddFooter(page, pageAdd.FooterTitle);
                 });
