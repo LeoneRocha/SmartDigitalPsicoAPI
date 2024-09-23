@@ -9,9 +9,9 @@ using System.Reflection;
 namespace SmartDigitalPsico.Domain.Report
 {
     //https://www.questpdf.com/api-reference/line.html
-    public class QuestPDFReportAdapter : IPdfReportAdapter
+    public class QuestPdfReportAdapter : IPdfReportAdapter
     {
-        public QuestPDFReportAdapter()
+        public QuestPdfReportAdapter()
         {
             QuestPDF.Settings.License = LicenseType.Community;//Commercial not free
         }
@@ -123,6 +123,14 @@ namespace SmartDigitalPsico.Domain.Report
                 });
             }
         }
+        private static void AddRowContent(ColumnDescriptor column, object row, List<PropertyInfo> properties)
+        {
+            properties.ForEach(prop =>
+            {
+                AddRowContentProperties(column, row, prop);
+            });
+        }
+
         private static void AddSimpleTextContent(PageDescriptor page, ReportPageDataVO pageAdd)
         {
             var properties = GetProperties(pageAdd).ToList();
@@ -134,13 +142,7 @@ namespace SmartDigitalPsico.Domain.Report
                 });
             });
         }
-        private static void AddRowContent(ColumnDescriptor column, object row, List<PropertyInfo> properties)
-        {
-            properties.ForEach(prop =>
-            {
-                AddRowContentProperties(column, row, prop);
-            });
-        }
+     
         private static void AddRowContentProperties(ColumnDescriptor column, object row, PropertyInfo prop)
         {
             var label = ReflectionHelpers.GetLabelProperty(prop);

@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Domain.Report
             var document = CreateDocument(content);
             RenderDocumentToFile(document, filePath);
         }
-        private Document CreateDocument(ReportContent content)
+        private static Document CreateDocument(ReportContent content)
         {
             var document = new Document();
             foreach (var page in content.Pages)
@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Domain.Report
             return document;
         }
 
-        private void AddHeader(Section section, ReportPageDataVO page)
+        private static void AddHeader(Section section, ReportPageDataVO page)
         {
             var header = section.Headers.Primary.AddParagraph();
             header.AddText(page.Name);
@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.Domain.Report
             header.Format.Alignment = ParagraphAlignment.Center;
         }
 
-        private void AddFooter(Section section, ReportPageDataVO page)
+        private static void AddFooter(Section section, ReportPageDataVO page)
         {
             var footer = section.Footers.Primary.AddParagraph();
             footer.AddText($"{page.FooterTitle}");
@@ -55,7 +55,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
 
 
-        private void AddPageContent(Section section, ReportPageDataVO page)
+        private static void AddPageContent(Section section, ReportPageDataVO page)
         {
             if (page.PageType == EReportPageType.Table)
             {
@@ -66,14 +66,14 @@ namespace SmartDigitalPsico.Domain.Report
                 AddText(section, page);
             }
         }
-        private void AddTable(Section section, ReportPageDataVO page)
+        private static void AddTable(Section section, ReportPageDataVO page)
         {
             var table = section.AddTable();
             var properties = GetProperties(page);
             DefineTableColumns(table, properties.Length);
             AddTableRows(table, page.Rows, properties);
         }
-        private void AddText(Section section, ReportPageDataVO page)
+        private static void AddText(Section section, ReportPageDataVO page)
         {
             var properties = GetProperties(page).ToList();
             page.Rows.ForEach(row =>
@@ -118,18 +118,18 @@ namespace SmartDigitalPsico.Domain.Report
             var paragraph = section.AddParagraph();
             paragraph.AddFormattedText(label, TextFormat.Bold);
         }
-        private PropertyInfo[] GetProperties(ReportPageDataVO page)
+        private static PropertyInfo[] GetProperties(ReportPageDataVO page)
         {
             return ReflectionHelpers.GetProperties(page.Rows[0], page.PropertiesToIgnore).ToArray();
         }
-        private void DefineTableColumns(MigraDoc.DocumentObjectModel.Tables.Table table, int propertyCount)
+        private static void DefineTableColumns(MigraDoc.DocumentObjectModel.Tables.Table table, int propertyCount)
         {
             for (int i = 0; i < propertyCount; i++)
             {
                 table.AddColumn();
             }
         }
-        private void AddTableRows(MigraDoc.DocumentObjectModel.Tables.Table table, List<object> rows, PropertyInfo[] properties)
+        private static void AddTableRows(MigraDoc.DocumentObjectModel.Tables.Table table, List<object> rows, PropertyInfo[] properties)
         {
             foreach (var row in rows)
             {
@@ -140,7 +140,7 @@ namespace SmartDigitalPsico.Domain.Report
                 }
             }
         }
-        private byte[] RenderDocumentToBytes(Document document)
+        private static byte[] RenderDocumentToBytes(Document document)
         {
             var renderer = new PdfDocumentRenderer();
             renderer.Document = document;
@@ -151,7 +151,7 @@ namespace SmartDigitalPsico.Domain.Report
                 return stream.ToArray();
             }
         }
-        private void RenderDocumentToFile(Document document, string filePath)
+        private static void RenderDocumentToFile(Document document, string filePath)
         {
             var renderer = new PdfDocumentRenderer();
             renderer.Document = document;

@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
-    public class ReflectionHelpers
+    public static class ReflectionHelpers
     {
         public static IOrderedEnumerable<System.Reflection.PropertyInfo> GetProperties(object dataObject, List<string> propertiesToIgnore)
         {

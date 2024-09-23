@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
             switch (ePdfReportComponentType)
             {
                 case EPdfReportComponentType.QuestPDF:
-                    return new QuestPDFReportAdapter();
+                    return new QuestPdfReportAdapter();
                 case EPdfReportComponentType.PDFsharp:
                     return new PDFsharpMigraDocReportAdapter();
                 default:
