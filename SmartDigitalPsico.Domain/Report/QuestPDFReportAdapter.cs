@@ -31,12 +31,10 @@ namespace SmartDigitalPsico.Domain.Report
             });
             document.GeneratePdf(filePath);
         }
-
         private static void CreateDocument(ReportContent content, IDocumentContainer container)
         {
             content.Pages.ForEach(pageAdd => AddPage(container, pageAdd));
         }
-
         private static void AddPage(IDocumentContainer container, ReportPageDataVO pageAdd)
         {
             if (pageAdd.PageType == Enuns.EReportPageType.Table)
@@ -60,7 +58,6 @@ namespace SmartDigitalPsico.Domain.Report
                 });
             }
         }
-
         private static void ConfigurePage(PageDescriptor page, ReportPageDataVO pageAdd)
         {
             page.Size(PageSizes.A4);
@@ -68,7 +65,6 @@ namespace SmartDigitalPsico.Domain.Report
             page.PageColor(Colors.White);
             page.DefaultTextStyle(x => x.FontSize(pageAdd.FontSizeDefaultTextStyle));
         }
-
         private static void AddTable(PageDescriptor page, ReportPageDataVO pageAdd)
         {
             page.Content().Table(table =>
@@ -82,7 +78,6 @@ namespace SmartDigitalPsico.Domain.Report
         {
             return ReflectionHelpers.GetProperties(pageAdd.Rows[0], pageAdd.PropertiesToIgnore).ToArray();
         }
-
         private static void DefineTableColumns(TableDescriptor table, int propertyCount)
         {
             table.ColumnsDefinition(columns =>
@@ -93,7 +88,6 @@ namespace SmartDigitalPsico.Domain.Report
                 }
             });
         }
-
         private static void AddTableRows(TableDescriptor table, List<object> rows, PropertyInfo[] properties)
         {
             rows.ForEach(row => AddRowContent(table, row, properties));
@@ -129,7 +123,6 @@ namespace SmartDigitalPsico.Domain.Report
                 });
             }
         }
-
         private static void AddSimpleTextContent(PageDescriptor page, ReportPageDataVO pageAdd)
         {
             var properties = GetProperties(pageAdd).ToList();
@@ -141,7 +134,6 @@ namespace SmartDigitalPsico.Domain.Report
                 });
             });
         }
-
         private static void AddRowContent(ColumnDescriptor column, object row, List<PropertyInfo> properties)
         {
             properties.ForEach(prop =>
@@ -149,7 +141,6 @@ namespace SmartDigitalPsico.Domain.Report
                 AddRowContentProperties(column, row, prop);
             });
         }
-
         private static void AddRowContentProperties(ColumnDescriptor column, object row, PropertyInfo prop)
         {
             var label = ReflectionHelpers.GetLabelProperty(prop);
@@ -160,22 +151,18 @@ namespace SmartDigitalPsico.Domain.Report
             AddValue(column, value);
             AddSpacing(column);
         }
-
         private static void AddSpacing(ColumnDescriptor column)
         {
             column.Item().Text(""); // Linha em branco para espaçamento
         }
-
         private static void AddValue(ColumnDescriptor column, string value)
         {
             column.Item().Text(value);
         }
-
         private static void AddSeparator(ColumnDescriptor column)
         {
             column.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Blue.Medium);
         }
-
         private static void AddLabel(ColumnDescriptor column, string label)
         {
             column.Item().Element(container =>

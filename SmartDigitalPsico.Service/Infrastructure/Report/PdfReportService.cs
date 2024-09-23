@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
             try
             {
                 string filePath = ConfigurationAppSettingsHelper.GetAppSettingsResourcesTemp(_sharedDependenciesConfig.Configuration);
-                var adapter = _pdfReportAdapterFactory.Create(Domain.Enuns.EPdfReportComponentType.QuestPDF);
+                var adapter = _pdfReportAdapterFactory.Create(Domain.Enuns.EPdfReportComponentType.PDFsharp);
 
                 filePath = Path.Combine(filePath, content.FolderOutput, $"{content.FileName}.pdf");
                 filePath = FileHelper.NormalizePath(filePath);

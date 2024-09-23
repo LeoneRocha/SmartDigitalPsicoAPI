@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
                 case EPdfReportComponentType.QuestPDF:
                     return new QuestPDFReportAdapter();
                 case EPdfReportComponentType.PDFsharp:
-                    return new QuestPDFReportAdapter();
+                    return new PDFsharpMigraDocReportAdapter();
                 default:
                     throw new ArgumentException("Invalid Pdf Component Type");
             }
