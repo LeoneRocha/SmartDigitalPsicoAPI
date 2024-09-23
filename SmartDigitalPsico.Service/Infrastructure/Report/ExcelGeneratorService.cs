@@ -22,6 +22,11 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
             var excelGenerator = _excelGeneratorFactory.Create();
             filePath = Path.Combine(filePath, workbook.FolderOutput, $"{workbook.FileName}.xlsx");
             filePath = FileHelper.NormalizePath(filePath);
+            string directoryPath = Path.GetDirectoryName(filePath)!;
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
             await excelGenerator.Generate(workbook, filePath);
         }
     }

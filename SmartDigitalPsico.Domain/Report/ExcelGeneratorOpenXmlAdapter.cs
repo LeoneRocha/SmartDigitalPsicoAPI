@@ -4,7 +4,6 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.VO.Report;
-using System.ComponentModel;
 using System.Text;
 
 namespace SmartDigitalPsico.Domain.Report
@@ -18,12 +17,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
 
         private static void GenerateExcel(ReportWorkbookDataVO workbookDataInput, string filePath)
-        {
-            string directoryPath = Path.GetDirectoryName(filePath)!;
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
+        { 
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
             {
                 WorkbookPart workbookPart = CreateWorkbookPart(document);
