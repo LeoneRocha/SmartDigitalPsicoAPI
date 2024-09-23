@@ -24,6 +24,7 @@ namespace SmartDigitalPsico.Domain.VO.Report.Patient
         public string Email { get; set; } = string.Empty;
 
         [Order(3)]
+        [Description("Date Of Birth")]
         public DateTime DateOfBirth { get; set; }
          
         [Order(4)]

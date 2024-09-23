@@ -15,7 +15,6 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.Interfaces.Report;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -63,6 +62,16 @@ namespace SmartDigitalPsico.Service.Configure
         {
             services.AddScoped<IExcelGeneratorService, ExcelGeneratorService>();
             services.AddScoped<IExcelGeneratorFactory, ExcelGeneratorFactory>();
+
+            services.AddScoped<IPdfReportAdapterFactory, PdfReportAdapterFactory>();
+            services.AddScoped<IPdfReportService, PdfReportService>();
+            #region ENTITIES
+
+            services.AddScoped<IPatientReportService, PatientReportService>();
+
+            #endregion
+
+            services.AddScoped<IReportServiceConfig, ReportServiceConfig>();
         }
 
         private static void addCollectionDependencies(IServiceCollection services)
@@ -118,103 +127,98 @@ namespace SmartDigitalPsico.Service.Configure
         }
 
         #region INTERFACES
-        private static void addRepositories(IServiceCollection Service)
+        private static void addRepositories(IServiceCollection services)
         {
-            Service.AddScoped<IFileManager, FileManager>();
-            Service.AddScoped<IFileDiskRepository, FileDiskRepository>();
-            Service.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
-            Service.AddScoped<IDiskCacheRepository, DiskCacheRepository>();
-            Service.AddScoped<IStorageBlobAdapter, AzureStorageBlobAdapter>();
+            services.AddScoped<IFileManager, FileManager>();
+            services.AddScoped<IFileDiskRepository, FileDiskRepository>();
+            services.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
+            services.AddScoped<IDiskCacheRepository, DiskCacheRepository>();
+            services.AddScoped<IStorageBlobAdapter, AzureStorageBlobAdapter>();
 
-            Service.AddScoped<IUserRepository, UserRepository>();
-            Service.AddScoped<IMedicalRepository, MedicalRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMedicalRepository, MedicalRepository>();
 
-            Service.AddScoped<IPatientFileRepository, PatientFileRepository>();
-            Service.AddScoped<IMedicalFileRepository, MedicalFileRepository>();
+            services.AddScoped<IPatientFileRepository, PatientFileRepository>();
+            services.AddScoped<IMedicalFileRepository, MedicalFileRepository>();
 
             #region PATIENT
-            Service.AddScoped<IPatientRepository, PatientRepository>();
-            Service.AddScoped<IPatientRecordRepository, PatientRecordRepository>();
-            Service.AddScoped<IPatientMedicationInformationRepository, PatientMedicationInformationRepository>();
-            Service.AddScoped<IPatientHospitalizationInformationRepository, PatientHospitalizationInformationRepository>();
-            Service.AddScoped<IPatientAdditionalInformationRepository, PatientAdditionalInformationRepository>();
-            Service.AddScoped<IPatientNotificationMessageRepository, PatientNotificationMessageRepository>();
+            services.AddScoped<IPatientRepository, PatientRepository>();
+            services.AddScoped<IPatientRecordRepository, PatientRecordRepository>();
+            services.AddScoped<IPatientMedicationInformationRepository, PatientMedicationInformationRepository>();
+            services.AddScoped<IPatientHospitalizationInformationRepository, PatientHospitalizationInformationRepository>();
+            services.AddScoped<IPatientAdditionalInformationRepository, PatientAdditionalInformationRepository>();
+            services.AddScoped<IPatientNotificationMessageRepository, PatientNotificationMessageRepository>();
             #endregion PATIENT
 
-            Service.AddScoped<IApplicationLanguageRepository, ApplicationLanguageRepository>();
-            Service.AddScoped<IApplicationConfigSettingRepository, ApplicationConfigSettingRepository>();
-            Service.AddScoped<IApplicationCacheLogRepository, ApplicationCacheLogRepository>();
+            services.AddScoped<IApplicationLanguageRepository, ApplicationLanguageRepository>();
+            services.AddScoped<IApplicationConfigSettingRepository, ApplicationConfigSettingRepository>();
+            services.AddScoped<IApplicationCacheLogRepository, ApplicationCacheLogRepository>();
 
-            Service.AddScoped<IGenderRepository, GenderRepository>();
-            Service.AddScoped<IOfficeRepository, OfficeRepository>();
-            Service.AddScoped<IRoleGroupRepository, RoleGroupRepository>();
-            Service.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
-
+            services.AddScoped<IGenderRepository, GenderRepository>();
+            services.AddScoped<IOfficeRepository, OfficeRepository>();
+            services.AddScoped<IRoleGroupRepository, RoleGroupRepository>();
+            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
         }
-
-
-        private static void addService(IServiceCollection service)
+        private static void addService(IServiceCollection services)
         {
-            service.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<ICacheService, CacheService>();
 
-            service.AddScoped<IApplicationLanguageService, ApplicationLanguageService>();
-            service.AddScoped<IApplicationConfigSettingService, ApplicationConfigSettingService>();
+            services.AddScoped<IApplicationLanguageService, ApplicationLanguageService>();
+            services.AddScoped<IApplicationConfigSettingService, ApplicationConfigSettingService>();
 
-            service.AddScoped<IGenderService, GenderService>();
-            service.AddScoped<IOfficeService, OfficeService>();
-            service.AddScoped<IRoleGroupService, RoleGroupService>();
-            service.AddScoped<ISpecialtyService, SpecialtyService>();
+            services.AddScoped<IGenderService, GenderService>();
+            services.AddScoped<IOfficeService, OfficeService>();
+            services.AddScoped<IRoleGroupService, RoleGroupService>();
+            services.AddScoped<ISpecialtyService, SpecialtyService>();
 
-            service.AddScoped<IUserService, UserService>();
-            service.AddScoped<IMedicalService, MedicalService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMedicalService, MedicalService>();
 
-            service.AddScoped<IPatientFileService, PatientFileService>();
-            service.AddScoped<IMedicalFileService, MedicalFileService>();
+            services.AddScoped<IPatientFileService, PatientFileService>();
+            services.AddScoped<IMedicalFileService, MedicalFileService>();
             #region PATIENT
-            service.AddScoped<IPatientService, PatientService>();
-            service.AddScoped<IPatientRecordService, PatientRecordService>();
-            service.AddScoped<IPatientMedicationInformationService, PatientMedicationInformationService>();
-            service.AddScoped<IPatientHospitalizationInformationService, PatientHospitalizationInformationService>();
-            service.AddScoped<IPatientAdditionalInformationService, PatientAdditionalInformationService>();
-            service.AddScoped<IPatientNotificationMessageService, PatientNotificationMessageService>();
-            #endregion PATIENT  
-             
-            service.AddScoped<IPatientReportService, PatientReportService>();
+            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IPatientRecordService, PatientRecordService>();
+            services.AddScoped<IPatientMedicationInformationService, PatientMedicationInformationService>();
+            services.AddScoped<IPatientHospitalizationInformationService, PatientHospitalizationInformationService>();
+            services.AddScoped<IPatientAdditionalInformationService, PatientAdditionalInformationService>();
+            services.AddScoped<IPatientNotificationMessageService, PatientNotificationMessageService>();
+            #endregion PATIENT   
         }
-        private static void addDependenciesSingleton(IServiceCollection Service)
+        private static void addDependenciesSingleton(IServiceCollection services)
         {
-            Service.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            Service.AddSingleton<ITokenConfigurationVO, TokenConfigurationVO>();
-            Service.AddSingleton<ITokenService, TokenService>();
-            Service.AddSingleton<IResiliencePolicyConfig, ResiliencePolicyConfig>();
-            Service.AddSingleton<ILocationSaveFileConfigurationVO, LocationSaveFileConfigurationVO>();
+            services.AddSingleton<ITokenConfigurationVO, TokenConfigurationVO>();
+            services.AddSingleton<ITokenService, TokenService>();
+            services.AddSingleton<IResiliencePolicyConfig, ResiliencePolicyConfig>();
+            services.AddSingleton<ILocationSaveFileConfigurationVO, LocationSaveFileConfigurationVO>();
         }
-        private static void addValidations(IServiceCollection Service)
+        private static void addValidations(IServiceCollection services)
         {
             #region SystemDomains
-            Service.AddScoped<IValidator<ApplicationConfigSetting>, ApplicationConfigSettingValidator>();
-            Service.AddScoped<IValidator<ApplicationLanguage>, ApplicationLanguageValidator>();
-            Service.AddScoped<IValidator<Gender>, GenderValidator>();
-            Service.AddScoped<IValidator<Office>, OfficeValidator>();
-            Service.AddScoped<IValidator<RoleGroup>, RoleGroupValidator>();
-            Service.AddScoped<IValidator<Specialty>, SpecialtyValidator>();
+            services.AddScoped<IValidator<ApplicationConfigSetting>, ApplicationConfigSettingValidator>();
+            services.AddScoped<IValidator<ApplicationLanguage>, ApplicationLanguageValidator>();
+            services.AddScoped<IValidator<Gender>, GenderValidator>();
+            services.AddScoped<IValidator<Office>, OfficeValidator>();
+            services.AddScoped<IValidator<RoleGroup>, RoleGroupValidator>();
+            services.AddScoped<IValidator<Specialty>, SpecialtyValidator>();
             #endregion SystemDomains
 
             #region Principals
-            Service.AddScoped<IValidator<User>, UserValidator>();
-            Service.AddScoped<IValidator<Medical>, MedicalValidator>();
-            Service.AddScoped<IValidator<MedicalFile>, MedicalFileValidator>();
+            services.AddScoped<IValidator<User>, UserValidator>();
+            services.AddScoped<IValidator<Medical>, MedicalValidator>();
+            services.AddScoped<IValidator<MedicalFile>, MedicalFileValidator>();
             #endregion Principals
 
             #region Patient
-            Service.AddScoped<IValidator<PatientAdditionalInformation>, PatientAdditionalInformationValidator>();
-            Service.AddScoped<IValidator<PatientHospitalizationInformation>, PatientHospitalizationInformationValidator>();
-            Service.AddScoped<IValidator<PatientMedicationInformation>, PatientMedicationInformationValidator>();
-            Service.AddScoped<IValidator<PatientNotificationMessage>, PatientNotificationMessageValidator>();
-            Service.AddScoped<IValidator<PatientRecord>, PatientRecordValidator>();
-            Service.AddScoped<IValidator<PatientFile>, PatientFileValidator>();
-            Service.AddScoped<IValidator<Patient>, PatientValidator>();
+            services.AddScoped<IValidator<PatientAdditionalInformation>, PatientAdditionalInformationValidator>();
+            services.AddScoped<IValidator<PatientHospitalizationInformation>, PatientHospitalizationInformationValidator>();
+            services.AddScoped<IValidator<PatientMedicationInformation>, PatientMedicationInformationValidator>();
+            services.AddScoped<IValidator<PatientNotificationMessage>, PatientNotificationMessageValidator>();
+            services.AddScoped<IValidator<PatientRecord>, PatientRecordValidator>();
+            services.AddScoped<IValidator<PatientFile>, PatientFileValidator>();
+            services.AddScoped<IValidator<Patient>, PatientValidator>();
             #endregion 
         }
 

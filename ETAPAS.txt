@@ -12,22 +12,20 @@ https://hub.docker.com/u/leonecr
 
 Ideias a implantar: 
 
+-- Criar service de email.  -- OK
+https://www.emailarchitect.net/easendmail/ex/c/20.aspx
+-- Ao criar um medico dispara email com as informacoes de acesso  ----------- PENDENTE PROXIMO 
+
+-- Criar url para redefinir senha ou acesso.  ----------- PENDENTE PROXIMO 
+
+-- Implantar processo de gerar log e relatorios de logs inicialmente pela api apenas com regras de acesso somente medico pode visualizar quando referente aos pacientes.  ----------- PENDENTE PROXIMO 
+
+--- A chave de seguranca deve ser atrelada parcialmente ao cadastro do medico que deve ser guardada no banco e enviado p/ email - PARCIAL 
+
+-- Implantar relatorio tanto exportar para pdf ou excel dos dados de atendimento e do paciente (Historico)-- OK / PARCIAL CRiar metodos da api para baixar o PDF ----------XXXXXXXXXXX
 
 -- Calendario com agendamento pelo medico 
 -- Area paciente para recados ao medico e solicitar cancelamento e reagendamento de horario sendo possive visualizar horarios disponiveis com um prazo minimo estipulado pelo medico ex: 24 horas de atencedencia os horarios livres podem ser solicitados ( Client em React com redux)
-
--- Criar service de email. 
-https://www.emailarchitect.net/easendmail/ex/c/20.aspx
--- Ao criar um medico dispara email com as informacoes de acesso 
-
--- Criar url para redefinir senha ou acesso. 
-
--- Implantar processo de gerar log e relatorios de logs inicialmente pela api apenas com regras de acesso somente medico pode visualizar quando referente aos pacientes. 
-
---- A chave de seguranca deve ser atrelada parcialmente ao cadastro do medico que deve ser guardada no banco e enviado p/ email
-
--- Implantar relatorio tanto exportar para pdf ou excel dos dados de atendimento e do paciente (Historico)
-
 
 -------------------------------------------
 
@@ -39,11 +37,11 @@ https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 
 -- Metodo que exporta todo para json (controler) -- OK
 
------REFATORAR OBJETOS DE REPORT CRIAR OBJETOS SEPARADO ---- XXXXXXXXXXX<<<<<<<<<<<<<<<
+-----REFATORAR OBJETOS DE REPORT CRIAR OBJETOS SEPARADO -- OK
 
--- Metodo que gera excel com a pesquisa de detalhes 
+-- Metodo que gera excel com a pesquisa de detalhes -- OK
 
--- Metodo que gera PDF com a pesquisa de detalhes 
+-- Metodo que gera PDF com a pesquisa de detalhes -- OK
 
 
 ------------------------
