@@ -10,6 +10,7 @@ namespace SmartDigitalPsico.Domain.Report
 {
     public class PDFsharpMigraDocReportAdapter : IPdfReportAdapter
     {
+        //https://docs.pdfsharp.net/index.html
         public byte[] Generate(ReportContent content)
         {
             var document = CreateDocument(content);
