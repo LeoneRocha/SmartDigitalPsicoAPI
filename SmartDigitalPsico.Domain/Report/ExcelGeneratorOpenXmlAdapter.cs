@@ -4,7 +4,6 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.VO.Report;
-using System.ComponentModel;
 using System.Text;
 
 namespace SmartDigitalPsico.Domain.Report
@@ -18,12 +17,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
 
         private static void GenerateExcel(ReportWorkbookDataVO workbookDataInput, string filePath)
-        {
-            string directoryPath = Path.GetDirectoryName(filePath)!;
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            } 
+        { 
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
             {
                 WorkbookPart workbookPart = CreateWorkbookPart(document);
@@ -37,7 +31,7 @@ namespace SmartDigitalPsico.Domain.Report
                 {
                     WorksheetPart worksheetPart = CreateWorksheetPart(workbookPart);
                     MergeCells? mergeCells = GetMergeCell(sheetDataInput);
-                    AddSheetToWorkbook(workbookPart, worksheetPart, sheetDataInput.SheetName, sheetIndex, mergeCells);
+                    AddSheetToWorkbook(workbookPart, worksheetPart, sheetDataInput.Name, sheetIndex, mergeCells);
 
                     PopulateSheetData(worksheetPart, sheetDataInput.Rows, sheetDataInput.PropertiesToIgnore);
                     sheetIndex++;
@@ -163,16 +157,11 @@ namespace SmartDigitalPsico.Domain.Report
             if (firstRow == null) return;
 
             var headerRow = new Row();
-            var properties = GetProperties(firstRow, propertiesToIgnore);
+            var properties = ReflectionHelpers.GetProperties(firstRow, propertiesToIgnore);
 
             foreach (var property in properties)
             {
-                var headerText = property.Name;
-                var descriptionAttribute = property.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
-                if (descriptionAttribute != null)
-                {
-                    headerText = descriptionAttribute.Description;
-                }
+                var headerText = ReflectionHelpers.GetLabelProperty(property);
 
                 var cell = CreateTextCell(headerText, 2);
                 headerRow.Append(cell);
@@ -181,20 +170,13 @@ namespace SmartDigitalPsico.Domain.Report
             sheetDataElement.Append(headerRow);
         }
 
-        private static IOrderedEnumerable<System.Reflection.PropertyInfo> GetProperties(object firstRow, List<string> propertiesToIgnore)
-        {
-            return firstRow.GetType().GetProperties()
-                        .Where(p => !propertiesToIgnore.Contains(p.Name))
-                        .OrderBy(p => p.GetCustomAttributes(typeof(OrderAttribute), false)
-                        .Cast<OrderAttribute>().FirstOrDefault()?.Order ?? int.MaxValue);
-        }
 
         private static void AddRowsData(List<object> rows, List<string> propertiesToIgnore, SheetData sheetDataElement)
         {
             foreach (var rowData in rows)
             {
                 var row = new Row();
-                var properties = GetProperties(rowData, propertiesToIgnore);
+                var properties = ReflectionHelpers.GetProperties(rowData, propertiesToIgnore);
 
                 foreach (var property in properties)
                 {
@@ -246,7 +228,7 @@ namespace SmartDigitalPsico.Domain.Report
 
             };
         }
-         
+
         public static Stylesheet GetStylesheet()
         {
             Fonts fonts = new Fonts(

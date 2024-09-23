@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
-using SmartDigitalPsico.Domain.Interfaces.Report;
+using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.VO.Domains;
 using SmartDigitalPsico.Domain.VO.Report.Patient;
 

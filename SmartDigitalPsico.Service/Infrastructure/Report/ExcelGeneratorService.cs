@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.Interfaces.Report;
 using SmartDigitalPsico.Domain.VO.Report;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Report
@@ -21,7 +20,13 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
         {
             string filePath = ConfigurationAppSettingsHelper.GetAppSettingsResourcesTemp(_configuration);
             var excelGenerator = _excelGeneratorFactory.Create();
-            filePath = Path.Combine(filePath, workbook.FolderOutput, $"{workbook.WorkbookName}.xlsx");
+            filePath = Path.Combine(filePath, workbook.FolderOutput, $"{workbook.FileName}.xlsx");
+            filePath = FileHelper.NormalizePath(filePath);
+            string directoryPath = Path.GetDirectoryName(filePath)!;
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
             await excelGenerator.Generate(workbook, filePath);
         }
     }
