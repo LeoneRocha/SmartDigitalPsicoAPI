@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.VO.Report;
+using SmartDigitalPsico.Domain.DTO.Report;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Report
 {
@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
             _excelGeneratorFactory = excelGeneratorFactory;
         }
 
-        public async Task Generate(ReportWorkbookDataVO workbook)
+        public async Task Generate(ReportWorkbookDataDto workbook)
         {
             string filePath = ConfigurationAppSettingsHelper.GetAppSettingsResourcesTemp(_configuration);
             var excelGenerator = _excelGeneratorFactory.Create();

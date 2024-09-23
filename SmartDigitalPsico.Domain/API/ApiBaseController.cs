@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains;
 using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.API
 {
     public class ApiBaseController : ControllerBase
     {
-        protected AuthConfigurationVO _configurationAuth;
+        protected AuthConfigurationDto _configurationAuth;
 
-        public ApiBaseController(IOptions<AuthConfigurationVO> configurationAuth)
+        public ApiBaseController(IOptions<AuthConfigurationDto> configurationAuth)
         {
             _configurationAuth = configurationAuth.Value;
         }

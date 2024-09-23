@@ -1,7 +1,7 @@
 ﻿using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.VO.Report;
+using SmartDigitalPsico.Domain.DTO.Report;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Report
 {
@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
             _sharedDependenciesConfig = sharedDependenciesConfig;
             _pdfReportAdapterFactory = pdfReportAdapterFactory;
         }
-        public void Generate(ReportContent content)
+        public void Generate(ReportContentDto content)
         {
             try
             {

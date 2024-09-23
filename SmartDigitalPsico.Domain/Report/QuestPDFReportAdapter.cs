@@ -3,7 +3,7 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.VO.Report;
+using SmartDigitalPsico.Domain.DTO.Report;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Domain.Report
@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Domain.Report
         {
             QuestPDF.Settings.License = LicenseType.Community;//Commercial not free
         }
-        public byte[] Generate(ReportContent content)
+        public byte[] Generate(ReportContentDto content)
         {
             var document = Document.Create(container =>
             {
@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Domain.Report
             });
             return document.GeneratePdf();
         }
-        public void Generate(ReportContent content, string filePath)
+        public void Generate(ReportContentDto content, string filePath)
         {
             var document = Document.Create(container =>
             {
@@ -31,11 +31,11 @@ namespace SmartDigitalPsico.Domain.Report
             });
             document.GeneratePdf(filePath);
         }
-        private static void CreateDocument(ReportContent content, IDocumentContainer container)
+        private static void CreateDocument(ReportContentDto content, IDocumentContainer container)
         {
             content.Pages.ForEach(pageAdd => AddPage(container, pageAdd));
         }
-        private static void AddPage(IDocumentContainer container, ReportPageDataVO pageAdd)
+        private static void AddPage(IDocumentContainer container, ReportPageDataDto pageAdd)
         {
             if (pageAdd.PageType == Enuns.EReportPageType.Table)
             {
@@ -58,14 +58,14 @@ namespace SmartDigitalPsico.Domain.Report
                 });
             }
         }
-        private static void ConfigurePage(PageDescriptor page, ReportPageDataVO pageAdd)
+        private static void ConfigurePage(PageDescriptor page, ReportPageDataDto pageAdd)
         {
             page.Size(PageSizes.A4);
             page.Margin(2, Unit.Centimetre);
             page.PageColor(Colors.White);
             page.DefaultTextStyle(x => x.FontSize(pageAdd.FontSizeDefaultTextStyle));
         }
-        private static void AddTable(PageDescriptor page, ReportPageDataVO pageAdd)
+        private static void AddTable(PageDescriptor page, ReportPageDataDto pageAdd)
         {
             page.Content().Table(table =>
             {
@@ -74,7 +74,7 @@ namespace SmartDigitalPsico.Domain.Report
                 AddTableRows(table, pageAdd.Rows, properties);
             });
         }
-        private static PropertyInfo[] GetProperties(ReportPageDataVO pageAdd)
+        private static PropertyInfo[] GetProperties(ReportPageDataDto pageAdd)
         {
             return ReflectionHelpers.GetProperties(pageAdd.Rows[0], pageAdd.PropertiesToIgnore).ToArray();
         }
@@ -102,7 +102,7 @@ namespace SmartDigitalPsico.Domain.Report
                     x.CurrentPageNumber();
                 });
         }
-        private static void AddHeader(PageDescriptor page, ReportPageDataVO pageAdd)
+        private static void AddHeader(PageDescriptor page, ReportPageDataDto pageAdd)
         {
             page.Header()
                 .Text(pageAdd.Name)
@@ -131,7 +131,7 @@ namespace SmartDigitalPsico.Domain.Report
             });
         }
 
-        private static void AddSimpleTextContent(PageDescriptor page, ReportPageDataVO pageAdd)
+        private static void AddSimpleTextContent(PageDescriptor page, ReportPageDataDto pageAdd)
         {
             var properties = GetProperties(pageAdd).ToList();
             page.Content().Column(column =>

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Domain.DTO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {
@@ -14,7 +14,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         {
         } 
         [HttpGet("GetTimeZones")]
-        public async Task<ActionResult<List<TimeZoneDisplay>>> Get()
+        public async Task<ActionResult<List<TimeZoneDisplayDto>>> Get()
         {
             await Task.FromResult(0);
             return Ok(CultureDateTimeHelper.GetTimeZonesIds());

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog;
 using SmartDigitalPsico.Domain.AppException;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Domain.DTO;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -37,10 +37,10 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
 
 
-        public static AppInformationVersionProductVO GetInformationVersionProduct()
+        public static AppInformationVersionProductDto GetInformationVersionProduct()
         {
             var assembly = Assembly.GetEntryAssembly();
-            var appDTO = new AppInformationVersionProductVO() { Name = "Unknown", Version = "Unknown", EnvironmentName = "Unknown" };
+            var appDto = new AppInformationVersionProductDto() { Name = "Unknown", Version = "Unknown", EnvironmentName = "Unknown" };
 
             if (assembly != null)
             {
@@ -53,24 +53,24 @@ namespace SmartDigitalPsico.Domain.Helpers
                     if (assemblyApp.Version != null)
                         version = assemblyApp.Version.ToString();
 
-                    appDTO.Name = nameApp;
-                    appDTO.Version = version;
-                    appDTO.EnvironmentName = envName;
+                    appDto.Name = nameApp;
+                    appDto.Version = version;
+                    appDto.EnvironmentName = envName;
 
                     StringBuilder sb = new StringBuilder();
 
                     sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
-                    sb.AppendFormat("Name: {0} | Version: {1} | Environment: {2} {3}", appDTO.Name, appDTO.Version, appDTO.EnvironmentName, Environment.NewLine);
+                    sb.AppendFormat("Name: {0} | Version: {1} | Environment: {2} {3}", appDto.Name, appDto.Version, appDto.EnvironmentName, Environment.NewLine);
                     sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
-                    appDTO.Message = sb.ToString();
+                    appDto.Message = sb.ToString();
                 }
             }
             else
             {
-                appDTO.Message = string.Format("Assembly information could not be retrieved.{0}", Environment.NewLine);
-            } 
-            return appDTO;
-        } 
+                appDto.Message = string.Format("Assembly information could not be retrieved.{0}", Environment.NewLine);
+            }
+            return appDto;
+        }
 
         public static string ShowInformationVersionProductString()
         {

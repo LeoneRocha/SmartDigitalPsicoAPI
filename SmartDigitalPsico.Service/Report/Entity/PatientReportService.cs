@@ -2,7 +2,6 @@
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
@@ -10,16 +9,17 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
-using SmartDigitalPsico.Domain.VO.Patient.PatientRecord;
-using SmartDigitalPsico.Domain.VO.Report;
-using SmartDigitalPsico.Domain.VO.Report.Patient;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
+using SmartDigitalPsico.Domain.DTO.Report;
+using SmartDigitalPsico.Domain.DTO.Report.Patient;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Report.Entity
 {
     public class PatientReportService
-       : EntityBaseService<PatientRecord, AddPatientRecordVO, UpdatePatientRecordVO, GetPatientRecordVO, IPatientRecordRepository>, IPatientReportService
+       : EntityBaseService<PatientRecord, AddPatientRecordDto, UpdatePatientRecordDto, GetPatientRecordDto, IPatientRecordRepository>, IPatientReportService
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;
@@ -39,9 +39,9 @@ namespace SmartDigitalPsico.Service.Report.Entity
             _patientRepository = repositories.PatientRepository;
             _reportServiceConfig = reportServiceConfig;
         }
-        public async Task<ServiceResponse<PatientDetailReportVO>> GetPatientDetailsByIdAsync(long id)
+        public async Task<ServiceResponse<PatientDetailReportDto>> GetPatientDetailsByIdAsync(long id)
         {
-            ServiceResponse<PatientDetailReportVO> response = new ServiceResponse<PatientDetailReportVO>();
+            ServiceResponse<PatientDetailReportDto> response = new ServiceResponse<PatientDetailReportDto>();
             try
             {
                 Patient entityResponse = await _patientRepository.GetPatientDetailsByIdAsync(id);
@@ -68,7 +68,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
                     response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
                     return response;
                 }
-                response.Data = _mapper.Map<PatientDetailReportVO>(entityResponse);
+                response.Data = _mapper.Map<PatientDetailReportDto>(entityResponse);
 
                 var listRecords = response.Data.PatientRecords.ToList();
                 listRecords.ForEach(pr => pr.Annotation = _cryptoService.Decrypt(entityResponse.Medical?.SecurityKey ?? string.Empty, pr.Annotation));
@@ -86,7 +86,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
             return response;
         }
 
-        private async Task GenerateFileReport(PatientDetailReportVO data)
+        private async Task GenerateFileReport(PatientDetailReportDto data)
         {
             var reportPatient = new List<object> { data };
 
@@ -102,36 +102,36 @@ namespace SmartDigitalPsico.Service.Report.Entity
             var records = new List<object>();
             records.AddRange(data.PatientRecords.ToList());
 
-            var reportExcel = new ReportWorkbookDataVO()
+            var reportExcel = new ReportWorkbookDataDto()
             {
                 FolderOutput = "Reports",
                 FileName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
-                Sheets = new List<ReportSheetDataVO>
+                Sheets = new List<ReportSheetDataDto>
                 {
-                    new ReportSheetDataVO { Order = 1, Name = "Patient", Rows = reportPatient,
+                    new ReportSheetDataDto { Order = 1, Name = "Patient", Rows = reportPatient,
                         PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
-                    new ReportSheetDataVO  { Order = 2, Name = "Informations", Rows = infos },
-                    new ReportSheetDataVO  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
-                    new ReportSheetDataVO  { Order = 4, Name = "Medications", Rows = medications },
-                    new ReportSheetDataVO  { Order = 5, Name = "Records", Rows = records },
+                    new ReportSheetDataDto  { Order = 2, Name = "Informations", Rows = infos },
+                    new ReportSheetDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
+                    new ReportSheetDataDto  { Order = 4, Name = "Medications", Rows = medications },
+                    new ReportSheetDataDto  { Order = 5, Name = "Records", Rows = records },
                 }
 
             };
             await _reportServiceConfig.ExcelGeneratorService.Generate(reportExcel);
 
-            var reportPDF = new ReportContent()
+            var reportPDF = new ReportContentDto()
             {
                 FileName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 FolderOutput = "Reports_PDF",
                 Title = "Report Patient",
-                Pages = new List<ReportPageDataVO>()
+                Pages = new List<ReportPageDataDto>()
                 {
-                    new ReportPageDataVO { Order = 1, Name = "Patient Detail", Rows = reportPatient, PageType =  EReportPageType.Text,
+                    new ReportPageDataDto { Order = 1, Name = "Patient Detail", Rows = reportPatient, PageType =  EReportPageType.Text,
                         PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
-                    new ReportPageDataVO  { Order = 2, Name = "Informations", Rows = infos },
-                    new ReportPageDataVO  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
-                    new ReportPageDataVO  { Order = 4, Name = "Medications", Rows = medications },
-                    new ReportPageDataVO  { Order = 5, Name = "Records", Rows = records },
+                    new ReportPageDataDto  { Order = 2, Name = "Informations", Rows = infos },
+                    new ReportPageDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
+                    new ReportPageDataDto  { Order = 4, Name = "Medications", Rows = medications },
+                    new ReportPageDataDto  { Order = 5, Name = "Records", Rows = records },
                 }
             };
             _reportServiceConfig.PdfReportService.Generate(reportPDF);

@@ -1,11 +1,11 @@
-﻿using SmartDigitalPsico.Domain.VO.Report;
+﻿using SmartDigitalPsico.Domain.DTO.Report;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report
 {
     public interface IPdfReportAdapter
     {
-        byte[] Generate(ReportContent content);
+        byte[] Generate(ReportContentDto content);
 
-        void Generate(ReportContent content, string filePath);
+        void Generate(ReportContentDto content, string filePath);
     }
 }

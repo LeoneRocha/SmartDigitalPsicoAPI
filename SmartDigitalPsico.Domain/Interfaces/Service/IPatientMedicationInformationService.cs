@@ -1,12 +1,12 @@
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Patient.PatientMedicationInformation;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientMedicationInformation;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
     public interface IPatientMedicationInformationService 
-        : IEntityBaseService<PatientMedicationInformation, AddPatientMedicationInformationVO, UpdatePatientMedicationInformationVO, GetPatientMedicationInformationVO>
+        : IEntityBaseService<PatientMedicationInformation, AddPatientMedicationInformationDto, UpdatePatientMedicationInformationDto, GetPatientMedicationInformationDto>
     { 
-        Task<ServiceResponse<List<GetPatientMedicationInformationVO>>> FindAllByPatient(long patientId);
+        Task<ServiceResponse<List<GetPatientMedicationInformationDto>>> FindAllByPatient(long patientId);
     }
 }

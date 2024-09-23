@@ -6,37 +6,36 @@ using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
-using SmartDigitalPsico.Domain.VO.User;
-using SmartDigitalPsico.Domain.VO.Utils;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.User;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class UserService : EntityBaseService<User, AddUserVO, UpdateUserVO, GetUserVO, IUserRepository>, IUserService
+    public class UserService : EntityBaseService<User, AddUserDto, UpdateUserDto, GetUserDto, IUserRepository>, IUserService
     {
         private readonly IRoleGroupRepository _roleGroupRepository;
-        private readonly ITokenConfigurationVO _configurationToken;
+        private readonly ITokenConfigurationDto _configurationToken;
         private readonly ITokenService _tokenService;
-        private readonly AuthConfigurationVO _configurationAuth;
+        private readonly AuthConfigurationDto _configurationAuth;
         public UserService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
             IRoleGroupRepository roleGroupRepository,
-            ITokenConfigurationVO configurationToken,
+            ITokenConfigurationDto configurationToken,
             ITokenService tokenService,
-            IOptions<AuthConfigurationVO> configurationAuth,
+            IOptions<AuthConfigurationDto> configurationAuth,
             IValidator<User> entityValidator
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, sharedRepositories.UserRepository, entityValidator)
@@ -47,9 +46,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _tokenService = tokenService;
         }
 
-        public async Task<ServiceResponse<GetUserAuthenticatedVO>> Login(string login, string password)
+        public async Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password)
         {
-            var response = new ServiceResponse<GetUserAuthenticatedVO>();
+            var response = new ServiceResponse<GetUserAuthenticatedDto>();
 
             var user = await _entityRepository.FindByLogin(login);
             if (user == null)
@@ -74,7 +73,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
-        public async Task<ServiceResponse<GetUserVO>> Register(UserRegisterVO userRegisterVO)
+        public async Task<ServiceResponse<GetUserDto>> Register(UserRegisterDto userRegisterVO)
         {
             SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -88,21 +87,21 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             entityAdd.Role = "Pending";
             entityAdd.Admin = false;
 
-            ServiceResponse<GetUserVO> response = await base.Validate(entityAdd);
+            ServiceResponse<GetUserDto> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
                 User entityResponse = await _entityRepository.Create(entityAdd);
-                response.Data = _mapper.Map<GetUserVO>(entityResponse);
+                response.Data = _mapper.Map<GetUserDto>(entityResponse);
                 response.Message = "User registred.";
             }
 
             return response;
         }
 
-        public override async Task<ServiceResponse<GetUserVO>> Update(UpdateUserVO updateUser)
+        public override async Task<ServiceResponse<GetUserDto>> Update(UpdateUserDto updateUser)
         {
-            ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
+            ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
             try
             {
@@ -148,7 +147,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
                     User entityResponse = await _entityRepository.Update(entityUpdate);
                     response.Success = true;
-                    response.Data = _mapper.Map<GetUserVO>(entityResponse);
+                    response.Data = _mapper.Map<GetUserDto>(entityResponse);
 
                     if (response.Success)
                         response.Message = "User Updated.";
@@ -163,7 +162,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             return response;
         }
-        public override async Task<ServiceResponse<GetUserVO>> Create(AddUserVO userRegisterVO)
+        public override async Task<ServiceResponse<GetUserDto>> Create(AddUserDto userRegisterVO)
         {
             SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -178,7 +177,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO.RoleGroupsIds.ToList());
 
-            ServiceResponse<GetUserVO> response = await base.Validate(entityAdd);
+            ServiceResponse<GetUserDto> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -197,7 +196,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                         entityResponse = await _entityRepository.FindByID(entityResponse.Id);
                     }
                 }
-                response.Data = _mapper.Map<GetUserVO>(entityResponse);
+                response.Data = _mapper.Map<GetUserDto>(entityResponse);
                 response.Message = "User registred.";
             }
 
@@ -228,10 +227,10 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
-        private async Task<GetUserAuthenticatedVO> executeLoginJwt(User user)
+        private async Task<GetUserAuthenticatedDto> executeLoginJwt(User user)
         {
             TokenVO token = await validateCredentials(user);
-            GetUserAuthenticatedVO response = _mapper.Map<GetUserAuthenticatedVO>(user);
+            GetUserAuthenticatedDto response = _mapper.Map<GetUserAuthenticatedDto>(user);
 
             fillRoleGroupsAuthenticate(response, user);
 
@@ -307,9 +306,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 );
         }
 
-        public async Task<ServiceResponse<GetUserVO>> UpdateProfile(UpdateUserProfileVO userUpdateProfileVO)
+        public async Task<ServiceResponse<GetUserDto>> UpdateProfile(UpdateUserProfileDto userUpdateProfileVO)
         {
-            ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
+            ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
             User entityUpdate = await _entityRepository.FindByID(userUpdateProfileVO.Id);
 
@@ -339,7 +338,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             {
                 User entityResponse = await _entityRepository.Update(entityUpdate);
                 response.Success = true;
-                response.Data = _mapper.Map<GetUserVO>(entityResponse);
+                response.Data = _mapper.Map<GetUserDto>(entityResponse);
 
                 if (response.Success)
                     response.Message = "User Updated.";
@@ -349,14 +348,14 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
-        public override async Task<ServiceResponse<GetUserVO>> FindByID(long id)
+        public override async Task<ServiceResponse<GetUserDto>> FindByID(long id)
         {
-            ServiceResponse<GetUserVO> response = new ServiceResponse<GetUserVO>();
+            ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
             User? entityResponse = await _entityRepository.FindByID(id);
             if (entityResponse != null)
             {
-                response.Data = _mapper.Map<GetUserVO>(entityResponse);
+                response.Data = _mapper.Map<GetUserDto>(entityResponse);
 
                 fillRoleGroups(response, entityResponse);
             }
@@ -367,29 +366,29 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
-        private static void fillRoleGroups(ServiceResponse<GetUserVO> response, User entityResponse)
+        private static void fillRoleGroups(ServiceResponse<GetUserDto> response, User entityResponse)
         {
             if (response.Data != null)
             {
                 response.Data.RoleGroups = getRolesGroups(entityResponse);
             }
         }
-        private static void fillRoleGroupsAuthenticate(GetUserAuthenticatedVO response, User entityResponse)
+        private static void fillRoleGroupsAuthenticate(GetUserAuthenticatedDto response, User entityResponse)
         {
             if (response != null)
             {
                 response.RoleGroups = getRolesGroups(entityResponse);
             }
         }
-        private static List<GetRoleGroupVO> getRolesGroups(User entityResponse)
+        private static List<GetRoleGroupDto> getRolesGroups(User entityResponse)
         {
-            List<GetRoleGroupVO> result = new List<GetRoleGroupVO>();
+            List<GetRoleGroupDto> result = new List<GetRoleGroupDto>();
 
             foreach (var item in entityResponse.UserRoleGroups.Select(x => x.RoleGroup))
             {
                 if (item != null)
                 {
-                    result.Add(new GetRoleGroupVO()
+                    result.Add(new GetRoleGroupDto()
                     {
                         RolePolicyClaimCode = item.RolePolicyClaimCode,
                         Description = item.Description,

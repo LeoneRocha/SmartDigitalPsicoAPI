@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.VO.Security;
+using SmartDigitalPsico.Domain.DTO.Security;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -10,9 +10,9 @@ namespace SmartDigitalPsico.Domain.Security
 {
     public class TokenService : ITokenService
     {
-        private readonly TokenConfigurationVO _configuration;
+        private readonly TokenConfigurationDto _configuration;
 
-        public TokenService(TokenConfigurationVO configuration)
+        public TokenService(TokenConfigurationDto configuration)
         {
             _configuration = configuration;
         }

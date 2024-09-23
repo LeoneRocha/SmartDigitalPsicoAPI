@@ -5,9 +5,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Smtp
 {
     public class EmailStrategyFactory : IEmailStrategyFactory
     {
-        private readonly ISmtpSettingsVO _smtpSettings;
+        private readonly ISmtpSettingsDto _smtpSettings;
 
-        public EmailStrategyFactory(ISmtpSettingsVO smtpSettings)
+        public EmailStrategyFactory(ISmtpSettingsDto smtpSettings)
         {
             _smtpSettings = smtpSettings;
         }

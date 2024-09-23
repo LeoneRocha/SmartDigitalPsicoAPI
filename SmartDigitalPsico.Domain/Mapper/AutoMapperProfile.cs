@@ -1,22 +1,22 @@
 using AutoMapper;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Contracts;
-using SmartDigitalPsico.Domain.VO.Domains.AddVOs;
-using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
-using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
-using SmartDigitalPsico.Domain.VO.Medical;
-using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
-using SmartDigitalPsico.Domain.VO.Patient;
-using SmartDigitalPsico.Domain.VO.Patient.PatientAdditionalInformation;
-using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
-using SmartDigitalPsico.Domain.VO.Patient.PatientHospitalizationInformation;
-using SmartDigitalPsico.Domain.VO.Patient.PatientMedicationInformation;
-using SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage;
-using SmartDigitalPsico.Domain.VO.Patient.PatientRecord;
-using SmartDigitalPsico.Domain.VO.Report;
-using SmartDigitalPsico.Domain.VO.Report.Patient;
-using SmartDigitalPsico.Domain.VO.User;
+using SmartDigitalPsico.Domain.DTO.Contracts;
+using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
+using SmartDigitalPsico.Domain.DTO.Medical;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
+using SmartDigitalPsico.Domain.DTO.Patient;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientAdditionalInformation;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientFile;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientHospitalizationInformation;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientMedicationInformation;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
+using SmartDigitalPsico.Domain.DTO.Report;
+using SmartDigitalPsico.Domain.DTO.Report.Patient;
+using SmartDigitalPsico.Domain.DTO.User;
 
 namespace SmartDigitalPsico.Domain.Mapper
 {
@@ -26,176 +26,176 @@ namespace SmartDigitalPsico.Domain.Mapper
         {
             #region EntityBase
 
-            CreateMap<EntityBaseWithNameEmail, EntityVOBaseName>();
-            CreateMap<EntityVOBaseName, EntityBaseWithNameEmail>();
+            CreateMap<EntityBaseWithNameEmail, EntityDtoBaseName>();
+            CreateMap<EntityDtoBaseName, EntityBaseWithNameEmail>();
 
-            CreateMap<EntityBase, EntityVOBaseDomain>();
-            CreateMap<EntityVOBaseDomain, EntityBase>();
+            CreateMap<EntityBase, EntityDtoBaseDomain>();
+            CreateMap<EntityDtoBaseDomain, EntityBase>();
 
             #endregion
 
             #region ApplicationConfigSetting
-            CreateMap<ApplicationConfigSetting, GetApplicationConfigSettingVO>();
-            CreateMap<GetApplicationConfigSettingVO, ApplicationConfigSetting>();
-
-            CreateMap<AddApplicationConfigSettingVO, ApplicationConfigSetting>();
-            CreateMap<UpdateApplicationConfigSettingVO, ApplicationConfigSetting>();
+            CreateMap<ApplicationConfigSetting, GetApplicationConfigSettingDto>();
+            CreateMap<GetApplicationConfigSettingDto, ApplicationConfigSetting>();
+            
+            CreateMap<AddApplicationConfigSettingDto, ApplicationConfigSetting>();
+            CreateMap<UpdateApplicationConfigSettingDto, ApplicationConfigSetting>();
 
             #endregion  ApplicationConfigSetting
 
             #region ApplicationLanguage
 
-            CreateMap<ApplicationLanguage, GetApplicationLanguageVO>();
-            CreateMap<GetApplicationLanguageVO, ApplicationLanguage>();
+            CreateMap<ApplicationLanguage, GetApplicationLanguageDto>();
+            CreateMap<GetApplicationLanguageDto, ApplicationLanguage>();
 
-            CreateMap<AddApplicationLanguageVO, ApplicationLanguage>();
-            CreateMap<UpdateApplicationLanguageVO, ApplicationLanguage>();
+            CreateMap<AddApplicationLanguageDto, ApplicationLanguage>();
+            CreateMap<UpdateApplicationLanguageDto, ApplicationLanguage>();
 
             #endregion  ApplicationLanguage
 
             #region PatientFile
-            CreateMap<AddPatientFileVOService, AddPatientFileVO>();
+            CreateMap<AddPatientFileDtoservice, AddPatientFileDto>();
 
-            CreateMap<PatientFile, GetPatientFileVO>();
-            CreateMap<GetPatientFileVO, PatientFile>();
+            CreateMap<PatientFile, GetPatientFileDto>();
+            CreateMap<GetPatientFileDto, PatientFile>();
 
-            CreateMap<AddPatientFileVO, PatientFile>();
-            CreateMap<UpdatePatientFileVO, PatientFile>();
+            CreateMap<AddPatientFileDto, PatientFile>();
+            CreateMap<UpdatePatientFileDto, PatientFile>();
 
             #endregion  PatientFile
 
             #region MedicalFile
-            CreateMap<AddMedicalFileVOService, AddMedicalFileVO>();
+            CreateMap<AddMedicalFileDtoService, AddMedicalFileDto>();
 
 
-            CreateMap<MedicalFile, GetMedicalFileVO>();
-            CreateMap<GetPatientFileVO, MedicalFile>();
+            CreateMap<MedicalFile, GetMedicalFileDto>();
+            CreateMap<GetPatientFileDto, MedicalFile>();
 
-            CreateMap<AddMedicalFileVO, MedicalFile>();
-            CreateMap<UpdateMedicalFileVO, MedicalFile>();
+            CreateMap<AddMedicalFileDto, MedicalFile>();
+            CreateMap<UpdateMedicalFileDto, MedicalFile>();
 
             #endregion  MedicalFile
 
             #region Gender
-            CreateMap<Gender, GetGenderVO>();
-            CreateMap<GetGenderVO, Gender>();
+            CreateMap<Gender, GetGenderDto>();
+            CreateMap<GetGenderDto, Gender>();
 
-            CreateMap<AddGenderVO, Gender>();
-            CreateMap<UpdateGenderVO, Gender>();
+            CreateMap<AddGenderDto, Gender>();
+            CreateMap<UpdateGenderDto, Gender>();
 
             #endregion  Gender
 
             #region Office
-            CreateMap<Office, GetOfficeVO>();
-            CreateMap<GetOfficeVO, Office>();
+            CreateMap<Office, GetOfficeDto>();
+            CreateMap<GetOfficeDto, Office>();
 
 
-            CreateMap<AddOfficeVO, Office>();
-            CreateMap<UpdateOfficeVO, Office>();
+            CreateMap<AddOfficeDto, Office>();
+            CreateMap<UpdateOfficeDto, Office>();
 
             #endregion Office
 
             #region RoleGroup
-            CreateMap<RoleGroup, GetRoleGroupVO>();
-            CreateMap<GetRoleGroupVO, RoleGroup>();
+            CreateMap<RoleGroup, GetRoleGroupDto>();
+            CreateMap<GetRoleGroupDto, RoleGroup>();
 
-            CreateMap<AddRoleGroupVO, RoleGroup>();
-            CreateMap<UpdateRoleGroupVO, RoleGroup>();
+            CreateMap<AddRoleGroupDto, RoleGroup>();
+            CreateMap<UpdateRoleGroupDto, RoleGroup>();
 
 
             #endregion RoleGroup
 
             #region Specialty
-            CreateMap<Specialty, GetSpecialtyVO>();
-            CreateMap<GetSpecialtyVO, Specialty>();
+            CreateMap<Specialty, GetSpecialtyDto>();
+            CreateMap<GetSpecialtyDto, Specialty>();
 
-            CreateMap<AddSpecialtyVO, Specialty>();
-            CreateMap<UpdateSpecialtyVO, Specialty>();
+            CreateMap<AddSpecialtyDto, Specialty>();
+            CreateMap<UpdateSpecialtyDto, Specialty>();
             #endregion Specialty
 
             #region USER
-            CreateMap<User, GetUserVO>();
-            CreateMap<User, GetUserAuthenticatedVO>();
-            CreateMap<GetUserVO, User>();
-            CreateMap<UpdateUserVO, User>();
-            CreateMap<UserLoginVO, User>();
-            CreateMap<UserRegisterVO, User>();
+            CreateMap<User, GetUserDto>();
+            CreateMap<User, GetUserAuthenticatedDto>();
+            CreateMap<GetUserDto, User>();
+            CreateMap<UpdateUserDto, User>();
+            CreateMap<UserLoginDto, User>();
+            CreateMap<UserRegisterDto, User>();
             #endregion USER
 
             #region Medical
-            CreateMap<Medical, GetMedicalVO>();
-            CreateMap<GetMedicalVO, Medical>();
-            CreateMap<AddMedicalVO, Medical>();
-            CreateMap<UpdateMedicalVO, Medical>();
+            CreateMap<Medical, GetMedicalDto>();
+            CreateMap<GetMedicalDto, Medical>();
+            CreateMap<AddMedicalDto, Medical>();
+            CreateMap<UpdateMedicalDto, Medical>();
 
             #endregion Medical 
 
             #region Patient
-            CreateMap<Patient, GetPatientVO>();
-            CreateMap<GetPatientVO, Patient>();
-            CreateMap<AddPatientVO, Patient>();
-            CreateMap<UpdatePatientVO, Patient>();
+            CreateMap<Patient, GetPatientDto>();
+            CreateMap<GetPatientDto, Patient>();
+            CreateMap<AddPatientDto, Patient>();
+            CreateMap<UpdatePatientDto, Patient>();
 
             #endregion Patient 
 
             #region PatientRecord
-            CreateMap<PatientRecord, GetPatientRecordVO>();
-            CreateMap<GetPatientRecordVO, PatientRecord>();
-            CreateMap<AddPatientRecordVO, PatientRecord>();
-            CreateMap<UpdatePatientRecordVO, PatientRecord>();
+            CreateMap<PatientRecord, GetPatientRecordDto>();
+            CreateMap<GetPatientRecordDto, PatientRecord>();
+            CreateMap<AddPatientRecordDto, PatientRecord>();
+            CreateMap<UpdatePatientRecordDto, PatientRecord>();
 
             #endregion PatientRecord 
 
             #region PatientAdditionalInformation
-            CreateMap<PatientAdditionalInformation, GetPatientAdditionalInformationVO>();
-            CreateMap<GetPatientAdditionalInformationVO, PatientAdditionalInformation>();
-            CreateMap<AddPatientAdditionalInformationVO, PatientAdditionalInformation>();
-            CreateMap<UpdatePatientAdditionalInformationVO, PatientAdditionalInformation>();
+            CreateMap<PatientAdditionalInformation, GetPatientAdditionalInformationDto>();
+            CreateMap<GetPatientAdditionalInformationDto, PatientAdditionalInformation>();
+            CreateMap<AddPatientAdditionalInformationDto, PatientAdditionalInformation>();
+            CreateMap<UpdatePatientAdditionalInformationDto, PatientAdditionalInformation>();
 
             #endregion PatientAdditionalInformation 
 
             #region PatientHospitalizationInformation
-            CreateMap<PatientHospitalizationInformation, GetPatientHospitalizationInformationVO>();
-            CreateMap<GetPatientHospitalizationInformationVO, PatientHospitalizationInformation>();
-            CreateMap<AddPatientHospitalizationInformationVO, PatientHospitalizationInformation>();
-            CreateMap<UpdatePatientHospitalizationInformationVO, PatientHospitalizationInformation>();
+            CreateMap<PatientHospitalizationInformation, GetPatientHospitalizationInformationDto>();
+            CreateMap<GetPatientHospitalizationInformationDto, PatientHospitalizationInformation>();
+            CreateMap<AddPatientHospitalizationInformationDto, PatientHospitalizationInformation>();
+            CreateMap<UpdatePatientHospitalizationInformationDto, PatientHospitalizationInformation>();
 
             #endregion PatientHospitalizationInformation 
 
             #region PatientMedicationInformation
-            CreateMap<PatientMedicationInformation, GetPatientMedicationInformationVO>();
-            CreateMap<GetPatientMedicationInformationVO, PatientMedicationInformation>();
-            CreateMap<AddPatientMedicationInformationVO, PatientMedicationInformation>();
-            CreateMap<UpdatePatientMedicationInformationVO, PatientMedicationInformation>();
+            CreateMap<PatientMedicationInformation, GetPatientMedicationInformationDto>();
+            CreateMap<GetPatientMedicationInformationDto, PatientMedicationInformation>();
+            CreateMap<AddPatientMedicationInformationDto, PatientMedicationInformation>();
+            CreateMap<UpdatePatientMedicationInformationDto, PatientMedicationInformation>();
 
             #endregion PatientMedicationInformation 
 
             #region PatientNotificationMessage
             CreateMap<PatientNotificationMessage, GetPatientNotificationMessageVO>();
             CreateMap<GetPatientNotificationMessageVO, PatientNotificationMessage>();
-            CreateMap<AddPatientNotificationMessageVO, PatientNotificationMessage>();
-            CreateMap<UpdatePatientNotificationMessageVO, PatientNotificationMessage>();
+            CreateMap<AddPatientNotificationMessageDto, PatientNotificationMessage>();
+            CreateMap<UpdatePatientNotificationMessageDto, PatientNotificationMessage>();
 
             #endregion PatientNotificationMessage 
 
             #region REPORT 
-            CreateMap<Patient, PatientDetailReportVO>();
-            CreateMap<PatientDetailReportVO, Patient>();
+            CreateMap<Patient, PatientDetailReportDto>();
+            CreateMap<PatientDetailReportDto, Patient>();
             //Gender
-            CreateMap<Gender, GenderReportVO>();
-            CreateMap<GenderReportVO, Gender>();
+            CreateMap<Gender, GenderReportDto>();
+            CreateMap<GenderReportDto, Gender>();
             //PatientAdditionalInformation
-            CreateMap<PatientAdditionalInformation, PatientAdditionalInformationReportVO>();
-            CreateMap<PatientAdditionalInformationReportVO, PatientAdditionalInformation>();
+            CreateMap<PatientAdditionalInformation, PatientAdditionalInformationReportDto>();
+            CreateMap<PatientAdditionalInformationReportDto, PatientAdditionalInformation>();
             //PatientHospitalizationInformation
-            CreateMap<PatientHospitalizationInformation, PatientHospitalizationInformationReportVO>();
-            CreateMap<PatientHospitalizationInformationReportVO, PatientHospitalizationInformation>();
+            CreateMap<PatientHospitalizationInformation, PatientHospitalizationInformationReportDto>();
+            CreateMap<PatientHospitalizationInformationReportDto, PatientHospitalizationInformation>();
             //PatientMedicationInformation
-            CreateMap<PatientMedicationInformation, PatientMedicationInformationReportVO>();
-            CreateMap<PatientMedicationInformationReportVO, PatientMedicationInformation>();
+            CreateMap<PatientMedicationInformation, PatientMedicationInformationReportDto>();
+            CreateMap<PatientMedicationInformationReportDto, PatientMedicationInformation>();
             //PatientRecord
-            CreateMap<PatientRecord, PatientRecordReportVO>();
-            CreateMap<PatientRecordReportVO, PatientRecord>();
+            CreateMap<PatientRecord, PatientRecordReportDto>();
+            CreateMap<PatientRecordReportDto, PatientRecord>();
             #endregion REPORT
         }
     }

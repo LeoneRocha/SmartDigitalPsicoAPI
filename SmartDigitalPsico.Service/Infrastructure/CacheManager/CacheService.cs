@@ -1,13 +1,13 @@
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains;
 using System.Globalization;
 using System.Reflection;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
 {
@@ -15,14 +15,14 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
     {
         private readonly IMemoryCacheRepository _memoryCacheRepository;
         private readonly IDiskCacheRepository _diskCacheRepository;
-        private readonly CacheConfigurationVO _cacheConfig;
+        private readonly CacheConfigurationDto _cacheConfig;
         private readonly ETypeLocationCache _eTypeLocationCache;
         private readonly IApplicationCacheLogRepository _applicationCacheLogRepository;
 
         public CacheService(IMemoryCacheRepository memoryCacheRepository
             , IDiskCacheRepository diskCacheRepository
             , IApplicationCacheLogRepository applicationCacheLogRepository
-            , IOptions<CacheConfigurationVO> cacheConfig)
+            , IOptions<CacheConfigurationDto> cacheConfig)
         {
             _memoryCacheRepository = memoryCacheRepository;
             _diskCacheRepository = diskCacheRepository;

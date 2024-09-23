@@ -1,14 +1,14 @@
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IMedicalFileService : IEntityBaseService<MedicalFile, AddMedicalFileVO, UpdateMedicalFileVO, GetMedicalFileVO>
+    public interface IMedicalFileService : IEntityBaseService<MedicalFile, AddMedicalFileDto, UpdateMedicalFileDto, GetMedicalFileDto>
     {
-        Task<GetMedicalFileVO> DownloadFileById(long fileId);
-        Task<ServiceResponse<GetMedicalFileVO>> PostFileAsync(AddMedicalFileVO entity);
+        Task<GetMedicalFileDto> DownloadFileById(long fileId);
+        Task<ServiceResponse<GetMedicalFileDto>> PostFileAsync(AddMedicalFileDto entity);
 
-        Task<ServiceResponse<List<GetMedicalFileVO>>> FindAllByMedical(long medicalId);
+        Task<ServiceResponse<List<GetMedicalFileDto>>> FindAllByMedical(long medicalId);
     }
 }

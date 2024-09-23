@@ -4,20 +4,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
-using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
-    public class MedicalFileService : EntityBaseService<MedicalFile, AddMedicalFileVO, UpdateMedicalFileVO, GetMedicalFileVO, IMedicalFileRepository>, IMedicalFileService
+    public class MedicalFileService : EntityBaseService<MedicalFile, AddMedicalFileDto, UpdateMedicalFileDto, GetMedicalFileDto, IMedicalFileRepository>, IMedicalFileService
     {
         private readonly IConfiguration _configuration;
         private readonly IFileManager _filePersistor;
@@ -37,18 +37,18 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _filePersistor = filePersistor;
             _userRepository = sharedRepositories.UserRepository;
         }
-        public override async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAll()
+        public override async Task<ServiceResponse<List<GetMedicalFileDto>>> FindAll()
         {
-            var result = new ServiceResponse<List<GetMedicalFileVO>>();
+            var result = new ServiceResponse<List<GetMedicalFileDto>>();
             result.Success = false;
             result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
 
             return result;
         }
 
-        public async override Task<ServiceResponse<GetMedicalFileVO>> FindByID(long id)
+        public async override Task<ServiceResponse<GetMedicalFileDto>> FindByID(long id)
         {
-            ServiceResponse<GetMedicalFileVO> response = await base.FindByID(id);
+            ServiceResponse<GetMedicalFileDto> response = await base.FindByID(id);
 
             if (response.Data != null && string.IsNullOrEmpty(response.Data.FilePath))
             {
@@ -58,9 +58,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        public async Task<ServiceResponse<List<GetMedicalFileVO>>> FindAllByMedical(long medicalId)
+        public async Task<ServiceResponse<List<GetMedicalFileDto>>> FindAllByMedical(long medicalId)
         {
-            ServiceResponse<List<GetMedicalFileVO>> response = new ServiceResponse<List<GetMedicalFileVO>>();
+            ServiceResponse<List<GetMedicalFileDto>> response = new ServiceResponse<List<GetMedicalFileDto>>();
 
             var listResult = await _entityRepository.FindAllByMedical(medicalId);
 
@@ -89,7 +89,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                        ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
                 return response;
             }
-            response.Data = listResult.Select(c => _mapper.Map<GetMedicalFileVO>(c)).ToList();
+            response.Data = listResult.Select(c => _mapper.Map<GetMedicalFileDto>(c)).ToList();
             response.Success = true;
             response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", _applicationLanguageRepository, _cacheService);
@@ -97,14 +97,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        public override Task<ServiceResponse<GetMedicalFileVO>> Update(UpdateMedicalFileVO item)
+        public override Task<ServiceResponse<GetMedicalFileDto>> Update(UpdateMedicalFileDto item)
         {
             throw new NotImplementedException("Not Permission");
         }
 
-        public async Task<ServiceResponse<GetMedicalFileVO>> PostFileAsync(AddMedicalFileVO entity)
+        public async Task<ServiceResponse<GetMedicalFileDto>> PostFileAsync(AddMedicalFileDto entity)
         {
-            ServiceResponse<GetMedicalFileVO> response = new ServiceResponse<GetMedicalFileVO>();
+            ServiceResponse<GetMedicalFileDto> response = new ServiceResponse<GetMedicalFileDto>();
 
             IFormFile? fileData;
             if (entity != null)
@@ -143,7 +143,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        public async Task<GetMedicalFileVO> DownloadFileById(long fileId)
+        public async Task<GetMedicalFileDto> DownloadFileById(long fileId)
         {
             MedicalFile? fileEntity = await _entityRepository.FindByID(fileId);
 
@@ -152,7 +152,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 fileEntity.FileData = resultData.FileData;
             }
-            GetMedicalFileVO resultVO = _mapper.Map<GetMedicalFileVO>(fileEntity);
+            GetMedicalFileDto resultVO = _mapper.Map<GetMedicalFileDto>(fileEntity);
             return resultVO;
         }
         public async override Task<ServiceResponse<bool>> Delete(long id)

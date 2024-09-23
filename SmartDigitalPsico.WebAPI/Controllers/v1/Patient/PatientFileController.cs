@@ -4,10 +4,10 @@ using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Patient.PatientFile;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientFile;
+using SmartDigitalPsico.Domain.VO;
 
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         private readonly IConfiguration _configuration;
 
         public PatientFileController(IPatientFileService entityService
-            , IOptions<AuthConfigurationVO> configurationAuth
+            , IOptions<AuthConfigurationDto> configurationAuth
             , IConfiguration configuration) 
             : base(configurationAuth)
         {
@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetPatientFileVO>>>> FindAll(long patientId)
+        public async Task<ActionResult<ServiceResponse<List<GetPatientFileDto>>>> FindAll(long patientId)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.FindAllByPatient(patientId));
@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetPatientFileVO>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetPatientFileDto>>> FindByID(int id)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.FindByID(id));
@@ -74,14 +74,14 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpPost("Upload")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<GetPatientFileVO>> Create([FromForm] AddPatientFileVOService newEntity)
+        public async Task<ActionResult<GetPatientFileDto>> Create([FromForm] AddPatientFileDtoservice newEntity)
         {
             this.setUserIdCurrent();
-            ServiceResponse<GetPatientFileVO> response = new ServiceResponse<GetPatientFileVO>();
+            ServiceResponse<GetPatientFileDto> response = new ServiceResponse<GetPatientFileDto>();
 
             try
             { 
-                var addEntity = new AddPatientFileVO() { PatientId = newEntity.PatientId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };
+                var addEntity = new AddPatientFileDto() { PatientId = newEntity.PatientId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };
                 response.Data = null;
                 response.Success = await _entityService.PostFileAsync(addEntity);
                 response.Message = $"Upload success!";

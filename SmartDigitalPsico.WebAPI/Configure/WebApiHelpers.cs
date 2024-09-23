@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {
@@ -9,9 +9,9 @@ namespace SmartDigitalPsico.WebAPI.Configure
     {
         public static ETypeDataBase getTypeDataBase(IConfiguration configuration)
         {
-            DataBaseConfigurationVO configDB = new DataBaseConfigurationVO();
+            DataBaseConfigurationDto configDB = new DataBaseConfigurationDto();
 
-            new ConfigureFromConfigurationOptions<DataBaseConfigurationVO>(ConfigurationAppSettingsHelper.GetDataBaseConfigurations(configuration))
+            new ConfigureFromConfigurationOptions<DataBaseConfigurationDto>(ConfigurationAppSettingsHelper.GetDataBaseConfigurations(configuration))
                 .Configure(configDB);
             return configDB.TypeDataBase;
         }

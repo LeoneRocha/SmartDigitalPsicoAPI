@@ -3,7 +3,7 @@ using MigraDoc.Rendering;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.VO.Report;
+using SmartDigitalPsico.Domain.DTO.Report;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Domain.Report
@@ -11,17 +11,17 @@ namespace SmartDigitalPsico.Domain.Report
     public class PDFsharpMigraDocReportAdapter : IPdfReportAdapter
     {
         //https://docs.pdfsharp.net/index.html
-        public byte[] Generate(ReportContent content)
+        public byte[] Generate(ReportContentDto content)
         {
             var document = CreateDocument(content);
             return RenderDocumentToBytes(document);
         }
-        public void Generate(ReportContent content, string filePath)
+        public void Generate(ReportContentDto content, string filePath)
         {
             var document = CreateDocument(content);
             RenderDocumentToFile(document, filePath);
         }
-        private static Document CreateDocument(ReportContent content)
+        private static Document CreateDocument(ReportContentDto content)
         {
             var document = new Document();
             foreach (var page in content.Pages)
@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Domain.Report
             return document;
         }
 
-        private static void AddHeader(Section section, ReportPageDataVO page)
+        private static void AddHeader(Section section, ReportPageDataDto page)
         {
             var header = section.Headers.Primary.AddParagraph();
             header.AddText(page.Name);
@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.Domain.Report
             header.Format.Alignment = ParagraphAlignment.Center;
         }
 
-        private static void AddFooter(Section section, ReportPageDataVO page)
+        private static void AddFooter(Section section, ReportPageDataDto page)
         {
             var footer = section.Footers.Primary.AddParagraph();
             footer.AddText($"{page.FooterTitle}");
@@ -55,7 +55,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
 
 
-        private static void AddPageContent(Section section, ReportPageDataVO page)
+        private static void AddPageContent(Section section, ReportPageDataDto page)
         {
             if (page.PageType == EReportPageType.Table)
             {
@@ -66,14 +66,14 @@ namespace SmartDigitalPsico.Domain.Report
                 AddText(section, page);
             }
         }
-        private static void AddTable(Section section, ReportPageDataVO page)
+        private static void AddTable(Section section, ReportPageDataDto page)
         {
             var table = section.AddTable();
             var properties = GetProperties(page);
             DefineTableColumns(table, properties.Length);
             AddTableRows(table, page.Rows, properties);
         }
-        private static void AddText(Section section, ReportPageDataVO page)
+        private static void AddText(Section section, ReportPageDataDto page)
         {
             var properties = GetProperties(page).ToList();
             page.Rows.ForEach(row =>
@@ -118,7 +118,7 @@ namespace SmartDigitalPsico.Domain.Report
             var paragraph = section.AddParagraph();
             paragraph.AddFormattedText(label, TextFormat.Bold);
         }
-        private static PropertyInfo[] GetProperties(ReportPageDataVO page)
+        private static PropertyInfo[] GetProperties(ReportPageDataDto page)
         {
             return ReflectionHelpers.GetProperties(page.Rows[0], page.PropertiesToIgnore).ToArray();
         }

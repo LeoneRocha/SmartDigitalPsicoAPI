@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Domains.AddVOs;
-using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
-using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {
@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     {
         private readonly IApplicationConfigSettingService _entityService; 
         public ApplicationConfigSettingController(IApplicationConfigSettingService entityService
-            , IOptions<AuthConfigurationVO> configurationAuth) :base (configurationAuth)
+            , IOptions<AuthConfigurationDto> configurationAuth) :base (configurationAuth)
         {
             _entityService = entityService; 
         }
@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetApplicationConfigSettingVO>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetApplicationConfigSettingDto>>>> Get()
         {
             this.setUserIdCurrent();
             var result = _entityService.FindAll();
@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingVO>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> FindByID(int id)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.FindByID(id));
@@ -46,7 +46,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingVO>>> Create(AddApplicationConfigSettingVO newEntity)
+        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> Create(AddApplicationConfigSettingDto newEntity)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.Create(newEntity));
@@ -54,7 +54,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingVO>>> Update(UpdateApplicationConfigSettingVO updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> Update(UpdateApplicationConfigSettingDto updateEntity)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Update(updateEntity);

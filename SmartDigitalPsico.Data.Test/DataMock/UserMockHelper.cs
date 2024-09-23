@@ -5,7 +5,7 @@ using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.User;
+using SmartDigitalPsico.Domain.DTO.User;
 using System.Data;
 
 namespace SmartDigitalPsico.Data.Test.DataMock

@@ -2,7 +2,6 @@ using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -10,16 +9,17 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
-using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
-using SmartDigitalPsico.Domain.VO.Medical;
-using SmartDigitalPsico.Domain.VO.SMTP;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Medical;
+using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     public class MedicalService
-        : EntityBaseService<Medical, AddMedicalVO, UpdateMedicalVO, GetMedicalVO, IMedicalRepository>, IMedicalService
+        : EntityBaseService<Medical, AddMedicalDto, UpdateMedicalDto, GetMedicalDto, IMedicalRepository>, IMedicalService
 
     {
         private readonly IUserRepository _userRepository;
@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _specialtyRepository = specialtyRepository;
             _emailService = emailService;
         }
-        public override async Task<ServiceResponse<GetMedicalVO>> Create(AddMedicalVO item)
+        public override async Task<ServiceResponse<GetMedicalDto>> Create(AddMedicalDto item)
         {
             Medical entityAdd = _mapper.Map<Medical>(item);
 
@@ -61,7 +61,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityAdd.Email = entityAdd.Email.ToLower();
             entityAdd.Accreditation = entityAdd.Accreditation.ToLower();
 
-            ServiceResponse<GetMedicalVO> response = await base.Validate(entityAdd);
+            ServiceResponse<GetMedicalDto> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -77,16 +77,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityResponse = await _entityRepository.Update(entityResponse);
                 entityResponse = await _entityRepository.FindByID(entityResponse.Id);
 
-                response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
+                response.Data = _mapper.Map<GetMedicalDto>(entityResponse);
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                    ("MedicalRegistred", _applicationLanguageRepository, _cacheService);
             }
             return response;
         }
 
-        public override async Task<ServiceResponse<GetMedicalVO>> Update(UpdateMedicalVO item)
+        public override async Task<ServiceResponse<GetMedicalDto>> Update(UpdateMedicalDto item)
         {
-            ServiceResponse<GetMedicalVO> response = new ServiceResponse<GetMedicalVO>();
+            ServiceResponse<GetMedicalDto> response = new ServiceResponse<GetMedicalDto>();
 
             Medical? entityUpdate = await _entityRepository.FindByID(item.Id);
             if (entityUpdate != null)
@@ -129,7 +129,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                     Medical entityResponse = await _entityRepository.Update(entityUpdate);
 
-                    response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
+                    response.Data = _mapper.Map<GetMedicalDto>(entityResponse);
                     response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("MedicalUpdated", _applicationLanguageRepository, _cacheService);
 
@@ -142,7 +142,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
         private void sendAlertEmail(Medical entityResponse)
         {
-            EmailMessageVO emailMessageVO = new EmailMessageVO()
+            EmailMessageDto emailMessageVO = new EmailMessageDto()
             {
                 Subject = $"Atualização médico",
                 Message = $"Médico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
@@ -156,18 +156,18 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return base.EnableOrDisable(id);
         }
 
-        public override async Task<ServiceResponse<List<GetMedicalVO>>> FindAll()
+        public override async Task<ServiceResponse<List<GetMedicalDto>>> FindAll()
         {
-            ServiceResponse<List<GetMedicalVO>> response = await validAccessdmin();
+            ServiceResponse<List<GetMedicalDto>> response = await validAccessdmin();
 
             if (!response.Success)
                 return response;
 
             return await base.FindAll();
         }
-        public override async Task<ServiceResponse<GetMedicalVO>> FindByID(long id)
+        public override async Task<ServiceResponse<GetMedicalDto>> FindByID(long id)
         {
-            ServiceResponse<GetMedicalVO> response = new ServiceResponse<GetMedicalVO>();
+            ServiceResponse<GetMedicalDto> response = new ServiceResponse<GetMedicalDto>();
 
             var validResult = await validAccessdmin();
             response.Success = validResult.Success;
@@ -180,16 +180,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             Medical? entityResponse = await _entityRepository.FindByID(id);
             if (entityResponse != null)
             {
-                response.Data = _mapper.Map<GetMedicalVO>(entityResponse);
+                response.Data = _mapper.Map<GetMedicalDto>(entityResponse);
 
                 if (response.Data != null)
                 {
-                    response.Data.Specialties = new List<GetSpecialtyVO>();
+                    response.Data.Specialties = new List<GetSpecialtyDto>();
                     foreach (var item in entityResponse.MedicalSpecialties.Select(x => x.Specialty))
                     {
                         if (item != null)
                         {
-                            response.Data.Specialties.Add(new GetSpecialtyVO()
+                            response.Data.Specialties.Add(new GetSpecialtyDto()
                             {
                                 Description = item.Description,
                                 Id = item.Id,
@@ -208,9 +208,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        private async Task<ServiceResponse<List<GetMedicalVO>>> validAccessdmin()
+        private async Task<ServiceResponse<List<GetMedicalDto>>> validAccessdmin()
         {
-            ServiceResponse<List<GetMedicalVO>> response = new ServiceResponse<List<GetMedicalVO>>();
+            ServiceResponse<List<GetMedicalDto>> response = new ServiceResponse<List<GetMedicalDto>>();
             response.Success = true;
 
             User? userAction = await _userRepository.FindByID(UserId);
