@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
 
         private static void GenerateExcel(ReportWorkbookDataDto workbookDataInput, string filePath)
-        { 
+        {
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
             {
                 WorkbookPart workbookPart = CreateWorkbookPart(document);

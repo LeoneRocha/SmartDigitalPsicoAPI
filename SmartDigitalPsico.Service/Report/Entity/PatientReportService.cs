@@ -1,4 +1,6 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
+﻿using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI.Common;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
 using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;
@@ -24,6 +26,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
         private readonly ICryptoService _cryptoService;
         private readonly IPatientRepository _patientRepository;
         private readonly IReportServiceConfig _reportServiceConfig;
+        private readonly IPatientRecordServiceConfig _config;
 
         public PatientReportService(IPatientRepositories repositories, IPatientRecordServiceConfig config, IReportServiceConfig reportServiceConfig)
         : base(
@@ -37,6 +40,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
             _cryptoService = config.SharedServices.CryptoService;
             _patientRepository = repositories.PatientRepository;
             _reportServiceConfig = reportServiceConfig;
+            _config = config;
         }
         public async Task<ServiceResponse<PatientDetailReportDto>> GetPatientDetailsByIdAsync(long id)
         {
@@ -74,8 +78,6 @@ namespace SmartDigitalPsico.Service.Report.Entity
                 response.Data.PatientRecords = listRecords.ToArray();
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", _applicationLanguageRepository, _cacheService);
-
-                await GenerateFileReport(response.Data);
             }
             catch (Exception)
             {
@@ -85,7 +87,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
             return response;
         }
 
-        private async Task GenerateFileReport(PatientDetailReportDto data)
+        private async Task<(string, string)> GenerateFileReport(PatientDetailReportDto data, EReportOutputType eReportOutputType)
         {
             var reportPatient = new List<object> { data };
 
@@ -101,23 +103,19 @@ namespace SmartDigitalPsico.Service.Report.Entity
             var records = new List<object>();
             records.AddRange(data.PatientRecords.ToList());
 
-            var reportExcel = new ReportWorkbookDataDto()
+            switch (eReportOutputType)
             {
-                FolderOutput = "Reports",
-                FileName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
-                Sheets = new List<ReportSheetDataDto>
-                {
-                    new ReportSheetDataDto { Order = 1, Name = "Patient", Rows = reportPatient,
-                        PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
-                    new ReportSheetDataDto  { Order = 2, Name = "Informations", Rows = infos },
-                    new ReportSheetDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
-                    new ReportSheetDataDto  { Order = 4, Name = "Medications", Rows = medications },
-                    new ReportSheetDataDto  { Order = 5, Name = "Records", Rows = records },
-                }
-
-            };
-            await _reportServiceConfig.ExcelGeneratorService.Generate(reportExcel);
-
+                case EReportOutputType.Excel:
+                    return await GenerateExcelReport(data, reportPatient, infos, hospitalizations, medications, records);
+                case EReportOutputType.Pdf:
+                    return await GeneratePdfReport(data, reportPatient, infos, hospitalizations, medications, records);
+                default:
+                    break;
+            }
+            return (string.Empty, string.Empty);
+        }
+        private async Task<(string, string)> GeneratePdfReport(PatientDetailReportDto data, List<object> reportPatient, List<object> infos, List<object> hospitalizations, List<object> medications, List<object> records)
+        {
             var reportPDF = new ReportPageContentDto()
             {
                 FileName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
@@ -133,7 +131,53 @@ namespace SmartDigitalPsico.Service.Report.Entity
                     new ReportPageDataDto  { Order = 5, Name = "Records", Rows = records },
                 }
             };
-            _reportServiceConfig.PdfReportService.Generate(reportPDF);
+            var result = await _reportServiceConfig.PdfReportService.Generate(reportPDF);
+            return (result, reportPDF.FileName);
+        }
+
+        private async Task<(string, string)> GenerateExcelReport(PatientDetailReportDto data, List<object> reportPatient, List<object> infos, List<object> hospitalizations, List<object> medications, List<object> records)
+        {
+            var reportExcel = new ReportWorkbookDataDto()
+            {
+                FolderOutput = "Reports",
+                FileName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
+                Sheets = new List<ReportSheetDataDto>
+        {
+            new ReportSheetDataDto { Order = 1, Name = "Patient", Rows = reportPatient,
+                PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
+            new ReportSheetDataDto  { Order = 2, Name = "Informations", Rows = infos },
+            new ReportSheetDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
+            new ReportSheetDataDto  { Order = 4, Name = "Medications", Rows = medications },
+            new ReportSheetDataDto  { Order = 5, Name = "Records", Rows = records },
+        }
+            };
+
+            var result = await _reportServiceConfig.ExcelGeneratorService.Generate(reportExcel);
+            return (result, reportExcel.FileName);
+        }
+
+        public async Task<FileContentResult> DownloadReportPatientDetailsById(long id)
+        {
+            ServiceResponse<PatientDetailReportDto> responseData = await GetPatientDetailsByIdAsync(id);
+            try
+            {
+                var responseFile = await GenerateFileReport(responseData.Data!, EReportOutputType.Pdf);
+
+                //Copy Temp folder 
+                var folderOuput = Path.Combine(DirectoryHelper.GetDiretoryTemp(_config.SharedDependenciesConfig.Configuration), responseFile.Item2);
+                folderOuput = FileHelper.NormalizePath(folderOuput); 
+
+                await FileHelper.CopyFile(responseFile.Item1, folderOuput);
+                //Delete origin 
+                await FileHelper.Delete(responseFile.Item1); 
+
+                var response = FileHelper.ProccessDownloadToBrowser(folderOuput);
+            }
+            catch (Exception)
+            {
+            }
+
+            return new FileContentResult([], "application/octet-stream");
         }
     }
 }

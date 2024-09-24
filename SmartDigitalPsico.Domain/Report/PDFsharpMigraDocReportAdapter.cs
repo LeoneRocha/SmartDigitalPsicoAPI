@@ -16,7 +16,11 @@ namespace SmartDigitalPsico.Domain.Report
             var document = CreateDocument(content);
             return RenderDocumentToBytes(document);
         }
-        public void Generate(ReportPageContentDto content, string filePath)
+        public async Task Generate(ReportPageContentDto content, string filePath)
+        {
+            await Task.Run(() => GeneratePDF(content, filePath));
+        } 
+        private static void GeneratePDF(ReportPageContentDto content, string filePath)
         {
             var document = CreateDocument(content);
             RenderDocumentToFile(document, filePath);
@@ -53,8 +57,6 @@ namespace SmartDigitalPsico.Domain.Report
             footer.Format.Alignment = ParagraphAlignment.Center;
             footer.Format.Font.Color = Colors.Gray;
         }
-
-
         private static void AddPageContent(Section section, ReportPageDataDto page)
         {
             if (page.PageType == EReportPageType.Table)
@@ -158,5 +160,6 @@ namespace SmartDigitalPsico.Domain.Report
             renderer.RenderDocument();
             renderer.PdfDocument.Save(filePath);
         }
+
     }
 }

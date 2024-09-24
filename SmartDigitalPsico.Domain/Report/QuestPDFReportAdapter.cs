@@ -23,7 +23,11 @@ namespace SmartDigitalPsico.Domain.Report
             });
             return document.GeneratePdf();
         }
-        public void Generate(ReportPageContentDto content, string filePath)
+        public async Task Generate(ReportPageContentDto content, string filePath)
+        {
+            await Task.Run(() => GeneratePDF(content, filePath));
+        }
+        private static void GeneratePDF(ReportPageContentDto content, string filePath)
         {
             var document = Document.Create(container =>
             {
@@ -142,7 +146,7 @@ namespace SmartDigitalPsico.Domain.Report
                 });
             });
         }
-     
+
         private static void AddRowContentProperties(ColumnDescriptor column, object row, PropertyInfo prop)
         {
             var label = ReflectionHelpers.GetLabelProperty(prop);

@@ -16,11 +16,12 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
             _excelGeneratorFactory = excelGeneratorFactory;
         }
 
-        public async Task Generate(ReportWorkbookDataDto workbook)
+        public async Task<string> Generate(ReportWorkbookDataDto workbook)
         {
             string filePath = ConfigurationAppSettingsHelper.GetAppSettingsResourcesTemp(_configuration);
             var excelGenerator = _excelGeneratorFactory.Create();
-            filePath = Path.Combine(filePath, workbook.FolderOutput, $"{workbook.FileName}.xlsx");
+            workbook.FileName = $"{workbook.FileName}.xlsx";
+            filePath = Path.Combine(filePath, workbook.FolderOutput, workbook.FileName);
             filePath = FileHelper.NormalizePath(filePath);
             string directoryPath = Path.GetDirectoryName(filePath)!;
             if (!Directory.Exists(directoryPath))
@@ -28,6 +29,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
                 Directory.CreateDirectory(directoryPath);
             }
             await excelGenerator.Generate(workbook, filePath);
+            return filePath;
         }
     }
 }

@@ -6,6 +6,7 @@ using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;
+using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
 {
@@ -17,20 +18,31 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
     {
         private readonly IPatientReportService _entityService;
 
-        public PatientReportController(IPatientReportService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        public PatientReportController(IPatientReportService entityService
+            , IOptions<AuthConfigurationDto> configurationAuth
+            ) : base(configurationAuth)
         {
             _entityService = entityService;
+
         }
         private void setUserIdCurrent()
         {
             _entityService.SetUserId(GetUserIdCurrent());
         }
-       
-        [HttpGet("{id}")] 
+
+        [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<PatientDetailReportDto>>> GetPatientDetailsByIdAsync(long id)
         {
             setUserIdCurrent();
             return Ok(await _entityService.GetPatientDetailsByIdAsync(id));
-        } 
+        }
+
+        [HttpGet("Download/{id}")]
+        public async Task<ActionResult> DownloadFileById(long id)
+        {
+            this.setUserIdCurrent();
+            FileContentResult response = await _entityService.DownloadReportPatientDetailsById(id);
+            return response;
+        }
     }
 }

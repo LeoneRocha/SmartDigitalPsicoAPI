@@ -6,6 +6,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report
     {
         byte[] Generate(ReportPageContentDto content);
 
-        void Generate(ReportPageContentDto content, string filePath);
+        Task Generate(ReportPageContentDto content, string filePath);
     }
 }

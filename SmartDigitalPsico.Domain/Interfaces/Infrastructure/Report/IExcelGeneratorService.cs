@@ -4,6 +4,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report
 {
     public interface IExcelGeneratorService
     {
-        Task Generate(ReportWorkbookDataDto workbook);
+        Task<string> Generate(ReportWorkbookDataDto workbook);
     }
 }
