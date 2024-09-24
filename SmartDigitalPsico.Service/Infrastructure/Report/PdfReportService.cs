@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
             _sharedDependenciesConfig = sharedDependenciesConfig;
             _pdfReportAdapterFactory = pdfReportAdapterFactory;
         }
-        public void Generate(ReportContentDto content)
+        public void Generate(ReportPageContentDto content)
         {
             try
             {

@@ -1,8 +1,9 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+﻿using SmartDigitalPsico.Domain.DTO.Report.Contracts;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Report
 {
-    public class ReportPageDataDto : ReportDataVO
+    public class ReportPageDataDto : ReportDataBaseDto
     {
         public EReportPageType PageType { get; set; }
         public string FooterTitle { get; set; } = "Page ";

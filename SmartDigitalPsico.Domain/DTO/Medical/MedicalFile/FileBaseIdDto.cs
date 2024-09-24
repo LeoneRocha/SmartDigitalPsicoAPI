@@ -1,30 +1,15 @@
 ﻿using SmartDigitalPsico.Domain.DTO.Contracts;
-using System.ComponentModel.DataAnnotations;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalFile
 {
     public abstract class FileBaseIdDto : EntityDtoBase
-    {
-        /// <summary>
-        /// Name File
-        /// </summary>
-        [MaxLength(255)]
-        public string Description { get; set; } = string.Empty;
-
-        [MaxLength(255)]
-        public string FileName { get; set; } = string.Empty;
-
-        [MaxLength(2083)]
+    { 
+        public string Description { get; set; } = string.Empty;         
+        public string FileName { get; set; } = string.Empty;         
         public string FilePath { get; set; } = string.Empty;
-
-        public byte[] FileData { get; set; } = Array.Empty<byte>();
-
-        [MaxLength(3)]
-        public string FileExtension { get; set; } = string.Empty;
-
-        [MaxLength(100)]
+        public byte[] FileData { get; set; } = Array.Empty<byte>();         
+        public string FileExtension { get; set; } = string.Empty;         
         public string FileContentType { get; set; } = string.Empty;
-
         public long FileSizeKB { get; set; }
     }
 }

@@ -4,8 +4,8 @@ namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report
 {
     public interface IPdfReportAdapter
     {
-        byte[] Generate(ReportContentDto content);
+        byte[] Generate(ReportPageContentDto content);
 
-        void Generate(ReportContentDto content, string filePath);
+        void Generate(ReportPageContentDto content, string filePath);
     }
 }

@@ -12,13 +12,9 @@ namespace SmartDigitalPsico.Domain.DTO.Medical
         public string Name { get; set; } = string.Empty;
 
         #region Relationship
-
         public GetOfficeDto Office { get; set; } = new GetOfficeDto();
-
         public List<GetSpecialtyDto> Specialties { get; set; } = new List<GetSpecialtyDto>();
-
         public List<GetPatientDto> Patients { get; set; } = new List<GetPatientDto>();
-
         #endregion Relationship
 
         #region Columns
@@ -29,8 +25,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical
 
         #endregion Columns  
 
-        public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
-         
-
+        public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>(); 
     }
 }

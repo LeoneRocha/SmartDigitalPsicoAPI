@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Domain.Report
         {
             QuestPDF.Settings.License = LicenseType.Community;//Commercial not free
         }
-        public byte[] Generate(ReportContentDto content)
+        public byte[] Generate(ReportPageContentDto content)
         {
             var document = Document.Create(container =>
             {
@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Domain.Report
             });
             return document.GeneratePdf();
         }
-        public void Generate(ReportContentDto content, string filePath)
+        public void Generate(ReportPageContentDto content, string filePath)
         {
             var document = Document.Create(container =>
             {
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Domain.Report
             });
             document.GeneratePdf(filePath);
         }
-        private static void CreateDocument(ReportContentDto content, IDocumentContainer container)
+        private static void CreateDocument(ReportPageContentDto content, IDocumentContainer container)
         {
             content.Pages.ForEach(pageAdd => AddPage(container, pageAdd));
         }

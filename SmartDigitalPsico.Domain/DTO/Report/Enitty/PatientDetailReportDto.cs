@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.Helpers;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-namespace SmartDigitalPsico.Domain.DTO.Report.Patient
+namespace SmartDigitalPsico.Domain.DTO.Report.Enitty
 {
     public class PatientDetailReportDto
     {
@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Domain.DTO.Report.Patient
         [Order(3)]
         [Description("Date Of Birth")]
         public DateTime DateOfBirth { get; set; }
-         
+
         [Order(4)]
         public string Profession { get; set; } = string.Empty;
 
@@ -74,7 +74,7 @@ namespace SmartDigitalPsico.Domain.DTO.Report.Patient
         public EMaritalStatus MaritalStatus { get; set; }
 
         [Order(16)]
-        [Description("Emergency Contact Phone Number")] 
+        [Description("Emergency Contact Phone Number")]
         public string EmergencyContactPhoneNumber { get; set; } = string.Empty;
 
         public PatientAdditionalInformationReportDto[] PatientAdditionalInformations { get; set; } = [];

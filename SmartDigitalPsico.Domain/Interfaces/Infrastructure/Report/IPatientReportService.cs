@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Domain.DTO.Report.Patient;
+﻿using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report

@@ -1,5 +1,7 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using SmartDigitalPsico.Domain.Contracts;
+﻿using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
+using SmartDigitalPsico.Domain.DTO.Report;
+using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
@@ -9,12 +11,9 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
-using SmartDigitalPsico.Domain.DTO.Report;
-using SmartDigitalPsico.Domain.DTO.Report.Patient;
+using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Report.Entity
 {
@@ -119,7 +118,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
             };
             await _reportServiceConfig.ExcelGeneratorService.Generate(reportExcel);
 
-            var reportPDF = new ReportContentDto()
+            var reportPDF = new ReportPageContentDto()
             {
                 FileName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 FolderOutput = "Reports_PDF",

@@ -11,17 +11,17 @@ namespace SmartDigitalPsico.Domain.Report
     public class PDFsharpMigraDocReportAdapter : IPdfReportAdapter
     {
         //https://docs.pdfsharp.net/index.html
-        public byte[] Generate(ReportContentDto content)
+        public byte[] Generate(ReportPageContentDto content)
         {
             var document = CreateDocument(content);
             return RenderDocumentToBytes(document);
         }
-        public void Generate(ReportContentDto content, string filePath)
+        public void Generate(ReportPageContentDto content, string filePath)
         {
             var document = CreateDocument(content);
             RenderDocumentToFile(document, filePath);
         }
-        private static Document CreateDocument(ReportContentDto content)
+        private static Document CreateDocument(ReportPageContentDto content)
         {
             var document = new Document();
             foreach (var page in content.Pages)

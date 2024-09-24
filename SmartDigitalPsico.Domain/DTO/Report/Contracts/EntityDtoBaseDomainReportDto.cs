@@ -1,4 +1,4 @@
-﻿namespace SmartDigitalPsico.Domain.DTO.Report
+﻿namespace SmartDigitalPsico.Domain.DTO.Report.Contracts
 {
     public abstract class EntityDtoBaseDomainReportDto
     {

@@ -11,12 +11,9 @@ namespace SmartDigitalPsico.Domain.DTO.User
             TokenAuth = new TokenVO();
         }
         public string Name { get; set; } = string.Empty;
-
         public string Language { get; set; } = string.Empty;
-
         public TokenVO? TokenAuth { get; set; }
         public List<GetRoleGroupDto> RoleGroups { get; set; } = new List<GetRoleGroupDto>();
-
         public long? MedicalId { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using SmartDigitalPsico.Domain.Helpers;
 using System.ComponentModel;
 
-namespace SmartDigitalPsico.Domain.DTO.Report
+namespace SmartDigitalPsico.Domain.DTO.Report.Enitty
 {
     public class PatientAdditionalInformationReportDto
     {

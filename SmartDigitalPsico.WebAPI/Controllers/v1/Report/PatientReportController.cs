@@ -4,8 +4,8 @@ using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Report.Patient;
 using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
 {

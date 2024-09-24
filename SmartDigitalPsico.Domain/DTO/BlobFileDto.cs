@@ -6,7 +6,6 @@ namespace SmartDigitalPsico.Domain.Security
     {
         public string FilePath { get; set; } = string.Empty;
         public string ContainerName { get; set; } = string.Empty;
-
         public BlobHttpHeaders? BlobHeaders { get; set; }
         public string? BlobName { get; set; }
     }

@@ -8,16 +8,12 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.PatientAdditionalInformation
     { 
         #region Relationship  
         public GetPatientDto Patient { get; set; } = new GetPatientDto(); 
-
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
         #endregion Relationship
 
         #region Columns 
-
         public string FollowUp_Psychiatric { get; set; } = string.Empty;
-
         public string FollowUp_Neurological { get; set; } = string.Empty;
-
         #endregion Columns 
     }
 }

@@ -14,9 +14,8 @@ using SmartDigitalPsico.Domain.DTO.Patient.PatientHospitalizationInformation;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientMedicationInformation;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
-using SmartDigitalPsico.Domain.DTO.Report;
-using SmartDigitalPsico.Domain.DTO.Report.Patient;
 using SmartDigitalPsico.Domain.DTO.User;
+using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 
 namespace SmartDigitalPsico.Domain.Mapper
 {

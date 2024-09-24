@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using SmartDigitalPsico.Domain.Interfaces;
-using System.ComponentModel.DataAnnotations;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.PatientFile
 {
@@ -10,12 +9,9 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.PatientFile
         {
             FileDetails = new FormFile(Stream.Null, 0, 0, string.Empty, string.Empty);
         }
-        #region Relationship 
-        [Required]
+        #region Relationship  
         public long PatientId { get; set; }
-        public IFormFile FileDetails { get; set; }
-
-        [MaxLength(255)]
+        public IFormFile FileDetails { get; set; } 
         public string Description { get; set; } = string.Empty;
 
         #endregion Relationship 

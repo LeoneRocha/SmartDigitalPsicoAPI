@@ -1,11 +1,9 @@
-﻿namespace SmartDigitalPsico.Domain.DTO.Report
+﻿using SmartDigitalPsico.Domain.DTO.Report.Contracts;
+
+namespace SmartDigitalPsico.Domain.DTO.Report
 {
-    public class ReportWorkbookDataDto : ReportContentDto
+    public class ReportWorkbookDataDto : ReportContentBaseDto
     {
-        /// <summary>
-        /// FileName
-        /// </summary>
-         
         public List<ReportSheetDataDto> Sheets { get; set; } = new List<ReportSheetDataDto>();
-    } 
+    }
 }
