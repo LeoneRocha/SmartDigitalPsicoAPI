@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI.Common;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
 using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;
@@ -16,6 +17,7 @@ using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace SmartDigitalPsico.Service.Report.Entity
 {
@@ -172,11 +174,12 @@ namespace SmartDigitalPsico.Service.Report.Entity
                 await FileHelper.Delete(responseFile.Item1);
 
                 var response = FileHelper.ProccessDownloadToBrowser(folderOuput);
+                return response;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-            }
-
+                _config.SharedDependenciesConfig.Logger.Error(ex, "Erro ao gerar PDF");
+            } 
             return new FileContentResult([], "application/octet-stream");
         }
     }
