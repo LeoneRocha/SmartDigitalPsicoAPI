@@ -6,8 +6,7 @@ namespace SmartDigitalPsico.Domain.VO
     public class ServiceResponseCacheVO<T> : ServiceResponse<T>, IDataCacheDto<T>
     {
         public ServiceResponseCacheVO()
-        {
-
+        { 
         }
         public ServiceResponseCacheVO(IServiceResponse<T> serviceResponse
             , string cacheKey, DateTime dateTimeSlidingExpiration)

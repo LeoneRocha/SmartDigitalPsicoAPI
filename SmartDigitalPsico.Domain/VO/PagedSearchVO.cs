@@ -4,13 +4,13 @@ namespace SmartDigitalPsico.Domain.Hypermedia.Utils
 {
     public class PagedSearchVO<T> where T : ISupportsHyperMedia
     {
-        public int CurrentPage { get; set; }
-        public int PageSize { get; set; }
-        public int TotalResults { get; set; }
-        public string? SortFields { get; set; }
-        public string? SortDirections { get; set; }
+        public int CurrentPage { get; private set; }
+        public int PageSize { get; private set; }
+        public int TotalResults { get; private set; }
+        public string? SortFields { get; private set; }
+        public string? SortDirections { get; private set; }
 
-        public Dictionary<string, object>? Filters { get; set; }
+        public Dictionary<string, object>? Filters { get; private set; }
 
         public List<T>? List { get; set; }
 

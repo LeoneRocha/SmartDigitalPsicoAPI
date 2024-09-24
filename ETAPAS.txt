@@ -16,6 +16,8 @@ https://hub.docker.com/u/leonecr
 ****************************************** ARRUMAR ERRO DE RECURSO DE IDIOMA NA TELA CARGO front
 
 
+
+
 Ideias a implantar: 
 
 -- Criar service de email.  -- OK
@@ -782,3 +784,22 @@ Fonte: conversa com o Copilot, 01/09/2024
 (3) Criar uma API Web com os controladores do ASP.NET Core. https://learn.microsoft.com/pt-br/training/modules/build-web-api-aspnet-core/.
 (4) ASP.NET Core | Estrutura da Web de software livre para .NET. https://dotnet.microsoft.com/pt-br/apps/aspnet.
 (5) O que é API em C# – APIBrasil. https://blog.apibrasil.com.br/o-que-e-api-em-c/.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Em resumo, enquanto o DTO é focado na transferência de dados sem lógica, o VO é usado para encapsular valores significativos no domínio, podendo incluir lógica de negócios.
+
+
+
