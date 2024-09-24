@@ -7,6 +7,7 @@ using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
 {
@@ -41,7 +42,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
         public async Task<ActionResult> DownloadFileById(long id)
         {
             this.setUserIdCurrent();
-            FileContentResult response = await _entityService.DownloadReportPatientDetailsById(id);
+            FileContentResult response = await _entityService.DownloadReportPatientDetailsById(id, EReportOutputType.Pdf);
             return response;
         }
     }

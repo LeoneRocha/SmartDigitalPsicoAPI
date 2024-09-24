@@ -156,20 +156,20 @@ namespace SmartDigitalPsico.Service.Report.Entity
             return (result, reportExcel.FileName);
         }
 
-        public async Task<FileContentResult> DownloadReportPatientDetailsById(long id)
+        public async Task<FileContentResult> DownloadReportPatientDetailsById(long id, EReportOutputType eReportOutputType)
         {
             ServiceResponse<PatientDetailReportDto> responseData = await GetPatientDetailsByIdAsync(id);
             try
             {
-                var responseFile = await GenerateFileReport(responseData.Data!, EReportOutputType.Pdf);
+                var responseFile = await GenerateFileReport(responseData.Data!, eReportOutputType);
 
                 //Copy Temp folder 
                 var folderOuput = Path.Combine(DirectoryHelper.GetDiretoryTemp(_config.SharedDependenciesConfig.Configuration), responseFile.Item2);
-                folderOuput = FileHelper.NormalizePath(folderOuput); 
+                folderOuput = FileHelper.NormalizePath(folderOuput);
 
                 await FileHelper.CopyFile(responseFile.Item1, folderOuput);
                 //Delete origin 
-                await FileHelper.Delete(responseFile.Item1); 
+                await FileHelper.Delete(responseFile.Item1);
 
                 var response = FileHelper.ProccessDownloadToBrowser(folderOuput);
             }
