@@ -6,7 +6,7 @@ namespace SmartDigitalPsico.Domain.Hypermedia.Utils
     {
         public int CurrentPage { get; private set; }
         public int PageSize { get; private set; }
-        public int TotalResults { get; private set; }
+        public int TotalResults { get; set; }
         public string? SortFields { get; private set; }
         public string? SortDirections { get; private set; }
 
