@@ -160,23 +160,26 @@ namespace SmartDigitalPsico.Service.Report.Entity
             ServiceResponse<PatientDetailReportDto> responseData = await GetPatientDetailsByIdAsync(id);
             try
             {
-                var responseFile = await GenerateFileReport(responseData.Data!, eReportOutputType);
+                if (responseData.Data != null)
+                {
+                    var responseFile = await GenerateFileReport(responseData.Data, eReportOutputType);
 
-                //Copy Temp folder 
-                var folderOuput = Path.Combine(DirectoryHelper.GetDiretoryTemp(_config.SharedDependenciesConfig.Configuration), responseFile.Item2);
-                folderOuput = FileHelper.NormalizePath(folderOuput);
+                    //Copy Temp folder 
+                    var folderOuput = Path.Combine(DirectoryHelper.GetDiretoryTemp(_config.SharedDependenciesConfig.Configuration), responseFile.Item2);
+                    folderOuput = FileHelper.NormalizePath(folderOuput);
 
-                await FileHelper.CopyFile(responseFile.Item1, folderOuput);
-                //Delete origin 
-                await FileHelper.Delete(responseFile.Item1);
+                    await FileHelper.CopyFile(responseFile.Item1, folderOuput);
+                    //Delete origin 
+                    await FileHelper.Delete(responseFile.Item1);
 
-                var response = FileHelper.ProccessDownloadToBrowser(folderOuput);
-                return response;
+                    var response = FileHelper.ProccessDownloadToBrowser(folderOuput);
+                    return response;
+                }
             }
             catch (Exception ex)
             {
                 _config.SharedDependenciesConfig.Logger.Error(ex, "Erro ao gerar PDF");
-            } 
+            }
             return new FileContentResult([], "application/octet-stream");
         }
     }
