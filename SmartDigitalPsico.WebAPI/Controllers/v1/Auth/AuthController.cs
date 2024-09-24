@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO.User;
-using SmartDigitalPsico.Domain.VO.Utils;
+using SmartDigitalPsico.Domain.DTO.User;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
 {
@@ -18,7 +17,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<ServiceResponse<GetUserVO>>> Register(UserRegisterVO newEntity)
+        public async Task<ActionResult<ServiceResponse<GetUserDto>>> Register(UserRegisterDto newEntity)
         {
             var response = await _userService.Register(newEntity);
 
@@ -30,7 +29,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
         }
 
         [HttpPost("Authenticate")]
-        public async Task<ActionResult<ServiceResponse<GetUserAuthenticatedVO>>> Authenticate(UserLoginVO request)
+        public async Task<ActionResult<ServiceResponse<GetUserAuthenticatedDto>>> Authenticate(UserLoginDto request)
         {
             var response = await _userService.Login(request.Login, request.Password);             
             if (!response.Success)
@@ -41,7 +40,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
         }
 
         [HttpGet("Logout")]
-        public async Task<ActionResult<ServiceResponse<string>>> Logout(UserLoginVO request)
+        public async Task<ActionResult<ServiceResponse<string>>> Logout(UserLoginDto request)
         {
             var response = await _userService.Logout(request.Login);
 

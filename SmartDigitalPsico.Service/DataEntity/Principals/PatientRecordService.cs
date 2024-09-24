@@ -1,7 +1,6 @@
 using Azure;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -12,14 +11,15 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
-using SmartDigitalPsico.Domain.VO.Patient.PatientRecord;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     public class PatientRecordService
-        : EntityBaseService<PatientRecord, AddPatientRecordVO, UpdatePatientRecordVO, GetPatientRecordVO, IPatientRecordRepository>, IPatientRecordService
+        : EntityBaseService<PatientRecord, AddPatientRecordDto, UpdatePatientRecordDto, GetPatientRecordDto, IPatientRecordRepository>, IPatientRecordService
 
     {
         private readonly IUserRepository _userRepository;
@@ -42,7 +42,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _medicalRepository = repositories.MedicalRepository;
             _patientRepository = repositories.PatientRepository;
         }
-        public override async Task<ServiceResponse<GetPatientRecordVO>> Create(AddPatientRecordVO item)
+        public override async Task<ServiceResponse<GetPatientRecordDto>> Create(AddPatientRecordDto item)
         {
             PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
 
@@ -57,7 +57,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
 
-            ServiceResponse<GetPatientRecordVO> response = await base.Validate(entityAdd);
+            ServiceResponse<GetPatientRecordDto> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
@@ -72,12 +72,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityAdd.TableStorageRowKey = addTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
-                response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
+                response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Message = "Patient Record registred.";
             }
             return response;
         }
-        public override async Task<ServiceResponse<GetPatientRecordVO>> Update(UpdatePatientRecordVO item)
+        public override async Task<ServiceResponse<GetPatientRecordDto>> Update(UpdatePatientRecordDto item)
         {
             PatientRecord entityUpdate = await _entityRepository.FindByID(item.Id);
 
@@ -107,7 +107,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 : entityUpdate.TableStorageRowKey;
             #endregion Columns
 
-            ServiceResponse<GetPatientRecordVO> response = await base.Validate(entityUpdate);
+            ServiceResponse<GetPatientRecordDto> response = await base.Validate(entityUpdate);
             if (response.Success)
             {
                 var medical = await _medicalRepository.FindByID(entityUpdate.Patient?.MedicalId ?? 0);
@@ -118,7 +118,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityUpdate.TableStorageRowKey = updateTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
-                response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
+                response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Message = "Patient Updated.";
             }
             return response;
@@ -138,9 +138,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             };
         }
 
-        public async Task<ServiceResponse<List<GetPatientRecordVO>>> FindAllByPatient(long patientId)
+        public async Task<ServiceResponse<List<GetPatientRecordDto>>> FindAllByPatient(long patientId)
         {
-            ServiceResponse<List<GetPatientRecordVO>> response = new ServiceResponse<List<GetPatientRecordVO>>();
+            ServiceResponse<List<GetPatientRecordDto>> response = new ServiceResponse<List<GetPatientRecordDto>>();
 
             var listResult = await _entityRepository.FindAllByPatient(patientId);
 
@@ -167,16 +167,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 response.Message = "Patients not found.";
                 return response;
             }
-            response.Data = listResult.Select(c => _mapper.Map<GetPatientRecordVO>(c)).ToList();
+            response.Data = listResult.Select(c => _mapper.Map<GetPatientRecordDto>(c)).ToList();
             response.Success = true;
             response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsFound", _applicationLanguageRepository, _cacheService);
 
             return response;
         }
-        public async override Task<ServiceResponse<List<GetPatientRecordVO>>> FindAll()
+        public async override Task<ServiceResponse<List<GetPatientRecordDto>>> FindAll()
         {
-            var result = new ServiceResponse<List<GetPatientRecordVO>>();
+            var result = new ServiceResponse<List<GetPatientRecordDto>>();
             result.Success = false;
             result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
@@ -184,9 +184,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return result;
         }
 
-        public override async Task<ServiceResponse<GetPatientRecordVO>> FindByID(long id)
+        public override async Task<ServiceResponse<GetPatientRecordDto>> FindByID(long id)
         {
-            ServiceResponse<GetPatientRecordVO> response = new ServiceResponse<GetPatientRecordVO>();
+            ServiceResponse<GetPatientRecordDto> response = new ServiceResponse<GetPatientRecordDto>();
             try
             {
                 PatientRecord entityResponse = await _entityRepository.FindByID(id);
@@ -212,7 +212,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 entityResponse.Annotation = _cryptoService.Decrypt(patient.Medical?.SecurityKey ?? string.Empty, entityResponse.Annotation);
 
-                response.Data = _mapper.Map<GetPatientRecordVO>(entityResponse);
+                response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", _applicationLanguageRepository, _cacheService);
             }

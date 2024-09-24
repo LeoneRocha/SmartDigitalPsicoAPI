@@ -2,7 +2,7 @@
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
-using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains;
 using System.Text;
 using System.Text.Json;
 
@@ -11,9 +11,9 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
     public class DiskCacheRepository : IDiskCacheRepository
     {
         private readonly IFileDiskRepository _repositoryFileDisk;
-        private readonly CacheConfigurationVO _cacheConfig;
+        private readonly CacheConfigurationDto _cacheConfig;
 
-        public DiskCacheRepository(IFileDiskRepository repositoryFileDisk, IOptions<CacheConfigurationVO> cacheConfig)
+        public DiskCacheRepository(IFileDiskRepository repositoryFileDisk, IOptions<CacheConfigurationDto> cacheConfig)
         {
             _repositoryFileDisk = repositoryFileDisk;
             _cacheConfig = cacheConfig.Value;

@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Patient.PatientNotificationMessage;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
-{ 
+{
     [ApiController] 
     [Authorize("Bearer")]
     [Route("api/patient/v1/[controller]")]
@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
     public class PatientNotificationMessageController : ApiBaseController
     {
         private readonly IPatientNotificationMessageService _entityService;
-        public PatientNotificationMessageController(IPatientNotificationMessageService entityService, IOptions<AuthConfigurationVO> configurationAuth) : base(configurationAuth)
+        public PatientNotificationMessageController(IPatientNotificationMessageService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetPatientNotificationMessageVO>>> Create(AddPatientNotificationMessageVO newEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientNotificationMessageVO>>> Create(AddPatientNotificationMessageDto newEntity)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.Create(newEntity));
@@ -52,7 +52,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetPatientNotificationMessageVO>>> Update(UpdatePatientNotificationMessageVO updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientNotificationMessageVO>>> Update(UpdatePatientNotificationMessageDto updateEntity)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Update(updateEntity);

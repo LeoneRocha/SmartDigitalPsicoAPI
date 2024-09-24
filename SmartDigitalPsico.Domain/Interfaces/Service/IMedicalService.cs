@@ -1,10 +1,10 @@
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Medical;
+using SmartDigitalPsico.Domain.DTO.Medical;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
     public interface IMedicalService
-        : IEntityBaseService<Medical, AddMedicalVO, UpdateMedicalVO, GetMedicalVO>
+        : IEntityBaseService<Medical, AddMedicalDto, UpdateMedicalDto, GetMedicalDto>
     {
 
     }

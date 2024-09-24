@@ -1,16 +1,16 @@
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.User;
+using SmartDigitalPsico.Domain.DTO.User;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IUserService : IEntityBaseService<User, AddUserVO, UpdateUserVO, GetUserVO>
+    public interface IUserService : IEntityBaseService<User, AddUserDto, UpdateUserDto, GetUserDto>
     {
-        Task<ServiceResponse<GetUserAuthenticatedVO>> Login(string login, string password);
+        Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password);
         Task<ServiceResponse<bool>> Logout(string login);
 
-        Task<ServiceResponse<GetUserVO>> Register(UserRegisterVO userRegisterVO);
+        Task<ServiceResponse<GetUserDto>> Register(UserRegisterDto userRegisterVO);
 
-        Task<ServiceResponse<GetUserVO>> UpdateProfile(UpdateUserProfileVO userUpdateProfileVO);
+        Task<ServiceResponse<GetUserDto>> UpdateProfile(UpdateUserProfileDto userUpdateProfileVO);
     }
 }

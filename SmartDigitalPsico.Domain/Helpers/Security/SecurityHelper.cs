@@ -32,7 +32,7 @@ namespace SmartDigitalPsico.Domain.Helpers.Security
         }
 
 
-        public static string CreateToken(SecurityVO secVo)
+        public static string CreateToken(SecurityDto secVo)
         {
             var claims = new List<Claim>
             {

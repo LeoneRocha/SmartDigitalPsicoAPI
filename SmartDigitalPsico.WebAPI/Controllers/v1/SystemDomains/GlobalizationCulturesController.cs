@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Domain.DTO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {
@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpGet("GetCultures")] 
-        public async Task<ActionResult<List<CultureDisplayVO>>> Get()
+        public async Task<ActionResult<List<CultureDisplayDto>>> Get()
         { 
             await Task.FromResult(0);
             var response = CultureDateTimeHelper.GetCultures();

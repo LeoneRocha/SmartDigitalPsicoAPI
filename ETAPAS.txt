@@ -10,6 +10,14 @@ https://hub.docker.com/u/leonecr
 ** para gerar pro mysql tem que gerar do zero a migracao 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+****************************************** ARRUMAR ERRO DE RECURSO DE IDIOMA NA TELA CARGO front
+
+
+
+
 Ideias a implantar: 
 
 -- Criar service de email.  -- OK
@@ -49,14 +57,14 @@ https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 -------------------------------------
 Regras a validar e implantar
 
-ADM nao pode ver arquivos do medico
+ADM nao pode ver arquiDTOs do medico
 
 
 ********* IMPLANTAR SISTEMA DE LOG DE REGISTRO  -- PENDENTE 
 
   
  ------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
- --- IMPLANTAR STORAGE BLOB PARA ARQUIVOS 
+ --- IMPLANTAR STORAGE BLOB PARA ARQUIDTOs 
 
  --- IMPLANTAR STORAGE TABLE PARA CACHE 
 
@@ -74,7 +82,7 @@ ADM nao pode ver arquivos do medico
 
  ------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
 
- ------------------------------------------------------------------------ UPLOAD ARQUIVOS  CLOUD - BLOB   ------------------------------------------------------------------------ 
+ ------------------------------------------------------------------------ UPLOAD ARQUIDTOs  CLOUD - BLOB   ------------------------------------------------------------------------ 
 
  ---1) FAZER UPLOAD NO STORAGE - OK 
 
@@ -84,7 +92,7 @@ ADM nao pode ver arquivos do medico
 
  ---3) APLICAR RBAC para somente ter permisao o proprio usuario que subiu "medico" -- SO VAI SER POSSIVEL APOS IMPLANTAR O AZURE AD (ENTRA)
 
------------------------------------------------------------------------- UPLOAD ARQUIVOS  CLOUD - BLOB   ------------------------------------------------------------------------ 
+------------------------------------------------------------------------ UPLOAD ARQUIDTOs  CLOUD - BLOB   ------------------------------------------------------------------------ 
 
 
 
@@ -630,7 +638,7 @@ USE DE EXEMPLO O CODIGO ABAIXO
 
 
 
-        Em C# .net core 8 o codigo abaixao usando o FluentValidation melhore o codigo para validar os campos FileExtension e FileContentType para apenas tipos de arquivos como imagens word e excel e pdf e impedir arquivos maliciosos e que exceda mais que 100 mb e que os tipos de arquivos seja possivel definir via appsetings 
+        Em C# .net core 8 o codigo abaixao usando o FluentValidation melhore o codigo para validar os campos FileExtension e FileContentType para apenas tipos de arquiDTOs como imagens word e excel e pdf e impedir arquiDTOs maliciosos e que exceda mais que 100 mb e que os tipos de arquiDTOs seja possivel definir via appsetings 
 
  public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
  { 
@@ -670,7 +678,7 @@ USE DE EXEMPLO O CODIGO ABAIXO
      #endregion Relationship
  }
 
-Claro! Aqui está uma versão aprimorada do código para validar os campos `FileExtension` e `FileContentType` usando FluentValidation em C# .NET Core 8. Este código garante que apenas arquivos de imagem, Word, Excel e PDF sejam aceitos, impede arquivos maliciosos e limita o tamanho dos arquivos a 100 MB.
+Claro! Aqui está uma versão aprimorada do código para validar os campos `FileExtension` e `FileContentType` usando FluentValidation em C# .NET Core 8. Este código garante que apenas arquiDTOs de imagem, Word, Excel e PDF sejam aceitos, impede arquiDTOs maliciosos e limita o tamanho dos arquiDTOs a 100 MB.
 
 ```csharp
 using FluentValidation;
@@ -727,7 +735,7 @@ public class CustomValidator : AbstractValidator<CustomViewModel>
 }
 ```
 
-Este código define um `FileValidator` que verifica a extensão e o tipo de conteúdo do arquivo, além de garantir que o tamanho do arquivo não exceda 100 MB. O `CustomValidator` aplica essas regras a cada arquivo na lista de arquivos do `CustomViewModel`.
+Este código define um `FileValidator` que verifica a extensão e o tipo de conteúdo do arquivo, além de garantir que o tamanho do arquivo não exceda 100 MB. O `CustomValidator` aplica essas regras a cada arquivo na lista de arquiDTOs do `CustomViewModel`.
 
 Se precisar de mais alguma coisa, estou aqui para ajudar! 😊
 
@@ -776,3 +784,22 @@ Fonte: conversa com o Copilot, 01/09/2024
 (3) Criar uma API Web com os controladores do ASP.NET Core. https://learn.microsoft.com/pt-br/training/modules/build-web-api-aspnet-core/.
 (4) ASP.NET Core | Estrutura da Web de software livre para .NET. https://dotnet.microsoft.com/pt-br/apps/aspnet.
 (5) O que é API em C# – APIBrasil. https://blog.apibrasil.com.br/o-que-e-api-em-c/.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Em resumo, enquanto o DTO é focado na transferência de dados sem lógica, o VO é usado para encapsular valores significativos no domínio, podendo incluir lógica de negócios.
+
+
+

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains;
 
 namespace SmartDigitalPsico.Data.Repository.CacheManager
 {
@@ -10,10 +10,10 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
     {
         private readonly IMemoryCache _memoryCache;
         private readonly MemoryCacheEntryOptions? _cacheOptions;
-        public MemoryCacheRepository(IMemoryCache memoryCache, IOptions<CacheConfigurationVO> cacheConfig)
+        public MemoryCacheRepository(IMemoryCache memoryCache, IOptions<CacheConfigurationDto> cacheConfig)
         {
             _memoryCache = memoryCache;
-            CacheConfigurationVO _cacheConfig = cacheConfig.Value;
+            CacheConfigurationDto _cacheConfig = cacheConfig.Value;
             if (_cacheConfig != null)
             {
                 DateTime absoluteExpiration = DataHelper.GetDateTimeNow().AddHours(_cacheConfig.AbsoluteExpirationInHours).AddMinutes(_cacheConfig.AbsoluteExpirationInMinutes);

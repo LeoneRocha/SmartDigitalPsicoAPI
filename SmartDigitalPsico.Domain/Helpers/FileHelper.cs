@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -151,6 +152,10 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static FileContentResult ProccessDownloadToBrowser(string folderOrigin, string fileName)
         {
             var filePath = GetFilePath(folderOrigin, fileName);
+            return ProccessDownloadToBrowser(filePath);
+        }
+        public static FileContentResult ProccessDownloadToBrowser(string filePath)
+        {
             using (var fileStream = File.OpenRead(filePath))
             {
                 var contentType = GetContentType(filePath);
@@ -160,14 +165,39 @@ namespace SmartDigitalPsico.Domain.Helpers
                 if (bytesRead != fileStream.Length)
                 {
                     throw new IOException("Could not read the entire file.");
-                } 
+                }
                 var response = new FileContentResult(fileBytes, contentType)
                 {
                     LastModified = DataHelper.GetDateTimeNow(),
-                    FileDownloadName = GetSameName(fileName),
+                    FileDownloadName = GetSameName(filePath),
                 };
                 return response;
             }
-        } 
+        }
+
+        public static async Task CopyFile(string pathSource, string pathDestination)
+        {
+            if (!File.Exists(pathSource))
+            {
+                throw new FileNotFoundException("The source file was not found.", pathSource);
+            }
+            using (FileStream sourceStream = new FileStream(pathSource, FileMode.Open, FileAccess.Read))
+            using (FileStream destinationStream = new FileStream(pathDestination, FileMode.Create, FileAccess.Write))
+            {
+                await sourceStream.CopyToAsync(destinationStream);
+            }
+        }
+
+        public static async Task Delete(string pathFile)
+        {
+            if (File.Exists(pathFile))
+            {
+                await Task.Run(() => File.Delete(pathFile));
+            }
+            else
+            {
+                throw new FileNotFoundException("File was not found", pathFile);
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Domain.VO.SMTP;
+using SmartDigitalPsico.Domain.DTO.SMTP;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Smtp
 {
@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Smtp
             _emailContext = emailContext;
         }
 
-        public async Task SendEmailAsync(EmailMessageVO emailMessage)
+        public async Task SendEmailAsync(EmailMessageDto emailMessage)
         { 
             await _emailContext.SendEmailAsync(EEmailStrategyType.Smtp, emailMessage);
         }

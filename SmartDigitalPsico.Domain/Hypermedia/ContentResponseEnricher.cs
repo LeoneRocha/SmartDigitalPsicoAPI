@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.VO;
 using System.Collections.Concurrent;
 using System.Text;
 

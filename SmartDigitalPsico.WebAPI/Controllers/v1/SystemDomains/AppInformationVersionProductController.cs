@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Domain.DTO;
 using System.Collections.Generic;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
@@ -20,13 +20,13 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpGet("GetAppInformationVersionProduct")]
-        public async Task<ActionResult<List<AppInformationVersionProductVO>>> Get()
+        public async Task<ActionResult<List<AppInformationVersionProductDto>>> Get()
         {
             await Task.FromResult(0);
             var responseVO = LogAppHelper.GetInformationVersionProduct();
             if (responseVO != null)
             {
-                List<AppInformationVersionProductVO> response = new List<AppInformationVersionProductVO> { responseVO };
+                List<AppInformationVersionProductDto> response = new List<AppInformationVersionProductDto> { responseVO };
                 return Ok(response);
             }
             return NotFound(responseVO);

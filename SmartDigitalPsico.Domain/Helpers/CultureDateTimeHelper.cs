@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Domain.DTO;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -18,25 +18,25 @@ namespace SmartDigitalPsico.Domain.Helpers
             return list;
         }
 
-        public static List<TimeZoneDisplay> GetTimeZonesIds()
+        public static List<TimeZoneDisplayDto> GetTimeZonesIds()
         {
-            List<TimeZoneDisplay> result = new List<TimeZoneDisplay>();
+            List<TimeZoneDisplayDto> result = new List<TimeZoneDisplayDto>();
 
             ReadOnlyCollection<TimeZoneInfo> tz = TimeZoneInfo.GetSystemTimeZones();
             foreach (TimeZoneInfo tzInfo in tz)
             {
-                result.Add(new TimeZoneDisplay() { Id = tzInfo.Id, Name = tzInfo.DisplayName });
+                result.Add(new TimeZoneDisplayDto() { Id = tzInfo.Id, Name = tzInfo.DisplayName });
             }
             return result;
         }
-        public static List<CultureDisplayVO> GetCultures()
+        public static List<CultureDisplayDto> GetCultures()
         {
-            List<CultureDisplayVO> result = new List<CultureDisplayVO>();
+            List<CultureDisplayDto> result = new List<CultureDisplayDto>();
             CultureInfo[] cinfo = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
 
             foreach (CultureInfo cul in cinfo)
             {
-                result.Add(new CultureDisplayVO() { Id = cul.Name, Name = cul.DisplayName });
+                result.Add(new CultureDisplayDto() { Id = cul.Name, Name = cul.DisplayName });
             }
             var culturesEnables = getCulturesEnable().Select(cie => cie.Name).ToList();
             result = result.Where(ci => culturesEnables.Contains(ci.Id)).ToList();
@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             return result;
         }
 
-        public static List<CultureInfo> TranslateCulture(List<CultureDisplayVO> cultureDisplays)
+        public static List<CultureInfo> TranslateCulture(List<CultureDisplayDto> cultureDisplays)
         {
             return cultureDisplays.Select(cd => new CultureInfo(cd.Id)).ToList();
         }

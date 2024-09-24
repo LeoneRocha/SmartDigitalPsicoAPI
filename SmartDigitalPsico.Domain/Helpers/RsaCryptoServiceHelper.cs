@@ -1,11 +1,11 @@
-﻿using SmartDigitalPsico.Domain.VO.Security;
+﻿using SmartDigitalPsico.Domain.DTO.Security;
 using System.Security.Cryptography;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
     public static class RsaCryptoServiceHelper
     {
-        public static RsaCryptoVO GenerateKeys(RSAEncryptionPadding rsaSize)
+        public static RsaCryptoDto GenerateKeys(RSAEncryptionPadding rsaSize)
         {
             using (var rsa = RSA.Create())
             {
@@ -14,7 +14,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 var privateKey = rsa.ExportParameters(true);
                   
                 // Retornando o objeto com as chaves
-                return new RsaCryptoVO
+                return new RsaCryptoDto
                 {
                     PrivateKey = privateKey,
                     PrivateKeyBase64 = ConvertToBase64(privateKey),

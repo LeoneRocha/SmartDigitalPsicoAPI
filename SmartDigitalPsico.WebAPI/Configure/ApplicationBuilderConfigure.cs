@@ -14,10 +14,11 @@ using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Mapper;
 using SmartDigitalPsico.Domain.Resiliency;
-using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Service.Configure;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using SmartDigitalPsico.Domain.DTO.Security;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {
@@ -29,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
         {
             _configuration = configuration;
 
-            var tokenConfigurations = new Domain.VO.Security.TokenConfigurationVO();
+            var tokenConfigurations = new TokenConfigurationDto();
 
             addGetAppConfig(services, tokenConfigurations);
 
@@ -68,7 +69,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             //ResiliencePolicies
             addResiliencePolicies(services, _configuration);
-            setupVOsConfigs(services, _configuration); 
+            setupDTOsConfigs(services, _configuration);
             services.AddEndpointsApiExplorer();
         }
 
@@ -78,20 +79,20 @@ namespace SmartDigitalPsico.WebAPI.Configure
             var policyConfig = new ResiliencePolicyConfig();
             var configValue = ConfigurationAppSettingsHelper.GetIResiliencePolicyConfig(_configuration);
             new ConfigureFromConfigurationOptions<ResiliencePolicyConfig>(configValue)
-             .Configure(policyConfig); 
+             .Configure(policyConfig);
             // Register the PolicyConfig instance as a singleton
             services.AddSingleton<IResiliencePolicyConfig>(policyConfig);
         }
 
-        private static void setupVOsConfigs(IServiceCollection services, IConfiguration _configuration)
-        { 
-            var locationSaveFileConfigurationVO = new LocationSaveFileConfigurationVO();
+        private static void setupDTOsConfigs(IServiceCollection services, IConfiguration _configuration)
+        {
+            var locationSaveFileConfigurationVO = new LocationSaveFileConfigurationDto();
             var configValue = ConfigurationAppSettingsHelper.GetLocationSaveFileConfigurationVO(_configuration);
-             
-            new ConfigureFromConfigurationOptions<LocationSaveFileConfigurationVO>(configValue)
+
+            new ConfigureFromConfigurationOptions<LocationSaveFileConfigurationDto>(configValue)
              .Configure(locationSaveFileConfigurationVO);
             // Register the PolicyConfig instance as a singleton
-            services.AddSingleton<ILocationSaveFileConfigurationVO>(locationSaveFileConfigurationVO);
+            services.AddSingleton<ILocationSaveFileConfigurationDto>(locationSaveFileConfigurationVO);
         }
 
         private static void addLog(IServiceCollection services, Serilog.Core.Logger _logger)
@@ -106,12 +107,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
         #region PRIVATE
 
 
-        private static void addGetAppConfig(IServiceCollection services, Domain.VO.Security.TokenConfigurationVO tokenConfigurations)
+        private static void addGetAppConfig(IServiceCollection services, TokenConfigurationDto tokenConfigurations)
         {
-            services.Configure<CacheConfigurationVO>(ConfigurationAppSettingsHelper.GetCacheConfiguration(_configuration));
-            services.Configure<AuthConfigurationVO>(ConfigurationAppSettingsHelper.GetAuthConfiguration(_configuration));
+            services.Configure<CacheConfigurationDto>(ConfigurationAppSettingsHelper.GetCacheConfiguration(_configuration));
+            services.Configure<AuthConfigurationDto>(ConfigurationAppSettingsHelper.GetAuthConfiguration(_configuration));
 
-            new ConfigureFromConfigurationOptions<Domain.VO.Security.TokenConfigurationVO>(ConfigurationAppSettingsHelper.GetTokenConfigurations(_configuration))
+            new ConfigureFromConfigurationOptions<TokenConfigurationDto>(ConfigurationAppSettingsHelper.GetTokenConfigurations(_configuration))
                 .Configure(tokenConfigurations);
 
             services.AddSingleton(tokenConfigurations);
@@ -206,7 +207,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
         #endregion
 
         #region SEGURANCA
-        private static void addSecurity(IServiceCollection services, Domain.VO.Security.TokenConfigurationVO tokenConfigurations)
+        private static void addSecurity(IServiceCollection services, TokenConfigurationDto tokenConfigurations)
         {
             services.AddAuthentication(options =>
             {
