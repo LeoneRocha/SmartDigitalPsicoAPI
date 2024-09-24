@@ -27,9 +27,9 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Security;
-using SmartDigitalPsico.Domain.VO.SMTP;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Security;
+using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure;
@@ -90,13 +90,13 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddSingleton<EmailContext>();
 
             // Bind the PolicyConfig section of appsettings.json to the PolicyConfig class
-            var smtpSettings = new SmtpSettingsVO();
+            var smtpSettings = new SmtpSettingsDto();
 
             var configValue = ConfigurationAppSettingsHelper.GetSmtpSettings(_configuration);
-            new ConfigureFromConfigurationOptions<SmtpSettingsVO>(configValue)
+            new ConfigureFromConfigurationOptions<SmtpSettingsDto>(configValue)
              .Configure(smtpSettings);
             // Register the PolicyConfig instance as a singleton
-            services.AddSingleton<ISmtpSettingsVO>(smtpSettings);
+            services.AddSingleton<ISmtpSettingsDto>(smtpSettings);
         }
 
         private static void addNoSQLDependencies(IServiceCollection services)
@@ -189,10 +189,10 @@ namespace SmartDigitalPsico.Service.Configure
         {
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddSingleton<ITokenConfigurationVO, TokenConfigurationVO>();
+            services.AddSingleton<ITokenConfigurationDto, TokenConfigurationDto>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IResiliencePolicyConfig, ResiliencePolicyConfig>();
-            services.AddSingleton<ILocationSaveFileConfigurationVO, LocationSaveFileConfigurationVO>();
+            services.AddSingleton<ILocationSaveFileConfigurationDto, LocationSaveFileConfigurationDto>();
         }
         private static void addValidations(IServiceCollection services)
         {

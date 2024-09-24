@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Patient.PatientMedicationInformation;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientMedicationInformation;
+using SmartDigitalPsico.Domain.VO;
 
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
     {
         private readonly IPatientMedicationInformationService _entityService;
 
-        public PatientMedicationInformationController(IPatientMedicationInformationService entityService, IOptions<AuthConfigurationVO> configurationAuth) : base(configurationAuth)
+        public PatientMedicationInformationController(IPatientMedicationInformationService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetPatientMedicationInformationVO>>>> FindAll(int patientId)
+        public async Task<ActionResult<ServiceResponse<List<GetPatientMedicationInformationDto>>>> FindAll(int patientId)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.FindAllByPatient(patientId));
@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetPatientMedicationInformationVO>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetPatientMedicationInformationDto>>> FindByID(int id)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.FindByID(id));
@@ -46,7 +46,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetPatientMedicationInformationVO>>> Create(AddPatientMedicationInformationVO newEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientMedicationInformationDto>>> Create(AddPatientMedicationInformationDto newEntity)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.Create(newEntity));
@@ -54,7 +54,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetPatientMedicationInformationVO>>> Update(UpdatePatientMedicationInformationVO updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientMedicationInformationDto>>> Update(UpdatePatientMedicationInformationDto updateEntity)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Update(updateEntity);

@@ -4,7 +4,7 @@ using Moq;
 using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains;
 
 namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
 {
@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
     public class MemoryCacheRepositoryTests
     {
         private MemoryCacheRepository? _memoryCacheRepository;
-        private IOptions<CacheConfigurationVO>? _cacheConfig;
+        private IOptions<CacheConfigurationDto>? _cacheConfig;
         private readonly string cacheKey = "GendercacheKey";
 
         [SetUp]
@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
 
         private MemoryCacheRepository getSetupRepo()
         {
-            var cacheConfig = new CacheConfigurationVO
+            var cacheConfig = new CacheConfigurationDto
             {
                 IsEnable = true,
                 TypeCache = Domain.Enuns.ETypeLocationCache.Memory,
@@ -33,7 +33,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
                 AbsoluteExpirationInMinutes = 30,
                 SlidingExpirationInMinutes = 15 
             }; 
-            var mockOptions = new Mock<IOptions<CacheConfigurationVO>>();
+            var mockOptions = new Mock<IOptions<CacheConfigurationDto>>();
             mockOptions.Setup(o => o.Value).Returns(cacheConfig);
 
             _cacheConfig = mockOptions.Object;

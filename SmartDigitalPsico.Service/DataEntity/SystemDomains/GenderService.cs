@@ -1,21 +1,20 @@
 using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Domains.AddVOs;
-using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
-using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
+using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Service.DataEntity.Generic;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class GenderService : EntityBaseService<Gender, AddGenderVO, UpdateGenderVO, GetGenderVO, IGenderRepository>, IGenderService
+    public class GenderService : EntityBaseService<Gender, AddGenderDto, UpdateGenderDto, GetGenderDto, IGenderRepository>, IGenderService
     {
         public GenderService(
             ISharedServices sharedServices,
@@ -28,19 +27,19 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
         }
 
-        public override async Task<ServiceResponse<List<GetGenderVO>>> FindAll()
+        public override async Task<ServiceResponse<List<GetGenderDto>>> FindAll()
         {
             string keyCache = "FindAll_GetGenderVO";
 
-            ServiceResponse<List<GetGenderVO>> result = new ServiceResponse<List<GetGenderVO>>();
+            ServiceResponse<List<GetGenderDto>> result = new ServiceResponse<List<GetGenderDto>>();
 
             if (_cacheService.IsEnable())
             {
-                bool existsCache = _cacheService.TryGet(keyCache, out ServiceResponseCacheVO<List<GetGenderVO>> cachedResult);
+                bool existsCache = _cacheService.TryGet(keyCache, out ServiceResponseCacheVO<List<GetGenderDto>> cachedResult);
                 if (!existsCache)
                 {
                     result = await base.FindAll();
-                    ServiceResponseCacheVO<List<GetGenderVO>> cacheSave = new ServiceResponseCacheVO<List<GetGenderVO>>(result, keyCache, _cacheService.GetSlidingExpiration());
+                    ServiceResponseCacheVO<List<GetGenderDto>> cacheSave = new ServiceResponseCacheVO<List<GetGenderDto>>(result, keyCache, _cacheService.GetSlidingExpiration());
 
                     result.Success = _cacheService.Set(keyCache, cacheSave);
                 }
@@ -56,15 +55,15 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             return result;
         }
-        public override async Task<ServiceResponse<GetGenderVO>> FindByID(long id)
+        public override async Task<ServiceResponse<GetGenderDto>> FindByID(long id)
         {
-            ServiceResponse<GetGenderVO> response = new ServiceResponse<GetGenderVO>();
+            ServiceResponse<GetGenderDto> response = new ServiceResponse<GetGenderDto>();
 
             Gender entityResponse = await _entityRepository.FindByID(id);
 
             if (entityResponse != null)
             {
-                response.Data = _mapper.Map<GetGenderVO>(entityResponse);
+                response.Data = _mapper.Map<GetGenderDto>(entityResponse);
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                     ("RegisterIsFound", _applicationLanguageRepository, _cacheService);
@@ -78,9 +77,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
-        public override async Task<ServiceResponse<GetGenderVO>> Update(UpdateGenderVO item)
+        public override async Task<ServiceResponse<GetGenderDto>> Update(UpdateGenderDto item)
         {
-            ServiceResponse<GetGenderVO> response = new ServiceResponse<GetGenderVO>();
+            ServiceResponse<GetGenderDto> response = new ServiceResponse<GetGenderDto>();
 
             bool entityExists = await _entityRepository.Exists(item.Id);
 
@@ -102,7 +101,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             {
                 Gender entityResponse = await _entityRepository.Update(entityUpdate);
 
-                response.Data = _mapper.Map<GetGenderVO>(entityResponse);
+                response.Data = _mapper.Map<GetGenderDto>(entityResponse);
                 response.Success = true;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                            ("RegisterUpdated", _applicationLanguageRepository, _cacheService);

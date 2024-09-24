@@ -1,5 +1,5 @@
 ﻿using SmartDigitalPsico.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Domain.VO.SMTP;
+using SmartDigitalPsico.Domain.DTO.SMTP;
 using System.Net;
 using System.Net.Mail;
 
@@ -7,14 +7,14 @@ namespace SmartDigitalPsico.Service.Infrastructure.Smtp
 {
     public class SmtpEmailStrategy : IEmailStrategy
     {
-        private readonly ISmtpSettingsVO _smtpSettings;
+        private readonly ISmtpSettingsDto _smtpSettings;
 
-        public SmtpEmailStrategy(ISmtpSettingsVO smtpSettings)
+        public SmtpEmailStrategy(ISmtpSettingsDto smtpSettings)
         {
             _smtpSettings = smtpSettings;
         }
 
-        public async Task SendEmailAsync(EmailMessageVO emailMessage)
+        public async Task SendEmailAsync(EmailMessageDto emailMessage)
         {
             var mailMessage = new MailMessage
             {

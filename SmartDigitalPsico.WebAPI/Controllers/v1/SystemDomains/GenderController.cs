@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Domains.AddVOs;
-using SmartDigitalPsico.Domain.VO.Domains.GetVOs;
-using SmartDigitalPsico.Domain.VO.Domains.UpdateVOs;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
-{ 
+{
     [ApiController] 
     [Authorize("Bearer")]
     [Route("api/[controller]/v1")]
@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     {
         private readonly IGenderService _entityService; 
         public GenderController(IGenderService entityService
-             , IOptions<AuthConfigurationVO> configurationAuth) : base(configurationAuth)
+             , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService; 
         } 
@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetGenderVO>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetGenderDto>>>> Get()
         {
             this.setUserIdCurrent();
             var result = _entityService.FindAll();
@@ -39,7 +39,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetGenderVO>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetGenderDto>>> FindByID(int id)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.FindByID(id));
@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetGenderVO>>> Create(AddGenderVO newEntity)
+        public async Task<ActionResult<ServiceResponse<GetGenderDto>>> Create(AddGenderDto newEntity)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.Create(newEntity));
@@ -55,7 +55,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetGenderVO>>> Update(UpdateGenderVO updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetGenderDto>>> Update(UpdateGenderDto updateEntity)
         {
             this.setUserIdCurrent(); 
             var response = await _entityService.Update(updateEntity);

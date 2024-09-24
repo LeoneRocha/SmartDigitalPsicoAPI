@@ -13,12 +13,12 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
     public class FileManager : IFileManager
     {
         private readonly IConfiguration _configuration;
-        private readonly ILocationSaveFileConfigurationVO _locationSaveFileConfigurationVO;
+        private readonly ILocationSaveFileConfigurationDto _locationSaveFileConfigurationVO;
         private readonly IFileDiskRepository _repositoryFileDisk;
         private readonly IStorageBlobAdapter _storageClientAdapter;
 
         public FileManager(IConfiguration configuration
-            , ILocationSaveFileConfigurationVO locationSaveFileConfigurationVO
+            , ILocationSaveFileConfigurationDto locationSaveFileConfigurationVO
             , IFileDiskRepository repositoryFileDisk, IStorageBlobAdapter storageClientAdapter)
         {
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO;
@@ -117,7 +117,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             fileEntity.FileData = [];
             fileEntity.TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure;
 
-            var blobFile = new BlobFileVO() { FilePath = fileEntity.FilePath, BlobHeaders = BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
+            var blobFile = new BlobFileDto() { FilePath = fileEntity.FilePath, BlobHeaders = BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
             blobFile.BlobName = $"{folderIdentity}/{fileEntity.FileName}";
             blobFile.ContainerName = folderContainer;
             string fileURL = await _storageClientAdapter.UploadFileReturnUrl(blobFile);
@@ -161,7 +161,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             fileEntity.FileData = [];
             fileEntity.TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure;
 
-            var blobFile = new BlobFileVO() { FilePath = fileEntity.FilePath, BlobHeaders = BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
+            var blobFile = new BlobFileDto() { FilePath = fileEntity.FilePath, BlobHeaders = BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
             blobFile.BlobName = fileEntity.FileBlobName;
             blobFile.ContainerName = fileEntity.FileCloudContainer;
 
@@ -205,7 +205,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             fileEntity.FileData = [];
             fileEntity.TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure;
 
-            var blobFile = new BlobFileVO() { FilePath = fileEntity.FilePath, BlobHeaders = BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
+            var blobFile = new BlobFileDto() { FilePath = fileEntity.FilePath, BlobHeaders = BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
             blobFile.BlobName = $"{folderIdentity}/{fileEntity.FileName}";
             blobFile.ContainerName = fileEntity.FileCloudContainer;
 

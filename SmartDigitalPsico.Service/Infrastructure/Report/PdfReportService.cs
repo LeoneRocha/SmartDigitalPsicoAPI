@@ -1,7 +1,7 @@
-﻿using SmartDigitalPsico.Domain.Helpers;
+﻿using SmartDigitalPsico.Domain.DTO.Report;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.VO.Report;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Report
 {
@@ -15,14 +15,15 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
             _sharedDependenciesConfig = sharedDependenciesConfig;
             _pdfReportAdapterFactory = pdfReportAdapterFactory;
         }
-        public void Generate(ReportContent content)
+        public async Task<string> Generate(ReportPageContentDto content)
         {
             try
             {
                 string filePath = ConfigurationAppSettingsHelper.GetAppSettingsResourcesTemp(_sharedDependenciesConfig.Configuration);
                 var adapter = _pdfReportAdapterFactory.Create(Domain.Enuns.EPdfReportComponentType.PDFsharp);
 
-                filePath = Path.Combine(filePath, content.FolderOutput, $"{content.FileName}.pdf");
+                content.FileName = $"{content.FileName}.pdf";
+                filePath = Path.Combine(filePath, content.FolderOutput, content.FileName);
                 filePath = FileHelper.NormalizePath(filePath);
                 string directoryPath = Path.GetDirectoryName(filePath)!;
                 if (!Directory.Exists(directoryPath))
@@ -33,12 +34,14 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
                 {
                     File.Delete(filePath);
                 }
-                adapter.Generate(content, filePath);
+                await adapter.Generate(content, filePath);
+                return filePath;
             }
             catch (Exception ex)
             {
                 _sharedDependenciesConfig.Logger.Error(ex, "Erro ao gerar PDF");
             }
+            return string.Empty;
         }
     }
 }

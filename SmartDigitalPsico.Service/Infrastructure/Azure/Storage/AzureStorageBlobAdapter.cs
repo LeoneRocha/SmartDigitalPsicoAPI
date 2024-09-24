@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             _blobServiceClient = blobServiceClient;
         }
 
-        public async Task<string> UploadFileReturnUrl(BlobFileVO blobFileVO)
+        public async Task<string> UploadFileReturnUrl(BlobFileDto blobFileVO)
         {
             if (_blobServiceClient == null)
             {

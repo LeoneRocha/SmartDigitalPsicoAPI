@@ -2,13 +2,13 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Validation.Helper;
+using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using System.Linq.Expressions;
 
@@ -17,8 +17,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
     public class EntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult, Repo>
         : IEntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
         where TEntity : IEntityBase, IEntityBaseLog
-        where TEntityAdd : IEntityVOAdd
-        where TEntityUpdate : IEntityVO
+        where TEntityAdd : IEntityDtoAdd
+        where TEntityUpdate : IEntityDto
         where TEntityResult : class
         where Repo : IEntityBaseRepository<TEntity>
 

@@ -1,9 +1,9 @@
-﻿using SmartDigitalPsico.Domain.VO.Report;
+﻿using SmartDigitalPsico.Domain.DTO.Report;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report
 {
     public interface IPdfReportService
     {
-        void Generate(ReportContent content);
+        Task<string> Generate(ReportPageContentDto content);
     }
 }

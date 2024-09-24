@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.VO.Report;
+using SmartDigitalPsico.Domain.DTO.Report;
 using System.Text;
 
 namespace SmartDigitalPsico.Domain.Report
@@ -11,13 +11,13 @@ namespace SmartDigitalPsico.Domain.Report
     public class ExcelGeneratorOpenXmlAdapter : IExcelGenerator
     {
 #pragma warning disable S3220
-        public async Task Generate(ReportWorkbookDataVO workbookDataInput, string filePath)
+        public async Task Generate(ReportWorkbookDataDto workbookDataInput, string filePath)
         {
             await Task.Run(() => GenerateExcel(workbookDataInput, filePath));
         }
 
-        private static void GenerateExcel(ReportWorkbookDataVO workbookDataInput, string filePath)
-        { 
+        private static void GenerateExcel(ReportWorkbookDataDto workbookDataInput, string filePath)
+        {
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
             {
                 WorkbookPart workbookPart = CreateWorkbookPart(document);
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.Domain.Report
             stylePart.Stylesheet = GetStylesheet();
         }
 
-        private static MergeCells? GetMergeCell(ReportSheetDataVO sheetData)
+        private static MergeCells? GetMergeCell(ReportSheetDataDto sheetData)
         {
             var mergeCells = new MergeCells();
             if (sheetData.MergeCellReferences?.Count > 0)

@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Medical.MedicalCalendar;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
-{ 
+{
     [ApiController] 
     [Authorize("Bearer")]
     [Route("api/medical/v1/[controller]")]
@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     {
         private readonly IMedicalCalendarService _entityService;
         public MedicalCalendarController(IMedicalCalendarService entityService
-            , IOptions<AuthConfigurationVO> configurationAuth) : base(configurationAuth)
+            , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetMedicalCalendarVO>>>> FindAll()
+        public async Task<ActionResult<ServiceResponse<List<GetMedicalCalendarDto>>>> FindAll()
         {
             this.setUserIdCurrent();
             var response = await _entityService.FindAll();
@@ -46,7 +46,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarVO>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> FindByID(int id)
         {
             this.setUserIdCurrent();
             var response = await _entityService.FindByID(id);
@@ -59,7 +59,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarVO>>> Create(AddMedicalCalendarVO newEntity)
+        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Create(AddMedicalCalendarDto newEntity)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Create(newEntity);
@@ -72,7 +72,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarVO>>> Update(UpdateMedicalCalendarVO UpdateEntity)
+        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Update(UpdateMedicalCalendarDto UpdateEntity)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Update(UpdateEntity);

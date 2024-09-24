@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Medical; 
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Medical;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
-{ 
+{
     [ApiController] 
     [Authorize("Bearer")]
     [Route("api/medical/v1/[controller]")]
@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     {
         private readonly IMedicalService _entityService;
         public MedicalController(IMedicalService entityService
-            , IOptions<AuthConfigurationVO> configurationAuth) : base(configurationAuth)
+            , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetMedicalVO>>>> FindAll()
+        public async Task<ActionResult<ServiceResponse<List<GetMedicalDto>>>> FindAll()
         {
             this.setUserIdCurrent();
             var response = await _entityService.FindAll();
@@ -46,7 +46,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalVO>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetMedicalDto>>> FindByID(int id)
         {
             this.setUserIdCurrent();
             var response = await _entityService.FindByID(id);
@@ -59,7 +59,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalVO>>> Create(AddMedicalVO newEntity)
+        public async Task<ActionResult<ServiceResponse<GetMedicalDto>>> Create(AddMedicalDto newEntity)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Create(newEntity);
@@ -72,7 +72,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalVO>>> Update(UpdateMedicalVO UpdateEntity)
+        public async Task<ActionResult<ServiceResponse<GetMedicalDto>>> Update(UpdateMedicalDto UpdateEntity)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Update(UpdateEntity);

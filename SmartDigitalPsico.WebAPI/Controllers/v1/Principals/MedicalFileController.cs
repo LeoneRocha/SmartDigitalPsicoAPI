@@ -5,10 +5,10 @@ using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Medical.MedicalFile;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 {
@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         private readonly IConfiguration _configuration;
 
         public MedicalFileController(IMedicalFileService entitytService
-            , IOptions<AuthConfigurationVO> configurationAuth,
+            , IOptions<AuthConfigurationDto> configurationAuth,
             IConfiguration configuration)
             : base(configurationAuth)
         {
@@ -36,7 +36,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetMedicalFileVO>>>> FindAll(long medicalId)
+        public async Task<ActionResult<ServiceResponse<List<GetMedicalFileDto>>>> FindAll(long medicalId)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.FindAllByMedical(medicalId));
@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalFileVO>>> FindByID(long id)
+        public async Task<ActionResult<ServiceResponse<GetMedicalFileDto>>> FindByID(long id)
         {
             this.setUserIdCurrent();
             return Ok(await _entityService.FindByID(id));
@@ -74,12 +74,12 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPost("Upload")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalFileVO>>> Create([FromForm] AddMedicalFileVOService newEntity)
+        public async Task<ActionResult<ServiceResponse<GetMedicalFileDto>>> Create([FromForm] AddMedicalFileDtoService newEntity)
         {
             this.setUserIdCurrent();
             try
             {
-                var addEntity = new AddMedicalFileVO() { MedicalId = newEntity.MedicalId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };
+                var addEntity = new AddMedicalFileDto() { MedicalId = newEntity.MedicalId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };
                 var response = await _entityService.PostFileAsync(addEntity);
                 response.Data = null;
                 if (!response.Success)
@@ -92,7 +92,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             }
             catch (Exception)
             {
-                var response = new ServiceResponse<GetMedicalFileVO>
+                var response = new ServiceResponse<GetMedicalFileDto>
                 {
                     Message = $"Upload fail"
                 };

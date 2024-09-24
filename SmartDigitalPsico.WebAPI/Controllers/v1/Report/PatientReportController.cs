@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Report.Enitty;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.VO.Domains;
-using SmartDigitalPsico.Domain.VO.Report.Patient;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
 {
@@ -17,20 +18,31 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
     {
         private readonly IPatientReportService _entityService;
 
-        public PatientReportController(IPatientReportService entityService, IOptions<AuthConfigurationVO> configurationAuth) : base(configurationAuth)
+        public PatientReportController(IPatientReportService entityService
+            , IOptions<AuthConfigurationDto> configurationAuth
+            ) : base(configurationAuth)
         {
             _entityService = entityService;
+
         }
         private void setUserIdCurrent()
         {
             _entityService.SetUserId(GetUserIdCurrent());
         }
-       
-        [HttpGet("{id}")] 
-        public async Task<ActionResult<ServiceResponse<PatientDetailReportVO>>> GetPatientDetailsByIdAsync(long id)
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<PatientDetailReportDto>>> GetPatientDetailsByIdAsync(long id)
         {
             setUserIdCurrent();
             return Ok(await _entityService.GetPatientDetailsByIdAsync(id));
-        } 
+        }
+
+        [HttpGet("Download/{id}")]
+        public async Task<ActionResult> DownloadFileById(long id)
+        {
+            this.setUserIdCurrent();
+            FileContentResult response = await _entityService.DownloadReportPatientDetailsById(id, EReportOutputType.Pdf);
+            return response;
+        }
     }
 }
