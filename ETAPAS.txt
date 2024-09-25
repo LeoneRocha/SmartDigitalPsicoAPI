@@ -15,7 +15,9 @@ https://hub.docker.com/u/leonecr
 
 ****************************************** ARRUMAR ERRO DE RECURSO DE IDIOMA NA TELA CARGO front
 
+-------------------- CRIA UM REPOSITORIO E SERVICE QUE RECEBE DOIS OBJETOS E SERIALIZA IGUAL O INTERCEPOR E LOGA AI DE FORMA MANUAL POSSO ESCOLHER em que momento da aplicacao "SERVICE" eu gero log e nao em tudo
 
+*** O meu service AuditInterceptor pode envez de chamar e salvar no panco chamar um servico de storage table e gerar o log la 
 
 
 Ideias a implantar: 
