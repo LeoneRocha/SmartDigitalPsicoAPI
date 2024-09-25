@@ -53,7 +53,7 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
             // Index
             builder.HasIndex(p => new { p.TableName, p.Operation })
                 .IncludeProperties(p => new { p.AuditDate, p.UserAuditedId })
-                .HasDatabaseName("Idx_AuditDataEntityLog_TableName_Operation_Inc_")
+                .HasDatabaseName("Idx_TableName_Operation_Inc_AuditDate_UserAuditedId")
                 .IsUnique(false);
         }
     }
