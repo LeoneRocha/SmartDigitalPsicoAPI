@@ -96,8 +96,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.ModifyUserId = UserId;
 
             #endregion User Action
-
-
+             
             #region Columns
             entityUpdate.Enable = item.Enable;
             entityUpdate.Annotation = item.Annotation;

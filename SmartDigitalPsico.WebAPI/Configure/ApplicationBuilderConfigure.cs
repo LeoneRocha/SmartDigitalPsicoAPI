@@ -19,6 +19,9 @@ using SmartDigitalPsico.Service.Configure;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using SmartDigitalPsico.Domain.DTO.Security;
+using SmartDigitalPsico.Data.Audit;
+using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Data.Audit.Interface;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {
@@ -159,30 +162,42 @@ namespace SmartDigitalPsico.WebAPI.Configure
         {
             var connection = string.Empty;
 
+            services.AddSingleton<IAuditService, AuditService>();
+            services.AddSingleton<AuditInterceptor>();
+
             switch (etypeDataBase)
             {
                 case ETypeDataBase.Mysql:
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringMySQL(_configuration);
-                    services.AddDbContext<SmartDigitalPsicoDataContext>(optionsBuilder =>
-                    optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection)
-                    , optionsMySQL =>
+                    services.AddDbContext<SmartDigitalPsicoDataContext>((serviceProvider, optionsBuilder) =>
                     {
-                        optionsMySQL.MigrationsAssembly("SmartDigitalPsico.Data");
-                        optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore);
-                    })
-                    );
+                        optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection),
+                        optionsMySQL =>
+                        {
+                            optionsMySQL.MigrationsAssembly("SmartDigitalPsico.Data");
+                            optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore);
+                        });
+
+                        var auditInterceptor = serviceProvider.GetRequiredService<AuditInterceptor>(); 
+                        optionsBuilder.AddInterceptors(auditInterceptor);
+                    });
                     break;
                 case ETypeDataBase.MSsqlServer:
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringSQL(_configuration);
-                    services.AddDbContext<SmartDigitalPsicoDataContext>(optionsBuilder => optionsBuilder.UseSqlServer(connection,
-                        optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data")));
+                    services.AddDbContext<SmartDigitalPsicoDataContext>((serviceProvider, optionsBuilder) =>
+                    {
+                        optionsBuilder.UseSqlServer(connection,
+                        optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data"));
+                        var auditInterceptor = serviceProvider.GetRequiredService<AuditInterceptor>();
+                        optionsBuilder.AddInterceptors(auditInterceptor);
+                    });
                     break;
                 default:
                     break;
             }
             addLocalization(services);
-
         }
+
 
         private static void addLocalization(IServiceCollection services)
         {

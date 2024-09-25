@@ -2,18 +2,14 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 using SmartDigitalPsico.Data.Audit.Interface;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit
 {
     public class AuditService : IAuditService
     {
-        private readonly IUserService _userService;
-
-        public AuditService(IUserService userService)
+        public AuditService()
         {
-            _userService = userService;
         }
         public List<AuditDataEntityLog> OnBeforeSaveChanges(DbContext context)
         {
@@ -37,7 +33,7 @@ namespace SmartDigitalPsico.Data.Audit
             {
                 TableName = entry.Entity.GetType().Name,
                 Operation = entry.State.ToString(),
-                KeyValues = SerializePrimaryKeyValues(entry),
+                KeyValues = GetKeyValues(entry),
                 OldValues = entry.State == EntityState.Modified ? SerializeOriginalValues(entry) : string.Empty,
                 NewValues = entry.State == EntityState.Modified ? SerializeCurrentValues(entry) : string.Empty,
                 UserAuditedId = GetCurrentUserId(entry).Item1,
@@ -46,19 +42,36 @@ namespace SmartDigitalPsico.Data.Audit
             return auditEntry;
         }
 
-        private static string SerializePrimaryKeyValues(EntityEntry entry)
+        private static string GetKeyValues(EntityEntry entry)
         {
-            return JsonConvert.SerializeObject(entry.Properties.Where(p => p.Metadata.IsPrimaryKey()));
-        }
+            var PrimaryKeyValues = entry.Properties.Where(p => p.Metadata.IsPrimaryKey()).ToList();
 
+            return PrimaryKeyValues.First().CurrentValue?.ToString() ?? string.Empty;
+        }
         private static string SerializeOriginalValues(EntityEntry entry)
         {
-            return JsonConvert.SerializeObject(entry.OriginalValues.Properties.ToDictionary(p => p.Name, p => entry.OriginalValues[p]));
+            var OriginalValues = entry.OriginalValues.Properties.ToDictionary(p => p.Name, p => entry.OriginalValues[p]).ToList();
+
+            return JsonConvert.SerializeObject(OriginalValues, getJsonSettigns());
         }
 
         private static string SerializeCurrentValues(EntityEntry entry)
         {
-            return JsonConvert.SerializeObject(entry.CurrentValues.Properties.ToDictionary(p => p.Name, p => entry.CurrentValues[p]));
+            var OriginalValues = entry.CurrentValues.Properties.ToDictionary(p => p.Name, p => entry.CurrentValues[p]).ToList();
+            return JsonConvert.SerializeObject(OriginalValues, getJsonSettigns());
+        }
+        private static JsonSerializerSettings getJsonSettigns()
+        {
+            return new JsonSerializerSettings
+            {
+                Error = (sender, args) =>
+                {
+                    args.ErrorContext.Handled = true;
+                },
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore
+            };
         }
 
         private static (long?, string userUserAudited) GetCurrentUserId(EntityEntry entry)

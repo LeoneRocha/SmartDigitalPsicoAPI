@@ -57,18 +57,9 @@ namespace SmartDigitalPsico.Service.Configure
             addSmtpDependencies(services, _configuration);
             addQueueDependencies(services);
             addCollectionDependencies(services);
-            addReportDependencies(services);
-
-            addAuditDataLog(services);
+            addReportDependencies(services); 
         }
-
-        private static void addAuditDataLog(IServiceCollection services)
-        {
-            services.AddScoped<IAuditService, AuditService>();
-            //services.AddScoped<IAuditInterceptor, AuditInterceptor>();
-            services.AddScoped<AuditInterceptor>();
-        }
-
+          
         private static void addReportDependencies(IServiceCollection services)
         {
             services.AddScoped<IExcelGeneratorService, ExcelGeneratorService>();

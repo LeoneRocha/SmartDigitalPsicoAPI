@@ -19,6 +19,13 @@ namespace SmartDigitalPsico.Data.Audit
             eventData!.Context!.Set<AuditDataEntityLog>().AddRange(auditEntries);
             return base.SavedChanges(eventData, result);
         }
+
+        public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
+        {
+            var auditEntries = _auditService.OnBeforeSaveChanges(eventData.Context!);
+            eventData!.Context!.Set<AuditDataEntityLog>().AddRange(auditEntries);
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
+        }
     }
 
 }

@@ -14,11 +14,11 @@ namespace SmartDigitalPsico.Data.Context
         public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options) : base(options)
         {
         }
-        //public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options, AuditInterceptor auditInterceptor)
-        //    : base(options)
-        //{
-        //    _auditInterceptor = auditInterceptor;
-        //}
+        public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options, AuditInterceptor auditInterceptor)
+            : base(options)
+        {
+            _auditInterceptor = auditInterceptor;
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Configure FLUENT API 
@@ -27,6 +27,13 @@ namespace SmartDigitalPsico.Data.Context
             addDataMock(modelBuilder);
              
             base.OnModelCreating(modelBuilder);
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (_auditInterceptor != null)
+            {
+                optionsBuilder.AddInterceptors(_auditInterceptor);
+            }
         }
 
         private static void addConfigurationEntities(ModelBuilder modelBuilder)
@@ -72,12 +79,6 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new MedicalSpecialtyMockData());
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (_auditInterceptor != null)
-            {
-                optionsBuilder.AddInterceptors(_auditInterceptor);
-            }
-        }
+      
     }
 }
