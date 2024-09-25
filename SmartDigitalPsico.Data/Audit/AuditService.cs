@@ -80,25 +80,32 @@ namespace SmartDigitalPsico.Data.Audit
             };
         }
 
-        private static (long?, string userUserAudited) GetCurrentUserId(EntityEntry entry)
+        private static (long?, string) GetCurrentUserId(EntityEntry entry)
         {
-            var createdUserId = entry.Property("CreatedUserId")?.CurrentValue as long?;
-            if (createdUserId.HasValue)
+            var userIdProperties = new[] { "CreatedUserId", "ModifyUserId", "UserId" };
+
+            // Verifica se pelo menos uma das propriedades existe no EntityEntry
+            if (!userIdProperties.Any(property => entry.Metadata.FindProperty(property) != null))
             {
-                return (createdUserId, string.Empty);
-            }
-            var modifyUserId = entry.Property("ModifyUserId")?.CurrentValue as long?;
-            if (modifyUserId.HasValue)
-            {
-                return (modifyUserId, string.Empty);
-            }
-            var userId = entry.Property("UserId")?.CurrentValue as long?;
-            if (userId.HasValue)
-            {
-                return (userId, string.Empty);
+                return (null, "admin");
             }
 
+            foreach (var property in userIdProperties)
+            {
+                var userId = GetUserId(entry, property);
+                if (userId.HasValue)
+                {
+                    return (userId, string.Empty);
+                }
+            }
             return (null, "admin");
         }
+
+        private static long? GetUserId(EntityEntry entry, string propertyName)
+        {
+            var property = entry.Metadata.FindProperty(propertyName);
+            return property != null ? entry.Property(propertyName)?.CurrentValue as long? : null;
+        }
+
     }
 }
