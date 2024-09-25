@@ -39,17 +39,22 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
                 .HasMaxLength(4000)
                 .HasColumnType(EntityTypeConfigurationConstants.Type_Text)
                 .IsRequired();
-             
+
             builder.Property(e => e.AuditDate);
 
             builder.Property(e => e.UserAuditedLogin)
                 .HasMaxLength(255)
                 .IsRequired(false)
                 .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
-             
+
             // Relationship                                    
             builder.HasOne(e => e.UserAudited).WithMany().HasForeignKey(e => e.UserAuditedId);
 
+            // Index
+            builder.HasIndex(p => new { p.TableName, p.Operation })
+                .IncludeProperties(p => new { p.AuditDate, p.UserAuditedId })
+                .HasDatabaseName("Idx_AuditDataEntityLog_TableName_Operation_Inc_")
+                .IsUnique(false);
         }
     }
 }

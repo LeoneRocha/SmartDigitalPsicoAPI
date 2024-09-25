@@ -215,7 +215,7 @@ secretKey = Convert.ToBase64String(key);
 
 Add-Migration UpdateRecordPatientStorage -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
 
-Add-Migration AddAuditDataLog -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+Add-Migration AddAuditDataLogv2 -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
 
 
 

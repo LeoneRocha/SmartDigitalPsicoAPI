@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Data.Context
         //    : base(options)
         //{
         //    _auditInterceptor = auditInterceptor;
-        //} 
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Configure FLUENT API 
@@ -71,7 +71,7 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new RoleGroupUserMockData());
             modelBuilder.ApplyConfiguration(new MedicalSpecialtyMockData());
         }
-         
+
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    if (_auditInterceptor != null)
