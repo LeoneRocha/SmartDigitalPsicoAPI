@@ -72,12 +72,12 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new MedicalSpecialtyMockData());
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (_auditInterceptor != null)
-        //    {
-        //        optionsBuilder.AddInterceptors(_auditInterceptor);
-        //    }
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (_auditInterceptor != null)
+            {
+                optionsBuilder.AddInterceptors(_auditInterceptor);
+            }
+        }
     }
 }

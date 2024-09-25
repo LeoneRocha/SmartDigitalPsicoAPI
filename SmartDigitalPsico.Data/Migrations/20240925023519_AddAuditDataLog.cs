@@ -52,7 +52,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1454), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1457), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1456) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6750), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6752), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6752) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -60,7 +60,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1688), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1689), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1689) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6966), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6967), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6967) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -68,7 +68,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 2L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1691), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1691), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1691) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6969), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6969), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6969) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -76,7 +76,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 3L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1693), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1694), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1693) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6971), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6972), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6971) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -84,7 +84,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 4L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1695), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1695), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1695) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6973), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6974), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6973) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -92,7 +92,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 5L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1697), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1697), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1697) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6975), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6975), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6975) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -100,7 +100,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 6L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1698), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1699), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1699) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6977), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6977), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6977) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -108,7 +108,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 7L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1700), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1701), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1701) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6978), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6979), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6979) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -116,7 +116,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 8L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1702), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1703), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1703) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6980), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6981), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6981) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -124,7 +124,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 9L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1704), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1705), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1704) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6982), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6983), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6983) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -132,7 +132,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 10L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1706), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1707), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1706) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6984), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6985), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6984) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -140,7 +140,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 11L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1708), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1708), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1708) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6986), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6987), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6986) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -148,7 +148,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 12L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1710), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1710), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1710) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6988), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6989), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6988) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -156,7 +156,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 13L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1711), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1712), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1712) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6990), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6991), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6990) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -164,7 +164,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 14L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1713), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1714), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1714) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6992), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6992), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6992) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -172,7 +172,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 15L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1715), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1716), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1715) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6994), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6994), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6994) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -180,7 +180,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 16L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1717), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1717), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1717) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6996), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6996), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6996) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -188,7 +188,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 17L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1719), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1719), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1719) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6998), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6998), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6998) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -196,7 +196,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 18L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1720), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1721), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1721) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(6999), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7000), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7000) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -204,7 +204,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 19L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1722), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1723), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1723) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7001), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7002), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7002) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -212,7 +212,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 20L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1724), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1725), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1725) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7003), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7004), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7004) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -220,7 +220,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 21L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1726), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1727), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1727) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7005), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7006), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7006) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -228,7 +228,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 22L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1728), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1729), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1729) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7007), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7008), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7007) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -236,7 +236,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 23L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1730), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1731), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1731) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7009), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7010), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7009) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -244,7 +244,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 24L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1732), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1733), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1732) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7011), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7012), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7011) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -252,7 +252,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 25L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1734), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1735), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1734) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7013), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7014), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7013) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -260,7 +260,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 26L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1736), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1737), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1736) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7015), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7015), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7015) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -268,7 +268,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 27L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1738), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1739), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1738) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7017), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7017), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7017) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -276,7 +276,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 28L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1740), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1741), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1740) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7019), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7019), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7019) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -284,7 +284,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 29L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1742), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1742), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1742) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7020), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7021), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7021) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -292,7 +292,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 30L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1744), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1744), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1744) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7022), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7023), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7023) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -300,7 +300,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 31L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1745), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1746), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1746) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7024), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7025), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7024) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -308,7 +308,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 32L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1747), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1748), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1747) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7026), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7027), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7026) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -316,7 +316,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 33L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1749), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1750), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1749) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7028), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7029), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7028) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -324,7 +324,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 34L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1751), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1751), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1751) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7030), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7031), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7030) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -332,7 +332,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 35L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1753), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1753), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1753) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7032), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7032), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7032) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -340,7 +340,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 36L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1755), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1755), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1755) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7034), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7034), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7034) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -348,7 +348,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 37L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1756), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1757), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1757) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7035), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7036), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7036) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -356,7 +356,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 38L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1758), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1759), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1759) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7037), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7038), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7038) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -364,7 +364,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 39L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1760), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1761), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1760) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7039), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7040), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7040) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -372,7 +372,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1878));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7164));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -380,7 +380,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 2L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1880));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7166));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -388,7 +388,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1990), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1991), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(1991) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7293), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7294), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7294) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -396,7 +396,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2106));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7395));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -404,7 +404,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 2L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2108));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7397));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -412,7 +412,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 3L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2109));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7398));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -420,7 +420,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2249), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2249), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2250) });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7505), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7506), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7506) });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -428,7 +428,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2366));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7619));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -436,7 +436,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 2L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2367));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7621));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -444,7 +444,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 3L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2369));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7623));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -452,7 +452,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 4L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2370));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7624));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -460,7 +460,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 5L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2371));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7625));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -468,7 +468,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 6L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2372));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7626));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -476,7 +476,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2473));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7727));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -484,7 +484,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 2L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2474));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7729));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -492,7 +492,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 3L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2476));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7730));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -500,7 +500,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 4L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2477));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7731));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -508,7 +508,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 5L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2478));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7732));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -516,7 +516,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 6L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2479));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7733));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -524,7 +524,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 7L,
                 column: "CreatedDate",
-                value: new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2480));
+                value: new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7734));
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -532,7 +532,7 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate", "PasswordHash", "PasswordSalt" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2596), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2597), new DateTime(2024, 9, 25, 2, 13, 30, 879, DateTimeKind.Utc).AddTicks(2597), new byte[] { 87, 75, 213, 69, 196, 68, 155, 65, 100, 123, 34, 87, 95, 109, 85, 246, 95, 11, 16, 193, 136, 14, 218, 182, 25, 164, 66, 108, 22, 42, 143, 17, 251, 84, 151, 227, 47, 51, 203, 22, 184, 205, 189, 145, 32, 33, 136, 221, 224, 100, 120, 13, 147, 216, 72, 150, 126, 136, 49, 137, 139, 120, 230, 129 }, new byte[] { 115, 166, 165, 82, 12, 192, 15, 77, 222, 250, 74, 116, 144, 39, 117, 160, 123, 157, 0, 111, 254, 181, 140, 251, 151, 26, 64, 31, 204, 145, 218, 136, 255, 203, 96, 164, 150, 9, 152, 239, 35, 78, 118, 24, 243, 152, 35, 86, 228, 219, 62, 222, 27, 219, 86, 175, 123, 143, 58, 102, 109, 238, 188, 36, 39, 158, 46, 9, 78, 246, 59, 252, 73, 187, 192, 132, 211, 186, 252, 78, 245, 185, 165, 55, 70, 60, 35, 153, 218, 201, 222, 59, 235, 26, 40, 115, 159, 61, 164, 90, 178, 149, 146, 155, 59, 166, 230, 95, 216, 182, 81, 16, 135, 248, 34, 28, 30, 78, 58, 1, 185, 131, 255, 2, 83, 179, 91, 181 } });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7846), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7846), new DateTime(2024, 9, 25, 2, 35, 19, 359, DateTimeKind.Utc).AddTicks(7847), new byte[] { 239, 23, 61, 180, 49, 66, 227, 27, 176, 117, 39, 109, 240, 74, 44, 35, 199, 159, 134, 95, 169, 9, 193, 116, 14, 123, 166, 61, 217, 227, 169, 80, 184, 187, 182, 51, 65, 73, 169, 247, 179, 198, 65, 61, 209, 160, 112, 138, 193, 148, 75, 27, 48, 213, 156, 156, 99, 29, 122, 195, 227, 142, 229, 235 }, new byte[] { 23, 151, 184, 186, 223, 99, 176, 26, 74, 110, 120, 138, 131, 212, 171, 199, 165, 180, 167, 158, 86, 94, 66, 110, 160, 115, 130, 77, 220, 150, 142, 195, 39, 22, 15, 47, 94, 175, 98, 127, 69, 149, 69, 86, 9, 222, 255, 132, 9, 123, 77, 246, 200, 121, 247, 182, 14, 212, 161, 193, 114, 128, 238, 63, 212, 48, 62, 22, 180, 89, 214, 43, 171, 69, 134, 255, 223, 207, 108, 220, 226, 22, 97, 218, 1, 34, 153, 231, 70, 1, 63, 15, 167, 77, 146, 187, 13, 75, 83, 80, 27, 115, 63, 84, 72, 234, 150, 223, 102, 86, 30, 110, 83, 158, 59, 76, 108, 60, 48, 172, 22, 22, 185, 107, 78, 102, 232, 115 } });
 
             migrationBuilder.UpdateData(
                 schema: "dbo",
@@ -540,7 +540,13 @@ namespace SmartDigitalPsico.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 2L,
                 columns: new[] { "CreatedDate", "LastAccessDate", "ModifyDate", "PasswordHash", "PasswordSalt" },
-                values: new object[] { new DateTime(2024, 9, 25, 2, 13, 30, 881, DateTimeKind.Utc).AddTicks(3914), new DateTime(2024, 9, 25, 2, 13, 30, 881, DateTimeKind.Utc).AddTicks(3915), new DateTime(2024, 9, 25, 2, 13, 30, 881, DateTimeKind.Utc).AddTicks(3916), new byte[] { 142, 213, 105, 194, 230, 130, 97, 47, 142, 107, 238, 115, 190, 237, 63, 223, 125, 84, 207, 244, 182, 151, 58, 62, 90, 96, 128, 40, 31, 203, 92, 101, 47, 181, 152, 61, 47, 162, 226, 184, 170, 40, 230, 143, 200, 160, 220, 33, 46, 240, 78, 67, 106, 195, 117, 45, 119, 16, 6, 89, 88, 207, 117, 220 }, new byte[] { 195, 116, 110, 73, 203, 181, 114, 141, 165, 137, 85, 203, 254, 55, 153, 60, 170, 161, 8, 48, 250, 236, 100, 154, 32, 94, 61, 138, 228, 190, 102, 10, 77, 53, 73, 39, 8, 245, 102, 101, 195, 150, 109, 219, 187, 140, 193, 71, 236, 146, 42, 31, 14, 46, 186, 97, 232, 94, 48, 2, 2, 164, 252, 108, 212, 159, 71, 135, 180, 109, 29, 117, 82, 81, 237, 167, 95, 226, 131, 84, 185, 169, 150, 34, 204, 104, 186, 154, 28, 45, 242, 63, 179, 163, 218, 203, 176, 118, 144, 114, 171, 236, 235, 193, 37, 30, 61, 19, 169, 228, 185, 73, 164, 193, 91, 194, 35, 216, 255, 252, 35, 225, 6, 205, 123, 61, 61, 232 } });
+                values: new object[] { new DateTime(2024, 9, 25, 2, 35, 19, 361, DateTimeKind.Utc).AddTicks(9959), new DateTime(2024, 9, 25, 2, 35, 19, 361, DateTimeKind.Utc).AddTicks(9961), new DateTime(2024, 9, 25, 2, 35, 19, 361, DateTimeKind.Utc).AddTicks(9961), new byte[] { 196, 2, 76, 97, 166, 253, 73, 80, 0, 226, 248, 90, 89, 242, 39, 106, 178, 198, 206, 126, 56, 78, 124, 139, 15, 103, 147, 89, 175, 253, 2, 119, 201, 186, 228, 176, 78, 157, 127, 117, 108, 5, 33, 157, 154, 133, 4, 243, 148, 237, 105, 45, 87, 170, 128, 76, 39, 41, 57, 119, 95, 255, 33, 46 }, new byte[] { 51, 230, 44, 165, 224, 248, 105, 27, 238, 145, 171, 75, 228, 81, 76, 10, 21, 52, 58, 99, 179, 251, 34, 112, 229, 174, 216, 187, 170, 126, 19, 67, 187, 250, 8, 70, 197, 119, 215, 122, 60, 140, 245, 152, 228, 201, 145, 114, 213, 232, 253, 246, 237, 76, 121, 219, 159, 11, 138, 33, 94, 144, 29, 141, 170, 73, 29, 87, 65, 185, 220, 188, 150, 103, 112, 20, 193, 232, 13, 59, 89, 2, 210, 204, 120, 105, 177, 40, 12, 242, 210, 188, 166, 221, 71, 118, 209, 236, 128, 225, 26, 197, 51, 203, 161, 168, 94, 21, 183, 71, 179, 96, 144, 187, 207, 225, 155, 34, 109, 250, 225, 133, 84, 242, 128, 209, 202, 43 } });
+
+            migrationBuilder.CreateIndex(
+                name: "Idx_TableName_Operation_Inc_AuditDate_UserAuditedId",
+                schema: "dbo",
+                table: "AuditDataEntityLog",
+                columns: new[] { "TableName", "Operation" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AuditDataEntityLog_UserAuditedId",
