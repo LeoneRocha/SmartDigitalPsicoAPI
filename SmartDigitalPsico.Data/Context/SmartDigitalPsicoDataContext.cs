@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
 using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 
@@ -6,16 +7,30 @@ namespace SmartDigitalPsico.Data.Context
 {
     public class SmartDigitalPsicoDataContext : EntityDataContext
     {
+        private readonly AuditInterceptor? _auditInterceptor;
         public SmartDigitalPsicoDataContext()
-        {
-
+        { 
         }
         public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options) : base(options)
         {
         }
+        //public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options, AuditInterceptor auditInterceptor)
+        //    : base(options)
+        //{
+        //    _auditInterceptor = auditInterceptor;
+        //} 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Configure FLUENT API 
+            addConfigurationEntities(modelBuilder);
+
+            addDataMock(modelBuilder);
+             
+            base.OnModelCreating(modelBuilder);
+        }
+
+        private static void addConfigurationEntities(ModelBuilder modelBuilder)
+        {
             modelBuilder.ApplyConfiguration(new ApplicationCacheLogConfiguration());
             modelBuilder.ApplyConfiguration(new ApplicationConfigSettingConfiguration());
             modelBuilder.ApplyConfiguration(new ApplicationLanguageConfiguration());
@@ -38,6 +53,11 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new MedicalSpecialtyConfiguration());
             modelBuilder.ApplyConfiguration(new RoleGroupUserConfiguration());
+            modelBuilder.ApplyConfiguration(new AuditDataEntityLogConfiguration());
+        }
+
+        private static void addDataMock(ModelBuilder modelBuilder)
+        {
             //MOCK DATA
             modelBuilder.ApplyConfiguration(new ApplicationConfigSettingMockData());
             modelBuilder.ApplyConfiguration(new ApplicationLanguageMockData());
@@ -50,8 +70,14 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new UserMockData());
             modelBuilder.ApplyConfiguration(new RoleGroupUserMockData());
             modelBuilder.ApplyConfiguration(new MedicalSpecialtyMockData());
-
-            base.OnModelCreating(modelBuilder);
         }
+         
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (_auditInterceptor != null)
+        //    {
+        //        optionsBuilder.AddInterceptors(_auditInterceptor);
+        //    }
+        //}
     }
 }

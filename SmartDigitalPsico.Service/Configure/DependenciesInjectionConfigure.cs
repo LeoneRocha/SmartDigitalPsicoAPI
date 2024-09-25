@@ -39,6 +39,8 @@ using SmartDigitalPsico.Service.Infrastructure.Report;
 using SmartDigitalPsico.Service.Infrastructure.Smtp;
 using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Security;
+using SmartDigitalPsico.Data.Audit.Interface;
+using SmartDigitalPsico.Data.Audit;
 
 namespace SmartDigitalPsico.Service.Configure
 {
@@ -56,6 +58,15 @@ namespace SmartDigitalPsico.Service.Configure
             addQueueDependencies(services);
             addCollectionDependencies(services);
             addReportDependencies(services);
+
+            addAuditDataLog(services);
+        }
+
+        private static void addAuditDataLog(IServiceCollection services)
+        {
+            services.AddScoped<IAuditService, AuditService>();
+            //services.AddScoped<IAuditInterceptor, AuditInterceptor>();
+            services.AddScoped<AuditInterceptor>();
         }
 
         private static void addReportDependencies(IServiceCollection services)
