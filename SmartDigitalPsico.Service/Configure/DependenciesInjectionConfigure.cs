@@ -10,6 +10,9 @@ using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DependeciesCollection;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Security;
+using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -27,9 +30,6 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure;
@@ -39,8 +39,6 @@ using SmartDigitalPsico.Service.Infrastructure.Report;
 using SmartDigitalPsico.Service.Infrastructure.Smtp;
 using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Security;
-using SmartDigitalPsico.Data.Audit.Interface;
-using SmartDigitalPsico.Data.Audit;
 
 namespace SmartDigitalPsico.Service.Configure
 {
