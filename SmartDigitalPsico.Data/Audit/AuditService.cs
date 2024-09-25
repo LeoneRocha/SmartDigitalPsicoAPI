@@ -50,17 +50,23 @@ namespace SmartDigitalPsico.Data.Audit
         }
         private static string SerializeOriginalValues(EntityEntry entry)
         {
-            var OriginalValues = entry.OriginalValues.Properties.ToDictionary(p => p.Name, p => entry.OriginalValues[p]).ToList();
+            var originalValues = entry.OriginalValues.Properties
+                .ToDictionary(p => p.Name, p => entry.OriginalValues[p]);
 
-            return JsonConvert.SerializeObject(OriginalValues, getJsonSettigns());
+            var jsonResult = JsonConvert.SerializeObject(originalValues, GetJsonSettings());
+            return jsonResult;
         }
 
         private static string SerializeCurrentValues(EntityEntry entry)
         {
-            var OriginalValues = entry.CurrentValues.Properties.ToDictionary(p => p.Name, p => entry.CurrentValues[p]).ToList();
-            return JsonConvert.SerializeObject(OriginalValues, getJsonSettigns());
+            var currentValues = entry.CurrentValues.Properties
+                .ToDictionary(p => p.Name, p => entry.CurrentValues[p]);
+
+            var jsonResult = JsonConvert.SerializeObject(currentValues, GetJsonSettings());
+            return jsonResult;
+
         }
-        private static JsonSerializerSettings getJsonSettigns()
+        private static JsonSerializerSettings GetJsonSettings()
         {
             return new JsonSerializerSettings
             {
