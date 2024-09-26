@@ -61,11 +61,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
             // Auto Mapper 
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
-            //ORM API 
-            addORM(services, WebApiHelpers.getTypeDataBase(_configuration));
-
             //Dependency Injection
             DependenciesInjectionConfigure.AddDependenciesInjection(services, _configuration);
+
+            //ORM API 
+            addORM(services, WebApiHelpers.getTypeDataBase(_configuration));
+             
 
             //Add log 
             addLog(services, _logger);
@@ -162,8 +163,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
         {
             var connection = string.Empty;
 
-            services.AddSingleton<IAuditService, AuditService>();
-            services.AddSingleton<AuditInterceptor>();
+
 
             switch (etypeDataBase)
             {
@@ -178,7 +178,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                             optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore);
                         });
 
-                        var auditInterceptor = serviceProvider.GetRequiredService<AuditInterceptor>(); 
+                        var auditInterceptor = serviceProvider.GetRequiredService<AuditInterceptor>();
                         optionsBuilder.AddInterceptors(auditInterceptor);
                     });
                     break;

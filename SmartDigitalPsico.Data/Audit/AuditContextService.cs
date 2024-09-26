@@ -6,9 +6,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit
 {
-    public class AuditService : IAuditService
+    public class AuditContextService : IAuditContextService
     {
-        public AuditService()
+        public AuditContextService()
         {
         }
         public List<AuditDataEntityLog> OnBeforeSaveChanges(DbContext context)

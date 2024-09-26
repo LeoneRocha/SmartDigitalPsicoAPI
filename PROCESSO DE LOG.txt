@@ -1,3 +1,35 @@
+
+
+
+Em C# .net 8 melhore a classe para que seja possivel salvar auditEntries que foram alteradas em log ou em um azure storage table chamando outras classes via injecao de dependencia assim como 
+IAuditContextService e que seja facil parametrizar se sera salvo no banco de dados ou em outra forma como azure storage table ou log 
+
+ public class AuditInterceptor : SaveChangesInterceptor, IAuditInterceptor
+ {
+     private readonly IAuditContextService _auditService;
+
+     public AuditInterceptor(IAuditContextService auditService)
+     {
+         _auditService = auditService;
+     }
+
+     public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
+     {
+         var auditEntries = _auditService.OnBeforeSaveChanges(eventData.Context!);
+          
+         eventData!.Context!.Set<AuditDataEntityLog>().AddRange(auditEntries);
+         return base.SavedChanges(eventData, result);
+     }
+
+     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
+     {
+         var auditEntries = _auditService.OnBeforeSaveChanges(eventData.Context!);
+         eventData!.Context!.Set<AuditDataEntityLog>().AddRange(auditEntries);
+         return base.SavingChangesAsync(eventData, result, cancellationToken);
+     }
+
+
+
 Para garantir que o log seja criado apenas quando houver exatamente uma entidade sendo modificada ou deletada, você pode adicionar uma verificação no início do método para contar as entradas relevantes. Se houver mais de uma, você pode retornar uma lista vazia. Aqui está uma versão melhorada do seu código:
 
 ```csharp

@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Data.Audit.Interface;
+using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
@@ -39,6 +41,8 @@ using SmartDigitalPsico.Service.Infrastructure.Report;
 using SmartDigitalPsico.Service.Infrastructure.Smtp;
 using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Security;
+using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Service.Audit;
 
 namespace SmartDigitalPsico.Service.Configure
 {
@@ -55,9 +59,21 @@ namespace SmartDigitalPsico.Service.Configure
             addSmtpDependencies(services, _configuration);
             addQueueDependencies(services);
             addCollectionDependencies(services);
-            addReportDependencies(services); 
+            addReportDependencies(services);  
+            addAuditDependencies(services);
         }
-          
+
+        private static void addAuditDependencies(IServiceCollection services)
+        {
+            services.AddSingleton<IAuditContextService, AuditContextService>();
+            services.AddSingleton<IAuditPersistenceServiceFactory, AuditPersistenceServiceFactory>();
+                  
+            services.AddSingleton<DataBaseAuditPersistenceService>();
+            services.AddSingleton<AzureTableAuditPersistenceService>();
+            services.AddSingleton<LogAuditPersistenceService>();
+            services.AddSingleton<AuditInterceptor>();
+        }
+
         private static void addReportDependencies(IServiceCollection services)
         {
             services.AddScoped<IExcelGeneratorService, ExcelGeneratorService>();

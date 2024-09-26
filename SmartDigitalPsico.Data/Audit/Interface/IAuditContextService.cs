@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.ModelEntity;
   
 namespace SmartDigitalPsico.Data.Audit.Interface
 {
-    public interface IAuditService
+    public interface IAuditContextService
     {
         List<AuditDataEntityLog> OnBeforeSaveChanges(DbContext context);
     }
