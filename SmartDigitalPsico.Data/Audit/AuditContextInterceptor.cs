@@ -17,9 +17,9 @@ namespace SmartDigitalPsico.Data.Audit
         {
             _serviceType = EAuditServiceType.Database;
             _auditService = auditService;
-            _auditPersistenceServiceFactory = auditPersistenceServiceFactory; 
+            _auditPersistenceServiceFactory = auditPersistenceServiceFactory;
             _auditPersistenceService = _auditPersistenceServiceFactory.CreateService(_serviceType);
-        } 
+        }
         public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
         {
             var auditEntries = _auditService.OnBeforeSaveChanges(eventData.Context!);
@@ -32,7 +32,7 @@ namespace SmartDigitalPsico.Data.Audit
             else
             {
                 _auditPersistenceService.SaveAuditEntries(auditEntries);
-            } 
+            }
             return result;
         }
 
@@ -48,9 +48,8 @@ namespace SmartDigitalPsico.Data.Audit
             else
             {
                 _auditPersistenceService.SaveAuditEntries(auditEntries);
-            } 
+            }
             return result;
-        } 
+        }
     }
-
 }
