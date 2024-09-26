@@ -66,10 +66,9 @@ namespace SmartDigitalPsico.Service.Configure
         private static void addAuditDependencies(IServiceCollection services)
         {
             services.AddSingleton<IAuditContextService, AuditContextService>();
-            services.AddSingleton<IAuditPersistenceServiceFactory, AuditPersistenceServiceFactory>();
-                  
+            services.AddSingleton<IAuditPersistenceServiceFactory, AuditPersistenceServiceFactory>(); 
+            services.AddScoped<AuditPersistenceAzureTableService>();
             services.AddSingleton<AuditPersistenceDataBaseService>();
-            services.AddSingleton<AuditPersistenceAzureTableService>();
             services.AddSingleton<AuditPersistenceLogService>();
             services.AddSingleton<AuditContextInterceptor>();
         }
@@ -242,4 +241,4 @@ namespace SmartDigitalPsico.Service.Configure
 
         #endregion
     }
-}
+} 
