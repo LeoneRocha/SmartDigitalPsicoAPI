@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Data.Audit.Interface
 {
-    public interface IAuditInterceptor
+    public interface IAuditContextInterceptor
     {
         int SavedChanges(SaveChangesCompletedEventData eventData, int result);
     }

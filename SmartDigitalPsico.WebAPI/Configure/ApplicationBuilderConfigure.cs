@@ -178,7 +178,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                             optionsMySQL.SchemaBehavior(MySqlSchemaBehavior.Ignore);
                         });
 
-                        var auditInterceptor = serviceProvider.GetRequiredService<AuditInterceptor>();
+                        var auditInterceptor = serviceProvider.GetRequiredService<AuditContextInterceptor>();
                         optionsBuilder.AddInterceptors(auditInterceptor);
                     });
                     break;
@@ -188,7 +188,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     {
                         optionsBuilder.UseSqlServer(connection,
                         optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data"));
-                        var auditInterceptor = serviceProvider.GetRequiredService<AuditInterceptor>();
+                        var auditInterceptor = serviceProvider.GetRequiredService<AuditContextInterceptor>();
                         optionsBuilder.AddInterceptors(auditInterceptor);
                     });
                     break;

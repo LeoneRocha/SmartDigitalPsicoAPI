@@ -7,14 +7,14 @@ namespace SmartDigitalPsico.Data.Context
 {
     public class SmartDigitalPsicoDataContext : EntityDataContext
     {
-        private readonly AuditInterceptor? _auditInterceptor;
+        private readonly AuditContextInterceptor? _auditInterceptor;
         public SmartDigitalPsicoDataContext()
         { 
         }
         public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options) : base(options)
         {
         }
-        public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options, AuditInterceptor auditInterceptor)
+        public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options, AuditContextInterceptor auditInterceptor)
             : base(options)
         {
             _auditInterceptor = auditInterceptor;

@@ -6,14 +6,14 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit
 {
-    public class AuditInterceptor : SaveChangesInterceptor, IAuditInterceptor
+    public class AuditContextInterceptor : SaveChangesInterceptor, IAuditContextInterceptor
     {
         private readonly IAuditContextService _auditService;
         private readonly IAuditPersistenceServiceFactory _auditPersistenceServiceFactory;
         private readonly IAuditPersistenceService _auditPersistenceService;
         private readonly EAuditServiceType _serviceType;
 
-        public AuditInterceptor(IAuditContextService auditService, IAuditPersistenceServiceFactory auditPersistenceServiceFactory)
+        public AuditContextInterceptor(IAuditContextService auditService, IAuditPersistenceServiceFactory auditPersistenceServiceFactory)
         {
             _serviceType = EAuditServiceType.Database;
             _auditService = auditService;

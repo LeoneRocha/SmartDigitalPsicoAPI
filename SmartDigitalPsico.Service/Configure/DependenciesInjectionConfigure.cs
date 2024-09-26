@@ -71,7 +71,7 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddSingleton<DataBaseAuditPersistenceService>();
             services.AddSingleton<AzureTableAuditPersistenceService>();
             services.AddSingleton<LogAuditPersistenceService>();
-            services.AddSingleton<AuditInterceptor>();
+            services.AddSingleton<AuditContextInterceptor>();
         }
 
         private static void addReportDependencies(IServiceCollection services)
