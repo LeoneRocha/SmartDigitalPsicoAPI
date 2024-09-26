@@ -68,9 +68,9 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddSingleton<IAuditContextService, AuditContextService>();
             services.AddSingleton<IAuditPersistenceServiceFactory, AuditPersistenceServiceFactory>();
                   
-            services.AddSingleton<DataBaseAuditPersistenceService>();
-            services.AddSingleton<AzureTableAuditPersistenceService>();
-            services.AddSingleton<LogAuditPersistenceService>();
+            services.AddSingleton<AuditPersistenceDataBaseService>();
+            services.AddSingleton<AuditPersistenceAzureTableService>();
+            services.AddSingleton<AuditPersistenceLogService>();
             services.AddSingleton<AuditContextInterceptor>();
         }
 
@@ -173,7 +173,9 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IGenderRepository, GenderRepository>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
             services.AddScoped<IRoleGroupRepository, RoleGroupRepository>();
-            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
+            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>(); 
+            
+            services.AddScoped<IAuditDataSelectiveEntityLogRepository, AuditDataSelectiveEntityLogRepository>();
         }
         private static void addService(IServiceCollection services)
         {

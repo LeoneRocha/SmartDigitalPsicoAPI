@@ -17,11 +17,11 @@ namespace SmartDigitalPsico.Service.Audit
             switch (serviceType)
             {
                 case EAuditServiceType.Database:
-                    return _serviceProvider.GetService<AzureTableAuditPersistenceService>()!;
+                    return _serviceProvider.GetService<AuditPersistenceDataBaseService>()!;
                 case EAuditServiceType.AzureTable:
-                    return _serviceProvider.GetService<AzureTableAuditPersistenceService>()!;
+                    return _serviceProvider.GetService<AuditPersistenceAzureTableService>()!;
                 case EAuditServiceType.Log:
-                    return _serviceProvider.GetService<LogAuditPersistenceService>()!;
+                    return _serviceProvider.GetService<AuditPersistenceLogService>()!;
                 default:
                     throw new ArgumentException("Invalid service type", nameof(serviceType));
             }
