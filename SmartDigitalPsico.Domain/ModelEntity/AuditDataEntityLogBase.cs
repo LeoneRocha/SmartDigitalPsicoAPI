@@ -1,8 +1,17 @@
-﻿namespace SmartDigitalPsico.Domain.ModelEntity
+﻿using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Interfaces;
+
+namespace SmartDigitalPsico.Domain.ModelEntity
 {
-    public abstract class AuditDataEntityLogBase
+    public abstract class AuditDataEntityLogBase : EntityBase, IEntityBase
     {
-        public long Id { get; set; }
+        protected AuditDataEntityLogBase()
+        {
+            ModifyDate = DateTime.UtcNow;
+            CreatedDate = DateTime.UtcNow;
+            LastAccessDate = DateTime.UtcNow;
+            Enable = true;
+        }
         public string TableName { get; set; } = string.Empty;
         public string Operation { get; set; } = string.Empty;
         public string KeyValue { get; set; } = string.Empty;
