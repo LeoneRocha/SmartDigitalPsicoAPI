@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.Service.Audit
             foreach (var entry in auditEntries)
             { 
                 _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}", 
-                    entry.TableName, entry.Operation, entry.KeyValues, entry.UserAuditedId ?? 0, DataHelper.GetDateTimeCustomFormat(entry.AuditDate));
+                    entry.TableName, entry.Operation, entry.KeyValue, entry.UserAuditedId ?? 0, DataHelper.GetDateTimeCustomFormat(entry.AuditDate));
             }
         }
     }

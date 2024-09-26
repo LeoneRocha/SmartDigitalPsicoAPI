@@ -61,6 +61,7 @@ namespace SmartDigitalPsico.Data.Context
             modelBuilder.ApplyConfiguration(new MedicalSpecialtyConfiguration());
             modelBuilder.ApplyConfiguration(new RoleGroupUserConfiguration());
             modelBuilder.ApplyConfiguration(new AuditDataEntityLogConfiguration());
+            modelBuilder.ApplyConfiguration(new AuditDataSelectiveEntityLogConfiguration());
         }
 
         private static void addDataMock(ModelBuilder modelBuilder)

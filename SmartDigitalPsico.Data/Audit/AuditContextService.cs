@@ -33,7 +33,7 @@ namespace SmartDigitalPsico.Data.Audit
             {
                 TableName = entry.Entity.GetType().Name,
                 Operation = entry.State.ToString(),
-                KeyValues = GetKeyValues(entry),
+                KeyValue = GetKeyValues(entry),
                 OldValues = entry.State == EntityState.Modified ? SerializeOriginalValues(entry) : string.Empty,
                 NewValues = entry.State == EntityState.Modified ? SerializeCurrentValues(entry) : string.Empty,
                 UserAuditedId = GetCurrentUserId(entry).Item1,

@@ -5,15 +5,15 @@ using SmartDigitalPsico.Domain.Constants;
 
 namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
 {
-    public class AuditDataEntityLogConfiguration : IEntityTypeConfiguration<AuditDataEntityLog>
+    public class AuditDataSelectiveEntityLogConfiguration : IEntityTypeConfiguration<AuditDataSelectiveEntityLog>
     {
-        public void Configure(EntityTypeBuilder<AuditDataEntityLog> builder)
+        public void Configure(EntityTypeBuilder<AuditDataSelectiveEntityLog> builder)
         {
-            builder.ToTable("AuditDataEntityLog", "dbo");
+            builder.ToTable("AuditDataSelectiveEntityLog", "dbo");
             HelperCharSet.AddCharSet(builder);
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Id).ValueGeneratedOnAdd();
+            builder.Property(e => e.Id).ValueGeneratedOnAdd(); 
 
             builder.Property(e => e.TableName)
                 .HasMaxLength(255)
@@ -46,6 +46,16 @@ namespace SmartDigitalPsico.Data.ConfigureFluentAPI.Entity
                 .HasMaxLength(255)
                 .IsRequired(false)
                 .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
+             
+            builder.Property(e => e.RowKey)
+                .HasMaxLength(40)
+                .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_40)
+                .IsRequired(false);
+
+            builder.Property(e => e.PartitionKey)
+                .HasMaxLength(40)
+                .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_40)
+                .IsRequired(false);
 
             // Relationship                                    
             builder.HasOne(e => e.UserAudited).WithMany().HasForeignKey(e => e.UserAuditedId);
