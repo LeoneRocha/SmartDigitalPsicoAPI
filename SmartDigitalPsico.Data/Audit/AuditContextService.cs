@@ -28,10 +28,12 @@ namespace SmartDigitalPsico.Data.Audit
         public List<AuditDataEntityLog> GetExistingEntries(DbContext context, List<AuditDataEntityLog> auditEntries)
         {
             return context.Set<AuditDataEntityLog>()
-                .Where(a => auditEntries.Any(e =>
-                    e.AuditDate.Minute == a.AuditDate.Minute &&
-                    e.TableName == a.TableName &&
-                    e.Operation == a.Operation))
+                .Where(a => auditEntries.Any(e => e.AuditDate.Date == a.AuditDate.Date
+                    && e.AuditDate.Hour == a.AuditDate.Hour
+                    && e.AuditDate.Minute == a.AuditDate.Minute
+                    && e.TableName == a.TableName
+                    && e.Operation == a.Operation
+                    && e.KeyValue == a.KeyValue))
                 .ToList();
         }
 
