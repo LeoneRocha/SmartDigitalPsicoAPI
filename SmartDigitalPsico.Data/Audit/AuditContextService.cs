@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.Data.Audit
         {
             var existingEntries = GetExistingEntries(context, auditEntries);
             return auditEntries
-                .Where(e => !existingEntries.Any(a => e.AuditDate.Date == a.AuditDate.Date
+                .Where(e => !existingEntries.Exists(a => e.AuditDate.Date == a.AuditDate.Date
                     && e.AuditDate.Hour == a.AuditDate.Hour
                     && e.AuditDate.Minute == a.AuditDate.Minute
                     && a.TableName.Equals(e.TableName)
