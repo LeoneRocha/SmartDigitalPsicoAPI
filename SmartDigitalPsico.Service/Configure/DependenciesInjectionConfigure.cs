@@ -4,12 +4,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Data.Audit.Interface;
+using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DependeciesCollection;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Security;
+using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -27,9 +32,6 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure;
@@ -39,6 +41,8 @@ using SmartDigitalPsico.Service.Infrastructure.Report;
 using SmartDigitalPsico.Service.Infrastructure.Smtp;
 using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Security;
+using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Service.Audit;
 
 namespace SmartDigitalPsico.Service.Configure
 {
@@ -55,7 +59,18 @@ namespace SmartDigitalPsico.Service.Configure
             addSmtpDependencies(services, _configuration);
             addQueueDependencies(services);
             addCollectionDependencies(services);
-            addReportDependencies(services);
+            addReportDependencies(services);  
+            addAuditDependencies(services);
+        }
+
+        private static void addAuditDependencies(IServiceCollection services)
+        {
+            services.AddSingleton<IAuditContextService, AuditContextService>();
+            services.AddSingleton<IAuditPersistenceServiceFactory, AuditPersistenceServiceFactory>(); 
+            services.AddScoped<AuditPersistenceAzureTableService>();
+            services.AddSingleton<AuditPersistenceDataBaseService>();
+            services.AddSingleton<AuditPersistenceLogService>();
+            services.AddSingleton<AuditContextInterceptor>();
         }
 
         private static void addReportDependencies(IServiceCollection services)
@@ -157,7 +172,9 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IGenderRepository, GenderRepository>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
             services.AddScoped<IRoleGroupRepository, RoleGroupRepository>();
-            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
+            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>(); 
+            
+            services.AddScoped<IAuditDataSelectiveEntityLogRepository, AuditDataSelectiveEntityLogRepository>();
         }
         private static void addService(IServiceCollection services)
         {
@@ -224,4 +241,4 @@ namespace SmartDigitalPsico.Service.Configure
 
         #endregion
     }
-}
+} 
