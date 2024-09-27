@@ -10,10 +10,10 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 {
     public abstract class GenericRepositoryEntityBase<T> : IEntityBaseRepository<T> where T : EntityBase
     {
-        protected SmartDigitalPsicoDataContext _context;
+        protected SmartDigitalPsicoDataContextMysql _context;
         protected DbSet<T> _dataset;
 
-        protected GenericRepositoryEntityBase(SmartDigitalPsicoDataContext context)
+        protected GenericRepositoryEntityBase(SmartDigitalPsicoDataContextMysql context)
         {
             _context = context;
             _dataset = _context.Set<T>();

@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class AuditDataSelectiveEntityLogRepository : GenericRepositoryEntityBase<AuditDataSelectiveEntityLog>, IAuditDataSelectiveEntityLogRepository
     {
-        public AuditDataSelectiveEntityLogRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public AuditDataSelectiveEntityLogRepository(SmartDigitalPsicoDataContextMysql context) : base(context) { }
 
     }
 }

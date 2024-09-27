@@ -26,8 +26,14 @@ namespace SmartDigitalPsico.Data.Audit
             {
                 if (_serviceType == EAuditServiceType.Database)
                 {
-                    eventData!.Context!.Set<AuditDataEntityLog>().AddRange(auditEntries);
-                    return base.SavedChanges(eventData, result);
+                    var context = eventData.Context!;
+                    var newEntries = _auditService.GetNewEntries(context, auditEntries);
+
+                    if (newEntries.Count > 0)
+                    {
+                        context.Set<AuditDataEntityLog>().AddRange(newEntries);
+                        return base.SavedChanges(eventData, result);
+                    }
                 }
                 else
                 {
@@ -44,8 +50,14 @@ namespace SmartDigitalPsico.Data.Audit
             {
                 if (_serviceType == EAuditServiceType.Database)
                 {
-                    eventData.Context!.Set<AuditDataEntityLog>().AddRange(auditEntries);
-                    return await base.SavingChangesAsync(eventData, result, cancellationToken);
+                    var context = eventData.Context!;
+                    var newEntries = _auditService.GetNewEntries(context, auditEntries);
+
+                    if (newEntries.Count > 0)
+                    {
+                        context.Set<AuditDataEntityLog>().AddRange(newEntries);
+                        return await base.SavingChangesAsync(eventData, result, cancellationToken);
+                    } 
                 }
                 else
                 {

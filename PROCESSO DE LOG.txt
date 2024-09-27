@@ -1,5 +1,23 @@
 
 
+public class DatabaseAuditPersistenceService : IAuditPersistenceService
+{
+    private readonly DbContext _context;
+
+    public DatabaseAuditPersistenceService(DbContext context)
+    {
+        _context = context;
+    }
+
+    public void SaveAuditEntries(IEnumerable<AuditDataEntityLog> auditEntries)
+    {
+        _context.Set<AuditDataEntityLog>().AddRange(auditEntries);
+        _context.SaveChanges();
+    }
+}
+
+
+
 
 Em C# .net 8 melhore a classe para que seja possivel salvar auditEntries que foram alteradas em log ou em um azure storage table chamando outras classes via injecao de dependencia assim como 
 IAuditContextService e que seja facil parametrizar se sera salvo no banco de dados ou em outra forma como azure storage table ou log 

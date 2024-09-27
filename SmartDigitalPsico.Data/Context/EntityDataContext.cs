@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Context
         {
                 
         }
-        protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options) : base(options)
+        protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContextMysql> options) : base(options)
         {
         }
 

@@ -24,6 +24,36 @@ namespace SmartDigitalPsico.Data.Audit
             }
             return auditEntries;
         }
+        public List<AuditDataEntityLog> GetExistingEntries(DbContext context, List<AuditDataEntityLog> auditEntries)
+        { 
+                var dtUtcNow = DateTime.UtcNow;
+                var twoMinutesAgo = dtUtcNow.AddMinutes(-2);
+                var minDateAauditEntrie = auditEntries.Min(x => x.AuditDate).AddMinutes(-2); 
+                List<string> tableNames = auditEntries.Select(x => x.TableName).Distinct().ToList();
+                List<string> operations = auditEntries.Select(x => x.Operation).Distinct().ToList();
+                List<string> keyValues = auditEntries.Select(x => x.KeyValue).Distinct().ToList(); 
+                var existingEntries = context.Set<AuditDataEntityLog>().AsNoTracking()
+                    .Where(adel => (adel.AuditDate >= twoMinutesAgo && adel.AuditDate <= dtUtcNow)
+                    && (adel.AuditDate >= minDateAauditEntrie)
+                    && (tableNames.Any(tn => tn == adel.TableName) && operations.Any(op => op == adel.Operation) && keyValues.Any(op => op == adel.KeyValue)))
+                    .ToList();
+                return existingEntries; 
+        }
+        public List<AuditDataEntityLog> GetNewEntries(DbContext context, List<AuditDataEntityLog> auditEntries)
+        {
+            var existingEntries = GetExistingEntries(context, auditEntries);
+            return auditEntries
+                .Where(e => !existingEntries.Exists(a => e.AuditDate.Date == a.AuditDate.Date
+                    && e.AuditDate.Hour == a.AuditDate.Hour
+                    && e.AuditDate.Minute == a.AuditDate.Minute
+                    && a.TableName.Equals(e.TableName)
+                    && a.Operation.Equals(e.Operation)
+                    && a.KeyValue.Equals(e.KeyValue)
+                    && a.OldValues.Equals(e.OldValues)
+                    && a.NewValues.Equals(e.NewValues)
+                    ))
+                .ToList();
+        }
 
         private static AuditDataEntityLog CreateAuditEntry(EntityEntry entry)
         {
