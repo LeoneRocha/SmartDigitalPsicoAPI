@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class UserRepository : GenericRepositoryEntityBase<User>, IUserRepository
     {
-        public UserRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public UserRepository(SmartDigitalPsicoDataContextMysql context) : base(context) { }
 
         public async override Task<List<User>> FindAll()
         {
