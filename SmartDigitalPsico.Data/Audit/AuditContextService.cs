@@ -25,6 +25,28 @@ namespace SmartDigitalPsico.Data.Audit
             return auditEntries;
         }
 
+        public List<AuditDataEntityLog> GetExistingEntries(DbContext context, List<AuditDataEntityLog> auditEntries)
+        {
+            return context.Set<AuditDataEntityLog>()
+                .Where(a => auditEntries.Any(e =>
+                    e.AuditDate.Minute == a.AuditDate.Minute &&
+                    e.TableName == a.TableName &&
+                    e.Operation == a.Operation))
+                .ToList();
+        }
+
+        public List<AuditDataEntityLog> GetNewEntries(DbContext context, List<AuditDataEntityLog> auditEntries)
+        {
+            var existingEntries = GetExistingEntries(context, auditEntries);
+            return auditEntries
+                .Where(e => !existingEntries.Any(a =>
+                    a.AuditDate.Minute == e.AuditDate.Minute &&
+                    a.TableName == e.TableName &&
+                    a.Operation == e.Operation))
+                .ToList();
+        }
+
+
         private static AuditDataEntityLog CreateAuditEntry(EntityEntry entry)
         {
             var auditEntry = new AuditDataEntityLog
