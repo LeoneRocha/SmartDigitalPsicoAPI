@@ -187,7 +187,7 @@ https://www.nuget.org/packages/bogus
 
 
 
-  Add-Migration UpdateDescriptionRecordPatient -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+  Add-Migration UpdateDescriptionRecordPatient -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations -Project SmartDigitalPsico.Data
 
  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
@@ -195,11 +195,11 @@ https://www.nuget.org/packages/bogus
 ----------------------------------------------------
 EF TIPS 
 
-COMANDO 1 )					Add-Migration InitialCreate -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+COMANDO 1 )					Add-Migration InitialCreate -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
-COMANDO 2 )					Update-Database -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContext
+COMANDO 2 )					Update-Database -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContextMysql
 
-COMANDO 3 "DELETAR" )		Update-Database -Migration 0 -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContext
+COMANDO 3 "DELETAR" )		Update-Database -Migration 0 -Project  "SmartDigitalPsico.Data" -StartUpProject "SmartDigitalPsico.WebAPI" -Context SmartDigitalPsicoDataContextMysql
 
 
 NO APPSETINGS PARA O JWT FUNCIONAR PRECISA POR A CHAVE 
@@ -214,18 +214,17 @@ secretKey = Convert.ToBase64String(key);
 //Migrar o idimas da tabela para arquivo JSON.
 
 
-
-Add-Migration UpdateRecordPatientStorage -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
-
-Add-Migration AddAuditDataLogv2 -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+Add-Migration RenameContext -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
 
 
-Add-Migration UpdateConfig_03 -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+ 
 
-Remove-Migration -Context SmartDigitalPsicoDataContext -Project SmartDigitalPsico.Data
-Add-Migration UpdateFileTableCloud -Context SmartDigitalPsicoDataContext -OutputDir Migrations -Project SmartDigitalPsico.Data
+
+
+Remove-Migration -Context SmartDigitalPsicoDataContextMysql -Project SmartDigitalPsico.Data
+Add-Migration UpdateFileTableCloud -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations -Project SmartDigitalPsico.Data
 
 --------- Para ativar o gatilho do github basta ativar a extensao do azure pipelines 
 --GERAR A IMAGEM E SUBIR NO DOCKER
@@ -608,10 +607,10 @@ USE DE EXEMPLO O CODIGO ABAIXO
             SetupContext(mockFull);
             var mockData = GenderMockHelper.GetMock().Take(1).AsQueryable().First();
             var data = createNewEntity(mockData);
-            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextMysqlTest();
 
             // Inicialize  Repository
-            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
+            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextMysqlTest();
             _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
 
             // Act

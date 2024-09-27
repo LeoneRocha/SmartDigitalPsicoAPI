@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class ApplicationConfigSettingRepository : GenericRepositoryEntityBase<ApplicationConfigSetting>, IApplicationConfigSettingRepository
     {
-        public ApplicationConfigSettingRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public ApplicationConfigSettingRepository(SmartDigitalPsicoDataContextMysql context) : base(context) { }
 
     }
 }

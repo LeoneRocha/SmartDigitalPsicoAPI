@@ -7,6 +7,6 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class OfficeRepository : GenericRepositoryEntityBase<Office>, IOfficeRepository
     {
-        public OfficeRepository(SmartDigitalPsicoDataContext context) : base(context) { } 
+        public OfficeRepository(SmartDigitalPsicoDataContextMysql context) : base(context) { } 
     }
 }

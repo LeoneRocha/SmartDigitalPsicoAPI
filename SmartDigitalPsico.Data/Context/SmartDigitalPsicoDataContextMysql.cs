@@ -5,16 +5,16 @@ using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 
 namespace SmartDigitalPsico.Data.Context
 {
-    public class SmartDigitalPsicoDataContext : EntityDataContext
+    public class SmartDigitalPsicoDataContextMysql : EntityDataContext
     {
         private readonly AuditContextInterceptor? _auditInterceptor;
-        public SmartDigitalPsicoDataContext()
+        public SmartDigitalPsicoDataContextMysql()
         { 
         }
-        public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options) : base(options)
+        public SmartDigitalPsicoDataContextMysql(DbContextOptions<SmartDigitalPsicoDataContextMysql> options) : base(options)
         {
         }
-        public SmartDigitalPsicoDataContext(DbContextOptions<SmartDigitalPsicoDataContext> options, AuditContextInterceptor auditInterceptor)
+        public SmartDigitalPsicoDataContextMysql(DbContextOptions<SmartDigitalPsicoDataContextMysql> options, AuditContextInterceptor auditInterceptor)
             : base(options)
         {
             _auditInterceptor = auditInterceptor;

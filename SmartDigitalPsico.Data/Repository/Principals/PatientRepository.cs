@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientRepository : GenericRepositoryEntityBase<Patient>, IPatientRepository
     {
-        public PatientRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public PatientRepository(SmartDigitalPsicoDataContextMysql context) : base(context) { }
 
         /// <summary>
         /// Find by Cpf, Rg , Email

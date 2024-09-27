@@ -66,7 +66,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             // Migrate latest database changes during startup
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                using (var context = serviceScope.ServiceProvider.GetService<SmartDigitalPsicoDataContext>())
+                using (var context = serviceScope.ServiceProvider.GetService<SmartDigitalPsicoDataContextMysql>())
                 { 
                     context?.Database.Migrate(); 
                 }

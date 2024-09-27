@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class RoleGroupRepository : GenericRepositoryEntityBase<RoleGroup>, IRoleGroupRepository
     {
-        public RoleGroupRepository(SmartDigitalPsicoDataContext context) : base(context) { }
+        public RoleGroupRepository(SmartDigitalPsicoDataContextMysql context) : base(context) { }
 
         public async Task<List<RoleGroup>> FindByIDs(List<long>? roleGroupsIds)
         {

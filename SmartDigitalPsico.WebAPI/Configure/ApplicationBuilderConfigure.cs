@@ -6,22 +6,20 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Domain.API;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Security;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Mapper;
 using SmartDigitalPsico.Domain.Resiliency;
-using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Service.Configure;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Data.Audit;
-using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Data.Audit.Interface;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {
@@ -169,7 +167,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             {
                 case ETypeDataBase.Mysql:
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringMySQL(_configuration);
-                    services.AddDbContext<SmartDigitalPsicoDataContext>((serviceProvider, optionsBuilder) =>
+                    services.AddDbContext<SmartDigitalPsicoDataContextMysql>((serviceProvider, optionsBuilder) =>
                     {
                         optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection),
                         optionsMySQL =>
@@ -184,7 +182,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     break;
                 case ETypeDataBase.MSsqlServer:
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringSQL(_configuration);
-                    services.AddDbContext<SmartDigitalPsicoDataContext>((serviceProvider, optionsBuilder) =>
+                    services.AddDbContext<SmartDigitalPsicoDataContextMysql>((serviceProvider, optionsBuilder) =>
                     {
                         optionsBuilder.UseSqlServer(connection,
                         optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data"));
