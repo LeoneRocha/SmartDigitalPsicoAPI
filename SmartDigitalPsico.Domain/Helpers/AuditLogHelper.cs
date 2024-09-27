@@ -20,17 +20,19 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
         public static string SerializeObject(object dataAuditLog)
         {
-            var jsonResult = JsonConvert.SerializeObject(dataAuditLog, GetJsonSettings());
+            if (dataAuditLog != null)
+                return JsonConvert.SerializeObject(dataAuditLog, GetJsonSettings());
 
-            return jsonResult;
+            return string.Empty;
         }
         public static string SerializeObject(object dataAuditLog, string[] propertiesToIgnore)
         {
             var jsonSettings = GetJsonSettings();
             jsonSettings.ContractResolver = new IgnorableSerializerContractResolver(propertiesToIgnore);
-            var jsonResult = JsonConvert.SerializeObject(dataAuditLog, jsonSettings);
+            if (dataAuditLog != null)
+                return JsonConvert.SerializeObject(dataAuditLog, jsonSettings);
 
-            return jsonResult;
+            return string.Empty;
         }
         public static AuditDataEntityLog CreateAuditEntry(object entryOld, object entryNew, string operation)
         {
@@ -39,8 +41,8 @@ namespace SmartDigitalPsico.Domain.Helpers
                 TableName = entryNew.GetType().Name,
                 Operation = operation,
                 KeyValue = GetKeyValues(entryNew),
-                OldValues = entryOld != null ? SerializeObject(entryOld) : string.Empty,
-                NewValues = entryNew != null ? SerializeObject(entryNew) : string.Empty,
+                OldValues = SerializeObject(entryOld),
+                NewValues = SerializeObject(entryNew),
                 UserAuditedId = GetCurrentUserId(entryNew!).Item1,
                 UserAuditedLogin = GetCurrentUserId(entryNew!).Item2,
             };
@@ -53,13 +55,13 @@ namespace SmartDigitalPsico.Domain.Helpers
                 TableName = entryNew.GetType().Name,
                 Operation = operation,
                 KeyValue = GetKeyValues(entryNew),
-                OldValues = entryOld != null ? SerializeObject(entryOld, propertiesToIgnore) : string.Empty,
-                NewValues = entryNew != null ? SerializeObject(entryNew, propertiesToIgnore) : string.Empty,
+                OldValues = SerializeObject(entryOld, propertiesToIgnore),
+                NewValues = SerializeObject(entryNew, propertiesToIgnore),
                 UserAuditedId = GetCurrentUserId(entryNew!).Item1,
                 UserAuditedLogin = GetCurrentUserId(entryNew!).Item2,
             };
             return auditEntry;
-        }  
+        }
         private static string GetKeyValues(object obj)
         {
             var result = string.Empty;

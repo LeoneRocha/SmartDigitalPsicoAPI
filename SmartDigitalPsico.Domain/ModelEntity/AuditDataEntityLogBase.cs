@@ -1,9 +1,8 @@
 ﻿using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
-    public abstract class AuditDataEntityLogBase : EntityBase, IEntityBase
+    public abstract class AuditDataEntityLogBase : EntityBase 
     {
         protected AuditDataEntityLogBase()
         {

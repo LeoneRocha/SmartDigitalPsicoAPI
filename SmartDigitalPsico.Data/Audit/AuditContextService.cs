@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -15,28 +14,26 @@ namespace SmartDigitalPsico.Data.Audit
         public List<AuditDataEntityLog> OnBeforeSaveChanges(DbContext context)
         {
             var auditEntries = new List<AuditDataEntityLog>();
+            var entriesChanged = context.ChangeTracker.Entries().Where(entry => entry != null
+            && (entry.State == EntityState.Modified || entry.State == EntityState.Deleted)).ToArray();
 
-            foreach (var entry in context.ChangeTracker.Entries())
+            foreach (var entry in entriesChanged)
             {
-                if (entry == null || (entry.State != EntityState.Modified && entry.State != EntityState.Deleted))
-                {
-                    continue;
-                }
                 var auditEntry = CreateAuditEntry(entry);
                 auditEntries.Add(auditEntry);
             }
             return auditEntries;
         }
 
-        private AuditDataEntityLog CreateAuditEntry(EntityEntry entry)
+        private static AuditDataEntityLog CreateAuditEntry(EntityEntry entry)
         {
             var auditEntry = new AuditDataEntityLog
             {
                 TableName = entry.Entity.GetType().Name,
                 Operation = entry.State.ToString(),
                 KeyValue = GetKeyValues(entry),
-                OldValues = entry.State == EntityState.Modified ? SerializeOriginalValues(entry) : string.Empty,
-                NewValues = entry.State == EntityState.Modified ? SerializeCurrentValues(entry) : string.Empty,
+                OldValues = SerializeOriginalValues(entry),
+                NewValues = SerializeCurrentValues(entry),
                 UserAuditedId = GetCurrentUserId(entry).Item1,
                 UserAuditedLogin = GetCurrentUserId(entry).Item2,
             };
@@ -44,9 +41,9 @@ namespace SmartDigitalPsico.Data.Audit
         }
         private static string GetKeyValues(EntityEntry entry)
         {
-            var PrimaryKeyValues = entry.Properties.Where(p => p.Metadata.IsPrimaryKey()).ToList();
+            var PrimaryKeyValues = entry.Properties.Where(p => p.Metadata.IsPrimaryKey()).ToArray();
 
-            return PrimaryKeyValues.First().CurrentValue?.ToString() ?? string.Empty;
+            return PrimaryKeyValues[0].CurrentValue?.ToString() ?? string.Empty;
         }
         private static string SerializeOriginalValues(EntityEntry entry)
         {
@@ -60,14 +57,14 @@ namespace SmartDigitalPsico.Data.Audit
             var currentValues = entry.CurrentValues.Properties
                 .ToDictionary(p => p.Name, p => entry.CurrentValues[p]);
 
-            return AuditLogHelper.SerializeObject(currentValues); 
-        } 
+            return AuditLogHelper.SerializeObject(currentValues);
+        }
         private static (long?, string) GetCurrentUserId(EntityEntry entry)
         {
-            var userIdProperties = new[] { "CreatedUserId", "ModifyUserId", "UserId" };
+            var userIdProperties = new List<string>() { "CreatedUserId", "ModifyUserId", "UserId" };
 
             // Verifica se pelo menos uma das propriedades existe no EntityEntry
-            if (!userIdProperties.Any(property => entry.Metadata.FindProperty(property) != null))
+            if (!userIdProperties.Exists(property => entry.Metadata.FindProperty(property) != null))
             {
                 return (null, "admin");
             }
