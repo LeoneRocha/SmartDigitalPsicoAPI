@@ -176,9 +176,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                         });
 
                         var auditInterceptor = serviceProvider.GetRequiredService<AuditContextInterceptor>();
-                        optionsBuilder.AddInterceptors(auditInterceptor);
-
-                        //services.AddScoped<IEntityDataContext>(provider => provider.GetService<SmartDigitalPsicoDataContextMysql>()!);
+                        optionsBuilder.AddInterceptors(auditInterceptor); 
                     });
                     break;
                 case ETypeDataBase.MSsqlServer:
@@ -188,17 +186,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
                         optionsBuilder.UseSqlServer(connection,
                         optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data"));
                         var auditInterceptor = serviceProvider.GetRequiredService<AuditContextInterceptor>();
-                        optionsBuilder.AddInterceptors(auditInterceptor);
-
-                        //services.AddScoped<IEntityDataContext>(provider => provider.GetService<SmartDigitalPsicoDataContextMysql>()!);
+                        optionsBuilder.AddInterceptors(auditInterceptor); 
                     });
                     break;
                 default:
                     break;
-            }
-
-           
-
+            } 
 
             addLocalization(services);
         }
