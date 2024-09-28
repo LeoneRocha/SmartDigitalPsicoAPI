@@ -177,7 +177,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
                         var auditInterceptor = serviceProvider.GetRequiredService<AuditContextInterceptor>();
                         optionsBuilder.AddInterceptors(auditInterceptor); 
-                    });
+                    }, ServiceLifetime.Scoped, ServiceLifetime.Scoped);
                     break;
                 case ETypeDataBase.MSsqlServer:
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringSQL(_configuration);
@@ -187,7 +187,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                         optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data"));
                         var auditInterceptor = serviceProvider.GetRequiredService<AuditContextInterceptor>();
                         optionsBuilder.AddInterceptors(auditInterceptor); 
-                    });
+                    }, ServiceLifetime.Scoped, ServiceLifetime.Scoped);
                     break;
                 default:
                     break;
