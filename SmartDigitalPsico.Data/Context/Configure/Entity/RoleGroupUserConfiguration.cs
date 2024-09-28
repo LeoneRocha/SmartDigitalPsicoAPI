@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
         public override void Configure(EntityTypeBuilder<RoleGroupUser> builder)
         {
             builder.ToTable("RoleGroupUser", "dbo");
-            HelperCharSet.AddCharSet(builder);
+            HelperCharSet.AddCharSet(builder, ETypeDataBase);
             builder.HasKey(e => new { e.UserId, e.RoleGroupId });
             // Properties
             builder.Property(e => e.UserId);

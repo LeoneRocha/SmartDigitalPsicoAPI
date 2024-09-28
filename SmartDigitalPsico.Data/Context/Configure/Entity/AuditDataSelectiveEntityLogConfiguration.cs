@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
         public override void Configure(EntityTypeBuilder<AuditDataSelectiveEntityLog> builder)
         {
             builder.ToTable("AuditDataSelectiveEntityLog", "dbo");
-            HelperCharSet.AddCharSet(builder);
+            HelperCharSet.AddCharSet(builder, ETypeDataBase);
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id).ValueGeneratedOnAdd();

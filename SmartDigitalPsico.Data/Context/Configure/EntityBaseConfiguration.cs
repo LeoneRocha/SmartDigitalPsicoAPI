@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Data.Context.Configure
         protected EntityBaseConfiguration(ETypeDataBase eTypeDataBase)
         {                
         }
-        protected ETypeDataBase eTypeDataBase { get; private set; }
+        protected ETypeDataBase ETypeDataBase { get; private set; }
 
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {

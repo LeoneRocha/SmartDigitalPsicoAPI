@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
         public override void Configure(EntityTypeBuilder<MedicalSpecialty> builder)
         {
             builder.ToTable("MedicalSpecialty", "dbo");
-            HelperCharSet.AddCharSet(builder);
+            HelperCharSet.AddCharSet(builder, ETypeDataBase);
             builder.HasKey(e => new { e.MedicalId, e.SpecialtyId });
             // Properties
             builder.Property(e => e.MedicalId);

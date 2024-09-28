@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
         public override void Configure(EntityTypeBuilder<Office> builder)
         {
             builder.ToTable("Office", "dbo");
-            HelperCharSet.AddCharSet(builder);
+            HelperCharSet.AddCharSet(builder, ETypeDataBase);
             builder.HasKey(e => e.Id);
             // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
