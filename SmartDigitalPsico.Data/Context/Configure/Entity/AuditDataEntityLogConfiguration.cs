@@ -34,12 +34,12 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
 
             builder.Property(e => e.OldValues)
                 .HasMaxLength(8000)
-                .HasColumnType(EntityTypeConfigurationConstants.Type_Text)
+                .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase))
                 .IsRequired();
 
             builder.Property(e => e.NewValues)
                 .HasMaxLength(8000)
-                .HasColumnType(EntityTypeConfigurationConstants.Type_Text)
+                .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase))
                 .IsRequired();
 
             builder.Property(e => e.AuditDate);

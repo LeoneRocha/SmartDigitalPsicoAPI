@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
             builder.Property(e => e.Annotation)
                 .HasMaxLength(4000)
-                .HasColumnType(EntityTypeConfigurationConstants.Type_Text)
+                .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase))
                 .IsRequired();
             builder.Property(e => e.AnnotationDate);
 
