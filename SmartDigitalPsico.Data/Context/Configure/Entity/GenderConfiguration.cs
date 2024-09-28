@@ -4,9 +4,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class GenderConfiguration : IEntityTypeConfiguration<Gender>
+    public class GenderConfiguration : EntityBaseConfiguration<Gender>
     {
-        public void Configure(EntityTypeBuilder<Gender> builder)
+        public override void Configure(EntityTypeBuilder<Gender> builder)
         {
             builder.ToTable("Gender", "dbo");
             HelperCharSet.AddCharSet(builder);

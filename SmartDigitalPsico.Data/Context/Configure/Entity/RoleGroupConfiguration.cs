@@ -4,9 +4,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class RoleGroupConfiguration : IEntityTypeConfiguration<RoleGroup>
+    public class RoleGroupConfiguration : EntityBaseConfiguration<RoleGroup>
     {
-        public void Configure(EntityTypeBuilder<RoleGroup> builder)
+        public override void Configure(EntityTypeBuilder<RoleGroup> builder)
         {
             builder.ToTable("RoleGroup", "dbo");
             HelperCharSet.AddCharSet(builder);

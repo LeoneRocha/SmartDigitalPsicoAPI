@@ -4,9 +4,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class MedicalCalendarConfiguration : IEntityTypeConfiguration<MedicalCalendar>
+    public class MedicalCalendarConfiguration : EntityBaseConfiguration<MedicalCalendar>
     {
-        public void Configure(EntityTypeBuilder<MedicalCalendar> builder)
+        public override void Configure(EntityTypeBuilder<MedicalCalendar> builder)
         {
             builder.ToTable("MedicalCalendar", "dbo");
             HelperCharSet.AddCharSet(builder);

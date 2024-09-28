@@ -4,9 +4,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
-    public class RoleGroupUserMockData : IEntityTypeConfiguration<RoleGroupUser>
+    public class RoleGroupUserMockData : EntityBaseConfiguration<RoleGroupUser>
     {
-        public void Configure(EntityTypeBuilder<RoleGroupUser> modelBuilder)
+        public override void Configure(EntityTypeBuilder<RoleGroupUser> modelBuilder)
         {
             modelBuilder.HasData(GetMock());
         }

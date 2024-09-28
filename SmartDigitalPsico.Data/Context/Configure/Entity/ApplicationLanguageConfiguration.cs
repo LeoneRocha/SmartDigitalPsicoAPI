@@ -4,9 +4,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class ApplicationLanguageConfiguration : IEntityTypeConfiguration<ApplicationLanguage>
+    public class ApplicationLanguageConfiguration : EntityBaseConfiguration<ApplicationLanguage>
     {
-        public void Configure(EntityTypeBuilder<ApplicationLanguage> builder)
+        public override void Configure(EntityTypeBuilder<ApplicationLanguage> builder)
         {
             builder.ToTable("ApplicationLanguage", "dbo");
             HelperCharSet.AddCharSet(builder);

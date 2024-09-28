@@ -5,9 +5,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class PatientRecordConfiguration : IEntityTypeConfiguration<PatientRecord>
+    public class PatientRecordConfiguration : EntityBaseConfiguration<PatientRecord>
     {
-        public void Configure(EntityTypeBuilder<PatientRecord> builder)
+        public override void Configure(EntityTypeBuilder<PatientRecord> builder)
         {
             builder.ToTable("PatientRecord", "dbo");
             HelperCharSet.AddCharSet(builder);

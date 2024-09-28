@@ -6,9 +6,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
-    public class ApplicationLanguageMockData : IEntityTypeConfiguration<ApplicationLanguage>
+    public class ApplicationLanguageMockData : EntityBaseConfiguration<ApplicationLanguage>
     {
-        public void Configure(EntityTypeBuilder<ApplicationLanguage> modelBuilder)
+        public override void Configure(EntityTypeBuilder<ApplicationLanguage> modelBuilder)
         {
             modelBuilder.HasData(GetMock());
         }

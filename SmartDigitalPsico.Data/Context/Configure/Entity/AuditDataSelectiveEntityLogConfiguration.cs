@@ -5,9 +5,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class AuditDataSelectiveEntityLogConfiguration : IEntityTypeConfiguration<AuditDataSelectiveEntityLog>
+    public class AuditDataSelectiveEntityLogConfiguration : EntityBaseConfiguration<AuditDataSelectiveEntityLog>
     {
-        public void Configure(EntityTypeBuilder<AuditDataSelectiveEntityLog> builder)
+        public override void Configure(EntityTypeBuilder<AuditDataSelectiveEntityLog> builder)
         {
             builder.ToTable("AuditDataSelectiveEntityLog", "dbo");
             HelperCharSet.AddCharSet(builder);

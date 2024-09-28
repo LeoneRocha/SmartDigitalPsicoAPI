@@ -4,9 +4,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class ApplicationConfigSettingConfiguration : IEntityTypeConfiguration<ApplicationConfigSetting>
+    public class ApplicationConfigSettingConfiguration : EntityBaseConfiguration<ApplicationConfigSetting>
     {
-        public void Configure(EntityTypeBuilder<ApplicationConfigSetting> builder)
+        public override void Configure(EntityTypeBuilder<ApplicationConfigSetting> builder)
         {
             builder.ToTable("ApplicationConfigSetting", "dbo");
             HelperCharSet.AddCharSet(builder);

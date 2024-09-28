@@ -4,9 +4,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class ApplicationCacheLogConfiguration : IEntityTypeConfiguration<ApplicationCacheLog>
+    public class ApplicationCacheLogConfiguration : EntityBaseConfiguration<ApplicationCacheLog>
     {
-        public void Configure(EntityTypeBuilder<ApplicationCacheLog> builder)
+        public override void Configure(EntityTypeBuilder<ApplicationCacheLog> builder)
         {
             builder.ToTable("ApplicationCacheLog", "dbo");
             HelperCharSet.AddCharSet(builder);

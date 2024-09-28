@@ -4,9 +4,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class PatientNotificationMessageConfiguration : IEntityTypeConfiguration<PatientNotificationMessage>
+    public class PatientNotificationMessageConfiguration : EntityBaseConfiguration<PatientNotificationMessage>
     {
-        public void Configure(EntityTypeBuilder<PatientNotificationMessage> builder)
+        public override void Configure(EntityTypeBuilder<PatientNotificationMessage> builder)
         {
             builder.ToTable("PatientNotificationMessage", "dbo");
             HelperCharSet.AddCharSet(builder);

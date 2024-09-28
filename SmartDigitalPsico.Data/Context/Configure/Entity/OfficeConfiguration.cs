@@ -5,9 +5,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class OfficeConfiguration : IEntityTypeConfiguration<Office>
+    public class OfficeConfiguration : EntityBaseConfiguration<Office>
     {
-        public void Configure(EntityTypeBuilder<Office> builder)
+        public override void Configure(EntityTypeBuilder<Office> builder)
         {
             builder.ToTable("Office", "dbo");
             HelperCharSet.AddCharSet(builder);
