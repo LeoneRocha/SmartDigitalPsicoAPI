@@ -1,18 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.Enuns;
+﻿using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
-    public class OfficeMockData : EntityBaseConfiguration<Office>
-    {
-        public OfficeMockData(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
-        public override void Configure(EntityTypeBuilder<Office> modelBuilder)
-        {
-            modelBuilder.HasData(GetMock());
-        }
+    public static class OfficeMockData  
+    { 
         public static Office[] GetMock()
         {
             return [

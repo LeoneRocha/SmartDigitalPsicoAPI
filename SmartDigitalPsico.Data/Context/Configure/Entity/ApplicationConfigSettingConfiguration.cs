@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -23,6 +24,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(c => c.TypeLocationSaveFiles).HasConversion<byte>();
             builder.Property(c => c.TypeLocationCache).HasConversion<byte>();
             builder.Property(c => c.TypeLocationQueeMessaging).HasConversion<byte>();
+             
+            builder.HasData(ApplicationConfigSettingMockData.GetMock());
         }
     }
 }

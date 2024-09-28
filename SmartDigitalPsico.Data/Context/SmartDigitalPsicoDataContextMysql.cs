@@ -31,9 +31,7 @@ namespace SmartDigitalPsico.Data.Context
         {
             //Configure FLUENT API 
             ConfigurationEntitiesHelper.AddConfigurationEntities(modelBuilder, ETypeDataBase.Mysql);
-
-            ConfigurationEntitiesHelper.AddDataMock(modelBuilder, ETypeDataBase.Mysql);
-
+              
             base.OnModelCreating(modelBuilder);
         }
     }
