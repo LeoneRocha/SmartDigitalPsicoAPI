@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Configure.Entity;
-using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Data.Context.Configure
@@ -33,22 +32,6 @@ namespace SmartDigitalPsico.Data.Context.Configure
             modelBuilder.ApplyConfiguration(new RoleGroupUserConfiguration(eDataBaseType));
             modelBuilder.ApplyConfiguration(new AuditDataEntityLogConfiguration(eDataBaseType));
             modelBuilder.ApplyConfiguration(new AuditDataSelectiveEntityLogConfiguration(eDataBaseType));
-        }
-
-        public static void AddDataMock(ModelBuilder modelBuilder,  ETypeDataBase eDataBaseType)
-        {
-            //MOCK DATA
-            modelBuilder.ApplyConfiguration(new ApplicationConfigSettingMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new ApplicationLanguageMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new GenderMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new MedicalMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new OfficeMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new PatientMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new RoleGroupMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new SpecialtyMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new UserMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new RoleGroupUserMockData(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new MedicalSpecialtyMockData(eDataBaseType));
-        }
+        } 
     }
-}
+} 

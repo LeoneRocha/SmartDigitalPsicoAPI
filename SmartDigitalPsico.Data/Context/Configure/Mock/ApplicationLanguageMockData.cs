@@ -1,19 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.Enuns;
+﻿using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
-    public class ApplicationLanguageMockData : EntityBaseConfiguration<ApplicationLanguage>
-    {
-        public ApplicationLanguageMockData(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
-        public override void Configure(EntityTypeBuilder<ApplicationLanguage> modelBuilder)
-        {
-            modelBuilder.HasData(GetMock());
-        }
-
+    public static class ApplicationLanguageMockData 
+    {  
         public static ApplicationLanguage[] GetMock()
         {
             return [

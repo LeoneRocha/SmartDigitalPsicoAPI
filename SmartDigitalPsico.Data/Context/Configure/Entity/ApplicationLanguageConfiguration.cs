@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -25,6 +26,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.HasIndex(p => new { p.ResourceKey, p.Language, p.LanguageKey })
             .HasDatabaseName("Idx_ApplicationLanguage_ResourceKey_Language_LanguageKey_Unique")
             .IsUnique();
+
+            builder.HasData(ApplicationLanguageMockData.GetMock());
         }
     }
 }
