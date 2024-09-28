@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
+using SmartDigitalPsico.Data.Context.Configure.Entity;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
 

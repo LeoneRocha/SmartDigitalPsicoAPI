@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
+﻿using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.DataMock

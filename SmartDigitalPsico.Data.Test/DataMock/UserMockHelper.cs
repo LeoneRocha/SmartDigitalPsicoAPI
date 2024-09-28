@@ -1,12 +1,12 @@
 ﻿using Bogus;
 using Bogus.DataSets;
 using Serilog;
-using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.DTO.User;
 using System.Data;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
