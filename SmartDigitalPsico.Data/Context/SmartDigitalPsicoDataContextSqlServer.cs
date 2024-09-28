@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Audit;
+using SmartDigitalPsico.Data.Context.Configure;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Data.Context
 {
@@ -17,13 +19,22 @@ namespace SmartDigitalPsico.Data.Context
         {
             _auditInterceptor = auditInterceptor;
         }
-         
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (_auditInterceptor != null)
             {
                 optionsBuilder.AddInterceptors(_auditInterceptor);
             }
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Configure FLUENT API 
+            ConfigurationEntitiesHelper.AddConfigurationEntities(modelBuilder, ETypeDataBase.MSsqlServer);
+
+            ConfigurationEntitiesHelper.AddDataMock(modelBuilder, ETypeDataBase.MSsqlServer);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

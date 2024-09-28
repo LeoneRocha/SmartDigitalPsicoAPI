@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Configure;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -8,7 +7,7 @@ namespace SmartDigitalPsico.Data.Context
     public abstract class EntityDataContext : DbContext, IEntityDataContext
     {
         protected EntityDataContext()
-        { 
+        {
         }
         protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContextMySql> options) : base(options)
         {
@@ -16,7 +15,6 @@ namespace SmartDigitalPsico.Data.Context
         protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options) : base(options)
         {
         }
-
         #region DBsets
         public virtual DbSet<ApplicationCacheLog> ApplicationCacheLogs { get; set; }
         public virtual DbSet<ApplicationConfigSetting> ApplicationConfigSettings { get; set; }
@@ -39,20 +37,10 @@ namespace SmartDigitalPsico.Data.Context
         public virtual DbSet<RoleGroup> RoleGroups { get; set; }
         public virtual DbSet<RoleGroupUser> RoleGroupUsers { get; set; }
         public virtual DbSet<Specialty> Specialties { get; set; }
-        public virtual DbSet<User> Users { get; set; } 
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<AuditDataEntityLog> AuditLogs { get; set; }
         public virtual DbSet<AuditDataSelectiveEntityLog> AuditSelectiveLogs { get; set; }
 
-        #endregion DBsets 
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //Configure FLUENT API 
-            ConfigurationEntitiesHelper.AddConfigurationEntities(modelBuilder);
-
-            ConfigurationEntitiesHelper.AddDataMock(modelBuilder);
-
-            base.OnModelCreating(modelBuilder);
-        } 
+        #endregion DBsets  
     }
-} 
+}

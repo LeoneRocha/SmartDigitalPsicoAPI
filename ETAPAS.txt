@@ -220,6 +220,8 @@ Add-Migration RenameContext -Context SmartDigitalPsicoDataContextMysql -OutputDi
 
 
  
+ Add-Migration InitialCreate -Context SmartDigitalPsicoDataContextSqlServer -OutputDir Migrations\SqlServer -Project SmartDigitalPsico.Data
+
 
 
 

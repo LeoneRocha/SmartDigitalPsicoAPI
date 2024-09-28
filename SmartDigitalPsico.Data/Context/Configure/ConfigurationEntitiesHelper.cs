@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Configure.Entity;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Data.Context.Configure
 {
     public static class ConfigurationEntitiesHelper
     {
-        public static void AddConfigurationEntities(ModelBuilder modelBuilder)
+        public static void AddConfigurationEntities(ModelBuilder modelBuilder,  ETypeDataBase eDataBaseType)
         {
             modelBuilder.ApplyConfiguration(new ApplicationCacheLogConfiguration());
             modelBuilder.ApplyConfiguration(new ApplicationConfigSettingConfiguration());
@@ -34,7 +35,7 @@ namespace SmartDigitalPsico.Data.Context.Configure
             modelBuilder.ApplyConfiguration(new AuditDataSelectiveEntityLogConfiguration());
         }
 
-        public static void AddDataMock(ModelBuilder modelBuilder)
+        public static void AddDataMock(ModelBuilder modelBuilder,  ETypeDataBase eDataBaseType)
         {
             //MOCK DATA
             modelBuilder.ApplyConfiguration(new ApplicationConfigSettingMockData());
