@@ -1,6 +1,6 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;

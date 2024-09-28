@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context;
+using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -10,10 +10,10 @@ namespace SmartDigitalPsico.Data.Repository.Generic
 {
     public abstract class GenericRepositoryEntityBase<T> : IEntityBaseRepository<T> where T : EntityBase
     {
-        protected SmartDigitalPsicoDataContextMysql _context;
+        protected IEntityDataContext _context;
         protected DbSet<T> _dataset;
 
-        protected GenericRepositoryEntityBase(SmartDigitalPsicoDataContextMysql context)
+        protected GenericRepositoryEntityBase(IEntityDataContext context)
         {
             _context = context;
             _dataset = _context.Set<T>();

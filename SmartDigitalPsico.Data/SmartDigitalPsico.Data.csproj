@@ -31,5 +31,8 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartDigitalPsico.Domain\SmartDigitalPsico.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\SqlServer\" />
+  </ItemGroup>
 
 </Project>
