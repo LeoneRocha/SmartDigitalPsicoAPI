@@ -1,85 +1,40 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Audit;
-using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
-using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
+using SmartDigitalPsico.Data.Context.Configure;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Data.Context
 {
-    public class SmartDigitalPsicoDataContextMysql : EntityDataContext
+    public class SmartDigitalPsicoDataContextMySql : EntityDataContext
     {
         private readonly AuditContextInterceptor? _auditInterceptor;
-        public SmartDigitalPsicoDataContextMysql()
-        { 
-        }
-        public SmartDigitalPsicoDataContextMysql(DbContextOptions<SmartDigitalPsicoDataContextMysql> options) : base(options)
+        public SmartDigitalPsicoDataContextMySql()
         {
         }
-        public SmartDigitalPsicoDataContextMysql(DbContextOptions<SmartDigitalPsicoDataContextMysql> options, AuditContextInterceptor auditInterceptor)
+        public SmartDigitalPsicoDataContextMySql(DbContextOptions<SmartDigitalPsicoDataContextMySql> options) : base(options)
+        {
+        }
+        public SmartDigitalPsicoDataContextMySql(DbContextOptions<SmartDigitalPsicoDataContextMySql> options, AuditContextInterceptor auditInterceptor)
             : base(options)
         {
             _auditInterceptor = auditInterceptor;
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //Configure FLUENT API 
-            addConfigurationEntities(modelBuilder);
-
-            addDataMock(modelBuilder);
-             
-            base.OnModelCreating(modelBuilder);
-        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        {  
             if (_auditInterceptor != null)
             {
                 optionsBuilder.AddInterceptors(_auditInterceptor);
             }
         }
 
-        private static void addConfigurationEntities(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new ApplicationCacheLogConfiguration());
-            modelBuilder.ApplyConfiguration(new ApplicationConfigSettingConfiguration());
-            modelBuilder.ApplyConfiguration(new ApplicationLanguageConfiguration());
-            modelBuilder.ApplyConfiguration(new GenderConfiguration());
-            modelBuilder.ApplyConfiguration(new InfoTagConfiguration());
-            modelBuilder.ApplyConfiguration(new MedicalCalendarConfiguration());
-            modelBuilder.ApplyConfiguration(new MedicalConfiguration());
-            modelBuilder.ApplyConfiguration(new MedicalFileConfiguration());
-            modelBuilder.ApplyConfiguration(new OfficeConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientAdditionalInformationConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientFileConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientHospitalizationInformationConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientInfoTagConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientMedicationInformationConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientNotificationMessageConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientRecordConfiguration());
-            modelBuilder.ApplyConfiguration(new RoleGroupConfiguration());
-            modelBuilder.ApplyConfiguration(new SpecialtyConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new MedicalSpecialtyConfiguration());
-            modelBuilder.ApplyConfiguration(new RoleGroupUserConfiguration());
-            modelBuilder.ApplyConfiguration(new AuditDataEntityLogConfiguration());
-            modelBuilder.ApplyConfiguration(new AuditDataSelectiveEntityLogConfiguration());
-        }
+            //Configure FLUENT API 
+            ConfigurationEntitiesHelper.AddConfigurationEntities(modelBuilder, ETypeDataBase.Mysql);
 
-        private static void addDataMock(ModelBuilder modelBuilder)
-        {
-            //MOCK DATA
-            modelBuilder.ApplyConfiguration(new ApplicationConfigSettingMockData());
-            modelBuilder.ApplyConfiguration(new ApplicationLanguageMockData());
-            modelBuilder.ApplyConfiguration(new GenderMockData());
-            modelBuilder.ApplyConfiguration(new MedicalMockData());
-            modelBuilder.ApplyConfiguration(new OfficeMockData());
-            modelBuilder.ApplyConfiguration(new PatientMockData());
-            modelBuilder.ApplyConfiguration(new RoleGroupMockData());
-            modelBuilder.ApplyConfiguration(new SpecialtyMockData());
-            modelBuilder.ApplyConfiguration(new UserMockData());
-            modelBuilder.ApplyConfiguration(new RoleGroupUserMockData());
-            modelBuilder.ApplyConfiguration(new MedicalSpecialtyMockData());
-        }
+            ConfigurationEntitiesHelper.AddDataMock(modelBuilder, ETypeDataBase.Mysql);
 
-      
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

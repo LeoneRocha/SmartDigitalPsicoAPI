@@ -11,7 +11,7 @@ using SmartDigitalPsico.Data.Context;
 
 namespace SmartDigitalPsico.Data.Migrations
 {
-    [DbContext(typeof(SmartDigitalPsicoDataContextMysql))]
+    [DbContext(typeof(SmartDigitalPsicoDataContextMySql))]
     [Migration("20240902020214_UpdateRecordPatientStorage")]
     partial class UpdateRecordPatientStorage
     {

@@ -3,7 +3,7 @@ using SmartDigitalPsico.Data.Context;
 
 namespace SmartDigitalPsico.Data.Tests.Context
 {  
-    public class SmartDigitalPsicoDataContextTest : SmartDigitalPsicoDataContextMysql
+    public class SmartDigitalPsicoDataContextTest : SmartDigitalPsicoDataContextMySql
     {
         public ModelBuilder? ModelBuilder { get; private set; }
 

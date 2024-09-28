@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context;
+using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientRepository : GenericRepositoryEntityBase<Patient>, IPatientRepository
     {
-        public PatientRepository(SmartDigitalPsicoDataContextMysql context) : base(context) { }
+        public PatientRepository(IEntityDataContext context) : base(context) { }
 
         /// <summary>
         /// Find by Cpf, Rg , Email

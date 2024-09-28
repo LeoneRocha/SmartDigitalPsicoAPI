@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using SmartDigitalPsico.Data.ConfigureFluentAPI.Mock;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 

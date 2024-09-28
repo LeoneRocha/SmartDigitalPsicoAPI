@@ -1,16 +1,15 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context;
+using SmartDigitalPsico.Data.Context.Interface;
+using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Data.Repository.Generic;
-using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class ApplicationLanguageRepository : GenericRepositoryEntityBase<ApplicationLanguage>, IApplicationLanguageRepository
     {
-        public ApplicationLanguageRepository(SmartDigitalPsicoDataContextMysql context) : base(context) 
+        public ApplicationLanguageRepository(IEntityDataContext context) : base(context) 
         {
 
         }

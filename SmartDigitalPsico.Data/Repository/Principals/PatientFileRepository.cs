@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context;
+using SmartDigitalPsico.Data.Context.Interface;
+using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Data.Repository.Generic;
-using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
     public class PatientFileRepository : GenericRepositoryEntityBase<PatientFile>, IPatientFileRepository
     {
-        public PatientFileRepository(SmartDigitalPsicoDataContextMysql context) : base(context) { }
+        public PatientFileRepository(IEntityDataContext context) : base(context) { }
 
         public async override Task<PatientFile> FindByID(long id)
         {

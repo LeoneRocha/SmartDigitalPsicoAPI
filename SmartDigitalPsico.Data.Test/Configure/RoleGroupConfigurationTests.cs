@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.ConfigureFluentAPI.Entity;
+using SmartDigitalPsico.Data.Context.Configure.Entity;
 using SmartDigitalPsico.Data.Tests.Context;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Tests.Configure
@@ -14,7 +15,7 @@ namespace SmartDigitalPsico.Data.Tests.Configure
         [SetUp]
         public void Setup()
         {
-            _roleGroupConfiguration = new RoleGroupConfiguration();
+            _roleGroupConfiguration = new RoleGroupConfiguration(ETypeDataBase.Mysql);
         }
 
         [Test]

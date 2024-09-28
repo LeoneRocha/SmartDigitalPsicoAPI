@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using SmartDigitalPsico.Data.Context;
+using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 
@@ -66,11 +66,11 @@ namespace SmartDigitalPsico.WebAPI.Configure
             // Migrate latest database changes during startup
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                using (var context = serviceScope.ServiceProvider.GetService<SmartDigitalPsicoDataContextMysql>())
+                using (var context = serviceScope.ServiceProvider.GetService<IEntityDataContext>())
                 { 
                     context?.Database.Migrate(); 
                 }
             } 
         }
     }
-}
+} 
