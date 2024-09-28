@@ -160,8 +160,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
         #region CONTEXTO
         private static void addORM(IServiceCollection services, ETypeDataBase etypeDataBase)
         {
-            var connection = string.Empty;
-             
+            var connection = string.Empty; 
             switch (etypeDataBase)
             {
                 case ETypeDataBase.Mysql:
@@ -191,12 +190,10 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     break;
                 default:
                     break;
-            } 
-
+            }  
             addLocalization(services);
         }
-
-
+         
         private static void addLocalization(IServiceCollection services)
         {
             services.AddMvc()

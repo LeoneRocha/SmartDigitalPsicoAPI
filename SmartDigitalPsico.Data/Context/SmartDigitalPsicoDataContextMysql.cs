@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context.Configure;
 using SmartDigitalPsico.Domain.Enuns;
-using System.Reflection.Emit;
 
 namespace SmartDigitalPsico.Data.Context
 {
