@@ -1,17 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
+﻿using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
-    public class PatientMockData : EntityBaseConfiguration<Patient>
-    {
-        public PatientMockData(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
-        public override void Configure(EntityTypeBuilder<Patient> modelBuilder)
-        {
-            modelBuilder.HasData(GetMock());
-        }
+    public static class PatientMockData  
+    { 
         public static Patient[] GetMock()
         {
             var newAddPatient = new Patient

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -28,6 +29,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.HasOne(e => e.User).WithMany(b => b.MedicalsUsers).HasForeignKey(t => t.UserId).OnDelete(DeleteBehavior.Cascade).IsRequired(false);
             builder.HasOne(e => e.Office).WithMany(b => b.Medicals).HasForeignKey(e => e.OfficeId);
             builder.HasMany(e => e.Patienties).WithOne().HasForeignKey(e => e.MedicalId);
+
+
+            builder.HasData(MedicalMockData.GetMock());
         }
     }
 }

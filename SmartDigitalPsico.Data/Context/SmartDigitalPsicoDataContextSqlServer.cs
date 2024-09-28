@@ -31,9 +31,7 @@ namespace SmartDigitalPsico.Data.Context
         {
             //Configure FLUENT API 
             ConfigurationEntitiesHelper.AddConfigurationEntities(modelBuilder, ETypeDataBase.MSsqlServer);
-
-            ConfigurationEntitiesHelper.AddDataMock(modelBuilder, ETypeDataBase.MSsqlServer);
-
+              
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -20,6 +21,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             // Relationship
             builder.HasOne(e => e.User).WithMany(p => p.UserRoleGroups).HasForeignKey(e => e.UserId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(e => e.RoleGroup).WithMany(p => p.UserRoleGroups).HasForeignKey(e => e.RoleGroupId).OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasData(RoleGroupUserMockData.GetMock());
         }
     }
 }
