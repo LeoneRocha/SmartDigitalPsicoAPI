@@ -217,6 +217,13 @@ secretKey = Convert.ToBase64String(key);
 Add-Migration RenameContext -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
+Server=localhost,1499;Database=smartdigitalhom;Trusted_Connection=True;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+
+
+Server=localhost,1499;Database=smartdigitalhom;Trusted_Connection=True;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;
+
+
+
 
 
  
