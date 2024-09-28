@@ -13,6 +13,9 @@ namespace SmartDigitalPsico.Data.Context
         protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContextMySql> options) : base(options)
         {
         }
+        protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options) : base(options)
+        {
+        }
 
         #region DBsets
         public virtual DbSet<ApplicationCacheLog> ApplicationCacheLogs { get; set; }

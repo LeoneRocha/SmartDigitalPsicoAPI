@@ -9,13 +9,15 @@ namespace SmartDigitalPsico.Data.Context
         public SmartDigitalPsicoDataContextSqlServer()
         {
         }
-        public SmartDigitalPsicoDataContextSqlServer(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options)
+        public SmartDigitalPsicoDataContextSqlServer(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options) : base(options)
         {
         }
         public SmartDigitalPsicoDataContextSqlServer(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options, AuditContextInterceptor auditInterceptor)
+            : base(options)
         {
             _auditInterceptor = auditInterceptor;
         }
+         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (_auditInterceptor != null)
