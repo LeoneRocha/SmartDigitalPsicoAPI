@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
     public class OfficeConfiguration : EntityBaseConfiguration<Office>
     {
+        public OfficeConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         public override void Configure(EntityTypeBuilder<Office> builder)
         {
             builder.ToTable("Office", "dbo");

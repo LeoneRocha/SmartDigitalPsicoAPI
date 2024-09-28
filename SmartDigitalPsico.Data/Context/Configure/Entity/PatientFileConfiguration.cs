@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
     public class PatientFileConfiguration : EntityBaseConfiguration<PatientFile>
     {
+        public PatientFileConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         public override void Configure(EntityTypeBuilder<PatientFile> builder)
         {
             builder.ToTable("PatientFile", "dbo");

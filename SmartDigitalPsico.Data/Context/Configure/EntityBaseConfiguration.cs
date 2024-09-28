@@ -1,10 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Data.Context.Configure
 {
-    public class EntityBaseConfiguration<T> : IEntityTypeConfiguration<T> where T : class
+    public abstract class EntityBaseConfiguration<T> : IEntityTypeConfiguration<T> where T : class
     {
+        protected EntityBaseConfiguration(ETypeDataBase eTypeDataBase)
+        {                
+        }
+        protected ETypeDataBase eTypeDataBase { get; private set; }
+
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
             throw new NotImplementedException();

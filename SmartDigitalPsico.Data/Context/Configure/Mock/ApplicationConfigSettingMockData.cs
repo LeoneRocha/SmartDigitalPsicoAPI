@@ -9,6 +9,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
     public class ApplicationConfigSettingMockData : EntityBaseConfiguration<ApplicationConfigSetting>
     {
+        public ApplicationConfigSettingMockData(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         public override void Configure(EntityTypeBuilder<ApplicationConfigSetting> modelBuilder)
         {
             modelBuilder.HasData(GetMock());

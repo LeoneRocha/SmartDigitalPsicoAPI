@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
     public class RoleGroupUserConfiguration : EntityBaseConfiguration<RoleGroupUser>
     {
+        public RoleGroupUserConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         public override void Configure(EntityTypeBuilder<RoleGroupUser> builder)
         {
             builder.ToTable("RoleGroupUser", "dbo");

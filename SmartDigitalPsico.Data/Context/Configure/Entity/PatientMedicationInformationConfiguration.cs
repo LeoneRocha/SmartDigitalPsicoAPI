@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
     public class PatientMedicationInformationConfiguration : EntityBaseConfiguration<PatientMedicationInformation>
     {
+        public PatientMedicationInformationConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         public override void Configure(EntityTypeBuilder<PatientMedicationInformation> builder)
         {
             builder.ToTable("PatientMedicationInformation", "dbo");

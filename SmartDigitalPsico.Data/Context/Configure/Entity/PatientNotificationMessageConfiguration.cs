@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
     public class PatientNotificationMessageConfiguration : EntityBaseConfiguration<PatientNotificationMessage>
     {
+        public PatientNotificationMessageConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         public override void Configure(EntityTypeBuilder<PatientNotificationMessage> builder)
         {
             builder.ToTable("PatientNotificationMessage", "dbo");

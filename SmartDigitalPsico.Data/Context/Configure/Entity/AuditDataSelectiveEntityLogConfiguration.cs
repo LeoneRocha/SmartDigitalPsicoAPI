@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
     public class AuditDataSelectiveEntityLogConfiguration : EntityBaseConfiguration<AuditDataSelectiveEntityLog>
     {
+        public AuditDataSelectiveEntityLogConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         public override void Configure(EntityTypeBuilder<AuditDataSelectiveEntityLog> builder)
         {
             builder.ToTable("AuditDataSelectiveEntityLog", "dbo");

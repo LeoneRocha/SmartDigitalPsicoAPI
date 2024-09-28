@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -8,6 +8,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
     public class RoleGroupMockData : EntityBaseConfiguration<RoleGroup>
     {
+        public RoleGroupMockData(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         public override void Configure(EntityTypeBuilder<RoleGroup> modelBuilder)
         {
             modelBuilder.HasData(GetMock());
