@@ -2,11 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Audit;
 
 namespace SmartDigitalPsico.Data.Context
-{
-
-    /// <summary>
-    /// arrumar a injecao de dependencia 
-    /// </summary>
+{ 
     public class SmartDigitalPsicoDataContextMysql : EntityDataContext
     {
         private readonly AuditContextInterceptor? _auditInterceptor;
