@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context;
+using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Security;
@@ -160,14 +161,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
         private static void addORM(IServiceCollection services, ETypeDataBase etypeDataBase)
         {
             var connection = string.Empty;
-
-
-
+             
             switch (etypeDataBase)
             {
                 case ETypeDataBase.Mysql:
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringMySQL(_configuration);
-                    services.AddDbContext<SmartDigitalPsicoDataContextMysql>((serviceProvider, optionsBuilder) =>
+                    services.AddDbContext<IEntityDataContext, SmartDigitalPsicoDataContextMysql>((serviceProvider, optionsBuilder) =>
                     {
                         optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection),
                         optionsMySQL =>
@@ -178,21 +177,29 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
                         var auditInterceptor = serviceProvider.GetRequiredService<AuditContextInterceptor>();
                         optionsBuilder.AddInterceptors(auditInterceptor);
+
+                        //services.AddScoped<IEntityDataContext>(provider => provider.GetService<SmartDigitalPsicoDataContextMysql>()!);
                     });
                     break;
                 case ETypeDataBase.MSsqlServer:
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringSQL(_configuration);
-                    services.AddDbContext<SmartDigitalPsicoDataContextMysql>((serviceProvider, optionsBuilder) =>
+                    services.AddDbContext<IEntityDataContext, SmartDigitalPsicoDataContextMysql>((serviceProvider, optionsBuilder) =>
                     {
                         optionsBuilder.UseSqlServer(connection,
                         optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data"));
                         var auditInterceptor = serviceProvider.GetRequiredService<AuditContextInterceptor>();
                         optionsBuilder.AddInterceptors(auditInterceptor);
+
+                        //services.AddScoped<IEntityDataContext>(provider => provider.GetService<SmartDigitalPsicoDataContextMysql>()!);
                     });
                     break;
                 default:
                     break;
             }
+
+           
+
+
             addLocalization(services);
         }
 

@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context;
+using SmartDigitalPsico.Data.Context.Interface;
+using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Data.Repository.Generic;
-using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     public class ApplicationCacheLogRepository : GenericRepositoryEntityBase<ApplicationCacheLog>, IApplicationCacheLogRepository
     {
-        public ApplicationCacheLogRepository(SmartDigitalPsicoDataContextMysql context) : base(context) { }
+        public ApplicationCacheLogRepository(IEntityDataContext context) : base(context) { }
 
 
 

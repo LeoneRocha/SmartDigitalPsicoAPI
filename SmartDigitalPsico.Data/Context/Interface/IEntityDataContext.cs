@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Interface
 {
-    public interface IEntityDataContext
+    public interface IEntityDataContext : IDisposable 
     {
         DbSet<ApplicationCacheLog> ApplicationCacheLogs { get; set; }
         DbSet<ApplicationConfigSetting> ApplicationConfigSettings { get; set; }
@@ -29,5 +31,13 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<RoleGroupUser> RoleGroupUsers { get; set; }
         DbSet<Specialty> Specialties { get; set; }
         DbSet<User> Users { get; set; }
+
+        DatabaseFacade Database { get; }
+
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        EntityEntry Entry(object entity);
+        EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        int SaveChanges();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default); 
     }
 }
