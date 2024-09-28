@@ -166,7 +166,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             {
                 case ETypeDataBase.Mysql:
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringMySQL(_configuration);
-                    services.AddDbContext<IEntityDataContext, SmartDigitalPsicoDataContextMysql>((serviceProvider, optionsBuilder) =>
+                    services.AddDbContext<IEntityDataContext, SmartDigitalPsicoDataContextMySql>((serviceProvider, optionsBuilder) =>
                     {
                         optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection),
                         optionsMySQL =>
@@ -181,7 +181,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                     break;
                 case ETypeDataBase.MSsqlServer:
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringSQL(_configuration);
-                    services.AddDbContext<IEntityDataContext, SmartDigitalPsicoDataContextMysql>((serviceProvider, optionsBuilder) =>
+                    services.AddDbContext<IEntityDataContext, SmartDigitalPsicoDataContextSqlServer>((serviceProvider, optionsBuilder) =>
                     {
                         optionsBuilder.UseSqlServer(connection,
                         optionsSQL => optionsSQL.MigrationsAssembly("SmartDigitalPsico.Data"));

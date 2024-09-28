@@ -2,18 +2,17 @@ using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Audit;
 
 namespace SmartDigitalPsico.Data.Context
-{ 
-    public class SmartDigitalPsicoDataContextMySql : EntityDataContext
+{
+    public class SmartDigitalPsicoDataContextSqlServer : EntityDataContext
     {
         private readonly AuditContextInterceptor? _auditInterceptor;
-        public SmartDigitalPsicoDataContextMySql()
-        { 
-        }
-        public SmartDigitalPsicoDataContextMySql(DbContextOptions<SmartDigitalPsicoDataContextMySql> options) : base(options)
+        public SmartDigitalPsicoDataContextSqlServer()
         {
         }
-        public SmartDigitalPsicoDataContextMySql(DbContextOptions<SmartDigitalPsicoDataContextMySql> options, AuditContextInterceptor auditInterceptor)
-            : base(options)
+        public SmartDigitalPsicoDataContextSqlServer(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options)
+        {
+        }
+        public SmartDigitalPsicoDataContextSqlServer(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options, AuditContextInterceptor auditInterceptor)
         {
             _auditInterceptor = auditInterceptor;
         }
@@ -23,6 +22,6 @@ namespace SmartDigitalPsico.Data.Context
             {
                 optionsBuilder.AddInterceptors(_auditInterceptor);
             }
-        } 
+        }
     }
 }
