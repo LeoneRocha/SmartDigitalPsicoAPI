@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
 
             _sharedDependenciesConfig = sharedDependenciesConfig;
-        } 
+        }
         public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(AddAuditDataSelectiveEntityLogDto item)
         {
             throw new NotImplementedException();
@@ -36,14 +36,20 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         public async Task Save(object entryOld, object entryNew, string operation, string[] propertiesToIgnore)
         {
+            AddAuditDataSelectiveEntityLogDto? auditEntry = null;
             try
             {
-                var auditEntry = AuditLogHelper.CreateAuditEntry(entryOld, entryNew, operation, propertiesToIgnore);
+                auditEntry = AuditLogHelper.CreateAuditEntry(entryOld, entryNew, operation, propertiesToIgnore);
                 await base.Create(auditEntry);
             }
             catch (Exception ex)
             {
-                _sharedDependenciesConfig.Logger.Error(ex, "Erro ao gerar PDF");
+                if (auditEntry != null)
+                {
+                    _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}",
+                      auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DataHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                }
+                _sharedDependenciesConfig.Logger.Error(ex, "Error writing log"); 
             }
         }
     }
