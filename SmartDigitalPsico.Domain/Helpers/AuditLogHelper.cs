@@ -51,40 +51,49 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         private static string GetCurrentUserName(object obj)
         {
-            var userIdProperties = new[] { "ModifyUser.Name" };
+            const string propertyPath = "ModifyUser.Name";
+            const string defaultUserName = "admin";
 
-            foreach (var property in userIdProperties)
-            { 
-                var propertyPath = property;
-                var propertyNames = propertyPath.Split('.');
-                object currentObject = obj;
-
-
-                foreach (var propertyName in propertyNames)
-                {
-                    if (currentObject == null)
-                    {
-                        return "admin";
-                    }
-
-                    var propInfo = currentObject.GetType().GetProperty(propertyName);
-                    if (propInfo == null)
-                    {
-                        return "admin";
-                    }
-
-                    currentObject = propInfo.GetValue(currentObject)!;
-                }
-                var userName = currentObject as string;
-
-                if (!string.IsNullOrEmpty(userName))
-                {
-                    return userName;
-                }
+            if (obj == null)
+            {
+                return defaultUserName;
             }
-            return "admin";
-        } 
+            var result = GetNestedPropertyValue(obj, propertyPath);
+            if (!string.IsNullOrEmpty(result))
+            {
+                return result;
+            }
 
+            return defaultUserName;
+        }
+
+        private static string GetNestedPropertyValue(object obj, string propertyPath)
+        {
+            var propertyNames = propertyPath.Split('.');
+            object currentObject = obj;
+
+            foreach (var propertyName in propertyNames)
+            {
+                if (currentObject == null)
+                {
+                    return string.Empty;
+                }
+
+                var propInfo = currentObject.GetType().GetProperty(propertyName);
+                if (propInfo == null)
+                {
+                    return string.Empty;
+                }
+
+                currentObject = propInfo.GetValue(currentObject)!;
+            }
+            var result = currentObject as string; 
+            if (!string.IsNullOrEmpty(result))
+            {
+                return result;
+            } 
+            return string.Empty;
+        } 
         private static string GetKeyValues(object obj)
         {
             var result = string.Empty;
