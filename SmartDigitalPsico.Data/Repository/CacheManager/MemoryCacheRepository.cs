@@ -43,5 +43,11 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             _memoryCache.Remove(cacheKey);
             return true;
         }
+
+        public bool Set<T>(string cacheKey, T value, MemoryCacheEntryOptions memoryCacheEntryOptions)
+        {
+            _memoryCache.Set(cacheKey, value, memoryCacheEntryOptions);
+            return true;
+        }
     }
 }

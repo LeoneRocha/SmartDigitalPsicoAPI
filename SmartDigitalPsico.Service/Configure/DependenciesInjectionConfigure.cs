@@ -148,9 +148,10 @@ namespace SmartDigitalPsico.Service.Configure
         #region INTERFACES
         private static void addRepositories(IServiceCollection services)
         {
+            services.AddSingleton<IMemoryCacheRepository, MemoryCacheRepository>();
+
             services.AddScoped<IFileManager, FileManager>();
             services.AddScoped<IFileDiskRepository, FileDiskRepository>();
-            services.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
             services.AddScoped<IDiskCacheRepository, DiskCacheRepository>();
             services.AddScoped<IStorageBlobAdapter, AzureStorageBlobAdapter>();
 

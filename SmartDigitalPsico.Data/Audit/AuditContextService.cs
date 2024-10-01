@@ -1,15 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Caching.Memory;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit
 {
     public class AuditContextService : IAuditContextService
     {
-        public AuditContextService()
+        private readonly IMemoryCacheRepository _memoryCacheRepository;
+        public AuditContextService(IMemoryCacheRepository memoryCacheRepository)
         {
+            _memoryCacheRepository = memoryCacheRepository;
         }
         public List<AuditDataEntityLog> OnBeforeSaveChanges(DbContext context)
         {
@@ -24,35 +28,81 @@ namespace SmartDigitalPsico.Data.Audit
             }
             return auditEntries;
         }
-        public List<AuditDataEntityLog> GetExistingEntries(DbContext context, List<AuditDataEntityLog> auditEntries)
-        { 
-                var dtUtcNow = DateTime.UtcNow;
-                var twoMinutesAgo = dtUtcNow.AddMinutes(-2);
-                var minDateAauditEntrie = auditEntries.Min(x => x.AuditDate).AddMinutes(-2); 
-                List<string> tableNames = auditEntries.Select(x => x.TableName).Distinct().ToList();
-                List<string> operations = auditEntries.Select(x => x.Operation).Distinct().ToList();
-                List<string> keyValues = auditEntries.Select(x => x.KeyValue).Distinct().ToList(); 
-                var existingEntries = context.Set<AuditDataEntityLog>().AsNoTracking()
+        public List<AuditDataEntityLog> GetExistingEntries(DbContext context, List<AuditDataEntityLog> auditEntriesInput)
+        {
+            var dtUtcNow = DataHelper.GetDateTimeNow();
+            var twoMinutesAgo = dtUtcNow.AddMinutes(-2);
+            var minDateAauditEntrie = auditEntriesInput.Min(x => x.AuditDate).AddMinutes(-2);
+            List<string> tableNames = auditEntriesInput.Select(x => x.TableName).Distinct().ToList();
+            List<string> operations = auditEntriesInput.Select(x => x.Operation).Distinct().ToList();
+            List<string> keyValues = auditEntriesInput.Select(x => x.KeyValue).Distinct().ToList();
+
+            var existingEntries = context.Set<AuditDataEntityLog>().AsNoTracking()
+                .Where(adel => (adel.AuditDate >= twoMinutesAgo && adel.AuditDate <= dtUtcNow)
+                && (adel.AuditDate >= minDateAauditEntrie)
+                && (tableNames.Any(tn => tn == adel.TableName) && operations.Any(op => op == adel.Operation) && keyValues.Any(op => op == adel.KeyValue)))
+                .ToList();
+            return existingEntries;
+        }
+        public List<AuditDataEntityLog> GetNewEntries(DbContext context, List<AuditDataEntityLog> auditEntriesInput)
+        {
+            var existingEntries = handleMemoryIfNotExists(auditEntriesInput);
+            if (existingEntries == null || existingEntries.Count == 0)
+                return auditEntriesInput;
+
+            var resultList = auditEntriesInput
+                .Where(e => !existingEntries.Exists(a => e.AuditDate.Date == a.AuditDate.Date
+                && e.AuditDate.Hour == a.AuditDate.Hour
+                && e.AuditDate.Minute == a.AuditDate.Minute
+                && a.TableName.Equals(e.TableName)
+                && a.Operation.Equals(e.Operation)
+                && a.KeyValue.Equals(e.KeyValue)
+                && a.OldValues.Equals(e.OldValues)
+                && a.NewValues.Equals(e.NewValues)
+                )).ToList();
+
+            return resultList;
+        }
+
+        private List<AuditDataEntityLog> handleMemoryIfNotExists(List<AuditDataEntityLog> auditEntriesInput)
+        {
+            List<AuditDataEntityLog> cachedEntriesOut = new List<AuditDataEntityLog>();
+
+            var dtUtcNow = DataHelper.GetDateTimeNow();
+            var twoMinutesAgo = dtUtcNow.AddMinutes(-2);
+            var minDateAauditEntrie = auditEntriesInput.Min(x => x.AuditDate).AddMinutes(-2);
+            List<string> tableNames = auditEntriesInput.Select(x => x.TableName).Distinct().ToList();
+            List<string> operations = auditEntriesInput.Select(x => x.Operation).Distinct().ToList();
+            List<string> keyValues = auditEntriesInput.Select(x => x.KeyValue).Distinct().ToList();
+            long? userID = auditEntriesInput.Select(x => x.UserAuditedId.GetValueOrDefault()).Distinct().FirstOrDefault();
+            var cacheKey = $"AuditEntries";
+
+            if (_memoryCacheRepository.TryGet(cacheKey, out cachedEntriesOut!))
+            {
+                var recentEntries = cachedEntriesOut
                     .Where(adel => (adel.AuditDate >= twoMinutesAgo && adel.AuditDate <= dtUtcNow)
                     && (adel.AuditDate >= minDateAauditEntrie)
                     && (tableNames.Any(tn => tn == adel.TableName) && operations.Any(op => op == adel.Operation) && keyValues.Any(op => op == adel.KeyValue)))
                     .ToList();
-                return existingEntries; 
-        }
-        public List<AuditDataEntityLog> GetNewEntries(DbContext context, List<AuditDataEntityLog> auditEntries)
-        {
-            var existingEntries = GetExistingEntries(context, auditEntries);
-            return auditEntries
-                .Where(e => !existingEntries.Exists(a => e.AuditDate.Date == a.AuditDate.Date
-                    && e.AuditDate.Hour == a.AuditDate.Hour
-                    && e.AuditDate.Minute == a.AuditDate.Minute
-                    && a.TableName.Equals(e.TableName)
-                    && a.Operation.Equals(e.Operation)
-                    && a.KeyValue.Equals(e.KeyValue)
-                    && a.OldValues.Equals(e.OldValues)
-                    && a.NewValues.Equals(e.NewValues)
-                    ))
-                .ToList();
+
+                if (recentEntries.Count > 0)
+                {
+                    // Retorna os registros correspondentes
+                    return recentEntries;
+                }
+            }
+            var _cacheOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpiration = DataHelper.GetDateTimeNow().AddHours(0).AddMinutes(3),
+                Priority = CacheItemPriority.High,
+                SlidingExpiration = TimeSpan.FromMinutes(3)
+            };
+
+            // Se não existirem registros correspondentes, salva os novos registros
+            _memoryCacheRepository.Set(cacheKey, auditEntriesInput, _cacheOptions);
+            return cachedEntriesOut;
+
+
         }
 
         private static AuditDataEntityLog CreateAuditEntry(EntityEntry entry)
