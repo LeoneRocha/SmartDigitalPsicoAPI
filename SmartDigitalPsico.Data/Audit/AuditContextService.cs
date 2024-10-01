@@ -66,23 +66,22 @@ namespace SmartDigitalPsico.Data.Audit
 
         private List<AuditDataEntityLog> handleMemoryIfNotExists(List<AuditDataEntityLog> auditEntriesInput)
         {
-            List<AuditDataEntityLog> cachedEntriesOut = new List<AuditDataEntityLog>();
 
             var dtUtcNow = DataHelper.GetDateTimeNow();
             var twoMinutesAgo = dtUtcNow.AddMinutes(-2);
             var minDateAauditEntrie = auditEntriesInput.Min(x => x.AuditDate).AddMinutes(-2);
             List<string> tableNames = auditEntriesInput.Select(x => x.TableName).Distinct().ToList();
             List<string> operations = auditEntriesInput.Select(x => x.Operation).Distinct().ToList();
-            List<string> keyValues = auditEntriesInput.Select(x => x.KeyValue).Distinct().ToList();
-            long? userID = auditEntriesInput.Select(x => x.UserAuditedId.GetValueOrDefault()).Distinct().FirstOrDefault();
+            List<string> keyValues = auditEntriesInput.Select(x => x.KeyValue).Distinct().ToList(); 
             var cacheKey = $"AuditEntries";
 
+            List<AuditDataEntityLog> cachedEntriesOut;
             if (_memoryCacheRepository.TryGet(cacheKey, out cachedEntriesOut!))
             {
                 var recentEntries = cachedEntriesOut
                     .Where(adel => (adel.AuditDate >= twoMinutesAgo && adel.AuditDate <= dtUtcNow)
                     && (adel.AuditDate >= minDateAauditEntrie)
-                    && (tableNames.Any(tn => tn == adel.TableName) && operations.Any(op => op == adel.Operation) && keyValues.Any(op => op == adel.KeyValue)))
+                    && (tableNames.Exists(tn => tn == adel.TableName) && operations.Exists(op => op == adel.Operation) && keyValues.Exists(op => op == adel.KeyValue)))
                     .ToList();
 
                 if (recentEntries.Count > 0)
