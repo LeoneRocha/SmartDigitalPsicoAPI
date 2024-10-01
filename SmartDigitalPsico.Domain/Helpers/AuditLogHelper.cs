@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
@@ -34,23 +34,9 @@ namespace SmartDigitalPsico.Domain.Helpers
 
             return string.Empty;
         }
-        public static AuditDataEntityLog CreateAuditEntry(object entryOld, object entryNew, string operation)
+        public static AddAuditDataSelectiveEntityLogDto CreateAuditEntry(object entryOld, object entryNew, string operation, string[] propertiesToIgnore)
         {
-            var auditEntry = new AuditDataEntityLog
-            {
-                TableName = entryNew.GetType().Name,
-                Operation = operation,
-                KeyValue = GetKeyValues(entryNew),
-                OldValues = SerializeObject(entryOld),
-                NewValues = SerializeObject(entryNew),
-                UserAuditedId = GetCurrentUserId(entryNew!).Item1,
-                UserAuditedLogin = GetCurrentUserId(entryNew!).Item2,
-            };
-            return auditEntry;
-        }
-        public static AuditDataEntityLog CreateAuditEntry(object entryOld, object entryNew, string operation, string[] propertiesToIgnore)
-        {
-            var auditEntry = new AuditDataEntityLog
+            var auditEntry = new AddAuditDataSelectiveEntityLogDto
             {
                 TableName = entryNew.GetType().Name,
                 Operation = operation,
@@ -58,10 +44,47 @@ namespace SmartDigitalPsico.Domain.Helpers
                 OldValues = SerializeObject(entryOld, propertiesToIgnore),
                 NewValues = SerializeObject(entryNew, propertiesToIgnore),
                 UserAuditedId = GetCurrentUserId(entryNew!).Item1,
-                UserAuditedLogin = GetCurrentUserId(entryNew!).Item2,
+                UserAuditedLogin = GetCurrentUserName(entryOld!),
             };
             return auditEntry;
         }
+
+        private static string GetCurrentUserName(object obj)
+        {
+            var userIdProperties = new[] { "ModifyUser.Name" };
+
+            foreach (var property in userIdProperties)
+            { 
+                var propertyPath = property;
+                var propertyNames = propertyPath.Split('.');
+                object currentObject = obj;
+
+
+                foreach (var propertyName in propertyNames)
+                {
+                    if (currentObject == null)
+                    {
+                        return "admin";
+                    }
+
+                    var propInfo = currentObject.GetType().GetProperty(propertyName);
+                    if (propInfo == null)
+                    {
+                        return "admin";
+                    }
+
+                    currentObject = propInfo.GetValue(currentObject)!;
+                }
+                var userName = currentObject as string;
+
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    return userName;
+                }
+            }
+            return "admin";
+        } 
+
         private static string GetKeyValues(object obj)
         {
             var result = string.Empty;
@@ -90,6 +113,15 @@ namespace SmartDigitalPsico.Domain.Helpers
                 }
             }
             return (null, "admin");
+        }
+
+        public static T DeepClone<T>(T obj, string[] propertiesToIgnore)
+        {
+            var jsonSettings = GetJsonSettings();
+            jsonSettings.ContractResolver = new IgnorableSerializerContractResolver(propertiesToIgnore);
+
+            var json = JsonConvert.SerializeObject(obj, jsonSettings);
+            return JsonConvert.DeserializeObject<T>(json)!;
         }
     }
 }

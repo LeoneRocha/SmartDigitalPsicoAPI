@@ -5,16 +5,16 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
     public class SharedServices : ISharedServices
-    {  
+    {
         public ICacheService CacheService { get; }
-        public ICryptoService CryptoService { get; } 
+        public ICryptoService CryptoService { get; }
 
-        public SharedServices( 
+        public SharedServices(
             ICacheService cacheService,
             ICryptoService cryptoService)
         {
             CacheService = cacheService;
-            CryptoService = cryptoService;         
+            CryptoService = cryptoService;
         }
     }
 }
