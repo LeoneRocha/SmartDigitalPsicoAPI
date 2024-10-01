@@ -46,10 +46,10 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             {
                 if (auditEntry != null)
                 {
-                    _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}",
-                      auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DataHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                    _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID}| User Name: {UserAuditedLogin} | Date: {Date}",
+                      auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, auditEntry.UserAuditedLogin, DataHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
                 }
-                _sharedDependenciesConfig.Logger.Error(ex, "Error writing log"); 
+                _sharedDependenciesConfig.Logger.Error(ex, "Error writing log");
             }
         }
     }
