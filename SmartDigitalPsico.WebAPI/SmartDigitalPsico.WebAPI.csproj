@@ -7,13 +7,13 @@
     <UserSecretsId>2635b1f2-66d1-4197-bb29-908740cba17d</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-    <AssemblyVersion>2024.09.28.01</AssemblyVersion>
-    <FileVersion>2024.09.28.01</FileVersion>
+    <AssemblyVersion>2024.09.30.01</AssemblyVersion>
+    <FileVersion>2024.09.30.01</FileVersion>
   </PropertyGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.12.0" />
+    <PackageReference Include="Azure.Identity" Version="1.12.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
@@ -31,8 +31,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.0" />
-    <PackageReference Include="Serilog" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1" />
+    <PackageReference Include="Serilog" Version="4.0.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
