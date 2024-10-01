@@ -4,8 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Audit;
+using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
@@ -17,6 +17,7 @@ using SmartDigitalPsico.Domain.DTO.Security;
 using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
@@ -32,6 +33,7 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
+using SmartDigitalPsico.Service.Audit;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure;
@@ -41,8 +43,6 @@ using SmartDigitalPsico.Service.Infrastructure.Report;
 using SmartDigitalPsico.Service.Infrastructure.Smtp;
 using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Security;
-using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Service.Audit;
 
 namespace SmartDigitalPsico.Service.Configure
 {
@@ -71,6 +71,10 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddSingleton<AuditPersistenceDataBaseService>();
             services.AddSingleton<AuditPersistenceLogService>();
             services.AddSingleton<AuditContextInterceptor>();
+
+            services.AddScoped<IAuditDataSelectiveEntityLogRepository, AuditDataSelectiveEntityLogRepository>();
+            services.AddScoped<IAuditDataSelectiveEntityLogService, AuditDataSelectiveEntityLogService>();
+            services.AddScoped<IValidator<AuditDataSelectiveEntityLog>, AuditDataSelectiveEntityLogValidator>();
         }
 
         private static void addReportDependencies(IServiceCollection services)

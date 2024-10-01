@@ -1,20 +1,18 @@
 using Azure;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
+using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -23,12 +21,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
     {
         private readonly IUserRepository _userRepository;
-        private readonly ICryptoService _cryptoService;
-        private readonly IStorageTableContract<PatientRecordTableEntity> _storageTableService;
         private readonly IMedicalRepository _medicalRepository;
         private readonly IPatientRepository _patientRepository;
-
-        public PatientRecordService(IPatientRepositories repositories, IPatientRecordServiceConfig config)
+        private readonly IPatientRecordServiceConfig _config;
+        private readonly IAuditDataSelectiveEntityLogService _auditDataSelectiveEntityLogService;
+        public PatientRecordService(IPatientRepositories repositories, IPatientRecordServiceConfig config, IAuditDataSelectiveEntityLogService auditDataSelectiveEntityLogService)
         : base(
               config.SharedServices,
               config.SharedDependenciesConfig,
@@ -36,11 +33,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
               repositories.PatientRecordRepository,
               config.EntityValidator)
         {
+            _config = config;
             _userRepository = repositories.SharedRepositories.UserRepository;
-            _cryptoService = config.SharedServices.CryptoService;
-            _storageTableService = config.StorageTableService;
             _medicalRepository = repositories.MedicalRepository;
             _patientRepository = repositories.PatientRepository;
+            _auditDataSelectiveEntityLogService = auditDataSelectiveEntityLogService;
+
         }
         public override async Task<ServiceResponse<GetPatientRecordDto>> Create(AddPatientRecordDto item)
         {
@@ -63,12 +61,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 var patient = await _patientRepository.FindByID(entityAdd.PatientId);
                 var medical = await _medicalRepository.FindByID(patient.MedicalId);
-                entityAdd.Annotation = _cryptoService.Encrypt(medical.SecurityKey, item.Annotation);
+                entityAdd.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, item.Annotation);
 
                 entityAdd.TableStorageRowKey = Guid.NewGuid().ToString();
 
                 var addTableEntity = CreateTableEntity(entityAdd);
-                await _storageTableService.UpdateAsync(addTableEntity);
+                await _config.StorageTableService.UpdateAsync(addTableEntity);
                 entityAdd.TableStorageRowKey = addTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
@@ -80,6 +78,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         public override async Task<ServiceResponse<GetPatientRecordDto>> Update(UpdatePatientRecordDto item)
         {
             PatientRecord entityUpdate = await _entityRepository.FindByID(item.Id);
+            string[] propertiesToIgnore = ["Patient", "Patient", "CreatedUser", "ModifyUser"];
+
+            PatientRecord entityOld = AuditLogHelper.DeepClone(entityUpdate, propertiesToIgnore);
 
             #region Relationship
 
@@ -94,9 +95,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             #region User Action
 
             entityUpdate.ModifyUserId = UserId;
-
+            User userUpdate = await _userRepository.FindByID(UserId);
+            entityOld.ModifyUser  = userUpdate;
             #endregion User Action
-             
+
             #region Columns
             entityUpdate.Enable = item.Enable;
             entityUpdate.Annotation = item.Annotation;
@@ -110,15 +112,17 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (response.Success)
             {
                 var medical = await _medicalRepository.FindByID(entityUpdate.Patient?.MedicalId ?? 0);
-                entityUpdate.Annotation = _cryptoService.Encrypt(medical.SecurityKey, item.Annotation);
+                entityUpdate.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, item.Annotation);
 
                 var updateTableEntity = CreateTableEntity(entityUpdate);
-                await _storageTableService.UpdateAsync(updateTableEntity);
+                await _config.StorageTableService.UpdateAsync(updateTableEntity);
                 entityUpdate.TableStorageRowKey = updateTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
                 response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Message = "Patient Updated.";
+
+                await _auditDataSelectiveEntityLogService.Save(entityOld, entityResponse, "Update", propertiesToIgnore);
             }
             return response;
         }
@@ -209,7 +213,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 var patient = await _patientRepository.FindByID(entityResponse.PatientId, p => p.Medical ?? new Medical());
 
 
-                entityResponse.Annotation = _cryptoService.Decrypt(patient.Medical?.SecurityKey ?? string.Empty, entityResponse.Annotation);
+                entityResponse.Annotation = _config.SharedServices.CryptoService.Decrypt(patient.Medical?.SecurityKey ?? string.Empty, entityResponse.Annotation);
 
                 response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Success = true;
