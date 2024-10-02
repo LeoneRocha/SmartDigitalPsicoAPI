@@ -2,7 +2,6 @@ using FluentValidation;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.SMTP;
@@ -16,7 +15,6 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -206,7 +204,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
                 response.Message = "User registred.";
 
-                var configApp = (await _sharedRepositories.ApplicationConfigSettingRepository.FindAll()).First();
+                var configApp = (await _sharedRepositories.ApplicationConfigSettingRepository.FindAll())[0];
                 await SendEmailCreateAcessAsync(userRegisterVO, configApp.UrlRootManager);
             }
 
