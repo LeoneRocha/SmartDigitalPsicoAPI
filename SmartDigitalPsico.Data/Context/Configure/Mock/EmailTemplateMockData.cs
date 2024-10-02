@@ -35,9 +35,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
         <div class='content'>
             <p>Hello,</p>
             <p>Your access has been granted. Below are your login details:</p>
-            <p><strong>URL:</strong> <a href='{{AccessUrl}}'>{{AccessUrl}}</a></p>
-            <p><strong>Email:</strong> {{Email}}</p>
-            <p><strong>Temporary Password:</strong> {{Password}}</p>
+            <p><strong>URL:</strong> <a href='[{AccessUrl}]'>[{AccessUrl}]</a></p>
+            <p><strong>Email:</strong> [{Email}]</p>
+            <p><strong>Temporary Password:</strong> [{Password}]</p>
             <p>Please change your password after your first login.</p>
         </div>
         <div class='footer'>

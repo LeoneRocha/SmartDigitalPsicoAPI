@@ -107,7 +107,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         public override async Task<ServiceResponse<GetUserDto>> Update(UpdateUserDto updateUser)
-        {
+        { 
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
             try
@@ -412,43 +412,23 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
         private async Task SendEmailCreateAcessAsync(AddUserDto user, string accessUrl)
         {
+            var template = await _sharedRepositories.EmailTemplateRepository.GetEmailTemplateAsync("Welcome Email");
+
+            var tokens = new Dictionary<string, string>
+            {
+                { "AccessUrl", accessUrl},
+                { "Email", user.Email },
+                { "Password", user.Password }
+            };
+            var body = EmailHelper.ReplaceTokens(template.Body, tokens);
+
             EmailMessageDto emailMessageVO = new EmailMessageDto()
             {
-                Subject = $"Access Granted",
-                Message = $"Hello, your access has been granted. \n\nURL: {accessUrl}\nEmail: {user.Email}\nTemporary Password: {user.Password}",
+                Subject = template.Subject,
+                Message = body,
                 ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
-            };
+            }; 
             await _sharedServices.EmailService.SendEmailAsync(emailMessageVO);
-        }
-        public override async Task<ServiceResponse<bool>> Delete(long id)
-        {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-            try
-            {
-                bool exists = await _entityRepository.Exists(id);
-                if (!exists)
-                {
-                    response.Success = false;
-                    response.Message = await getMessageFromLocalization("RegisterIsNotFound");
-                }
-                else
-                {
-                    response.Success = await _entityRepository.Delete(id);
-                    if (response.Success)
-                    {
-                        response.Message = await getMessageFromLocalization("RegisterDeleted");
-                        response.Success = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Errors.Add(new ErrorResponse() { Name = "Delete", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "Delete: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
-            }
-            return response;
-        }
+        } 
     }
 }
