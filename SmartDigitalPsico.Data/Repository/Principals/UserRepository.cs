@@ -74,6 +74,18 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 return result;
             }
             return new User();
-        } 
+        }
+        public override async Task<bool> Delete(long id)
+        {
+            var result = await _dataset.Include(x=> x.UserRoleGroups).SingleOrDefaultAsync(p => p.Id.Equals(id));
+            if (result != null)
+            {
+                result.UserRoleGroups.Clear();  
+                _dataset.Remove(result);
+                await _context.SaveChangesAsync();
+            }
+            return true;
+        }
+
     }
 }

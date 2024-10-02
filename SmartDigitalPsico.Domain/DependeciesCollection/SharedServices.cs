@@ -1,6 +1,7 @@
 ﻿using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
+using SmartDigitalPsico.Domain.Interfaces.Smtp;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
@@ -9,12 +10,17 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         public ICacheService CacheService { get; }
         public ICryptoService CryptoService { get; }
 
-        public SharedServices(
+        public IEmailService EmailService   { get; }
+
+    public SharedServices(
             ICacheService cacheService,
-            ICryptoService cryptoService)
+            ICryptoService cryptoService,
+            IEmailService emailService
+        )
         {
             CacheService = cacheService;
             CryptoService = cryptoService;
+            EmailService = emailService;
         }
     }
 }

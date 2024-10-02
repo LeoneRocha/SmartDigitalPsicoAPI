@@ -1,8 +1,11 @@
-using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.SMTP;
+using SmartDigitalPsico.Domain.DTO.User;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
@@ -12,13 +15,10 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO.User;
+using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
@@ -27,6 +27,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly IRoleGroupRepository _roleGroupRepository;
         private readonly ITokenConfigurationDto _configurationToken;
         private readonly ITokenService _tokenService;
+        private readonly ISharedServices _sharedServices;
+        private readonly ISharedRepositories _sharedRepositories;
+
         private readonly AuthConfigurationDto _configurationAuth;
         public UserService(
             ISharedServices sharedServices,
@@ -44,6 +47,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _configurationToken = configurationToken;
             _configurationAuth = configurationAuth.Value;
             _tokenService = tokenService;
+            _sharedServices = sharedServices;
+            _sharedRepositories = sharedRepositories;
         }
 
         public async Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password)
@@ -100,7 +105,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         public override async Task<ServiceResponse<GetUserDto>> Update(UpdateUserDto updateUser)
-        {
+        { 
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
             try
@@ -198,6 +203,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 }
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
                 response.Message = "User registred.";
+
+                var configApp = (await _sharedRepositories.ApplicationConfigSettingRepository.FindAll())[0];
+                await SendEmailCreateAcessAsync(userRegisterVO, configApp.UrlRootManager);
             }
 
             return response;
@@ -400,5 +408,25 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             return result;
         }
+        private async Task SendEmailCreateAcessAsync(AddUserDto user, string accessUrl)
+        {
+            var template = await _sharedRepositories.EmailTemplateRepository.GetEmailTemplateAsync("Welcome Email");
+
+            var tokens = new Dictionary<string, string>
+            {
+                { "AccessUrl", accessUrl},
+                { "Email", user.Email },
+                { "Password", user.Password }
+            };
+            var body = EmailHelper.ReplaceTokens(template.Body, tokens);
+
+            EmailMessageDto emailMessageVO = new EmailMessageDto()
+            {
+                Subject = template.Subject,
+                Message = body,
+                ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
+            }; 
+            await _sharedServices.EmailService.SendEmailAsync(emailMessageVO);
+        } 
     }
 }

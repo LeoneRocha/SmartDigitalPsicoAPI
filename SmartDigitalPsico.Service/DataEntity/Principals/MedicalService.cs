@@ -31,14 +31,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ISharedRepositories sharedRepositories,
             IMedicalRepository entityRepository,
             ISpecialtyRepository specialtyRepository,
-            IValidator<Medical> entityValidator,
-            IEmailService emailService
+            IValidator<Medical> entityValidator 
+          
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
             _userRepository = sharedRepositories.UserRepository;
             _specialtyRepository = specialtyRepository;
-            _emailService = emailService;
+            _emailService = sharedServices.EmailService;
         }
         public override async Task<ServiceResponse<GetMedicalDto>> Create(AddMedicalDto item)
         {
