@@ -182,8 +182,16 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<AuditDataSelectiveEntityLog, GetAuditDataSelectiveEntityLogDto>();
             CreateMap<GetAuditDataSelectiveEntityLogDto, AuditDataSelectiveEntityLog>();
             CreateMap<AddAuditDataSelectiveEntityLogDto, AuditDataSelectiveEntityLog>();
-            CreateMap<UpdateAuditDataSelectiveEntityLogDto, AuditDataSelectiveEntityLog>(); 
+            CreateMap<UpdateAuditDataSelectiveEntityLogDto, AuditDataSelectiveEntityLog>();
             #endregion Audit  
+             
+            #region EmailTemplate
+            CreateMap<EmailTemplate, GetEmailTemplateDto>();
+            CreateMap<GetEmailTemplateDto, EmailTemplate>();
+
+            CreateMap<AddEmailTemplateDto, EmailTemplate>();
+            CreateMap<UpdateEmailTemplateDto, EmailTemplate>();
+            #endregion EmailTemplate 
         }
     }
 }

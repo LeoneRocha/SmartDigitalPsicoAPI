@@ -18,6 +18,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(c => c.Enable);
             builder.Property(c => c.Description).HasMaxLength(255);
+            builder.Property(c => c.UrlRootManager).HasMaxLength(255);
             builder.Property(c => c.Language).HasMaxLength(10);
             builder.Property(c => c.EndPointUrl_StorageFiles).HasMaxLength(255);
             builder.Property(c => c.EndPointUrl_Cache).HasMaxLength(255);

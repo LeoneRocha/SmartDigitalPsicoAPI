@@ -53,7 +53,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         {
             UserId = id;
         }
-        private async Task<string> getMessageFromLocalization(string key)
+        protected async Task<string> getMessageFromLocalization(string key)
         {
             return await ApplicationLanguageService.GetLocalization<ISharedResource>(key, _applicationLanguageRepository, _cacheService);
         }

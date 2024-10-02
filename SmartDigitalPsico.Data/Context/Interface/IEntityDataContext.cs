@@ -7,6 +7,7 @@ namespace SmartDigitalPsico.Data.Context.Interface
 {
     public interface IEntityDataContext : IDisposable 
     {
+        #region DbSets 
         DbSet<ApplicationCacheLog> ApplicationCacheLogs { get; set; }
         DbSet<ApplicationConfigSetting> ApplicationConfigSettings { get; set; }
         DbSet<ApplicationLanguage> ApplicationLanguages { get; set; }
@@ -31,10 +32,13 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<RoleGroupUser> RoleGroupUsers { get; set; }
         DbSet<Specialty> Specialties { get; set; }
         DbSet<User> Users { get; set; }
+        DbSet<EmailTemplate> EmailTemplates { get; set; }
 
+        #endregion DbSets
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        
         DatabaseFacade Database { get; }
 
-        DbSet<TEntity> Set<TEntity>() where TEntity : class;
         EntityEntry Entry(object entity);
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
         int SaveChanges();

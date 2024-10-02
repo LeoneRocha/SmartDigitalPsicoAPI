@@ -59,14 +59,14 @@ namespace SmartDigitalPsico.Service.Configure
             addSmtpDependencies(services, _configuration);
             addQueueDependencies(services);
             addCollectionDependencies(services);
-            addReportDependencies(services);  
+            addReportDependencies(services);
             addAuditDependencies(services);
         }
 
         private static void addAuditDependencies(IServiceCollection services)
         {
             services.AddSingleton<IAuditContextService, AuditContextService>();
-            services.AddSingleton<IAuditPersistenceServiceFactory, AuditPersistenceServiceFactory>(); 
+            services.AddSingleton<IAuditPersistenceServiceFactory, AuditPersistenceServiceFactory>();
             services.AddScoped<AuditPersistenceAzureTableService>();
             services.AddSingleton<AuditPersistenceDataBaseService>();
             services.AddSingleton<AuditPersistenceLogService>();
@@ -148,18 +148,15 @@ namespace SmartDigitalPsico.Service.Configure
         #region INTERFACES
         private static void addRepositories(IServiceCollection services)
         {
+            services.AddSingleton<IMemoryCacheRepository, MemoryCacheRepository>();
             services.AddScoped<IFileManager, FileManager>();
             services.AddScoped<IFileDiskRepository, FileDiskRepository>();
-            services.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
             services.AddScoped<IDiskCacheRepository, DiskCacheRepository>();
             services.AddScoped<IStorageBlobAdapter, AzureStorageBlobAdapter>();
-
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMedicalRepository, MedicalRepository>();
-
             services.AddScoped<IPatientFileRepository, PatientFileRepository>();
             services.AddScoped<IMedicalFileRepository, MedicalFileRepository>();
-
             #region PATIENT
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IPatientRecordRepository, PatientRecordRepository>();
@@ -168,17 +165,15 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IPatientAdditionalInformationRepository, PatientAdditionalInformationRepository>();
             services.AddScoped<IPatientNotificationMessageRepository, PatientNotificationMessageRepository>();
             #endregion PATIENT
-
             services.AddScoped<IApplicationLanguageRepository, ApplicationLanguageRepository>();
             services.AddScoped<IApplicationConfigSettingRepository, ApplicationConfigSettingRepository>();
             services.AddScoped<IApplicationCacheLogRepository, ApplicationCacheLogRepository>();
-
             services.AddScoped<IGenderRepository, GenderRepository>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
             services.AddScoped<IRoleGroupRepository, RoleGroupRepository>();
-            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>(); 
-            
+            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
             services.AddScoped<IAuditDataSelectiveEntityLogRepository, AuditDataSelectiveEntityLogRepository>();
+            services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
         }
         private static void addService(IServiceCollection services)
         {
@@ -205,6 +200,8 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IPatientAdditionalInformationService, PatientAdditionalInformationService>();
             services.AddScoped<IPatientNotificationMessageService, PatientNotificationMessageService>();
             #endregion PATIENT   
+
+            services.AddScoped<IEmailTemplateService, EmailTemplateService>();
         }
         private static void addDependenciesSingleton(IServiceCollection services)
         {
@@ -224,6 +221,7 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IValidator<Office>, OfficeValidator>();
             services.AddScoped<IValidator<RoleGroup>, RoleGroupValidator>();
             services.AddScoped<IValidator<Specialty>, SpecialtyValidator>();
+            services.AddScoped<IValidator<EmailTemplate>, EmailTemplateValidator>();
             #endregion SystemDomains
 
             #region Principals
@@ -245,4 +243,4 @@ namespace SmartDigitalPsico.Service.Configure
 
         #endregion
     }
-} 
+}
