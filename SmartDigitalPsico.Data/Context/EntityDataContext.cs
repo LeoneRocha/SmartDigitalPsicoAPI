@@ -41,6 +41,8 @@ namespace SmartDigitalPsico.Data.Context
         public virtual DbSet<AuditDataEntityLog> AuditLogs { get; set; }
         public virtual DbSet<AuditDataSelectiveEntityLog> AuditSelectiveLogs { get; set; }
 
+        public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
+
         #endregion DBsets  
     }
 }

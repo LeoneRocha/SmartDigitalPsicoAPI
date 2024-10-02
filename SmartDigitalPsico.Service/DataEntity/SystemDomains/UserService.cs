@@ -1,8 +1,12 @@
-using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.DependeciesCollection;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.SMTP;
+using SmartDigitalPsico.Domain.DTO.User;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
@@ -12,13 +16,11 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO.User;
+using SmartDigitalPsico.Domain.Resiliency;
+using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
@@ -27,6 +29,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly IRoleGroupRepository _roleGroupRepository;
         private readonly ITokenConfigurationDto _configurationToken;
         private readonly ITokenService _tokenService;
+        private readonly ISharedServices _sharedServices;
+        private readonly ISharedRepositories _sharedRepositories;
+
         private readonly AuthConfigurationDto _configurationAuth;
         public UserService(
             ISharedServices sharedServices,
@@ -44,6 +49,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _configurationToken = configurationToken;
             _configurationAuth = configurationAuth.Value;
             _tokenService = tokenService;
+            _sharedServices = sharedServices;
+            _sharedRepositories = sharedRepositories;
         }
 
         public async Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password)
@@ -198,6 +205,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 }
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
                 response.Message = "User registred.";
+
+                var configApp = (await _sharedRepositories.ApplicationConfigSettingRepository.FindAll()).First();
+                await SendEmailCreateAcessAsync(userRegisterVO, configApp.UrlRootManager);
             }
 
             return response;
@@ -399,6 +409,46 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 }
             }
             return result;
+        }
+        private async Task SendEmailCreateAcessAsync(AddUserDto user, string accessUrl)
+        {
+            EmailMessageDto emailMessageVO = new EmailMessageDto()
+            {
+                Subject = $"Access Granted",
+                Message = $"Hello, your access has been granted. \n\nURL: {accessUrl}\nEmail: {user.Email}\nTemporary Password: {user.Password}",
+                ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
+            };
+            await _sharedServices.EmailService.SendEmailAsync(emailMessageVO);
+        }
+        public override async Task<ServiceResponse<bool>> Delete(long id)
+        {
+            ServiceResponse<bool> response = new ServiceResponse<bool>();
+            try
+            {
+                bool exists = await _entityRepository.Exists(id);
+                if (!exists)
+                {
+                    response.Success = false;
+                    response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+                }
+                else
+                {
+                    response.Success = await _entityRepository.Delete(id);
+                    if (response.Success)
+                    {
+                        response.Message = await getMessageFromLocalization("RegisterDeleted");
+                        response.Success = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Errors.Add(new ErrorResponse() { Name = "Delete", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                _logger.Error(ex, "Delete: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+            }
+            return response;
         }
     }
 }

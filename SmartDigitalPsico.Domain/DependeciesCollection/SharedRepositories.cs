@@ -8,11 +8,16 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         public IUserRepository UserRepository { get; }
         public IApplicationLanguageRepository ApplicationLanguageRepository { get; }
 
+        public IApplicationConfigSettingRepository ApplicationConfigSettingRepository { get; }
+
         public SharedRepositories(
-            IUserRepository userRepository, IApplicationLanguageRepository applicationLanguageRepository)
+            IUserRepository userRepository, 
+            IApplicationLanguageRepository applicationLanguageRepository,
+            IApplicationConfigSettingRepository applicationConfigSettingRepository)
         {
             UserRepository = userRepository;
             ApplicationLanguageRepository = applicationLanguageRepository;
+            ApplicationConfigSettingRepository = applicationConfigSettingRepository;
         }
     }
 }

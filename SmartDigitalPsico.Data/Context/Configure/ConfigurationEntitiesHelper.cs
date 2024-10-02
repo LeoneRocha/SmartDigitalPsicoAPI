@@ -32,6 +32,7 @@ namespace SmartDigitalPsico.Data.Context.Configure
             modelBuilder.ApplyConfiguration(new RoleGroupUserConfiguration(eDataBaseType));
             modelBuilder.ApplyConfiguration(new AuditDataEntityLogConfiguration(eDataBaseType));
             modelBuilder.ApplyConfiguration(new AuditDataSelectiveEntityLogConfiguration(eDataBaseType));
+            modelBuilder.ApplyConfiguration(new EmailTemplateConfiguration(eDataBaseType));
         } 
     }
 } 

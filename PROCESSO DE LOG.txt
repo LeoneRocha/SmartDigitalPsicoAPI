@@ -1,4 +1,146 @@
 
+Vamos criar a tabela `EmailTemplates` usando o Code First com Entity Framework Core, Fluent API e FluentValidation. Aqui está um exemplo completo:
+
+1. **Definir o modelo `EmailTemplate`:**
+
+```csharp
+public class EmailTemplate
+{
+    public int Id { get; set; }
+    public string TemplateName { get; set; }
+    public string Subject { get; set; }
+    public string Body { get; set; }
+}
+```
+
+2. **Configurar o modelo usando Fluent API:**
+
+```csharp
+public class ApplicationDbContext : DbContext
+{
+    public DbSet<EmailTemplate> EmailTemplates { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer("YourConnectionString");
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<EmailTemplate>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.TemplateName)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.Subject)
+                .IsRequired()
+                .HasMaxLength(200);
+            entity.Property(e => e.Body)
+                .IsRequired();
+        });
+    }
+}
+```
+
+3. **Adicionar validação com FluentValidation:**
+
+```csharp
+using FluentValidation;
+
+public class EmailTemplateValidator : AbstractValidator<EmailTemplate>
+{
+    public EmailTemplateValidator()
+    {
+        RuleFor(x => x.TemplateName)
+            .NotEmpty().WithMessage("Template name is required.")
+            .MaximumLength(100).WithMessage("Template name must be less than 100 characters.");
+        
+        RuleFor(x => x.Subject)
+            .NotEmpty().WithMessage("Subject is required.")
+            .MaximumLength(200).WithMessage("Subject must be less than 200 characters.");
+        
+        RuleFor(x => x.Body)
+            .NotEmpty().WithMessage("Body is required.");
+    }
+}
+```
+
+4. **Atualizar o serviço para usar o template do banco de dados:**
+
+```csharp
+public class EmailTemplateService
+{
+    private readonly ApplicationDbContext _context;
+
+    public EmailTemplateService(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<string> GetEmailTemplateAsync(string templateName)
+    {
+        var template = await _context.EmailTemplates
+            .FirstOrDefaultAsync(t => t.TemplateName == templateName);
+
+        return template?.Body;
+    }
+
+    public string ReplaceTokens(string template, Dictionary<string, string> tokens)
+    {
+        foreach (var token in tokens)
+        {
+            template = template.Replace($"{{{{{token.Key}}}}}", token.Value);
+        }
+        return template;
+    }
+}
+```
+
+5. **Atualizar o método `SendWelcomeEmailAsync` para usar o template dinâmico:**
+
+```csharp
+private readonly EmailTemplateService _emailTemplateService;
+
+public UserService(ApplicationDbContext context, IEmailService emailService, EmailTemplateService emailTemplateService)
+{
+    _context = context;
+    _emailService = emailService;
+    _emailTemplateService = emailTemplateService;
+}
+
+private async Task SendWelcomeEmailAsync(ApplicationUser user)
+{
+    var subject = "Access Granted";
+    var template = await _emailTemplateService.GetEmailTemplateAsync("WelcomeEmail");
+
+    var tokens = new Dictionary<string, string>
+    {
+        { "AccessUrl", user.AccessUrl },
+        { "Email", user.Email },
+        { "Password", user.Password }
+    };
+
+    var body = _emailTemplateService.ReplaceTokens(template, tokens);
+
+    await _emailService.SendEmailAsync(user.Email, subject, body);
+}
+```
+
+Com essas etapas, você pode criar e validar templates de e-mail dinamicamente usando EF Core, Fluent API e FluentValidation. Se precisar de mais alguma coisa, estou à disposição!
+
+Fonte: conversa com o Copilot, 01/10/2024
+(1) 17 - Introduction to Fluent API | Code First | EF. https://www.youtube.com/watch?v=ZtWT5Zq2D28.
+(2) 23 - Execute and Test Fluent API | Code First | EF6. https://www.youtube.com/watch?v=dvi_G-fiCuY.
+(3) 21 - Configure One to Many Relationship in Fluent API | Code First | EF 6. https://www.youtube.com/watch?v=MJPClv_dff0.
+(4) Entity Framework Core - Code First Approach With Fluent API - C# Corner. https://www.c-sharpcorner.com/article/entity-framework-core-code-first-approach-with-fluent-api/.
+(5) Fluent API in Entity Framework Core. https://www.entityframeworktutorial.net/efcore/fluent-api-in-entity-framework-core.aspx.
+(6) Real-Time Examples of Fluent API Validations in ASP.NET Core. https://dotnettutorials.net/lesson/real-time-examples-of-fluent-api-validations-in-asp-net-core-mvc/.
+(7) FluentEmail - All in one email sender for .NET and .NET Core. https://github.com/lukencode/FluentEmail.
+(8) Validation with FluentValidation in .NET Core 8.0 - C# Corner. https://www.c-sharpcorner.com/blogs/validation-with-fluentvalidation-in-net-core-80.
+
+
+
 
 public class DatabaseAuditPersistenceService : IAuditPersistenceService
 {
@@ -596,3 +738,77 @@ Fonte: conversa com o Copilot, 24/09/2024
 (3) Visão geral do registro em log e interceptação – EF Core. https://learn.microsoft.com/pt-br/ef/core/logging-events-diagnostics/.
 (4) Controlando o registro em log no .NET Framework. https://learn.microsoft.com/pt-br/dotnet/framework/performance/controlling-logging.
 (5) Gravar registros de Logs em C# - Blog do Prof. Anderson. https://www.blogson.com.br/gravar-registros-de-logs-em-c/.
+
+
+
+
+Em C# net 8 melhore o  metodo saveMemoryIfNotExists para recuperar em memoria todos registros nos ultimos 2 minutos que que seja igual ao  auditEntries informado pelo paramentro
+se nao existir salva Set e se existir retorne TryGet
+
+ private void saveMemoryIfNotExists(List<AuditDataEntityLog> auditEntries)
+ {
+     throw new NotImplementedException();
+ }
+ public abstract class AuditDataEntityLogBase : EntityBase 
+ { 
+     public string TableName { get; set; } = string.Empty;
+     public string Operation { get; set; } = string.Empty;
+     public string KeyValue { get; set; } = string.Empty;
+     public string OldValues { get; set; } = string.Empty;
+     public string NewValues { get; set; } = string.Empty;
+     public DateTime AuditDate { get; set; } = DateTime.UtcNow;
+     public string? UserAuditedLogin { get; set; } = null; 
+     public User? UserAudited { get; set; }
+     public long? UserAuditedId { get; set; }
+ }
+Consulta base 
+ var existingEntries = GetExistingEntries(context, auditEntries);
+ return auditEntries
+     .Where(e => !existingEntries.Exists(a => e.AuditDate.Date == a.AuditDate.Date
+         && e.AuditDate.Hour == a.AuditDate.Hour
+         && e.AuditDate.Minute == a.AuditDate.Minute
+         && a.TableName.Equals(e.TableName)
+         && a.Operation.Equals(e.Operation)
+         && a.KeyValue.Equals(e.KeyValue)
+         && a.OldValues.Equals(e.OldValues)
+         && a.NewValues.Equals(e.NewValues)
+         ))
+     .ToList();
+
+
+public class MemoryCacheRepository : IMemoryCacheRepository
+{
+    private readonly IMemoryCache _memoryCache;
+    private readonly MemoryCacheEntryOptions? _cacheOptions;
+    public MemoryCacheRepository(IMemoryCache memoryCache, IOptions<CacheConfigurationDto> cacheConfig)
+    {
+        _memoryCache = memoryCache;
+        CacheConfigurationDto _cacheConfig = cacheConfig.Value;
+        if (_cacheConfig != null)
+        {
+            DateTime absoluteExpiration = DataHelper.GetDateTimeNow().AddHours(_cacheConfig.AbsoluteExpirationInHours).AddMinutes(_cacheConfig.AbsoluteExpirationInMinutes);
+            _cacheOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpiration = absoluteExpiration,
+                Priority = CacheItemPriority.High,
+                SlidingExpiration = TimeSpan.FromMinutes(_cacheConfig.SlidingExpirationInMinutes)
+            };
+        }
+    }
+    public bool TryGet<T>(string cacheKey, out T? value)
+    {
+        bool isSuccessGet;
+        isSuccessGet = _memoryCache.TryGetValue(cacheKey, out value);
+        return isSuccessGet;
+    }
+    public bool Set<T>(string cacheKey, T value)
+    {
+        _memoryCache.Set(cacheKey, value, _cacheOptions);
+        return true;
+    }
+    public bool Remove(string cacheKey)
+    {
+        _memoryCache.Remove(cacheKey);
+        return true;
+    }
+}

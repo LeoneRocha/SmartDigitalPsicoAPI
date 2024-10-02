@@ -22,7 +22,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                   TypeLocationQueeMessaging = ETypeLocationQueeMessaging.MongoDB,
                   EndPointUrl_Cache = string.Empty,
                   EndPointUrl_StorageFiles = string.Empty,
-                  Enable = true
+                  Enable = true, 
+                  UrlRootManager = "https://smartdigitalpsicoui-staging.azurewebsites.net/"
               }
               ];
         }
