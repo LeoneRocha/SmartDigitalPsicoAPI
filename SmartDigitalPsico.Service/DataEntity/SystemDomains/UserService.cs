@@ -29,6 +29,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly ITokenService _tokenService;
         private readonly ISharedServices _sharedServices;
         private readonly ISharedRepositories _sharedRepositories;
+        //private readonly ITokenSessionAdapter _tokenSessionAdapter;
 
         private readonly AuthConfigurationDto _configurationAuth;
         public UserService(
@@ -39,7 +40,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ITokenConfigurationDto configurationToken,
             ITokenService tokenService,
             IOptions<AuthConfigurationDto> configurationAuth,
-            IValidator<User> entityValidator
+            IValidator<User> entityValidator 
+            //ITokenSessionAdapter tokenSessionAdapter
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, sharedRepositories.UserRepository, entityValidator)
         {
@@ -49,6 +51,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _tokenService = tokenService;
             _sharedServices = sharedServices;
             _sharedRepositories = sharedRepositories;
+            //_tokenSessionAdapter = tokenSessionAdapter;
         }
 
         public async Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password)

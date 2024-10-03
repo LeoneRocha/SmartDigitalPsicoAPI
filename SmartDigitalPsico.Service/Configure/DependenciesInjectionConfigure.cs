@@ -37,6 +37,7 @@ using SmartDigitalPsico.Service.Audit;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure;
+using SmartDigitalPsico.Service.Infrastructure.Authentication;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 using SmartDigitalPsico.Service.Infrastructure.Report;
@@ -61,6 +62,20 @@ namespace SmartDigitalPsico.Service.Configure
             addCollectionDependencies(services);
             addReportDependencies(services);
             addAuditDependencies(services);
+
+            authenticationDependencies(services);
+        }
+
+        private static void authenticationDependencies(IServiceCollection services)
+        {
+            /*services.AddScoped<DatabaseTokenSessionAdapter>();
+    services.AddScoped<TableStorageTokenSessionAdapter>();
+    services.AddScoped<MongoDbTokenSessionAdapter>();
+    services.AddSingleton<TokenSessionAdapterFactory>();
+    services.AddScoped(typeof(StorageTableEntityService<>));*/
+
+            //StorageTableEntityService
+            //services.AddScoped<ITokenSessionAdapterFactory, TokenSessionAdapterFactory>();
         }
 
         private static void addAuditDependencies(IServiceCollection services)
@@ -127,12 +142,12 @@ namespace SmartDigitalPsico.Service.Configure
                 var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
                 return new StorageTableEntityService<PatientRecordTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
             });
-             
+
             services.AddScoped<IStorageTableContract<UserTokenSessionTableEntity>>(provider =>
             {
                 var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
                 return new StorageTableEntityService<UserTokenSessionTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
-            }); 
+            });
         }
 
         private static void addQueueDependencies(IServiceCollection services)
@@ -182,7 +197,7 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
             services.AddScoped<IUserTokenSessionRepository, UserTokenSessionRepository>();
         }
-        
+
         private static void addService(IServiceCollection services)
         {
             services.AddScoped<ICacheService, CacheService>();

@@ -6,11 +6,11 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
-    public class TableStorageTokenSessionAdapter : ITokenSessionAdapter
+    public class TableStorageTokenSessionRepository : ITokenSessionAdapter
     {
         private readonly IStorageTableContract<UserTokenSessionTableEntity> _storageService;
         private readonly IMapper _mapper;
-        public TableStorageTokenSessionAdapter(IMapper mapper,
+        public TableStorageTokenSessionRepository(IMapper mapper,
             IStorageTableContract<UserTokenSessionTableEntity> storageTableService)
         {
             _mapper = mapper;
