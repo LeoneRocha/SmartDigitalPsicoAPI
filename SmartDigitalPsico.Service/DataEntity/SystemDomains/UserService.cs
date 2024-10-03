@@ -270,7 +270,10 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             var refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DataHelper.GetDateTimeNow().AddDays(_configurationToken.DaysToExpiry);
+
+            DateTime refreshTokenExpiryTime = DataHelper.GetDateTimeNow().AddDays(_configurationToken.DaysToExpiry);
+
+            user.RefreshTokenExpiryTime = refreshTokenExpiryTime;
 
             await _entityRepository.RefreshUserInfo(user);
 
@@ -286,11 +289,11 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     UserId = user.Id,
                     AccessToken = accessToken,
                     RefreshToken = refreshToken,
-                    RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configurationToken.DaysToExpiry),
-                    LastAccessDate = DateTime.UtcNow,
-                    CreatedDate = DateTime.UtcNow,
-                    ModifyDate = DateTime.UtcNow,
-                    ExpiresAt = DateTime.UtcNow.AddMinutes(_configurationToken.Minutes),
+                    RefreshTokenExpiryTime = refreshTokenExpiryTime,
+                    LastAccessDate = createDate,
+                    CreatedDate = createDate,
+                    ModifyDate = createDate,
+                    ExpiresAt = expirationDate,
                     Enable = true
                 };
 
@@ -300,15 +303,14 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             {
                 tokenSession.AccessToken = accessToken;
                 tokenSession.RefreshToken = refreshToken;
-                tokenSession.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configurationToken.DaysToExpiry);
-                tokenSession.LastAccessDate = DateTime.UtcNow;
-                tokenSession.ModifyDate = DateTime.UtcNow;
-                tokenSession.ExpiresAt = DateTime.UtcNow.AddMinutes(_configurationToken.Minutes);
-            } 
-
+                tokenSession.RefreshTokenExpiryTime = refreshTokenExpiryTime;
+                tokenSession.LastAccessDate = createDate;
+                tokenSession.ModifyDate = createDate;
+                tokenSession.ExpiresAt = expirationDate;
+            }  
             var tokenResult = new TokenVO(true,
-                 tokenSession.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ssZ"),
-                 tokenSession.ExpiresAt.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                 tokenSession.CreatedDate.ToString(AppConfigConstants.DATE_FORMAT2),
+                 tokenSession.ExpiresAt.ToString(AppConfigConstants.DATE_FORMAT2),
                  tokenSession.AccessToken,
                  tokenSession.RefreshToken
                  ); 
