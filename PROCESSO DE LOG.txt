@@ -1,3 +1,315 @@
+Claro! Vamos renomear a interface `IUserSessionRepository` para `TokenSessionAdapter` e ajustar o código conforme necessário.
+
+### 1. **Renomear a Interface**
+
+Renomeie a interface para `TokenSessionAdapter`:
+
+```csharp
+public interface TokenSessionAdapter
+{
+    Task<UserTokenSession> GetSessionAsync(int userId);
+    Task SaveSessionAsync(UserTokenSession session);
+}
+```
+
+### 2. **Implementar Adapters para Diferentes Armazenamentos**
+
+Implemente a interface para diferentes tipos de armazenamento. Aqui estão exemplos para banco de dados, Azure Table Storage e MongoDB:
+
+#### Banco de Dados
+
+```csharp
+public class DatabaseTokenSessionAdapter : TokenSessionAdapter
+{
+    private readonly AppDbContext _context;
+
+    public DatabaseTokenSessionAdapter(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<UserTokenSession> GetSessionAsync(int userId)
+    {
+        return await _context.UserTokenSessions.SingleOrDefaultAsync(ts => ts.UserId == userId);
+    }
+
+    public async Task SaveSessionAsync(UserTokenSession session)
+    {
+        var existingSession = await _context.UserTokenSessions.SingleOrDefaultAsync(ts => ts.UserId == session.UserId);
+        if (existingSession == null)
+        {
+            await _context.UserTokenSessions.AddAsync(session);
+        }
+        else
+        {
+            _context.UserTokenSessions.Update(session);
+        }
+        await _context.SaveChangesAsync();
+    }
+}
+```
+
+#### Azure Table Storage
+
+```csharp
+public class TableStorageTokenSessionAdapter : TokenSessionAdapter
+{
+    private readonly CloudTable _table;
+
+    public TableStorageTokenSessionAdapter(CloudTable table)
+    {
+        _table = table;
+    }
+
+    public async Task<UserTokenSession> GetSessionAsync(int userId)
+    {
+        var retrieveOperation = TableOperation.Retrieve<UserTokenSession>("UserTokenSession", userId.ToString());
+        var result = await _table.ExecuteAsync(retrieveOperation);
+        return result.Result as UserTokenSession;
+    }
+
+    public async Task SaveSessionAsync(UserTokenSession session)
+    {
+        var insertOrReplaceOperation = TableOperation.InsertOrReplace(session);
+        await _table.ExecuteAsync(insertOrReplaceOperation);
+    }
+}
+```
+
+#### MongoDB
+
+```csharp
+public class MongoDbTokenSessionAdapter : TokenSessionAdapter
+{
+    private readonly IMongoCollection<UserTokenSession> _collection;
+
+    public MongoDbTokenSessionAdapter(IMongoDatabase database)
+    {
+        _collection = database.GetCollection<UserTokenSession>("UserTokenSessions");
+    }
+
+    public async Task<UserTokenSession> GetSessionAsync(int userId)
+    {
+        return await _collection.Find(session => session.UserId == userId).FirstOrDefaultAsync();
+    }
+
+    public async Task SaveSessionAsync(UserTokenSession session)
+    {
+        var existingSession = await _collection.Find(s => s.UserId == session.UserId).FirstOrDefaultAsync();
+        if (existingSession == null)
+        {
+            await _collection.InsertOneAsync(session);
+        }
+        else
+        {
+            await _collection.ReplaceOneAsync(s => s.UserId == session.UserId, session);
+        }
+    }
+}
+```
+
+### 3. **Criar a Fábrica de Adapters**
+
+Implemente uma fábrica para criar instâncias dos adapters:
+
+```csharp
+public class TokenSessionAdapterFactory
+{
+    private readonly IServiceProvider _serviceProvider;
+
+    public TokenSessionAdapterFactory(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    public TokenSessionAdapter CreateAdapter(string adapterType)
+    {
+        return adapterType switch
+        {
+            "Database" => _serviceProvider.GetService<DatabaseTokenSessionAdapter>(),
+            "TableStorage" => _serviceProvider.GetService<TableStorageTokenSessionAdapter>(),
+            "MongoDb" => _serviceProvider.GetService<MongoDbTokenSessionAdapter>(),
+            _ => throw new ArgumentException("Invalid adapter type")
+        };
+    }
+}
+```
+
+### 4. **Atualizar o Método `validateCredentials`**
+
+Modifique o método `validateCredentials` para usar a fábrica e o adapter apropriado:
+
+```csharp
+private readonly TokenSessionAdapterFactory _adapterFactory;
+
+public YourClass(TokenSessionAdapterFactory adapterFactory)
+{
+    _adapterFactory = adapterFactory;
+}
+
+private async Task<TokenVO> validateCredentials(User user)
+{
+    if (user == null) return new TokenVO();
+    var claims = new List<Claim>
+    {
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+        new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.Name, user.Name),
+    }; 
+    var accessToken = _tokenService.GenerateAccessToken(claims);
+    var refreshToken = _tokenService.GenerateRefreshToken(); 
+
+    var adapter = _adapterFactory.CreateAdapter("Database"); // ou "TableStorage", "MongoDb"
+    var tokenSession = await adapter.GetSessionAsync(user.Id);
+    if (tokenSession == null)
+    {
+        tokenSession = new UserTokenSession
+        {
+            UserId = user.Id,
+            AccessToken = accessToken,
+            RefreshToken = refreshToken,
+            RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configurationToken.DaysToExpiry),
+            LastAccessDate = DateTime.UtcNow,
+            CreatedDate = DateTime.UtcNow,
+            ModifyDate = DateTime.UtcNow,
+            ExpiresAt = DateTime.UtcNow.AddMinutes(_configurationToken.Minutes),
+            Enable = true
+        };
+    }
+    else
+    {
+        tokenSession.AccessToken = accessToken;
+        tokenSession.RefreshToken = refreshToken;
+        tokenSession.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configurationToken.DaysToExpiry);
+        tokenSession.LastAccessDate = DateTime.UtcNow;
+        tokenSession.ModifyDate = DateTime.UtcNow;
+        tokenSession.ExpiresAt = DateTime.UtcNow.AddMinutes(_configurationToken.Minutes);
+    }
+
+    await adapter.SaveSessionAsync(tokenSession);
+
+    return new TokenVO(true,
+        tokenSession.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+        tokenSession.ExpiresAt.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+        accessToken,
+        refreshToken
+    );
+}
+```
+
+### 5. **Configurar a Injeção de Dependência**
+
+Configure a injeção de dependência no `Startup`:
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddScoped<DatabaseTokenSessionAdapter>();
+    services.AddScoped<TableStorageTokenSessionAdapter>();
+    services.AddScoped<MongoDbTokenSessionAdapter>();
+    services.AddSingleton<TokenSessionAdapterFactory>();
+    // Outros serviços...
+}
+```
+
+Com essas alterações, você terá um sistema flexível e escalável para salvar e recuperar sessões de usuário, permitindo que a API REST seja escalável e desacoplada da lógica de armazenamento específico. Se precisar de mais ajuda ou tiver outras perguntas, estou à disposição!
+
+
+
+Em C# .net 8 EF core codefirst e fluentapi como melhorar os metodos e ajustar para que a autenticacao seja salva no banco de dados para que a api seja possivel escalar em varias instancias e assim a sessao de login ser compartilhada  
+public async Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password)
+{
+    var response = new ServiceResponse<GetUserAuthenticatedDto>(); 
+    var user = await _entityRepository.FindByLogin(login);
+    if (user == null)
+    {
+        response.Success = false;
+        response.Message = ValidatorConstants.Validade_UserNotFound;
+        return response;
+    }
+    else if (!SecurityHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+    {
+        response.Success = false;
+        response.Message = "Wrong password.";
+        return response;
+    } 
+    if (_configurationAuth.TypeApiCredential == ETypeApiCredential.Jwt)
+    {
+        response.Data = await executeLoginJwt(user);
+    }
+    response.Success = true;
+    response.Message = "User Logged.";
+    return response;
+}
+  private async Task<GetUserAuthenticatedDto> executeLoginJwt(User user)
+  {
+      TokenVO token = await validateCredentials(user);
+      GetUserAuthenticatedDto response = _mapper.Map<GetUserAuthenticatedDto>(user); 
+      fillRoleGroupsAuthenticate(response, user); 
+      response.MedicalId = user.Medical?.Id;
+      response.TokenAuth = token;
+      return response;
+  }  private async Task<TokenVO> validateCredentials(User user)
+  {
+      if (user == null) return new TokenVO();
+      var claims = new List<Claim>
+      {
+          new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+          new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+          new Claim(JwtRegisteredClaimNames.Name, user.Name),
+      }; 
+      var accessToken = _tokenService.GenerateAccessToken(claims);
+      var refreshToken = _tokenService.GenerateRefreshToken(); 
+      user.RefreshToken = refreshToken;
+      user.RefreshTokenExpiryTime = DataHelper.GetDateTimeNow().AddDays(_configurationToken.DaysToExpiry); 
+      await _entityRepository.RefreshUserInfo(user); 
+      DateTime createDate = DataHelper.GetDateTimeNow();
+      DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
+      return new TokenVO(true,
+          createDate.ToString(AppConfigConstants.DATE_FORMAT),
+          expirationDate.ToString(AppConfigConstants.DATE_FORMAT),
+          accessToken,
+          refreshToken
+          );
+  } services.AddAuthentication(options =>
+ {
+     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+ }).AddJwtBearer(options =>
+ {
+     options.TokenValidationParameters = new TokenValidationParameters
+     {
+         ValidateIssuer = true,
+         ValidateAudience = true,
+         ValidateLifetime = true,
+         ValidateIssuerSigningKey = true,
+         ValidIssuer = tokenConfigurations.Issuer,
+         ValidAudience = tokenConfigurations.Audience,
+         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
+     };
+ });
+ services.AddAuthorizationCore(auth =>
+ {
+     auth.AddPolicy("Bearer", policyBuilder =>
+     {
+         policyBuilder.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+             .RequireAuthenticatedUser();
+     });
+ });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Vamos criar a tabela `EmailTemplates` usando o Code First com Entity Framework Core, Fluent API e FluentValidation. Aqui está um exemplo completo:
 
@@ -33,11 +345,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.TemplateName)
                 .IsRequired()
                 .HasMaxLength(100);
-            entity.Property(e => e.Subject)
-                .IsRequired()
-                .HasMaxLength(200);
-            entity.Property(e => e.Body)
-                .IsRequired();
+           
         });
     }
 }

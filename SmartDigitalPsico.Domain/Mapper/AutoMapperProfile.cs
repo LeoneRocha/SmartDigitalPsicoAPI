@@ -16,6 +16,7 @@ using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 using SmartDigitalPsico.Domain.DTO.User;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Domain.Mapper
 {
@@ -192,6 +193,9 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<AddEmailTemplateDto, EmailTemplate>();
             CreateMap<UpdateEmailTemplateDto, EmailTemplate>();
             #endregion EmailTemplate 
+
+            CreateMap<UserTokenSession, UserTokenSessionTableEntity>();
+            CreateMap<UserTokenSessionTableEntity, UserTokenSession>();
         }
     }
 }

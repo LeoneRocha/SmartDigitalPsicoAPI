@@ -66,7 +66,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityAdd.TableStorageRowKey = Guid.NewGuid().ToString();
 
                 var addTableEntity = CreateTableEntity(entityAdd);
+
+                //Storage Table Example usage
                 await _config.StorageTableService.UpdateAsync(addTableEntity);
+
                 entityAdd.TableStorageRowKey = addTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
@@ -115,7 +118,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityUpdate.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, item.Annotation);
 
                 var updateTableEntity = CreateTableEntity(entityUpdate);
+                
+                //Storage Table Example usage
                 await _config.StorageTableService.UpdateAsync(updateTableEntity);
+
                 entityUpdate.TableStorageRowKey = updateTableEntity.RowKey;
 
                 PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);

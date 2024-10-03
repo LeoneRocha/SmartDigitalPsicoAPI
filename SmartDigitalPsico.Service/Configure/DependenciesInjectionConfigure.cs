@@ -127,6 +127,12 @@ namespace SmartDigitalPsico.Service.Configure
                 var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
                 return new StorageTableEntityService<PatientRecordTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
             });
+             
+            services.AddScoped<IStorageTableContract<UserTokenSessionTableEntity>>(provider =>
+            {
+                var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
+                return new StorageTableEntityService<UserTokenSessionTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
+            }); 
         }
 
         private static void addQueueDependencies(IServiceCollection services)
@@ -174,7 +180,9 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
             services.AddScoped<IAuditDataSelectiveEntityLogRepository, AuditDataSelectiveEntityLogRepository>();
             services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
+            services.AddScoped<IUserTokenSessionRepository, UserTokenSessionRepository>();
         }
+        
         private static void addService(IServiceCollection services)
         {
             services.AddScoped<ICacheService, CacheService>();
