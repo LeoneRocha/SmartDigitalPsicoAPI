@@ -30,6 +30,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly ISharedServices _sharedServices;
         private readonly ISharedRepositories _sharedRepositories;
         //private readonly ITokenSessionAdapter _tokenSessionAdapter;
+        private readonly IUserTokenSessionRepository _userTokenSessionRepository;
+
 
         private readonly AuthConfigurationDto _configurationAuth;
         public UserService(
@@ -40,7 +42,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ITokenConfigurationDto configurationToken,
             ITokenService tokenService,
             IOptions<AuthConfigurationDto> configurationAuth,
-            IValidator<User> entityValidator 
+            IValidator<User> entityValidator,
+            IUserTokenSessionRepository userTokenSessionRepository
             //ITokenSessionAdapter tokenSessionAdapter
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, sharedRepositories.UserRepository, entityValidator)
@@ -51,7 +54,10 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _tokenService = tokenService;
             _sharedServices = sharedServices;
             _sharedRepositories = sharedRepositories;
+            _userTokenSessionRepository = userTokenSessionRepository;
             //_tokenSessionAdapter = tokenSessionAdapter;
+
+            //Implementar primeiro so com repositorio do banco 
         }
 
         public async Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password)
@@ -108,7 +114,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         public override async Task<ServiceResponse<GetUserDto>> Update(UpdateUserDto updateUser)
-        { 
+        {
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
             try
@@ -270,12 +276,44 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             DateTime createDate = DataHelper.GetDateTimeNow();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
-            return new TokenVO(true,
-                createDate.ToString(AppConfigConstants.DATE_FORMAT),
-                expirationDate.ToString(AppConfigConstants.DATE_FORMAT),
-                accessToken,
-                refreshToken
-                );
+
+            UserTokenSession? tokenSession = await _userTokenSessionRepository.GetSessionAsync(user.Id);
+           
+            if (tokenSession == null)
+            {
+                tokenSession = new UserTokenSession
+                {
+                    UserId = user.Id,
+                    AccessToken = accessToken,
+                    RefreshToken = refreshToken,
+                    RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configurationToken.DaysToExpiry),
+                    LastAccessDate = DateTime.UtcNow,
+                    CreatedDate = DateTime.UtcNow,
+                    ModifyDate = DateTime.UtcNow,
+                    ExpiresAt = DateTime.UtcNow.AddMinutes(_configurationToken.Minutes),
+                    Enable = true
+                };
+
+                await _userTokenSessionRepository.SaveSessionAsync(tokenSession);
+            }
+            else
+            {
+                tokenSession.AccessToken = accessToken;
+                tokenSession.RefreshToken = refreshToken;
+                tokenSession.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configurationToken.DaysToExpiry);
+                tokenSession.LastAccessDate = DateTime.UtcNow;
+                tokenSession.ModifyDate = DateTime.UtcNow;
+                tokenSession.ExpiresAt = DateTime.UtcNow.AddMinutes(_configurationToken.Minutes);
+            } 
+
+            var tokenResult = new TokenVO(true,
+                 tokenSession.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                 tokenSession.ExpiresAt.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                 tokenSession.AccessToken,
+                 tokenSession.RefreshToken
+                 ); 
+            return tokenResult;
+
         }
 
         public async Task<TokenVO> validateCredentials(TokenVO token)
@@ -428,8 +466,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 Subject = template.Subject,
                 Message = body,
                 ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
-            }; 
+            };
             await _sharedServices.EmailService.SendEmailAsync(emailMessageVO);
-        } 
+        }
     }
 }

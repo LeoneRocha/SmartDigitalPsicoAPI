@@ -16,13 +16,18 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 
         public ITokenSessionAdapter Create(string adapterType)
         {
-            return adapterType switch
-            {
-                "Database" => _serviceProvider.GetService<UserTokenSessionRepository>()!,
-                //"TableStorage" => _serviceProvider.GetService<TableStorageTokenSessionAdapter>()!, 
-                _ => throw new ArgumentException("Invalid adapter type")
-            };
+            throw new NotImplementedException();
         }
+
+        //public ITokenSessionAdapter Create(string adapterType)
+        //{
+        //    return adapterType switch
+        //    {
+        //        //"Database" => _serviceProvider.GetService<UserTokenSessionRepository>()!,
+        //        "TableStorage" => _serviceProvider.GetService<TableStorageTokenSessionAdapter>()!
+        //        _ => throw new ArgumentException("Invalid adapter type")
+        //    };
+        //}
     }
 
 }

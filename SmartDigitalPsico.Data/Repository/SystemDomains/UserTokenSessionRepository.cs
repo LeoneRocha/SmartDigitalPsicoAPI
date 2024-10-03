@@ -6,13 +6,13 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
-    public class UserTokenSessionRepository : GenericRepositoryEntityBase<UserTokenSession>, IUserTokenSessionRepository, ITokenSessionAdapter
+    public class UserTokenSessionRepository : GenericRepositoryEntityBase<UserTokenSession>,  IUserTokenSessionRepository 
     {
         public UserTokenSessionRepository(IEntityDataContext context) : base(context) { }
 
-        public async Task<UserTokenSession> GetSessionAsync(long userId)
+        public async Task<UserTokenSession?> GetSessionAsync(long userId)
         {
-            return await _context.UserTokenSessions.FirstAsync(ts => ts.UserId == userId);
+            return await _context.UserTokenSessions.FirstOrDefaultAsync(ts => ts.UserId == userId);
         }
 
         public async Task SaveSessionAsync(UserTokenSession session)

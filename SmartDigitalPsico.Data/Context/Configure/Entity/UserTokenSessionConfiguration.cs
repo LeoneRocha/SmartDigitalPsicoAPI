@@ -21,13 +21,13 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.Enable);
            
             builder.Property(e => e.AccessToken)
-                .HasMaxLength(255)
-                .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255)
-                .IsRequired();
+                 .HasMaxLength(4000)
+                 .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase))
+                 .IsRequired();
 
             builder.Property(e => e.RefreshToken)
-             .HasMaxLength(255)
-             .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255)
+             .HasMaxLength(4000)
+             .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase))
              .IsRequired();
              
             builder.Property(e => e.RefreshTokenExpiryTime)
