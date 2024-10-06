@@ -50,7 +50,7 @@ namespace SmartDigitalPsico.Service.Configure
     public static class DependenciesInjectionConfigure
     {
         public static void AddDependenciesInjection(IServiceCollection services, IConfiguration _configuration)
-        {
+        { 
             addRepositories(services);
             addService(services);
             addDependenciesSingleton(services);
@@ -66,8 +66,13 @@ namespace SmartDigitalPsico.Service.Configure
             authenticationDependencies(services);
         }
 
+    
+
         private static void authenticationDependencies(IServiceCollection services)
         {
+
+            services.AddScoped<IUserTokenSessionRepository, UserTokenSessionRepository>();
+
             /*services.AddScoped<DatabaseTokenSessionAdapter>();
     services.AddScoped<TableStorageTokenSessionAdapter>();
     services.AddScoped<MongoDbTokenSessionAdapter>();
@@ -76,6 +81,10 @@ namespace SmartDigitalPsico.Service.Configure
 
             //StorageTableEntityService
             //services.AddScoped<ITokenSessionAdapterFactory, TokenSessionAdapterFactory>();
+
+            services.AddScoped<ITokenSessionFactory, TokenSessionFactory>();
+            services.AddScoped<ITokenSessionService, TokenSessionService>();
+
         }
 
         private static void addAuditDependencies(IServiceCollection services)
@@ -121,16 +130,7 @@ namespace SmartDigitalPsico.Service.Configure
         {
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IEmailStrategyFactory, EmailStrategyFactory>();
-            services.AddSingleton<EmailContext>();
-
-            // Bind the PolicyConfig section of appsettings.json to the PolicyConfig class
-            var smtpSettings = new SmtpSettingsDto();
-
-            var configValue = ConfigurationAppSettingsHelper.GetSmtpSettings(_configuration);
-            new ConfigureFromConfigurationOptions<SmtpSettingsDto>(configValue)
-             .Configure(smtpSettings);
-            // Register the PolicyConfig instance as a singleton
-            services.AddSingleton<ISmtpSettingsDto>(smtpSettings);
+            services.AddSingleton<EmailContext>(); 
         }
 
         private static void addNoSQLDependencies(IServiceCollection services)
@@ -195,7 +195,6 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
             services.AddScoped<IAuditDataSelectiveEntityLogRepository, AuditDataSelectiveEntityLogRepository>();
             services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
-            services.AddScoped<IUserTokenSessionRepository, UserTokenSessionRepository>();
         }
 
         private static void addService(IServiceCollection services)
@@ -229,8 +228,7 @@ namespace SmartDigitalPsico.Service.Configure
         private static void addDependenciesSingleton(IServiceCollection services)
         {
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddSingleton<ITokenConfigurationDto, TokenConfigurationDto>();
+             
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IResiliencePolicyConfig, ResiliencePolicyConfig>();
             services.AddSingleton<ILocationSaveFileConfigurationDto, LocationSaveFileConfigurationDto>();

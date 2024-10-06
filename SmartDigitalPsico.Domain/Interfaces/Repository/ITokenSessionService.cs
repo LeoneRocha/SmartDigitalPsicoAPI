@@ -2,9 +2,10 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface ITokenSessionAdapter
+    public interface ITokenSessionService
     {
         Task<UserTokenSession?> GetSessionAsync(long userId);
-        Task SaveSessionAsync(UserTokenSession userTokenSession);
+
+        Task SaveSessionAsync(UserTokenSession session);
     }
-} 
+}

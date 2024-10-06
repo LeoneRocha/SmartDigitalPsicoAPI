@@ -28,11 +28,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly ITokenConfigurationDto _configurationToken;
         private readonly ITokenService _tokenService;
         private readonly ISharedServices _sharedServices;
-        private readonly ISharedRepositories _sharedRepositories;
-        //private readonly ITokenSessionAdapter _tokenSessionAdapter;
-        private readonly IUserTokenSessionRepository _userTokenSessionRepository;
-
-
+        private readonly ISharedRepositories _sharedRepositories; 
+        private readonly ITokenSessionService _tokenSessionService;
+         
         private readonly AuthConfigurationDto _configurationAuth;
         public UserService(
             ISharedServices sharedServices,
@@ -43,8 +41,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ITokenService tokenService,
             IOptions<AuthConfigurationDto> configurationAuth,
             IValidator<User> entityValidator,
-            IUserTokenSessionRepository userTokenSessionRepository
-            //ITokenSessionAdapter tokenSessionAdapter
+            ITokenSessionService tokenSessionService 
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, sharedRepositories.UserRepository, entityValidator)
         {
@@ -54,10 +51,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _tokenService = tokenService;
             _sharedServices = sharedServices;
             _sharedRepositories = sharedRepositories;
-            _userTokenSessionRepository = userTokenSessionRepository;
-            //_tokenSessionAdapter = tokenSessionAdapter;
-
-            //Implementar primeiro so com repositorio do banco 
+            _tokenSessionService = tokenSessionService;              
         }
 
         public async Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password)
@@ -280,7 +274,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             DateTime createDate = DataHelper.GetDateTimeNow();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
 
-            UserTokenSession? tokenSession = await _userTokenSessionRepository.GetSessionAsync(user.Id);
+            UserTokenSession? tokenSession = await _tokenSessionService.GetSessionAsync(user.Id);
            
             if (tokenSession == null)
             {
@@ -297,7 +291,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     Enable = true
                 };
 
-                await _userTokenSessionRepository.SaveSessionAsync(tokenSession);
+                await _tokenSessionService.SaveSessionAsync(tokenSession);
             }
             else
             {
