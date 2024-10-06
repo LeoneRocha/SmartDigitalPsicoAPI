@@ -17,6 +17,7 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -29,7 +30,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly ITokenService _tokenService;
         private readonly ISharedServices _sharedServices;
         private readonly ISharedRepositories _sharedRepositories; 
-        private readonly ITokenSessionService _tokenSessionService;
+        private readonly ITokenSessionPersistenceService _tokenSessionService;
          
         private readonly AuthConfigurationDto _configurationAuth;
         public UserService(
@@ -41,7 +42,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ITokenService tokenService,
             IOptions<AuthConfigurationDto> configurationAuth,
             IValidator<User> entityValidator,
-            ITokenSessionService tokenSessionService 
+            ITokenSessionPersistenceService tokenSessionService 
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, sharedRepositories.UserRepository, entityValidator)
         {
@@ -276,7 +277,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             UserTokenSession? tokenSession = await _tokenSessionService.GetSessionAsync(user.Id);
            
-            if (tokenSession == null)
+            if (tokenSession == null || tokenSession.ExpiresAt <= createDate)
             {
                 tokenSession = new UserTokenSession
                 {
@@ -293,7 +294,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
                 await _tokenSessionService.SaveSessionAsync(tokenSession);
             }
-            else
+            else 
             {
                 tokenSession.AccessToken = accessToken;
                 tokenSession.RefreshToken = refreshToken;

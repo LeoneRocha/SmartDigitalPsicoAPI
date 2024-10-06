@@ -1,19 +1,20 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
-    public class TokenSessionFactory : ITokenSessionFactory
+    public class TokenSessionPersistenceFactory : ITokenSessionPersistenceFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public TokenSessionFactory(IServiceProvider serviceProvider)
+        public TokenSessionPersistenceFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public ITokenSessionAdapter Create(string adapterType)
+        public ITokenSessionAdapter Create(ETokenSessionPersistenceType tokenSessionPersistenceType)
         {
             var serviceRepo = _serviceProvider.GetService<IUserTokenSessionRepository>();
             return new DatabaseTokenSessionAdapter(serviceRepo!);
