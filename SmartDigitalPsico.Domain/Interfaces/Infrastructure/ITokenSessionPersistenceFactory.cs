@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {
-    public interface ITokenSessionFactory
+    public interface ITokenSessionPersistenceFactory
     {
         ITokenSessionAdapter Create(string adapterType);
     }

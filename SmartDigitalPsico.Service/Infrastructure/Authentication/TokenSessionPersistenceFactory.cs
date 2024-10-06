@@ -4,11 +4,11 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
-    public class TokenSessionFactory : ITokenSessionFactory
+    public class TokenSessionPersistenceFactory : ITokenSessionPersistenceFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public TokenSessionFactory(IServiceProvider serviceProvider)
+        public TokenSessionPersistenceFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }

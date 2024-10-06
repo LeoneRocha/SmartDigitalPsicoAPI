@@ -50,7 +50,7 @@ namespace SmartDigitalPsico.Service.Configure
     public static class DependenciesInjectionConfigure
     {
         public static void AddDependenciesInjection(IServiceCollection services, IConfiguration _configuration)
-        { 
+        {
             addRepositories(services);
             addService(services);
             addDependenciesSingleton(services);
@@ -62,29 +62,20 @@ namespace SmartDigitalPsico.Service.Configure
             addCollectionDependencies(services);
             addReportDependencies(services);
             addAuditDependencies(services);
-
             authenticationDependencies(services);
         }
-
-    
-
         private static void authenticationDependencies(IServiceCollection services)
         {
-
-            services.AddScoped<IUserTokenSessionRepository, UserTokenSessionRepository>();
-
             /*services.AddScoped<DatabaseTokenSessionAdapter>();
     services.AddScoped<TableStorageTokenSessionAdapter>();
     services.AddScoped<MongoDbTokenSessionAdapter>();
     services.AddSingleton<TokenSessionAdapterFactory>();
     services.AddScoped(typeof(StorageTableEntityService<>));*/
-
             //StorageTableEntityService
             //services.AddScoped<ITokenSessionAdapterFactory, TokenSessionAdapterFactory>();
-
-            services.AddScoped<ITokenSessionFactory, TokenSessionFactory>();
-            services.AddScoped<ITokenSessionService, TokenSessionService>();
-
+            services.AddScoped<IUserTokenSessionRepository, UserTokenSessionRepository>();
+            services.AddScoped<ITokenSessionPersistenceFactory, TokenSessionPersistenceFactory>();
+            services.AddScoped<ITokenSessionPersistenceService, TokenSessionService>();
         }
 
         private static void addAuditDependencies(IServiceCollection services)
@@ -130,7 +121,7 @@ namespace SmartDigitalPsico.Service.Configure
         {
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IEmailStrategyFactory, EmailStrategyFactory>();
-            services.AddSingleton<EmailContext>(); 
+            services.AddSingleton<EmailContext>();
         }
 
         private static void addNoSQLDependencies(IServiceCollection services)
@@ -228,7 +219,7 @@ namespace SmartDigitalPsico.Service.Configure
         private static void addDependenciesSingleton(IServiceCollection services)
         {
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-             
+
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IResiliencePolicyConfig, ResiliencePolicyConfig>();
             services.AddSingleton<ILocationSaveFileConfigurationDto, LocationSaveFileConfigurationDto>();
@@ -260,8 +251,7 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IValidator<PatientFile>, PatientFileValidator>();
             services.AddScoped<IValidator<Patient>, PatientValidator>();
             #endregion 
-        }
-
+        } 
         #endregion
     }
 }

@@ -4,11 +4,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
-    public class TokenSessionService : ITokenSessionService
+    public class TokenSessionService : ITokenSessionPersistenceService
     {
         private readonly ITokenSessionAdapter _tokenSessionAdapter;
 
-        public TokenSessionService(ITokenSessionFactory tokenSessionFactory)
+        public TokenSessionService(ITokenSessionPersistenceFactory tokenSessionFactory)
         {
             _tokenSessionAdapter = tokenSessionFactory.Create("");
         }
