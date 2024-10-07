@@ -40,8 +40,8 @@ namespace SmartDigitalPsico.Data.Context
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<AuditDataEntityLog> AuditLogs { get; set; }
         public virtual DbSet<AuditDataSelectiveEntityLog> AuditSelectiveLogs { get; set; }
-
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
+        public virtual DbSet<UserTokenSession> UserTokenSessions { get; set; }
 
         #endregion DBsets  
     }

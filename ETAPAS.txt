@@ -20,11 +20,19 @@ https://github.com/henriq-toledo
 *** O meu service AuditInterceptor pode envez de chamar e salvar no panco chamar um servico de storage table e gerar o log la 
 
 
+Em um sistema feito em C# .net 8, usando mysql e EF core  com api rest e um front end em angular 14 que tem um cadastro de dados de paciente e registro de atendimento ja com processo de git branchs azure devops pipelines de build e releases no azure o que mais de tecnologia ou processos poderia implementar
+
+
+------------------------------- IMplantar para gravar sessao do usuario no storage table / mongo 
+
+
+
+
 Ideias a implantar: 
 
 -- Criar service de email.  -- OK
 https://www.emailarchitect.net/easendmail/ex/c/20.aspx
--- Ao criar um medico dispara email com as informacoes de acesso  ----------- PENDENTE PROXIMO  XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
+-- Ao criar um medico dispara email com as informacoes de acesso  ----------- OK 
 
 -- Criar url para redefinir senha ou acesso.  ----------- PENDENTE PROXIMO XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
 
@@ -219,7 +227,7 @@ Server=localhost,1499;Database=smartdigitalhom;Trusted_Connection=True;MultipleA
 Server=localhost,1499;Database=smartdigitalhom;Trusted_Connection=True;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30; 
 --------------- ADD 
 
-Add-Migration AddUrlApp -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+Add-Migration UserTokenSession -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 ou
 
@@ -812,3 +820,29 @@ Em resumo, enquanto o DTO é focado na transferência de dados sem lógica, o VO
 
 
 
+Seu sistema já está utilizando uma stack tecnológica robusta e processos de DevOps bem estabelecidos. Aqui estão algumas sugestões adicionais de tecnologias e processos que você poderia implementar para melhorar ainda mais o seu sistema:
+
+### Tecnologias
+1. **Microservices**: Dividir sua aplicação em microsserviços pode melhorar a escalabilidade e a manutenção³.
+2. **Docker e Kubernetes**: Containerizar sua aplicação com Docker e orquestrar com Kubernetes pode facilitar a implantação e a escalabilidade³.
+3. **GraphQL**: Considerar o uso de GraphQL para a API pode proporcionar consultas mais eficientes e flexíveis em comparação com REST.
+4. **Blazor**: Se você quiser explorar alternativas ao Angular, o Blazor é uma opção interessante para criar interfaces de usuário interativas usando C#.
+5. **Redis**: Implementar um cache com Redis pode melhorar significativamente o desempenho da sua aplicação.
+6. **ElasticSearch**: Para funcionalidades de busca avançada, o ElasticSearch pode ser uma excelente adição.
+
+### Processos
+1. **Testes Automatizados**: Implementar testes automatizados (unitários, de integração e de aceitação) para garantir a qualidade do código.
+2. **CI/CD Avançado**: Melhorar seus pipelines de CI/CD com testes automatizados, análise estática de código e deploys canários.
+3. **Monitoramento e Logging**: Usar ferramentas como ELK Stack (Elasticsearch, Logstash, Kibana) ou Prometheus e Grafana para monitoramento e logging.
+4. **Segurança**: Implementar práticas de segurança como autenticação multifator (MFA), criptografia de dados sensíveis e auditorias de segurança regulares.
+5. **Documentação**: Manter uma documentação atualizada e acessível para desenvolvedores e usuários finais.
+
+Essas adições podem ajudar a tornar seu sistema mais robusto, escalável e fácil de manter. Qual dessas sugestões você acha mais interessante implementar primeiro?
+
+Fonte: conversa com o Copilot, 02/10/2024
+(1) Microsserviços do .NET. Arquitetura de aplicativos .NET em contêineres .... https://learn.microsoft.com/pt-br/dotnet/architecture/microservices/.
+(2) Novidades do .NET 8 | Microsoft Learn - learn.microsoft.com. https://learn.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-8/overview.
+(3) Usar Angular com ASP.NET Core | Microsoft Learn. https://learn.microsoft.com/pt-br/aspnet/core/client-side/spa/angular?view=aspnetcore-8.0.
+(4) Tutorial: criar uma API Web com o ASP.NET Core. https://learn.microsoft.com/pt-br/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0.
+(5) Web API em C# .NET 6 com EntityFramework e MySQL. https://www.youtube.com/watch?v=hihoIafZzSQ.
+(6) ASP .NET Core - Usando EF Core 5 com MySql em uma API RESTFul. https://www.macoratti.net/21/01/aspc6_efc5rest1.htm.
