@@ -17,9 +17,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
             return await _userTokenSessionRepository.GetSessionAsync(userId);
         }
 
-        public async Task SaveSessionAsync(UserTokenSession session)
+        public async Task SaveSessionAsync(UserTokenSession userTokenSession)
         { 
-            await _userTokenSessionRepository.SaveSessionAsync(session);
+            await _userTokenSessionRepository.SaveSessionAsync(userTokenSession);
         }
     }
 }
