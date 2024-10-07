@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Domain.Interfaces.TableEntity;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
@@ -14,19 +17,23 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
             _serviceProvider = serviceProvider;
         }
 
-        public ITokenSessionAdapter Create(ETokenSessionPersistenceType tokenSessionPersistenceType)
+        public ITokenSessionPersistenceAdapter Create(ETokenSessionPersistenceType tokenSessionPersistenceType)
         {
-            var serviceRepo = _serviceProvider.GetService<IUserTokenSessionRepository>();
-            return new DatabaseTokenSessionAdapter(serviceRepo!);
-        }
-        //public ITokenSessionAdapter Create(string adapterType)
-        //{
-        //    return adapterType switch
-        //    {
-        //        //"Database" => !,
-        //        "TableStorage" => _serviceProvider.GetService<TableStorageTokenSessionAdapter>()!
-        //        _ => throw new ArgumentException("Invalid adapter type")
-        //    };
-        //}
+            switch (tokenSessionPersistenceType)
+            {
+                case ETokenSessionPersistenceType.DataBase:
+                    var serviceRepo = _serviceProvider.GetService<IUserTokenSessionRepository>();
+                    return new DatabaseTokenSessionAdapter(serviceRepo!); 
+                case ETokenSessionPersistenceType.AzureStorageTable:
+                    var mapper = _serviceProvider.GetService<IMapper>();
+
+                    var serviceStorage = _serviceProvider.GetService<IStorageTableContract<UserTokenSessionTableEntity>>();
+                    
+                    return new TableStorageTokenSessionAdapter(mapper!, serviceStorage!);
+
+                default:
+                    throw new ArgumentException("Invalid adapter type");
+            } 
+        } 
     }
 }

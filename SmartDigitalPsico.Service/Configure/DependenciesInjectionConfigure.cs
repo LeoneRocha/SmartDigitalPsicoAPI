@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Repository.CacheManager;
@@ -13,9 +12,6 @@ using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Domain.DTO.SMTP;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -137,7 +133,7 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IStorageTableContract<UserTokenSessionTableEntity>>(provider =>
             {
                 var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
-                return new StorageTableEntityService<UserTokenSessionTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
+                return new StorageTableEntityService<UserTokenSessionTableEntity>(serviceFactory, StorageTableConstants.UserTokenSessionTable);
             });
         }
 

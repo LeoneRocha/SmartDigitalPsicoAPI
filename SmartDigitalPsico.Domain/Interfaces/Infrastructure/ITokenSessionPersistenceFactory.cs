@@ -5,6 +5,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {
     public interface ITokenSessionPersistenceFactory
     {
-        ITokenSessionAdapter Create(ETokenSessionPersistenceType tokenSessionPersistenceType);
+        ITokenSessionPersistenceAdapter Create(ETokenSessionPersistenceType tokenSessionPersistenceType);
     }
 }

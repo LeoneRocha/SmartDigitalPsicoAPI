@@ -7,11 +7,11 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
     public class TokenSessionService : ITokenSessionPersistenceService
     {
-        private readonly ITokenSessionAdapter _tokenSessionAdapter;
+        private readonly ITokenSessionPersistenceAdapter _tokenSessionAdapter;
 
         public TokenSessionService(ITokenSessionPersistenceFactory tokenSessionFactory)
         {
-            _tokenSessionAdapter = tokenSessionFactory.Create(ETokenSessionPersistenceType.DataBase);
+            _tokenSessionAdapter = tokenSessionFactory.Create(ETokenSessionPersistenceType.AzureStorageTable);
         }
         public async Task<UserTokenSession?> GetSessionAsync(long userId)
         {

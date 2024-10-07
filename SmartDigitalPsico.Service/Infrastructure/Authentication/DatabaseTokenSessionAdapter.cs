@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
-    public class DatabaseTokenSessionAdapter : ITokenSessionAdapter
+    public class DatabaseTokenSessionAdapter : ITokenSessionPersistenceAdapter
     {
         private readonly IUserTokenSessionRepository _userTokenSessionRepository;
 
