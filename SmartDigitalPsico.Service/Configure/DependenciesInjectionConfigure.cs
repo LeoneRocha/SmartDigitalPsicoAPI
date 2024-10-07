@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Repository.CacheManager;
@@ -13,9 +12,6 @@ using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Domain.DTO.SMTP;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -37,6 +33,7 @@ using SmartDigitalPsico.Service.Audit;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Infrastructure;
+using SmartDigitalPsico.Service.Infrastructure.Authentication;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 using SmartDigitalPsico.Service.Infrastructure.Report;
@@ -56,11 +53,18 @@ namespace SmartDigitalPsico.Service.Configure
             addValidations(services);
             addSecurity(services);
             addNoSQLDependencies(services);
-            addSmtpDependencies(services, _configuration);
+            addSmtpDependencies(services);
             addQueueDependencies(services);
             addCollectionDependencies(services);
             addReportDependencies(services);
             addAuditDependencies(services);
+            authenticationDependencies(services);
+        }
+        private static void authenticationDependencies(IServiceCollection services)
+        {
+            services.AddScoped<IUserTokenSessionRepository, UserTokenSessionRepository>();
+            services.AddScoped<ITokenSessionPersistenceFactory, TokenSessionPersistenceFactory>();
+            services.AddScoped<ITokenSessionPersistenceService, TokenSessionService>();
         }
 
         private static void addAuditDependencies(IServiceCollection services)
@@ -102,20 +106,11 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<ISharedServices, SharedServices>();
         }
 
-        private static void addSmtpDependencies(IServiceCollection services, IConfiguration _configuration)
+        private static void addSmtpDependencies(IServiceCollection services)
         {
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IEmailStrategyFactory, EmailStrategyFactory>();
             services.AddSingleton<EmailContext>();
-
-            // Bind the PolicyConfig section of appsettings.json to the PolicyConfig class
-            var smtpSettings = new SmtpSettingsDto();
-
-            var configValue = ConfigurationAppSettingsHelper.GetSmtpSettings(_configuration);
-            new ConfigureFromConfigurationOptions<SmtpSettingsDto>(configValue)
-             .Configure(smtpSettings);
-            // Register the PolicyConfig instance as a singleton
-            services.AddSingleton<ISmtpSettingsDto>(smtpSettings);
         }
 
         private static void addNoSQLDependencies(IServiceCollection services)
@@ -126,6 +121,12 @@ namespace SmartDigitalPsico.Service.Configure
             {
                 var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
                 return new StorageTableEntityService<PatientRecordTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
+            });
+
+            services.AddScoped<IStorageTableContract<UserTokenSessionTableEntity>>(provider =>
+            {
+                var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
+                return new StorageTableEntityService<UserTokenSessionTableEntity>(serviceFactory, StorageTableConstants.UserTokenSessionTable);
             });
         }
 
@@ -175,6 +176,7 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IAuditDataSelectiveEntityLogRepository, AuditDataSelectiveEntityLogRepository>();
             services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
         }
+
         private static void addService(IServiceCollection services)
         {
             services.AddScoped<ICacheService, CacheService>();
@@ -207,7 +209,6 @@ namespace SmartDigitalPsico.Service.Configure
         {
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddSingleton<ITokenConfigurationDto, TokenConfigurationDto>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IResiliencePolicyConfig, ResiliencePolicyConfig>();
             services.AddSingleton<ILocationSaveFileConfigurationDto, LocationSaveFileConfigurationDto>();
@@ -240,7 +241,6 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IValidator<Patient>, PatientValidator>();
             #endregion 
         }
-
         #endregion
     }
 }

@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     public class User : EntityBaseWithNameEmail
     {
         public User()
-        {  
+        {
             MedicalsCreateds = new List<Medical>();
             MedicalModifies = new List<Medical>();
             MedicalsUsers = new List<Medical>();
@@ -30,6 +30,9 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public Medical? Medical { get; set; }
         public long? MedicalId { get; set; }
         public ICollection<RoleGroupUser> UserRoleGroups { get; set; }
+
+        public UserTokenSession? TokenSession { get; set; }
+
         #endregion Relationship
     }
 }

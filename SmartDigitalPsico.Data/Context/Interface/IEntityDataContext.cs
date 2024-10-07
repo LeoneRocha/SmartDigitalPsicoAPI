@@ -5,8 +5,17 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Interface
 {
-    public interface IEntityDataContext : IDisposable 
+    public interface IEntityDataContext : IDisposable
     {
+        #region Common
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        DatabaseFacade Database { get; }
+        EntityEntry Entry(object entity);
+        EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        int SaveChanges();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        #endregion Common
+
         #region DbSets 
         DbSet<ApplicationCacheLog> ApplicationCacheLogs { get; set; }
         DbSet<ApplicationConfigSetting> ApplicationConfigSettings { get; set; }
@@ -33,15 +42,8 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<Specialty> Specialties { get; set; }
         DbSet<User> Users { get; set; }
         DbSet<EmailTemplate> EmailTemplates { get; set; }
+        DbSet<UserTokenSession> UserTokenSessions { get; set; }
 
-        #endregion DbSets
-        DbSet<TEntity> Set<TEntity>() where TEntity : class;
-        
-        DatabaseFacade Database { get; }
-
-        EntityEntry Entry(object entity);
-        EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
-        int SaveChanges();
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default); 
+        #endregion DbSets 
     }
 }

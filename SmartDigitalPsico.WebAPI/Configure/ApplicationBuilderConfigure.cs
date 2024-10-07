@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -10,14 +9,11 @@ using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Security;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Mapper;
-using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Service.Configure;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
@@ -32,10 +28,10 @@ namespace SmartDigitalPsico.WebAPI.Configure
         {
             _configuration = configuration;
 
-            var tokenConfigurations = new TokenConfigurationDto();
+            DependenciesInjectionAppSettings.AddAppSettings(services, _configuration);  
 
-            addGetAppConfig(services, tokenConfigurations);
-
+            var tokenConfigurations = DependenciesInjectionAppSettings.AddAndReturnTokenConfiguration(services, _configuration);    
+              
             //For In-Memory Caching
             addCaching(services);
 
@@ -69,34 +65,10 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             //Add log 
             addLog(services, _logger);
-
-            //ResiliencePolicies
-            addResiliencePolicies(services, _configuration);
-            setupDTOsConfigs(services, _configuration);
+             
             services.AddEndpointsApiExplorer();
         }
-
-        private static void addResiliencePolicies(IServiceCollection services, IConfiguration _configuration)
-        {
-            // Bind the PolicyConfig section of appsettings.json to the PolicyConfig class
-            var policyConfig = new ResiliencePolicyConfig();
-            var configValue = ConfigurationAppSettingsHelper.GetIResiliencePolicyConfig(_configuration);
-            new ConfigureFromConfigurationOptions<ResiliencePolicyConfig>(configValue)
-             .Configure(policyConfig);
-            // Register the PolicyConfig instance as a singleton
-            services.AddSingleton<IResiliencePolicyConfig>(policyConfig);
-        }
-
-        private static void setupDTOsConfigs(IServiceCollection services, IConfiguration _configuration)
-        {
-            var locationSaveFileConfigurationVO = new LocationSaveFileConfigurationDto();
-            var configValue = ConfigurationAppSettingsHelper.GetLocationSaveFileConfigurationVO(_configuration);
-
-            new ConfigureFromConfigurationOptions<LocationSaveFileConfigurationDto>(configValue)
-             .Configure(locationSaveFileConfigurationVO);
-            // Register the PolicyConfig instance as a singleton
-            services.AddSingleton<ILocationSaveFileConfigurationDto>(locationSaveFileConfigurationVO);
-        }
+          
 
         private static void addLog(IServiceCollection services, Serilog.Core.Logger _logger)
         {
@@ -107,19 +79,8 @@ namespace SmartDigitalPsico.WebAPI.Configure
             });
         }
 
-        #region PRIVATE
-
-
-        private static void addGetAppConfig(IServiceCollection services, TokenConfigurationDto tokenConfigurations)
-        {
-            services.Configure<CacheConfigurationDto>(ConfigurationAppSettingsHelper.GetCacheConfiguration(_configuration));
-            services.Configure<AuthConfigurationDto>(ConfigurationAppSettingsHelper.GetAuthConfiguration(_configuration));
-
-            new ConfigureFromConfigurationOptions<TokenConfigurationDto>(ConfigurationAppSettingsHelper.GetTokenConfigurations(_configuration))
-                .Configure(tokenConfigurations);
-
-            services.AddSingleton(tokenConfigurations);
-        }
+        #region PRIVATE 
+         
 
         private static void addCaching(IServiceCollection services)
         {
@@ -268,4 +229,4 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
         #endregion PRIVATE
     }
-}
+} 
