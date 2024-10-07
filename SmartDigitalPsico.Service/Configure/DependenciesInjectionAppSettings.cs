@@ -78,9 +78,6 @@ namespace SmartDigitalPsico.Service.Configure
              .Configure(locationSaveFileConfigurationVO);
             // Register the PolicyConfig instance as a singleton
             services.AddSingleton<ILocationSaveFileConfigurationDto>(locationSaveFileConfigurationVO);
-        }
-
-
-
+        } 
     }
 }

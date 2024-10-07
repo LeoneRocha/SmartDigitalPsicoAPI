@@ -61,14 +61,7 @@ namespace SmartDigitalPsico.Service.Configure
             authenticationDependencies(services);
         }
         private static void authenticationDependencies(IServiceCollection services)
-        {
-            /*services.AddScoped<DatabaseTokenSessionAdapter>();
-    services.AddScoped<TableStorageTokenSessionAdapter>();
-    services.AddScoped<MongoDbTokenSessionAdapter>();
-    services.AddSingleton<TokenSessionAdapterFactory>();
-    services.AddScoped(typeof(StorageTableEntityService<>));*/
-            //StorageTableEntityService
-            //services.AddScoped<ITokenSessionAdapterFactory, TokenSessionAdapterFactory>();
+        { 
             services.AddScoped<IUserTokenSessionRepository, UserTokenSessionRepository>();
             services.AddScoped<ITokenSessionPersistenceFactory, TokenSessionPersistenceFactory>();
             services.AddScoped<ITokenSessionPersistenceService, TokenSessionService>();
