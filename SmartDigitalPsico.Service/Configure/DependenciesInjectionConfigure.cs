@@ -53,7 +53,7 @@ namespace SmartDigitalPsico.Service.Configure
             addValidations(services);
             addSecurity(services);
             addNoSQLDependencies(services);
-            addSmtpDependencies(services, _configuration);
+            addSmtpDependencies(services);
             addQueueDependencies(services);
             addCollectionDependencies(services);
             addReportDependencies(services);
@@ -61,7 +61,7 @@ namespace SmartDigitalPsico.Service.Configure
             authenticationDependencies(services);
         }
         private static void authenticationDependencies(IServiceCollection services)
-        { 
+        {
             services.AddScoped<IUserTokenSessionRepository, UserTokenSessionRepository>();
             services.AddScoped<ITokenSessionPersistenceFactory, TokenSessionPersistenceFactory>();
             services.AddScoped<ITokenSessionPersistenceService, TokenSessionService>();
@@ -106,7 +106,7 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<ISharedServices, SharedServices>();
         }
 
-        private static void addSmtpDependencies(IServiceCollection services, IConfiguration _configuration)
+        private static void addSmtpDependencies(IServiceCollection services)
         {
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IEmailStrategyFactory, EmailStrategyFactory>();
@@ -240,7 +240,7 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddScoped<IValidator<PatientFile>, PatientFileValidator>();
             services.AddScoped<IValidator<Patient>, PatientValidator>();
             #endregion 
-        } 
+        }
         #endregion
     }
 }
