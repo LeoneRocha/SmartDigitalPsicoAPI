@@ -5,11 +5,10 @@ using Serilog;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.WebAPI.Configure.Services;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {
-    public static class ApplicationConfigureApplicationBuilder
+    public static class WebApplicationConfigureBuilder
     {
         public static (WebApplicationBuilder, Serilog.Core.Logger?) CreateHostBuilder(string[] args)
         {
@@ -23,7 +22,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             _logger = LogAppHelper.CreateLogger(builder.Configuration);
 
             //Service Collections.
-            ApplicationConfigureServiceCollections.Configure(builder.Services, builder.Configuration, _logger);
+            WebApplicationConfigureServiceCollections.Configure(builder.Services, builder.Configuration, _logger);
 
             builder.Host.UseSerilog();
             return (builder, _logger);
@@ -87,6 +86,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             option.AddRedirect("^$", "swagger");
 
             app.UseRewriter(option);
+
             app.UseAuthentication();
 
             app.UseAuthorization();
@@ -103,8 +103,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
         private static void addCustomMiddleware(IApplicationBuilder app)
         {
-            app.UseMiddleware<RequestCultureMiddleware>();
-
+            app.UseMiddleware<RequestCultureMiddleware>(); 
         }
         private static void addAutoMigrate(IApplicationBuilder app)
         {

@@ -1,6 +1,8 @@
-﻿namespace SmartDigitalPsico.WebAPI.Configure.Services
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace SmartDigitalPsico.Service.Configure
 {
-    public static class ApplicationConfigureLog
+    public static class ServiceCollectionConfigureLog
     {
         public static void Configure(IServiceCollection services, Serilog.Core.Logger _logger)
         {

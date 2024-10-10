@@ -1,9 +1,10 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace SmartDigitalPsico.WebAPI.Configure.Services
+namespace SmartDigitalPsico.Service.Configure
 {
-    public static class ApplicationConfigureDocumentation
+    public static class ServiceCollectionConfigureDocumentation
     {
         public static void Configure(IServiceCollection services)
         {
@@ -25,4 +26,4 @@ namespace SmartDigitalPsico.WebAPI.Configure.Services
             });
         }
     }
-}
+} 

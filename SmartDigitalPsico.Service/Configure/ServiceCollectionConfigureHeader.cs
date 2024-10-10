@@ -1,8 +1,9 @@
-﻿using Microsoft.Net.Http.Headers;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 
-namespace SmartDigitalPsico.WebAPI.Configure.Services
+namespace SmartDigitalPsico.Service.Configure
 {
-    public static class ApplicationConfigureHeader
+    public static class ServiceCollectionConfigureHeader
     {
         public static void Configure(IServiceCollection services)
         {
@@ -21,7 +22,9 @@ namespace SmartDigitalPsico.WebAPI.Configure.Services
                 options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
                 options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
             })
-            .AddXmlSerializerFormatters();
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization()
+                .AddXmlSerializerFormatters(); 
         }
     }
-}
+} 

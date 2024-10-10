@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SmartDigitalPsico.Domain.DTO.Security;
 using System.Text;
 
-namespace SmartDigitalPsico.WebAPI.Configure.Services
+namespace SmartDigitalPsico.Service.Configure
 {
-    public static class ApplicationConfigureSecurity
+    public static class ServiceCollectionConfigureSecurity
     {
         public static void Configure(IServiceCollection services, TokenConfigurationDto tokenConfigurations)
         {

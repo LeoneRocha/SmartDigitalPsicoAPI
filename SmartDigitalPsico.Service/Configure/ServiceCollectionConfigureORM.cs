@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Service.Configure;
 
-namespace SmartDigitalPsico.WebAPI.Configure.Services
+namespace SmartDigitalPsico.Service.Configure
 {
-    public static class ApplicationConfigureORM
+    public static class ServiceCollectionConfigureORM
     {
         private static IConfiguration? _configuration;
         public static void Configure(IServiceCollection services, IConfiguration configuration)
@@ -17,7 +18,7 @@ namespace SmartDigitalPsico.WebAPI.Configure.Services
             _configuration = configuration;
 
             //ORM API 
-            addORM(services, ApplicationConfigureAppSettings.AddAndReturnTypeDataBase(_configuration));
+            addORM(services, ServiceCollectionConfigureAppSettings.AddAndReturnTypeDataBase(_configuration));
         }
 
         private static void addORM(IServiceCollection services, ETypeDataBase etypeDataBase)

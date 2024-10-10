@@ -13,7 +13,7 @@ using SmartDigitalPsico.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Service.Configure
 {
-    public static class ApplicationConfigureAppSettings
+    public static class ServiceCollectionConfigureAppSettings
     {
         public static void Configure(IServiceCollection services, IConfiguration _configuration)
         {  

@@ -43,7 +43,7 @@ using SmartDigitalPsico.Service.Security;
 
 namespace SmartDigitalPsico.Service.Configure
 {
-    public static class ApplicationConfigureDependenciesServices
+    public static class ServiceCollectionConfigureServicesDomain
     {
         public static void Configure(IServiceCollection services, IConfiguration _configuration)
         {

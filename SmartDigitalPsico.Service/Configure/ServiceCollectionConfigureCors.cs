@@ -1,6 +1,8 @@
-﻿namespace SmartDigitalPsico.WebAPI.Configure.Services
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace SmartDigitalPsico.Service.Configure
 {
-    public static class ApplicationConfigureCors
+    public static class ServiceCollectionConfigureCors
     {
         public static void Configure(IServiceCollection services)
         {
