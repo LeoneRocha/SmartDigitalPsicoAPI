@@ -11,7 +11,7 @@
     <PackageReference Include="Azure.Storage.Blobs" Version="12.22.1" />
     <PackageReference Include="Azure.Storage.Queues" Version="12.20.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    <PackageReference Include="Microsoft.Graph" Version="5.58.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.60.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj" />
