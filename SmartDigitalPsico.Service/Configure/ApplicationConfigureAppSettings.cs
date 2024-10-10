@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Security;
 using SmartDigitalPsico.Domain.DTO.SMTP;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Security;
@@ -12,9 +13,9 @@ using SmartDigitalPsico.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Service.Configure
 {
-    public static class DependenciesInjectionAppSettings
+    public static class ApplicationConfigureAppSettings
     {
-        public static void AddAppSettings(IServiceCollection services, IConfiguration _configuration)
+        public static void Configure(IServiceCollection services, IConfiguration _configuration)
         {  
             addSmtpConfig(services, _configuration);
              
@@ -78,6 +79,17 @@ namespace SmartDigitalPsico.Service.Configure
              .Configure(locationSaveFileConfigurationVO);
             // Register the PolicyConfig instance as a singleton
             services.AddSingleton<ILocationSaveFileConfigurationDto>(locationSaveFileConfigurationVO);
+        } 
+
+        public static ETypeDataBase AddAndReturnTypeDataBase(IConfiguration configuration)
+        {
+            DataBaseConfigurationDto configDB = new DataBaseConfigurationDto();
+
+            new ConfigureFromConfigurationOptions<DataBaseConfigurationDto>(ConfigurationAppSettingsHelper.GetDataBaseConfigurations(configuration))
+                .Configure(configDB);
+
+
+            return configDB.TypeDataBase;
         } 
     }
 }

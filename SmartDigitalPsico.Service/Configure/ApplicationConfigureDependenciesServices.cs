@@ -43,9 +43,9 @@ using SmartDigitalPsico.Service.Security;
 
 namespace SmartDigitalPsico.Service.Configure
 {
-    public static class DependenciesInjectionConfigure
+    public static class ApplicationConfigureDependenciesServices
     {
-        public static void AddDependenciesInjection(IServiceCollection services, IConfiguration _configuration)
+        public static void Configure(IServiceCollection services, IConfiguration _configuration)
         {
             addRepositories(services);
             addService(services);
