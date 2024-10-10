@@ -61,6 +61,9 @@ https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 
 -- Metodo que gera PDF com a pesquisa de detalhes -- OK
 
+--- Apos agenda criada cria um processo de sms com envios pre programados horarios por configuracao e tambem controle de quais pacientes foi notificado 
+
+usar multi trhead no envio de sms rodnado em web job 
 
 ------------------------
 
