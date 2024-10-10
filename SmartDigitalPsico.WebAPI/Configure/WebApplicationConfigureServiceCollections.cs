@@ -4,16 +4,12 @@ using SmartDigitalPsico.Service.Configure;
 namespace SmartDigitalPsico.WebAPI.Configure
 {
     public static class WebApplicationConfigureServiceCollections
-    {
-        private static IConfiguration? _configuration;
-
+    {  
         public static void Configure(IServiceCollection services, IConfiguration configuration, Serilog.Core.Logger _logger)
-        {
-            _configuration = configuration;
+        {  
+            ServiceCollectionConfigureAppSettings.Configure(services, configuration);
 
-            ServiceCollectionConfigureAppSettings.Configure(services, _configuration);
-
-            var tokenConfigurations = ServiceCollectionConfigureAppSettings.AddAndReturnTokenConfiguration(services, _configuration);
+            var tokenConfigurations = ServiceCollectionConfigureAppSettings.AddAndReturnTokenConfiguration(services, configuration);
 
             //For In-Memory Caching
             ServiceCollectionConfigureCaching.Configure(services);
@@ -37,10 +33,10 @@ namespace SmartDigitalPsico.WebAPI.Configure
             ServiceCollectionConfigureAutoMapper.Configure(services);
 
             //Dependencies Services
-            ServiceCollectionConfigureServicesDomain.Configure(services, _configuration);
+            ServiceCollectionConfigureServicesDomain.Configure(services, configuration);
 
             //ORM API 
-            ServiceCollectionConfigureORM.Configure(services, _configuration);
+            ServiceCollectionConfigureOrm.Configure(services, configuration);
 
             //Add log 
             ServiceCollectionConfigureLog.Configure(services, _logger);

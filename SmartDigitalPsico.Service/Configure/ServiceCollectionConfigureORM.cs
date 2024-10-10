@@ -10,7 +10,7 @@ using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Configure
 {
-    public static class ServiceCollectionConfigureORM
+    public static class ServiceCollectionConfigureOrm
     {
         private static IConfiguration? _configuration;
         public static void Configure(IServiceCollection services, IConfiguration configuration)
