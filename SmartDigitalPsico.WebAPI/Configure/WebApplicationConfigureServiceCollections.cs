@@ -1,5 +1,6 @@
 ﻿using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Service.Configure;
+using SmartDigitalPsico.Service.Configure.Domain;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {

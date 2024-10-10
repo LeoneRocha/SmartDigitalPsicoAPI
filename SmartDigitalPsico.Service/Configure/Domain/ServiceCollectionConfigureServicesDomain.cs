@@ -41,7 +41,7 @@ using SmartDigitalPsico.Service.Infrastructure.Smtp;
 using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Security;
 
-namespace SmartDigitalPsico.Service.Configure
+namespace SmartDigitalPsico.Service.Configure.Domain
 {
     public static class ServiceCollectionConfigureServicesDomain
     {
