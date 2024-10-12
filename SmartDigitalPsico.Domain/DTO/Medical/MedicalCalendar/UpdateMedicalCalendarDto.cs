@@ -4,9 +4,9 @@ using SmartDigitalPsico.Domain.Enuns;
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 {
     public class UpdateMedicalCalendarDto : UpdateMedicalCalendarDtoBase
-    { 
-    } 
-    public class UpdateMedicalCalendarDtoBase : EntityDtoBase
+    {
+    }
+    public abstract class UpdateMedicalCalendarDtoBase : EntityDtoBase
     {
         #region Columns  
         public string Title { get; set; } = string.Empty;
@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 
         public string Location { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public DayOfWeek[] RecurrenceDays { get; set; } = []; // 0 = Sunday  1 = Monday  6 = Saturday
+        public DayOfWeek[] RecurrenceDays { get; set; } = []; 
         public ERecurrenceCalendarType RecurrenceType { get; set; }
         public DateTime? RecurrenceEndDate { get; set; }
         public int? RecurrenceCount { get; set; }

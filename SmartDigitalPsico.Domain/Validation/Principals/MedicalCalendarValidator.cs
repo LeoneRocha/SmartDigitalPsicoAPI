@@ -7,7 +7,7 @@ using SmartDigitalPsico.Domain.Validation.Base;
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class MedicalCalendarValidator : MedicalBaseValidator<MedicalCalendar>
-    { 
+    {
         public MedicalCalendarValidator(IConfiguration configuration, IMedicalCalendarRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
         {
             #region Columns 
@@ -33,35 +33,34 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .MaximumLength(150).WithMessage("Time zone cannot exceed 150 characters.");
 
             RuleFor(e => e.RecurrenceDays)
-                .Must(BeValidDays).When(e => e.RecurrenceDays != null && e.RecurrenceDays.Any())
+                .Must(BeValidDays).When(e => e.RecurrenceDays != null && e.RecurrenceDays.Length > 0)
                 .WithMessage("Invalid recurrence days.");
 
             RuleFor(e => e.RecurrenceType)
-                .IsInEnum().WithMessage("Invalid recurrence type."); 
-             
-        #endregion Columns
+                .IsInEnum().WithMessage("Invalid recurrence type.");
 
-        #region Relationship
-        RuleFor(entity => entity.MedicalId)
-                .NotNull()
-                .WithMessage("ErrorValidator_MedicalId_Null")
-                .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
-                .WithMessage("ErrorValidator_MedicalId_NotFound")
-                .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
-                .WithMessage("ErrorValidator_Medical_Changed")
-                .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
-                .WithMessage("ErrorValidator_MedicalCreated_Invalid")
-                .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
-                .WithMessage("ErrorValidator_MedicalModify_Invalid");
+            #endregion Columns
+
+            #region Relationship
+            RuleFor(entity => entity.MedicalId)
+                    .NotNull()
+                    .WithMessage("ErrorValidator_MedicalId_Null")
+                    .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
+                    .WithMessage("ErrorValidator_MedicalId_NotFound")
+                    .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
+                    .WithMessage("ErrorValidator_Medical_Changed")
+                    .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
+                    .WithMessage("ErrorValidator_MedicalCreated_Invalid")
+                    .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
+                    .WithMessage("ErrorValidator_MedicalModify_Invalid");
 
             //A FAZER DO PACIENTE 
             #endregion Relationship
         }
 
-        private bool BeValidDays(DayOfWeek[] recurrenceDays)
+        private static bool BeValidDays(DayOfWeek[] recurrenceDays)
         {
-            return recurrenceDays.All(day => Enum.IsDefined(typeof(DayOfWeek), day));
+            return recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(typeof(DayOfWeek), day));
         }
-
     }
 }

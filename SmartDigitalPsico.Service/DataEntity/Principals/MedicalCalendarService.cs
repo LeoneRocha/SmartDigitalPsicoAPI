@@ -13,8 +13,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     public class MedicalCalendarService : EntityBaseService<MedicalCalendar, AddMedicalCalendarDto, UpdateMedicalCalendarDto, GetMedicalCalendarDto, IMedicalCalendarRepository>, IMedicalCalendarService
 
-    {
-        private readonly IUserRepository _userRepository; 
+    { 
+        private const string MensageCalendarRegistred = "Calendar registred.";
+        private const string MensageCalendarUpdated = "Calendar Updated.";
 
         public MedicalCalendarService(
             ISharedServices sharedServices,
@@ -25,12 +26,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         { 
-            _userRepository = sharedRepositories.UserRepository; 
         }
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
-        { 
-            var entityAdd = _mapper.Map<MedicalCalendar>(item); ;
-             
+        {
+            var entityAdd = _mapper.Map<MedicalCalendar>(item);
+
             #region Relationship
 
             entityAdd.CreatedUserId = UserId;
@@ -41,25 +41,25 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-              
+
             ServiceResponse<GetMedicalCalendarDto> response = await base.Validate(entityAdd);
 
             if (response.Success)
-            {  
+            {
                 if (entityAdd.RecurrenceType != ERecurrenceCalendarType.None)
                 {
                     await GenerateRecurrenceAsync(entityAdd, false);
                     response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
-                    response.Message = "Calendar registred.";
+                    response.Message = MensageCalendarRegistred;
                 }
                 else
                 {
                     MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
                     response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
-                    response.Message = "Calendar registred.";
-                }  
+                    response.Message = MensageCalendarRegistred;
+                }
             }
-            return response; 
+            return response;
         }
 
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
@@ -68,7 +68,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #region Relationship
 
-            entityAdd.ModifyUserId = UserId; 
+            entityAdd.ModifyUserId = UserId;
 
             #endregion Relationship 
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
@@ -82,18 +82,18 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 {
                     await GenerateRecurrenceAsync(entityAdd, false);
                     response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
-                    response.Message = "Calendar registred.";
+                    response.Message = MensageCalendarUpdated;
                 }
                 else
                 {
                     MedicalCalendar entityResponse = await _entityRepository.Update(entityAdd);
                     response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
-                    response.Message = "Calendar registred.";
+                    response.Message = MensageCalendarUpdated;
                 }
             }
             return response;
         }
-         
+
         private async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, bool updateSeries)
         {
             var events = new List<MedicalCalendar>();
@@ -146,7 +146,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 }
 
                 count++;
-            } 
+            }
             await _entityRepository.AddRangeAsync(events);
         }
     }
