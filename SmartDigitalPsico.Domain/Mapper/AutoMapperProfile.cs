@@ -5,6 +5,7 @@ using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
 using SmartDigitalPsico.Domain.DTO.Patient;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientAdditionalInformation;
@@ -67,6 +68,18 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<AddMedicalFileDto, MedicalFile>();
             CreateMap<UpdateMedicalFileDto, MedicalFile>();
             #endregion  MedicalFile
+             
+            #region MedicalCalendar
+            CreateMap<MedicalCalendar, AddMedicalCalendarDto>();
+            CreateMap<AddMedicalCalendarDto, MedicalCalendar>();
+
+            CreateMap<MedicalCalendar, UpdateMedicalCalendarDto>();
+            CreateMap<UpdateMedicalCalendarDto, MedicalCalendar>();
+
+            CreateMap<MedicalCalendar, GetMedicalCalendarDto>();
+            CreateMap<GetMedicalCalendarDto, MedicalCalendar>();
+
+            #endregion  MedicalCalendar
 
             #region Gender
             CreateMap<Gender, GetGenderDto>();
