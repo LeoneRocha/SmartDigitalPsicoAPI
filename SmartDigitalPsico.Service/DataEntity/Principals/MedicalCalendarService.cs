@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     public class MedicalCalendarService : EntityBaseService<MedicalCalendar, AddMedicalCalendarDto, UpdateMedicalCalendarDto, GetMedicalCalendarDto, IMedicalCalendarRepository>, IMedicalCalendarService
 
-    { 
+    {
         private const string MensageCalendarRegistred = "Calendar registred.";
         private const string MensageCalendarUpdated = "Calendar Updated.";
 
@@ -25,7 +25,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             IMedicalCalendarRepository entityRepository
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
-        { 
+        {
         }
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
         {
@@ -64,7 +64,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
         {
-            var entityAdd = _mapper.Map<MedicalCalendar>(item); ;
+            var entityAdd = _mapper.Map<MedicalCalendar>(item);
 
             #region Relationship
 
