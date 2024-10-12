@@ -25,6 +25,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             services.AddScoped<IValidator<User>, UserValidator>();
             services.AddScoped<IValidator<Medical>, MedicalValidator>();
             services.AddScoped<IValidator<MedicalFile>, MedicalFileValidator>();
+            services.AddScoped<IValidator<MedicalCalendar>, MedicalCalendarValidator>();
+
             #endregion Principals
 
             #region Patient

@@ -86,8 +86,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [HttpDelete("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
-        {
+        { 
             this.setUserIdCurrent();
+
             var response = await _entityService.Delete(id);
             if (response.Data)
             {

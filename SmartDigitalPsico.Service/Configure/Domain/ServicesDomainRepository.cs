@@ -38,7 +38,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             services.AddScoped<IRoleGroupRepository, RoleGroupRepository>();
             services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
             services.AddScoped<IAuditDataSelectiveEntityLogRepository, AuditDataSelectiveEntityLogRepository>();
-            services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
+            services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>(); 
+            services.AddScoped<IMedicalCalendarRepository, MedicalCalendarRepository>();
         }
     }
 }
