@@ -1,0 +1,290 @@
+﻿Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation com padrao de projeto de repository. Gere para mim um codigo para que seja criado um controler que possa receber insert e update e delete como um google agenda com todos campos semelhantes e funcionalidade
+
+
+
+Melhore o codigo para incluir a informacao de fuso horário que sera o agendamento
+
+Melhore o codigo para criar um metodo que receba a rrecorrencia e gere um registro para cada intevelado da data final e inicial gerados de acordo tambem com a recorrencia
+
+
+
+Melhore o codigo para incluir a informacao de fuso horário que sera o agendamento
+
+
+
+Vamos melhorar o código para incluir um método que gere registros para cada intervalo entre a data inicial e final, de acordo com a recorrência especificada. Isso permitirá criar eventos recorrentes automaticamente.
+
+### Passo 1: Atualizar o Modelo `MedicalCalendar`
+
+1. **Adicionar o campo `TimeZone` ao modelo `MedicalCalendar`:**
+   ```csharp
+   public enum RecurrenceType
+   {
+       None,
+       Daily,
+       Weekly,
+       Monthly,
+       Yearly
+   }
+
+   public class MedicalCalendar
+   {
+       public int Id { get; set; }
+       public string Title { get; set; }
+       public string Description { get; set; }
+       public DateTime StartTime { get; set; }
+       public DateTime EndTime { get; set; }
+       public string Location { get; set; }
+       public bool IsAllDay { get; set; }
+       public int[] RecurrenceDays { get; set; } // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+       public RecurrenceType RecurrenceType { get; set; }
+       public DateTime? RecurrenceEndDate { get; set; }
+       public int? RecurrenceCount { get; set; }
+       public string TimeZone { get; set; } // Time zone information
+   }
+   ```
+
+### Passo 2: Atualizar o `ApplicationDbContext`
+
+1. **Atualizar o `ApplicationDbContext` para refletir as novas propriedades:**
+   ```csharp
+   protected override void OnModelCreating(ModelBuilder modelBuilder)
+   {
+       modelBuilder.Entity<MedicalCalendar>(entity =>
+       {
+           entity.HasKey(e => e.Id);
+           entity.Property(e => e.Title).IsRequired().HasMaxLength(100);
+           entity.Property(e => e.Description).HasMaxLength(500);
+           entity.Property(e => e.StartTime).IsRequired();
+           entity.Property(e => e.EndTime).IsRequired();
+           entity.Property(e => e.Location).HasMaxLength(200);
+           entity.Property(e => e.IsAllDay).IsRequired();
+           entity.Property(e => e.RecurrenceDays).HasConversion(
+               v => string.Join(',', v),
+               v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray());
+           entity.Property(e => e.RecurrenceType).IsRequired();
+           entity.Property(e => e.RecurrenceEndDate);
+           entity.Property(e => e.RecurrenceCount);
+           entity.Property(e => e.TimeZone).IsRequired().HasMaxLength(50);
+       });
+   }
+   ```
+
+### Passo 3: Atualizar o Repositório
+
+1. **Atualizar a interface `IMedicalCalendarRepository` e a implementação `MedicalCalendarRepository`:**
+   ```csharp
+   public interface IMedicalCalendarRepository
+   {
+       Task<IEnumerable<MedicalCalendar>> GetAllAsync();
+       Task<MedicalCalendar> GetByIdAsync(int id);
+       Task AddAsync(MedicalCalendar medicalCalendar);
+       Task UpdateAsync(MedicalCalendar medicalCalendar);
+       Task DeleteAsync(int id);
+       Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar);
+   }
+
+   public class MedicalCalendarRepository : IMedicalCalendarRepository
+   {
+       private readonly ApplicationDbContext _context;
+
+       public MedicalCalendarRepository(ApplicationDbContext context)
+       {
+           _context = context;
+       }
+
+       public async Task<IEnumerable<MedicalCalendar>> GetAllAsync()
+       {
+           return await _context.MedicalCalendars.ToListAsync();
+       }
+
+       public async Task<MedicalCalendar> GetByIdAsync(int id)
+       {
+           return await _context.MedicalCalendars.FindAsync(id);
+       }
+
+       public async Task AddAsync(MedicalCalendar medicalCalendar)
+       {
+           await _context.MedicalCalendars.AddAsync(medicalCalendar);
+           await _context.SaveChangesAsync();
+       }
+
+       public async Task UpdateAsync(MedicalCalendar medicalCalendar)
+       {
+           _context.MedicalCalendars.Update(medicalCalendar);
+           await _context.SaveChangesAsync();
+       }
+
+       public async Task DeleteAsync(int id)
+       {
+           var medicalCalendar = await _context.MedicalCalendars.FindAsync(id);
+           if (medicalCalendar != null)
+           {
+               _context.MedicalCalendars.Remove(medicalCalendar);
+               await _context.SaveChangesAsync();
+           }
+       }
+
+       public async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar)
+       {
+           var events = new List<MedicalCalendar>();
+           DateTime currentStart = medicalCalendar.StartTime;
+           DateTime currentEnd = medicalCalendar.EndTime;
+           int count = 0;
+
+           while ((medicalCalendar.RecurrenceEndDate == null || currentStart <= medicalCalendar.RecurrenceEndDate) &&
+                  (medicalCalendar.RecurrenceCount == null || count < medicalCalendar.RecurrenceCount))
+           {
+               var newEvent = new MedicalCalendar
+               {
+                   Title = medicalCalendar.Title,
+                   Description = medicalCalendar.Description,
+                   StartTime = currentStart,
+                   EndTime = currentEnd,
+                   Location = medicalCalendar.Location,
+                   IsAllDay = medicalCalendar.IsAllDay,
+                   RecurrenceDays = medicalCalendar.RecurrenceDays,
+                   RecurrenceType = medicalCalendar.RecurrenceType,
+                   TimeZone = medicalCalendar.TimeZone
+               };
+
+               events.Add(newEvent);
+
+               switch (medicalCalendar.RecurrenceType)
+               {
+                   case RecurrenceType.Daily:
+                       currentStart = currentStart.AddDays(1);
+                       currentEnd = currentEnd.AddDays(1);
+                       break;
+                   case RecurrenceType.Weekly:
+                       currentStart = currentStart.AddDays(7);
+                       currentEnd = currentEnd.AddDays(7);
+                       break;
+                   case RecurrenceType.Monthly:
+                       currentStart = currentStart.AddMonths(1);
+                       currentEnd = currentEnd.AddMonths(1);
+                       break;
+                   case RecurrenceType.Yearly:
+                       currentStart = currentStart.AddYears(1);
+                       currentEnd = currentEnd.AddYears(1);
+                       break;
+               }
+
+               count++;
+           }
+
+           await _context.MedicalCalendars.AddRangeAsync(events);
+           await _context.SaveChangesAsync();
+       }
+   }
+   ```
+
+### Passo 4: Atualizar o Validador
+
+1. **Renomear a classe `EventValidator` para `MedicalCalendarValidator` e adicionar validação para `TimeZone`:**
+   ```csharp
+   public class MedicalCalendarValidator : AbstractValidator<MedicalCalendar>
+   {
+       public MedicalCalendarValidator()
+       {
+           RuleFor(e => e.Title).NotEmpty().WithMessage("Title is required.")
+                                .MaximumLength(100).WithMessage("Title cannot exceed 100 characters.");
+           RuleFor(e => e.StartTime).LessThan(e => e.EndTime).When(e => !e.IsAllDay).WithMessage("Start time must be before end time.");
+           RuleFor(e => e.RecurrenceType).IsInEnum().WithMessage("Invalid recurrence type.");
+           RuleFor(e => e.RecurrenceDays).Must(BeValidDays).When(e => e.RecurrenceDays != null && e.RecurrenceDays.Any()).WithMessage("Invalid recurrence days.");
+           RuleFor(e => e.TimeZone).NotEmpty().WithMessage("Time zone is required.")
+                                   .MaximumLength(50).WithMessage("Time zone cannot exceed 50 characters.");
+       }
+
+       private bool BeValidDays(int[] recurrenceDays)
+       {
+           return recurrenceDays.All(day => day >= 0 && day <= 6);
+       }
+   }
+   ```
+
+### Passo 5: Atualizar o Controlador
+
+1. **Atualizar o controlador `MedicalCalendarsController`:**
+   ```csharp
+   [ApiController]
+   [Route("api/[controller]")]
+   public class MedicalCalendarsController : ControllerBase
+   {
+       private readonly IMedicalCalendarRepository _repository;
+
+       public MedicalCalendarsController(IMedicalCalendarRepository repository)
+       {
+           _repository = repository;
+       }
+
+       [HttpGet]
+       public async Task<IActionResult> GetAll()
+       {
+           var medicalCalendars = await _repository.GetAllAsync();
+           return Ok(medicalCalendars);
+       }
+
+       [HttpGet("{id}")]
+       public async Task<IActionResult> GetById(int id)
+       {
+           var medicalCalendar = await _repository.GetByIdAsync(id);
+           if (medicalCalendar == null)
+           {
+               return NotFound();
+           }
+           return Ok(medicalCalendar);
+       }
+
+       [HttpPost]
+       public async Task<IActionResult> Create(MedicalCalendar medicalCalendar)
+       {
+           await _repository.AddAsync(medicalCalendar);
+           if (medicalCalendar.RecurrenceType != RecurrenceType.None)
+           {
+               await _repository.GenerateRecurrenceAsync(medicalCalendar);
+           }
+           return CreatedAtAction(nameof(GetById), new { id = medicalCalendar.Id }, medicalCalendar);
+       }
+
+       [HttpPut("{id}")]
+       public async Task<IActionResult> Update(int id, MedicalCalendar medicalCalendar)
+       {
+           if (id != medicalCalendar.Id)
+           {
+               return BadRequest();
+           }
+
+           await _repository.UpdateAsync(medicalCalendar);
+           return NoContent();
+       }
+
+       [HttpDelete("{id}")]
+       public async Task<IActionResult> Delete(int id)
+       {
+           await _repository.DeleteAsync(id);
+           return NoContent();
+       }
+   }
+   ```
+
+### Passo 6: Atualizar o Banco de Dados
+
+1. **Adicionar a string de conexão no `appsettings.json`:**
+   ```json
+   {
+       "ConnectionStrings": {
+           "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=CalendarDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+       }
+   }
+   ```
+
+2. **Executar as migrações:**
+
+Fonte: conversa com o Copilot, 12/10/2024
+(1) Convert a date range to a list of dates with Power Query. https://apexinsights.net/blog/convert-date-range-to-list.
+(2) Power Query - Generate List of Dates with interval... - Microsoft .... https://community.fabric.microsoft.com/t5/Community-Blog/Power-Query-Generate-List-of-Dates-with-intervals-of-Months/ba-p/2628702.
+(3) Solved: Create a list of dates between a start and end dat .... https://community.fabric.microsoft.com/t5/Power-Query/Create-a-list-of-dates-between-a-start-and-end-date-at-an/td-p/3012133.
+(4) Solved: Create a table with dates based on Start / End Dat .... https://community.fabric.microsoft.com/t5/DAX-Commands-and-Tips/Create-a-table-with-dates-based-on-Start-End-Dates-and-Values-on/m-p/1096111.
+(5) How to display a record multiple times including day intervals based on .... https://stackoverflow.com/questions/49209755/how-to-display-a-record-multiple-times-including-day-intervals-based-on-its-star.
+(6) undefined. https://www.poweredsolutions.co/2019/07/23/fill-dates-between-dates-with-power-bi-power-query/.
