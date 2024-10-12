@@ -50,16 +50,16 @@ ATUALIZAR FRONT END
 
 -- No paciente ter um botao novo donload historico 
 
--- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML 
+-- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
 
+-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
+ 
+ --- Calendario ja tem o insert basico no controler 
+ -- Criar um Add e update que receber uma flag de Serie e recebe uma data Inicial e uma data final de no maximo 12 meses 
 
+ Acredito que teria que so criar a tela 
 
-
-
-
-
-
-
+ --- CRIAR UM PROCESSO DE NOTIFICACAO SEJA POR EMAIL OU SMS igual goggle agenda seguir que pode ser feitas varias notificacoes para uma agendamento 
 
 -------------------------------------------
 
@@ -258,6 +258,10 @@ ou
 Add-Migration AddUrlApp -Context SmartDigitalPsicoDataContextSqlServer -OutputDir Migrations\SqlServer -Project SmartDigitalPsico.Data
 --------------- ADD 
  
+
+
+ Add-Migration UpdateMedicalCalendar -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
 
 
 Remove-Migration -Context SmartDigitalPsicoDataContextMysql -Project SmartDigitalPsico.Data

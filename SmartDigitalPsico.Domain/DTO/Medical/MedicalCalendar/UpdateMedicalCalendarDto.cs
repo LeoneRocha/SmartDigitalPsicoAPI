@@ -1,22 +1,35 @@
 using SmartDigitalPsico.Domain.DTO.Contracts;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 {
-    public class UpdateMedicalCalendarDto : EntityDtoBase
+    public class UpdateMedicalCalendarDto : UpdateMedicalCalendarDtoBase
     {
-        #region Relationship 
-
-        #endregion Relationship
-
-        #region Columns 
-        public string Title { get; set; } = string.Empty;   
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public bool AllDay { get; set; }
-        public string ColorCategory { get; set; } = string.Empty;
-        public string Url { get; set; } = string.Empty;
-        public bool PushedCalendar { get; set; }
-        public string TimeZone { get; set; } = string.Empty;
-        #endregion Columns 
     }
+    public abstract class UpdateMedicalCalendarDtoBase : EntityDtoBase
+    {
+        #region Columns  
+        public string Title { get; set; } = string.Empty;
+        public DateTime StartDateTime { get; set; }
+        public DateTime? EndDateTime { get; set; }
+        public bool IsAllDay { get; set; }
+        public EStatusCalendar Status { get; set; }
+        public string ColorCategoryHexa { get; set; } = string.Empty;
+
+        public bool IsPushedCalendar { get; set; }
+        public string TimeZone { get; set; } = string.Empty;
+        public long? CreatedUserId { get; set; }
+        public long? ModifyUserId { get; set; }
+
+        public string Location { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public DayOfWeek[] RecurrenceDays { get; set; } = []; 
+        public ERecurrenceCalendarType RecurrenceType { get; set; }
+        public DateTime? RecurrenceEndDate { get; set; }
+        public int? RecurrenceCount { get; set; }
+
+        #endregion Columns  
+    }
+
+
 }
