@@ -9,8 +9,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
     public class MedicalFileValidator : MedicalBaseValidator<MedicalFile>
     { 
         public MedicalFileValidator(IConfiguration configuration, IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
-        {
-
+        { 
             #region Columns
             RuleFor(entity => entity.Description)
                 .MaximumLength(255)
@@ -46,7 +45,6 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
                 .WithMessage("ErrorValidator_MedicalModify_Invalid");
             #endregion Relationship
-        }
-
+        } 
     }
 }
