@@ -7,6 +7,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
     public interface IMedicalCalendarService : IEntityBaseService<MedicalCalendar, AddMedicalCalendarDto, UpdateMedicalCalendarDto, GetMedicalCalendarDto>
     {
-        Task<ServiceResponse<ScheduleDto>> GetMonthlySchedule(ScheduleCriteriaDto criteria);
+        Task<ServiceResponse<ScheduleDto>> GetMonthlyCalendar(ScheduleCriteriaDto criteria);
     }
 }

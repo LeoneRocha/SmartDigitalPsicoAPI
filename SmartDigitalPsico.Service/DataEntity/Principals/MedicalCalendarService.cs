@@ -162,7 +162,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
         #endregion PRIVATE 
 
-        public async Task<ServiceResponse<ScheduleDto>> GetMonthlySchedule(ScheduleCriteriaDto criteria)
+        public async Task<ServiceResponse<ScheduleDto>> GetMonthlyCalendar(ScheduleCriteriaDto criteria)
         {
             ServiceResponse<ScheduleDto> response = new ServiceResponse<ScheduleDto>();
             criteria.UserIdLogged = UserId;
@@ -201,7 +201,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
 
             var medicalCalendarsDTO = medicalCalendars.Select(_mapper.Map<GetMedicalCalendarDto>).ToArray();
-            var daysScheduleCriteria = new DaysScheduleCriteriaDto
+            var daysScheduleCriteria = new DaysCalendarCriteriaDto
             {
                 StartDate = startDate,
                 EndDate = endDate,
@@ -211,7 +211,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 EndWorkingTime = medical.EndWorkingTime
             };
 
-            var days = GenerateDaysSchedule(daysScheduleCriteria);
+            var days = GenerateDaysCalendar(daysScheduleCriteria);
 
             var resultDto = new ScheduleDto()
             {
@@ -258,7 +258,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return (startDate, endDate);
         }
 
-        private List<DayScheduleDto> GenerateDaysSchedule(DaysScheduleCriteriaDto criteria)
+        private List<DayScheduleDto> GenerateDaysCalendar(DaysCalendarCriteriaDto criteria)
         {
             var days = new List<DayScheduleDto>();
             for (var date = criteria.StartDate; date <= criteria.EndDate; date = date.AddDays(1))
@@ -302,8 +302,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 });
             }
             return timeSlots.ToArray();
-        }
-
+        } 
         #endregion PRIVATE 
     }
 }

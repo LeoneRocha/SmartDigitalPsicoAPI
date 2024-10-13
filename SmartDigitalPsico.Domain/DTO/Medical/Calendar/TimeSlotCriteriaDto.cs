@@ -2,19 +2,19 @@
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {
-    public abstract class ScheduleCriteriaBaseDto
+    public abstract class CalendarCriteriaBaseDto
     {
         public TimeSpan Interval { get; set; }
         public GetMedicalCalendarDto[] MedicalCalendars { get; set; } = [];
         public TimeSpan StartWorkingTime { get; set; } // Horário que o médico começa a trabalhar
         public TimeSpan EndWorkingTime { get; set; } // Horário que o médico para de trabalhar
     }
-    public class TimeSlotCriteriaDto : ScheduleCriteriaBaseDto
+    public class TimeSlotCriteriaDto : CalendarCriteriaBaseDto
     {
         public DateTime Date { get; set; }
     }
 
-    public class DaysScheduleCriteriaDto : ScheduleCriteriaBaseDto
+    public class DaysCalendarCriteriaDto : CalendarCriteriaBaseDto
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -96,11 +96,11 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             return Ok(response);
         }
 
-        [HttpPost("schedule")]
-        public async Task<IActionResult> GetMonthlySchedule([FromBody] ScheduleCriteriaDto criteria)
+        [HttpPost("calendar")]
+        public async Task<IActionResult> GetMonthlyCalendar([FromBody] ScheduleCriteriaDto criteria)
         {
             this.setUserIdCurrent();
-            var schedule = await _entityService.GetMonthlySchedule(criteria);
+            var schedule = await _entityService.GetMonthlyCalendar(criteria);
             return Ok(schedule);
         }
     }
