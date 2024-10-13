@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.Results;
+using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
@@ -246,19 +247,19 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var medical = await _medicalRepository.FindByID(medicalId);
             if (medical == null)
             {
-                throw new Exception("Medical not found.");
+                throw new AppWarningException("Medical not found.");
             }
             return medical;
         }
 
         private static (DateTime startDate, DateTime endDate) GetDateRange(int year, int month)
         {
-            var startDate = new DateTime(year, month, 1);
+            var startDate = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Utc); 
             var endDate = startDate.AddMonths(1).AddDays(-1);
             return (startDate, endDate);
         }
 
-        private List<DayScheduleDto> GenerateDaysCalendar(DaysCalendarCriteriaDto criteria)
+        private static List<DayScheduleDto> GenerateDaysCalendar(DaysCalendarCriteriaDto criteria)
         {
             var days = new List<DayScheduleDto>();
             for (var date = criteria.StartDate; date <= criteria.EndDate; date = date.AddDays(1))
@@ -287,7 +288,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             for (var time = criteria.Date; time < criteria.Date.AddDays(1); time = time.Add(criteria.Interval))
             {
                 var endTimeSlot = time.Add(criteria.Interval);
-                var medicalCalendar = criteria.MedicalCalendars.FirstOrDefault(a => a.StartDateTime <= time && a.EndDateTime >= endTimeSlot);
+                var medicalCalendar = criteria.MedicalCalendars.ToList().Find(a => a.StartDateTime <= time && a.EndDateTime >= endTimeSlot);
 
                 var isWithinWorkingHours = time >= startDateTime && endTimeSlot <= endDateTime;
 

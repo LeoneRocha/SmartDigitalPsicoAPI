@@ -59,7 +59,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             //A FAZER DO PACIENTE 
             #endregion Relationship
-             
+
             RuleFor(x => x)
                 .MustAsync(NoScheduleConflict)
                 .WithMessage("There is a scheduling conflict for the specified time.");
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         private async Task<bool> NoScheduleConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
         {
             var conflictingEvents = await _repository.GetConflictingEventsAsync(calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime);
-            return !(conflictingEvents.Length > 0) ;
-        } 
+            return conflictingEvents.Length <= 0;
+        }
     }
 }
