@@ -1,4 +1,5 @@
 using FluentValidation;
+using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -17,15 +18,19 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private const string MensageCalendarRegistred = "Calendar registred.";
         private const string MensageCalendarUpdated = "Calendar Updated.";
 
+        private readonly IMedicalRepository _medicalRepository;
+
         public MedicalCalendarService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
             IValidator<MedicalCalendar> entityValidator,
-            IMedicalCalendarRepository entityRepository
+            IMedicalCalendarRepository entityRepository,
+            IPatientRepositories repositoriesShared
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
+            _medicalRepository = repositoriesShared.MedicalRepository;
         }
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
         {
@@ -94,6 +99,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        #region PRIVATE 
+
         private async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, bool updateSeries)
         {
             var events = new List<MedicalCalendar>();
@@ -149,5 +156,80 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             await _entityRepository.AddRangeAsync(events);
         }
+        #endregion PRIVATE 
+
+        public async Task<ScheduleDto> GetMonthlySchedule(ScheduleCriteriaDto criteria)
+        {
+            var medical = await GetMedicalAsync(criteria.MedicalId);
+
+            var (startDate, endDate) = GetDateRange(criteria.Year, criteria.Month);
+
+            var interval = TimeSpan.FromMinutes(criteria.IntervalInMinutes);
+
+            var medicalCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(criteria.MedicalId, startDate, endDate);
+
+            var medicalCalendarsDTO = medicalCalendars.Select(_mapper.Map<GetMedicalCalendarDto>).ToArray();
+
+            var days = GenerateDaysSchedule(startDate, endDate, interval, medicalCalendarsDTO);
+
+            var resultDto = new ScheduleDto()
+            {
+                MedicalId = medical.Id,
+                MedicalName = medical.Name,
+                Days = days.ToArray()
+            };
+
+            return resultDto;
+        }
+        #region PRIVATE 
+
+        private async Task<Medical> GetMedicalAsync(long medicalId)
+        {
+            var medical = await _medicalRepository.FindByID(medicalId);
+            if (medical == null)
+            {
+                throw new Exception("Medical not found.");
+            }
+            return medical;
+        }
+
+        private static (DateTime startDate, DateTime endDate) GetDateRange(int year, int month)
+        {
+            var startDate = new DateTime(year, month, 1);
+            var endDate = startDate.AddMonths(1).AddDays(-1);
+            return (startDate, endDate);
+        }
+
+        private static List<DayScheduleDto> GenerateDaysSchedule(DateTime startDate, DateTime endDate, TimeSpan interval, GetMedicalCalendarDto[] medicalCalendarsDTO)
+        {
+            var days = new List<DayScheduleDto>();
+            for (var date = startDate; date <= endDate; date = date.AddDays(1))
+            {
+                var timeSlots = GenerateTimeSlots(date, interval, medicalCalendarsDTO);
+                days.Add(new DayScheduleDto { Date = date, TimeSlots = timeSlots });
+            }
+            return days;
+        }
+
+        private static TimeSlotDto[] GenerateTimeSlots(DateTime date, TimeSpan interval, GetMedicalCalendarDto[] medicalCalendars)
+        {
+            var timeSlots = new List<TimeSlotDto>();
+            for (var time = date; time < date.AddDays(1); time = time.Add(interval))
+            {
+                var endTime = time.Add(interval);
+                var medicalCalendar = medicalCalendars.FirstOrDefault(a => a.StartDateTime <= time && a.EndDateTime >= endTime);
+
+                timeSlots.Add(new TimeSlotDto
+                {
+                    StartTime = time,
+                    EndTime = endTime,
+                    IsAvailable = medicalCalendar == null,
+                    MedicalCalendar = medicalCalendar,
+                    PatientName = medicalCalendar?.Patient?.Name ?? string.Empty,
+                });
+            }
+            return timeSlots.ToArray();
+        }
+        #endregion PRIVATE 
     }
 }

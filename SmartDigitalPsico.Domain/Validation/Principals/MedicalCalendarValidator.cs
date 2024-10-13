@@ -8,8 +8,11 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class MedicalCalendarValidator : MedicalBaseValidator<MedicalCalendar>
     {
+        private readonly IMedicalCalendarRepository _repository;
         public MedicalCalendarValidator(IConfiguration configuration, IMedicalCalendarRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
         {
+            _repository = entityRepository;
+
             #region Columns 
             RuleFor(e => e.Title)
            .NotEmpty()
@@ -56,11 +59,21 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             //A FAZER DO PACIENTE 
             #endregion Relationship
+             
+            RuleFor(x => x)
+                .MustAsync(NoScheduleConflict)
+                .WithMessage("There is a scheduling conflict for the specified time.");
         }
 
         private static bool BeValidDays(DayOfWeek[] recurrenceDays)
         {
             return recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(typeof(DayOfWeek), day));
         }
+
+        private async Task<bool> NoScheduleConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
+        {
+            var conflictingEvents = await _repository.GetConflictingEventsAsync(calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime);
+            return !(conflictingEvents.Length > 0) ;
+        } 
     }
 }

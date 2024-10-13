@@ -8,6 +8,11 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
     }
     public abstract class UpdateMedicalCalendarDtoBase : EntityDtoBase
     {
+        #region Relationship 
+        public long MedicalId { get; set; }
+        public long? PatientId { get; set; }
+        #endregion Relationship 
+
         #region Columns  
         public string Title { get; set; } = string.Empty;
         public DateTime StartDateTime { get; set; }

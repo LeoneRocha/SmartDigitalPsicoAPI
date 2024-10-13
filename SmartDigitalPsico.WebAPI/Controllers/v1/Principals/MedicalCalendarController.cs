@@ -7,6 +7,7 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 {
@@ -95,6 +96,13 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
                 return NotFound(response);
             }
             return Ok(response);
+        }
+
+        [HttpPost("schedule")]
+        public async Task<IActionResult> GetMonthlySchedule([FromBody] ScheduleCriteriaDto criteria)
+        {
+            var schedule = await _entityService.GetMonthlySchedule(criteria);
+            return Ok(schedule);
         } 
     }
 }
