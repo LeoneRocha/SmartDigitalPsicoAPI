@@ -29,6 +29,8 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public ICollection<Patient> Patienties { get; set; }
         
         public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
+        public TimeSpan StartWorkingTime { get; set; }
+        public TimeSpan EndWorkingTime { get; set; }
         #endregion Relationship
     }
 }

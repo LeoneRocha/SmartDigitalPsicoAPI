@@ -1,4 +1,5 @@
-﻿using SmartDigitalPsico.Domain.VO;
+﻿using FluentValidation.Results;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Validation.Helper
 {
@@ -35,6 +36,11 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
 
             }
             return message;
+        }
+
+        public static List<ErrorResponse> GetMapErros(List<ValidationFailure> errors)
+        {
+            return errors.DistinctBy(d => d.PropertyName).Select(er => new ErrorResponse() { ErrorCode = er.ErrorCode, Message = er.ErrorMessage, Name = er.PropertyName }).ToList();
         }
     }
 }

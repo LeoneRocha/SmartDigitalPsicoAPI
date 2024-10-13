@@ -11,10 +11,9 @@ using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 {
-    [ApiController] 
+    [ApiController]
     [Authorize("Bearer")]
-    [Route("api/medical/v1/[controller]")]
-
+    [Route("api/medical/v1/[controller]")] 
     public class MedicalCalendarController : ApiBaseController
     {
         private readonly IMedicalCalendarService _entityService;
@@ -87,9 +86,8 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [HttpDelete("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
-        { 
+        {
             this.setUserIdCurrent();
-
             var response = await _entityService.Delete(id);
             if (response.Data)
             {
@@ -101,8 +99,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [HttpPost("schedule")]
         public async Task<IActionResult> GetMonthlySchedule([FromBody] ScheduleCriteriaDto criteria)
         {
+            this.setUserIdCurrent();
             var schedule = await _entityService.GetMonthlySchedule(criteria);
             return Ok(schedule);
-        } 
+        }
     }
 }

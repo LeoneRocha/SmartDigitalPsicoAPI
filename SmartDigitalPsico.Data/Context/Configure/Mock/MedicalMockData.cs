@@ -21,6 +21,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 TypeAccreditation = ETypeAccreditation.CRM,
                 OfficeId = 1,
                 CreatedUserId = 1,
+                StartWorkingTime = new TimeSpan(6, 0, 0),
+                EndWorkingTime = new TimeSpan(20, 0, 0),                
             };
 
             return [

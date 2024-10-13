@@ -14,6 +14,7 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Domain.Validation.Helper;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -75,7 +76,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (!validationResult.IsValid)
             {
-                response.Errors = validator.GetMapErros(validationResult.Errors);
+                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
                 response.Success = false;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);

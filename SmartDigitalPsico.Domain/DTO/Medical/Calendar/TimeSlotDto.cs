@@ -9,5 +9,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
         public bool IsAvailable { get; set; }
         public string PatientName { get; set; } = string.Empty;
         public GetMedicalCalendarDto? MedicalCalendar { get; set; }
+        public bool IsPast { get; set; }
     }
 }
