@@ -46,9 +46,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async Task<MedicalCalendar[]> GetMedicalCalendarsForMedicalAsync(long medicalId, DateTime startDate, DateTime endDate)
         {
             return await _context.MedicalCalendars
-                .Where(mc => mc.Enable == true && mc.MedicalId == medicalId && mc.StartDateTime >= startDate && mc.EndDateTime <= endDate)                
+                .Where(mc => mc.Enable && mc.MedicalId == medicalId && mc.StartDateTime >= startDate && mc.EndDateTime <= endDate)
                 .Include(x => x.Patient)
                 .ToArrayAsync();
         }
     }
-} 
+}
