@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
         public DayOfWeek[] RecurrenceDays { get; set; } = [];
         public ERecurrenceCalendarType RecurrenceType { get; set; }
         public DateTime? RecurrenceEndDate { get; set; }
-        public int RecurrenceCount { get; set; }
+        public byte RecurrenceCount { get; set; }
 
         #endregion Columns  
     }
