@@ -49,7 +49,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_20)
                 .HasConversion(v => string.Join(',', v.Select(d => ((int)d).ToString())), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => (DayOfWeek)int.Parse(s)).ToArray());
 
-            builder.Property(e => e.RecurrenceType);
+            builder.Property(e => e.RecurrenceType)
+                .HasConversion<byte>();
+
             builder.Property(e => e.RecurrenceEndDate);
             builder.Property(e => e.RecurrenceCount);
 
