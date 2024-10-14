@@ -35,6 +35,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             #endregion PATIENT   
 
             services.AddScoped<IEmailTemplateService, EmailTemplateService>();
+
+            services.AddScoped<IMedicalCalendarService, MedicalCalendarService>();
         }
     }
 }

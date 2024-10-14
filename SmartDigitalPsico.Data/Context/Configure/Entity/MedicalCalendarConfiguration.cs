@@ -44,13 +44,17 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.TimeZone).HasMaxLength(150).HasColumnType("varchar(150)");
 
             //Array int 
-            builder.Property(e => e.RecurrenceDays).HasConversion(
-                v => string.Join(',', v.Select(d => d.ToString())),
-                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Enum.Parse<DayOfWeek>).ToArray());
+            builder.Property(e => e.RecurrenceDays)
+                .HasMaxLength(20)
+                .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_20)
+                .HasConversion(v => string.Join(',', v.Select(d => ((int)d).ToString())), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => (DayOfWeek)int.Parse(s)).ToArray());
 
-            builder.Property(e => e.RecurrenceType);
+            builder.Property(e => e.RecurrenceType)
+                .HasConversion<byte>();
+
             builder.Property(e => e.RecurrenceEndDate);
-            builder.Property(e => e.RecurrenceCount);  
+            builder.Property(e => e.RecurrenceCount)
+                .HasConversion<byte>(); 
 
             // Relationship
             builder.HasOne(e => e.CreatedUser).WithMany().HasForeignKey(e => e.CreatedUserId);
@@ -58,6 +62,20 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
 
             builder.HasOne(e => e.Medical).WithMany().HasForeignKey(e => e.MedicalId);
             builder.HasOne(e => e.Patient).WithMany().HasForeignKey(e => e.PatientId);
+
+            // Index
+            builder.HasIndex(p => new { p.Title })
+                .IncludeProperties(p => new { p.PatientId, p.MedicalId, p.StartDateTime, p.EndDateTime })
+                .HasDatabaseName("Idx_Title_Inc_PatientId_MedicalId_StartDateTime_EndDateTime")
+                .IsUnique(false);
+
+            if (ETypeDataBase == ETypeDataBase.Mysql)
+            {
+                // Index FOR MYSQL 
+                builder.HasIndex(p => new { p.Title, p.PatientId, p.MedicalId, p.StartDateTime, p.EndDateTime })
+                    .HasDatabaseName("Idx_Title_PatientId_MedicalId_StartDateTime_EndDateTime")
+                    .IsUnique(false);
+            } 
         }
     }
 }

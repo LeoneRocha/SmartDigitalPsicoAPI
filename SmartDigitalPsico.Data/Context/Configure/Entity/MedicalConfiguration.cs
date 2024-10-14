@@ -30,6 +30,13 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.HasOne(e => e.Office).WithMany(b => b.Medicals).HasForeignKey(e => e.OfficeId);
             builder.HasMany(e => e.Patienties).WithOne().HasForeignKey(e => e.MedicalId);
 
+            builder.Property(m => m.StartWorkingTime)
+           .IsRequired()
+           .HasColumnType("time");
+
+            builder.Property(m => m.EndWorkingTime)
+                .IsRequired()
+                .HasColumnType("time");
 
             builder.HasData(MedicalMockData.GetMock());
         }

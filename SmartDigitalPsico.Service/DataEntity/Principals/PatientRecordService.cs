@@ -8,6 +8,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
+using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO;
@@ -163,7 +164,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var validationResult = await validator.ValidateAsync(recordsList);
             if (!validationResult.IsValid)
             {
-                response.Errors = validator.GetMapErros(validationResult.Errors);
+                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
                 response.Success = false;
                 response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                        ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
@@ -210,7 +211,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 var validationResult = await validator.ValidateAsync(recordData);
                 if (!validationResult.IsValid)
                 {
-                    response.Errors = validator.GetMapErros(validationResult.Errors);
+                    response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
                     response.Success = false;
                     response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
                            ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);

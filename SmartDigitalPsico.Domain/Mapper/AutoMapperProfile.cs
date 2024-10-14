@@ -68,7 +68,7 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<AddMedicalFileDto, MedicalFile>();
             CreateMap<UpdateMedicalFileDto, MedicalFile>();
             #endregion  MedicalFile
-             
+
             #region MedicalCalendar
             CreateMap<MedicalCalendar, AddMedicalCalendarDto>();
             CreateMap<AddMedicalCalendarDto, MedicalCalendar>();
@@ -79,6 +79,7 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<MedicalCalendar, GetMedicalCalendarDto>();
             CreateMap<GetMedicalCalendarDto, MedicalCalendar>();
 
+            CreateMap<MedicalCalendar, GetMedicalCalendarTimeSlotDto>();
             #endregion  MedicalCalendar
 
             #region Gender
@@ -86,15 +87,15 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<GetGenderDto, Gender>();
 
             CreateMap<AddGenderDto, Gender>();
-            CreateMap<UpdateGenderDto, Gender>(); 
+            CreateMap<UpdateGenderDto, Gender>();
             #endregion  Gender
 
             #region Office
             CreateMap<Office, GetOfficeDto>();
-            CreateMap<GetOfficeDto, Office>(); 
+            CreateMap<GetOfficeDto, Office>();
 
             CreateMap<AddOfficeDto, Office>();
-            CreateMap<UpdateOfficeDto, Office>(); 
+            CreateMap<UpdateOfficeDto, Office>();
             #endregion Office
 
             #region RoleGroup
@@ -102,7 +103,7 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<GetRoleGroupDto, RoleGroup>();
 
             CreateMap<AddRoleGroupDto, RoleGroup>();
-            CreateMap<UpdateRoleGroupDto, RoleGroup>(); 
+            CreateMap<UpdateRoleGroupDto, RoleGroup>();
             #endregion RoleGroup
 
             #region Specialty
@@ -126,49 +127,49 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<Medical, GetMedicalDto>();
             CreateMap<GetMedicalDto, Medical>();
             CreateMap<AddMedicalDto, Medical>();
-            CreateMap<UpdateMedicalDto, Medical>(); 
+            CreateMap<UpdateMedicalDto, Medical>();
             #endregion Medical 
 
             #region Patient
             CreateMap<Patient, GetPatientDto>();
             CreateMap<GetPatientDto, Patient>();
             CreateMap<AddPatientDto, Patient>();
-            CreateMap<UpdatePatientDto, Patient>(); 
+            CreateMap<UpdatePatientDto, Patient>();
             #endregion Patient 
 
             #region PatientRecord
             CreateMap<PatientRecord, GetPatientRecordDto>();
             CreateMap<GetPatientRecordDto, PatientRecord>();
             CreateMap<AddPatientRecordDto, PatientRecord>();
-            CreateMap<UpdatePatientRecordDto, PatientRecord>(); 
+            CreateMap<UpdatePatientRecordDto, PatientRecord>();
             #endregion PatientRecord 
 
             #region PatientAdditionalInformation
             CreateMap<PatientAdditionalInformation, GetPatientAdditionalInformationDto>();
             CreateMap<GetPatientAdditionalInformationDto, PatientAdditionalInformation>();
             CreateMap<AddPatientAdditionalInformationDto, PatientAdditionalInformation>();
-            CreateMap<UpdatePatientAdditionalInformationDto, PatientAdditionalInformation>(); 
+            CreateMap<UpdatePatientAdditionalInformationDto, PatientAdditionalInformation>();
             #endregion PatientAdditionalInformation 
 
             #region PatientHospitalizationInformation
             CreateMap<PatientHospitalizationInformation, GetPatientHospitalizationInformationDto>();
             CreateMap<GetPatientHospitalizationInformationDto, PatientHospitalizationInformation>();
             CreateMap<AddPatientHospitalizationInformationDto, PatientHospitalizationInformation>();
-            CreateMap<UpdatePatientHospitalizationInformationDto, PatientHospitalizationInformation>(); 
+            CreateMap<UpdatePatientHospitalizationInformationDto, PatientHospitalizationInformation>();
             #endregion PatientHospitalizationInformation 
 
             #region PatientMedicationInformation
             CreateMap<PatientMedicationInformation, GetPatientMedicationInformationDto>();
             CreateMap<GetPatientMedicationInformationDto, PatientMedicationInformation>();
             CreateMap<AddPatientMedicationInformationDto, PatientMedicationInformation>();
-            CreateMap<UpdatePatientMedicationInformationDto, PatientMedicationInformation>(); 
+            CreateMap<UpdatePatientMedicationInformationDto, PatientMedicationInformation>();
             #endregion PatientMedicationInformation 
 
             #region PatientNotificationMessage
             CreateMap<PatientNotificationMessage, GetPatientNotificationMessageVO>();
             CreateMap<GetPatientNotificationMessageVO, PatientNotificationMessage>();
             CreateMap<AddPatientNotificationMessageDto, PatientNotificationMessage>();
-            CreateMap<UpdatePatientNotificationMessageDto, PatientNotificationMessage>(); 
+            CreateMap<UpdatePatientNotificationMessageDto, PatientNotificationMessage>();
             #endregion PatientNotificationMessage 
 
             #region REPORT 
@@ -198,7 +199,7 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<AddAuditDataSelectiveEntityLogDto, AuditDataSelectiveEntityLog>();
             CreateMap<UpdateAuditDataSelectiveEntityLogDto, AuditDataSelectiveEntityLog>();
             #endregion Audit  
-             
+
             #region EmailTemplate
             CreateMap<EmailTemplate, GetEmailTemplateDto>();
             CreateMap<GetEmailTemplateDto, EmailTemplate>();
