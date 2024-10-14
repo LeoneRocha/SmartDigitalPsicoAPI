@@ -93,7 +93,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             var existingCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(
                 calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime.GetValueOrDefault());
 
-            return !existingCalendars.Any(c => c.Id != calendar.Id &&
+            return !existingCalendars.ToList().Exists(c => c.Id != calendar.Id &&
                                                c.StartDateTime < calendar.EndDateTime &&
                                                c.EndDateTime > calendar.StartDateTime);
         }
