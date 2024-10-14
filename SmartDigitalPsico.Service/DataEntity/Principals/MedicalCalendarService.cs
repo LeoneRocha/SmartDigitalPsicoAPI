@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.DTO;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Enuns;
@@ -40,14 +41,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
         {
             var entityAdd = _mapper.Map<MedicalCalendar>(item);
-
+            entityAdd.Enable = true;
             #region Relationship
-
             entityAdd.CreatedUserId = UserId;
             entityAdd.PatientId = item.PatientId;
             entityAdd.MedicalId = item.MedicalId;
-
             #endregion Relationship
+
             entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
@@ -75,12 +75,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
         {
             var entityAdd = _mapper.Map<MedicalCalendar>(item);
+            entityAdd.Enable = item.Enable;
 
             #region Relationship
-
             entityAdd.ModifyUserId = UserId;
-
             #endregion Relationship 
+
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
 
@@ -108,9 +108,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, bool updateSeries)
         {
             var events = new List<MedicalCalendar>();
-            DateTime currentStart = medicalCalendar.StartDateTime;
-            DateTime currentEnd = medicalCalendar.EndDateTime.GetValueOrDefault();
-            int count = 0;
+            var validator = new MedicalCalendarRangeValidator(_entityRepository);
+            var count = new RefDto<int>(0);
 
             if (updateSeries)
             {
@@ -118,47 +117,145 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 await _entityRepository.DeleteRangeAsync(existingEvents);
             }
 
-            while ((medicalCalendar.RecurrenceEndDate == null || currentStart <= medicalCalendar.RecurrenceEndDate) &&
-                   (medicalCalendar.RecurrenceCount == null || count < medicalCalendar.RecurrenceCount))
+            switch (medicalCalendar.RecurrenceType)
             {
-                var newEvent = new MedicalCalendar
-                {
-                    Title = medicalCalendar.Title,
-                    Description = medicalCalendar.Description,
-                    StartDateTime = currentStart,
-                    EndDateTime = currentEnd,
-                    Location = medicalCalendar.Location,
-                    IsAllDay = medicalCalendar.IsAllDay,
-                    RecurrenceDays = medicalCalendar.RecurrenceDays,
-                    RecurrenceType = medicalCalendar.RecurrenceType,
-                    TimeZone = medicalCalendar.TimeZone
-                };
-
-                events.Add(newEvent);
-
-                switch (medicalCalendar.RecurrenceType)
-                {
-                    case ERecurrenceCalendarType.Daily:
-                        currentStart = currentStart.AddDays(1);
-                        currentEnd = currentEnd.AddDays(1);
-                        break;
-                    case ERecurrenceCalendarType.Weekly:
-                        currentStart = currentStart.AddDays(7);
-                        currentEnd = currentEnd.AddDays(7);
-                        break;
-                    case ERecurrenceCalendarType.Monthly:
-                        currentStart = currentStart.AddMonths(1);
-                        currentEnd = currentEnd.AddMonths(1);
-                        break;
-                    case ERecurrenceCalendarType.Yearl:
-                        currentStart = currentStart.AddYears(1);
-                        currentEnd = currentEnd.AddYears(1);
-                        break;
-                }
-
-                count++;
+                case ERecurrenceCalendarType.Daily:
+                    await GenerateRecurrenceAsync(medicalCalendar, events, validator, count, 1, ETimeUnitCalendarType.Days);
+                    break;
+                case ERecurrenceCalendarType.Weekly:
+                    await GenerateWeeklyRecurrenceAsync(medicalCalendar, events, validator, count);
+                    break;
+                case ERecurrenceCalendarType.Monthly:
+                    await GenerateRecurrenceAsync(medicalCalendar, events, validator, count, 1, ETimeUnitCalendarType.Months);
+                    break;
+                case ERecurrenceCalendarType.Yearly:
+                    await GenerateRecurrenceAsync(medicalCalendar, events, validator, count, 1, ETimeUnitCalendarType.Years);
+                    break;
             }
             await _entityRepository.AddRangeAsync(events);
+        }
+
+        private static async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count, int interval, ETimeUnitCalendarType unit)
+        {
+            DateTime currentStart = medicalCalendar.StartDateTime;
+            DateTime currentEnd = medicalCalendar.EndDateTime.GetValueOrDefault();
+
+            while ((medicalCalendar.RecurrenceEndDate == null || currentStart <= medicalCalendar.RecurrenceEndDate) && (medicalCalendar.RecurrenceCount == null || count.Value < medicalCalendar.RecurrenceCount))
+            {
+                await AddEventAsync(medicalCalendar, events, validator, count, currentStart, currentEnd);
+                currentStart = AddTime(currentStart, interval, unit);
+                currentEnd = AddTime(currentEnd, interval, unit);
+            }
+        }
+
+        private static async Task GenerateWeeklyRecurrenceAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count)
+        {
+            DateTime currentStart = medicalCalendar.StartDateTime;
+            DateTime currentEnd = medicalCalendar.EndDateTime.GetValueOrDefault();
+            var recurrenceCount = medicalCalendar.RecurrenceCount.GetValueOrDefault();
+
+            // Calcula o número total de ocorrências
+            int totalOccurrences = medicalCalendar.RecurrenceDays.Length * (recurrenceCount == 0 ? 1 : recurrenceCount);
+
+            DateTime? calculatedEndDate = medicalCalendar.RecurrenceEndDate;
+
+            if (calculatedEndDate == null && medicalCalendar.RecurrenceCount != null)
+            {
+                calculatedEndDate = CalculateEndDate(medicalCalendar, totalOccurrences, calculatedEndDate);
+            }
+            medicalCalendar.RecurrenceEndDate = calculatedEndDate;
+
+            while ((calculatedEndDate == null || currentStart <= calculatedEndDate) && (totalOccurrences == 0 || count.Value < totalOccurrences))
+            {
+                foreach (var day in medicalCalendar.RecurrenceDays)
+                {
+                    var nextDate = GetNextWeekday(currentStart, day);
+                    if (calculatedEndDate != null && nextDate > calculatedEndDate)
+                        break;
+
+                    await AddEventAsync(medicalCalendar, events, validator, count, nextDate, nextDate.Add(currentEnd - currentStart));
+                }
+                currentStart = currentStart.AddDays(7);
+                currentEnd = currentEnd.AddDays(7);
+            }
+        }
+
+        private static DateTime CalculateEndDate(MedicalCalendar medicalCalendar, int totalOccurrences, DateTime? calculatedEndDate)
+        {
+            // Calcula a data final com base no número total de ocorrências
+            DateTime tempStart = medicalCalendar.StartDateTime;
+            int occurrencesCount = 0;
+
+            while (occurrencesCount < totalOccurrences)
+            {
+                foreach (var day in medicalCalendar.RecurrenceDays)
+                {
+                    var nextDate = GetNextWeekday(tempStart, day);
+                    occurrencesCount++;
+                    if (occurrencesCount == totalOccurrences)
+                    {
+                        calculatedEndDate = nextDate;
+                        break;
+                    }
+                }
+                tempStart = tempStart.AddDays(7);
+            }
+            var endResultDate = calculatedEndDate ?? (medicalCalendar.EndDateTime ?? medicalCalendar.StartDateTime);
+            return endResultDate;
+        }
+
+        private static async Task AddEventAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count, DateTime start, DateTime end)
+        {
+            var newEvent = new MedicalCalendar
+            {
+                Title = medicalCalendar.Title,
+                Description = medicalCalendar.Description,
+                StartDateTime = start,
+                EndDateTime = end,
+                Location = medicalCalendar.Location,
+                IsAllDay = medicalCalendar.IsAllDay,
+                RecurrenceDays = medicalCalendar.RecurrenceDays,
+                RecurrenceType = medicalCalendar.RecurrenceType,
+                TimeZone = medicalCalendar.TimeZone,
+                ColorCategoryHexa = medicalCalendar.ColorCategoryHexa,
+                CreatedDate = medicalCalendar.CreatedDate,
+                CreatedUserId = medicalCalendar.CreatedUserId,
+                Enable = medicalCalendar.Enable,
+                IsPushedCalendar = medicalCalendar.IsPushedCalendar,
+                LastAccessDate = medicalCalendar.LastAccessDate,
+                MedicalId = medicalCalendar.MedicalId,
+                ModifyDate = medicalCalendar.ModifyDate,
+                ModifyUserId = medicalCalendar.ModifyUserId,
+                PatientId = medicalCalendar.PatientId,
+                RecurrenceCount = medicalCalendar.RecurrenceCount,
+                RecurrenceEndDate = medicalCalendar.RecurrenceEndDate,
+                Status = medicalCalendar.Status
+            };
+
+            var validationResult = await validator.ValidateAsync(newEvent);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+            events.Add(newEvent);
+            count.Value++;
+        }
+
+        private static DateTime AddTime(DateTime dateTime, int interval, ETimeUnitCalendarType unit)
+        {
+            return unit switch
+            {
+                ETimeUnitCalendarType.Days => dateTime.AddDays(interval),
+                ETimeUnitCalendarType.Months => dateTime.AddMonths(interval),
+                ETimeUnitCalendarType.Years => dateTime.AddYears(interval),
+                _ => dateTime
+            };
+        }
+
+        private static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
+        {
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            return start.AddDays(daysToAdd);
         }
         #endregion PRIVATE   Create/Update
 
@@ -247,7 +344,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 Days = days.ToArray()
             };
         }
-
         private static void ReturnEmptyResult(Medical medical, ServiceResponse<ScheduleDto> response, ValidationResult validationResult)
         {
             var sDto = new ScheduleDto

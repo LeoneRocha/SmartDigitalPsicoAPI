@@ -44,13 +44,14 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.TimeZone).HasMaxLength(150).HasColumnType("varchar(150)");
 
             //Array int 
-            builder.Property(e => e.RecurrenceDays).HasConversion(
-                v => string.Join(',', v.Select(d => d.ToString())),
-                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Enum.Parse<DayOfWeek>).ToArray());
-
+            builder.Property(e => e.RecurrenceDays)
+                .HasMaxLength(20)
+                .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_20)
+                .HasConversion(v => string.Join(',', v.Select(d => ((int)d).ToString())), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => (DayOfWeek)int.Parse(s)).ToArray());
+             
             builder.Property(e => e.RecurrenceType);
             builder.Property(e => e.RecurrenceEndDate);
-            builder.Property(e => e.RecurrenceCount);  
+            builder.Property(e => e.RecurrenceCount);
 
             // Relationship
             builder.HasOne(e => e.CreatedUser).WithMany().HasForeignKey(e => e.CreatedUserId);

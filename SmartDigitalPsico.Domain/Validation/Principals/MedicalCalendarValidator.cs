@@ -75,5 +75,27 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             var conflictingEvents = await _repository.GetConflictingEventsAsync(calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime);
             return conflictingEvents.Length <= 0;
         }
-    }
+    } 
+    public class MedicalCalendarRangeValidator : AbstractValidator<MedicalCalendar>
+    {
+        private readonly IMedicalCalendarRepository _entityRepository;
+
+        public MedicalCalendarRangeValidator(IMedicalCalendarRepository entityRepository)
+        {
+            _entityRepository = entityRepository;
+
+            RuleFor(m => m)
+                .MustAsync(NoDateConflict).WithMessage("There is a date and time conflict for the same doctor.");
+        }
+
+        private async Task<bool> NoDateConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
+        {
+            var existingCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(
+                calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime.GetValueOrDefault());
+
+            return !existingCalendars.Any(c => c.Id != calendar.Id &&
+                                               c.StartDateTime < calendar.EndDateTime &&
+                                               c.EndDateTime > calendar.StartDateTime);
+        }
+    } 
 }

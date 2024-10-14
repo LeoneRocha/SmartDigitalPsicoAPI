@@ -25,26 +25,8 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         private void setUserIdCurrent()
         {
             _entityService.SetUserId(base.GetUserIdCurrent());
-        }
-
-        [HttpGet("FindAll")]
-        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetMedicalCalendarDto>>>> FindAll()
-        {
-            this.setUserIdCurrent();
-            var response = await _entityService.FindAll();
-            if (!response.Success)
-            {
-                if (response.Unauthorized)
-                {
-                    return Unauthorized(response);
-                }
-                return BadRequest(response);
-            }
-            return Ok(response);
-        }
-
-        [HttpGet("{id}")]
+        } 
+        [HttpGet("schedule/{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> FindByID(int id)
         {
@@ -57,7 +39,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Create(AddMedicalCalendarDto newEntity)
         {
@@ -70,7 +52,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             return Ok(response);
         }
 
-        [HttpPut]
+        [HttpPut("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Update(UpdateMedicalCalendarDto UpdateEntity)
         {
@@ -83,7 +65,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("schedule/{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
