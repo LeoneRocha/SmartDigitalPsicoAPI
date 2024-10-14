@@ -4,10 +4,19 @@ namespace SmartDigitalPsico.Domain.Enuns
 {
     public enum EStatusCalendar
     { 
-        [Description("Ativo")]
-        Active = 0,
+        [Description("Active")]
+        Active = 0, 
+        
+        [Description("Scheduled")]
+        Scheduled = 1,
 
-        [Description("Cancelado")]
-        Canceled = 1, 
+        [Description("Confirmed")]
+        Confirmed = 2,
+       
+        [Description("Refused")]
+        Refused = 8,  
+        
+        [Description("Canceled")]
+        Canceled = 9,    
     }
 }

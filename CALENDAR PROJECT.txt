@@ -1,14 +1,20 @@
 ﻿Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation com padrao de projeto de repository. Gere para mim um codigo para que seja criado um controler que possa receber insert e update e delete como um google agenda com todos campos semelhantes e funcionalidade
+o projeto para que o agendamento possa ser possivel cadasatrar se e o dia inteiro ou uma hora especifica com iniciio e fim e que a reccorrencia seja personalizada recebendo os dias da semana segunda terca quarta quinta sexta sabado domingo , tipo de repeticao se e por dia smeana mes ou ano e se termina em uma data ou apos quantas recorrencias
+o codigo pois RecurrenceDays deve ser uma array de int os dias da semana deve ser numerico e RecurrenceType um enunerador
+o codigo para criar um metodo que receba a rrecorrencia e gere um registro para cada intevelado da data final e inicial gerados de acordo tambem com a recorrencia
+O metodo GenerateRecurrenceAsync deve alem de adicionar atualizar caso ele selecionar a opcao atualizar em serie
+O metodo GenerateRecurrenceAsync deve alem de adicionar atualizar caso ele selecionar a opcao atualizar em serie ou se selecionar para atualizar so 1 seja 
+Em public async Task<IActionResult> Create(MedicalCalendar medicalCalendar, bool updateSeries = false) e 
+public async Task<IActionResult> Update(int id, MedicalCalendar medicalCalendar, bool updateSeries = false)
+Se receber nao sento em serie ele atualiza apenas 1 uma ocorrencia se for em serie atualiza todos 
+E refaca aplicando clean code e boas praticas de performace
+Refatore crianco uma classe Service para que a logica complexa e de negocio fique na classe service e a classe de repositorio seja mais simples possivel
+Melhore o campo RecurrenceDays e transforme em um array de enumerador
+Em vez de criar DayOfWeek tem como usar nativo no .net alguma classe ?
+Chame EventValidator  de MedicalCalendar
 
+Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation com padrao de projeto de repository. Gere para mim um codigo para que seja criado um controler que possa receber insert e update e delete como um google agenda com todos campos semelhantes e funcionalidade use o codigo do EF como referencia , o projeto para que o agendamento possa ser possivel cadasatrar se e o dia inteiro ou uma hora especifica com iniciio e fim e que a reccorrencia seja personalizada recebendo os dias da semana segunda terca quarta quinta sexta sabado domingo , tipo de repeticao se e por dia smeana mes ou ano e se termina em uma data ou apos quantas recorrenciasl, o processo usa uma classe Service para que a logica complexa e de negocio fique na classe service e a classe de repositorio seja mais simples possivel e segue  aplicando clean code e boas praticas de performace
 
-
-Melhore o codigo para incluir a informacao de fuso horário que sera o agendamento
-
-Melhore o codigo para criar um metodo que receba a rrecorrencia e gere um registro para cada intevelado da data final e inicial gerados de acordo tambem com a recorrencia
-
-
-
-Melhore o codigo para incluir a informacao de fuso horário que sera o agendamento
 
 Sim, o .NET já possui uma enumeração nativa chamada `DayOfWeek` que representa os dias da semana. Vamos atualizar o código para usar essa enumeração nativa.
 

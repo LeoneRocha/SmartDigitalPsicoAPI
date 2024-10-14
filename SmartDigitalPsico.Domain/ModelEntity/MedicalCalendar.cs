@@ -16,6 +16,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 
         public bool IsPushedCalendar { get; set; }
         public string TimeZone { get; set; } = string.Empty;
+          
         public long? CreatedUserId { get; set; }
         public long? ModifyUserId { get; set; }
 
@@ -24,7 +25,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public DayOfWeek[] RecurrenceDays { get; set; } = []; // 0 = Sunday  1 = Monday  6 = Saturday
         public ERecurrenceCalendarType RecurrenceType { get; set; }
         public DateTime? RecurrenceEndDate { get; set; }
-        public int? RecurrenceCount { get; set; }
+        public byte? RecurrenceCount { get; set; }
 
         #endregion Columns 
 

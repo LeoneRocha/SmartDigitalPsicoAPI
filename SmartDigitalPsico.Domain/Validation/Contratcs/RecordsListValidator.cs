@@ -39,9 +39,6 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
                 return false;
             }  
         }
-        public List<ErrorResponse> GetMapErros(List<ValidationFailure> errors)
-        {
-            return errors.DistinctBy(d => d.PropertyName).Select(er => new ErrorResponse() { ErrorCode = er.ErrorCode, Message = er.ErrorMessage, Name = er.PropertyName }).ToList();
-        }
+      
     }
 }

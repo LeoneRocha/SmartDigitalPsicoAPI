@@ -8,8 +8,11 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class MedicalCalendarValidator : MedicalBaseValidator<MedicalCalendar>
     {
+        private readonly IMedicalCalendarRepository _repository;
         public MedicalCalendarValidator(IConfiguration configuration, IMedicalCalendarRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
         {
+            _repository = entityRepository;
+
             #region Columns 
             RuleFor(e => e.Title)
            .NotEmpty()
@@ -56,11 +59,43 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             //A FAZER DO PACIENTE 
             #endregion Relationship
+
+            RuleFor(x => x)
+                .MustAsync(NoScheduleConflict)
+                .WithMessage("There is a scheduling conflict for the specified time.");
         }
 
         private static bool BeValidDays(DayOfWeek[] recurrenceDays)
         {
             return recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(typeof(DayOfWeek), day));
         }
-    }
+
+        private async Task<bool> NoScheduleConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
+        {
+            var conflictingEvents = await _repository.GetConflictingEventsAsync(calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime);
+            return conflictingEvents.Length <= 0;
+        }
+    } 
+    public class MedicalCalendarRangeValidator : AbstractValidator<MedicalCalendar>
+    {
+        private readonly IMedicalCalendarRepository _entityRepository;
+
+        public MedicalCalendarRangeValidator(IMedicalCalendarRepository entityRepository)
+        {
+            _entityRepository = entityRepository;
+
+            RuleFor(m => m)
+                .MustAsync(NoDateConflict).WithMessage("There is a date and time conflict for the same doctor.");
+        }
+
+        private async Task<bool> NoDateConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
+        {
+            var existingCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(
+                calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime.GetValueOrDefault());
+
+            return !existingCalendars.ToList().Exists(c => c.Id != calendar.Id &&
+                                               c.StartDateTime < calendar.EndDateTime &&
+                                               c.EndDateTime > calendar.StartDateTime);
+        }
+    } 
 }

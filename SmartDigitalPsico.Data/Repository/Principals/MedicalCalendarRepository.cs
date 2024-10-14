@@ -10,15 +10,15 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     {
         public MedicalCalendarRepository(IEntityDataContext context) : base(context) { }
 
-        public async Task<IEnumerable<MedicalCalendar>> GetByMedicalCalendarAsync(MedicalCalendar medicalCalendar)
+        public async Task<MedicalCalendar[]> GetByMedicalCalendarAsync(MedicalCalendar medicalCalendar)
         {
             return await _context.MedicalCalendars
                 .Where(e =>
-                e.MedicalId == medicalCalendar.MedicalId 
-                && e.PatientId == medicalCalendar.PatientId 
-                && e.Title == medicalCalendar.Title 
+                e.MedicalId == medicalCalendar.MedicalId
+                && e.PatientId == medicalCalendar.PatientId
+                && e.Title == medicalCalendar.Title
                 && e.StartDateTime >= medicalCalendar.StartDateTime)
-                .ToListAsync();
+                .ToArrayAsync();
         }
 
         public async Task AddRangeAsync(IEnumerable<MedicalCalendar> medicalCalendars)
@@ -31,6 +31,24 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             _context.MedicalCalendars.RemoveRange(medicalCalendars);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<MedicalCalendar[]> GetConflictingEventsAsync(long medicalId, DateTime startDateTime, DateTime? endDateTime)
+        {
+            return await _context.MedicalCalendars
+                .Where(mc => mc.MedicalId == medicalId &&
+                             ((mc.StartDateTime <= startDateTime && mc.EndDateTime >= startDateTime) ||
+                              (mc.StartDateTime <= endDateTime && mc.EndDateTime >= endDateTime) ||
+                              (mc.StartDateTime >= startDateTime && mc.EndDateTime <= endDateTime)))
+                .ToArrayAsync();
+        }
+
+        public async Task<MedicalCalendar[]> GetMedicalCalendarsForMedicalAsync(long medicalId, DateTime startDate, DateTime endDate)
+        {
+            return await _context.MedicalCalendars
+                .Where(mc => mc.Enable && mc.MedicalId == medicalId && mc.StartDateTime >= startDate && mc.EndDateTime <= endDate)
+                .Include(x => x.Patient)
+                .ToArrayAsync();
         }
     }
 }

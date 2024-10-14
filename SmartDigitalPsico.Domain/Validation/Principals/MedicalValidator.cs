@@ -39,6 +39,14 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .MaximumLength(255)
                .WithMessage("O SecurityKey não pode ultrapassar {MaxLength} carateres.");
 
+            RuleFor(m => m.StartWorkingTime)
+                .NotEmpty().WithMessage("Start working time is required.")
+                .LessThan(m => m.EndWorkingTime)
+                .WithMessage("Start working time must be before end working time.");
+
+            RuleFor(m => m.EndWorkingTime)
+                .NotEmpty().WithMessage("End working time is required.");
+
             #endregion
 
             #region Relationship

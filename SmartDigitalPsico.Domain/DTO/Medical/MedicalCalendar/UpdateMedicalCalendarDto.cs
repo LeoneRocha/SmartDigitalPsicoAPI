@@ -8,6 +8,11 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
     }
     public abstract class UpdateMedicalCalendarDtoBase : EntityDtoBase
     {
+        #region Relationship 
+        public long MedicalId { get; set; }
+        public long? PatientId { get; set; }
+        #endregion Relationship 
+
         #region Columns  
         public string Title { get; set; } = string.Empty;
         public DateTime StartDateTime { get; set; }
@@ -23,10 +28,10 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 
         public string Location { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public DayOfWeek[] RecurrenceDays { get; set; } = []; 
+        public DayOfWeek[] RecurrenceDays { get; set; } = [];
         public ERecurrenceCalendarType RecurrenceType { get; set; }
         public DateTime? RecurrenceEndDate { get; set; }
-        public int? RecurrenceCount { get; set; }
+        public byte RecurrenceCount { get; set; }
 
         #endregion Columns  
     }

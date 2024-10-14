@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Validation.Contratcs
 {
@@ -34,10 +32,6 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
             {
                 return false;
             }
-        }
-        public List<ErrorResponse> GetMapErros(List<ValidationFailure> errors)
-        {
-            return errors.Select(er => new ErrorResponse() { ErrorCode = er.ErrorCode, Message = er.ErrorMessage, Name = er.PropertyName }).ToList();
-        }
+        } 
     }
 }
