@@ -16,6 +16,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 
         public bool IsPushedCalendar { get; set; }
         public string TimeZone { get; set; } = string.Empty;
+          
         public long? CreatedUserId { get; set; }
         public long? ModifyUserId { get; set; }
 

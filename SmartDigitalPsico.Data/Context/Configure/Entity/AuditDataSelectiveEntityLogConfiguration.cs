@@ -67,6 +67,16 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .IncludeProperties(p => new { p.AuditDate, p.UserAuditedId })
                 .HasDatabaseName("Idx_TableName_Operation_Inc_AuditDate_UserAuditedId")
                 .IsUnique(false);
+
+
+            if (ETypeDataBase == ETypeDataBase.Mysql)
+            {
+                // Index FOR MYSQL  
+                builder.HasIndex(p => new { p.TableName, p.Operation, p.AuditDate, p.UserAuditedId })                   
+                   .HasDatabaseName("Idx_TableName_Operation_AuditDate_UserAuditedId")
+                   .IsUnique(false);
+            }
+
         }
     }
 }

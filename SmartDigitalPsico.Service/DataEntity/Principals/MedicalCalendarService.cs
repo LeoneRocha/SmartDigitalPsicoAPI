@@ -323,7 +323,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
         private DaysCalendarCriteriaDto CreateDaysCalendarCriteria(Medical medical, DateTime startDate, DateTime endDate, TimeSpan interval, IEnumerable<MedicalCalendar> medicalCalendars)
         {
-            var medicalCalendarsDTO = medicalCalendars.Select(_mapper.Map<GetMedicalCalendarDto>).ToArray();
+            var medicalCalendarsDTO = medicalCalendars.Select(_mapper.Map<GetMedicalCalendarTimeSlotDto>).ToArray();
 
             return new DaysCalendarCriteriaDto
             {
@@ -411,7 +411,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     IsAvailable = medicalCalendar == null && isWithinWorkingHours,
                     IsPast = time <= DataHelper.GetDateTimeNow(),
                     MedicalCalendar = medicalCalendar,
-                    PatientName = medicalCalendar?.Patient?.Name ?? string.Empty,
+                    PatientName = medicalCalendar?.PatientName ?? string.Empty,
                 });
             }
             return timeSlots.ToArray();

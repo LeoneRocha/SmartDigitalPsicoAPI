@@ -48,7 +48,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasMaxLength(20)
                 .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_20)
                 .HasConversion(v => string.Join(',', v.Select(d => ((int)d).ToString())), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => (DayOfWeek)int.Parse(s)).ToArray());
-             
+
             builder.Property(e => e.RecurrenceType);
             builder.Property(e => e.RecurrenceEndDate);
             builder.Property(e => e.RecurrenceCount);
@@ -59,6 +59,20 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
 
             builder.HasOne(e => e.Medical).WithMany().HasForeignKey(e => e.MedicalId);
             builder.HasOne(e => e.Patient).WithMany().HasForeignKey(e => e.PatientId);
+
+            // Index
+            builder.HasIndex(p => new { p.Title })
+                .IncludeProperties(p => new { p.PatientId, p.MedicalId, p.StartDateTime, p.EndDateTime })
+                .HasDatabaseName("Idx_Title_Inc_PatientId_MedicalId_StartDateTime_EndDateTime")
+                .IsUnique(false);
+
+            if (ETypeDataBase == ETypeDataBase.Mysql)
+            {
+                // Index FOR MYSQL 
+                builder.HasIndex(p => new { p.Title, p.PatientId, p.MedicalId, p.StartDateTime, p.EndDateTime })
+                    .HasDatabaseName("Idx_Title_PatientId_MedicalId_StartDateTime_EndDateTime")
+                    .IsUnique(false);
+            } 
         }
     }
 }
