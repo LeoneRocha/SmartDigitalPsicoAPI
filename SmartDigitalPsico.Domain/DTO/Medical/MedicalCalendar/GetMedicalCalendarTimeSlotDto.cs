@@ -17,8 +17,10 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 
         [JsonIgnore]
         public GetMedicalDto Medical { get; set; } = new GetMedicalDto();
+        
         [JsonIgnore]
         public GetPatientDto? Patient { get; set; } = new GetPatientDto();
+
         [JsonIgnore]
         public GetUserDto? CreatedUser { get; set; } = new GetUserDto();
 
@@ -27,6 +29,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
         #endregion Relationship
 
         [JsonIgnore]
+        [Ignore]
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
     }
 }

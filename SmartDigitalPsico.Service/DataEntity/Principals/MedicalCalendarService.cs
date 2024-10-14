@@ -280,7 +280,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
 
             var days = GenerateDaysCalendar(CreateDaysCalendarCriteria(medical, startDate, endDate, interval, medicalCalendars));
-            response.Data = CreateScheduleDto(medical, days);
+
+            //Filters
+            var filteredDays = FilterDaysWithMedicalCalendar(criteria, days);
+            filteredDays = FilterDaysByDate(criteria, filteredDays);
+
+            response.Data = CreateScheduleDto(medical, filteredDays);
             response.Success = true;
             response.Message = MensageCalendarSuccess;
 
@@ -335,13 +340,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 EndWorkingTime = medical.EndWorkingTime
             };
         }
-        private static ScheduleDto CreateScheduleDto(Medical medical, IEnumerable<DayScheduleDto> days)
+        private static ScheduleDto CreateScheduleDto(Medical medical, DayScheduleDto[] days)
         {
             return new ScheduleDto
             {
                 MedicalId = medical.Id,
                 MedicalName = medical.Name,
-                Days = days.ToArray()
+                Days = days
             };
         }
         private static void ReturnEmptyResult(Medical medical, ServiceResponse<ScheduleDto> response, ValidationResult validationResult)
@@ -372,7 +377,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var endDate = startDate.AddMonths(1).AddDays(-1);
             return (startDate, endDate);
         }
-        private static List<DayScheduleDto> GenerateDaysCalendar(DaysCalendarCriteriaDto criteria)
+        private static DayScheduleDto[] GenerateDaysCalendar(DaysCalendarCriteriaDto criteria)
         {
             var days = new List<DayScheduleDto>();
             for (var date = criteria.StartDate; date <= criteria.EndDate; date = date.AddDays(1))
@@ -389,7 +394,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 var timeSlots = GenerateTimeSlots(timeSlotCriteria);
                 days.Add(new DayScheduleDto { Date = date, TimeSlots = timeSlots });
             }
-            return days;
+            return days.ToArray();
         }
         private static TimeSlotDto[] GenerateTimeSlots(TimeSlotCriteriaDto criteria)
         {
@@ -415,6 +420,28 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 });
             }
             return timeSlots.ToArray();
+        }
+
+        private static DayScheduleDto[] FilterDaysWithMedicalCalendar(ScheduleCriteriaDto criteria, DayScheduleDto[] days)
+        {
+            if (criteria.FilterDaysAndTimesWithAppointments)
+            {
+                return days.Select(day => new DayScheduleDto
+                {
+                    Date = day.Date,
+                    TimeSlots = day.TimeSlots.Where(slot => slot.MedicalCalendar != null).ToArray()
+                }).Where(day => day.TimeSlots.Length > 0)
+                .ToArray();
+            }
+            return days;
+        }
+        private static DayScheduleDto[] FilterDaysByDate(ScheduleCriteriaDto criteria, DayScheduleDto[] days)
+        {
+            if (criteria.FilterByDate.HasValue)
+            {
+                return days.Where(day => day.Date.Date == criteria.FilterByDate.Value.Date).ToArray();
+            }
+            return days;
         }
         #endregion PRIVATE  GetMonthlyCalendar
     }

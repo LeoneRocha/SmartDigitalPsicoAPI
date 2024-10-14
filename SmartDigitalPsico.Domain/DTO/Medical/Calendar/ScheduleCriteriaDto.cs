@@ -13,5 +13,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
         [JsonIgnore]
         [Ignore]
         public long UserIdLogged { get; set; }
+        public bool FilterDaysAndTimesWithAppointments { get; set; } // Filtro para dias com compromissos
+        public DateTime? FilterByDate { get; set; } // Filtrar por data específica
     }
 }
