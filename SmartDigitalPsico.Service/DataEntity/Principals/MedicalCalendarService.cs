@@ -134,7 +134,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             await _entityRepository.AddRangeAsync(events);
         }
-
         private static async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count, int interval, ETimeUnitCalendarType unit)
         {
             DateTime currentStart = medicalCalendar.StartDateTime;
@@ -147,7 +146,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 currentEnd = AddTime(currentEnd, interval, unit);
             }
         }
-
         private static async Task GenerateWeeklyRecurrenceAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count)
         {
             DateTime currentStart = medicalCalendar.StartDateTime;
@@ -179,7 +177,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 currentEnd = currentEnd.AddDays(7);
             }
         }
-
         private static DateTime CalculateEndDate(MedicalCalendar medicalCalendar, int totalOccurrences, DateTime? calculatedEndDate)
         {
             // Calcula a data final com base no número total de ocorrências
@@ -203,7 +200,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var endResultDate = calculatedEndDate ?? (medicalCalendar.EndDateTime ?? medicalCalendar.StartDateTime);
             return endResultDate;
         }
-
         private static async Task AddEventAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count, DateTime start, DateTime end)
         {
             var newEvent = new MedicalCalendar
@@ -240,7 +236,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             events.Add(newEvent);
             count.Value++;
         }
-
         private static DateTime AddTime(DateTime dateTime, int interval, ETimeUnitCalendarType unit)
         {
             return unit switch
@@ -251,7 +246,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 _ => dateTime
             };
         }
-
         private static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
         {
             int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
@@ -259,9 +253,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
         #endregion PRIVATE   Create/Update
 
-        public async Task<ServiceResponse<ScheduleDto>> GetMonthlyCalendar(ScheduleCriteriaDto criteria)
+        public async Task<ServiceResponse<CalendarDto>> GetMonthlyCalendar(CalendarCriteriaDto criteria)
         {
-            var response = new ServiceResponse<ScheduleDto>();
+            var response = new ServiceResponse<CalendarDto>();
             criteria.UserIdLogged = UserId;
 
             if (!await ValidateCriteriaAsync(criteria, response))
@@ -285,7 +279,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var filteredDays = FilterDaysWithMedicalCalendar(criteria, days);
             filteredDays = FilterDaysByDate(criteria, filteredDays);
 
-            response.Data = CreateScheduleDto(medical, filteredDays);
+            response.Data = CreateCalendarDto(medical, filteredDays);
             response.Success = true;
             response.Message = MensageCalendarSuccess;
 
@@ -293,9 +287,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         #region PRIVATE  GetMonthlyCalendar
-        private async Task<bool> ValidateCriteriaAsync(ScheduleCriteriaDto criteria, ServiceResponse<ScheduleDto> response)
+        private async Task<bool> ValidateCriteriaAsync(CalendarCriteriaDto criteria, ServiceResponse<CalendarDto> response)
         {
-            var validator = new ScheduleCriteriaValidator(_userRepository);
+            var validator = new CalendarCriteriaValidator(_userRepository);
             var validationResult = await validator.ValidateAsync(criteria);
 
             if (!validationResult.IsValid)
@@ -306,8 +300,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             return true;
         }
-
-        private async Task<bool> ValidateMedicalCalendarsAsync(IEnumerable<MedicalCalendar> medicalCalendars, ServiceResponse<ScheduleDto> response)
+        private async Task<bool> ValidateMedicalCalendarsAsync(IEnumerable<MedicalCalendar> medicalCalendars, ServiceResponse<CalendarDto> response)
         {
             var recordsList = new RecordsList<MedicalCalendar>
             {
@@ -340,22 +333,22 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 EndWorkingTime = medical.EndWorkingTime
             };
         }
-        private static ScheduleDto CreateScheduleDto(Medical medical, DayScheduleDto[] days)
+        private static CalendarDto CreateCalendarDto(Medical medical, DayCalendarDto[] days)
         {
-            return new ScheduleDto
+            return new CalendarDto
             {
                 MedicalId = medical.Id,
                 MedicalName = medical.Name,
                 Days = days
             };
         }
-        private static void ReturnEmptyResult(Medical medical, ServiceResponse<ScheduleDto> response, ValidationResult validationResult)
+        private static void ReturnEmptyResult(Medical medical, ServiceResponse<CalendarDto> response, ValidationResult validationResult)
         {
-            var sDto = new ScheduleDto
+            var sDto = new CalendarDto
             {
                 MedicalId = medical.Id,
                 MedicalName = medical.Name,
-                Days = Array.Empty<DayScheduleDto>()
+                Days = Array.Empty<DayCalendarDto>()
             };
             response.Success = false;
             response.Data = sDto;
@@ -377,9 +370,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var endDate = startDate.AddMonths(1).AddDays(-1);
             return (startDate, endDate);
         }
-        private static DayScheduleDto[] GenerateDaysCalendar(DaysCalendarCriteriaDto criteria)
+        private static DayCalendarDto[] GenerateDaysCalendar(DaysCalendarCriteriaDto criteria)
         {
-            var days = new List<DayScheduleDto>();
+            var days = new List<DayCalendarDto>();
             for (var date = criteria.StartDate; date <= criteria.EndDate; date = date.AddDays(1))
             {
                 var timeSlotCriteria = new TimeSlotCriteriaDto
@@ -392,7 +385,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 };
 
                 var timeSlots = GenerateTimeSlots(timeSlotCriteria);
-                days.Add(new DayScheduleDto { Date = date, TimeSlots = timeSlots });
+                days.Add(new DayCalendarDto { Date = date, TimeSlots = timeSlots });
             }
             return days.ToArray();
         }
@@ -420,12 +413,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             return timeSlots.ToArray();
         }
-
-        private static DayScheduleDto[] FilterDaysWithMedicalCalendar(ScheduleCriteriaDto criteria, DayScheduleDto[] days)
+        private static DayCalendarDto[] FilterDaysWithMedicalCalendar(CalendarCriteriaDto criteria, DayCalendarDto[] days)
         {
             if (criteria.FilterDaysAndTimesWithAppointments)
             {
-                return days.Select(day => new DayScheduleDto
+                return days.Select(day => new DayCalendarDto
                 {
 
                     Date = day.Date,
@@ -435,7 +427,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             return days;
         }
-        private static DayScheduleDto[] FilterDaysByDate(ScheduleCriteriaDto criteria, DayScheduleDto[] days)
+        private static DayCalendarDto[] FilterDaysByDate(CalendarCriteriaDto criteria, DayCalendarDto[] days)
         {
             if (criteria.FilterByDate.HasValue)
             {

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {
-    public class ScheduleCriteriaDto
+    public class CalendarCriteriaDto
     {
         public long MedicalId { get; set; }
         public int Month { get; set; }

@@ -2,12 +2,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 {
@@ -28,7 +27,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         } 
         [HttpGet("schedule/{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> FindByID(int id)
+        public async Task<IActionResult> FindByID(int id)
         {
             this.setUserIdCurrent();
             var response = await _entityService.FindByID(id);
@@ -41,7 +40,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPost("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Create(AddMedicalCalendarDto newEntity)
+        public async Task<IActionResult> Create([FromBody] AddMedicalCalendarDto newEntity)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Create(newEntity);
@@ -54,10 +53,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPut("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Update(UpdateMedicalCalendarDto UpdateEntity)
+        public async Task<IActionResult> Update([FromBody] UpdateMedicalCalendarDto updateEntity)
         {
             this.setUserIdCurrent();
-            var response = await _entityService.Update(UpdateEntity);
+            var response = await _entityService.Update(updateEntity);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -67,7 +66,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpDelete("schedule/{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Delete(id);
@@ -79,7 +78,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPost("calendar")]
-        public async Task<IActionResult> GetMonthlyCalendar([FromBody] ScheduleCriteriaDto criteria)
+        public async Task<IActionResult> GetMonthlyCalendar([FromBody] CalendarCriteriaDto criteria)
         {
             this.setUserIdCurrent();
             var schedule = await _entityService.GetMonthlyCalendar(criteria);
