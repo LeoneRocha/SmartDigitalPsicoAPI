@@ -35,6 +35,10 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasMaxLength(50)
                 .HasColumnType("varchar(50)");
 
+            builder.Property(e => e.TokenRecurrence)
+                .HasMaxLength(40)
+                .HasColumnType("varchar(40)");
+
             builder.Property(e => e.Location)
                 .HasMaxLength(255)
                 .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_255);
@@ -54,7 +58,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
 
             builder.Property(e => e.RecurrenceEndDate);
             builder.Property(e => e.RecurrenceCount)
-                .HasConversion<byte>(); 
+                .HasConversion<byte>();
 
             // Relationship
             builder.HasOne(e => e.CreatedUser).WithMany().HasForeignKey(e => e.CreatedUserId);
@@ -64,18 +68,18 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.HasOne(e => e.Patient).WithMany().HasForeignKey(e => e.PatientId);
 
             // Index
-            builder.HasIndex(p => new { p.Title })
+            builder.HasIndex(p => new { p.TokenRecurrence })
                 .IncludeProperties(p => new { p.PatientId, p.MedicalId, p.StartDateTime, p.EndDateTime })
-                .HasDatabaseName("Idx_Title_Inc_PatientId_MedicalId_StartDateTime_EndDateTime")
+                .HasDatabaseName("Idx_TokenRecurrence_Inc_PatientId_MedicalId_StartDateTime_EndDateTime_TokenRecurrence")
                 .IsUnique(false);
 
             if (ETypeDataBase == ETypeDataBase.Mysql)
             {
                 // Index FOR MYSQL 
-                builder.HasIndex(p => new { p.Title, p.PatientId, p.MedicalId, p.StartDateTime, p.EndDateTime })
-                    .HasDatabaseName("Idx_Title_PatientId_MedicalId_StartDateTime_EndDateTime")
+                builder.HasIndex(p => new { p.TokenRecurrence, p.PatientId, p.MedicalId, p.StartDateTime, p.EndDateTime })
+                    .HasDatabaseName("Idx_TokenRecurrence_PatientId_MedicalId_StartDateTime_EndDateTime_TokenRecurrence")
                     .IsUnique(false);
-            } 
+            }
         }
     }
 }

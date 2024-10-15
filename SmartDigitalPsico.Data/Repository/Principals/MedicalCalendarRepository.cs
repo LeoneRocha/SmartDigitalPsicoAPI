@@ -15,8 +15,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return await _context.MedicalCalendars
                 .Where(e =>
                 e.MedicalId == medicalCalendar.MedicalId
-                && e.PatientId == medicalCalendar.PatientId
-                && e.Title == medicalCalendar.Title
+                && e.PatientId == medicalCalendar.PatientId                
+                && e.TokenRecurrence == medicalCalendar.TokenRecurrence
                 && e.StartDateTime >= medicalCalendar.StartDateTime)
                 .ToArrayAsync();
         }

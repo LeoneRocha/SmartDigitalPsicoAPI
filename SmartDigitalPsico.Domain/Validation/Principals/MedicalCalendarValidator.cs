@@ -31,6 +31,9 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             RuleFor(e => e.ColorCategoryHexa)
                 .MaximumLength(50).WithMessage("Color category cannot exceed 50 characters.");
 
+            RuleFor(e => e.TokenRecurrence)
+             .MaximumLength(40).WithMessage("Token Recurrence cannot exceed 40 characters.");
+
             RuleFor(e => e.TimeZone)
                 .NotEmpty().WithMessage("Time zone is required.")
                 .MaximumLength(150).WithMessage("Time zone cannot exceed 150 characters.");

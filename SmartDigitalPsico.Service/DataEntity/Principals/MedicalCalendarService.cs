@@ -51,13 +51,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-
+             
             ServiceResponse<GetMedicalCalendarDto> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
                 if (entityAdd.RecurrenceType != ERecurrenceCalendarType.None)
                 {
+                    entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
                     await GenerateRecurrenceAsync(entityAdd, false);
                     response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
                     response.Message = MensageCalendarRegistred;
@@ -74,29 +75,29 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
         {
-            var entityAdd = _mapper.Map<MedicalCalendar>(item);
-            entityAdd.Enable = item.Enable;
+            var entityUpdate = _mapper.Map<MedicalCalendar>(item);
+            entityUpdate.Enable = item.Enable;
 
             #region Relationship
-            entityAdd.ModifyUserId = UserId;
+            entityUpdate.ModifyUserId = UserId;
             #endregion Relationship 
 
-            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
 
-            ServiceResponse<GetMedicalCalendarDto> response = await base.Validate(entityAdd);
+            ServiceResponse<GetMedicalCalendarDto> response = await base.Validate(entityUpdate);
 
             if (response.Success)
             {
-                if (entityAdd.RecurrenceType != ERecurrenceCalendarType.None)
+                if (entityUpdate.RecurrenceType != ERecurrenceCalendarType.None && item.UpdateSeries)
                 {
-                    await GenerateRecurrenceAsync(entityAdd, false);
-                    response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
+                    await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
+                    response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
                     response.Message = MensageCalendarUpdated;
                 }
                 else
                 {
-                    MedicalCalendar entityResponse = await _entityRepository.Update(entityAdd);
+                    MedicalCalendar entityResponse = await _entityRepository.Update(entityUpdate);
                     response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
                     response.Message = MensageCalendarUpdated;
                 }
@@ -132,6 +133,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     await GenerateRecurrenceAsync(medicalCalendar, events, validator, count, 1, ETimeUnitCalendarType.Years);
                     break;
             }
+            events = events.OrderBy(e => e.StartDateTime).ToList(); 
             await _entityRepository.AddRangeAsync(events);
         }
         private static async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count, int interval, ETimeUnitCalendarType unit)
@@ -225,7 +227,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 PatientId = medicalCalendar.PatientId,
                 RecurrenceCount = medicalCalendar.RecurrenceCount,
                 RecurrenceEndDate = medicalCalendar.RecurrenceEndDate,
-                Status = medicalCalendar.Status
+                Status = medicalCalendar.Status,
+                TokenRecurrence = medicalCalendar.TokenRecurrence,                
             };
 
             var validationResult = await validator.ValidateAsync(newEvent);
