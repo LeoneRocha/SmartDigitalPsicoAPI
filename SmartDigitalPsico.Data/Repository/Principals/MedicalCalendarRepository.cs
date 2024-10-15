@@ -15,8 +15,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return await _context.MedicalCalendars
                 .Where(e =>
                 e.MedicalId == medicalCalendar.MedicalId
-                && e.PatientId == medicalCalendar.PatientId
-                && e.Title == medicalCalendar.Title
+                && e.PatientId == medicalCalendar.PatientId                
+                && e.TokenRecurrence == medicalCalendar.TokenRecurrence
                 && e.StartDateTime >= medicalCalendar.StartDateTime)
                 .ToArrayAsync();
         }
@@ -33,15 +33,15 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             await _context.SaveChangesAsync();
         }
 
-        public async Task<MedicalCalendar[]> GetConflictingEventsAsync(long medicalId, DateTime startDateTime, DateTime? endDateTime)
+        public async Task<MedicalCalendar[]> GetConflictingEventsAsync(long medicalId, DateTime startDateTime, DateTime endDateTime)
         {
             return await _context.MedicalCalendars
                 .Where(mc => mc.MedicalId == medicalId &&
-                             ((mc.StartDateTime <= startDateTime && mc.EndDateTime >= startDateTime) ||
-                              (mc.StartDateTime <= endDateTime && mc.EndDateTime >= endDateTime) ||
-                              (mc.StartDateTime >= startDateTime && mc.EndDateTime <= endDateTime)))
+                             mc.StartDateTime <=  startDateTime &&
+                             mc.EndDateTime >=  endDateTime)
                 .ToArrayAsync();
         }
+
 
         public async Task<MedicalCalendar[]> GetMedicalCalendarsForMedicalAsync(long medicalId, DateTime startDate, DateTime endDate)
         {

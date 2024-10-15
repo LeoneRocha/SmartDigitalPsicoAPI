@@ -1,4 +1,370 @@
-﻿Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation com padrao de projeto de repository. Gere para mim um codigo para que seja criado um controler que possa receber insert e update e delete como um google agenda com todos campos semelhantes e funcionalidade
+﻿Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation , e possivel criar uma funcionalidade de envio de sms apliucando padrao de projetos e clean code e faactory metodo para desaclopamento , tem algum servico gratuito  de envio de sms
+
+
+
+
+Em C# usando .net 8 E Wep API rest,  melhore o codigo incluindo um propriedade ScheduleCriteriaDto para informar que retorne apenas dia e horario que tenha MedicalCalendar, 
+Sendo assim crie um metodo que filtre  e retorne somente Days  e TimeSlotDto que tenha o MedicalCalendar nao nullo 
+public class ScheduleCriteriaDto
+{
+    public long MedicalId { get; set; }
+    public int Month { get; set; }
+    public int Year { get; set; }
+    public int IntervalInMinutes { get; set; } // Intervalo em minutos (ex: 30 para 30 minutos, 60 para 1 hora)
+
+    [JsonIgnore]
+    [Ignore]
+    public long UserIdLogged { get; set; }
+}
+public class ScheduleDto
+{
+    public long MedicalId { get; set; }
+    public string MedicalName { get; set; } = string.Empty;
+    public DayScheduleDto[] Days { get; set; } = [];
+} public class DayScheduleDto
+ {
+     public DateTime Date { get; set; }
+     public TimeSlotDto[] TimeSlots { get; set; } = [];
+ }
+  public class TimeSlotDto
+ {
+     public DateTime StartTime { get; set; }
+     public DateTime? EndTime { get; set; }
+     public bool IsAvailable { get; set; }
+     public string PatientName { get; set; } = string.Empty;
+     public GetMedicalCalendarTimeSlotDto? MedicalCalendar { get; set; }
+     public bool IsPast { get; set; }
+ }
+public async Task<ServiceResponse<ScheduleDto>> GetMonthlyCalendar(ScheduleCriteriaDto criteria)
+{
+    var response = new ServiceResponse<ScheduleDto>();
+    criteria.UserIdLogged = UserId; 
+    if (!await ValidateCriteriaAsync(criteria, response))
+    {
+        return response;
+    } 
+    var medical = await GetMedicalAsync(criteria.MedicalId);
+    var (startDate, endDate) = GetDateRange(criteria.Year, criteria.Month);
+    var interval = TimeSpan.FromMinutes(criteria.IntervalInMinutes);
+    var medicalCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(criteria.MedicalId, startDate, endDate);
+
+    if (!await ValidateMedicalCalendarsAsync(medicalCalendars, response))
+    {
+        return response;
+    } 
+    var days = GenerateDaysCalendar(CreateDaysCalendarCriteria(medical, startDate, endDate, interval, medicalCalendars));
+    response.Data = CreateScheduleDto(medical, days);
+    response.Success = true;
+    response.Message = MensageCalendarSuccess; 
+    return response;
+}
+
+
+
+
+
+
+Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation 
+https://textlocal.com/signup/
+   public override async Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
+   {
+       var entityAdd = _mapper.Map<MedicalCalendar>(item);
+
+       #region Relationship
+       entityAdd.ModifyUserId = UserId;
+       #endregion Relationship 
+
+       entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+       entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+
+       ServiceResponse<GetMedicalCalendarDto> response = await base.Validate(entityAdd);
+
+       if (response.Success)
+       {
+           if (entityAdd.RecurrenceType != ERecurrenceCalendarType.None)
+           {
+               await GenerateRecurrenceAsync(entityAdd, false);
+               response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
+               response.Message = MensageCalendarUpdated;
+           }
+           else
+           {
+               MedicalCalendar entityResponse = await _entityRepository.Update(entityAdd);
+               response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
+               response.Message = MensageCalendarUpdated;
+           }
+       }
+       return response;
+   }
+
+   #region PRIVATE   Create/Update
+   private async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, bool updateSeries)
+   {
+       var events = new List<MedicalCalendar>();
+       var validator = new MedicalCalendarRangeValidator(_entityRepository);
+       int count = 0;
+
+       if (updateSeries)
+       {
+           var existingEvents = await _entityRepository.GetByMedicalCalendarAsync(medicalCalendar);
+           await _entityRepository.DeleteRangeAsync(existingEvents);
+       }
+
+       switch (medicalCalendar.RecurrenceType)
+       {
+           case ERecurrenceCalendarType.Daily:
+               await GenerateRecurrenceAsync(medicalCalendar, events, validator, ref count, 1, ETimeUnitCalendarType.Days);
+               break;
+           case ERecurrenceCalendarType.Weekly:
+               await GenerateWeeklyRecurrenceAsync(medicalCalendar, events, validator, ref count);
+               break;
+           case ERecurrenceCalendarType.Monthly:
+               await GenerateRecurrenceAsync(medicalCalendar, events, validator, ref count, 1, ETimeUnitCalendarType.Months);
+               break;
+           case ERecurrenceCalendarType.Yearly:
+               await GenerateRecurrenceAsync(medicalCalendar, events, validator, ref count, 1, ETimeUnitCalendarType.Years);
+               break;
+       }
+
+       await _entityRepository.AddRangeAsync(events);
+   }
+
+   private async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, ref int count, int interval, ETimeUnitCalendarType unit)
+   {
+       DateTime currentStart = medicalCalendar.StartDateTime;
+       DateTime currentEnd = medicalCalendar.EndDateTime.GetValueOrDefault();
+
+       while ((medicalCalendar.RecurrenceEndDate == null || currentStart <= medicalCalendar.RecurrenceEndDate) &&
+              (medicalCalendar.RecurrenceCount == null || count < medicalCalendar.RecurrenceCount))
+       {
+           await AddEventAsync(medicalCalendar, events, validator, ref count, currentStart, currentEnd);
+           currentStart = AddTime(currentStart, interval, unit);
+           currentEnd = AddTime(currentEnd, interval, unit);
+       }
+   }
+
+   private async Task GenerateWeeklyRecurrenceAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, ref int count)
+   {
+       DateTime currentStart = medicalCalendar.StartDateTime;
+       DateTime currentEnd = medicalCalendar.EndDateTime.GetValueOrDefault();
+
+       while ((medicalCalendar.RecurrenceEndDate == null || currentStart <= medicalCalendar.RecurrenceEndDate) &&
+              (medicalCalendar.RecurrenceCount == null || count < medicalCalendar.RecurrenceCount))
+       {
+           foreach (var day in medicalCalendar.RecurrenceDays)
+           {
+               var nextDate = GetNextWeekday(currentStart, day);
+               await AddEventAsync(medicalCalendar, events, validator, ref count, nextDate, nextDate.Add(currentEnd - currentStart));
+           }
+           currentStart = currentStart.AddDays(7);
+           currentEnd = currentEnd.AddDays(7);
+       }
+   }
+
+	   private async Task AddEventAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, ref int count, DateTime start, DateTime end)
+	   {
+		   var newEvent = new MedicalCalendar
+		   {
+			   Title = medicalCalendar.Title,
+			   Description = medicalCalendar.Description,
+			   StartDateTime = start,
+			   EndDateTime = end,
+			   Location = medicalCalendar.Location,
+			   IsAllDay = medicalCalendar.IsAllDay,
+			   RecurrenceDays = medicalCalendar.RecurrenceDays,
+			   RecurrenceType = medicalCalendar.RecurrenceType,
+			   TimeZone = medicalCalendar.TimeZone
+		   };
+
+		   var validationResult = await validator.ValidateAsync(newEvent);
+		   if (!validationResult.IsValid)
+		   {
+			   throw new ValidationException(validationResult.Errors);
+		   }
+
+		   events.Add(newEvent);
+		   count++;
+	   }
+
+	   private DateTime AddTime(DateTime dateTime, int interval, ETimeUnitCalendarType unit)
+	   {
+		   return unit switch
+		   {
+			   ETimeUnitCalendarType.Days => dateTime.AddDays(interval),
+			   ETimeUnitCalendarType.Months => dateTime.AddMonths(interval),
+			   ETimeUnitCalendarType.Years => dateTime.AddYears(interval),
+			   _ => dateTime
+		   };
+	   } 
+	   private DateTime GetNextWeekday(DateTime start, DayOfWeek day)
+	   {
+		   int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+		   return start.AddDays(daysToAdd);
+	   }
+
+
+Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation melhore o metodo GenerateRecurrenceAsync para que todo o range gerado seja validado pelo FluentValidation
+Para ver se nao a conflito de data e horario para o mesmo medico 
+public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
+{
+  var entityAdd = _mapper.Map<MedicalCalendar>(item);
+
+  #region Relationship
+  entityAdd.CreatedUserId = UserId;
+  entityAdd.PatientId = item.PatientId;
+  entityAdd.MedicalId = item.MedicalId;
+  #endregion Relationship
+
+  entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
+  entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
+  entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+
+  ServiceResponse<GetMedicalCalendarDto> response = await base.Validate(entityAdd);
+
+  if (response.Success)
+  {
+	  if (entityAdd.RecurrenceType != ERecurrenceCalendarType.None)
+	  {
+		  await GenerateRecurrenceAsync(entityAdd, false);
+		  response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
+		  response.Message = MensageCalendarRegistred;
+	  }
+	  else
+	  {
+		  MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
+		  response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
+		  response.Message = MensageCalendarRegistred;
+	  }
+  }
+  return response;
+}
+#region PRIVATE   Create/Update
+private async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, bool updateSeries)
+{
+var events = new List<MedicalCalendar>();
+DateTime currentStart = medicalCalendar.StartDateTime;
+DateTime currentEnd = medicalCalendar.EndDateTime.GetValueOrDefault();
+int count = 0;
+
+if (updateSeries)
+{
+	var existingEvents = await _entityRepository.GetByMedicalCalendarAsync(medicalCalendar);
+	await _entityRepository.DeleteRangeAsync(existingEvents);
+}
+
+while ((medicalCalendar.RecurrenceEndDate == null || currentStart <= medicalCalendar.RecurrenceEndDate) &&
+	   (medicalCalendar.RecurrenceCount == null || count < medicalCalendar.RecurrenceCount))
+{
+	var newEvent = new MedicalCalendar
+	{
+		Title = medicalCalendar.Title,
+		Description = medicalCalendar.Description,
+		StartDateTime = currentStart,
+		EndDateTime = currentEnd,
+		Location = medicalCalendar.Location,
+		IsAllDay = medicalCalendar.IsAllDay,
+		RecurrenceDays = medicalCalendar.RecurrenceDays,
+		RecurrenceType = medicalCalendar.RecurrenceType,
+		TimeZone = medicalCalendar.TimeZone
+	}; 
+	events.Add(newEvent); 
+	switch (medicalCalendar.RecurrenceType)
+	{
+		case ERecurrenceCalendarType.Daily:
+			currentStart = currentStart.AddDays(1);
+			currentEnd = currentEnd.AddDays(1);
+			break;
+		case ERecurrenceCalendarType.Weekly:
+			currentStart = currentStart.AddDays(7);
+			currentEnd = currentEnd.AddDays(7);
+			break;
+		case ERecurrenceCalendarType.Monthly:
+			currentStart = currentStart.AddMonths(1);
+			currentEnd = currentEnd.AddMonths(1);
+			break;
+		case ERecurrenceCalendarType.Yearl:
+			currentStart = currentStart.AddYears(1);
+			currentEnd = currentEnd.AddYears(1);
+			break;
+	} 
+	count++;
+}
+await _entityRepository.AddRangeAsync(events);
+}
+ public class MedicalCalendarValidator : MedicalBaseValidator<MedicalCalendar>
+ {
+     private readonly IMedicalCalendarRepository _repository;
+     public MedicalCalendarValidator(IConfiguration configuration, IMedicalCalendarRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
+     {
+         _repository = entityRepository;
+
+         #region Columns 
+         RuleFor(e => e.Title)
+        .NotEmpty()
+        .WithMessage("Title is required.")
+        .MaximumLength(100)
+        .WithMessage("Title cannot exceed 100 characters.");
+
+         RuleFor(e => e.StartDateTime)
+             .LessThan(e => e.EndDateTime)
+             .When(e => e.EndDateTime.HasValue && !e.IsAllDay)
+             .WithMessage("Start time must be before end time.");
+
+         RuleFor(e => e.Status)
+             .IsInEnum().WithMessage("Invalid status.");
+
+         RuleFor(e => e.ColorCategoryHexa)
+             .MaximumLength(50).WithMessage("Color category cannot exceed 50 characters.");
+
+         RuleFor(e => e.TimeZone)
+             .NotEmpty().WithMessage("Time zone is required.")
+             .MaximumLength(150).WithMessage("Time zone cannot exceed 150 characters.");
+
+         RuleFor(e => e.RecurrenceDays)
+             .Must(BeValidDays).When(e => e.RecurrenceDays != null && e.RecurrenceDays.Length > 0)
+             .WithMessage("Invalid recurrence days.");
+
+         RuleFor(e => e.RecurrenceType)
+             .IsInEnum().WithMessage("Invalid recurrence type.");
+
+         #endregion Columns
+
+         #region Relationship
+         RuleFor(entity => entity.MedicalId)
+                 .NotNull()
+                 .WithMessage("ErrorValidator_MedicalId_Null")
+                 .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
+                 .WithMessage("ErrorValidator_MedicalId_NotFound")
+                 .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
+                 .WithMessage("ErrorValidator_Medical_Changed")
+                 .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
+                 .WithMessage("ErrorValidator_MedicalCreated_Invalid")
+                 .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
+                 .WithMessage("ErrorValidator_MedicalModify_Invalid");
+
+         //A FAZER DO PACIENTE 
+         #endregion Relationship
+
+         RuleFor(x => x)
+             .MustAsync(NoScheduleConflict)
+             .WithMessage("There is a scheduling conflict for the specified time.");
+     }
+
+     private static bool BeValidDays(DayOfWeek[] recurrenceDays)
+     {
+         return recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(typeof(DayOfWeek), day));
+     }
+
+     private async Task<bool> NoScheduleConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
+     {
+         var conflictingEvents = await _repository.GetConflictingEventsAsync(calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime);
+         return conflictingEvents.Length <= 0;
+     }
+ }
+
+
+
+Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation com padrao de projeto de repository. Gere para mim um codigo para que seja criado um controler que possa receber insert e update e delete como um google agenda com todos campos semelhantes e funcionalidade
 o projeto para que o agendamento possa ser possivel cadasatrar se e o dia inteiro ou uma hora especifica com iniciio e fim e que a reccorrencia seja personalizada recebendo os dias da semana segunda terca quarta quinta sexta sabado domingo , tipo de repeticao se e por dia smeana mes ou ano e se termina em uma data ou apos quantas recorrencias
 o codigo pois RecurrenceDays deve ser uma array de int os dias da semana deve ser numerico e RecurrenceType um enunerador
 o codigo para criar um metodo que receba a rrecorrencia e gere um registro para cada intevelado da data final e inicial gerados de acordo tambem com a recorrencia
@@ -15,6 +381,8 @@ Chame EventValidator  de MedicalCalendar
 
 Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation com padrao de projeto de repository. Gere para mim um codigo para que seja criado um controler que possa receber insert e update e delete como um google agenda com todos campos semelhantes e funcionalidade use o codigo do EF como referencia , o projeto para que o agendamento possa ser possivel cadasatrar se e o dia inteiro ou uma hora especifica com iniciio e fim e que a reccorrencia seja personalizada recebendo os dias da semana segunda terca quarta quinta sexta sabado domingo , tipo de repeticao se e por dia smeana mes ou ano e se termina em uma data ou apos quantas recorrenciasl, o processo usa uma classe Service para que a logica complexa e de negocio fique na classe service e a classe de repositorio seja mais simples possivel e segue  aplicando clean code e boas praticas de performace
 
+
+Com base nos codigo anterior gere um metodo do service que retorne um calendario do mes atual do medico com todos horarios gravados no banco e retorne um para os horarios que nao estao no banco retorne como horario disponivel como criterio de retorno disponivel use o intervalo informado podendo ser a cada 30 min ou 1 hora , use como referencia para gerar os horarios indisponivel  consultado os registros de MedicalCalendar que estao gravados. Senao assim gerado um resultado com calendario do medico com horarios agendados e horarios disponiveis o criterio de filtro e o id do medico. O resultado sera um objeto de Horarios por dia do mes corrente e o criterio tambem deve receber o mes e ano que sera consultado e gerado. O resultado deve ter Id do medico , nome , Id paciente nome do paciente e demais proriedades do  MedicalCalendar
 
 Sim, o .NET já possui uma enumeração nativa chamada `DayOfWeek` que representa os dias da semana. Vamos atualizar o código para usar essa enumeração nativa.
 
@@ -2996,3 +3364,77 @@ dotnet ef migrations add AddTimeZoneToMedicalCalendar
 dotnet ef database update
 
 Com essas atualizações, o controlador MedicalCalendarsController está completo e funcional, permitindo a criação, atualização e exclusão de eventos, bem como a geração de recorrências conforme necessário. Se precisar de mais alguma coisa, estou aqui para ajudar! 😊
+
+Quando você envia um objeto JSON para uma API, os campos `startWorkingTime` e `endWorkingTime` como strings podem não ser automaticamente reconhecidos como `TimeSpan` no backend. Isso depende de como a API está configurada para interpretar esses campos.
+
+Para garantir que os campos sejam corretamente interpretados como `TimeSpan`, você pode enviar os valores em um formato que a API espera, como o formato de string padrão para `TimeSpan` (`hh:mm:ss`). Aqui está um exemplo de como você pode ajustar seu código Angular para garantir que os valores sejam enviados corretamente:
+
+1. **Atualize o modelo de dados**:
+    ```typescript
+    export interface Medical {
+        accreditation: string;
+        typeAccreditation: string;
+        securityKey: string;
+        officeId: number;
+        startWorkingTime: string; // Formato hh:mm:ss
+        endWorkingTime: string;   // Formato hh:mm:ss
+    }
+    ```
+
+2. **Crie um formulário em seu componente Angular**:
+    ```html
+    <form (ngSubmit)="onSubmit()">
+        <label for="startWorkingTime">Start Working Time:</label>
+        <input id="startWorkingTime" [(ngModel)]="medical.startWorkingTime" name="startWorkingTime" type="time" required>
+        
+        <label for="endWorkingTime">End Working Time:</label>
+        <input id="endWorkingTime" [(ngModel)]="medical.endWorkingTime" name="endWorkingTime" type="time" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+    ```
+
+3. **Manipule os dados no componente**:
+    ```typescript
+    import { Component } from '@angular/core';
+    import { Medical } from './medical.model';
+
+    @Component({
+        selector: 'app-medical-form',
+        templateUrl: './medical-form.component.html'
+    })
+    export class MedicalFormComponent {
+        medical: Medical = {
+            accreditation: '',
+            typeAccreditation: '',
+            securityKey: '',
+            officeId: 0,
+            startWorkingTime: '',
+            endWorkingTime: ''
+        };
+
+        onSubmit() {
+            // Converte os valores de time para o formato hh:mm:ss
+            this.medical.startWorkingTime = this.convertTimeToString(this.medical.startWorkingTime);
+            this.medical.endWorkingTime = this.convertTimeToString(this.medical.endWorkingTime);
+
+            const medicalJson = JSON.stringify(this.medical);
+            console.log(medicalJson);
+            // Aqui você pode enviar o JSON para um servidor ou usá-lo conforme necessário
+        }
+
+        convertTimeToString(time: string): string {
+            const [hours, minutes] = time.split(':');
+            return `${hours}:${minutes}:00`;
+        }
+    }
+    ```
+
+Neste exemplo, a função `convertTimeToString` garante que os valores de tempo sejam formatados corretamente como `hh:mm:ss` antes de serem enviados para a API. Assim, a API deve ser capaz de interpretar esses valores como `TimeSpan`.
+
+Se precisar de mais alguma coisa ou tiver dúvidas adicionais, estou aqui para ajudar!
+
+Fonte: conversa com o Copilot, 13/10/2024
+(1) APIs para Principiantes: Como utilizar um API? Um Guia Completo. https://appmaster.io/pt/blog/apis-para-principiantes-como-utilizar-um-api-um-guia-completo.
+(2) API: o que é e como funciona, exemplo de uso e integração. https://albato.com/br/blog/publications/o-que-e-api-como-funciona-para-que-serve-vantagens-e-exemplos-na-pratica.
+(3) API: o que é, para quê serve e qual é a sua importância. https://www.alura.com.br/artigos/api.

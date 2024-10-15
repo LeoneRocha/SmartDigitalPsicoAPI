@@ -5,11 +5,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
-    public class ScheduleCriteriaValidator : AbstractValidator<ScheduleCriteriaDto>
+    public class CalendarCriteriaValidator : AbstractValidator<CalendarCriteriaDto>
     {
         private readonly IUserRepository _userRepository;
 
-        public ScheduleCriteriaValidator(IUserRepository userRepository)
+        public CalendarCriteriaValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
 
@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .WithMessage("ErrorValidator_Invalid_MedicalId");
         }
 
-        private async Task<bool> IsValidMedicalId(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)
+        private async Task<bool> IsValidMedicalId(CalendarCriteriaDto criteria, CancellationToken cancellationToken)
         {
             try
             {

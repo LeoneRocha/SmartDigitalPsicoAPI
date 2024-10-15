@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {
-    public class ScheduleCriteriaDto
+    public class CalendarCriteriaDto
     {
         public long MedicalId { get; set; }
         public int Month { get; set; }
@@ -13,5 +13,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
         [JsonIgnore]
         [Ignore]
         public long UserIdLogged { get; set; }
+        public bool FilterDaysAndTimesWithAppointments { get; set; } // Filtro para dias com compromissos
+        public DateTime? FilterByDate { get; set; } // Filtrar por data específica
     }
 }
