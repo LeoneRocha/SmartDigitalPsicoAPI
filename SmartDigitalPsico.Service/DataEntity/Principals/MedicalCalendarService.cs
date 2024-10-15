@@ -52,13 +52,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
             entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
             entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
-             
+
             ServiceResponse<GetMedicalCalendarDto> response = await base.Validate(entityAdd);
 
             if (response.Success)
             {
                 if (entityAdd.RecurrenceType != ERecurrenceCalendarType.None)
-                { 
+                {
                     try
                     {
                         entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
@@ -70,7 +70,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         response.Message = ex.Message;
                         response.Success = false;
-                    } 
+                    }
                 }
                 else
                 {
@@ -107,10 +107,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         response.Message = MensageCalendarUpdated;
                     }
                     catch (Exception ex)
-                    { 
+                    {
                         response.Message = ex.Message;
-                        response.Success = false;   
-                    } 
+                        response.Success = false;
+                    }
                 }
                 else
                 {
@@ -150,7 +150,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     await GenerateRecurrenceAsync(medicalCalendar, events, validator, count, 1, ETimeUnitCalendarType.Years);
                     break;
             }
-            events = events.OrderBy(e => e.StartDateTime).ToList(); 
+            events = events.OrderBy(e => e.StartDateTime).ToList();
             await _entityRepository.AddRangeAsync(events);
         }
         private static async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count, int interval, ETimeUnitCalendarType unit)
@@ -245,7 +245,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 RecurrenceCount = medicalCalendar.RecurrenceCount,
                 RecurrenceEndDate = medicalCalendar.RecurrenceEndDate,
                 Status = medicalCalendar.Status,
-                TokenRecurrence = medicalCalendar.TokenRecurrence,                
+                TokenRecurrence = medicalCalendar.TokenRecurrence,
             };
 
             var validationResult = await validator.ValidateAsync(newEvent);
@@ -299,11 +299,18 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var filteredDays = FilterDaysWithMedicalCalendar(criteria, days);
             filteredDays = FilterDaysByDate(criteria, filteredDays);
 
+            filteredDays = OrdenateDays(filteredDays);
+
             response.Data = CreateCalendarDto(medical, filteredDays);
             response.Success = true;
             response.Message = MensageCalendarSuccess;
 
             return response;
+        }
+
+        private DayCalendarDto[] OrdenateDays(DayCalendarDto[] filteredDays)
+        {
+            return filteredDays.OrderBy(x => x.Date).ToArray();
         }
 
         #region PRIVATE  GetMonthlyCalendar
@@ -404,7 +411,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     EndWorkingTime = criteria.EndWorkingTime
                 };
 
-                var timeSlots = GenerateTimeSlots(timeSlotCriteria);
+                var timeSlots = GenerateTimeSlots(timeSlotCriteria).OrderBy(x => x.StartTime).ToArray();
                 days.Add(new DayCalendarDto { Date = date, TimeSlots = timeSlots });
             }
             return days.ToArray();
