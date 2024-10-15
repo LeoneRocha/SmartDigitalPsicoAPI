@@ -75,9 +75,8 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
         private async Task<bool> NoScheduleConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
         {
-            var conflictingEvents = await _repository.GetConflictingEventsAsync(calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime);
-            return conflictingEvents.Length <= 0;
-        }
+            return await MedicalCalendarRangeValidator.ValidCOnflict(calendar, _repository);
+        } 
     } 
     public class MedicalCalendarRangeValidator : AbstractValidator<MedicalCalendar>
     {
@@ -93,12 +92,18 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
         private async Task<bool> NoDateConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
         {
-            var existingCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(
-                calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime.GetValueOrDefault());
+            return await ValidCOnflict(calendar, _entityRepository);
+        }
 
-            return !existingCalendars.ToList().Exists(c => c.Id != calendar.Id &&
+        public static async Task<bool> ValidCOnflict(MedicalCalendar calendar, IMedicalCalendarRepository _entityRepository)
+        {
+            var existingCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(
+                 calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime.GetValueOrDefault());
+
+            var existsDates = existingCalendars.ToList().Exists(c => c.Id != calendar.Id &&
                                                c.StartDateTime < calendar.EndDateTime &&
                                                c.EndDateTime > calendar.StartDateTime);
-        }
+            return !existsDates;
+        } 
     } 
 }

@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
         Task AddRangeAsync(IEnumerable<MedicalCalendar> medicalCalendars);
         Task DeleteRangeAsync(IEnumerable<MedicalCalendar> medicalCalendars);
 
-        Task<MedicalCalendar[]> GetConflictingEventsAsync(long medicalId, DateTime startDateTime, DateTime? endDateTime);
+        Task<MedicalCalendar[]> GetConflictingEventsAsync(long medicalId, DateTime startDateTime, DateTime endDateTime);
 
         Task<MedicalCalendar[]> GetMedicalCalendarsForMedicalAsync(long medicalId, DateTime startDate, DateTime endDate);
     }

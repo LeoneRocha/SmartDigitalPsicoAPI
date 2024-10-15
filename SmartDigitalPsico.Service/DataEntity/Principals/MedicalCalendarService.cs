@@ -1,3 +1,4 @@
+using Azure;
 using FluentValidation;
 using FluentValidation.Results;
 using SmartDigitalPsico.Domain.AppException;
@@ -57,11 +58,19 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (response.Success)
             {
                 if (entityAdd.RecurrenceType != ERecurrenceCalendarType.None)
-                {
-                    entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
-                    await GenerateRecurrenceAsync(entityAdd, false);
-                    response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
-                    response.Message = MensageCalendarRegistred;
+                { 
+                    try
+                    {
+                        entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
+                        await GenerateRecurrenceAsync(entityAdd, false);
+                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
+                        response.Message = MensageCalendarRegistred;
+                    }
+                    catch (Exception ex)
+                    {
+                        response.Message = ex.Message;
+                        response.Success = false;
+                    } 
                 }
                 else
                 {
@@ -91,9 +100,17 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 if (entityUpdate.RecurrenceType != ERecurrenceCalendarType.None && item.UpdateSeries)
                 {
-                    await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
-                    response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
-                    response.Message = MensageCalendarUpdated;
+                    try
+                    {
+                        await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
+                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
+                        response.Message = MensageCalendarUpdated;
+                    }
+                    catch (Exception ex)
+                    { 
+                        response.Message = ex.Message;
+                        response.Success = false;   
+                    } 
                 }
                 else
                 {
