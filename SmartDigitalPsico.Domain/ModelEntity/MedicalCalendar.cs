@@ -6,6 +6,15 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 {
     public class MedicalCalendar : EntityBase, IEntityBaseLogUser, IEntityMedicalBase
     {
+        #region Relationship  
+        public Medical? Medical { get; set; }
+        public long MedicalId { get; set; }
+        public Patient? Patient { get; set; }
+        public long? PatientId { get; set; }
+        public User? CreatedUser { get; set; }
+        public User? ModifyUser { get; set; }
+        #endregion Relationship
+
         #region Columns 
         public string Title { get; set; } = string.Empty;
         public DateTime StartDateTime { get; set; }
@@ -16,7 +25,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 
         public bool IsPushedCalendar { get; set; }
         public string TimeZone { get; set; } = string.Empty;
-          
+
         public long? CreatedUserId { get; set; }
         public long? ModifyUserId { get; set; }
 
@@ -26,16 +35,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public ERecurrenceCalendarType RecurrenceType { get; set; }
         public DateTime? RecurrenceEndDate { get; set; }
         public byte? RecurrenceCount { get; set; }
-
-        #endregion Columns 
-
-        #region Relationship  
-        public Medical? Medical { get; set; }
-        public long MedicalId { get; set; }
-        public Patient? Patient { get; set; }
-        public long? PatientId { get; set; }
-        public User? CreatedUser { get; set; }
-        public User? ModifyUser { get; set; }
-        #endregion Relationship
+        public string TokenRecurrence { get; set; } = string.Empty;
+        #endregion Columns  
     }
 }

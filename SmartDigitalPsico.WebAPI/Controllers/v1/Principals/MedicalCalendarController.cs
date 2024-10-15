@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 {
     [ApiController]
     [Authorize("Bearer")]
-    [Route("api/medical/v1/[controller]")] 
+    [Route("api/medical/v1/[controller]")]
     public class MedicalCalendarController : ApiBaseController
     {
         private readonly IMedicalCalendarService _entityService;
@@ -25,7 +25,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         private void setUserIdCurrent()
         {
             _entityService.SetUserId(base.GetUserIdCurrent());
-        } 
+        }
         [HttpGet("schedule/{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> FindByID(int id)
@@ -41,7 +41,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPost("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Create(AddMedicalCalendarDto newEntity)
+        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Create([FromBody] AddMedicalCalendarDto newEntity)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Create(newEntity);
@@ -54,10 +54,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPut("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Update(UpdateMedicalCalendarDto UpdateEntity)
+        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Update([FromBody] UpdateMedicalCalendarDto updateEntity)
         {
             this.setUserIdCurrent();
-            var response = await _entityService.Update(UpdateEntity);
+            var response = await _entityService.Update(updateEntity);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -67,7 +67,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpDelete("schedule/{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             this.setUserIdCurrent();
             var response = await _entityService.Delete(id);
@@ -79,7 +79,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPost("calendar")]
-        public async Task<IActionResult> GetMonthlyCalendar([FromBody] ScheduleCriteriaDto criteria)
+        public async Task<ActionResult<ServiceResponse<CalendarDto>>> GetMonthlyCalendar([FromBody] CalendarCriteriaDto criteria)
         {
             this.setUserIdCurrent();
             var schedule = await _entityService.GetMonthlyCalendar(criteria);

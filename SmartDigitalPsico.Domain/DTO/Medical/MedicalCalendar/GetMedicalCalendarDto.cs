@@ -5,7 +5,7 @@ using SmartDigitalPsico.Domain.Hypermedia.Abstract;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 {
-    public class GetMedicalCalendarDto : UpdateMedicalCalendarDtoBase, ISupportsHyperMedia
+    public class GetMedicalCalendarDto : ActionMedicalCalendarDtoBase, ISupportsHyperMedia
     {
         #region Relationship 
         public GetMedicalDto Medical { get; set; } = new GetMedicalDto();
