@@ -6,8 +6,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
     {
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-        public bool IsAvailable { get; set; }
-        public string PatientName { get; set; } = string.Empty;
+        public bool IsAvailable { get; set; } 
         public GetMedicalCalendarTimeSlotDto? MedicalCalendar { get; set; }
         public bool IsPast { get; set; }
     }

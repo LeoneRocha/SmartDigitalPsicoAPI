@@ -415,8 +415,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     EndTime = endTimeSlot,
                     IsAvailable = medicalCalendar == null && isWithinWorkingHours,
                     IsPast = time <= DataHelper.GetDateTimeNow(),
-                    MedicalCalendar = medicalCalendar,
-                    PatientName = medicalCalendar?.PatientName ?? string.Empty,
+                    MedicalCalendar = medicalCalendar
                 });
             }
             return timeSlots.ToArray();
@@ -428,6 +427,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 return days.Select(day => new DayScheduleDto
                 {
+
                     Date = day.Date,
                     TimeSlots = day.TimeSlots.Where(slot => slot.MedicalCalendar != null).ToArray()
                 }).Where(day => day.TimeSlots.Length > 0)
