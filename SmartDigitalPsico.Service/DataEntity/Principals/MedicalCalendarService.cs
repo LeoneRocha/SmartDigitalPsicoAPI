@@ -8,6 +8,7 @@ using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -16,6 +17,7 @@ using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
+using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -121,6 +123,47 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             return response;
         }
+
+        public async Task<ServiceResponse<bool>> DeleteRecurrenceAsync(DeleteMedicalCalendarDto request)
+        {
+            var response = new ServiceResponse<bool>();
+
+            var calendars = await _entityRepository.GetByTokenAsync(request.TokenRecurrence, request.MedicalId, request.PatientId);
+
+            if (calendars.Length < 1)
+            {
+                response.Success = false;
+                response.Message = "No schedules found for the given criteria.";
+                return response;
+            }
+            var recordsList = new RecordsList<MedicalCalendar>
+            {
+                UserIdLogged = UserId,
+                Records = calendars.ToList()
+            };
+
+            var validator = new MedicalCalendarListValidator(_userRepository);
+            var validationResult = await validator.ValidateAsync(recordsList);
+
+            if (validationResult.IsValid)
+            {
+                await _entityRepository.DeleteRangeAsync(calendars);
+
+                response.Data = true;
+                response.Success = true;
+                response.Message = "Schedules deleted successfully.";
+                return response;
+            }
+            else
+            { 
+                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
+            } 
+            return response;
+        }
+
 
         #region PRIVATE   Create/Update
         private async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, bool updateSeries)
@@ -308,12 +351,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+
+
+        #region PRIVATE  GetMonthlyCalendar
         private DayCalendarDto[] OrdenateDays(DayCalendarDto[] filteredDays)
         {
             return filteredDays.OrderBy(x => x.Date).ToArray();
         }
-
-        #region PRIVATE  GetMonthlyCalendar
         private async Task<bool> ValidateCriteriaAsync(CalendarCriteriaDto criteria, ServiceResponse<CalendarDto> response)
         {
             var validator = new CalendarCriteriaValidator(_userRepository);
@@ -462,6 +506,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             return days;
         }
+
+
         #endregion PRIVATE  GetMonthlyCalendar
     }
 }

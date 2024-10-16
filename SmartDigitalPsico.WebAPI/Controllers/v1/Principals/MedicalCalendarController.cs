@@ -78,6 +78,19 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             return Ok(response);
         }
 
+        [HttpDelete("schedule/recurrence")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        public async Task<ActionResult<ServiceResponse<bool>>> DeleteRecurrence([FromBody] DeleteMedicalCalendarDto request)
+        {
+            this.setUserIdCurrent();
+            var response = await _entityService.DeleteRecurrenceAsync(request);
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);  
+        } 
+
         [HttpPost("calendar")]
         public async Task<ActionResult<ServiceResponse<CalendarDto>>> GetMonthlyCalendar([FromBody] CalendarCriteriaDto criteria)
         {
