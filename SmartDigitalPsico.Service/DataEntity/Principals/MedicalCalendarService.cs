@@ -125,7 +125,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         public async Task<ServiceResponse<bool>> DeleteOneOrRecurrenceAsync(DeleteMedicalCalendarDto request)
-        { 
+        {
             if (request.DeleteSeries)
             {
                 return await DeleteSeries(request);
