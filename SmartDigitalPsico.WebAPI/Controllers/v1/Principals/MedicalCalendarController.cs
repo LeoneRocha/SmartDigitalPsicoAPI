@@ -63,27 +63,14 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
                 return NotFound(response);
             }
             return Ok(response);
-        }
+        }         
 
-        [HttpDelete("schedule/{id}")]
+        [HttpDelete("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult<ServiceResponse<bool>>> Delete([FromBody] DeleteMedicalCalendarDto request)
         {
             this.setUserIdCurrent();
-            var response = await _entityService.Delete(id);
-            if (response.Data)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
-        }
-
-        [HttpDelete("schedule/recurrence")]
-        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<bool>>> DeleteRecurrence([FromBody] DeleteMedicalCalendarDto request)
-        {
-            this.setUserIdCurrent();
-            var response = await _entityService.DeleteRecurrenceAsync(request);
+            var response = await _entityService.DeleteOneOrRecurrenceAsync(request);
             if (!response.Success)
             {
                 return NotFound(response);

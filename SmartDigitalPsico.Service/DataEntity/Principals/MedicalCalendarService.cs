@@ -124,43 +124,71 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteRecurrenceAsync(DeleteMedicalCalendarDto request)
+        public async Task<ServiceResponse<bool>> DeleteOneOrRecurrenceAsync(DeleteMedicalCalendarDto request)
         {
             var response = new ServiceResponse<bool>();
 
-            var calendars = await _entityRepository.GetByTokenAsync(request.TokenRecurrence, request.MedicalId, request.PatientId);
-
-            if (calendars.Length < 1)
+            if (request.DeleteSeries)
             {
-                response.Success = false;
-                response.Message = "No schedules found for the given criteria.";
-                return response;
-            }
-            var recordsList = new RecordsList<MedicalCalendar>
-            {
-                UserIdLogged = UserId,
-                Records = calendars.ToList()
-            };
+                var calendars = await _entityRepository.GetByTokenAsync(request.TokenRecurrence, request.MedicalId, request.PatientId);
 
-            var validator = new MedicalCalendarListValidator(_userRepository);
-            var validationResult = await validator.ValidateAsync(recordsList);
+                if (calendars.Length < 1)
+                {
+                    response.Success = false;
+                    response.Message = "No schedules found for the given criteria.";
+                    return response;
+                }
+                var recordsList = new RecordsList<MedicalCalendar>
+                {
+                    UserIdLogged = UserId,
+                    Records = calendars.ToList()
+                };
 
-            if (validationResult.IsValid)
-            {
-                await _entityRepository.DeleteRangeAsync(calendars);
+                var validator = new MedicalCalendarListValidator(_userRepository);
+                var validationResult = await validator.ValidateAsync(recordsList);
 
-                response.Data = true;
-                response.Success = true;
-                response.Message = "Schedules deleted successfully.";
-                return response;
+                if (validationResult.IsValid)
+                {
+                    await _entityRepository.DeleteRangeAsync(calendars);
+
+                    response.Data = true;
+                    response.Success = true;
+                    response.Message = "Schedules deleted successfully.";
+                    return response;
+                }
+                else
+                {
+                    response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                    response.Success = false;
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                           ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService); 
+                }
             }
             else
-            { 
-                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
-                response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
-            } 
+            {
+                var calendar = await _entityRepository.FindByID(request.Id);
+
+                var recordsList = new RecordsList<MedicalCalendar>
+                {
+                    UserIdLogged = UserId,
+                    Records = new List<MedicalCalendar>() { calendar }
+                };
+
+                var validator = new MedicalCalendarListValidator(_userRepository);
+                var validationResult = await validator.ValidateAsync(recordsList);
+                 
+                if (validationResult.IsValid)
+                {
+                    return await base.Delete(request.Id);
+                }
+                else
+                {
+                    response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                    response.Success = false;
+                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                           ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
+                } 
+            }
             return response;
         }
 
