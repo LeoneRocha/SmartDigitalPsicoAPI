@@ -1,4 +1,3 @@
-using Azure;
 using FluentValidation;
 using FluentValidation.Results;
 using SmartDigitalPsico.Domain.AppException;
