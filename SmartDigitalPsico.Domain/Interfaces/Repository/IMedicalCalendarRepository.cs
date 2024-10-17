@@ -11,5 +11,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
         Task<MedicalCalendar[]> GetConflictingEventsAsync(long medicalId, DateTime startDateTime, DateTime endDateTime);
 
         Task<MedicalCalendar[]> GetMedicalCalendarsForMedicalAsync(long medicalId, DateTime startDate, DateTime endDate);
+        Task<MedicalCalendar[]> GetByTokenAsync(string token, long medicalId, long patientId);
     }
 }
