@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return await _context.MedicalCalendars
                 .Where(e =>
                 e.MedicalId == medicalCalendar.MedicalId
-                && e.PatientId == medicalCalendar.PatientId                
+                && e.PatientId == medicalCalendar.PatientId
                 && e.TokenRecurrence == medicalCalendar.TokenRecurrence
                 && e.StartDateTime >= medicalCalendar.StartDateTime)
                 .ToArrayAsync();
@@ -37,8 +37,8 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             return await _context.MedicalCalendars
                 .Where(mc => mc.MedicalId == medicalId &&
-                             mc.StartDateTime <=  startDateTime &&
-                             mc.EndDateTime >=  endDateTime)
+                             mc.StartDateTime <= startDateTime &&
+                             mc.EndDateTime >= endDateTime)
                 .ToArrayAsync();
         }
 
@@ -48,6 +48,13 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return await _context.MedicalCalendars
                 .Where(mc => mc.Enable && mc.MedicalId == medicalId && mc.StartDateTime >= startDate && mc.EndDateTime <= endDate)
                 .Include(x => x.Patient)
+                .ToArrayAsync();
+        }
+
+        public async Task<MedicalCalendar[]> GetByTokenAsync(string token, long medicalId, long patientId)
+        {
+            return await _context.MedicalCalendars
+                .Where(mc => mc.TokenRecurrence == token && mc.MedicalId == medicalId && mc.PatientId == patientId)
                 .ToArrayAsync();
         }
     }
