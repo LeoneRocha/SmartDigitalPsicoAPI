@@ -63,26 +63,50 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
                 return NotFound(response);
             }
             return Ok(response);
-        }         
+        }
 
         [HttpDelete("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete([FromBody] DeleteMedicalCalendarDto request)
         {
             this.setUserIdCurrent();
-            var response = await _entityService.DeleteOneOrRecurrenceAsync(request);
+            var response = await _entityService.DeleteOneOrRecurrence(request);
             if (!response.Success)
             {
                 return NotFound(response);
             }
-            return Ok(response);  
-        } 
+            return Ok(response);
+        }
 
         [HttpPost("calendar")]
         public async Task<ActionResult<ServiceResponse<CalendarDto>>> GetMonthlyCalendar([FromBody] CalendarCriteriaDto criteria)
         {
             this.setUserIdCurrent();
             var schedule = await _entityService.GetMonthlyCalendar(criteria);
+            return Ok(schedule);
+        }
+
+        [HttpPost("available")]
+        public async Task<ActionResult<ServiceResponse<CalendarDto>>> GetAvailableMedicalCalendar([FromBody] CalendarCriteriaDto criteria)
+        {
+            this.setUserIdCurrent();
+            var schedule = await _entityService.GetAvailableMedicalCalendar(criteria);
+            return Ok(schedule);
+        }
+
+        [HttpPost("appointment/send")]
+        public async Task<ActionResult<ServiceResponse<CalendarDto>>> SendAppointments([FromBody] ScheduleCriteriaDto criteria)
+        {
+            this.setUserIdCurrent();
+            var schedule = await _entityService.RequestAppointment(criteria);
+            return Ok(schedule);
+        }
+
+        [HttpPost("appointment/get")]
+        public async Task<ActionResult<ServiceResponse<AppointmentDto[]>>> GetAppointments([FromBody] AppointmentCriteriaDto criteria)
+        {
+            this.setUserIdCurrent();
+            var schedule = await _entityService.GetAppointments(criteria);
             return Ok(schedule);
         }
     }

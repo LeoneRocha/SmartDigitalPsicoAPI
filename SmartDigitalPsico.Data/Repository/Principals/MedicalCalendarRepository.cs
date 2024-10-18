@@ -13,6 +13,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async Task<MedicalCalendar[]> GetByMedicalCalendarAsync(MedicalCalendar medicalCalendar)
         {
             return await _context.MedicalCalendars
+                .AsNoTracking()
                 .Where(e =>
                 e.MedicalId == medicalCalendar.MedicalId
                 && e.PatientId == medicalCalendar.PatientId
@@ -36,6 +37,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async Task<MedicalCalendar[]> GetConflictingEventsAsync(long medicalId, DateTime startDateTime, DateTime endDateTime)
         {
             return await _context.MedicalCalendars
+                .AsNoTracking()
                 .Where(mc => mc.MedicalId == medicalId &&
                              mc.StartDateTime <= startDateTime &&
                              mc.EndDateTime >= endDateTime)
@@ -46,6 +48,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async Task<MedicalCalendar[]> GetMedicalCalendarsForMedicalAsync(long medicalId, DateTime startDate, DateTime endDate)
         {
             return await _context.MedicalCalendars
+                .AsNoTracking()
                 .Where(mc => mc.Enable && mc.MedicalId == medicalId && mc.StartDateTime >= startDate && mc.EndDateTime <= endDate)
                 .Include(x => x.Patient)
                 .ToArrayAsync();
@@ -53,8 +56,28 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<MedicalCalendar[]> GetByTokenAsync(string token, long medicalId, long patientId)
         {
-            return await _context.MedicalCalendars
+            return await _context.MedicalCalendars 
                 .Where(mc => mc.TokenRecurrence == token && mc.MedicalId == medicalId && mc.PatientId == patientId)
+                .ToArrayAsync();
+        }
+        public async Task<bool> HasConflictAsync(long medicalId, DateTime appointmentDateTime)
+        {
+            return await _context.MedicalCalendars.AnyAsync(mc => mc.MedicalId == medicalId && mc.StartDateTime <= appointmentDateTime && mc.EndDateTime >= appointmentDateTime);
+        }
+
+        public async Task<MedicalCalendar?> GetAppointmentAsync(long medicalId, DateTime appointmentDateTime, long patientId)
+        {
+            return await _context.MedicalCalendars 
+                .FirstOrDefaultAsync(mc => mc.MedicalId == medicalId && mc.StartDateTime == appointmentDateTime && mc.PatientId == patientId);
+        }
+
+        public async Task<MedicalCalendar[]> GetAppointmentsForMonthAsync(long medicalId, long patientId, DateTime startDate, DateTime endDate)
+        {
+            return await _context.MedicalCalendars
+                .AsNoTracking()
+                .Include(mc => mc.Medical)
+                .Include(mc => mc.Patient)
+                .Where(mc => mc.MedicalId == medicalId && mc.PatientId == patientId && mc.StartDateTime >= startDate && mc.EndDateTime <= endDate)
                 .ToArrayAsync();
         }
     }

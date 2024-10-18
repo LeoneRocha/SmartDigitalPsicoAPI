@@ -123,85 +123,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteOneOrRecurrenceAsync(DeleteMedicalCalendarDto request)
-        {
-            if (request.DeleteSeries)
-            {
-                return await DeleteSeries(request);
-            }
-            else
-            {
-                return await DeleteOne(request);
-            }
-        }
-
-        private async Task<ServiceResponse<bool>> DeleteSeries(DeleteMedicalCalendarDto request)
-        {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-            var calendars = await _entityRepository.GetByTokenAsync(request.TokenRecurrence, request.MedicalId, request.PatientId);
-
-            if (calendars.Length < 1)
-            {
-                response.Success = false;
-                response.Message = "No schedules found for the given criteria.";
-                return response;
-            }
-            var recordsList = new RecordsList<MedicalCalendar>
-            {
-                UserIdLogged = UserId,
-                Records = calendars.ToList()
-            };
-
-            var validator = new MedicalCalendarListValidator(_userRepository);
-            var validationResult = await validator.ValidateAsync(recordsList);
-
-            if (validationResult.IsValid)
-            {
-                await _entityRepository.DeleteRangeAsync(calendars);
-
-                response.Data = true;
-                response.Success = true;
-                response.Message = "Schedules deleted successfully.";
-            }
-            else
-            {
-                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
-                response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
-            }
-            return response;
-        }
-
-        private async Task<ServiceResponse<bool>> DeleteOne(DeleteMedicalCalendarDto request)
-        {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-            var calendar = await _entityRepository.FindByID(request.Id);
-
-            var recordsList = new RecordsList<MedicalCalendar>
-            {
-                UserIdLogged = UserId,
-                Records = new List<MedicalCalendar>() { calendar }
-            };
-
-            var validator = new MedicalCalendarListValidator(_userRepository);
-            var validationResult = await validator.ValidateAsync(recordsList);
-
-            if (validationResult.IsValid)
-            {
-                response = await base.Delete(request.Id);
-            }
-            else
-            {
-                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
-                response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
-            }
-            return response;
-        }
-
-
         #region PRIVATE   Create/Update
         private async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, bool updateSeries)
         {
@@ -353,6 +274,86 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
         #endregion PRIVATE   Create/Update
 
+        public async Task<ServiceResponse<bool>> DeleteOneOrRecurrence(DeleteMedicalCalendarDto request)
+        {
+            if (request.DeleteSeries)
+            {
+                return await DeleteSeries(request);
+            }
+            else
+            {
+                return await DeleteOne(request);
+            }
+        }
+
+        #region PRIVATE DELETE 
+        private async Task<ServiceResponse<bool>> DeleteSeries(DeleteMedicalCalendarDto request)
+        {
+            ServiceResponse<bool> response = new ServiceResponse<bool>();
+            var calendars = await _entityRepository.GetByTokenAsync(request.TokenRecurrence, request.MedicalId, request.PatientId);
+
+            if (calendars.Length < 1)
+            {
+                response.Success = false;
+                response.Message = "No schedules found for the given criteria.";
+                return response;
+            }
+            var recordsList = new RecordsList<MedicalCalendar>
+            {
+                UserIdLogged = UserId,
+                Records = calendars.ToList()
+            };
+
+            var validator = new MedicalCalendarListValidator(_userRepository);
+            var validationResult = await validator.ValidateAsync(recordsList);
+
+            if (validationResult.IsValid)
+            {
+                await _entityRepository.DeleteRangeAsync(calendars);
+
+                response.Data = true;
+                response.Success = true;
+                response.Message = "Schedules deleted successfully.";
+            }
+            else
+            {
+                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
+            }
+            return response;
+        }
+
+        private async Task<ServiceResponse<bool>> DeleteOne(DeleteMedicalCalendarDto request)
+        {
+            ServiceResponse<bool> response = new ServiceResponse<bool>();
+            var calendar = await _entityRepository.FindByID(request.Id);
+
+            var recordsList = new RecordsList<MedicalCalendar>
+            {
+                UserIdLogged = UserId,
+                Records = new List<MedicalCalendar>() { calendar }
+            };
+
+            var validator = new MedicalCalendarListValidator(_userRepository);
+            var validationResult = await validator.ValidateAsync(recordsList);
+
+            if (validationResult.IsValid)
+            {
+                response = await base.Delete(request.Id);
+            }
+            else
+            {
+                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Success = false;
+                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
+                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
+            }
+            return response;
+        }
+        #endregion PRIVATE DELETE
+
         public async Task<ServiceResponse<CalendarDto>> GetMonthlyCalendar(CalendarCriteriaDto criteria)
         {
             var response = new ServiceResponse<CalendarDto>();
@@ -387,8 +388,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             return response;
         }
-
-
 
         #region PRIVATE  GetMonthlyCalendar
         private DayCalendarDto[] OrdenateDays(DayCalendarDto[] filteredDays)
@@ -543,8 +542,156 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             return days;
         }
-
-
         #endregion PRIVATE  GetMonthlyCalendar
+
+        public async Task<ServiceResponse<CalendarDto>> GetAvailableMedicalCalendar(CalendarCriteriaDto criteria)
+        {
+            var response = new ServiceResponse<CalendarDto>();
+            criteria.UserIdLogged = UserId;
+
+            var medical = await GetMedicalAsync(criteria.MedicalId);
+            var (startDate, endDate) = GetDateRange(criteria.Year, criteria.Month);
+            var interval = TimeSpan.FromMinutes(criteria.IntervalInMinutes);
+            var medicalCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(criteria.MedicalId, startDate, endDate);
+
+            var days = GenerateDaysCalendar(CreateDaysCalendarCriteria(medical, startDate, endDate, interval, medicalCalendars));
+
+            //Filters
+            var filteredDays = FilterIsTimeSlotAvailable(startDate, endDate, days);
+
+            filteredDays = OrdenateDays(filteredDays);
+
+            response.Data = CreateCalendarDto(medical, filteredDays);
+            response.Success = true;
+            response.Message = MensageCalendarSuccess;
+
+            return response;
+        }
+
+        #region PRIVATE GetAvailableTimeSlotsAsync
+        private DayCalendarDto[] FilterIsTimeSlotAvailable(DateTime startTime, DateTime endTime, DayCalendarDto[] daysCalendar)
+        {
+            var filteredDays = daysCalendar
+                .Select(day => new DayCalendarDto
+                {
+                    Date = day.Date,
+                    TimeSlots = day.TimeSlots
+                        .Where(slot => slot.MedicalCalendar == null && slot.StartTime >= startTime && slot.EndTime <= endTime)
+                        .ToArray()
+                })
+                .Where(day => day.TimeSlots.Any())
+                .ToArray();
+
+            return filteredDays;
+        }
+        #endregion  PRIVATE GetAvailableTimeSlotsAsync
+
+        public async Task<ServiceResponse<bool>> RequestAppointment(ScheduleCriteriaDto criteria)
+        {
+            var response = new ServiceResponse<bool>();
+            if (criteria.ScheduleType == EScheduleCalendarType.Schedule)
+            {
+                response = await ScheduleAppointmentAsync(criteria);
+            }
+            else if (criteria.ScheduleType == EScheduleCalendarType.Cancellation)
+            {
+                response = await CancelAppointmentAsync(criteria);
+            }
+            return response;
+        }
+
+        #region PRIVATE RequestAppointmentAsync
+        private async Task<ServiceResponse<bool>> ScheduleAppointmentAsync(ScheduleCriteriaDto criteria)
+        {
+            var response = new ServiceResponse<bool>();
+            if (criteria.ScheduleType == EScheduleCalendarType.Schedule)
+            {
+                criteria.UserIdLogged = UserId;
+
+                // Check for scheduling conflicts
+                var hasConflict = await _entityRepository.HasConflictAsync(criteria.MedicalId, criteria.AppointmentDateTime);
+                if (hasConflict)
+                {
+                    response.Success = false;
+                    response.Message = "The doctor already has an appointment at this time.";
+                    return response;
+                }
+
+                // Create a new appointment with status Pending
+                var newAppointment = new MedicalCalendar
+                {
+                    Title = criteria.Reason,
+                    Description = criteria.Reason,
+                    RecurrenceType = ERecurrenceCalendarType.None,
+                    TimeZone = criteria.TimeZone,
+                    StartDateTime = criteria.AppointmentDateTime,
+                    EndDateTime = criteria.AppointmentDateTime.AddMinutes(30), // Example duration of 30 minutes
+                    Enable = true,
+                    Status = EStatusCalendar.PendingConfirmation,
+                };
+                #region Relationship
+                newAppointment.CreatedUserId = criteria.UserIdLogged;
+                newAppointment.PatientId = criteria.PatientId;
+                newAppointment.MedicalId = criteria.MedicalId;
+                #endregion Relationship 
+                newAppointment.CreatedDate = DataHelper.GetDateTimeNow();
+                newAppointment.ModifyDate = DataHelper.GetDateTimeNow();
+                newAppointment.LastAccessDate = DataHelper.GetDateTimeNow();
+
+                var resultCreate = await _entityRepository.Create(newAppointment);
+
+                response.Success = true;
+                response.Message = $"Appointment successfully created and is pending confirmation. ({resultCreate.Id})";
+            }
+            return response;
+        }
+        private async Task<ServiceResponse<bool>> CancelAppointmentAsync(ScheduleCriteriaDto criteria)
+        {
+            var response = new ServiceResponse<bool>();
+
+            // Check if the appointment exists
+            var appointment = await _entityRepository.GetAppointmentAsync(criteria.MedicalId, criteria.AppointmentDateTime, criteria.PatientId);
+            if (appointment == null)
+            {
+                response.Success = false;
+                response.Message = "Appointment not found.";
+                return response;
+            }
+            // Change the status to Canceled
+            appointment.Status = EStatusCalendar.Canceled;
+            appointment.ReasonCancellation = criteria.Reason;
+
+            var resultCreate = await _entityRepository.Update(appointment);
+
+            response.Success = true;
+            response.Message = "Cancellation request successfully made. ({resultCreate.Id})";
+            return response;
+        }
+        #endregion PRIVATE RequestAppointmentAsync
+
+        public async Task<ServiceResponse<AppointmentDto[]>> GetAppointments(AppointmentCriteriaDto criteria)
+        {
+            var response = new ServiceResponse<AppointmentDto[]>();
+
+            // Define the start and end dates for the month
+            var (startDate, endDate) = GetDateRange(criteria.Year, criteria.Month);
+
+            // Retrieve appointments for the specified period
+            var appointments = await _entityRepository.GetAppointmentsForMonthAsync(criteria.MedicalId, criteria.PatientId, startDate, endDate);
+
+            if (appointments.Length == 0)
+            {
+                response.Success = false;
+                response.Message = "No appointments found for the specified period.";
+                return response;
+            }
+            // Map the appointments to the DTO
+            var appointmentDtos = _mapper.Map<AppointmentDto[]>(appointments);
+
+            response.Success = true;
+            response.Data = appointmentDtos;
+            response.Message = "Appointments retrieved successfully.";
+            return response;
+        }
     }
 }
