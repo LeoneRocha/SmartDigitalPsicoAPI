@@ -26,8 +26,8 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 if (recordsList.Records.Count == 0) { return true; }
 
                 bool userHasPermission = recordsList.Records.TrueForAll(rg =>
-                    rg.CreatedUser?.Id == userIdLogged
-                    && userLogged.MedicalId == rg.MedicalId
+                rg.CreatedUserId == userIdLogged
+                &&  rg.MedicalId == userLogged.MedicalId
                 );
                 return userHasPermission;
             }
