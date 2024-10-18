@@ -328,6 +328,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private async Task<ServiceResponse<bool>> DeleteOne(DeleteMedicalCalendarDto request)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
+
+            if (!await _entityRepository.Exists(request.Id))
+            {
+                response.Success = false;
+                response.Message = "Register not found.";
+                return response;
+
+            }
             var calendar = await _entityRepository.FindByID(request.Id);
 
             var recordsList = new RecordsList<MedicalCalendar>
