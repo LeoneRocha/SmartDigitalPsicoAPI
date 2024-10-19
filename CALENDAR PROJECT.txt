@@ -1,4 +1,24 @@
-﻿Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation com base de referencia nos codigos abaixo crie todos metodos para deletar todos agendamentos da recorrencia pelo token 
+﻿Sim, essa linha é necessária se você deseja registrar automaticamente todos os validadores do FluentValidation que estão no mesmo assembly que `AppointmentCriteriaDtoValidator`. Isso facilita a configuração e garante que o FluentValidation encontre e utilize os validadores corretamente.
+
+Se você não incluir essa linha, precisará registrar cada validador manualmente, o que pode ser mais trabalhoso e propenso a erros. Aqui está um exemplo de como seria a configuração manual:
+
+```csharp
+builder.Services.AddTransient<IValidator<AppointmentCriteriaDto>, AppointmentCriteriaDtoValidator>();
+```
+
+Ao usar `AddFluentValidation`, você simplifica a configuração e garante que todos os validadores no assembly sejam registrados automaticamente:
+
+```csharp
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AppointmentCriteriaDtoValidator>());
+```
+
+Portanto, é recomendável manter essa linha para facilitar a configuração e garantir que todos os validadores sejam registrados corretamente. Se precisar de mais alguma coisa ou tiver dúvidas, estou aqui para ajudar!
+
+
+
+
+
+Em C# usando .net 8 E Wep API rest,  Entity FrameWork core code frist e fluent API e FluentValidation com base de referencia nos codigos abaixo crie todos metodos para deletar todos agendamentos da recorrencia pelo token 
 deve receber por parametro um objeto para deletar passando o token medical id e pacient id 
 
 [HttpDelete("schedule/{id}")]

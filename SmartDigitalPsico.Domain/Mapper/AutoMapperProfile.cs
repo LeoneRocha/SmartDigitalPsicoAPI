@@ -5,6 +5,7 @@ using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
+using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
 using SmartDigitalPsico.Domain.DTO.Patient;
@@ -80,6 +81,10 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<GetMedicalCalendarDto, MedicalCalendar>();
 
             CreateMap<MedicalCalendar, GetMedicalCalendarTimeSlotDto>();
+
+            CreateMap<MedicalCalendar, AppointmentDto>()
+            .ForMember(dest => dest.MedicalName, opt => opt.MapFrom(src => src.Medical!.Name));
+             
             #endregion  MedicalCalendar
 
             #region Gender

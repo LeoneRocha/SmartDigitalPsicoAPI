@@ -30,7 +30,9 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         
         public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
         public TimeSpan StartWorkingTime { get; set; }
-        public TimeSpan EndWorkingTime { get; set; }
+        public TimeSpan EndWorkingTime { get; set; } 
+        public DayOfWeek[] WorkingDays { get; set; } = []; // 0 = Sunday  1 = Monday  6 = Saturday
+
         #endregion Relationship
     }
 }

@@ -7,7 +7,10 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
     public interface IMedicalCalendarService : IEntityBaseService<MedicalCalendar, AddMedicalCalendarDto, UpdateMedicalCalendarDto, GetMedicalCalendarDto>
     {
-        Task<ServiceResponse<bool>> DeleteOneOrRecurrenceAsync(DeleteMedicalCalendarDto request);
+        Task<ServiceResponse<bool>> DeleteOneOrRecurrence(DeleteMedicalCalendarDto request);
         Task<ServiceResponse<CalendarDto>> GetMonthlyCalendar(CalendarCriteriaDto criteria);
+        Task<ServiceResponse<CalendarDto>> GetAvailableMedicalCalendar(CalendarCriteriaDto criteria);
+        Task<ServiceResponse<bool>> RequestAppointment(ScheduleCriteriaDto criteria);
+        Task<ServiceResponse<AppointmentDto[]>> GetAppointments(AppointmentCriteriaDto criteria);
     }
 }

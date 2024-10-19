@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical
         public string Email { get; set; } = string.Empty;
         public string Accreditation { get; set; } = string.Empty;
         public ETypeAccreditation TypeAccreditation { get; set; }
-
+        public DayOfWeek[] WorkingDays { get; set; } = [];
         #endregion Columns  
 
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>(); 
