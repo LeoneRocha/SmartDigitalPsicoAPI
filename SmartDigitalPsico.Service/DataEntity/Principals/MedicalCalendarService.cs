@@ -374,7 +374,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             var medical = await GetMedicalAsync(criteria.MedicalId);
             var (startDate, endDate) = GetDateRange(criteria.Year, criteria.Month);
-            var interval = TimeSpan.FromMinutes(criteria.IntervalInMinutes);
+            var interval = TimeSpan.FromMinutes(medical.PatientIntervalTimeMinutes);
             var medicalCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(criteria.MedicalId, startDate, endDate);
 
             if (!await ValidateMedicalCalendarsAsync(medicalCalendars, response))
@@ -568,7 +568,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             var medical = await GetMedicalAsync(criteria.MedicalId);
             var (startDate, endDate) = GetDateRange(criteria.Year, criteria.Month);
-            var interval = TimeSpan.FromMinutes(criteria.IntervalInMinutes);
+            var interval = TimeSpan.FromMinutes(medical.PatientIntervalTimeMinutes);
             var medicalCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(criteria.MedicalId, startDate, endDate);
 
             var days = GenerateDaysCalendar(CreateDaysCalendarCriteria(medical, startDate, endDate, interval, medicalCalendars));
@@ -645,6 +645,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (criteria.ScheduleType == EScheduleCalendarType.Schedule)
             {
                 criteria.UserIdLogged = UserId;
+
+
+                var medical = await GetMedicalAsync(criteria.MedicalId);
+
                 // Create a new appointment with status Pending
                 var newAppointment = new MedicalCalendar
                 {
@@ -653,7 +657,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     RecurrenceType = ERecurrenceCalendarType.None,
                     TimeZone = criteria.TimeZone,
                     StartDateTime = criteria.AppointmentDateTime,
-                    EndDateTime = criteria.AppointmentDateTime.AddMinutes(60), // Example duration of 30 minutes
+                    EndDateTime = criteria.AppointmentDateTime.AddMinutes(medical.PatientIntervalTimeMinutes),  
                     Enable = true,
                     Status = EStatusCalendar.PendingConfirmation,
                 };

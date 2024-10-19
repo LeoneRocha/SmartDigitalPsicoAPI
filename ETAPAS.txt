@@ -10,13 +10,18 @@ https://hub.docker.com/u/leonecr
 ---------------  ||||||||||||||||||||||||||||||||||| TODO: |||||||||||||||||||||||||||||||||||
 ATUALIZAR FRONT END 
 
---Atualizar o  formulario medico 
+1)--Atualizar o  formulario medico -- FEITO OK 
 
--- No paciente ter um botao novo donload historico 
+2)-- Criar teste unitario do front pelo menos 1 formulario 
 
--- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
+3)-- Configurar a pipeline para teste e tambem sonar coverage
 
--- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
+4)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
+
+5)-- No paciente ter um botao novo donload historico 
+
+6)-- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
+
  
  --- Calendario ja tem o insert basico no controler 
  -- Criar um Add e update que receber uma flag de Serie e recebe uma data Inicial e uma data final de no maximo 12 meses 
@@ -26,9 +31,7 @@ ATUALIZAR FRONT END
  --- CRIAR UM PROCESSO DE NOTIFICACAO SEJA POR EMAIL OU SMS igual goggle agenda seguir que pode ser feitas varias notificacoes para uma agendamento 
  ****************************************** ARRUMAR ERRO DE RECURSO DE IDIOMA NA TELA CARGO front
   
- --- Criar teste unitario do front pelo menos 1 formulario 
 
- -- Configurar a pipeline para teste e tambem sonar coverage
 
 ---------------  ||||||||||||||||||||||||||||||||||| TODO: |||||||||||||||||||||||||||||||||||
 
