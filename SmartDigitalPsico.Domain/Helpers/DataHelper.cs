@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
@@ -56,6 +57,17 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static DateTime GetDateTimeNow()
         {
             return DateTime.UtcNow;
+        }
+
+        public static DateTime ApplyTimeZone(DateTime dateTime, string timeZoneId)
+        {
+            // Obter o fuso horário a partir do ID
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+
+            // Converter a data e hora para o fuso horário especificado
+            var dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZone);
+
+            return dateTimeWithTimeZone;
         }
     } 
 }

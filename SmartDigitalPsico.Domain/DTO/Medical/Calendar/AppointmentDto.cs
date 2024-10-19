@@ -12,5 +12,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
         public string TimeZone { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public bool IsPast { get; set; }
     }
 }

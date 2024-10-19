@@ -27,18 +27,20 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private const string MensageCalendarSuccess = "Calendar Success.";
         private readonly IMedicalRepository _medicalRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IMedicalCalendarValidators _validators;
 
         public MedicalCalendarService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
-            IValidator<MedicalCalendar> entityValidator,
+            IMedicalCalendarValidators medicalCalendarValidators,
             IMedicalCalendarRepository entityRepository,
             IPatientRepositories repositoriesShared
             )
-            : base(sharedServices, sharedDependenciesConfig, repositoriesShared.SharedRepositories, entityRepository, entityValidator)
+            : base(sharedServices, sharedDependenciesConfig, repositoriesShared.SharedRepositories, entityRepository, medicalCalendarValidators.EntityValidator)
         {
             _medicalRepository = repositoriesShared.MedicalRepository;
             _userRepository = repositoriesShared.SharedRepositories.UserRepository;
+            _validators = medicalCalendarValidators;
         }
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
         {
@@ -304,8 +306,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 Records = calendars.ToList()
             };
 
-            var validator = new MedicalCalendarListValidator(_userRepository);
-            var validationResult = await validator.ValidateAsync(recordsList);
+            var validationResult = await _validators.MedicalCalendarListValidator.ValidateAsync(recordsList);
 
             if (validationResult.IsValid)
             {
@@ -344,8 +345,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 Records = new List<MedicalCalendar>() { calendar }
             };
 
-            var validator = new MedicalCalendarListValidator(_userRepository);
-            var validationResult = await validator.ValidateAsync(recordsList);
+            var validationResult = await _validators.MedicalCalendarListValidator.ValidateAsync(recordsList);
 
             if (validationResult.IsValid)
             {
@@ -609,12 +609,30 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         public async Task<ServiceResponse<bool>> RequestAppointment(ScheduleCriteriaDto criteria)
         {
             var response = new ServiceResponse<bool>();
+
+            // Validate criteria
+            var validationResult = await _validators.ScheduleCriteriaDtoValidator.ValidateAsync(criteria);
+            if (!validationResult.IsValid)
+            {
+                response.Success = false;
+                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Message = validationResult.Errors.First().ErrorMessage;
+                return response;
+            }
             if (criteria.ScheduleType == EScheduleCalendarType.Schedule)
             {
                 response = await ScheduleAppointmentAsync(criteria);
             }
             else if (criteria.ScheduleType == EScheduleCalendarType.Cancellation)
             {
+                // Check if the appointment exists
+                var appointment = await _entityRepository.GetAppointmentAsync(criteria.MedicalId, criteria.AppointmentDateTime, criteria.PatientId);
+                if (appointment == null)
+                {
+                    response.Success = false;
+                    response.Message = "Appointment not found.";
+                    return response;
+                }
                 response = await CancelAppointmentAsync(criteria);
             }
             return response;
@@ -627,16 +645,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (criteria.ScheduleType == EScheduleCalendarType.Schedule)
             {
                 criteria.UserIdLogged = UserId;
-
-                // Check for scheduling conflicts
-                var hasConflict = await _entityRepository.HasConflictAsync(criteria.MedicalId, criteria.AppointmentDateTime);
-                if (hasConflict)
-                {
-                    response.Success = false;
-                    response.Message = "The doctor already has an appointment at this time.";
-                    return response;
-                }
-
                 // Create a new appointment with status Pending
                 var newAppointment = new MedicalCalendar
                 {
@@ -677,14 +685,22 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 response.Message = "Appointment not found.";
                 return response;
             }
-            // Change the status to Canceled
-            appointment.Status = EStatusCalendar.Canceled;
+            //Se o status tiver sido confirmado nao pode cancelar deve mudar para cancelamento pendente se o status for PendingConfirmation pode cancelar a solicitacao 
+            if (appointment.Status == EStatusCalendar.PendingConfirmation)
+            {
+                appointment.Status = EStatusCalendar.Canceled;
+            }
+            if (appointment.Status == EStatusCalendar.Confirmed)
+            {
+                appointment.Status = EStatusCalendar.PendingCancellation;
+            }
+            // Change the status to Canceled       
             appointment.ReasonCancellation = criteria.Reason;
 
             var resultCreate = await _entityRepository.Update(appointment);
 
             response.Success = true;
-            response.Message = "Cancellation request successfully made. ({resultCreate.Id})";
+            response.Message = $"Cancellation request successfully made. ({resultCreate.Id})";
             return response;
         }
         #endregion PRIVATE RequestAppointmentAsync
@@ -693,13 +709,20 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             var response = new ServiceResponse<AppointmentDto[]>();
 
+            // Validate criteria
+            var validationResult = await _validators.AppointmentCriteriaDtoValidator.ValidateAsync(criteria);
+            if (!validationResult.IsValid)
+            {
+                response.Success = false;
+                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Message = validationResult.Errors.First().ErrorMessage;
+                return response;
+            }
             // Define the start and end dates for the month
             var (startDate, endDate) = GetDateRange(criteria.Year, criteria.Month);
 
             // Retrieve appointments for the specified period
             var appointments = await _entityRepository.GetAppointmentsForMonthAsync(criteria.MedicalId, criteria.PatientId, startDate, endDate);
-
-            //TODO: VALIDAR SOMENTE O PACIENTE QUE PERTENCE AO MEDICO PODE AGENDAR PARA O MEDICO SOLICITADO SE NAO FOR PACIENTE DO MEDICO NAO RETORNA OS AGENDAMENTOS E NEM PODE AGENDAR
 
             if (appointments.Length == 0)
             {
@@ -710,8 +733,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             // Map the appointments to the DTO
             var appointmentDtos = _mapper.Map<AppointmentDto[]>(appointments);
 
+            var currentTime = DataHelper.ApplyTimeZone(DataHelper.GetDateTimeNow(), appointments[0].TimeZone);
+
+            foreach (var item in appointmentDtos)
+            {
+                item.IsPast = item.StartDateTime <= currentTime;
+            }  
+            var filteredAppointmentDtos = appointmentDtos.OrderBy(x => x.StartDateTime).ToArray();
             response.Success = true;
-            response.Data = appointmentDtos;
+            response.Data = filteredAppointmentDtos;
             response.Message = "Appointments retrieved successfully.";
             return response;
         }

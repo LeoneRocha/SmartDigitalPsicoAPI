@@ -32,6 +32,9 @@ namespace SmartDigitalPsico.Domain.Enuns
         Rescheduled = 8,
 
         [Description("Canceled")]
-        Canceled = 9
+        Canceled = 9,
+
+        [Description("Pending Cancellation")]
+        PendingCancellation = 10
     } 
 }
