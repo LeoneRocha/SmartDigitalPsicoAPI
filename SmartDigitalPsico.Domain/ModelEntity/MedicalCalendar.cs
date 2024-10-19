@@ -35,7 +35,10 @@ namespace SmartDigitalPsico.Domain.ModelEntity
             public ERecurrenceCalendarType RecurrenceType { get; set; }
             public DateTime? RecurrenceEndDate { get; set; }
             public byte? RecurrenceCount { get; set; }
-            public string TokenRecurrence { get; set; } = string.Empty;
-            #endregion Columns  
-        }
+            public string TokenRecurrence { get; set; } = string.Empty;        
+            public string ReasonCancellation { get; set; } = string.Empty;
+
+
+        #endregion Columns  
+    }
 }

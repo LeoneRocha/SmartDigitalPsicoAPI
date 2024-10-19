@@ -46,6 +46,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             services.AddScoped<ISharedDependenciesConfig, SharedDependenciesConfig>();
             services.AddScoped<ISharedRepositories, SharedRepositories>();
             services.AddScoped<ISharedServices, SharedServices>();
+            services.AddScoped<IMedicalCalendarValidators, MedicalCalendarValidators>();
         } 
         private static void addDependenciesSingleton(IServiceCollection services)
         {

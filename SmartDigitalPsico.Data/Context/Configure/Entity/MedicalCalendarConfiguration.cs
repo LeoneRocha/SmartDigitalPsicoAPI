@@ -25,6 +25,11 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasMaxLength(1000)
                 .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase));
 
+            builder.Property(e => e.ReasonCancellation)
+                .HasMaxLength(1000)
+                .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase))
+                .IsRequired(false);
+
             builder.Property(e => e.StartDateTime);
             builder.Property(e => e.EndDateTime);
             builder.Property(e => e.IsAllDay);
