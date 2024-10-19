@@ -260,7 +260,7 @@ Add-Migration AddUrlApp -Context SmartDigitalPsicoDataContextSqlServer -OutputDi
  
 
 
- Add-Migration MedicalCalendarAvailable -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+ Add-Migration WorkingDays -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
 

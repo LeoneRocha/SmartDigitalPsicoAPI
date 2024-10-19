@@ -38,6 +38,12 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .IsRequired()
                 .HasColumnType("time");
 
+            //Array int 
+            builder.Property(e => e.WorkingDays)
+                .HasMaxLength(20)
+                .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_20)
+                .HasConversion(v => string.Join(',', v.Select(d => ((int)d).ToString())), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => (DayOfWeek)int.Parse(s)).ToArray());
+             
             builder.HasData(MedicalMockData.GetMock());
         }
     }

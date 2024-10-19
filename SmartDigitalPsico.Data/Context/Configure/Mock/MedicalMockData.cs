@@ -22,9 +22,15 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 OfficeId = 1,
                 CreatedUserId = 1,
                 StartWorkingTime = new TimeSpan(6, 0, 0),
-                EndWorkingTime = new TimeSpan(20, 0, 0),                
+                EndWorkingTime = new TimeSpan(20, 0, 0),    
+                WorkingDays = [
+                    DayOfWeek.Monday,
+                    DayOfWeek.Tuesday,
+                    DayOfWeek.Wednesday,
+                    DayOfWeek.Thursday,
+                    DayOfWeek.Friday,
+                    DayOfWeek.Saturday]
             };
-
             return [
                  newAddMedical
             ];

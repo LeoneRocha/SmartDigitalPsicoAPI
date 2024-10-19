@@ -388,6 +388,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var filteredDays = FilterDaysWithMedicalCalendar(criteria, days);
             filteredDays = FilterDaysByDate(criteria, filteredDays);
 
+            filteredDays = FilterByWorkingDays(medical, filteredDays);
+
             filteredDays = OrdenateDays(filteredDays);
 
             response.Data = CreateCalendarDto(medical, filteredDays);
@@ -445,7 +447,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 Interval = interval,
                 MedicalCalendars = medicalCalendarsDTO,
                 StartWorkingTime = medical.StartWorkingTime,
-                EndWorkingTime = medical.EndWorkingTime
+                EndWorkingTime = medical.EndWorkingTime,
+                WorkingDays = medical.WorkingDays
             };
         }
         private static CalendarDto CreateCalendarDto(Medical medical, DayCalendarDto[] days)
@@ -550,6 +553,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             return days;
         }
+
+        private static DayCalendarDto[] FilterByWorkingDays(Medical medical, DayCalendarDto[] days)
+        {
+            return days.Where(day => medical.WorkingDays.Contains(day.Date.DayOfWeek)).ToArray();
+        }
+
         #endregion PRIVATE  GetMonthlyCalendar
 
         public async Task<ServiceResponse<CalendarDto>> GetAvailableMedicalCalendar(CalendarCriteriaDto criteria)
@@ -567,6 +576,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             //Filters
             var filteredDays = FilterIsTimeSlotAvailable(startDate, endDate, days);
 
+            filteredDays = FilterByWorkingDays(medical, filteredDays);
+
             filteredDays = OrdenateDays(filteredDays);
 
             response.Data = CreateCalendarDto(medical, filteredDays);
@@ -579,12 +590,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         #region PRIVATE GetAvailableTimeSlotsAsync
         private DayCalendarDto[] FilterIsTimeSlotAvailable(DateTime startTime, DateTime endTime, DayCalendarDto[] daysCalendar)
         {
+            var dateCurrent = DataHelper.GetDateTimeNow();
             var filteredDays = daysCalendar
                 .Select(day => new DayCalendarDto
                 {
                     Date = day.Date,
                     TimeSlots = day.TimeSlots
-                        .Where(slot => slot.MedicalCalendar == null && slot.StartTime >= startTime && slot.EndTime <= endTime)
+                        .Where(slot => !slot.IsPast && slot.IsAvailable && slot.StartTime >= dateCurrent && slot.MedicalCalendar == null && slot.StartTime >= startTime && slot.EndTime <= endTime)
                         .ToArray()
                 })
                 .Where(day => day.TimeSlots.Any())
@@ -633,7 +645,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     RecurrenceType = ERecurrenceCalendarType.None,
                     TimeZone = criteria.TimeZone,
                     StartDateTime = criteria.AppointmentDateTime,
-                    EndDateTime = criteria.AppointmentDateTime.AddMinutes(30), // Example duration of 30 minutes
+                    EndDateTime = criteria.AppointmentDateTime.AddMinutes(60), // Example duration of 30 minutes
                     Enable = true,
                     Status = EStatusCalendar.PendingConfirmation,
                 };
@@ -686,6 +698,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             // Retrieve appointments for the specified period
             var appointments = await _entityRepository.GetAppointmentsForMonthAsync(criteria.MedicalId, criteria.PatientId, startDate, endDate);
+
+            //TODO: VALIDAR SOMENTE O PACIENTE QUE PERTENCE AO MEDICO PODE AGENDAR PARA O MEDICO SOLICITADO SE NAO FOR PACIENTE DO MEDICO NAO RETORNA OS AGENDAMENTOS E NEM PODE AGENDAR
 
             if (appointments.Length == 0)
             {
