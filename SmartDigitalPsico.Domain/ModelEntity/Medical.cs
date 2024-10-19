@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     public class Medical : EntityBaseWithNameEmail, IEntityBaseLogUser
     {
         public Medical()
-        {  
+        {
             Patienties = new List<Patient>();
             MedicalSpecialties = new List<MedicalSpecialty>();
         }
@@ -15,6 +15,10 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public string Accreditation { get; set; } = string.Empty;
         public ETypeAccreditation TypeAccreditation { get; set; }
         public string SecurityKey { get; set; } = string.Empty;
+        public TimeSpan StartWorkingTime { get; set; }
+        public TimeSpan EndWorkingTime { get; set; }
+        public DayOfWeek[] WorkingDays { get; set; } = []; // 0 = Sunday  1 = Monday  6 = Saturday
+        public byte PatientIntervalTimeMinutes { get; set; }
         #endregion Columns 
 
         #region Relationship 
@@ -25,14 +29,10 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public User? CreatedUser { get; set; }
         public long? CreatedUserId { get; set; }
         public User? ModifyUser { get; set; }
-        public long? ModifyUserId { get; set; } 
+        public long? ModifyUserId { get; set; }
         public ICollection<Patient> Patienties { get; set; }
-        
-        public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
-        public TimeSpan StartWorkingTime { get; set; }
-        public TimeSpan EndWorkingTime { get; set; } 
-        public DayOfWeek[] WorkingDays { get; set; } = []; // 0 = Sunday  1 = Monday  6 = Saturday
 
+        public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; } 
         #endregion Relationship
     }
 }
