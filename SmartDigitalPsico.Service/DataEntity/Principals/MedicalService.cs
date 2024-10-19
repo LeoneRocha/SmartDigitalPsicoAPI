@@ -112,11 +112,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 #region Columns
                 entityUpdate.Enable = item.Enable;
                 entityUpdate.Accreditation = item.Accreditation;
-                entityUpdate.Name = item.Name;
-                entityUpdate.Email = item.Email;
+                entityUpdate.Name = item.Name;  
+                entityUpdate.Email = item.Email.ToLower();
+                entityUpdate.Accreditation = item.Accreditation.ToLower();
 
-                entityUpdate.Email = entityUpdate.Email.ToLower();
-                entityUpdate.Accreditation = entityUpdate.Accreditation.ToLower();
+                entityUpdate.StartWorkingTime = item.StartWorkingTime;
+                entityUpdate.EndWorkingTime = item.EndWorkingTime;
+                entityUpdate.PatientIntervalTimeMinutes = item.PatientIntervalTimeMinutes;
+                entityUpdate.WorkingDays = item.WorkingDays;
 
                 #endregion Columns
 
