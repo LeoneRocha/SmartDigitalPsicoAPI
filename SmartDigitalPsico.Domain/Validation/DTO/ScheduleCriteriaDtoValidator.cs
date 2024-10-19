@@ -89,11 +89,11 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
 
         private async Task<bool> NotHaveSchedulingConflict(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)
         {
-            var resultRule = !((await _medicalCalendarRepository.FindByCustomWhere(mc => mc.MedicalId == criteria.MedicalId && mc.StartDateTime == criteria.AppointmentDateTime)).Count > 0);
+            var resultRule = (await _medicalCalendarRepository.FindByCustomWhere(mc => mc.MedicalId == criteria.MedicalId && mc.StartDateTime == criteria.AppointmentDateTime)).Count <= 0;
             return resultRule;
         }
 
-        private async Task<bool> BeAtLeast23HoursInAdvance(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)
+        private static async Task<bool> BeAtLeast23HoursInAdvance(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)
         {
             var currentTime = DataHelper.ApplyTimeZone(DataHelper.GetDateTimeNow(), criteria.TimeZone);
             var resultRule = await Task.FromResult((criteria.AppointmentDateTime - currentTime).TotalHours >= 23);
