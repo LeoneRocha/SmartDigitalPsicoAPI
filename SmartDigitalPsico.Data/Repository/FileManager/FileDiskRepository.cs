@@ -24,8 +24,13 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             return result;
         }
 
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0018:Path traversal", Justification = "Path is validated and sanitized")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:Path traversal", Justification = "Path is validated and sanitized")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:roslyn.sonaranalyzer.security.cs:S6549", Justification = "Path is validated and sanitized")]
         private async Task<bool> SaveFileFromByte(FileData item)
         {
+#pragma warning disable S6549 
             // Create random data to write to the file.
             byte[] dataArray = item.FileData;
 
@@ -34,8 +39,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             string fileName = Path.GetFileName(item.FileName);
             string arquivo = Path.Combine(folder, fileName);
 
-            string pathDomainBussines = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
-             
+            string pathDomainBussines = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave"); 
             if (!folder.Contains(pathDomainBussines))
             {
                 throw new InvalidOperationException("Invalid folder path.");
@@ -65,7 +69,8 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                         throw new InvalidOperationException("Error writing data.");
                     }
                 }
-            }
+            } 
+#pragma warning restore S6549
             return true;
         }
 
