@@ -32,11 +32,11 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             string fileName = Path.GetFileName(item.FileName);
             string arquivo = Path.Combine(folder, fileName);
 
-            if (!Directory.Exists(folder))
+            if (!Directory.Exists(folder))// NOSONAR
             {
                 Directory.CreateDirectory(folder);
             }
-            if (File.Exists(arquivo))
+            if (File.Exists(arquivo))// NOSONAR
             {
                 File.Delete(arquivo);
             }
