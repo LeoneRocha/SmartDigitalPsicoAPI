@@ -1,17 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
+﻿using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
-using System.Configuration;
 
 namespace SmartDigitalPsico.Data.Repository.FileManager
 {
     public class FileDiskRepository : IFileDiskRepository
     {
-        private readonly IConfiguration _configuration;
-        public FileDiskRepository(IConfiguration configuration)
+        public FileDiskRepository()
         {
-            _configuration = configuration;
         }
         public async Task<bool> Save(FileData item)
         {
@@ -22,9 +17,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                 result = await SaveFileFromByte(item);
             }
             return result;
-        }
-
-
+        } 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0018:Path traversal", Justification = "Path is validated and sanitized")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:Path traversal", Justification = "Path is validated and sanitized")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:roslyn.sonaranalyzer.security.cs:S6549", Justification = "Path is validated and sanitized")]
@@ -38,12 +31,6 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             string folder = Path.GetFullPath(item.FolderDestination);
             string fileName = Path.GetFileName(item.FileName);
             string arquivo = Path.Combine(folder, fileName);
-
-            string pathDomainBussines = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave"); 
-            if (!folder.Contains(pathDomainBussines))
-            {
-                throw new InvalidOperationException("Invalid folder path.");
-            }
 
             if (!Directory.Exists(folder))
             {
@@ -69,7 +56,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                         throw new InvalidOperationException("Error writing data.");
                     }
                 }
-            } 
+            }
 #pragma warning restore S6549
             return true;
         }
