@@ -15,18 +15,20 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
 
             if (item.FileData != null)
             {
-                result = await saveFileFromByte(item);
+                result = await SaveFileFromByte(item);
             }
             return result;
         }
 
-        private static async Task<bool> saveFileFromByte(FileData item)
+        private static async Task<bool> SaveFileFromByte(FileData item)
         {
             // Create random data to write to the file.
             byte[] dataArray = item.FileData;
 
-            string folder = string.Format(@"{0}", item.FolderDestination);
-            string arquivo = Path.Combine(folder, item.FileName);
+            // Validate and sanitize the folder and file name
+            string folder = Path.GetFullPath(item.FolderDestination);
+            string fileName = Path.GetFileName(item.FileName);
+            string arquivo = Path.Combine(folder, fileName);
 
             if (!Directory.Exists(folder))
             {
@@ -36,12 +38,10 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             {
                 File.Delete(arquivo);
             }
-            using (FileStream fileStream = new FileStream(string.Format(@"{0}\{1}", item.FolderDestination, item.FileName), FileMode.Create))
+            using (FileStream fileStream = new FileStream(arquivo, FileMode.Create))
             {
                 // Write the data to the file, byte by byte.
-
                 await fileStream.WriteAsync(dataArray.AsMemory());
-
 
                 // Set the stream position to the beginning of the file.
                 fileStream.Seek(0, SeekOrigin.Begin);
@@ -57,6 +57,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             }
             return true;
         }
+
         public async Task<byte[]?> Get(FileData fileCriteria)
         {
             ArgumentNullException.ThrowIfNull(fileCriteria);
