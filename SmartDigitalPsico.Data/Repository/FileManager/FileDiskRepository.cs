@@ -1,13 +1,17 @@
-﻿using SmartDigitalPsico.Domain.Interfaces.Repository;
+﻿using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
+using System.Configuration;
 
 namespace SmartDigitalPsico.Data.Repository.FileManager
 {
     public class FileDiskRepository : IFileDiskRepository
     {
-        public FileDiskRepository()
+        private readonly IConfiguration _configuration;
+        public FileDiskRepository(IConfiguration configuration)
         {
-
+            _configuration = configuration;
         }
         public async Task<bool> Save(FileData item)
         {
@@ -20,9 +24,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             return result;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0018:Path traversal", Justification = "Path is validated and sanitized")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:Path traversal", Justification = "Path is validated and sanitized")]
-        private static async Task<bool> SaveFileFromByte(FileData item)
+        private async Task<bool> SaveFileFromByte(FileData item)
         {
             // Create random data to write to the file.
             byte[] dataArray = item.FileData;
@@ -31,7 +33,13 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             string folder = Path.GetFullPath(item.FolderDestination);
             string fileName = Path.GetFileName(item.FileName);
             string arquivo = Path.Combine(folder, fileName);
+
+            string pathDomainBussines = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
              
+            if (!folder.Contains(pathDomainBussines))
+            {
+                throw new InvalidOperationException("Invalid folder path.");
+            }
 
             if (!Directory.Exists(folder))
             {
