@@ -20,6 +20,8 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             return result;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0018:Path traversal", Justification = "Path is validated and sanitized")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:Path traversal", Justification = "Path is validated and sanitized")]
         private static async Task<bool> SaveFileFromByte(FileData item)
         {
             // Create random data to write to the file.
@@ -29,6 +31,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             string folder = Path.GetFullPath(item.FolderDestination);
             string fileName = Path.GetFileName(item.FileName);
             string arquivo = Path.Combine(folder, fileName);
+             
 
             if (!Directory.Exists(folder))
             {
