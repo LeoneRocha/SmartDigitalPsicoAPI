@@ -33,6 +33,14 @@ ATUALIZAR FRONT END
   
 
 
+  ------------- ATUALIZANDO PACOTES 
+
+  dotnet tool install --global dotnet-outdated-tool
+
+  dotnet outdated --upgrade
+
+
+
 ---------------  ||||||||||||||||||||||||||||||||||| TODO: |||||||||||||||||||||||||||||||||||
 
 
