@@ -165,11 +165,10 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 
 <br />
 
-A documentação da API pode ser acessada através do Swagger em :
-
-https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
+A documentação da API pode ser acessada através do Swagger em : https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
 
 Para geração de classes da api https://editor.swagger.io/
+
 ---
 
 ## ▶️ Como executar o projeto
