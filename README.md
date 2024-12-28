@@ -169,6 +169,7 @@ A documentação da API pode ser acessada através do Swagger em :
 
 https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
 
+Para geração de classes da api https://editor.swagger.io/
 ---
 
 ## ▶️ Como executar o projeto
