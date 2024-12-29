@@ -7,20 +7,39 @@ https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 https://hub.docker.com/u/leonecr
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
----------------  ||||||||||||||||||||||||||||||||||| TODO: |||||||||||||||||||||||||||||||||||
-ATUALIZAR FRONT END 
+---------------  ||||||||||||||||||||||||||||||||||| TODO 2024/2025 ||||||||||||||||||||||||||||||||||
 
-1)--Atualizar o  formulario medico -- FEITO OK 
+1) Criar o service do calendario no front ------------ FEITO 
 
-2)-- Criar teste unitario do front pelo menos 1 formulario 
+--- ESTA RETORNANDO DIAS E HORARIOS ERRADO NO FRONT e nO BACK <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< URGENTE CORRECAO 
 
-3)-- Configurar a pipeline para teste e tambem sonar coverage
+2) IMplementar tela do calendario chamando api
+
 
 4)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
 
 5)-- No paciente ter um botao novo donload historico 
 
 6)-- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
+
+
+
+
+
+
+
+---------------  ||||||||||||||||||||||||||||||||||| TODO 2024/2025 ||||||||||||||||||||||||||||||||||
+
+
+ATUALIZAR FRONT END 
+
+1)--Atualizar o  formulario medico -- FEITO OK 
+
+2)-- Criar teste unitario do front pelo menos 1 formulario - CANCELADO
+
+3)-- Configurar a pipeline para teste e tambem sonar coverage - CANCELADO
+
+
 
  
  --- Calendario ja tem o insert basico no controler 
