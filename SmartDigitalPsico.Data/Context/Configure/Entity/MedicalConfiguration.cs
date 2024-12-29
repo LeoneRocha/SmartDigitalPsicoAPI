@@ -43,7 +43,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasMaxLength(20)
                 .HasColumnType(EntityTypeConfigurationConstants.Type_Varchar_20)
                 .HasConversion(v => string.Join(',', v.Select(d => ((int)d).ToString())), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => (DayOfWeek)int.Parse(s)).ToArray());
-             
+
+            builder.Property(e => e.PatientIntervalTimeMinutes).HasConversion<byte>();
+
             builder.HasData(MedicalMockData.GetMock());
         }
     }
