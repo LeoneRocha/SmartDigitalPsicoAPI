@@ -387,8 +387,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             //Filters
             var filteredDays = FilterDaysWithMedicalCalendar(criteria, days);
             filteredDays = FilterDaysByDate(criteria, filteredDays);
+            if (criteria.FilterDaysAndTimesWithAppointments)
+            {
+                filteredDays = FilterByWorkingDays(medical, filteredDays);
+            }
 
-            filteredDays = FilterByWorkingDays(medical, filteredDays);
+            // Mark non-working days as unavailable
+            FillMarkNonWorkingDays(filteredDays, medical.WorkingDays);
 
             filteredDays = OrdenateDays(filteredDays);
 
@@ -520,17 +525,35 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 var isWithinWorkingHours = time >= startDateTime && endTimeSlot <= endDateTime;
 
+                bool isAvailableTime = medicalCalendar == null && isWithinWorkingHours;
+
                 timeSlots.Add(new TimeSlotDto
                 {
                     StartTime = time,
                     EndTime = endTimeSlot,
-                    IsAvailable = medicalCalendar == null && isWithinWorkingHours,
+                    IsAvailable = isAvailableTime,
                     IsPast = time <= DataHelper.GetDateTimeNow(),
                     MedicalCalendar = medicalCalendar
                 });
             }
             return timeSlots.ToArray();
         }
+
+        private static void FillMarkNonWorkingDays(DayCalendarDto[] days, IEnumerable<DayOfWeek> workingDays)
+        {
+            foreach (var day in days)
+            {
+                if (!workingDays.Contains(day.Date.DayOfWeek))
+                {
+                    foreach (var timeSlot in day.TimeSlots)
+                    {
+                        timeSlot.IsAvailable = false;
+                    }
+                }
+            }
+        }
+
+
         private static DayCalendarDto[] FilterDaysWithMedicalCalendar(CalendarCriteriaDto criteria, DayCalendarDto[] days)
         {
             if (criteria.FilterDaysAndTimesWithAppointments)
@@ -576,7 +599,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             //Filters
             var filteredDays = FilterIsTimeSlotAvailable(startDate, endDate, days);
 
-            filteredDays = FilterByWorkingDays(medical, filteredDays);
+            if (criteria.FilterDaysAndTimesWithAppointments)
+            {
+                filteredDays = FilterByWorkingDays(medical, filteredDays);
+            }
+
+            // Mark non-working days as unavailable
+            FillMarkNonWorkingDays(filteredDays, medical.WorkingDays);
 
             filteredDays = OrdenateDays(filteredDays);
 
@@ -657,7 +686,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     RecurrenceType = ERecurrenceCalendarType.None,
                     TimeZone = criteria.TimeZone,
                     StartDateTime = criteria.AppointmentDateTime,
-                    EndDateTime = criteria.AppointmentDateTime.AddMinutes(medical.PatientIntervalTimeMinutes),  
+                    EndDateTime = criteria.AppointmentDateTime.AddMinutes(medical.PatientIntervalTimeMinutes),
                     Enable = true,
                     Status = EStatusCalendar.PendingConfirmation,
                 };
@@ -742,7 +771,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             foreach (var item in appointmentDtos)
             {
                 item.IsPast = item.StartDateTime <= currentTime;
-            }  
+            }
             var filteredAppointmentDtos = appointmentDtos.OrderBy(x => x.StartDateTime).ToArray();
             response.Success = true;
             response.Data = filteredAppointmentDtos;
