@@ -48,6 +48,11 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             #endregion Columns
 
             #region Relationship
+
+            RuleFor(entity => entity.PatientId)
+                  .NotNull()
+                  .WithMessage("ErrorValidator_PatientId_Null");
+
             RuleFor(entity => entity.MedicalId)
                     .NotNull()
                     .WithMessage("ErrorValidator_MedicalId_Null")
