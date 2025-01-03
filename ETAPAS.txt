@@ -1,33 +1,56 @@
-﻿Padrao de projetos  
-
-----------------------------------------------------
+﻿----------------------------------------------------
 https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
 https://lionscorp.visualstudio.com/SMARTDIGITALPSICO 
 https://portal.azure.com/#home
 https://painelbd.host.uol.com.br/main.html?servicetype=mysql
 https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 https://hub.docker.com/u/leonecr
-** para gerar pro mysql tem que gerar do zero a migracao 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+---------------  ||||||||||||||||||||||||||||||||||| TODO: |||||||||||||||||||||||||||||||||||
+ATUALIZAR FRONT END 
 
-https://github.com/henriq-toledo
+1)--Atualizar o  formulario medico -- FEITO OK 
 
-****************************************** ARRUMAR ERRO DE RECURSO DE IDIOMA NA TELA CARGO front
+2)-- Criar teste unitario do front pelo menos 1 formulario 
 
--------------------- CRIA UM REPOSITORIO E SERVICE QUE RECEBE DOIS OBJETOS E SERIALIZA IGUAL O INTERCEPOR E LOGA AI DE FORMA MANUAL POSSO ESCOLHER em que momento da aplicacao "SERVICE" eu gero log e nao em tudo
+3)-- Configurar a pipeline para teste e tambem sonar coverage
 
-*** O meu service AuditInterceptor pode envez de chamar e salvar no panco chamar um servico de storage table e gerar o log la 
+4)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
+
+5)-- No paciente ter um botao novo donload historico 
+
+6)-- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
+
+ 
+ --- Calendario ja tem o insert basico no controler 
+ -- Criar um Add e update que receber uma flag de Serie e recebe uma data Inicial e uma data final de no maximo 12 meses 
+
+ Acredito que teria que so criar a tela 
+
+ --- CRIAR UM PROCESSO DE NOTIFICACAO SEJA POR EMAIL OU SMS igual goggle agenda seguir que pode ser feitas varias notificacoes para uma agendamento 
+ ****************************************** ARRUMAR ERRO DE RECURSO DE IDIOMA NA TELA CARGO front
+  
 
 
-Em um sistema feito em C# .net 8, usando mysql e EF core  com api rest e um front end em angular 14 que tem um cadastro de dados de paciente e registro de atendimento ja com processo de git branchs azure devops pipelines de build e releases no azure o que mais de tecnologia ou processos poderia implementar
+  ------------- ATUALIZANDO PACOTES 
+
+  dotnet tool install --global dotnet-outdated-tool
+
+  dotnet outdated --upgrade
+
+
+
+---------------  ||||||||||||||||||||||||||||||||||| TODO: |||||||||||||||||||||||||||||||||||
+
+
+EM um projeto angular 14 com type scriot gere um componente com o forumalrio baseado nas proprieades da api em C# 
+
+
 
 
 ------------------------------- IMplantar para gravar sessao do usuario no storage table / mongo 
-
-
-
-
+  
 Ideias a implantar: 
 
 -- Criar service de email.  -- OK
@@ -46,49 +69,14 @@ https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 -- Area paciente para recados ao medico e solicitar cancelamento e reagendamento de horario sendo possive visualizar horarios disponiveis com um prazo minimo estipulado pelo medico ex: 24 horas de atencedencia os horarios livres podem ser solicitados ( Client em React com redux)
 
 -------------------------------------------
-ATUALIZAR FRONT END 
-
--- No paciente ter um botao novo donload historico 
-
--- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
-
--- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
- 
- --- Calendario ja tem o insert basico no controler 
- -- Criar um Add e update que receber uma flag de Serie e recebe uma data Inicial e uma data final de no maximo 12 meses 
-
- Acredito que teria que so criar a tela 
-
- --- CRIAR UM PROCESSO DE NOTIFICACAO SEJA POR EMAIL OU SMS igual goggle agenda seguir que pode ser feitas varias notificacoes para uma agendamento 
-
--------------------------------------------
-
-
-
-
-
-
---Criar um service pro relatorio -- OK
-
--- Metodo que  pesquisa de detalhes do paciente (TUDO) -- OK
-
- -- Criar um metodo e um controller para chamar o report  -- OK
-
--- Metodo que exporta todo para json (controler) -- OK
-
------REFATORAR OBJETOS DE REPORT CRIAR OBJETOS SEPARADO -- OK
-
--- Metodo que gera excel com a pesquisa de detalhes -- OK
-
--- Metodo que gera PDF com a pesquisa de detalhes -- OK
+A
 
 --- Apos agenda criada cria um processo de sms com envios pre programados horarios por configuracao e tambem controle de quais pacientes foi notificado 
 
 usar multi trhead no envio de sms rodnado em web job 
 
 ------------------------
-
-
+ 
 Crie para mim um metodo apos criado o usuario no banco seja montado email informando que o acesso dele foi liberado com a url  de acesso e enmail e senha provisoria 
 
 -------------------------------------
@@ -101,10 +89,7 @@ ADM nao pode ver arquiDTOs do medico
 
   
  ------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
- --- IMPLANTAR STORAGE BLOB PARA ARQUIDTOs 
-
- --- IMPLANTAR STORAGE TABLE PARA CACHE 
-
+  
  -- IMPLANTAR AUTENTICACAO AZURE 
  https://learn.microsoft.com/en-us/entra/identity-platform/tutorial-v2-angular-auth-code
  https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-angular-spa-app
@@ -112,43 +97,15 @@ ADM nao pode ver arquiDTOs do medico
  https://medium.com/@sifatandel4nov/simplified-guide-integrating-msal-and-azure-ad-authentication-in-your-angular-application-e223f4a8b058
 
  https://learn.microsoft.com/en-us/samples/azure-samples/ms-identity-ciam-javascript-tutorial/ms-identity-ciam-javascript-tutorial-2-sign-in-angular/
-
- tenho uma aplicacao em angular typescript  e uma web api em C# .net 8 core quero implantar o azure active directory entra id e tambem deixar o jwt token  tambem funcionando 
-
-
-
+   
  ------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
 
  ------------------------------------------------------------------------ UPLOAD ARQUIDTOs  CLOUD - BLOB   ------------------------------------------------------------------------ 
-
- ---1) FAZER UPLOAD NO STORAGE - OK 
-
- ---2) FAZER DOWNLOAD NO STORAGE  - OK 
-  
- ---3) DELETAR NO STORAGE   - OK 
-
+   
  ---3) APLICAR RBAC para somente ter permisao o proprio usuario que subiu "medico" -- SO VAI SER POSSIVEL APOS IMPLANTAR O AZURE AD (ENTRA)
 
 ------------------------------------------------------------------------ UPLOAD ARQUIDTOs  CLOUD - BLOB   ------------------------------------------------------------------------ 
-
-
-
- ------------------------------------------------------------------------ REGISTER  CLOUD - TABLE (CACHE E DATA SENSITIVE)   ------------------------------------------------------------------------ 
-
- ---1)Classe de repositorio - OK 
  
-
-
- ------------------------------------------------------------------------ REGISTER  CLOUD - TABLE (CACHE E DATA SENSITIVE)   ------------------------------------------------------------------------ 
-  
- ------------------------------------------------------------------------ MESSAGE CLOUD - QUEE (FILA)   ------------------------------------------------------------------------ 
-
-
- ---1)Classe de repositorio - OK 
-
- ------------------------------------------------------------------------ MESSAGE CLOUD - QUEE (FILA)   ------------------------------------------------------------------------ 
-  
-
 
  ------------------------------------------------------------------------ Readequacao  1  - CONCLUIDO ------------------------------------------------------------------------ 
  --resiliency-
@@ -176,30 +133,10 @@ ADM nao pode ver arquiDTOs do medico
 ---- RODAR A IMAGEM DO HUB LOCAL  -- OK
 
 -- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO  -- PARCIAL
-
--------------------------------------------------------
-- 1) Configurar ao realizar pull request para integration disparar pipeline integration  ------- Finalizado
-
-- 2) Configurar a integration para Deploy automatico  ------- Finalizado
-
-- 3) Configurar ao realizar pull request para staging disparar pipeline staging  ------- Finalizado
-	
-- 4) Configurar ao realizar pull request para master disparar pipeline master ------- Finalizado
-
-- 5) Configurar o sonar (CODE QUALITY) ------- Finalizado
-
-- 6) Habilitar docker  ------- Finalizado
  
-------------------------------------------------------- 
 
 ------------------------------------------------------------------------ Readequacao  1 - CONCLUIDO ------------------------------------------------------------------------ 
-
  
------------------------------------------------------------------------- Readequacao  2  CONCLUIDO  ------------------------------------------------------------------------ 
- 
-1) - Atuar nos erros do sonar (CODE QUALITY) Finalizado
-
------------------------------------------------------------------------- Readequacao  2  CONCLUIDO  ------------------------------------------------------------------------ 
  
   ------------------------------------------------------------------------ Readequacao  3 PENDENTE ------------------------------------------------------------------------ 
 
@@ -212,15 +149,10 @@ https://www.nuget.org/packages/bogus
 
 
 ------------------------------------------------------------------------ Readequacao  3 PENDENTE ------------------------------------------------------------------------ 
-
-
-
+  
 ------------------------------------------------------------------------ UI CI CD ------------------------------------------------------------------------ 
 
-  https://www.youtube.com/watch?v=NFqrWsUPCAM
-
-
-
+  https://www.youtube.com/watch?v=NFqrWsUPCAM 
 
   Add-Migration UpdateDescriptionRecordPatient -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations -Project SmartDigitalPsico.Data
 
@@ -637,52 +569,11 @@ ng serve --configuration=production
 
 Em C# .net core 8 usando NUnit 4 usando padrao novo That  e Moq gere teste unitario seguindo padroes de nomeclatura, gere o teste do codigo abaixo, o teste precisa ter um cenario de sucesso. para mais de um assert use o Assert.Multiple
 
- 
-
-USE DE EXEMPLO O CODIGO ABAIXO 
-  [Test]
-        public async Task Create_Success()
-        {
-            // Arrange
-            var mockFull = GenderMockHelper.GetMock().AsQueryable();
-            SetupContext(mockFull);
-            var mockData = GenderMockHelper.GetMock().Take(1).AsQueryable().First();
-            var data = createNewEntity(mockData);
-            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextMysqlTest();
-
-            // Inicialize  Repository
-            _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextMysqlTest();
-            _entityRepository = new GenderRepository(_mockContext, new PolicyConfig());
-
-            // Act
-            var result = await _entityRepository.Create(data);
-
-            var target = await _mockContext.Genders.FirstAsync(e => e.Description.Equals(data.Description, StringComparison.OrdinalIgnoreCase));
-
-            //Assert  
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.EqualTo(data));
-                Assert.That(target, Is.Not.Null);
-            });
-        }
+  
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   
         Em C# .net core 8 o codigo abaixao usando o FluentValidation melhore o codigo para validar os campos FileExtension e FileContentType para apenas tipos de arquiDTOs como imagens word e excel e pdf e impedir arquiDTOs maliciosos e que exceda mais que 100 mb e que os tipos de arquiDTOs seja possivel definir via appsetings 
 
  public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
@@ -790,12 +681,7 @@ Fonte: conversa com o Copilot, 07/08/2024
 (3) github.com. https://github.com/kiembully/cheapestessay_v2/tree/f77ad873c94c450ab90a16b7c023be10556075ee/functions%2Fdist%2Fam-starter-pack%2Fserver%2Fmain.js.
 
 
-
-
-
-
  
-
 
  Para garantir a qualidade do código, segurança, build, testes, e um bom CI/CD em uma aplicação Web API em C# e .NET Core, aqui estão algumas tarefas recomendadas:
 
@@ -829,19 +715,7 @@ Fonte: conversa com o Copilot, 01/09/2024
 (3) Criar uma API Web com os controladores do ASP.NET Core. https://learn.microsoft.com/pt-br/training/modules/build-web-api-aspnet-core/.
 (4) ASP.NET Core | Estrutura da Web de software livre para .NET. https://dotnet.microsoft.com/pt-br/apps/aspnet.
 (5) O que é API em C# – APIBrasil. https://blog.apibrasil.com.br/o-que-e-api-em-c/.
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 Em resumo, enquanto o DTO é focado na transferência de dados sem lógica, o VO é usado para encapsular valores significativos no domínio, podendo incluir lógica de negócios.

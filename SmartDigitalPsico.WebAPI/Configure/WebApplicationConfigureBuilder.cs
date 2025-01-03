@@ -64,9 +64,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             addAutoMigrate(app);
 
             app.UseHttpsRedirection();
-
-            app.UseStaticFiles();
-
+              
             string diretorioTemp = DirectoryHelper.GetDiretoryTemp(configuration);
 
             app.UseStaticFiles(new StaticFileOptions()

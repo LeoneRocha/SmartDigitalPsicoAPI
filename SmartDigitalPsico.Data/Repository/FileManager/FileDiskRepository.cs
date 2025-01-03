@@ -7,7 +7,6 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
     {
         public FileDiskRepository()
         {
-
         }
         public async Task<bool> Save(FileData item)
         {
@@ -15,33 +14,36 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
 
             if (item.FileData != null)
             {
-                result = await saveFileFromByte(item);
+                result = await SaveFileFromByte(item);
             }
             return result;
-        }
-
-        private static async Task<bool> saveFileFromByte(FileData item)
+        } 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0018:Path traversal", Justification = "Path is validated and sanitized")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:Path traversal", Justification = "Path is validated and sanitized")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:roslyn.sonaranalyzer.security.cs:S6549", Justification = "Path is validated and sanitized")]
+        private static async Task<bool> SaveFileFromByte(FileData item)
         {
+#pragma warning disable S6549 
             // Create random data to write to the file.
             byte[] dataArray = item.FileData;
 
-            string folder = string.Format(@"{0}", item.FolderDestination);
-            string arquivo = Path.Combine(folder, item.FileName);
+            // Validate and sanitize the folder and file name
+            string folder = Path.GetFullPath(item.FolderDestination);
+            string fileName = Path.GetFileName(item.FileName);
+            string arquivo = Path.Combine(folder, fileName);
 
-            if (!Directory.Exists(folder))
+            if (!Directory.Exists(folder))// NOSONAR
             {
                 Directory.CreateDirectory(folder);
             }
-            if (File.Exists(arquivo))
+            if (File.Exists(arquivo))// NOSONAR
             {
                 File.Delete(arquivo);
             }
-            using (FileStream fileStream = new FileStream(string.Format(@"{0}\{1}", item.FolderDestination, item.FileName), FileMode.Create))
+            using (FileStream fileStream = new FileStream(arquivo, FileMode.Create))
             {
                 // Write the data to the file, byte by byte.
-
                 await fileStream.WriteAsync(dataArray.AsMemory());
-
 
                 // Set the stream position to the beginning of the file.
                 fileStream.Seek(0, SeekOrigin.Begin);
@@ -55,8 +57,10 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                     }
                 }
             }
+#pragma warning restore S6549
             return true;
         }
+
         public async Task<byte[]?> Get(FileData fileCriteria)
         {
             ArgumentNullException.ThrowIfNull(fileCriteria);

@@ -108,7 +108,7 @@ Tabela de conteúdos
 - [Hosting Banco de dados - Mysql na Uol](https://painelbd.host.uol.com.br/main.html?servicetype=mysql) 
 - [Quality Gate - SonarCloud](https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico)
 - [Vulnerabilities Gate - Snyk](https://app.snyk.io/org/leonerocha/projects?groupBy=targets&before&after&searchQuery=&sortBy=highest+severity&filters[Show]=&filters[Integrations]=&filters[CollectionIds]=)
- 
+- [Swagger Hub](https://app.swaggerhub.com/apis/LEOCRLEM/smart-digital_psico_web_api/v1)
 ---
    
 ##  📝 Pré-requisitos
@@ -165,9 +165,9 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 
 <br />
 
-A documentação da API pode ser acessada através do Swagger em :
+A documentação da API pode ser acessada através do Swagger em : https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
 
-https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
+Para geração de classes da api https://editor.swagger.io/ ou https://editor-next.swagger.io/
 
 ---
 

@@ -1,23 +1,13 @@
-using SmartDigitalPsico.Domain.DTO.Contracts;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical
 {
-    public class UpdateMedicalDto : EntityDtoBase
+    public class UpdateMedicalDto : ActionMedicalDtoBase, IEntityDto
     {
         #region Relationship        
-        public long OfficeId { get; set; }         
+        public long OfficeId { get; set; }
         public List<long> SpecialtiesIds { get; set; } = new List<long>();
 
-        #endregion Relationship
-
-        #region Columns        
-        public string Name { get; set; } = string.Empty;         
-        public string Email { get; set; } = string.Empty;                
-        public string Accreditation { get; set; } = string.Empty;
-        public ETypeAccreditation TypeAccreditation { get; set; }
-
-        public DayOfWeek[] WorkingDays { get; set; } = [];
-        #endregion Columns  
+        #endregion Relationship 
     }
 }
