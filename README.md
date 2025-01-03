@@ -74,7 +74,7 @@ Tabela de conteúdos
 
 ### Homologação:  
    - [Backend](https://smartdigitalpsicoapi-staging.azurewebsites.net) 
-   - [Frontend](https://smartdigitalpsicoui-staging.azurewebsites.net) 
+   - [Frontend](https://smartdigitalpsicoui-staging-c8c4ayfegbg7ath2.brazilsouth-01.azurewebsites.net) 
 
 ---
 
