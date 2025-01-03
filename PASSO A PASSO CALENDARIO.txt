@@ -1,0 +1,354 @@
+﻿EM um projeto frontend em angular 14 com type script que consulta e chama uma api em C# .Net 8 com base nos metodos da api gere a classe service do projeto angular seguindo o condigo de referencia 
+
+import { HttpClient, HttpHeaders, } from '@angular/common/http';
+import { GenericServiceModel } from 'app/models/GenericServiceModel';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { Inject } from '@angular/core';
+import { BadInput } from 'app/common/errohandler/bad-input';
+import { NotFoundError } from 'app/common/errohandler/not-found-error';
+import { AppError } from 'app/common/errohandler/app-error';
+import { CaptureTologFunc } from 'app/common/errohandler/app-error-handler';
+import { FluentValidationResponse } from 'app/models/FluentValidationResponse';
+export class GenericService<T, E, ID> implements GenericServiceModel<T, E, ID> {
+  protected httpLocal: HttpClient;
+  constructor(
+    @Inject(HttpClient) private http: HttpClient, private baseUrl: string, private urlgetAll: string) {
+    this.httpLocal = http;
+  }
+
+  add(t: E): Observable<any> {
+
+    let headers = this.getHeaders();
+    return this.http.post<T>(this.baseUrl, t, { headers: headers }).pipe(map(response => { CaptureTologFunc('GenericService-add', response); return response; }), catchError(this.customHandleError));
+  }
+
+  update(t: E): Observable<T> {
+    let headers = this.getHeaders(); 
+    return this.http.put<T>(`${this.baseUrl}/`, t, { headers: headers }).pipe(map(response => { return response; }), catchError(this.customHandleError));
+  }
+
+  getById(id: ID): Observable<T> {
+    let headers = this.getHeaders();
+    return this.http.get<T>(`${this.baseUrl}/${id}`, { headers: headers }).pipe(map(response => { return response; }), catchError(this.customHandleError));
+  }
+
+  getAll(): Observable<T[]> {
+    let headers = this.getHeaders(); 
+    return this.http.get<T[]>(this.baseUrl + this.urlgetAll, { headers: headers }).pipe(map(response => { return response; }), catchError(this.customHandleError));
+  }
+
+  getAllByParentId(id: ID, parentProp: string): Observable<T[]> {
+    let headers = this.getHeaders();
+    return this.http.get<T[]>(`${this.baseUrl + this.urlgetAll}?${parentProp}=${id}`, { headers: headers }).pipe(map(response => { return response; }), catchError(this.customHandleError));
+  }
+
+  delete(id: ID): Observable<any> {
+    let headers = this.getHeaders();
+    return this.http.delete<T>(`${this.baseUrl}/${id}`, { headers: headers }).pipe(map(response => { return response; }), catchError(this.customHandleError));
+  }
+  getHeaders(): HttpHeaders {
+
+    let token: string = localStorage.getItem('tokenjwt');
+    let cultureUI: string = localStorage.getItem("AppLanguageId"); 
+    if (cultureUI !== 'pt-BR') {
+      cultureUI = "en-US";
+    }     
+    const headers = new HttpHeaders()
+    .set('Access-Control-Allow-Origin', '*')
+      .set('Authorization', `Bearer ${token}`)
+      .set('X-Culture', cultureUI);
+    return headers
+  }  
+  protected customHandleError(error: Response) { 
+    const erroFluentValidationResponse: FluentValidationResponse = { ...error?.['error'] }; 
+
+    if (error.status === 400)
+      return throwError(() => new BadInput(error));
+
+    if (error.status === 404)
+      return throwError(() => new NotFoundError());
+
+    //return Observable.throw(new AppError(error));
+    // Return an observable with a user-facing error message.
+    return throwError(() => new AppError(error));
+  }
+} 
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Inject } from '@angular/core';  
+import { ServiceResponse } from 'app/models/ServiceResponse';
+import { environment } from 'environments/environment'; 
+import { GenericService } from 'app/services/generic/generic.service'; 
+import { PatientModel } from 'app/models/principalsmodel/PatientModel';
+ 
+const basePathUrl = '/patient/v1/patient';
+@Injectable()
+export class PatientService extends GenericService<ServiceResponse<PatientModel>, PatientModel, number> {
+
+  constructor(@Inject(HttpClient) http: HttpClient) {
+    super(http, `${environment.APIUrl + basePathUrl}`, '/FindAll');
+  }
+
+}
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Domain.API;
+using SmartDigitalPsico.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Domain.Interfaces.Service;
+using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
+using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
+
+namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
+{
+    [ApiController]
+    [Authorize("Bearer")]
+    [Route("api/medical/v1/[controller]")]
+    public class MedicalCalendarController : ApiBaseController
+    {
+        private readonly IMedicalCalendarService _entityService;
+        public MedicalCalendarController(IMedicalCalendarService entityService
+            , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        {
+            _entityService = entityService;
+        }
+        private void setUserIdCurrent()
+        {
+            _entityService.SetUserId(base.GetUserIdCurrent());
+        }
+        [HttpGet("schedule/{id}")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> FindByID(int id)
+        {
+            this.setUserIdCurrent();
+            var response = await _entityService.FindByID(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("schedule")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Create([FromBody] AddMedicalCalendarDto newEntity)
+        {
+            this.setUserIdCurrent();
+            var response = await _entityService.Create(newEntity);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPut("schedule")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Update([FromBody] UpdateMedicalCalendarDto updateEntity)
+        {
+            this.setUserIdCurrent();
+            var response = await _entityService.Update(updateEntity);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpDelete("schedule")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        public async Task<ActionResult<ServiceResponse<bool>>> Delete([FromBody] DeleteMedicalCalendarDto request)
+        {
+            this.setUserIdCurrent();
+            var response = await _entityService.DeleteOneOrRecurrence(request);
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("calendar")]
+        public async Task<ActionResult<ServiceResponse<CalendarDto>>> GetMonthlyCalendar([FromBody] CalendarCriteriaDto criteria)
+        {
+            this.setUserIdCurrent();
+            var schedule = await _entityService.GetMonthlyCalendar(criteria);
+            return Ok(schedule);
+        }
+
+        [HttpPost("available")]
+        public async Task<ActionResult<ServiceResponse<CalendarDto>>> GetAvailableMedicalCalendar([FromBody] CalendarCriteriaDto criteria)
+        {
+            this.setUserIdCurrent();
+            var schedule = await _entityService.GetAvailableMedicalCalendar(criteria);
+            return Ok(schedule);
+        }
+
+        [HttpPost("appointment/send")]
+        public async Task<ActionResult<ServiceResponse<CalendarDto>>> SendAppointments([FromBody] ScheduleCriteriaDto criteria)
+        {
+            this.setUserIdCurrent();
+            var schedule = await _entityService.RequestAppointment(criteria);
+            return Ok(schedule);
+        }
+
+        [HttpPost("appointment/get")]
+        public async Task<ActionResult<ServiceResponse<AppointmentDto[]>>> GetAppointments([FromBody] AppointmentCriteriaDto criteria)
+        {
+            this.setUserIdCurrent();
+            var schedule = await _entityService.GetAppointments(criteria);
+            return Ok(schedule);
+        }
+    }
+}
+----------------------DTOS 
+
+ public class GetMedicalCalendarDto : ActionMedicalCalendarDtoBase, ISupportsHyperMedia
+ {
+     #region Relationship 
+     public GetMedicalDto Medical { get; set; } = new GetMedicalDto();
+     public GetPatientDto? Patient { get; set; } = new GetPatientDto();
+     public GetUserDto? CreatedUser { get; set; } = new GetUserDto();
+     public GetUserDto? ModifyUser { get; set; } = new GetUserDto();
+     #endregion Relationship      
+     public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>(); 
+ } public abstract class ActionMedicalCalendarDtoBase : GetMedicalCalendarDtoBase
+ {
+     #region Relationship 
+     public long MedicalId { get; set; }
+     public long? PatientId { get; set; }
+     #endregion Relationship 
+     #region Columns  
+     public long? CreatedUserId { get; set; }
+     public long? ModifyUserId { get; set; } 
+     #endregion Columns  
+ } 
+ public abstract class GetMedicalCalendarDtoBase : EntityDtoBase
+ { 
+     #region Columns  
+     public string Title { get; set; } = string.Empty;
+     public DateTime StartDateTime { get; set; }
+     public DateTime? EndDateTime { get; set; }
+     public bool IsAllDay { get; set; }
+     public EStatusCalendar Status { get; set; }
+     public string ColorCategoryHexa { get; set; } = string.Empty;
+     public bool IsPushedCalendar { get; set; }
+     public string TimeZone { get; set; } = string.Empty;         
+     public string Location { get; set; } = string.Empty;
+     public string Description { get; set; } = string.Empty;
+     public DayOfWeek[] RecurrenceDays { get; set; } = [];
+     public ERecurrenceCalendarType RecurrenceType { get; set; }
+     public DateTime? RecurrenceEndDate { get; set; }
+     public byte RecurrenceCount { get; set; }
+     #endregion Columns  
+ }
+  public class UpdateMedicalCalendarDto : ActionMedicalCalendarDtoBase
+ {
+     public bool UpdateSeries { get; set; }
+     public string TokenRecurrence { get; set; } = string.Empty;
+ } 
+ 
+     public class CalendarCriteriaDto : CalendarCriteriaDtoBase
+    {
+        public int IntervalInMinutes { get; set; } // Intervalo em minutos (ex: 30 para 30 minutos, 60 para 1 hora)         
+        public bool FilterDaysAndTimesWithAppointments { get; set; } // Filtro para dias com compromissos
+        public DateTime? FilterByDate { get; set; } // Filtrar por data específica
+    } 
+}
+ public abstract class CalendarCriteriaDtoBase
+ {
+     public long MedicalId { get; set; }
+     public int Month { get; set; }
+     public int Year { get; set; }
+     [JsonIgnore]
+     [Ignore]
+     public long UserIdLogged { get; set; }
+ } 
+ public class ScheduleCriteriaDto
+{
+    public DateTime AppointmentDateTime { get; set; }
+    public string Reason { get; set; } = string.Empty;
+    public string TimeZone { get; set; } = string.Empty;
+    public EScheduleCalendarType ScheduleType { get; set; }
+    public long PatientId { get; set; }
+    public long MedicalId { get; set; }
+    [JsonIgnore]
+    [Ignore]
+    public long UserIdLogged { get; set; }
+}
+ public class AppointmentCriteriaDto : CalendarCriteriaDtoWithPatientIdBase
+ {
+ } 
+ public abstract class CalendarCriteriaDtoWithPatientIdBase : CalendarCriteriaDtoBase
+{
+    public long PatientId { get; set; }
+}
+ public class CalendarDto
+ {
+     public long MedicalId { get; set; }
+     public string MedicalName { get; set; } = string.Empty;
+     public DayCalendarDto[] Days { get; set; } = [];
+ }
+   public class DayCalendarDto
+  {
+      public DateTime Date { get; set; }
+      public TimeSlotDto[] TimeSlots { get; set; } = []; 
+  }
+ public class TimeSlotDto
+{
+    public DateTime StartTime { get; set; }
+    public DateTime? EndTime { get; set; }
+    public bool IsAvailable { get; set; } 
+    public GetMedicalCalendarTimeSlotDto? MedicalCalendar { get; set; }
+    public bool IsPast { get; set; }
+}
+public class AppointmentDto
+{
+    public string MedicalName { get; set; } = string.Empty;
+    public long MedicalId { get; set; }
+    public DateTime StartDateTime { get; set; }
+    public DateTime EndDateTime { get; set; }
+    public EStatusCalendar Status { get; set; }
+    public string TimeZone { get; set; } = string.Empty;
+    public string Location { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public bool IsPast { get; set; }
+} public enum EStatusCalendar
+ {
+     [Description("Active")]
+     Active = 0,
+     [Description("Scheduled")]
+     Scheduled = 1,
+     [Description("Confirmed")]
+     Confirmed = 2,
+     [Description("Refused")]
+     Refused = 3,
+     [Description("Completed")]
+     Completed = 4,
+     [Description("No Show")]
+     NoShow = 5,
+     [Description("Pending Confirmation")]
+     PendingConfirmation = 6,
+     [Description("In Progress")]
+     InProgress = 7,
+     [Description("Rescheduled")]
+     Rescheduled = 8,
+     [Description("Canceled")]
+     Canceled = 9,
+     [Description("Pending Cancellation")]
+     PendingCancellation = 10
+ }  public class ServiceResponse<T> : IServiceResponse<T>
+ { 
+     public T? Data { get; set; }
+     public bool Success { get; set; } = true;
+     public string Message { get; set; } = string.Empty;
+     public List<ErrorResponse> Errors { get; set; } = new List<ErrorResponse>();
+     public bool Unauthorized { get; set; }
+ }   public class ErrorResponse
+ {
+     public string Name { get; set; } = string.Empty;
+     public string Message { get; set; } = string.Empty;
+     public string ErrorCode { get; set; } = string.Empty;
+ } 

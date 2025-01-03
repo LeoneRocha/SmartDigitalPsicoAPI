@@ -7,20 +7,68 @@ https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
 https://hub.docker.com/u/leonecr
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
----------------  ||||||||||||||||||||||||||||||||||| TODO: |||||||||||||||||||||||||||||||||||
-ATUALIZAR FRONT END 
+---------------  ||||||||||||||||||||||||||||||||||| TODO 2024/2025 ||||||||||||||||||||||||||||||||||
 
-1)--Atualizar o  formulario medico -- FEITO OK 
+1) Criar o service do calendario no front ------------ FEITO 
 
-2)-- Criar teste unitario do front pelo menos 1 formulario 
+--- ESTA RETORNANDO DIAS E HORARIOS ERRADO NO FRONT e nO BACK- CORRIGIDO 
 
-3)-- Configurar a pipeline para teste e tambem sonar coverage
+2) IMplementar tela do calendario chamando api
+
+---Implementar opcao no menu e rota --- FEITO 
+--- Criar service para chamar api e fazer meio de campo entre service da api e a tela de calendario   --- FEITO faltando testar e ajustar 
+--- Renderizar o calendario default ----  --- FEITO 
+-- Implementar listar para testar renderizando ja com as datas buscando no servidor  --- FEITO 
+
+2.1) Listagem horarios ---- Feito parcial fazer o incluir e ver como sera listado quando agendado para um paciente devera postrar nome do paciente no titulo. quando nao tiver paciente mostrar Disponivel.
+2.2) Incluir apontamento um formulario personalizado
+
+Deve ter campo de horario inicial e final , Escolher paciente por um campo dropdownlist que devera ser carregado chamando endpoint listar paciente
+
+
+2.3) Editar horarios
+2.4) Excluir (Inativar) agendamentos.
+
+
+***TIPS: a principio e side bar mas nao lembro como renderiza acredito que seja em app\sidebar\sidebar.component.ts eu refatorei e passei para import { ROUTES, RouteInfo } from '../common/routerpaths';
+** Sei que depois precisar configurar no app.routing.ts
+---------REGRAS 
+
+
+No calendario so deve mostrar horarios disponiveis e horarios ja gravados 
+-- Para os disponiveis pode adicionar 
+--- Para os existentes apagar ou editar
+--- Para os que nao foi gravado nao existe agendamento e foi passado nao pode fazer edicao adicionar ou excluir
+--- Para o passado que foi gravado nao pode editar so visualizar os detalhes. 
+
+
+-------- POR ENQUANTO NAO PODE MOVER (FUTURAMENTE SIM AI ALTERA DIA E HORA SE NAO TIVER CONFLITO )
+
+
+
 
 4)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
 
 5)-- No paciente ter um botao novo donload historico 
 
 6)-- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
+
+
+//// NO CALENDARIO FAZER ALGUM CADASTRO OU BUSCAR POR API OS FERIADOS OU POR IA ****** TODO CALENDARIO
+
+
+---------------  ||||||||||||||||||||||||||||||||||| TODO 2024/2025 ||||||||||||||||||||||||||||||||||
+
+
+ATUALIZAR FRONT END 
+
+1)--Atualizar o  formulario medico -- FEITO OK 
+
+2)-- Criar teste unitario do front pelo menos 1 formulario - CANCELADO
+
+3)-- Configurar a pipeline para teste e tambem sonar coverage - CANCELADO
+
+
 
  
  --- Calendario ja tem o insert basico no controler 
