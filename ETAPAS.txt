@@ -25,6 +25,8 @@ https://hub.docker.com/u/leonecr
 
 Deve ter campo de horario inicial e final , Escolher paciente por um campo dropdownlist que devera ser carregado chamando endpoint listar paciente
 
+---Arrumar o carregar paciente
+
 
 2.3) Editar horarios
 2.4) Excluir (Inativar) agendamentos.

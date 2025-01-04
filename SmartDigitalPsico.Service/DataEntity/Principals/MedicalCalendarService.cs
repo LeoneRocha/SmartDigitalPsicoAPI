@@ -91,7 +91,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.Enable = item.Enable;
 
             #region Relationship
+            entityUpdate.CreatedUserId = UserId;
             entityUpdate.ModifyUserId = UserId;
+            entityUpdate.PatientId = item.PatientId;
+            entityUpdate.MedicalId = item.MedicalId;
             #endregion Relationship 
 
             entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();

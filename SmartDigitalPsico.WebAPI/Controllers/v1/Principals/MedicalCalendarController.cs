@@ -60,7 +60,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             var response = await _entityService.Update(updateEntity);
             if (response.Data == null)
             {
-                return NotFound(response);
+                return BadRequest(response);
             }
             return Ok(response);
         }
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             var response = await _entityService.DeleteOneOrRecurrence(request);
             if (!response.Success)
             {
-                return NotFound(response);
+                return BadRequest(response);
             }
             return Ok(response);
         }
