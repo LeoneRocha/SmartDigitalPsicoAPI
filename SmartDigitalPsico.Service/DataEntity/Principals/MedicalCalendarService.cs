@@ -376,7 +376,21 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
 
             var medical = await GetMedicalAsync(criteria.MedicalId);
+
             var (startDate, endDate) = GetDateRange(criteria.Year, criteria.Month);
+
+            if (criteria.StartDate.HasValue && criteria.EndDate.HasValue)
+            {
+                if (criteria.StartDate.GetValueOrDefault() > DateTime.MinValue)
+                {
+                    startDate = criteria.StartDate.Value.Date;
+                }
+                if (criteria.EndDate.GetValueOrDefault() > DateTime.MinValue)
+                {
+                    endDate = criteria.EndDate.Value.Date;
+                }
+            } 
+
             var interval = TimeSpan.FromMinutes(medical.PatientIntervalTimeMinutes);
             var medicalCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(criteria.MedicalId, startDate, endDate);
 
