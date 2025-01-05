@@ -11,25 +11,23 @@ https://hub.docker.com/u/leonecr
 
 1) Criar o service do calendario no front ------------ FEITO 
 
---- ESTA RETORNANDO DIAS E HORARIOS ERRADO NO FRONT e nO BACK- CORRIGIDO 
+--- ESTA RETORNANDO DIAS E HORARIOS ERRADO NO FRONT e nO BACK- CORRIGIDO -- FEITO OK 
 
-2) IMplementar tela do calendario chamando api
+2) IMplementar tela do calendario chamando api -- FEITO OK 
 
 ---Implementar opcao no menu e rota --- FEITO 
 --- Criar service para chamar api e fazer meio de campo entre service da api e a tela de calendario   --- FEITO faltando testar e ajustar 
 --- Renderizar o calendario default ----  --- FEITO 
 -- Implementar listar para testar renderizando ja com as datas buscando no servidor  --- FEITO 
 
-2.1) Listagem horarios ---- Feito parcial fazer o incluir e ver como sera listado quando agendado para um paciente devera postrar nome do paciente no titulo. quando nao tiver paciente mostrar Disponivel.
-2.2) Incluir apontamento um formulario personalizado
+2.1) Listagem horarios ---- Feito parcial fazer o incluir e ver como sera listado quando agendado para um paciente devera postrar nome do paciente no titulo. quando nao tiver paciente mostrar Disponivel.-- FEITO OK 
+2.2) Incluir apontamento um formulario personalizado -- FEITO OK  - Deve ter campo de horario inicial e final , Escolher paciente por um campo dropdownlist que devera ser carregado chamando endpoint listar paciente
+---Arrumar o carregar paciente -- FEITO OK 
 
-Deve ter campo de horario inicial e final , Escolher paciente por um campo dropdownlist que devera ser carregado chamando endpoint listar paciente
-
----Arrumar o carregar paciente
-
-
-2.3) Editar horarios
-2.4) Excluir (Inativar) agendamentos.
+2.3) Editar horarios -- FEITO OK 
+2.4) Incluir outros campos 
+2.5) Excluir (Inativar) agendamentos. Sera um campo no update se deseja excluir ou nao on/off que vai ser o enable. Deverar refletir na busca nao trazer inativos e ao salvar validacao somente dos ativos da sobreposicao de horario.
+2.6) Aplicar idoma e resource 
 
 
 ***TIPS: a principio e side bar mas nao lembro como renderiza acredito que seja em app\sidebar\sidebar.component.ts eu refatorei e passei para import { ROUTES, RouteInfo } from '../common/routerpaths';
