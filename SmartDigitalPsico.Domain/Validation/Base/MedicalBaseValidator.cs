@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Domain.Validation.Base
             {
                 if (await _entityRepository.Exists(entity.Id))
                 {
-                    var entityBefore = await _entityRepository.FindByID(entity.MedicalId);
+                    var entityBefore = await _entityRepository.FindByID(entity.Id);
                     if (entityBefore.MedicalId != entity.MedicalId)
                     {
                         return false;
