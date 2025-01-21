@@ -1,21 +1,13 @@
-﻿
-
-
-
-
-
-
-
-
+﻿  
 ------------------------------------------------------------- PENDENCIAS 12 01 2025 
 --- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 
 --- Arrumar layout dos botoes trazer para dentro do componente form event FEITO 
----- testar editar adicionar e arrumar idomas e labes ------- PENDENTE
+---- testar editar adicionar e arrumar idomas e labes -------FEITO 
 ---- ARRUMAR O DEPLOY DA MASTER EM PRODUCAO E ARRUMAR LINKS DAS DOCUMENTACOES 
 
+Falta ajustar o campo ERecurrenceCalendarType ------------ XXXX
 
-
-
+--criar campo atualizar em serie  para quando for editar aparecer o campo para poder flagar ou nao que atualizara os registros existentes em diante
 
 
 
