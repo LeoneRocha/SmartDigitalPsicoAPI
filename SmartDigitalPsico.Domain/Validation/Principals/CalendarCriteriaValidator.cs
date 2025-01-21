@@ -37,17 +37,17 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .Must(BeValidDate)
                 .WithMessage("StartDate must be a valid date.")
                 .Must((criteria, startDate) => !criteria.EndDate.HasValue || (criteria.EndDate.Value - startDate!.Value).TotalDays <= maxDayRange)
-                .WithMessage("StartDate and EndDate cannot be more than 30 days apart.");
+                .WithMessage($"StartDate and EndDate cannot be more than  {maxDayRange} days apart.");
 
             RuleFor(criteria => criteria.EndDate)
                 .Must(BeValidDate)
                 .WithMessage("EndDate must be a valid date.")
                 .Must((criteria, endDate) => !criteria.StartDate.HasValue || (endDate!.Value - criteria.StartDate.Value).TotalDays <= maxDayRange)
-                .WithMessage("StartDate and EndDate cannot be more than 30 days apart.");
+                .WithMessage($"StartDate and EndDate cannot be more than {maxDayRange} days apart.");
 
             RuleFor(criteria => criteria.IntervalInMinutes)
                 .InclusiveBetween(minMinuteInterval, maxMinuteInterval)
-                .WithMessage("IntervalInMinutes must be between 30 and 1440 (24 hours).");
+                .WithMessage($"Interval In Minutes must be between {minMinuteInterval} and {maxMinuteInterval}.");
 
             RuleFor(criteria => criteria)
                 .MustAsync(IsValidMedicalId)
