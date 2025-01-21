@@ -425,6 +425,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 }
 
                 var interval = TimeSpan.FromMinutes(medical.PatientIntervalTimeMinutes);
+
+                criteria.IntervalInMinutes = medical.PatientIntervalTimeMinutes;
+
+                if (!await ValidateCriteriaAsync(criteria, response))
+                {
+                    return response;
+                }
+
                 var medicalCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(criteria.MedicalId, startDate, endDate);
 
                 if (!await ValidateMedicalCalendarsAsync(medicalCalendars, response))
