@@ -70,7 +70,7 @@ Tabela de conteúdos
 
 ### Produção:  
    - [Backend](https://smartdigitalpsicoapi.azurewebsites.net) 
-   - [Frontend](https://smartdigitalpsicoui.azurewebsites.net) 
+   - [Frontend](https://smartdigitalpsicoui-d4e0bbcfaabrava8.brazilsouth-01.azurewebsites.net/) 
 
 ### Homologação:  
    - [Backend](https://smartdigitalpsicoapi-staging.azurewebsites.net) 
