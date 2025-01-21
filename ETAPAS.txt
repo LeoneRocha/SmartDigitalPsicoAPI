@@ -1,4 +1,22 @@
-﻿----------------------------------------------------
+﻿  
+------------------------------------------------------------- PENDENCIAS 12 01 2025 
+--- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 
+--- Arrumar layout dos botoes trazer para dentro do componente form event FEITO 
+---- testar editar adicionar e arrumar idomas e labes -------FEITO 
+---- ARRUMAR O DEPLOY DA MASTER EM PRODUCAO E ARRUMAR LINKS DAS DOCUMENTACOES 
+
+Falta ajustar o campo ERecurrenceCalendarType ------------ XXXX
+
+--criar campo atualizar em serie  para quando for editar aparecer o campo para poder flagar ou nao que atualizara os registros existentes em diante
+
+
+
+
+
+
+
+
+----------------------------------------------------
 https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
 https://lionscorp.visualstudio.com/SMARTDIGITALPSICO 
 https://portal.azure.com/#home
@@ -32,6 +50,9 @@ https://hub.docker.com/u/leonecr
 2.5) Excluir (Inativar) agendamentos. Sera um campo no update se deseja excluir ou nao on/off que vai ser o enable. Deverar refletir na busca nao trazer inativos e ao salvar validacao somente dos ativos da sobreposicao de horario.
 2.6) Aplicar idoma e resource 
 
+
+
+------------------------------------------------------------- PENDENCIAS 12 01 2025 
 
 
 
@@ -801,3 +822,11 @@ Fonte: conversa com o Copilot, 02/10/2024
 (4) Tutorial: criar uma API Web com o ASP.NET Core. https://learn.microsoft.com/pt-br/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0.
 (5) Web API em C# .NET 6 com EntityFramework e MySQL. https://www.youtube.com/watch?v=hihoIafZzSQ.
 (6) ASP .NET Core - Usando EF Core 5 com MySql em uma API RESTFul. https://www.macoratti.net/21/01/aspc6_efc5rest1.htm.
+
+
+Seguindo a estrutura json  abaixo de i18n para angular 2+ typescript , gere o resource em ingles americano, espanhol e portugues brasileiro dos valores abaixo 
+
+ "calendar": {       
+     "title": "Calendar" 
+   }
+
