@@ -188,7 +188,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             while ((medicalCalendar.RecurrenceEndDate == null || currentStart <= medicalCalendar.RecurrenceEndDate) && (medicalCalendar.RecurrenceCount == null || count.Value < medicalCalendar.RecurrenceCount))
             {
-                await AddEventAsync(medicalCalendar, events, validator, count, currentStart, currentEnd);
+                if (medicalCalendar.RecurrenceDays.Contains(currentStart.DayOfWeek))
+                {
+                    await AddEventAsync(medicalCalendar, events, validator, count, currentStart, currentEnd);
+                }
                 currentStart = AddTime(currentStart, interval, unit);
                 currentEnd = AddTime(currentEnd, interval, unit);
             }
@@ -218,7 +221,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     if (calculatedEndDate != null && nextDate > calculatedEndDate)
                         break;
 
-                    await AddEventAsync(medicalCalendar, events, validator, count, nextDate, nextDate.Add(currentEnd - currentStart));
+                    if (medicalCalendar.RecurrenceDays.Contains(nextDate.DayOfWeek))
+                    {
+                        await AddEventAsync(medicalCalendar, events, validator, count, nextDate, nextDate.Add(currentEnd - currentStart));
+                    }
                 }
                 currentStart = currentStart.AddDays(7);
                 currentEnd = currentEnd.AddDays(7);
@@ -619,7 +625,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
         }
 
-
         private static DayCalendarDto[] FilterDaysWithMedicalCalendar(CalendarCriteriaDto criteria, DayCalendarDto[] days)
         {
             if (criteria.FilterDaysAndTimesWithAppointments)
@@ -714,7 +719,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             var response = new ServiceResponse<bool>();
             try
-            { 
+            {
                 // Validate criteria
                 var validationResult = await _validators.ScheduleCriteriaDtoValidator.ValidateAsync(criteria);
                 if (!validationResult.IsValid)

@@ -11,7 +11,7 @@ Falta ajustar o campo ERecurrenceCalendarType ------------ XXXX
 
 
 
-
+--- VALIDAR AO PEDIR ANGENDAMENTO OU GERAR HORARIO VALIDAR OS DIAS DA SEMANA SE O MEDICO TRABALHA 
 
 
 
