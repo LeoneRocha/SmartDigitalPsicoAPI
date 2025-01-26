@@ -3,17 +3,33 @@
 --- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 
 --- Arrumar layout dos botoes trazer para dentro do componente form event FEITO 
 ---- testar editar adicionar e arrumar idomas e labes -------FEITO 
----- ARRUMAR O DEPLOY DA MASTER EM PRODUCAO E ARRUMAR LINKS DAS DOCUMENTACOES 
+---- ARRUMAR O DEPLOY DA MASTER EM PRODUCAO E ARRUMAR LINKS DAS DOCUMENTACOES  -------FEITO 
 
-Falta ajustar o campo ERecurrenceCalendarType ------------ XXXX
+Falta ajustar o campo ERecurrenceCalendarType ------------ t FEITO 
 
 --criar campo atualizar em serie  para quando for editar aparecer o campo para poder flagar ou nao que atualizara os registros existentes em diante
 
 
 
+carregar quando existir o token aparecer flagado
+
+
+
+
+----------------------------- >>>>>>>>>>>>>>>> MELHORIAS <<<<<<<<<<<<<<<<<< 
+
+
 --- VALIDAR AO PEDIR ANGENDAMENTO OU GERAR HORARIO VALIDAR OS DIAS DA SEMANA SE O MEDICO TRABALHA 
 
+------ EXIBIR O CAMPO AO EDITAR PARA PODER SELECIONAR O STATUS QUE DESEJA ATUALIZAR 
 
+---- COlocar algunas validacoes no form
+1) se selecionar recorrencia obrigar selecionar o tipo e os dias da semana 
+
+
+------------ Criar um registro de feriados.
+
+-------------------------
 
 
 ----------------------------------------------------

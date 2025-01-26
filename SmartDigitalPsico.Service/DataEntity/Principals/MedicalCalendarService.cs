@@ -17,6 +17,7 @@ using SmartDigitalPsico.Domain.Validation.SystemDomains;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -99,17 +100,25 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
         {
             ServiceResponse<GetMedicalCalendarDto> response = new ServiceResponse<GetMedicalCalendarDto>();
+
             try
             {
                 var entityUpdate = _mapper.Map<MedicalCalendar>(item);
                 entityUpdate.Enable = item.Enable;
-
                 #region Relationship
                 entityUpdate.CreatedUserId = UserId;
                 entityUpdate.ModifyUserId = UserId;
                 entityUpdate.PatientId = item.PatientId;
                 entityUpdate.MedicalId = item.MedicalId;
-                #endregion Relationship 
+                #endregion Relationship
+
+                var entityListExists = await _entityRepository.FindByCustomWhere(e => e.MedicalId == entityUpdate.MedicalId && e.PatientId == entityUpdate.PatientId && e.StartDateTime == entityUpdate.StartDateTime && e.EndDateTime == entityUpdate.EndDateTime);
+
+                if (entityListExists != null && entityListExists.Count > 0)
+                {
+                    var entityFirst = entityListExists[0];
+                    entityUpdate.CreatedDate = entityFirst.CreatedDate;
+                }
 
                 entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
                 entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
@@ -118,7 +127,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 if (response.Success)
                 {
-                    if (entityUpdate.RecurrenceType != ERecurrenceCalendarType.None && item.UpdateSeries)
+                    if (entityUpdate.RecurrenceType != ERecurrenceCalendarType.None && (item.UpdateSeries || !string.IsNullOrEmpty(item.TokenRecurrence)))
                     {
                         try
                         {
@@ -126,10 +135,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
                             response.Message = MensageCalendarUpdated;
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            response.Message = ex.Message;
-                            response.Success = false;
+                            throw;
                         }
                     }
                     else
@@ -157,7 +165,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var validator = new MedicalCalendarRangeValidator(_entityRepository);
             var count = new RefDto<int>(0);
 
-            if (updateSeries)
+            if (updateSeries || !string.IsNullOrEmpty(medicalCalendar.TokenRecurrence))
             {
                 var existingEvents = await _entityRepository.GetByMedicalCalendarAsync(medicalCalendar);
                 await _entityRepository.DeleteRangeAsync(existingEvents);
