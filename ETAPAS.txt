@@ -5,31 +5,54 @@
 ---- testar editar adicionar e arrumar idomas e labes -------FEITO 
 ---- ARRUMAR O DEPLOY DA MASTER EM PRODUCAO E ARRUMAR LINKS DAS DOCUMENTACOES  -------FEITO 
 
-Falta ajustar o campo ERecurrenceCalendarType ------------ t FEITO 
+Falta ajustar o campo ERecurrenceCalendarType  -------FEITO 
 
---criar campo atualizar em serie  para quando for editar aparecer o campo para poder flagar ou nao que atualizara os registros existentes em diante
+--criar campo atualizar em serie  para quando for editar aparecer o campo para poder flagar ou nao que atualizara os registros existentes em diante  -------FEITO 
+ 
+carregar quando existir o token aparecer flagado  -------FEITO 
 
-
-
-carregar quando existir o token aparecer flagado
-
-
-
-
+ 
 ----------------------------- >>>>>>>>>>>>>>>> MELHORIAS <<<<<<<<<<<<<<<<<< 
+---- COlocar algunas validacoes no form -------FEITO 
+1) se selecionar recorrencia obrigar selecionar o tipo e os dias da semana  -------FEITO 
+
+-- VALIDAR AO PEDIR ANGENDAMENTO OU GERAR HORARIO VALIDAR OS DIAS DA SEMANA SE O MEDICO TRABALHA    -------FEITO 
+
+-- EXIBIR O CAMPO AO EDITAR PARA PODER SELECIONAR O STATUS QUE DESEJA ATUALIZAR -------------------------- PENDENTE 
+
+-- CRIAR UM BOTAO APAGAR -------------------------- PENDENTE 
 
 
---- VALIDAR AO PEDIR ANGENDAMENTO OU GERAR HORARIO VALIDAR OS DIAS DA SEMANA SE O MEDICO TRABALHA 
 
------- EXIBIR O CAMPO AO EDITAR PARA PODER SELECIONAR O STATUS QUE DESEJA ATUALIZAR 
+------------ 2 Criar processo de feriados por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  ter um pre-gerar feriados por ia ou service.
+Medical Id 
+Enable 
+Datas (padrao)
+Descricao
+DataFeriado
 
----- COlocar algunas validacoes no form
-1) se selecionar recorrencia obrigar selecionar o tipo e os dias da semana 
+----------- 3 Validar ao salvar se nao esta em feriado e nao gerar dias de feriado responder como indisponivel se feriado for ativo 
 
+------------4 Criar processo de configurar notificacoes por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  (Regras de notificacao) RuleNotificationMedical
+Medical Id 
+Enable 
+Datas (padrao)
+Descricao
+Tipo de intervalo (minutos, hora, dia , meses , ano)
+Tempo de intervalo (int 999) + e - 
+Tipos de envios  (array email, sms , whatsapp)
 
------------- Criar um registro de feriados.
+------------5 Criar processo de gerar notificacao (Notificacao calendar) quando salvar "inicialente buscar nas regras ativas e gerar 1 registro para cada regra"
+Campos: 
+Medical Id 
+Patiente Id
+Data Hora Enviar Notificacao 
+Tipos Envios (array email, sms , whatsapp)
+Data De envio da notificao 
+FoiENviado (bool)
+RuleNotificationMedical ? 
 
--------------------------
+-------------------------6 COM ISSO CRIAR UM JOB (WEBJOB,SERVICE, API para chamar por um azurefunction)  QUE BUSCA TODAS NOTIFICACOES E VERIFICA a regra 
 
 
 ----------------------------------------------------
