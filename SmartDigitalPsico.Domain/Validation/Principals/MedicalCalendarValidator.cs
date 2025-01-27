@@ -3,16 +3,18 @@ using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Base;
-using System;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class MedicalCalendarValidator : MedicalBaseValidator<MedicalCalendar>
     {
         private readonly IMedicalCalendarRepository _repository;
+        private readonly IMedicalRepository _repositoryMedical;
+
         public MedicalCalendarValidator(IConfiguration configuration, IMedicalCalendarRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
         {
             _repository = entityRepository;
+            _repositoryMedical = medicalRepository;
 
             #region Columns
             RuleFor(e => e.Title)
@@ -28,7 +30,9 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .WithMessage("Start date and time must be in the future.")
                 .LessThan(e => e.EndDateTime)
                 .When(e => e.EndDateTime.HasValue && !e.IsAllDay)
-                .WithMessage("Start time must be before end time.");
+                .WithMessage("Start time must be before end time.")
+                .MustAsync(async (e, startDateTime, cancellationToken) => await BeInWorkingDays(e.MedicalId, startDateTime))
+                .WithMessage("Start date and time must be on a working day for the doctor.");
 
             RuleFor(e => e.EndDateTime)
                 .NotEmpty()
@@ -36,7 +40,9 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .When(e => e.EndDateTime.HasValue)
                 .WithMessage("End date and time must be in the future.")
                 .GreaterThan(e => e.StartDateTime)
-                .WithMessage("End date and time must be after start date and time.");
+                .WithMessage("End date and time must be after start date and time.")
+                .MustAsync(async (e, endDateTime, cancellationToken) => await BeInWorkingDays(e.MedicalId, endDateTime.GetValueOrDefault()))
+                .WithMessage("End date and time must be on a working day for the doctor.");
 
             RuleFor(e => e.Status)
                 .IsInEnum()
@@ -59,7 +65,9 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             RuleFor(e => e.RecurrenceDays)
                 .Must(BeValidDays)
                 .When(e => e.RecurrenceDays != null && e.RecurrenceDays.Length > 0)
-                .WithMessage("Invalid recurrence days.");
+                .WithMessage("Invalid recurrence days.")
+                .MustAsync(async (e, recurrenceDays, cancellationToken) => await BeInWorkingDays(e.MedicalId, recurrenceDays))
+                .WithMessage("Recurrence days must be on working days for the doctor.");
 
             RuleFor(e => e.RecurrenceType)
                 .IsInEnum()
@@ -91,10 +99,12 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .MustAsync(NoScheduleConflict)
                 .WithMessage("There is a scheduling conflict for the specified time.");
         }
+
         private static bool BeFutureDateTime(DateTime dateTime)
         {
             return dateTime > DateTime.UtcNow;
         }
+
         private static bool BeFutureDateTime(DateTime? dateTime)
         {
             return dateTime.HasValue && dateTime.Value > DateTime.UtcNow;
@@ -105,9 +115,21 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             return recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(typeof(DayOfWeek), day));
         }
 
+        private async Task<bool> BeInWorkingDays(long medicalId, DateTime dateTime)
+        {
+            var medical = await _repositoryMedical.FindByID(medicalId);
+            return medical.WorkingDays.Contains(dateTime.DayOfWeek);
+        }
+
+        private async Task<bool> BeInWorkingDays(long medicalId, DayOfWeek[] recurrenceDays)
+        {
+            var medical = await _repositoryMedical.FindByID(medicalId);
+            return recurrenceDays.All(day => medical.WorkingDays.Contains(day));
+        }
+
         private async Task<bool> NoScheduleConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
         {
-            return await MedicalCalendarRangeValidator.ValidCOnflict(calendar, _repository);
+            return await MedicalCalendarRangeValidator.ValidConflict(calendar, _repository);
         }
     }
 }
