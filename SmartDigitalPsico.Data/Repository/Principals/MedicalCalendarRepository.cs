@@ -12,8 +12,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<MedicalCalendar[]> GetByMedicalCalendarAsync(MedicalCalendar medicalCalendar)
         {
-            return await _context.MedicalCalendars
-                .AsNoTracking()
+            return await _context.MedicalCalendars 
                 .Where(e =>
                 e.MedicalId == medicalCalendar.MedicalId
                 && e.PatientId == medicalCalendar.PatientId

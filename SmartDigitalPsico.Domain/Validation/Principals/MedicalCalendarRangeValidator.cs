@@ -18,10 +18,10 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
         private async Task<bool> NoDateConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
         {
-            return await ValidCOnflict(calendar, _entityRepository);
+            return await ValidConflict(calendar, _entityRepository);
         }
 
-        public static async Task<bool> ValidCOnflict(MedicalCalendar calendar, IMedicalCalendarRepository _entityRepository)
+        public static async Task<bool> ValidConflict(MedicalCalendar calendar, IMedicalCalendarRepository _entityRepository)
         {
             var existingCalendars = await _entityRepository.GetMedicalCalendarsForMedicalAsync(
                  calendar.MedicalId, calendar.StartDateTime, calendar.EndDateTime.GetValueOrDefault());
