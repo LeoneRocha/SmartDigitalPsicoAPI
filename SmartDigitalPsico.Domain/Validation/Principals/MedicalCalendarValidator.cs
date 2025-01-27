@@ -32,7 +32,9 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .When(e => e.EndDateTime.HasValue && !e.IsAllDay)
                 .WithMessage("Start time must be before end time.")
                 .MustAsync(async (e, startDateTime, cancellationToken) => await BeInWorkingDays(e.MedicalId, startDateTime))
-                .WithMessage("Start date and time must be on a working day for the doctor.");
+                .WithMessage("Start date and time must be on a working day for the doctor.")
+                .MustAsync(async (e, startDateTime, cancellationToken) => await BeInWorkingHours(e.MedicalId, startDateTime))
+                .WithMessage("Start time must be within the doctor's working hours.");
 
             RuleFor(e => e.EndDateTime)
                 .NotEmpty()
@@ -42,7 +44,9 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .GreaterThan(e => e.StartDateTime)
                 .WithMessage("End date and time must be after start date and time.")
                 .MustAsync(async (e, endDateTime, cancellationToken) => await BeInWorkingDays(e.MedicalId, endDateTime.GetValueOrDefault()))
-                .WithMessage("End date and time must be on a working day for the doctor.");
+                .WithMessage("End date and time must be on a working day for the doctor.")
+                .MustAsync(async (e, endDateTime, cancellationToken) => await BeInWorkingHours(e.MedicalId, endDateTime.GetValueOrDefault()))
+                .WithMessage("End time must be within the doctor's working hours.");
 
             RuleFor(e => e.Status)
                 .IsInEnum()
@@ -125,6 +129,13 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         {
             var medical = await _repositoryMedical.FindByID(medicalId);
             return recurrenceDays.All(day => medical.WorkingDays.Contains(day));
+        }
+
+        private async Task<bool> BeInWorkingHours(long medicalId, DateTime dateTime)
+        {
+            var medical = await _repositoryMedical.FindByID(medicalId);
+            var timeOfDay = dateTime.TimeOfDay;
+            return timeOfDay >= medical.StartWorkingTime && timeOfDay <= medical.EndWorkingTime;
         }
 
         private async Task<bool> NoScheduleConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
