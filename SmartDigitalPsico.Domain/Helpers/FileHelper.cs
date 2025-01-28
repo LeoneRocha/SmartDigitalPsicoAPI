@@ -168,7 +168,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 }
                 var response = new FileContentResult(fileBytes, contentType)
                 {
-                    LastModified = DataHelper.GetDateTimeNow(),
+                    LastModified = DataHelper.GetDateTimeNowFromUtc(),
                     FileDownloadName = GetSameName(filePath),
                 };
                 return response;

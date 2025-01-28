@@ -48,9 +48,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #endregion
 
-            entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+            entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
 
             ServiceResponse<GetPatientNotificationMessageVO> response = await base.Validate(entityAdd);
 
@@ -69,8 +69,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             PatientNotificationMessage entityUpdate = await _entityRepository.FindByID(item.Id);
 
-            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
 
             entityUpdate.ModifyUserId = UserId;
 
@@ -79,10 +79,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.MessagePatient = item.Message;
 
             entityUpdate.IsReaded = item.IsReaded;
-            entityUpdate.ReadingDate = item.IsReaded ? DataHelper.GetDateTimeNow() : null;
+            entityUpdate.ReadingDate = item.IsReaded ? DataHelper.GetDateTimeNowFromUtc() : null;
 
             entityUpdate.Notified = item.Notified;
-            entityUpdate.NotifiedDate = item.Notified ? DataHelper.GetDateTimeNow() : null;
+            entityUpdate.NotifiedDate = item.Notified ? DataHelper.GetDateTimeNowFromUtc() : null;
 
             #endregion Columns
 

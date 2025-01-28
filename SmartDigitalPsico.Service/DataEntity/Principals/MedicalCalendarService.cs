@@ -57,9 +57,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityAdd.MedicalId = item.MedicalId;
                 #endregion Relationship
 
-                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
 
                 response = await base.Validate(entityAdd);
 
@@ -120,8 +120,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     entityUpdate.CreatedDate = entityFirst.CreatedDate;
                 }
 
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+                entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
 
                 response = await base.Validate(entityUpdate);
 
@@ -436,7 +436,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         endDate = criteria.EndDate.Value.Date;
                     }
-                }
+                } 
 
                 var interval = TimeSpan.FromMinutes(medical.PatientIntervalTimeMinutes);
 
@@ -453,8 +453,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 {
                     return response;
                 }
+                var criteriaDays = CreateDaysCalendarCriteria(medical, startDate, endDate, interval, medicalCalendars);
 
-                var days = GenerateDaysCalendar(CreateDaysCalendarCriteria(medical, startDate, endDate, interval, medicalCalendars));
+                var days = GenerateDaysCalendar(criteriaDays);
 
                 //Filters
                 var filteredDays = FilterDaysWithMedicalCalendar(criteria, days);
@@ -597,6 +598,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var timeSlots = new List<TimeSlotDto>();
             var startDateTime = criteria.Date.Add(criteria.StartWorkingTime);
             var endDateTime = criteria.Date.Add(criteria.EndWorkingTime);
+            var dateActual = DataHelper.GetDateTimeNowWithCurrentCulture();
 
             for (var time = criteria.Date; time < criteria.Date.AddDays(1); time = time.Add(criteria.Interval))
             {
@@ -604,17 +606,19 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 var medicalCalendar = criteria.MedicalCalendars.ToList().Find(a => a.StartDateTime <= time && a.EndDateTime >= endTimeSlot);
 
                 var isWithinWorkingHours = time >= startDateTime && endTimeSlot <= endDateTime;
-
                 bool isAvailableTime = medicalCalendar == null && isWithinWorkingHours;
 
-                timeSlots.Add(new TimeSlotDto
+                //[Next Feature] add rule min hour to IsAvailable by doctor preset.
+
+                var timeAdd = new TimeSlotDto
                 {
                     StartTime = time,
                     EndTime = endTimeSlot,
                     IsAvailable = isAvailableTime,
-                    IsPast = time <= DataHelper.GetDateTimeNow(),
+                    IsPast = time <= dateActual,
                     MedicalCalendar = medicalCalendar
-                });
+                };
+                timeSlots.Add(timeAdd);
             }
             return timeSlots.ToArray();
         }
@@ -707,7 +711,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         #region PRIVATE GetAvailableTimeSlotsAsync
         private DayCalendarDto[] FilterIsTimeSlotAvailable(DateTime startTime, DateTime endTime, DayCalendarDto[] daysCalendar)
         {
-            var dateCurrent = DataHelper.GetDateTimeNow();
+            var dateCurrent = DataHelper.GetDateTimeNowFromUtc();
             var filteredDays = daysCalendar
                 .Select(day => new DayCalendarDto
                 {
@@ -792,9 +796,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 newAppointment.PatientId = criteria.PatientId;
                 newAppointment.MedicalId = criteria.MedicalId;
                 #endregion Relationship 
-                newAppointment.CreatedDate = DataHelper.GetDateTimeNow();
-                newAppointment.ModifyDate = DataHelper.GetDateTimeNow();
-                newAppointment.LastAccessDate = DataHelper.GetDateTimeNow();
+                newAppointment.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
+                newAppointment.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+                newAppointment.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
 
                 var resultCreate = await _entityRepository.Create(newAppointment);
 
@@ -864,7 +868,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 // Map the appointments to the DTO
                 var appointmentDtos = _mapper.Map<AppointmentDto[]>(appointments);
 
-                var currentTime = DataHelper.ApplyTimeZone(DataHelper.GetDateTimeNow(), appointments[0].TimeZone);
+                var currentTime = DataHelper.ApplyTimeZone(DataHelper.GetDateTimeNowFromUtc(), appointments[0].TimeZone);
 
                 foreach (var item in appointmentDtos)
                 {

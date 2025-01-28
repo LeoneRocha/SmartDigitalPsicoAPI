@@ -52,9 +52,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #endregion Relationship
 
-            entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+            entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
             entityAdd.CreatedUserId = UserId;
             entityAdd.Enable = true;
 
@@ -105,8 +105,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 #endregion Relationship
 
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+                entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
                 entityUpdate.ModifyUserId = UserId;
 
                 #region Columns

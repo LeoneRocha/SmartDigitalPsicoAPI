@@ -66,9 +66,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                 await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
                 {
                     TEntity entityAdd = _mapper.Map<TEntity>(item);
-                    entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                    entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                    entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+                    entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
+                    entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+                    entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
                     entityAdd.Enable = true;
 
                     response = await Validate(entityAdd);
@@ -140,7 +140,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                     }
                     var entityUpdate = _mapper.Map<TEntity>(item);
                     response = await Validate(entityUpdate);
-                    entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+                    entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
                     if (response.Success)
                     {
                         TEntity entityResponse = await _entityRepository.Update(entityUpdate);

@@ -96,7 +96,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             entityUpdate.Language = item.Language;
 
             response = await Validate(entityUpdate);
-            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
             if (response.Success)
             {
                 Gender entityResponse = await _entityRepository.Update(entityUpdate);

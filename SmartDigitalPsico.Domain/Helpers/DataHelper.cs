@@ -54,9 +54,20 @@ namespace SmartDigitalPsico.Domain.Helpers
             return GetDateTimeNowBrazil();
         }
 
-        public static DateTime GetDateTimeNow()
+        public static DateTime GetDateTimeNowFromUtc()
         {
             return DateTime.UtcNow;
+        }  
+        public static DateTime GetDateTimeNowWithCurrentCulture()
+        {
+            var cultureInfo = CultureInfo.CurrentCulture;
+            DateTime now = DateTime.Now;
+            return DateTime.Parse(now.ToString(cultureInfo));
+        }
+        public static DateTime GetDateTimeNowWithCurrentCulture(CultureInfo cultureInfo)
+        { 
+            DateTime now = DateTime.Now;
+            return DateTime.Parse(now.ToString(cultureInfo));
         }
 
         public static DateTime ApplyTimeZone(DateTime dateTime, string timeZoneId)
