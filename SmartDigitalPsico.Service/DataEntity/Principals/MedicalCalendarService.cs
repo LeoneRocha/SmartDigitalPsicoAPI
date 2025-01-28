@@ -436,7 +436,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         endDate = criteria.EndDate.Value.Date;
                     }
-                } 
+                }
 
                 var interval = TimeSpan.FromMinutes(medical.PatientIntervalTimeMinutes);
 
@@ -577,6 +577,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private static DayCalendarDto[] GenerateDaysCalendar(DaysCalendarCriteriaDto criteria)
         {
             var days = new List<DayCalendarDto>();
+            var dateActual = DataHelper.GetDateTimeNowWithCurrentCulture().Date;
+
             for (var date = criteria.StartDate; date <= criteria.EndDate; date = date.AddDays(1))
             {
                 var timeSlotCriteria = new TimeSlotCriteriaDto
@@ -589,7 +591,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 };
 
                 var timeSlots = GenerateTimeSlots(timeSlotCriteria).OrderBy(x => x.StartTime).ToArray();
-                days.Add(new DayCalendarDto { Date = date, TimeSlots = timeSlots });
+
+                var dateAdd = new DayCalendarDto
+                {
+                    Date = date,
+                    IsPast = date.Date < dateActual,
+                    TimeSlots = timeSlots
+                }; 
+                days.Add(dateAdd);
             }
             return days.ToArray();
         }
