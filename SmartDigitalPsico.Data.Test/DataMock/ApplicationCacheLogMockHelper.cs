@@ -10,12 +10,12 @@ namespace SmartDigitalPsico.Data.Test.DataMock
             return [
                new ApplicationCacheLog {
                     Id = 1, Enable = true, 
-                   CreatedDate = DataHelper.GetDateTimeNow(),
+                   CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
                    CacheId = Guid.NewGuid().ToString(), 
                    CacheKey ="unit_test", 
-                   DateTimeSlidingExpiration =  DataHelper.GetDateTimeNow().AddMinutes(1),
-                   LastAccessDate = DataHelper.GetDateTimeNow(),
-                   ModifyDate = DataHelper.GetDateTimeNow()                   
+                   DateTimeSlidingExpiration =  DataHelper.GetDateTimeNowFromUtc().AddMinutes(1),
+                   LastAccessDate = DataHelper.GetDateTimeNowFromUtc(),
+                   ModifyDate = DataHelper.GetDateTimeNowFromUtc()                   
                 }
            ];
         }

@@ -124,9 +124,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityAdd.FileName = entity.FilePath;
                 entityAdd.MedicalId = entity.MedicalId;
 
-                entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-                entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-                entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+                entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
                 entityAdd.Enable = true;
 
                 entityAdd.CreatedUserId = UserId;

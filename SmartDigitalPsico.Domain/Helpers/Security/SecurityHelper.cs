@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.Domain.Helpers.Security
             var tokendDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DataHelper.GetDateTimeNow().AddDays(1),
+                Expires = DataHelper.GetDateTimeNowFromUtc().AddDays(1),
                 SigningCredentials = creds
             };
             var tokenHandler = new JwtSecurityTokenHandler();

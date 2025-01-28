@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
 
             RuleFor(x => x.MedicalId).GreaterThan(0);
             RuleFor(x => x.PatientId).GreaterThan(0);
-            RuleFor(x => x.AppointmentDateTime).GreaterThanOrEqualTo(DataHelper.GetDateTimeNow());
+            RuleFor(x => x.AppointmentDateTime).GreaterThanOrEqualTo(DataHelper.GetDateTimeNowFromUtc());
             RuleFor(x => x.Reason).NotEmpty();
             RuleFor(x => x.TimeZone).NotEmpty();
 
@@ -95,7 +95,7 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
 
         private static async Task<bool> BeAtLeast23HoursInAdvance(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)
         {
-            var currentTime = DataHelper.ApplyTimeZone(DataHelper.GetDateTimeNow(), criteria.TimeZone);
+            var currentTime = DataHelper.ApplyTimeZone(DataHelper.GetDateTimeNowFromUtc(), criteria.TimeZone);
             var resultRule = await Task.FromResult((criteria.AppointmentDateTime - currentTime).TotalHours >= 23);
             return resultRule;
         }
