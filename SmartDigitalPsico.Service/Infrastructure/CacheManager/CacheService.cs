@@ -184,9 +184,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
                     {
                         CacheKey = cacheKey,
                         CacheId = _cacheId ?? string.Empty,
-                        CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                        ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                        LastAccessDate = DataHelper.GetDateTimeNowFromUtc(),
+                        CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                        ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                        LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
                         DateTimeSlidingExpiration = dateTimeSlidingExpiration,
                         Enable = true
                     };

@@ -1,39 +1,35 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
-    public static class DataHelper
-    { 
+    public static class DateHelper
+    {
+        private static readonly string dateFormat = "dd/MM/yyyy HH:mm:ss";
+
         public static string ConvertSecondsToTimeString(double seconds)
         {
             TimeSpan time = TimeSpan.FromSeconds(seconds);
             return time.ToString(@"hh\:mm\:ss");
         }
-        private static readonly string dateFormat = "dd/MM/yyyy HH:mm:ss";
 
         public static string GetDateTimeCustomFormat(DateTime dateInput)
         {
-            var cultureInfo = System.Globalization.CultureInfo.InvariantCulture;
-            var result = dateInput.ToString(dateFormat, cultureInfo);
-            return result;
+            var cultureInfo = CultureInfo.InvariantCulture;
+            return dateInput.ToString(dateFormat, cultureInfo);
         }
 
-        public static void SetCulture()
+        public static void SetCulture(string cultureName = "pt-BR")
         {
-            // Set the culture to Portuguese (Brazil)
-            var cultureInfo = new CultureInfo("pt-BR");
-
+            var cultureInfo = new CultureInfo(cultureName);
             // Set the culture of the current thread
             Thread.CurrentThread.CurrentCulture = cultureInfo;
 
             // Set the UI culture of the current thread
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
         }
-
         public static DateTime GetDateTimeNowBrazil()
         {
-            DateTime now = DateTime.UtcNow;
+            DateTime now = GetDateTimeNowFromUtc();
             TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
             DateTime brazilTime = TimeZoneInfo.ConvertTimeFromUtc(now, tzi);
             return brazilTime;
@@ -42,34 +38,33 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static DateTime GetDateTimeNowToLog()
         {
             return GetDateTimeNowBrazil();
-        }
-
-        public static DateTime GetDateTimeNowToProcess()
-        {
-            return GetDateTimeNowBrazil();
-        }
-
-        public static DateTime GetDateTimeNowToPersistData()
-        {
-            return GetDateTimeNowBrazil();
-        }
+        } 
 
         public static DateTime GetDateTimeNowFromUtc()
         {
             return DateTime.UtcNow;
-        }  
-        public static DateTime GetDateTimeNowWithCurrentCulture()
-        {
-            var cultureInfo = CultureInfo.CurrentCulture;
-            DateTime now = DateTime.Now;
-            return DateTime.Parse(now.ToString(cultureInfo));
-        }
-        public static DateTime GetDateTimeNowWithCurrentCulture(CultureInfo cultureInfo)
-        { 
-            DateTime now = DateTime.Now;
-            return DateTime.Parse(now.ToString(cultureInfo));
         }
 
+        public static DateTime GetDateTimeNowWithTimeZone(string timeZoneId)
+        {
+            DateTime dateResult = GetDateTimeNowWithCurrentCulture();
+
+            if (!string.IsNullOrEmpty(timeZoneId))
+            {
+                dateResult = ApplyTimeZone(GetDateTimeNowFromUtc(), timeZoneId);
+            }
+            return dateResult;
+        }
+
+        private static DateTime GetDateTimeNowWithCurrentCulture()
+        {
+            var cultureInfo = CultureInfo.CurrentCulture;
+            return GetDateTimeWithCulture(GetDateTimeNowFromUtc(), cultureInfo);
+        }
+        private static DateTime GetDateTimeWithCulture(DateTime dateTime, CultureInfo cultureInfo)
+        {
+            return DateTime.Parse(dateTime.ToString(cultureInfo));
+        }
         public static DateTime ApplyTimeZone(DateTime dateTime, string timeZoneId)
         {
             // Obter o fuso horário a partir do ID
@@ -80,5 +75,6 @@ namespace SmartDigitalPsico.Domain.Helpers
 
             return dateTimeWithTimeZone;
         }
-    } 
+
+    }
 }

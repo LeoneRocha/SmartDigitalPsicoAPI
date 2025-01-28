@@ -19,5 +19,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DayOfWeek[] WorkingDays { get; set; } = [];
+        public string TimeZone { get; set; } = string.Empty;
     }
 }

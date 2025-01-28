@@ -118,7 +118,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
         {
             var reportPDF = new ReportPageContentDto()
             {
-                FileName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
+                FileName = $"PatientDetailReport_{data.Id}_{DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 FolderOutput = "Reports_PDF",
                 Title = "Report Patient",
                 Pages = new List<ReportPageDataDto>()
@@ -140,7 +140,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
             var reportExcel = new ReportWorkbookDataDto()
             {
                 FolderOutput = "Reports",
-                FileName = $"PatientDetailReport_{data.Id}_{DataHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
+                FileName = $"PatientDetailReport_{data.Id}_{DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 Sheets = new List<ReportSheetDataDto>
         {
             new ReportSheetDataDto { Order = 1, Name = "Patient", Rows = reportPatient,

@@ -18,9 +18,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "RegisterUpdated",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Registro atualizado",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -31,9 +31,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "Default_ptbr",
                 ResourceKey = "ApplicationLanguage",
                 LanguageValue = "Padrão",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -44,9 +44,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "RegisterIsFound",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Registro encontrado",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -57,9 +57,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "RegisterIsNotFound",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Registro não encontrado",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -70,9 +70,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "RegisterExist",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Registro existe",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -83,9 +83,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "RegisterDeleted",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Registro deletado",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -96,9 +96,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "RegisterFind",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Registro localizado",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -109,9 +109,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "RegisterCounted",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Registros contabilizados",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -122,9 +122,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "RegisterCreated",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Registro criado",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -135,9 +135,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Description_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "A descrição não pode ser vazia",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -148,9 +148,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Language_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O idoma não pode ser vazio",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -161,9 +161,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Language_MaximumLength",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O idoma não pode ultrapassar {MaxLength}",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -174,9 +174,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "LangValid",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Válido",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -187,9 +187,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "LangErrors",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Ocorreram erros!",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -200,9 +200,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_MedicalId_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O medico deve ser informado.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -213,9 +213,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_MedicalId_NotFound",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O medico informado não existe.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -226,9 +226,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Medical_Changed",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O medico infomado deve ser o mesmo logado. Medicos nao podem criar arquivos de outro medico.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -239,9 +239,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Name_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O nome não pode ser vazio",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -252,9 +252,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Login_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Login não pode ser vazio.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -265,9 +265,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Login_Unique",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Login deve ser unico.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -278,9 +278,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Email_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Email não pode ser vazio",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -291,9 +291,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Email_Invalid",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Email é invalido.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -304,9 +304,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Email_Unique",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Email deve ser unico.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -317,9 +317,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Accreditation_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Credenciamento não pode ser vazio.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -330,9 +330,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Accreditation_Unique",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Credenciamento deve ser unico.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -343,9 +343,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_MedicalCreated_Invalid",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O medico infomado deve ser o mesmo logado. Medicos nao podem criar arquivos de outro medico.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -356,9 +356,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_MedicalModify_Invalid",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O medico infomado deve ser o mesmo logado. Medicos nao podem modificar arquivos de outro medico.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
              new ApplicationLanguage
              {
@@ -369,9 +369,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                  LanguageKey = "ErrorValidator_Patient_Null",
                  ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                  LanguageValue = "O Paciente deve ser informado.",
-                 CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                 ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                 LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
              },
             new ApplicationLanguage
             {
@@ -382,9 +382,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Patient_NotFound",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Paciente informado não existe.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -395,9 +395,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Patient_Changed",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Paciente não pode ser alterado.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -408,9 +408,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Patient_Medical_Created",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Informações do paciente não podem ser adicionadas por outro medico e/ou usuario.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -421,9 +421,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Patient_Medical_Modify",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Informações do paciente não podem ser modificadas por outro medico e/ou usuario.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -434,9 +434,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_CreatedUserId_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Usuário que está criando deve ser informado.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -447,9 +447,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_Annotation_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "A anotação não pode ser vazia.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -460,9 +460,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_AnnotationDate_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "A data da anotação não pode ser vazia.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -473,9 +473,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_DateOfBirth_Invalid",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Data de nascimento invalido",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -486,9 +486,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_RG_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O Rg não pode ser vazio.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -499,9 +499,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "ErrorValidator_CPF_Null",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "O CPF não pode ser vazio.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             new ApplicationLanguage
             {
@@ -512,9 +512,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LanguageKey = "GenericErroMessage",
                 ResourceKey = EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default,
                 LanguageValue = "Ocorreu erro no processo.",
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             }
             ];
         }

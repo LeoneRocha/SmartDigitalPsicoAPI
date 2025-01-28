@@ -46,9 +46,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
     </div>
 </body>
 </html>",                    
-                    CreatedDate = DataHelper.GetDateTimeNowFromUtc(),
-                    ModifyDate = DataHelper.GetDateTimeNowFromUtc(),
-                    LastAccessDate = DataHelper.GetDateTimeNowFromUtc()
+                    CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                    ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                    LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             } ];
         }
     }

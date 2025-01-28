@@ -66,9 +66,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                 await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
                 {
                     TEntity entityAdd = _mapper.Map<TEntity>(item);
-                    entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
-                    entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
-                    entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
+                    entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+                    entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                    entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
                     entityAdd.Enable = true;
 
                     response = await Validate(entityAdd);
@@ -86,7 +86,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                 response.Success = false;
                 response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
                 response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "Create: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Create: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
@@ -119,7 +119,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                 response.Success = false;
                 response.Errors.Add(new ErrorResponse() { Name = "Delete", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
                 response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "Delete: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Delete: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
@@ -140,7 +140,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                     }
                     var entityUpdate = _mapper.Map<TEntity>(item);
                     response = await Validate(entityUpdate);
-                    entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+                    entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
                     if (response.Success)
                     {
                         TEntity entityResponse = await _entityRepository.Update(entityUpdate);
@@ -153,7 +153,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "Update: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Update: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
@@ -175,7 +175,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "Exists: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Exists: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
@@ -198,7 +198,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "FindAll: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "FindAll: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
@@ -223,7 +223,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "FindByID: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "FindByID: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
@@ -246,7 +246,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "GetCount: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "GetCount: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
@@ -278,7 +278,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "EnableOrDisable: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "EnableOrDisable: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
@@ -322,7 +322,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
-                _logger.Error(ex, "Validate: {Message} at: {time}", ex.Message, DataHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Validate: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }

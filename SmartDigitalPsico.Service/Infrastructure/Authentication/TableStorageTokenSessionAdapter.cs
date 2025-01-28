@@ -36,7 +36,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
             addToken.ETag = ETag.All;
 
             var tableFounded = await _storageTableService.GetByIdAsync(addToken.PartitionKey, addToken.RowKey);
-            if (tableFounded != null && tableFounded.ExpiresAt <= DataHelper.GetDateTimeNowFromUtc())
+            if (tableFounded != null && tableFounded.ExpiresAt <= DateHelper.GetDateTimeNowFromUtc())
             {
                 await _storageTableService.DeleteAsync(addToken.PartitionKey, addToken.RowKey);
             }
