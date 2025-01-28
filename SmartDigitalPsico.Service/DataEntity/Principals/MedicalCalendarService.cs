@@ -435,9 +435,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         endDate = criteria.EndDate.Value.Date;
                     }
-                }
-                startDate = DateHelper.GetDateTimeNowFromUtc().Date;
-                endDate = DateHelper.GetDateTimeNowFromUtc().Date.AddDays(1);
+                } 
 
                 var interval = TimeSpan.FromMinutes(medical.PatientIntervalTimeMinutes);
 
