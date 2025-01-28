@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
         public virtual async Task<T> Create(T item)
         {
             //Fields internal change 
-            item.CreatedDate = DataHelper.GetDateTimeNow();
+            item.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
             item.Enable = true;
             await _dataset.AddAsync(item);
             await _context.SaveChangesAsync();
@@ -60,7 +60,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             if (result != null)
             {
                 //Fields internal change 
-                item.ModifyDate = DataHelper.GetDateTimeNow();
+                item.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
 
                 _context.Entry(result).CurrentValues.SetValues(item);
                 await _context.SaveChangesAsync();

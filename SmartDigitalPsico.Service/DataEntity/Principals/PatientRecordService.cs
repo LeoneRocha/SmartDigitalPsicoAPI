@@ -52,9 +52,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #endregion Relationship
 
-            entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+            entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
 
             ServiceResponse<GetPatientRecordDto> response = await base.Validate(entityAdd);
 
@@ -91,8 +91,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             #endregion Relationship
             #region Set default fields for bussines
 
-            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
 
             #endregion Set default fields for bussines
 
@@ -144,7 +144,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 Annotation = item.Annotation,
                 ETag = ETag.All,
                 PartitionKey = string.Concat("PatientRecord-", item.PatientId.ToString()),
-                Timestamp = DataHelper.GetDateTimeNow(),
+                Timestamp = DataHelper.GetDateTimeNowFromUtc(),
             };
         }
 

@@ -10,10 +10,10 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
         {
             return [
                 new Gender {
-                    Id = 1, Enable = true, CreatedDate = DataHelper.GetDateTimeNow(), Description = "Masculino", Language = CultureConstants.LanguagePTBR
+                    Id = 1, Enable = true, CreatedDate = DataHelper.GetDateTimeNowFromUtc(), Description = "Masculino", Language = CultureConstants.LanguagePTBR
                 },
                 new Gender {
-                    Id = 2, Enable = true, CreatedDate = DataHelper.GetDateTimeNow(), Description = "Feminino", Language = CultureConstants.LanguagePTBR
+                    Id = 2, Enable = true, CreatedDate = DataHelper.GetDateTimeNowFromUtc(), Description = "Feminino", Language = CultureConstants.LanguagePTBR
                 }
             ];
         }

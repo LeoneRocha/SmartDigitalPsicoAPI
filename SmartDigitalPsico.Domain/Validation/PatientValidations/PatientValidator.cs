@@ -151,7 +151,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
          
         private static bool beAValidAge(DateTime date)
         {
-            int currentYear = DataHelper.GetDateTimeNow().Year;
+            int currentYear = DataHelper.GetDateTimeNowFromUtc().Year;
             int dobYear = date.Year;
 
             if (dobYear <= currentYear && dobYear > (currentYear - 130))

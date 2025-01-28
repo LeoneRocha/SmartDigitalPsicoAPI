@@ -109,7 +109,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
 
         private async Task<byte[]> GetFromDisk(FileBase fileEntity)
         {
-            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = DataHelper.GetDateTimeNow() }) ?? [];
+            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = DataHelper.GetDateTimeNowFromUtc() }) ?? [];
         }
 
         private async Task SaveCloudStorageAzure(FileBase fileEntity, string folderContainer, string folderIdentity)
@@ -141,7 +141,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                 FileData = fileDataSave,
                 FileName = fileData.FileName,
                 FilePath = pathSave,
-                CreatedDate = DataHelper.GetDateTimeNow()
+                CreatedDate = DataHelper.GetDateTimeNowFromUtc()
             });
         }
 
@@ -152,7 +152,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                 FolderDestination = folderDest ?? string.Empty,
                 FileName = fileName,
                 FilePath = pathSave,
-                CreatedDate = DataHelper.GetDateTimeNow()
+                CreatedDate = DataHelper.GetDateTimeNowFromUtc()
             });
         }
 

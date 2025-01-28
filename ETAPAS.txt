@@ -20,7 +20,7 @@ carregar quando existir o token aparecer flagado  -------FEITO
 
 -- EXIBIR O CAMPO AO EDITAR PARA PODER SELECIONAR O STATUS QUE DESEJA ATUALIZAR -------------------------- PENDENTE 
 
--- CRIAR UM BOTAO APAGAR -------------------------- PENDENTE 
+-- CRIAR UM BOTAO APAGAR -------------------------  -------FEITO 
 
 
 

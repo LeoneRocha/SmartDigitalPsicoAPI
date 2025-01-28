@@ -45,9 +45,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #endregion
 
-            entityAdd.CreatedDate = DataHelper.GetDateTimeNow();
-            entityAdd.ModifyDate = DataHelper.GetDateTimeNow();
-            entityAdd.LastAccessDate = DataHelper.GetDateTimeNow();
+            entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
 
             ServiceResponse<GetPatientHospitalizationInformationDto> response = await base.Validate(entityAdd);
 
@@ -72,8 +72,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.ModifyUserId = UserId;
             #endregion
 
-            entityUpdate.ModifyDate = DataHelper.GetDateTimeNow();
-            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNow();
+            entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+            entityUpdate.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
 
             #region Columns
             entityUpdate.Enable = item.Enable;
