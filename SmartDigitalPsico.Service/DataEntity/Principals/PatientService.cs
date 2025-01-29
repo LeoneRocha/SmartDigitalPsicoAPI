@@ -37,9 +37,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #region Set default fields for bussines
 
-            entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
             #endregion Set default fields for bussines
 
@@ -74,8 +74,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 #region Set default fields for bussines
 
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
-                entityUpdate.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
+                entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
                 #endregion Set default fields for bussines
 

@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
 
             string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
 
-            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename, CreatedDate = DataHelper.GetDateTimeNowFromUtc() };
+            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename, CreatedDate = DateHelper.GetDateTimeNowFromUtc() };
 
             bool exists = _repositoryFileDisk.Exists(criteriaFind);
 
@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
                 FileName = filename,
                 FolderDestination = pathSaveCache,
                 FileData = bytesString,
-                CreatedDate = DataHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc()
             };
 
             result = await _repositoryFileDisk.Save(fileDataSave);
@@ -62,7 +62,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
 
             string pathSaveCache = DirectoryHelper.GetPathSaveCache(_cacheConfig.PathCache);
 
-            var criteriaFind = new FileData() { FilePath = pathSaveCache, FileName = filename, CreatedDate = DataHelper.GetDateTimeNowFromUtc() };
+            var criteriaFind = new FileData() { FilePath = pathSaveCache, FileName = filename, CreatedDate = DateHelper.GetDateTimeNowFromUtc() };
 
             bool exists = _repositoryFileDisk.Exists(criteriaFind);
 
@@ -90,7 +90,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
         {
             string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);
 
-            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename, CreatedDate = DataHelper.GetDateTimeNowFromUtc() };
+            var criteriaFind = new FileData() { FilePath = _cacheConfig.PathCache, FileName = filename, CreatedDate = DateHelper.GetDateTimeNowFromUtc() };
 
             await _repositoryFileDisk.Delete(criteriaFind);
 

@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.Data.Audit
         }
         public List<AuditDataEntityLog> GetExistingEntries(DbContext context, List<AuditDataEntityLog> auditEntriesInput)
         {
-            var dtUtcNow = DataHelper.GetDateTimeNowFromUtc();
+            var dtUtcNow = DateHelper.GetDateTimeNowFromUtc();
             var twoMinutesAgo = dtUtcNow.AddMinutes(-2);
             var minDateAauditEntrie = auditEntriesInput.Min(x => x.AuditDate).AddMinutes(-2);
             List<string> tableNames = auditEntriesInput.Select(x => x.TableName).Distinct().ToList();
@@ -67,7 +67,7 @@ namespace SmartDigitalPsico.Data.Audit
         private List<AuditDataEntityLog> handleMemoryIfNotExists(List<AuditDataEntityLog> auditEntriesInput)
         {
 
-            var dtUtcNow = DataHelper.GetDateTimeNowFromUtc();
+            var dtUtcNow = DateHelper.GetDateTimeNowFromUtc();
             var twoMinutesAgo = dtUtcNow.AddMinutes(-2);
             var minDateAauditEntrie = auditEntriesInput.Min(x => x.AuditDate).AddMinutes(-2);
             List<string> tableNames = auditEntriesInput.Select(x => x.TableName).Distinct().ToList();
@@ -92,7 +92,7 @@ namespace SmartDigitalPsico.Data.Audit
             }
             var _cacheOptions = new MemoryCacheEntryOptions
             {
-                AbsoluteExpiration = DataHelper.GetDateTimeNowFromUtc().AddHours(0).AddMinutes(3),
+                AbsoluteExpiration = DateHelper.GetDateTimeNowFromUtc().AddHours(0).AddMinutes(3),
                 Priority = CacheItemPriority.High,
                 SlidingExpiration = TimeSpan.FromMinutes(3)
             };

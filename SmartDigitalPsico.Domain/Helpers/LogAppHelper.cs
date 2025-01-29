@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
         public static void LogException(Serilog.ILogger logger, Exception ex, string logType)
         {
-            var message = $"{logType}-LEVEL: {ex.Message} at: {DataHelper.GetDateTimeNowToLog()}";
+            var message = $"{logType}-LEVEL: {ex.Message} at: {DateHelper.GetDateTimeNowToLog()}";
             if (ex is AppWarningException)
             {
                 message = message.Replace("-LEVEL:", "-Warning:");
