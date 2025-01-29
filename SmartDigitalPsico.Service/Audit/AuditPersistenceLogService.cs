@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.Service.Audit
             foreach (var auditEntry in auditEntries)
             {
                 _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}",
-                    auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DataHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                    auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
             }
         } 
         public async Task SaveAuditEntry(AuditDataSelectiveEntityLog auditEntry)
@@ -25,7 +25,7 @@ namespace SmartDigitalPsico.Service.Audit
             await Task.Run(() =>
             {
                 _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}",
-                   auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DataHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                   auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
             });
         }
     }

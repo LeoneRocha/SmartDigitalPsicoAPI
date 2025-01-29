@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
 
             RuleFor(x => x.MedicalId).GreaterThan(0);
             RuleFor(x => x.PatientId).GreaterThan(0);
-            RuleFor(x => x.AppointmentDateTime).GreaterThanOrEqualTo(DataHelper.GetDateTimeNowFromUtc());
+            RuleFor(x => x.AppointmentDateTime).GreaterThanOrEqualTo(DateHelper.GetDateTimeNowFromUtc());
             RuleFor(x => x.Reason).NotEmpty();
             RuleFor(x => x.TimeZone).NotEmpty();
 
@@ -60,7 +60,7 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
             {
                 return false;
             }
-            var currentTime = DataHelper.ApplyTimeZone(DateTime.UtcNow, appointment.TimeZone);
+            var currentTime = DateHelper.ApplyTimeZone(DateTime.UtcNow, appointment.TimeZone);
             var timeUntilAppointment = appointment.StartDateTime - currentTime;
             var isWithinCancellationWindow = timeUntilAppointment.TotalHours >= 12;
             var resultRule = (appointment.Status == EStatusCalendar.Confirmed || appointment.Status == EStatusCalendar.PendingConfirmation) && isWithinCancellationWindow;
@@ -95,7 +95,7 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
 
         private static async Task<bool> BeAtLeast23HoursInAdvance(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)
         {
-            var currentTime = DataHelper.ApplyTimeZone(DataHelper.GetDateTimeNowFromUtc(), criteria.TimeZone);
+            var currentTime = DateHelper.ApplyTimeZone(DateHelper.GetDateTimeNowFromUtc(), criteria.TimeZone);
             var resultRule = await Task.FromResult((criteria.AppointmentDateTime - currentTime).TotalHours >= 23);
             return resultRule;
         }

@@ -90,9 +90,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             entityAdd.PasswordHash = passwordHash;
             entityAdd.PasswordSalt = passwordSalt;
-            entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
             entityAdd.Role = "Pending";
             entityAdd.Admin = false;
 
@@ -135,7 +135,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 }
                 entityUpdate.Role = updateUser.Role;
 
-                entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+                entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
 
                 if (updateUser.MedicalId > 0)
                     entityUpdate.MedicalId = updateUser.MedicalId;
@@ -179,9 +179,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             entityAdd.PasswordHash = passwordHash;
             entityAdd.PasswordSalt = passwordSalt;
-            entityAdd.CreatedDate = DataHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = DataHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
             entityAdd.Role = userRegisterVO.Role;
 
             List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO.RoleGroupsIds.ToList());
@@ -266,13 +266,13 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             user.RefreshToken = refreshToken;
 
-            DateTime refreshTokenExpiryTime = DataHelper.GetDateTimeNowFromUtc().AddDays(_configurationToken.DaysToExpiry);
+            DateTime refreshTokenExpiryTime = DateHelper.GetDateTimeNowFromUtc().AddDays(_configurationToken.DaysToExpiry);
 
             user.RefreshTokenExpiryTime = refreshTokenExpiryTime;
 
             await _entityRepository.RefreshUserInfo(user);
 
-            DateTime createDate = DataHelper.GetDateTimeNowFromUtc();
+            DateTime createDate = DateHelper.GetDateTimeNowFromUtc();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
 
             UserTokenSession? tokenSession = await _tokenSessionService.GetSessionAsync(user.Id);
@@ -330,7 +330,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     var user = await _entityRepository.FindByID(idUser);
 
                     if (user.RefreshToken != refreshToken ||
-                        user.RefreshTokenExpiryTime <= DataHelper.GetDateTimeNowFromUtc()) return new TokenVO();
+                        user.RefreshTokenExpiryTime <= DateHelper.GetDateTimeNowFromUtc()) return new TokenVO();
 
                     accessToken = _tokenService.GenerateAccessToken(principal.Claims);
                     refreshToken = _tokenService.GenerateRefreshToken();
@@ -340,7 +340,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 }
             }
 
-            DateTime createDate = DataHelper.GetDateTimeNowFromUtc();
+            DateTime createDate = DateHelper.GetDateTimeNowFromUtc();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
 
             return new TokenVO(
@@ -376,7 +376,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 entityUpdate.PasswordSalt = passwordSalt;
             }
 
-            entityUpdate.ModifyDate = DataHelper.GetDateTimeNowFromUtc();
+            entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
 
             response = await base.Validate(entityUpdate);
 
