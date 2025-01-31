@@ -63,6 +63,40 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return message;
         }
 
+        public static async Task<string> GetLocalization<T>(string key, string defaultMenssage, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
+        {
+            string resultLocalization = string.Empty;
+
+            var culturenameCurrent = CultureInfo.CurrentCulture;
+
+            string keyCache = "FindAll_GetApplicationLanguageVO";
+            ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
+
+            string resourceKey = typeof(T).Name.Replace("I", "");
+            string language = culturenameCurrent.Name;
+            try
+            {
+                if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
+                {
+                    GetApplicationLanguageDto languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
+                    resultLocalization = languageFindFromCache.LanguageValue;
+
+                }
+                else
+                {
+                    var languageFindDB = await languageRepository.Find(language, key, resourceKey);
+                    resultLocalization = languageFindDB.LanguageValue;
+                }
+            }
+            catch (Exception)
+            {
+                resultLocalization = string.IsNullOrEmpty(resultLocalization) ? $"NotFoundLocalization|{key}|{defaultMenssage}" : resultLocalization;
+                //Feature add default menssage.
+
+            }
+            return resultLocalization;
+        }
+
         public static async Task<string> GetLocalization<T>(string key, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
         {
             string resultLocalization = string.Empty;

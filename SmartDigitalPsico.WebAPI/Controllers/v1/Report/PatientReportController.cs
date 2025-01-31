@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
         [HttpGet("Download/{id}")]
         public async Task<ActionResult> DownloadFileById(long id)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             FileContentResult response = await _entityService.DownloadReportPatientDetailsById(id, EReportOutputType.Pdf);
             return response;
         }

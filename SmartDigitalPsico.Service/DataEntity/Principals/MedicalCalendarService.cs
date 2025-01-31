@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.Results;
 using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
@@ -25,6 +26,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private const string MensageCalendarRegistred = "Calendar registred.";
         private const string MensageCalendarUpdated = "Calendar Updated.";
         private const string MensageCalendarSuccess = "Calendar Success.";
+
         private readonly IMedicalRepository _medicalRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMedicalCalendarValidators _validators;
@@ -71,7 +73,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                             entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
                             await GenerateRecurrenceAsync(entityAdd, false);
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
-                            response.Message = MensageCalendarRegistred;
+                            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred, _applicationLanguageRepository, _cacheService);
+
                         }
                         catch (Exception ex)
                         {
@@ -83,7 +86,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
-                        response.Message = MensageCalendarRegistred;
+                        response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred, _applicationLanguageRepository, _cacheService);
                     }
                 }
             }
@@ -132,7 +135,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         {
                             await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
-                            response.Message = MensageCalendarUpdated;
+                            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated, _applicationLanguageRepository, _cacheService);
                         }
                         catch (Exception)
                         {
@@ -142,8 +145,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     else
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Update(entityUpdate);
-                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
-                        response.Message = MensageCalendarUpdated;
+                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);                        
+                        response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated, _applicationLanguageRepository, _cacheService);
                     }
                 }
             }
@@ -435,7 +438,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         endDate = criteria.EndDate.Value.Date;
                     }
-                } 
+                }
 
                 var interval = TimeSpan.FromMinutes(medical.PatientIntervalTimeMinutes);
 
