@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
         }
         public static DateTime GetDateTimeNowBrazil()
-        {     
+        {
             return ApplyTimeZone(GetDateTimeNowFromUtc(), "E. South America Standard Time");
         }
 
@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static DateTime GetDateTimeNowFromUtc()
         {
             return DateTime.UtcNow;
-        } 
+        }
         public static DateTime GetDateTimeNowWithTimeZone(string timeZoneId)
         {
             DateTime dateResult = GetDateTimeNowWithCurrentCulture();
@@ -51,16 +51,19 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
             return dateResult;
         }
-
         private static DateTime GetDateTimeNowWithCurrentCulture()
         {
             var cultureInfo = CultureInfo.CurrentCulture;
-            return GetDateTimeWithCulture(GetDateTimeNowFromUtc(), cultureInfo);
+            var dateTimeFormatInfo = cultureInfo.DateTimeFormat;
+            return GetDateTimeWithCulture(GetDateTimeNowFromUtc(), dateTimeFormatInfo);
         }
-        private static DateTime GetDateTimeWithCulture(DateTime dateTime, CultureInfo cultureInfo)
+
+        private static DateTime GetDateTimeWithCulture(DateTime dateTime, DateTimeFormatInfo dateTimeFormatInfo)
         {
-            return DateTime.Parse(dateTime.ToString(cultureInfo));
-        }
+            // Lógica para formatar a data e hora de acordo com a cultura fornecida
+            return DateTime.Parse(dateTime.ToString(dateTimeFormatInfo), dateTimeFormatInfo);
+        }  
+       
         public static DateTime ApplyTimeZone(DateTime dateTime, string timeZoneId)
         {
             // Obter o fuso horário a partir do ID
