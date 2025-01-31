@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> FindAll()
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.FindAll();
             if (!response.Success)
             {
@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> FindByID(int id)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.FindByID(id);
             if (!response.Success)
             {
@@ -68,7 +68,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> Update(UpdateUserDto updateEntity)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(updateEntity);
             if (!response.Success)
             {
@@ -81,7 +81,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> UpdateProfile(UpdateUserProfileDto updateEntity)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.UpdateProfile(updateEntity);
             if (!response.Success)
             {
@@ -95,7 +95,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Delete(id);
             if (!response.Success)
             {

@@ -32,7 +32,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetRoleGroupDto>>>> Get()
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindAll());
         }
 
@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetRoleGroupDto>>> FindByID(int id)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindByID(id));
         }
 
@@ -48,7 +48,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetRoleGroupDto>>> Create(AddRoleGroupDto newEntity)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Create(newEntity);
             if (response.Data == null)
             {
@@ -61,7 +61,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetRoleGroupDto>>> Update(UpdateRoleGroupDto updateEntity)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(updateEntity);
             if (response.Data == null)
             {
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Delete(id);
             if (!response.Success)
             {

@@ -32,7 +32,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetSpecialtyDto>>>> Get()
         {
-                this.setUserIdCurrent();
+                this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.FindAll();
             if (response.Data == null)
             {
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetSpecialtyDto>>> FindByID(int id)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.FindByID(id);
             if (response.Data == null)
             {
@@ -58,7 +58,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetSpecialtyDto>>> Create(AddSpecialtyDto newEntity)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Create(newEntity);
             if (!response.Success)
             {
@@ -71,7 +71,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetSpecialtyDto>>> Update(UpdateSpecialtyDto updateEntity)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(updateEntity);
             if (response.Data == null)
             {
@@ -83,7 +83,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
-            this.setUserIdCurrent(); 
+            this.setUserIdCurrent(); await base.SetCurrentCulture(); 
             var response = await _entityService.Delete(id); 
             if (!response.Success)
             {
