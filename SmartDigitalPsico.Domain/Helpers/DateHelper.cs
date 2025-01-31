@@ -28,23 +28,19 @@ namespace SmartDigitalPsico.Domain.Helpers
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
         }
         public static DateTime GetDateTimeNowBrazil()
-        {
-            DateTime now = GetDateTimeNowFromUtc();
-            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
-            DateTime brazilTime = TimeZoneInfo.ConvertTimeFromUtc(now, tzi);
-            return brazilTime;
+        {     
+            return ApplyTimeZone(GetDateTimeNowFromUtc(), "E. South America Standard Time");
         }
 
         public static DateTime GetDateTimeNowToLog()
         {
             return GetDateTimeNowBrazil();
-        } 
+        }
 
         public static DateTime GetDateTimeNowFromUtc()
         {
             return DateTime.UtcNow;
-        }
-
+        } 
         public static DateTime GetDateTimeNowWithTimeZone(string timeZoneId)
         {
             DateTime dateResult = GetDateTimeNowWithCurrentCulture();
@@ -68,10 +64,10 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static DateTime ApplyTimeZone(DateTime dateTime, string timeZoneId)
         {
             // Obter o fuso horário a partir do ID
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
 
             // Converter a data e hora para o fuso horário especificado
-            var dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZone);
+            DateTime dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZone);
 
             return dateTimeWithTimeZone;
         }
