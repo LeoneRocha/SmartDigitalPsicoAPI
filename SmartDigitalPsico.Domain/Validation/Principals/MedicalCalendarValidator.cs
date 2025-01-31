@@ -1,5 +1,7 @@
-﻿using FluentValidation;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Base;
@@ -25,8 +27,8 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(e => e.StartDateTime)
                 .NotEmpty()
-                .WithMessage("Start date and time is required.")
-                .Must(BeFutureDateTime)
+                .WithMessage("Start date and time is required.")              
+                .MustAsync(async (e, startDateTime, cancellationToken) => await BeFutureDateTime(e.CreatedUserId.GetValueOrDefault(), startDateTime))
                 .WithMessage("Start date and time must be in the future.")
                 .LessThan(e => e.EndDateTime)
                 .When(e => e.EndDateTime.HasValue && !e.IsAllDay)
@@ -38,7 +40,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(e => e.EndDateTime)
                 .NotEmpty()
-                .Must(BeFutureDateTime)
+                .MustAsync(async (e, endDateTime, cancellationToken) => await BeFutureDateTime(e.CreatedUserId.GetValueOrDefault(), endDateTime))
                 .When(e => e.EndDateTime.HasValue)
                 .WithMessage("End date and time must be in the future.")
                 .GreaterThan(e => e.StartDateTime)
@@ -104,14 +106,19 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .WithMessage("There is a scheduling conflict for the specified time.");
         }
 
-        private static bool BeFutureDateTime(DateTime dateTime)
+        private async Task<bool>  BeFutureDateTime(long userId, DateTime dateTime)
         {
-            return dateTime > DateTime.UtcNow;
+            var user = await _userRepository.FindByID(userId);
+            var dateCurrent = DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
+
+            return dateTime > dateCurrent;
         }
 
-        private static bool BeFutureDateTime(DateTime? dateTime)
+        private async Task<bool> BeFutureDateTime(long userId, DateTime? dateTime)
         {
-            return dateTime.HasValue && dateTime.Value > DateTime.UtcNow;
+            var user = await _userRepository.FindByID(userId);
+            var dateCurrent = DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone); 
+            return dateTime.HasValue && dateTime.Value > dateCurrent;
         }
 
         private static bool BeValidDays(DayOfWeek[] recurrenceDays)

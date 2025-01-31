@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<List<GetMedicalFileDto>>>> FindAll(long medicalId)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindAllByMedical(medicalId));
         }
 
@@ -46,7 +46,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalFileDto>>> FindByID(long id)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindByID(id));
         }
 
@@ -54,7 +54,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Delete(id);
             if (!response.Success)
             {
@@ -66,7 +66,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [HttpGet("Download/{id}")]
         public async Task<ActionResult> DownloadFileById(long id)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var result = await _entityService.DownloadFileById(id);
             var response = FileHelper.ProccessDownloadToBrowser(DirectoryHelper.GetDiretoryTemp(_configuration), result.FileName);
             return response;
@@ -76,7 +76,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetMedicalFileDto>>> Create([FromForm] AddMedicalFileDtoService newEntity)
         {
-            this.setUserIdCurrent();
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             try
             {
                 var addEntity = new AddMedicalFileDto() { MedicalId = newEntity.MedicalId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };

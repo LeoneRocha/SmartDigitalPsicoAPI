@@ -23,6 +23,8 @@ carregar quando existir o token aparecer flagado  -------FEITO
 -- CRIAR UM BOTAO APAGAR -------------------------  -------FEITO 
 
 
+------------ I18 REVISAR TODO AS MENSSAGENS E COLOCAR RESSOURCE CASO NAO ACHE MENSSAGEM PADRO ------------------------ PENDNETE 
+
 
 ------------ 2 Criar processo de feriados por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  ter um pre-gerar feriados por ia ou service.
 Medical Id 
