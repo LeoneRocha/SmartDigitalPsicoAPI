@@ -6,6 +6,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
 {
     public interface ISharedServices
     {
+        IApplicationLanguageService ApplicationLanguageService { get; }
         IEmailService EmailService { get; }
         ICacheService CacheService { get; }
         ICryptoService CryptoService { get; }    

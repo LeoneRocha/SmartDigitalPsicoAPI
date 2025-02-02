@@ -63,7 +63,41 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return message;
         }
 
-        public static async Task<string> GetLocalization<T>(string key, string defaultMenssage, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
+        //public static async Task<string> GetLocalizationOld<T>(string key, string defaultMenssage, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
+        //{
+        //    string resultLocalization = string.Empty;
+
+        //    var culturenameCurrent = CultureInfo.CurrentCulture;
+
+        //    string keyCache = "FindAll_GetApplicationLanguageVO";
+        //    ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
+
+        //    string resourceKey = typeof(T).Name.Replace("I", "");
+        //    string language = culturenameCurrent.Name;
+        //    try
+        //    {
+        //        if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
+        //        {
+        //            GetApplicationLanguageDto languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
+        //            resultLocalization = languageFindFromCache.LanguageValue;
+
+        //        }
+        //        else
+        //        {
+        //            var languageFindDB = await languageRepository.Find(language, key, resourceKey);
+        //            resultLocalization = languageFindDB.LanguageValue;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        resultLocalization = string.IsNullOrEmpty(resultLocalization) ? $"NotFoundLocalization|{key}|{defaultMenssage}" : resultLocalization;
+        //        ///Feature add default menssage.
+
+        //    }
+        //    return resultLocalization;
+        //}
+
+        public async Task<string> GetLocalization<T>(string key, string defaultMenssage, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
         {
             string resultLocalization = string.Empty;
 
@@ -78,14 +112,30 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             {
                 if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
                 {
-                    GetApplicationLanguageDto languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
-                    resultLocalization = languageFindFromCache.LanguageValue;
-
+                    GetApplicationLanguageDto? languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
+                    if (languageFindFromCache != null)
+                    {
+                        resultLocalization = languageFindFromCache.LanguageValue;
+                    }
                 }
                 else
                 {
-                    var languageFindDB = await languageRepository.Find(language, key, resourceKey);
-                    resultLocalization = languageFindDB.LanguageValue;
+                    var existLanguage = await languageRepository.ExistLanguage(language, key, resourceKey);
+
+                    if (existLanguage)
+                    {
+                        var languageFindDB = await languageRepository.Find(language, key, resourceKey);
+                        resultLocalization = languageFindDB.LanguageValue;
+                    } else {
+
+                        var defaultLanguage = new AddApplicationLanguageDto();
+                        defaultLanguage.Language = "en-US";
+                        defaultLanguage.Description = defaultMenssage;
+                        defaultLanguage.LanguageValue = defaultMenssage;
+                        defaultLanguage.LanguageKey = key;
+                        defaultLanguage.ResourceKey = resourceKey;
+                        await base.Create(defaultLanguage);  
+                    }
                 }
             }
             catch (Exception)
@@ -97,6 +147,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return resultLocalization;
         }
 
+        [Obsolete("USe o GetLocalization instance")]
         public static async Task<string> GetLocalization<T>(string key, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
         {
             string resultLocalization = string.Empty;
@@ -128,17 +179,16 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             return resultLocalization;
         }
-
-
+         
         #endregion GetLocalization
 
-        private static GetApplicationLanguageDto filterAndGetSingle(ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache, string resourceKey, string key, string language)
+        private static GetApplicationLanguageDto? filterAndGetSingle(ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache, string resourceKey, string key, string language)
         {
             if (resultFromCache.Data == null)
             {
                 throw new AppWarningException("filterAndGetSingle: Data cannot be null.");
             }
-            return resultFromCache.Data.Single(p =>
+            return resultFromCache.Data.FirstOrDefault(p =>
             p.ResourceKey.Trim().Equals(resourceKey.Trim(), StringComparison.OrdinalIgnoreCase)
             && p.LanguageKey.Trim().Equals(key.Trim(), StringComparison.OrdinalIgnoreCase)
             && p.Language.Trim().Equals(language.Trim(), StringComparison.OrdinalIgnoreCase)

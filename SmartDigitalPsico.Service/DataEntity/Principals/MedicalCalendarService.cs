@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IMedicalRepository _medicalRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMedicalCalendarValidators _validators;
-
+        private readonly IApplicationLanguageService _applicationLanguageService;
         public MedicalCalendarService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -43,6 +43,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _medicalRepository = repositoriesShared.MedicalRepository;
             _userRepository = repositoriesShared.SharedRepositories.UserRepository;
             _validators = medicalCalendarValidators;
+            _applicationLanguageService = sharedServices.ApplicationLanguageService;
 
         }
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
@@ -73,7 +74,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                             entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
                             await GenerateRecurrenceAsync(entityAdd, false);
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
-                            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred, _applicationLanguageRepository, _cacheService);
+                            response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred, _applicationLanguageRepository, _cacheService);
 
                         }
                         catch (Exception ex)
@@ -86,7 +87,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
-                        response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred, _applicationLanguageRepository, _cacheService);
+                        response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred, _applicationLanguageRepository, _cacheService);
                     }
                 }
             }
@@ -135,7 +136,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         {
                             await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
-                            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated, _applicationLanguageRepository, _cacheService);
+                            response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated, _applicationLanguageRepository, _cacheService);
                         }
                         catch (Exception)
                         {
@@ -145,8 +146,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     else
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Update(entityUpdate);
-                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);                        
-                        response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated, _applicationLanguageRepository, _cacheService);
+                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
+                        response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated, _applicationLanguageRepository, _cacheService);
                     }
                 }
             }
@@ -369,8 +370,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
+                response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.", _applicationLanguageRepository, _cacheService);
             }
             return response;
         }
@@ -404,8 +404,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
+                response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>
+                       ("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.", _applicationLanguageRepository, _cacheService);
             }
             return response;
         }
