@@ -134,7 +134,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                         defaultLanguage.LanguageValue = defaultMenssage;
                         defaultLanguage.LanguageKey = key;
                         defaultLanguage.ResourceKey = resourceKey;
-                        await base.Create(defaultLanguage);  
+                        await base.Create(defaultLanguage);
+                        resultLocalization = defaultMenssage;
                     }
                 }
             }
