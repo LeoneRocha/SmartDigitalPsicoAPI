@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         protected readonly ICacheService _cacheService;
         protected readonly Serilog.ILogger _logger;
         protected readonly IResiliencePolicyConfig _policyConfig;
-        //private readonly IApplicationLanguageService _applicationLanguageService;
+        protected readonly Lazy<IApplicationLanguageService> _applicationLanguageService;
 
         public EntityBaseService(
               ISharedServices sharedServices,
@@ -48,8 +48,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             _policyConfig = sharedDependenciesConfig.PolicyConfig;
             _entityRepository = entityRepository;
             _entityValidator = entityValidator;
-
-            //_applicationLanguageService = sharedServices.ApplicationLanguageService;
+            _applicationLanguageService = new Lazy<IApplicationLanguageService>(() => sharedServices.ApplicationLanguageService);
         }
         public void SetUserId(long id)
         {
@@ -57,7 +56,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         }
         protected virtual async Task<string> GetLocalization(string key, string defaultMenssage)
         {
-            return await ApplicationLanguageService.GetLocalizationold<ISharedResource>(key, defaultMenssage, _applicationLanguageRepository, _cacheService);
+            return await _applicationLanguageService.Value.GetLocalization<ISharedResource>(key, defaultMenssage, _applicationLanguageRepository, _cacheService);
         }
 
         public virtual async Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item)
