@@ -17,7 +17,6 @@ using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {

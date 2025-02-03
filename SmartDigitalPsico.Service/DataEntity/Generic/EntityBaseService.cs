@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -21,7 +22,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         where TEntityUpdate : IEntityDto
         where TEntityResult : class
         where Repo : IEntityBaseRepository<TEntity>
-
     {
         protected readonly IMapper _mapper;
         protected readonly Repo _entityRepository;
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         protected readonly ICacheService _cacheService;
         protected readonly Serilog.ILogger _logger;
         protected readonly IResiliencePolicyConfig _policyConfig;
-
+        private readonly IApplicationLanguageService _applicationLanguageService;
 
         public EntityBaseService(
               ISharedServices sharedServices,
@@ -48,14 +48,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             _policyConfig = sharedDependenciesConfig.PolicyConfig;
             _entityRepository = entityRepository;
             _entityValidator = entityValidator;
+
+            _applicationLanguageService = sharedServices.ApplicationLanguageService;
         }
         public void SetUserId(long id)
         {
             UserId = id;
         }
-        protected async Task<string> getMessageFromLocalization(string key)
+        protected async Task<string> getMessageFromLocalization(string key, string defaultMenssage)
         {
-            return await ApplicationLanguageService.GetLocalization<ISharedResource>(key, _applicationLanguageRepository, _cacheService);
+            return await _applicationLanguageService.GetLocalization<ISharedResource>(key, defaultMenssage, _applicationLanguageRepository, _cacheService);
         }
 
         public virtual async Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item)
@@ -76,7 +78,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                     {
                         TEntity entityResponse = await _entityRepository.Create(entityAdd);
                         response.Data = _mapper.Map<TEntityResult>(entityResponse);
-                        response.Message = await getMessageFromLocalization("RegisterCreated");
+                        response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
 
                     }
                 });
@@ -85,7 +87,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.GenericErroMessage);
+
                 _logger.Error(ex, "Create: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
@@ -101,14 +104,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                     if (!exists)
                     {
                         response.Success = false;
-                        response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+                        response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
                     }
                     else
                     {
                         response.Success = await _entityRepository.Delete(id);
                         if (response.Success)
                         {
-                            response.Message = await getMessageFromLocalization("RegisterDeleted");
+                            response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterDeleted, GeneralLanguageMenssageConstants.RegisterDeleted);
                             response.Success = true;
                         }
                     }
@@ -118,7 +121,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Errors.Add(new ErrorResponse() { Name = "Delete", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.GenericErroMessage);
                 _logger.Error(ex, "Delete: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
@@ -135,7 +138,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                     if (!entityExists)
                     {
                         response.Success = false;
-                        response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+                        response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
 
                     }
                     var entityUpdate = _mapper.Map<TEntity>(item);
@@ -145,14 +148,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                     {
                         TEntity entityResponse = await _entityRepository.Update(entityUpdate);
                         response.Data = _mapper.Map<TEntityResult>(entityResponse);
-                        response.Message = await getMessageFromLocalization("RegisterUpdated");
+                        response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
                     }
                 });
             }
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.GenericErroMessage);
                 _logger.Error(ex, "Update: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
@@ -168,13 +171,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
 
                      response.Data = entityResponse;
                      response.Success = true;
-                     response.Message = await getMessageFromLocalization("RegisterExist");
+                     response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterExist, GeneralLanguageMenssageConstants.RegisterExist);
                  });
             }
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.GenericErroMessage);
                 _logger.Error(ex, "Exists: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
@@ -191,13 +194,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                     response.Data = entityResponse.Select(c => _mapper.Map<TEntityResult>(c)).ToList();
 
                     response.Success = true;
-                    response.Message = await getMessageFromLocalization("RegisterExist");
+                    response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterExist, GeneralLanguageMenssageConstants.RegisterExist);
                 });
             }
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.GenericErroMessage);
                 _logger.Error(ex, "FindAll: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
@@ -215,14 +218,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                         response.Data = _mapper.Map<TEntityResult>(entityResponse);
                     }
                     response.Success = true;
-                    response.Message = await getMessageFromLocalization("RegisterFind");
+
+                    response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterFind, GeneralLanguageMenssageConstants.RegisterFind);
                 });
 
             }
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.GenericErroMessage);
                 _logger.Error(ex, "FindByID: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
@@ -239,13 +243,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
 
                     response.Data = entityResponse;
                     response.Success = true;
-                    response.Message = await getMessageFromLocalization("RegisterCounted");
+                    response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterCounted, GeneralLanguageMenssageConstants.RegisterCounted);
                 });
             }
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.GenericErroMessage);
                 _logger.Error(ex, "GetCount: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
@@ -261,14 +265,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                     if (!exists)
                     {
                         response.Success = false;
-                        response.Message = await getMessageFromLocalization("RegisterIsNotFound");
+                        response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
                     }
                     else
                     {
                         response.Success = await _entityRepository.EnableOrDisable(id);
                         if (response.Success)
                         {
-                            response.Message = await getMessageFromLocalization("RegisterUpdated");
+                            response.Message = await getMessageFromLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
                             response.Success = true;
                         }
                     }
@@ -277,7 +281,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.GenericErroMessage);
                 _logger.Error(ex, "EnableOrDisable: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
@@ -321,7 +325,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessage);
+                response.Message = await getMessageFromLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.GenericErroMessage);
                 _logger.Error(ex, "Validate: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
