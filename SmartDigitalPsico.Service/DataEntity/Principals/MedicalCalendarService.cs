@@ -17,6 +17,7 @@ using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
+using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -29,7 +30,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IMedicalRepository _medicalRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMedicalCalendarValidators _validators;
-        private readonly IApplicationLanguageService _applicationLanguageService;
+        //private readonly IApplicationLanguageService _applicationLanguageService;
         public MedicalCalendarService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -42,9 +43,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _medicalRepository = repositoriesShared.MedicalRepository;
             _userRepository = repositoriesShared.SharedRepositories.UserRepository;
             _validators = medicalCalendarValidators;
-            _applicationLanguageService = sharedServices.ApplicationLanguageService;
+           // _applicationLanguageService = sharedServices.ApplicationLanguageService;
 
         }
+        protected override Task<string> GetLocalization(string key, string defaultMenssage)
+        {
+            return base.GetLocalization(key, defaultMenssage);
+        }
+
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
         {
             ServiceResponse<GetMedicalCalendarDto> response = new ServiceResponse<GetMedicalCalendarDto>();
@@ -73,7 +79,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                             entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
                             await GenerateRecurrenceAsync(entityAdd, false);
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
-                            response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred, _applicationLanguageRepository, _cacheService);
+                            response.Message = await GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred);
 
                         }
                         catch (Exception ex)
@@ -86,7 +92,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
-                        response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred, _applicationLanguageRepository, _cacheService);
+                        response.Message = await GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred);
                     }
                 }
             }
@@ -135,7 +141,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         {
                             await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
-                            response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated, _applicationLanguageRepository, _cacheService);
+                            response.Message = await GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated);
                         }
                         catch (Exception)
                         {
@@ -146,7 +152,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Update(entityUpdate);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
-                        response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated, _applicationLanguageRepository, _cacheService);
+                        response.Message = await GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated);
                     }
                 }
             }
@@ -369,7 +375,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
                 response.Success = false;
-                response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.", _applicationLanguageRepository, _cacheService);
+                response.Message = await GetLocalization("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.");
             }
             return response;
         }
@@ -403,8 +409,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
                 response.Success = false;
-                response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>
-                       ("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.", _applicationLanguageRepository, _cacheService);
+                response.Message = await GetLocalization
+                       ("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.");
             }
             return response;
         }
@@ -916,5 +922,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             return response;
         }
+
+
+
     }
 }

@@ -26,14 +26,13 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
             _serviceProvider = serviceProvider;
         }
 
-        public IApplicationLanguageService ApplicationLanguageService
-        {
-            get
-            {
-                return _serviceProvider.GetService<IApplicationLanguageService>()
-                    ?? throw new InvalidOperationException("IApplicationLanguageService not available.");
-            }
-        }
+        //public IApplicationLanguageService? ApplicationLanguageService
+        //{
+        //    get
+        //    {
+        //        return _serviceProvider.GetService<IApplicationLanguageService>() ?? new instacn IApplicationLanguageService();
+        //    }
+        //}
 
     }
 }
