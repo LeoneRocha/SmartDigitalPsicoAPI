@@ -305,7 +305,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                         {
                             var errosAdd = new ErrorResponse()
                             {
-                                Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(errosItem.Message, _applicationLanguageRepository, _cacheService)
+                                Message = await GetLocalization(errosItem.ErrorCode, errosItem.Message)
                                 ,
                                 Name = errosItem.Name
                             };
@@ -316,8 +316,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                         }
                         response.Errors = errosTranslated;
                     }
-
-                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(response.Message, _applicationLanguageRepository, _cacheService);
+                    response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, response.Message);
                 });
 
             }
