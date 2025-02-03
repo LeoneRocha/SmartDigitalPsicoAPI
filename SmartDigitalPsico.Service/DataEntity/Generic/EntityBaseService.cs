@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Spreadsheet;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
@@ -306,19 +307,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                         {
                             var errosAdd = new ErrorResponse()
                             {
-                                Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(errosItem.Message, _applicationLanguageRepository, _cacheService)
-                                ,
+                                Message = await _applicationLanguageService.GetLocalization<ISharedResource>(errosItem.ErrorCode, errosItem.Message, _applicationLanguageRepository, _cacheService),
                                 Name = errosItem.Name
                             };
-
-                            errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
-
                             errosTranslated.Add(errosAdd);
                         }
                         response.Errors = errosTranslated;
                     }
-
-                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>(response.Message, _applicationLanguageRepository, _cacheService);
+                    response.Message = await _applicationLanguageService.GetLocalization<ISharedResource>(ValidatorConstants.GenericErroMessageKey, response.Message, _applicationLanguageRepository, _cacheService);
                 });
 
             }
