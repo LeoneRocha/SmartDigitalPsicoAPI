@@ -15,6 +15,9 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Domain.Validation.Helper;
+using Azure;
+using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
+using MySqlX.XDevAPI.Common;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -42,8 +45,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             var result = new ServiceResponse<List<GetMedicalFileDto>>();
             result.Success = false;
-            result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
-
+            result.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageKeyConstants.RegisterIsNotFound);
             return result;
         }
 
@@ -77,23 +79,20 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (!validationResult.IsValid)
             {
                 response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
-                response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
+                response.Success = false; 
+                response.Message = await base.GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                 return response;
             }
 
             if (listResult == null || listResult.Count == 0)
             {
-                response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
+                response.Success = false; 
+                response.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound); 
                 return response;
             }
             response.Data = listResult.Select(c => _mapper.Map<GetMedicalFileDto>(c)).ToList();
-            response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsFound", _applicationLanguageRepository, _cacheService);
+            response.Success = true;  
+            response.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
 
             return response;
         }

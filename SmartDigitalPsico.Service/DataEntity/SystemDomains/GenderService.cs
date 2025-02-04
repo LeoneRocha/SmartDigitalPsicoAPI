@@ -1,16 +1,15 @@
-using AutoMapper;
 using FluentValidation;
+using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
-using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
@@ -65,14 +64,12 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             {
                 response.Data = _mapper.Map<GetGenderDto>(entityResponse);
                 response.Success = true;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                    ("RegisterIsFound", _applicationLanguageRepository, _cacheService);
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);                 
             }
             else
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                   ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound); 
             }
             return response;
         }
@@ -86,8 +83,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             if (!entityExists)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
+                 
                 return response;
             }
             Gender entityUpdate = await _entityRepository.FindByID(item.Id);
@@ -103,8 +100,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
                 response.Data = _mapper.Map<GetGenderDto>(entityResponse);
                 response.Success = true;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                           ("RegisterUpdated", _applicationLanguageRepository, _cacheService);
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);                
             }
             return response;
         }

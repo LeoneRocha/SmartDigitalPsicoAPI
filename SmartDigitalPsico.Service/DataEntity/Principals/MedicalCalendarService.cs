@@ -8,7 +8,6 @@ using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
@@ -17,7 +16,6 @@ using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -30,7 +28,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IMedicalRepository _medicalRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMedicalCalendarValidators _validators;
-        //private readonly IApplicationLanguageService _applicationLanguageService;
         public MedicalCalendarService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -43,12 +40,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _medicalRepository = repositoriesShared.MedicalRepository;
             _userRepository = repositoriesShared.SharedRepositories.UserRepository;
             _validators = medicalCalendarValidators;
-           // _applicationLanguageService = sharedServices.ApplicationLanguageService;
-
-        }
-        protected override Task<string> GetLocalization(string key, string defaultMenssage)
-        {
-            return base.GetLocalization(key, defaultMenssage);
         }
 
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
@@ -79,7 +70,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                             entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
                             await GenerateRecurrenceAsync(entityAdd, false);
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
-                            response.Message = await GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred);
+                            response.Message = await base.GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred);
 
                         }
                         catch (Exception ex)
@@ -92,7 +83,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
-                        response.Message = await GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred);
+                        response.Message = await base.GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Registred, MensageCalendarRegistred);
                     }
                 }
             }
@@ -141,7 +132,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         {
                             await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
-                            response.Message = await GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated);
+                            response.Message = await base.GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated);
                         }
                         catch (Exception)
                         {
@@ -152,7 +143,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Update(entityUpdate);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
-                        response.Message = await GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated);
+                        response.Message = await base.GetLocalization(MedicalCalendarI18nKeyConstants.MedicalCalendar_Mensage_Calendar_Updated, MensageCalendarUpdated);
                     }
                 }
             }
@@ -375,7 +366,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
                 response.Success = false;
-                response.Message = await GetLocalization("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.");
+                response.Message = await base.GetLocalization("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.");
             }
             return response;
         }
@@ -409,8 +400,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
                 response.Success = false;
-                response.Message = await GetLocalization
-                       ("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.");
+                response.Message = await base.GetLocalization("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.");
             }
             return response;
         }
@@ -740,9 +730,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             return response;
         }
-
-
-
+          
         #region PRIVATE GetAvailableTimeSlotsAsync
         private DayCalendarDto[] FilterIsTimeSlotAvailable(DateTime startTime, DateTime endTime, DayCalendarDto[] daysCalendar)
         {
@@ -922,8 +910,5 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             return response;
         }
-
-
-
     }
 }

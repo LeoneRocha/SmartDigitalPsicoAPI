@@ -10,7 +10,6 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Service.DataEntity.Generic
@@ -78,7 +77,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                         TEntity entityResponse = await _entityRepository.Create(entityAdd);
                         response.Data = _mapper.Map<TEntityResult>(entityResponse);
                         response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
-
                     }
                 });
             }

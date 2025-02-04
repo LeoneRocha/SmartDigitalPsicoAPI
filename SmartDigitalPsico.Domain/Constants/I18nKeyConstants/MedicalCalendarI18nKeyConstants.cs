@@ -10,7 +10,7 @@
         public const string MedicalCalendar_Mensage_Calendar_Success = "Mensage_Calendar_Success";
 
         #endregion MedicalCalendar
-
+         
 
     }
 }
