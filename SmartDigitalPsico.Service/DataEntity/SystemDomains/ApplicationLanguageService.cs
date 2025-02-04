@@ -1,9 +1,6 @@
 using FluentValidation;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 using SmartDigitalPsico.Domain.AppException;
-using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
@@ -86,12 +83,14 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 }
                 else
                 {
-                    var existLanguage = await _entityRepository.ExistLanguage(language, key, resourceKey);
-
+                    var existLanguage = await _entityRepository.ExistLanguage(language, key, resourceKey); 
                     if (existLanguage)
                     {
                         var languageFindDB = await _entityRepository.Find(language, key, resourceKey);
-                        resultLocalization = languageFindDB.LanguageValue;
+                        if (languageFindDB != null)
+                        {
+                            resultLocalization = languageFindDB.LanguageValue;
+                        }
                     }
                     else
                     {
@@ -114,7 +113,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                         }
                         catch (Exception ex)
                         {
-
+                            _logger.Error(ex, "GetLocalization: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
                         }
                     }
                     if (_cacheService.IsEnable())
