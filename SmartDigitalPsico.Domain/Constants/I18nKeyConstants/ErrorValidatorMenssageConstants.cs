@@ -19,7 +19,7 @@
         public const string LoginUnique = "Login must be unique.";
         public const string NameNull = "Name cannot be empty";
         public const string RGNull = "RG cannot be empty.";
-        public const string ErrorValidator_User_Not_Permission = "User Not Permission";
+        public const string ErrorValidator_User_Not_Permission = "You do not have the necessary permissions to perform this action.";
 
 
         #region MEDICAL 

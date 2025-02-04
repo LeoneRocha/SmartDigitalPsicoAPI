@@ -2,24 +2,24 @@
 {
     public static class GeneralLanguageKeyConstants
     {
-        public const string RegisterCreated = "RegisterCreated";
-        public const string RegisterDeleted = "RegisterDeleted";
-        public const string RegisterUpdated = "RegisterUpdated";
-        public const string RegisterIsFound = "RegisterIsFound";
-        public const string RegisterIsNotFound = "RegisterIsNotFound";
-        public const string RegisterExist = "RegisterExist";
-        public const string RegisterFind = "RegisterFind";
-        public const string RegisterCounted = "RegisterCounted";
+        public const string RegisterCreated = "Register_Created";
+        public const string RegisterDeleted = "Register_Deleted";
+        public const string RegisterUpdated = "Register_Updated";
+        public const string RegisterIsFound = "Register_Is_Found";
+        public const string RegisterIsNotFound = "Register_Is_Not_Found";
+        public const string RegisterExist = "Register_Exist";
+        public const string RegisterFind = "Register_Find";
+        public const string RegisterCounted = "Register_Counted";
 
         public const string DefaultPtBr = "Default_ptbr";
         public const string LangValid = "LangValid";
         public const string LangErrors = "LangErrors";
-        public const string GenericErroMessage = "GenericErroMessage";
-        public const string PermissionDenied = "PermissionDenied";
-        public const string MedicalUpdateTitle = "MedicalUpdateTitle";
-        public const string WrongPassword = "WrongPassword";
-        public const string UserLogout = "UserLogout";
-        public const string UserLogged = "UserLogged";
+        public const string GenericErroMessage = "Generic_Erro_Message";
+        public const string PermissionDenied = "Permission_Denied";
+        public const string MedicalUpdateTitle = "Medical_Update_Title";
+        public const string WrongPassword = "Wrong_Password";
+        public const string UserLogout = "User_Logout";
+        public const string UserLogged = "User_Logged";
 
 
     }
