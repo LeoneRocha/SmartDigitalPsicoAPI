@@ -77,7 +77,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
                 response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
-                response.Message = "Patient Record registred.";
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
             }
             return response;
         }
@@ -129,7 +129,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
                 response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
-                response.Message = "Patient Updated.";
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
 
                 await _auditDataSelectiveEntityLogService.Save(entityOld, entityResponse, "Update", propertiesToIgnore);
             }

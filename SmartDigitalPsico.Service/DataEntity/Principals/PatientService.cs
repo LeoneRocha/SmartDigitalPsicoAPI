@@ -171,7 +171,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (listResult == null || listResult.Count == 0)
             {
                 response.Success = false;
-                response.Message = "Patients not found.";
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);   
                 return response;
             }
             response.Data = listResult.Select(c => _mapper.Map<GetPatientDto>(c)).ToList();

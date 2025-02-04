@@ -18,8 +18,8 @@
         public const string PermissionDenied = "PermissionDenied";
         public const string MedicalUpdateTitle = "MedicalUpdateTitle";
         public const string WrongPassword = "WrongPassword";
-        public const string UserLogout = "User Logout"; 
-
+        public const string UserLogout = "UserLogout";
+        public const string UserLogged = "UserLogged";
 
 
     }

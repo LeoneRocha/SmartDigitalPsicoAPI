@@ -19,7 +19,7 @@
         public const string MedicalUpdateTitle = "Medical Update";
         public const string WrongPassword = "Wrong password";
         public const string UserLogout = "User Logout";
-
+        public const string UserLogged = "User Logged";
 
     }
 }

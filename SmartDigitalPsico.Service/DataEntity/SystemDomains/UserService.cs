@@ -79,7 +79,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 response.Data = await executeLoginJwt(user);
             }
             response.Success = true;
-            response.Message = "User Logged.";
+            response.Message = await GetLocalization(GeneralLanguageKeyConstants.UserLogged, GeneralLanguageMenssageConstants.UserLogged); 
             return response;
         }
 
