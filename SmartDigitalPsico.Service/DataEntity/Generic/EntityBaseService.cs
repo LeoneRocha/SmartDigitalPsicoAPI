@@ -25,8 +25,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         protected readonly IMapper _mapper;
         protected readonly Repo _entityRepository;
         protected readonly IValidator<TEntity> _entityValidator;
-        protected long UserId { get; private set; }
-        protected readonly IApplicationLanguageRepository _applicationLanguageRepository;
+        protected long UserId { get; private set; } 
         protected readonly ICacheService _cacheService;
         protected readonly Serilog.ILogger _logger;
         protected readonly IResiliencePolicyConfig _policyConfig;
@@ -41,8 +40,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             )
         {
             _mapper = sharedDependenciesConfig.Mapper;
-            _logger = sharedDependenciesConfig.Logger;
-            _applicationLanguageRepository = sharedRepositories.ApplicationLanguageRepository;
+            _logger = sharedDependenciesConfig.Logger; 
             _cacheService = sharedServices.CacheService;
             _policyConfig = sharedDependenciesConfig.PolicyConfig;
             _entityRepository = entityRepository;
@@ -55,7 +53,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         }
         protected virtual async Task<string> GetLocalization(string key, string defaultMenssage)
         {
-            return await _applicationLanguageService.Value.GetLocalization<ISharedResource>(key, defaultMenssage, _applicationLanguageRepository, _cacheService);
+            return await _applicationLanguageService.Value.GetLocalization<ISharedResource>(key, defaultMenssage, _cacheService);
         }
 
         public virtual async Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item)
