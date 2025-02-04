@@ -169,11 +169,19 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             {
                 throw new AppWarningException("filterAndGetSingle: Data cannot be null.");
             }
-            return resultFromCache.Data.FirstOrDefault(p =>
+
+            GetApplicationLanguageDto ressopurce  = resultFromCache.Data.FirstOrDefault(p =>
             p.ResourceKey.Trim().Equals(resourceKey.Trim(), StringComparison.OrdinalIgnoreCase)
             && p.LanguageKey.Trim().Equals(key.Trim(), StringComparison.OrdinalIgnoreCase)
             && p.Language.Trim().Equals(language.Trim(), StringComparison.OrdinalIgnoreCase)
-            );
+            ) ?? resultFromCache.Data.First(p =>
+            p.ResourceKey.Trim().Equals(resourceKey.Trim(), StringComparison.OrdinalIgnoreCase)
+            && p.LanguageKey.Trim().Equals(key.Trim(), StringComparison.OrdinalIgnoreCase)
+            && p.Language.Trim().Equals("en-us", StringComparison.OrdinalIgnoreCase)
+            );  
+
+
+            return ressopurce;
         }
     }
 }
