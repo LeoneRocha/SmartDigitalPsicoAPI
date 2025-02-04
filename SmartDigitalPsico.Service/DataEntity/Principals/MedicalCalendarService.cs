@@ -364,7 +364,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             else
             {
-                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                 response.Success = false;
                 response.Message = await base.GetLocalization("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.");
             }
@@ -398,7 +398,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             else
             {
-                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                 response.Success = false;
                 response.Message = await base.GetLocalization("ErrorValidator_User_Not_Permission", "You do not have the necessary permissions to perform this action.");
             }
@@ -555,7 +555,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             response.Success = false;
             response.Data = sDto;
             response.Message = MensageCalendarSuccess;
-            response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+            response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
         }
         private async Task<Medical> GetMedicalAsync(long medicalId)
         {
@@ -760,7 +760,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 if (!validationResult.IsValid)
                 {
                     response.Success = false;
-                    response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                    response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                     response.Message = validationResult.Errors.First().ErrorMessage;
                     return response;
                 }
@@ -871,7 +871,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 if (!validationResult.IsValid)
                 {
                     response.Success = false;
-                    response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                    response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                     response.Message = validationResult.Errors.First().ErrorMessage;
                     return response;
                 }

@@ -116,7 +116,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (!validationResult.IsValid)
             {
-                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                 response.Success = false;
                 response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                 return response;
@@ -155,7 +155,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 var validationResult = await validator.ValidateAsync(recordData);
                 if (!validationResult.IsValid)
                 {
-                    response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                    response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                     response.Success = false;
                     response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                     return response;

@@ -1,4 +1,6 @@
 using Azure;
+using MySqlX.XDevAPI.Common;
+using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
 using SmartDigitalPsico.Domain.Helpers;
@@ -100,7 +102,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             entityUpdate.ModifyUserId = UserId;
             User userUpdate = await _userRepository.FindByID(UserId);
-            entityOld.ModifyUser  = userUpdate;
+            entityOld.ModifyUser = userUpdate;
             #endregion User Action
 
             #region Columns
@@ -119,7 +121,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityUpdate.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, item.Annotation);
 
                 var updateTableEntity = CreateTableEntity(entityUpdate);
-                
+
                 //Storage Table Example usage
                 await _config.StorageTableService.UpdateAsync(updateTableEntity);
 
@@ -164,23 +166,22 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var validationResult = await validator.ValidateAsync(recordsList);
             if (!validationResult.IsValid)
             {
-                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
+                response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
+
                 return response;
             }
 
             if (listResult == null || listResult.Count == 0)
             {
                 response.Success = false;
-                response.Message = "Patients not found.";
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
                 return response;
             }
             response.Data = listResult.Select(c => _mapper.Map<GetPatientRecordDto>(c)).ToList();
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsFound", _applicationLanguageRepository, _cacheService);
+            response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
 
             return response;
         }
@@ -188,9 +189,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             var result = new ServiceResponse<List<GetPatientRecordDto>>();
             result.Success = false;
-            result.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
-
+            result.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
             return result;
         }
 
@@ -211,10 +210,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 var validationResult = await validator.ValidateAsync(recordData);
                 if (!validationResult.IsValid)
                 {
-                    response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                    response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                     response.Success = false;
-                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                           ("ErrorValidator_User_Not_Permission", _applicationLanguageRepository, _cacheService);
+                    response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
+
                     return response;
                 }
                 var patient = await _patientRepository.FindByID(entityResponse.PatientId, p => p.Medical ?? new Medical());
@@ -224,12 +223,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Success = true;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterFind", _applicationLanguageRepository, _cacheService);
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterFind, GeneralLanguageMenssageConstants.RegisterFind);
             }
             catch (Exception)
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>("RegisterIsNotFound", _applicationLanguageRepository, _cacheService);
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
             }
             return response;
         }

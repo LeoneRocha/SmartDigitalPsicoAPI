@@ -110,39 +110,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             return resultLocalization;
         }
-
-        [Obsolete("USe o GetLocalization instance")]//SELECT * FROM `smartdigitalhom`.`ApplicationLanguage`  WHERE LanguageKey = 'RegisterIsNotFound'
-        public static async Task<string> GetLocalization<T>(string key, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
-        {
-            string resultLocalization = string.Empty;
-
-            var culturenameCurrent = CultureInfo.CurrentCulture;
-
-            string keyCache = "FindAll_GetApplicationLanguageVO";
-            ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
-
-            string resourceKey = typeof(T).Name.Replace("I", "");
-            string language = culturenameCurrent.Name;
-            try
-            {
-                if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
-                {
-                    GetApplicationLanguageDto languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language)!;
-                    resultLocalization = languageFindFromCache.LanguageValue;
-                }
-                else
-                {
-                    var languageFindDB = await languageRepository.Find(language, key, resourceKey);
-                    resultLocalization = languageFindDB.LanguageValue;
-                }
-            }
-            catch (Exception)
-            {
-                resultLocalization = string.IsNullOrEmpty(resultLocalization) ? $"NotFoundLocalization|{key}|" : resultLocalization;
-            }
-            return resultLocalization;
-        }
-
+         
         #endregion GetLocalization
 
         private static GetApplicationLanguageDto? filterAndGetSingle(ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache, string resourceKey, string key, string language)

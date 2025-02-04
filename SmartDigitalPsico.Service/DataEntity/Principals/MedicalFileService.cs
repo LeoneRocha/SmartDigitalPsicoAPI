@@ -78,7 +78,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (!validationResult.IsValid)
             {
-                response.Errors = HelperValidation.GetMapErros(validationResult.Errors);
+                response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                 response.Success = false; 
                 response.Message = await base.GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                 return response;

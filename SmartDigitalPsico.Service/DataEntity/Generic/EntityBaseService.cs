@@ -293,7 +293,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                     var validationResult = await _entityValidator.ValidateAsync(item);
 
                     response.Success = validationResult.IsValid;
-                    response.Errors = HelperValidation.GetErrosMap(validationResult);
+                    response.Errors = HelperValidation.GetErrorsMap(validationResult).ToList();
                     response.Message = HelperValidation.GetMessage(validationResult.IsValid);
                     //Translate Message  
                     if (response.Errors != null)
