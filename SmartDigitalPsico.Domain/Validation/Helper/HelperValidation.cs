@@ -21,13 +21,13 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
                 Name = errorItem.PropertyName
             };
 
-            if (errorAdd.Message.Contains("|") && errorAdd.Message.Contains("_"))
+            if (errorAdd.Message.Contains('|') && errorAdd.Message.Contains('_'))
             {
                 var parts = errorAdd.Message.Split('|');
                 errorAdd.ErrorCode = parts[0];
                 errorAdd.Message = parts.Length > 1 ? parts[1] : errorItem.ErrorMessage;
             }
-            else if (!errorAdd.Message.Contains("_"))
+            else if (!errorAdd.Message.Contains('_'))
             {
                 // Remove todos os espaços e substitui por "_"
                 errorAdd.ErrorCode = errorAdd.Message.Replace(" ", "_");

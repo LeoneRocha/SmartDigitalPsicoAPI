@@ -141,17 +141,16 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         private async Task SaveCache(string keyCache, bool overWrite = false)
         {
-            if (_cacheService.IsEnable())
+            if (_cacheService.IsEnable()
+                && (!_cacheService.Exists<GetApplicationLanguageDto>(keyCache) || overWrite))
             {
-                if (!_cacheService.Exists<GetApplicationLanguageDto>(keyCache) || overWrite)
-                {
-                    var result = await _entityRepository.FindAll();
-                    var data = result.Select(c => _mapper.Map<GetApplicationLanguageDto>(c)).ToList();
+                var result = await _entityRepository.FindAll();
+                var data = result.Select(c => _mapper.Map<GetApplicationLanguageDto>(c)).ToList();
 
-                    await CacheService.SaveDataToCache(keyCache, data, _cacheService);
-                }
+                await CacheService.SaveDataToCache(keyCache, data, _cacheService);
             }
         }
+
 
         public async Task RemoveCache(string keyCache)
         {

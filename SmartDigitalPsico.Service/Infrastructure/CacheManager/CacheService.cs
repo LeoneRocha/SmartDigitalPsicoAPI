@@ -86,8 +86,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
         }
 
         public bool Exists<T>(string? cacheKey) where T : class, new()
-        {
-            T? _valueResult = new T();
+        { 
             bool result = false;
             try
             {
@@ -99,7 +98,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
                         result = checkCacheIsValid(resultDisk, cacheKey);
                         break;
                     case ETypeLocationCache.Memory:
-                        result = _memoryCacheRepository.TryGet(cacheKey, out _valueResult);
+                        result = _memoryCacheRepository.TryGet(cacheKey, out T? _valueResult);
                         break;
                     case ETypeLocationCache.MongoDB:
                         break;
