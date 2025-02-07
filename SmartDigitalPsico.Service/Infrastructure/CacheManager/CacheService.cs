@@ -84,6 +84,42 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
             }
             return result;
         }
+
+        public bool Exists<T>(string? cacheKey) where T : class, new()
+        {
+            T? _valueResult = new T();
+            bool result = false;
+            try
+            {
+                cacheKey = getCacheKey<T>(cacheKey);
+                switch (_eTypeLocationCache)
+                {
+                    case ETypeLocationCache.Disk:
+                        var resultDisk = _diskCacheRepository.TryGetAsync<T>(cacheKey).GetAwaiter().GetResult();
+                        result = checkCacheIsValid(resultDisk, cacheKey);
+                        break;
+                    case ETypeLocationCache.Memory:
+                        result = _memoryCacheRepository.TryGet(cacheKey, out _valueResult);
+                        break;
+                    case ETypeLocationCache.MongoDB:
+                        break;
+                    case ETypeLocationCache.AzureStorage:
+                        break;
+                    case ETypeLocationCache.AzureCosmoDB:
+                        break;
+                    case ETypeLocationCache.AzureRedis:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                return result;
+            }
+            return result;
+        }
+
         public bool TryGet<T>(string? cacheKey, out T value) where T : class, new()
         {
             T? _valueResult = new T();
@@ -123,7 +159,6 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
             return result;
         }
 
-
         public bool IsEnable()
         {
             bool isEnable = _cacheConfig.IsEnable;
@@ -159,7 +194,6 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
             }
             return result;
         }
-
 
         #region PRIVATES
         private bool processCacheRepositoryDisk<T>(string cacheKey, T? value)

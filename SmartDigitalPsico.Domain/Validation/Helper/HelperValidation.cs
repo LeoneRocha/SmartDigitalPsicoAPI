@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
 
         public static string GetMessage(bool isValid)
         {
-            return isValid ? "LangValid" : "LangErrors";
+            return isValid ? "All validations passed " : "The validations did not pass";
         }
 
         public static string TranslateErroCode(string message, string errorCode)
