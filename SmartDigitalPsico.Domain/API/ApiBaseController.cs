@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Domain.API
             }
         }
 
-        public ApiBaseController(IOptions<AuthConfigurationDto> configurationAuth)
+        protected ApiBaseController(IOptions<AuthConfigurationDto> configurationAuth)
         {
             _configurationAuth = configurationAuth.Value;
         }

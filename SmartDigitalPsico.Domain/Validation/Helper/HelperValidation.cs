@@ -5,27 +5,40 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
 {
     public static class HelperValidation
     {
-        public static List<ErrorResponse> GetErrosMap(FluentValidation.Results.ValidationResult validationResult)
+        public static ErrorResponse[] GetErrorsMap(FluentValidation.Results.ValidationResult? validationResult)
         {
-            List<ErrorResponse> errorsResult = new List<ErrorResponse>();
-            if (!validationResult.IsValid)
-            { 
-                validationResult.Errors.ForEach(erroItem =>
-                {
-                    errorsResult.Add(new ErrorResponse()
-                    {
-                        Message = erroItem.ErrorMessage,
-                        ErrorCode = erroItem.ErrorCode,
-                        Name = erroItem.PropertyName
-                    });
-                });
-            }
-            return errorsResult;
+            if (validationResult == null || validationResult.IsValid) return Array.Empty<ErrorResponse>();
+
+            return validationResult.Errors.Select(ConvertToErrorResponse).ToArray();
         }
+
+        private static ErrorResponse ConvertToErrorResponse(FluentValidation.Results.ValidationFailure errorItem)
+        {
+            var errorAdd = new ErrorResponse
+            {
+                Message = errorItem.ErrorMessage,
+                ErrorCode = errorItem.ErrorCode,
+                Name = errorItem.PropertyName
+            };
+
+            if (errorAdd.Message.Contains('|') && errorAdd.Message.Contains('_'))
+            {
+                var parts = errorAdd.Message.Split('|');
+                errorAdd.ErrorCode = parts[0];
+                errorAdd.Message = parts.Length > 1 ? parts[1] : errorItem.ErrorMessage;
+            }
+            else if (!errorAdd.Message.Contains('_'))
+            {
+                // Remove todos os espaços e substitui por "_"
+                errorAdd.ErrorCode = errorAdd.Message.Replace(" ", "_");
+            } 
+            return errorAdd;
+        }
+
 
         public static string GetMessage(bool isValid)
         {
-            return isValid ? "LangValid" : "LangErrors";
+            return isValid ? "All validations passed " : "The validations did not pass";
         }
 
         public static string TranslateErroCode(string message, string errorCode)
@@ -38,9 +51,9 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
             return message;
         }
 
-        public static List<ErrorResponse> GetMapErros(List<ValidationFailure> errors)
+        public static List<ErrorResponse> ConvertValidationFailureListToErroResponse(List<ValidationFailure> errors)
         {
-            return errors.DistinctBy(d => d.PropertyName).Select(er => new ErrorResponse() { ErrorCode = er.ErrorCode, Message = er.ErrorMessage, Name = er.PropertyName }).ToList();
+            return errors.DistinctBy(d => d.PropertyName).Select(er => ConvertToErrorResponse(er)).ToList();
         }
     }
 }
