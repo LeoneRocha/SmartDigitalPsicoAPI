@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
             public DayOfWeek[] RecurrenceDays { get; set; } = []; // 0 = Sunday  1 = Monday  6 = Saturday
             public ERecurrenceCalendarType RecurrenceType { get; set; }
             public DateTime? RecurrenceEndDate { get; set; }
-            public byte? RecurrenceCount { get; set; }
+            public short? RecurrenceCount { get; set; }
             public string TokenRecurrence { get; set; } = string.Empty;        
             public string ReasonCancellation { get; set; } = string.Empty;
 
