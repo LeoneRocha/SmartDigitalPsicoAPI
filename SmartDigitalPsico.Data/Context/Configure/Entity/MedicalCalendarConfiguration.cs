@@ -63,7 +63,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
 
             builder.Property(e => e.RecurrenceEndDate);
             builder.Property(e => e.RecurrenceCount)
-                .HasConversion<byte>();
+                .HasConversion<short>();
 
             // Relationship
             builder.HasOne(e => e.CreatedUser).WithMany().HasForeignKey(e => e.CreatedUserId);
