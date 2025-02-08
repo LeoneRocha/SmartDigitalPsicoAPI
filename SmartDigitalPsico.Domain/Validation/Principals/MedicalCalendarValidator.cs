@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(e => e.StartDateTime)
                 .NotEmpty()
-                .WithMessage("Start date and time is required.")              
+                .WithMessage("Start date and time is required.")
                 .MustAsync(async (e, startDateTime, cancellationToken) => await BeFutureDateTime(e.CreatedUserId.GetValueOrDefault(), startDateTime))
                 .WithMessage("Start date and time must be in the future.")
                 .LessThan(e => e.EndDateTime)
@@ -79,6 +79,14 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .IsInEnum()
                 .WithMessage("Invalid recurrence type.");
 
+            // Validação para RecurrenceCount
+            RuleFor(e => e.RecurrenceCount)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .WithMessage("RecurrenceCount is required.")
+                .InclusiveBetween((short)0, (short)999)
+                .WithMessage("RecurrenceCount must be between 0 and 999.");
+
             #endregion Columns
 
             #region Relationship
@@ -106,7 +114,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .WithMessage("There is a scheduling conflict for the specified time.");
         }
 
-        private async Task<bool>  BeFutureDateTime(long userId, DateTime dateTime)
+        private async Task<bool> BeFutureDateTime(long userId, DateTime dateTime)
         {
             var user = await _userRepository.FindByID(userId);
             var dateCurrent = DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
@@ -117,7 +125,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         private async Task<bool> BeFutureDateTime(long userId, DateTime? dateTime)
         {
             var user = await _userRepository.FindByID(userId);
-            var dateCurrent = DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone); 
+            var dateCurrent = DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
             return dateTime.HasValue && dateTime.Value > dateCurrent;
         }
 
