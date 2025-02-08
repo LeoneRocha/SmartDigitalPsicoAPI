@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.SMTP;
@@ -29,9 +30,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly ITokenConfigurationDto _configurationToken;
         private readonly ITokenService _tokenService;
         private readonly ISharedServices _sharedServices;
-        private readonly ISharedRepositories _sharedRepositories; 
+        private readonly ISharedRepositories _sharedRepositories;
         private readonly ITokenSessionPersistenceService _tokenSessionService;
-         
+
         private readonly AuthConfigurationDto _configurationAuth;
         public UserService(
             ISharedServices sharedServices,
@@ -42,7 +43,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ITokenService tokenService,
             IOptions<AuthConfigurationDto> configurationAuth,
             IValidator<User> entityValidator,
-            ITokenSessionPersistenceService tokenSessionService 
+            ITokenSessionPersistenceService tokenSessionService
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, sharedRepositories.UserRepository, entityValidator)
         {
@@ -52,7 +53,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _tokenService = tokenService;
             _sharedServices = sharedServices;
             _sharedRepositories = sharedRepositories;
-            _tokenSessionService = tokenSessionService;              
+            _tokenSessionService = tokenSessionService;
         }
 
         public async Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password)
@@ -69,7 +70,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             else if (!SecurityHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 response.Success = false;
-                response.Message = "Wrong password.";
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.WrongPassword, GeneralLanguageMenssageConstants.WrongPassword);
                 return response;
             }
 
@@ -78,7 +79,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 response.Data = await executeLoginJwt(user);
             }
             response.Success = true;
-            response.Message = "User Logged.";
+            response.Message = await GetLocalization(GeneralLanguageKeyConstants.UserLogged, GeneralLanguageMenssageConstants.UserLogged); 
             return response;
         }
 
@@ -102,7 +103,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             {
                 User entityResponse = await _entityRepository.Create(entityAdd);
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
-                response.Message = "User registred.";
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
             }
 
             return response;
@@ -159,7 +160,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     response.Data = _mapper.Map<GetUserDto>(entityResponse);
 
                     if (response.Success)
-                        response.Message = "User Updated.";
+                        response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
                 }
             }
             catch (Exception ex)
@@ -206,7 +207,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     }
                 }
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
-                response.Message = "User registred.";
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
 
                 var configApp = (await _sharedRepositories.ApplicationConfigSettingRepository.FindAll())[0];
                 await SendEmailCreateAcessAsync(userRegisterVO, configApp.UrlRootManager);
@@ -234,7 +235,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             else
             {
                 response.Success = false;
-                response.Message = "User logout.";
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.UserLogout, GeneralLanguageMenssageConstants.UserLogout);
             }
             return response;
         }
@@ -276,7 +277,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
 
             UserTokenSession? tokenSession = await _tokenSessionService.GetSessionAsync(user.Id);
-           
+
             if (tokenSession == null || tokenSession.ExpiresAt <= createDate)
             {
                 tokenSession = new UserTokenSession
@@ -294,7 +295,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
                 await _tokenSessionService.SaveSessionAsync(tokenSession);
             }
-            else 
+            else
             {
                 tokenSession.AccessToken = accessToken;
                 tokenSession.RefreshToken = refreshToken;
@@ -302,13 +303,13 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 tokenSession.LastAccessDate = createDate;
                 tokenSession.ModifyDate = createDate;
                 tokenSession.ExpiresAt = expirationDate;
-            }  
+            }
             var tokenResult = new TokenVO(true,
                  tokenSession.CreatedDate.ToString(AppConfigConstants.DATE_FORMAT2),
                  tokenSession.ExpiresAt.ToString(AppConfigConstants.DATE_FORMAT2),
                  tokenSession.AccessToken,
                  tokenSession.RefreshToken
-                 ); 
+                 );
             return tokenResult;
 
         }
@@ -387,7 +388,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
 
                 if (response.Success)
-                    response.Message = "User Updated.";
+                    response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
             }
 
 
@@ -406,9 +407,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 fillRoleGroups(response, entityResponse);
             }
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                   ("RegisterFind", _applicationLanguageRepository, _cacheService);
-
+            response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterFind, GeneralLanguageMenssageConstants.RegisterFind);
             return response;
         }
 

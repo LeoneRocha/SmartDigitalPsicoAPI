@@ -1,35 +1,30 @@
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
+using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 using System.Globalization;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class ApplicationLanguageService
-      : EntityBaseService<ApplicationLanguage, AddApplicationLanguageDto, UpdateApplicationLanguageDto, GetApplicationLanguageDto, IApplicationLanguageRepository>, IApplicationLanguageService
+    public class ApplicationLanguageService : EntityBaseService<ApplicationLanguage, AddApplicationLanguageDto, UpdateApplicationLanguageDto, GetApplicationLanguageDto, IApplicationLanguageRepository>, IApplicationLanguageService
     {
-
         public ApplicationLanguageService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
             IApplicationLanguageRepository entityRepository,
             IValidator<ApplicationLanguage> entityValidator
-            )
-            : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
+            ) : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
-
         }
         public override async Task<ServiceResponse<List<GetApplicationLanguageDto>>> FindAll()
         {
@@ -63,86 +58,158 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return message;
         }
 
-        public static async Task<string> GetLocalization<T>(string key, string defaultMenssage, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
+        public async Task<string> GetLocalization<T>(string key, string defaultMenssage, ICacheService cacheService)
         {
             string resultLocalization = string.Empty;
 
             var culturenameCurrent = CultureInfo.CurrentCulture;
-
             string keyCache = "FindAll_GetApplicationLanguageVO";
-            ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
-
             string resourceKey = typeof(T).Name.Replace("I", "");
             string language = culturenameCurrent.Name;
+            await SaveCache(keyCache);
             try
             {
-                if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
-                {
-                    GetApplicationLanguageDto languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
-                    resultLocalization = languageFindFromCache.LanguageValue;
+                ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
 
+                GetApplicationLanguageDto? languageFindFromCache = FindLanguageFromCache(resultFromCache, resourceKey, key, language);
+                if (languageFindFromCache != null)
+                {
+                    resultLocalization = languageFindFromCache.LanguageValue;
                 }
                 else
                 {
-                    var languageFindDB = await languageRepository.Find(language, key, resourceKey);
-                    resultLocalization = languageFindDB.LanguageValue;
+                    var existLanguage = await _entityRepository.ExistLanguage(language, key, resourceKey);
+                    if (existLanguage)
+                    {
+                        resultLocalization = await GetLanguageFromDataBase(key, resultLocalization, resourceKey, language);
+                    }
+                    else
+                    {
+                        resultLocalization = await InsertLanguageNotFound(key, defaultMenssage, resultLocalization, keyCache, resourceKey);
+                    }
                 }
             }
             catch (Exception)
             {
                 resultLocalization = string.IsNullOrEmpty(resultLocalization) ? $"NotFoundLocalization|{key}|{defaultMenssage}" : resultLocalization;
-                //Feature add default menssage.
-
+                //Feature add default menssage. 
             }
             return resultLocalization;
         }
 
-        public static async Task<string> GetLocalization<T>(string key, IApplicationLanguageRepository languageRepository, ICacheService cacheService)
+        private async Task<string> GetLanguageFromDataBase(string key, string resultLocalization, string resourceKey, string language)
         {
-            string resultLocalization = string.Empty;
+            var languageFindDB = await _entityRepository.Find(language, key, resourceKey);
+            if (languageFindDB != null)
+            {
+                resultLocalization = languageFindDB.LanguageValue;
+            }
 
-            var culturenameCurrent = CultureInfo.CurrentCulture;
+            return resultLocalization;
+        }
 
-            string keyCache = "FindAll_GetApplicationLanguageVO";
-            ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
-
-            string resourceKey = typeof(T).Name.Replace("I", "");
-            string language = culturenameCurrent.Name;
+        private async Task<string> InsertLanguageNotFound(string key, string defaultMenssage, string resultLocalization, string keyCache, string resourceKey)
+        {
             try
             {
-                if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
-                {
-                    GetApplicationLanguageDto languageFindFromCache = filterAndGetSingle(resultFromCache, resourceKey, key, language);
-                    resultLocalization = languageFindFromCache.LanguageValue;
+                var defaultLanguage = new AddApplicationLanguageDto();
+                defaultLanguage.Language = "en-US";
+                defaultLanguage.Description = defaultMenssage;
+                defaultLanguage.LanguageValue = defaultMenssage;
+                defaultLanguage.LanguageKey = key;
+                defaultLanguage.ResourceKey = resourceKey;
 
-                }
-                else
+
+                var existLanguageDafault = await _entityRepository.ExistLanguage(defaultLanguage.Language, key, resourceKey);
+                if (!existLanguageDafault)
                 {
-                    var languageFindDB = await languageRepository.Find(language, key, resourceKey);
-                    resultLocalization = languageFindDB.LanguageValue;
+                    await Save(defaultLanguage);
+                    resultLocalization = string.IsNullOrEmpty(resultLocalization) ? $"NotFoundLocalizationButInsertedDefault|{key}|{defaultMenssage}" : resultLocalization;
+
+                    await RemoveCache(keyCache);
+                    //Update
+                    await SaveCache(keyCache, true);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                resultLocalization = string.IsNullOrEmpty(resultLocalization) ? $"NotFoundLocalization|{key}|" : resultLocalization;
+                _logger.Error(ex, "GetLocalization: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
+
             return resultLocalization;
         }
 
+        private async Task SaveCache(string keyCache, bool overWrite = false)
+        {
+            if (_cacheService.IsEnable()
+                && (!_cacheService.Exists<GetApplicationLanguageDto>(keyCache) || overWrite))
+            {
+                var result = await _entityRepository.FindAll();
+                var data = result.Select(c => _mapper.Map<GetApplicationLanguageDto>(c)).ToList();
 
+                await CacheService.SaveDataToCache(keyCache, data, _cacheService);
+            }
+        }
+
+
+        public async Task RemoveCache(string keyCache)
+        {
+            if (_cacheService.IsEnable())
+            {
+                await Task.FromResult(_cacheService.Remove<GetApplicationLanguageDto>(keyCache));
+            }
+        }
         #endregion GetLocalization
 
-        private static GetApplicationLanguageDto filterAndGetSingle(ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache, string resourceKey, string key, string language)
+
+        public virtual async Task Save(AddApplicationLanguageDto item)
         {
-            if (resultFromCache.Data == null)
+            ServiceResponse<GetApplicationLanguageDto> response = new ServiceResponse<GetApplicationLanguageDto>();
+            try
             {
-                throw new AppWarningException("filterAndGetSingle: Data cannot be null.");
+                ApplicationLanguage entityAdd = _mapper.Map<ApplicationLanguage>(item);
+                entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.Enable = true;
+
+                if (response.Success)
+                {
+                    ApplicationLanguage entityResponse = await _entityRepository.Create(entityAdd);
+                    response.Data = _mapper.Map<GetApplicationLanguageDto>(entityResponse);
+                }
             }
-            return resultFromCache.Data.Single(p =>
-            p.ResourceKey.Trim().Equals(resourceKey.Trim(), StringComparison.OrdinalIgnoreCase)
-            && p.LanguageKey.Trim().Equals(key.Trim(), StringComparison.OrdinalIgnoreCase)
-            && p.Language.Trim().Equals(language.Trim(), StringComparison.OrdinalIgnoreCase)
-            );
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Create: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+            }
+        }
+
+        private static GetApplicationLanguageDto? FindLanguageFromCache(ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache, string resourceKey, string key, string language)
+        {
+            if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)
+            {
+                var languageByCulture = resultFromCache.Data.FirstOrDefault(p =>
+                p.ResourceKey.Trim().Equals(resourceKey.Trim(), StringComparison.OrdinalIgnoreCase)
+                && p.LanguageKey.Trim().Equals(key.Trim(), StringComparison.OrdinalIgnoreCase)
+                && p.Language.Trim().Equals(language.Trim(), StringComparison.OrdinalIgnoreCase)
+                );
+
+                if (languageByCulture != null)
+                {
+                    return languageByCulture;
+                }
+                var languageDefaultCulture = resultFromCache.Data.FirstOrDefault(p =>
+                p.ResourceKey.Trim().Equals(resourceKey.Trim(), StringComparison.OrdinalIgnoreCase)
+                && p.LanguageKey.Trim().Equals(key.Trim(), StringComparison.OrdinalIgnoreCase)
+                && p.Language.Trim().Equals("en-us", StringComparison.OrdinalIgnoreCase)
+                );
+
+                return languageDefaultCulture;
+
+            }
+            return null;
+
         }
     }
 }

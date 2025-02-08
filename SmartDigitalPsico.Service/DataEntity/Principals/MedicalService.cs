@@ -1,20 +1,18 @@
-using AutoMapper;
 using FluentValidation;
+using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Medical;
+using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO.Medical;
-using SmartDigitalPsico.Domain.DTO.SMTP;
-using SmartDigitalPsico.Service.DataEntity.Generic;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -31,8 +29,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ISharedRepositories sharedRepositories,
             IMedicalRepository entityRepository,
             ISpecialtyRepository specialtyRepository,
-            IValidator<Medical> entityValidator 
-          
+            IValidator<Medical> entityValidator
+
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
@@ -78,8 +76,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityResponse = await _entityRepository.FindByID(entityResponse.Id);
 
                 response.Data = _mapper.Map<GetMedicalDto>(entityResponse);
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                   ("MedicalRegistred", _applicationLanguageRepository, _cacheService);
+
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
             }
             return response;
         }
@@ -112,7 +110,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 #region Columns
                 entityUpdate.Enable = item.Enable;
                 entityUpdate.Accreditation = item.Accreditation;
-                entityUpdate.Name = item.Name;  
+                entityUpdate.Name = item.Name;
                 entityUpdate.Email = item.Email.ToLower();
                 entityUpdate.Accreditation = item.Accreditation.ToLower();
 
@@ -133,25 +131,24 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     Medical entityResponse = await _entityRepository.Update(entityUpdate);
 
                     response.Data = _mapper.Map<GetMedicalDto>(entityResponse);
-                    response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("MedicalUpdated", _applicationLanguageRepository, _cacheService);
 
-                    sendAlertEmail(entityResponse);
+                    response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
+                    await sendAlertEmail(entityResponse);
                 }
             }
 
             return response;
         }
 
-        private void sendAlertEmail(Medical entityResponse)
+        private async Task sendAlertEmail(Medical entityResponse)
         {
             EmailMessageDto emailMessageVO = new EmailMessageDto()
             {
-                Subject = $"Atualização médico",
+                Subject = await GetLocalization(GeneralLanguageKeyConstants.MedicalUpdateTitle, GeneralLanguageMenssageConstants.MedicalUpdateTitle),
                 Message = $"Médico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
                 ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
             };
-            _emailService.SendEmailAsync(emailMessageVO);
+            await _emailService.SendEmailAsync(emailMessageVO);
         }
 
         public override Task<ServiceResponse<bool>> Delete(long id)
@@ -205,9 +202,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 }
             }
             response.Success = true;
-            response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                   ("RegisterFind", _applicationLanguageRepository, _cacheService);
-
+            response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterFind, GeneralLanguageMenssageConstants.RegisterFind);
             return response;
         }
 
@@ -226,8 +221,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (!string.IsNullOrEmpty(validateResult.ErrorCode))
             {
                 response.Success = false;
-                response.Message = await ApplicationLanguageService.GetLocalization<ISharedResource>
-                       ("PermissionDenied", _applicationLanguageRepository, _cacheService);
+
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.PermissionDenied, GeneralLanguageMenssageConstants.PermissionDenied);
 
                 response.Errors = new List<ErrorResponse>();
                 response.Unauthorized = true;
@@ -236,6 +231,5 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             return response;
         }
-
     }
 }
