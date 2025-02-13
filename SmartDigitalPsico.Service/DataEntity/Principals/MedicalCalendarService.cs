@@ -494,7 +494,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
         private async Task<bool> ValidateCriteriaAsync(CalendarCriteriaDto criteria, ServiceResponse<CalendarDto> response)
         {
-            var validator = new CalendarCriteriaValidator(_userRepository);
+             var validator = new CalendarCriteriaValidator(_userRepository);
             var validationResult = await validator.ValidateAsync(criteria);
 
             if (!validationResult.IsValid)
@@ -559,9 +559,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             };
             response.Success = false;
             response.Data = sDto;
-            response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarSuccess, MedicalCalendarMenssageConstants.CalendarSuccess);
-
-            response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
+            response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.Calendar_Error, MedicalCalendarMenssageConstants.Calendar_Error);
+            var errosValidate = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
+            response.Errors = await base.GetLocalizationErros(errosValidate);
         }
         private async Task<Medical> GetMedicalAsync(long medicalId)
         {

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Azure;
 using FluentValidation;
+using FluentValidation.Results;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Helpers;
@@ -10,6 +12,7 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.VO;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Service.DataEntity.Generic
@@ -307,7 +310,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                             };
 
                             errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
-
+                            errosAdd = HelperValidation.TranslateErroCode(errosAdd);
                             errosTranslated.Add(errosAdd);
                         }
                         response.Errors = errosTranslated;
@@ -323,6 +326,33 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                 _logger.Error(ex, "Validate: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
+        }
+        //HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors)
+
+        protected async Task<List<ErrorResponse>> GetLocalizationErros(List<ErrorResponse> errorResponses)
+        {
+            if (errorResponses != null && errorResponses.Count > 0)
+            {
+                List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
+                foreach (var errosItem in errorResponses)
+                {
+                    var errosAdd = new ErrorResponse()
+                    {
+                        //GetMennsage 
+                        Name = errosItem.Name,
+                        ErrorCode = errosItem.ErrorCode,
+                        Message = await GetLocalization(errosItem.ErrorCode, errosItem.DefaultMessage),
+                        DefaultMessage = errosItem.DefaultMessage,
+                        FullMessage= errosItem.FullMessage,
+                    };
+                    errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
+                    errosAdd = HelperValidation.TranslateErroCode(errosAdd);
+
+                    errosTranslated.Add(errosAdd);
+                }
+                errorResponses = errosTranslated;
+            }
+            return errorResponses!;
         }
     }
 }
