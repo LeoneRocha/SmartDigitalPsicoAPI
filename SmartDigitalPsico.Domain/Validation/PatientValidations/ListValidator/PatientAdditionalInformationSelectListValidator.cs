@@ -8,12 +8,13 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
     {
 
         public PatientAdditionalInformationSelectListValidator(IUserRepository userRepository)
-            : base(userRepository)
+             : base(userRepository)
         {
+
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission");
-        } 
+                .WithMessage("User_Not_Permission_Key|User does not have permission.");
 
+        }
     }
 }

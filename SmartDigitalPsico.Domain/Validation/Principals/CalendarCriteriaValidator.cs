@@ -2,6 +2,7 @@
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
+using System.Data.SqlTypes;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
@@ -19,39 +20,39 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(criteria => criteria.MedicalId)
                 .NotNull()
-                .WithMessage("MedicalId is required.");
+                .WithMessage("Medical_Validator_IsRequired_Key|{0} is required.|MedicalId");
 
             RuleFor(criteria => criteria.Month)
                 .InclusiveBetween(1, 12)
-                .WithMessage("Month must be between 1 and 12.");
+                .WithMessage("Month_Validator_InclusiveBetween_Key|{0} must be between {1} and {2}.|Month|1|12");
 
             RuleFor(criteria => criteria.Year)
-                .GreaterThan(0)
-                .WithMessage("Year must be greater than 0.");
+                .GreaterThan(SqlDateTime.MinValue.Value.Year)
+                .WithMessage("Year_Validator_GreaterThan_Key|{0} must be greater than {1}.|Year|" + SqlDateTime.MinValue.Value.Year.ToString());
 
             RuleFor(criteria => criteria.UserIdLogged)
                 .NotNull()
-                .WithMessage("UserIdLogged is required.");
+                .WithMessage("UserIdLogged_Validator_IsRequired_Key|{0} is required.|UserIdLogged");
 
             RuleFor(criteria => criteria.StartDate)
                 .Must(BeValidDate)
-                .WithMessage("StartDate must be a valid date.")
+                .WithMessage("StartDate_Validator_ValidDate_Key|{0} must be a valid date.|StartDate")
                 .Must((criteria, startDate) => !criteria.EndDate.HasValue || (criteria.EndDate.Value - startDate!.Value).TotalDays <= maxDayRange)
-                .WithMessage($"StartDate and EndDate cannot be more than  {maxDayRange} days apart.");
+                .WithMessage("StartDateEndDate_Validator_DateRange_Key|{0} and EndDate cannot be more than {1} days apart.|StartDate|" + maxDayRange.ToString());
 
             RuleFor(criteria => criteria.EndDate)
                 .Must(BeValidDate)
-                .WithMessage("EndDate must be a valid date.")
+                .WithMessage("EndDate_Validator_ValidDate_Key|{0} must be a valid date.|EndDate")
                 .Must((criteria, endDate) => !criteria.StartDate.HasValue || (endDate!.Value - criteria.StartDate.Value).TotalDays <= maxDayRange)
-                .WithMessage($"StartDate and EndDate cannot be more than {maxDayRange} days apart.");
+                .WithMessage("StartDateEndDate_Validator_DateRange_Key|{0} and StartDate cannot be more than {1} days apart.|EndDate|" + maxDayRange.ToString());
 
             RuleFor(criteria => criteria.IntervalInMinutes)
                 .InclusiveBetween(minMinuteInterval, maxMinuteInterval)
-                .WithMessage($"Interval In Minutes must be between {minMinuteInterval} and {maxMinuteInterval}.");
+                .WithMessage("IntervalInMinutes_Validator_InclusiveBetween_Key|{0} must be between {1} and {2}.|Interval In Minutes|" + minMinuteInterval.ToString() + "|" + maxMinuteInterval.ToString());
 
             RuleFor(criteria => criteria)
                 .MustAsync(IsValidMedicalId)
-                .WithMessage("ErrorValidator_Invalid_MedicalId");
+                .WithMessage("ErrorValidator_Invalid_MedicalId|{0} is invalid.|MedicalId");
         }
 
         private static bool BeValidDate(DateTime? date)

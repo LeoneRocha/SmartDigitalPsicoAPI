@@ -12,27 +12,28 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
         {
             _entityRepository = entityRepository;
 
+
             RuleFor(entity => entity.Name)
                 .NotNull().NotEmpty()
-                .WithMessage("ErrorValidator_Name_Null");
+                .WithMessage("Name_Validator_IsRequired_Key|Name is required.");
 
             RuleFor(entity => entity.Login)
                 .NotNull().NotEmpty()
-                .WithMessage("ErrorValidator_Login_Null")
+                .WithMessage("Login_Validator_IsRequired_Key|Login is required.")
                 .MaximumLength(25)
-                .WithMessage("O Login não pode ultrapassar {MaxLength} carateres.")
+                .WithMessage("Login_Validator_MaxLength_Key|Login cannot exceed {0} characters.|25")
                 .MustAsync(async (entity, value, c) => await UniqueLogin(entity, value))
-               .WithMessage("ErrorValidator_Login_Unique");
+                .WithMessage("Login_Validator_Unique_Key|Login must be unique.");
 
             RuleFor(entity => entity.Email)
-               .NotNull().NotEmpty()
-               .WithMessage("ErrorValidator_Email_Null")
-               .EmailAddress()
-               .WithMessage("ErrorValidator_Email_Invalid")
-               .MaximumLength(100)
-               .WithMessage("O Email não pode ultrapassar {MaxLength} carateres.")
-               .MustAsync(async (entity, value, c) => await UniqueEmail(entity, value))
-               .WithMessage("ErrorValidator_Email_Unique");
+                .NotNull().NotEmpty()
+                .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
+                .EmailAddress()
+                .WithMessage("Email_Validator_Invalid_Key|Invalid email address.")
+                .MaximumLength(100)
+                .WithMessage("Email_Validator_MaxLength_Key|Email cannot exceed {0} characters.|100")
+                .MustAsync(async (entity, value, c) => await UniqueEmail(entity, value))
+                .WithMessage("Email_Validator_Unique_Key|Email must be unique.");
 
         }
         private async Task<bool> UniqueEmail(User entity, string value)

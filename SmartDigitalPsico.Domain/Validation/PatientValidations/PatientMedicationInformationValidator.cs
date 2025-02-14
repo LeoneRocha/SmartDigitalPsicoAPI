@@ -6,51 +6,52 @@ using SmartDigitalPsico.Domain.Validation.Base;
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
     public class PatientMedicationInformationValidator : PatientBaseValidator<PatientMedicationInformation>
-    { 
+    {
         public PatientMedicationInformationValidator(IPatientMedicationInformationRepository entityRepository,
-            IPatientRepository patientRepository) : base(patientRepository, entityRepository)
-        {  
+                                                     IPatientRepository patientRepository)
+            : base(patientRepository, entityRepository)
+        {
             #region Columns
 
             RuleFor(entity => entity.Description)
-              .NotNull().NotEmpty()
-              .WithMessage("A Description não pode ser vazia.")
-              .MaximumLength(255)
-              .WithMessage("O Description não pode ultrapassar {MaxLength} carateres.");
+                .NotNull().NotEmpty()
+                .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
+                .MaximumLength(255)
+                .WithMessage("Description_Validator_MaxLength_Key|Description cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.StartDate)
                 .NotNull()
-               .WithMessage("A StartDate não pode ser vazia.");
+                .WithMessage("StartDate_Validator_IsRequired_Key|StartDate is required.");
 
             RuleFor(entity => entity.Dosage)
                 .MaximumLength(255)
-                .WithMessage("O Dosage não pode ultrapassar {MaxLength} carateres.");
+                .WithMessage("Dosage_Validator_MaxLength_Key|Dosage cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.Posology)
-              .MaximumLength(255)
-              .WithMessage("O Dosage não pode ultrapassar {MaxLength} carateres.");
+                .MaximumLength(255)
+                .WithMessage("Posology_Validator_MaxLength_Key|Posology cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.MainDrug)
-            .MaximumLength(255)
-            .WithMessage("O Dosage não pode ultrapassar {MaxLength} carateres.");
+                .MaximumLength(255)
+                .WithMessage("MainDrug_Validator_MaxLength_Key|MainDrug cannot exceed {0} characters.|255");
 
             #endregion Columns 
 
             #region Relationship
 
             RuleFor(entity => entity.CreatedUserId)
-                 .NotNull()
-                 .WithMessage("ErrorValidator_CreatedUserId_Null");
+                .NotNull()
+                .WithMessage("CreatedUserId_Validator_IsRequired_Key|Created user ID is required.");
 
             RuleFor(entity => entity.PatientId)
-              .NotNull()
-              .WithMessage("ErrorValidator_Patient_Null")
-              .MustAsync(async (entity, value, c) => await PatientIdFound(entity))
-              .WithMessage("ErrorValidator_Patient_NotFound")
-              .MustAsync(async (entity, value, c) => await PatientIdChanged(entity))
-              .WithMessage("ErrorValidator_Patient_Changed");
+                .NotNull()
+                .WithMessage("PatientId_Validator_IsRequired_Key|Patient ID is required.")
+                .MustAsync(async (entity, value, c) => await PatientIdFound(entity))
+                .WithMessage("PatientId_Validator_NotFound_Key|Patient not found.")
+                .MustAsync(async (entity, value, c) => await PatientIdChanged(entity))
+                .WithMessage("PatientId_Validator_Changed_Key|Patient has changed.");
 
             #endregion Relationship  
-        } 
+        }
     }
 }
