@@ -290,34 +290,36 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
             try
             {
-                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+
+                var validationResult = await _entityValidator.ValidateAsync(item);
+
+                response.Success = validationResult.IsValid;
+                response.Errors = HelperValidation.GetErrorsMap(validationResult).ToList();
+                //Translate Message  
+                if (response.Errors != null && response.Errors.Count > 0)
                 {
-                    var validationResult = await _entityValidator.ValidateAsync(item);
-
-                    response.Success = validationResult.IsValid;
-                    response.Errors = HelperValidation.GetErrorsMap(validationResult).ToList();
-                    //Translate Message  
-                    if (response.Errors != null && response.Errors.Count > 0)
+                    List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
+                    foreach (var errosItem in response.Errors)
                     {
-                        List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
-                        foreach (var errosItem in response.Errors)
+                        var errosAdd = new ErrorResponse()
                         {
-                            var errosAdd = new ErrorResponse()
-                            {
-                                Message = await GetLocalization(errosItem.ErrorCode, errosItem.Message)
-                                ,
-                                Name = errosItem.Name
-                            };
+                            Name = errosItem.Name,
+                            Message = await GetLocalization(errosItem.ErrorCode, errosItem.DefaultMessage),
+                            DefaultMessage = errosItem.DefaultMessage,
+                            ErrorCode = errosItem.ErrorCode,
+                            FullMessage = errosItem.FullMessage
+                        };
+                        errosAdd = HelperValidation.TranslateErroCode(errosAdd);
 
-                            errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
-                            errosAdd = HelperValidation.TranslateErroCode(errosAdd);
-                            errosTranslated.Add(errosAdd);
-                        }
-                        response.Errors = errosTranslated;
-                        response.Message = await GetLocalization(ValidatorConstants.ValidateErroMessageKey, ValidatorConstants.ValidateErroMessage_Message);
+                        errosTranslated.Add(errosAdd);
                     }
+                    response.Errors = errosTranslated;
+                    response.Message = await GetLocalization(ValidatorConstants.ValidateErroMessageKey, ValidatorConstants.ValidateErroMessage_Message);
+                }
+                else
+                {
                     response.Message = await GetLocalization(ValidatorConstants.ValidateSuccessMessageKey, ValidatorConstants.ValidateSuccessMessage_Message);
-                });
+                }
             }
             catch (Exception ex)
             {
