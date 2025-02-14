@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
 
             RuleFor(enitty => enitty.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission");
+                .WithMessage("ErrorValidator_User_Not_Permission|User does not have permission.");
         }
 
         protected virtual async Task<bool> HasPermissionAsync(Record<T> enittyRecord, long userIdLogged, CancellationToken cancellationToken)

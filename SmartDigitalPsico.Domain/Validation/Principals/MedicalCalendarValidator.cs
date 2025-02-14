@@ -21,71 +21,72 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             #region Columns
             RuleFor(e => e.Title)
                 .NotEmpty()
-                .WithMessage("Title is required.")
+                .WithMessage("Title_Validator_IsRequired_Key|Title is required.")
                 .MaximumLength(100)
-                .WithMessage("Title cannot exceed 100 characters.");
+                .WithMessage("Title_Validator_MaxLength_Key|Title cannot exceed {0} characters.|100");
 
             RuleFor(e => e.StartDateTime)
                 .NotEmpty()
-                .WithMessage("Start date and time is required.")
+                .WithMessage("StartDateTime_Validator_IsRequired_Key|Start date and time is required.")
                 .MustAsync(async (e, startDateTime, cancellationToken) => await BeFutureDateTime(e.CreatedUserId.GetValueOrDefault(), startDateTime))
-                .WithMessage("Start date and time must be in the future.")
+                .WithMessage("StartDateTime_Validator_Future_Key|Start date and time must be in the future.")
                 .LessThan(e => e.EndDateTime)
                 .When(e => e.EndDateTime.HasValue && !e.IsAllDay)
-                .WithMessage("Start time must be before end time.")
+                .WithMessage("StartDateTime_Validator_BeforeEnd_Key|Start time must be before end time.")
                 .MustAsync(async (e, startDateTime, cancellationToken) => await BeInWorkingDays(e.MedicalId, startDateTime))
-                .WithMessage("Start date and time must be on a working day for the doctor.")
+                .WithMessage("StartDateTime_Validator_WorkingDay_Key|Start date and time must be on a working day for the doctor.")
                 .MustAsync(async (e, startDateTime, cancellationToken) => await BeInWorkingHours(e.MedicalId, startDateTime))
-                .WithMessage("Start time must be within the doctor's working hours.");
+                .WithMessage("StartDateTime_Validator_WorkingHours_Key|Start time must be within the doctor's working hours.");
 
             RuleFor(e => e.EndDateTime)
                 .NotEmpty()
+                .WithMessage("EndDateTime_Validator_IsRequired_Key|End date and time is required.")
                 .MustAsync(async (e, endDateTime, cancellationToken) => await BeFutureDateTime(e.CreatedUserId.GetValueOrDefault(), endDateTime))
                 .When(e => e.EndDateTime.HasValue)
-                .WithMessage("End date and time must be in the future.")
+                .WithMessage("EndDateTime_Validator_Future_Key|End date and time must be in the future.")
                 .GreaterThan(e => e.StartDateTime)
-                .WithMessage("End date and time must be after start date and time.")
+                .WithMessage("EndDateTime_Validator_AfterStart_Key|End date and time must be after start date and time.")
                 .MustAsync(async (e, endDateTime, cancellationToken) => await BeInWorkingDays(e.MedicalId, endDateTime.GetValueOrDefault()))
-                .WithMessage("End date and time must be on a working day for the doctor.")
+                .WithMessage("EndDateTime_Validator_WorkingDay_Key|End date and time must be on a working day for the doctor.")
                 .MustAsync(async (e, endDateTime, cancellationToken) => await BeInWorkingHours(e.MedicalId, endDateTime.GetValueOrDefault()))
-                .WithMessage("End time must be within the doctor's working hours.");
+                .WithMessage("EndDateTime_Validator_WorkingHours_Key|End time must be within the doctor's working hours.");
 
             RuleFor(e => e.Status)
                 .IsInEnum()
-                .WithMessage("Invalid status.");
+                .WithMessage("Status_Validator_Invalid_Key|Invalid status.");
 
             RuleFor(e => e.ColorCategoryHexa)
                 .MaximumLength(50)
-                .WithMessage("Color category cannot exceed 50 characters.");
+                .WithMessage("ColorCategoryHexa_Validator_MaxLength_Key|Color category cannot exceed {0} characters.|50");
 
             RuleFor(e => e.TokenRecurrence)
                 .MaximumLength(40)
-                .WithMessage("Token Recurrence cannot exceed 40 characters.");
+                .WithMessage("TokenRecurrence_Validator_MaxLength_Key|Token recurrence cannot exceed {0} characters.|40");
 
             RuleFor(e => e.TimeZone)
                 .NotEmpty()
-                .WithMessage("Time zone is required.")
+                .WithMessage("TimeZone_Validator_IsRequired_Key|Time zone is required.")
                 .MaximumLength(150)
-                .WithMessage("Time zone cannot exceed 150 characters.");
+                .WithMessage("TimeZone_Validator_MaxLength_Key|Time zone cannot exceed {0} characters.|150");
 
             RuleFor(e => e.RecurrenceDays)
                 .Must(BeValidDays)
                 .When(e => e.RecurrenceDays != null && e.RecurrenceDays.Length > 0)
-                .WithMessage("Invalid recurrence days.")
+                .WithMessage("RecurrenceDays_Validator_Invalid_Key|Invalid recurrence days.")
                 .MustAsync(async (e, recurrenceDays, cancellationToken) => await BeInWorkingDays(e.MedicalId, recurrenceDays))
-                .WithMessage("Recurrence days must be on working days for the doctor.");
+                .WithMessage("RecurrenceDays_Validator_WorkingDay_Key|Recurrence days must be on working days for the doctor.");
 
             RuleFor(e => e.RecurrenceType)
                 .IsInEnum()
-                .WithMessage("Invalid recurrence type.");
+                .WithMessage("RecurrenceType_Validator_Invalid_Key|Invalid recurrence type.");
 
             // Validação para RecurrenceCount
             RuleFor(e => e.RecurrenceCount)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage("RecurrenceCount is required.")
+                .WithMessage("RecurrenceCount_Validator_IsRequired_Key|Recurrence count is required.")
                 .InclusiveBetween((short)0, (short)999)
-                .WithMessage("RecurrenceCount must be between 0 and 999.");
+                .WithMessage("RecurrenceCount_Validator_Range_Key|Recurrence count must be between {0} and {1}.|0|999");
 
             #endregion Columns
 
@@ -93,27 +94,26 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(entity => entity.PatientId)
                 .NotNull()
-                .WithMessage("ErrorValidator_PatientId_Null");
+                .WithMessage("ErrorValidator_PatientId_Null|Patient is required.");
 
             RuleFor(entity => entity.MedicalId)
                 .NotNull()
-                .WithMessage("ErrorValidator_MedicalId_Null")
+                .WithMessage("ErrorValidator_MedicalId_Null|Doctor is required.")
                 .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
-                .WithMessage("ErrorValidator_MedicalId_NotFound")
+                .WithMessage("ErrorValidator_MedicalId_NotFound|Doctor not found.")
                 .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
-                .WithMessage("ErrorValidator_Medical_Changed")
+                .WithMessage("ErrorValidator_Medical_Changed|Doctor has changed.")
                 .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
-                .WithMessage("ErrorValidator_MedicalCreated_Invalid")
+                .WithMessage("ErrorValidator_MedicalCreated_Invalid|Doctor creation is invalid.")
                 .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
-                .WithMessage("ErrorValidator_MedicalModify_Invalid");
+                .WithMessage("ErrorValidator_MedicalModify_Invalid|Doctor modification is invalid.");
 
             #endregion Relationship
 
             RuleFor(x => x)
                 .MustAsync(NoScheduleConflict)
-                .WithMessage("There is a scheduling conflict for the specified time.");
+                .WithMessage("ScheduleConflict_Validator_Key|There is a scheduling conflict for the specified time.");
         }
-
         private async Task<bool> BeFutureDateTime(long userId, DateTime dateTime)
         {
             var user = await _userRepository.FindByID(userId);

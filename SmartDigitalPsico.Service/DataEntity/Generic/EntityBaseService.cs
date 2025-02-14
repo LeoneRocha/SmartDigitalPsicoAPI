@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using Azure;
+using DocumentFormat.OpenXml.Spreadsheet;
 using FluentValidation;
+using FluentValidation.Results;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Helpers;
@@ -10,6 +13,7 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.VO;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Service.DataEntity.Generic
@@ -286,35 +290,36 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
             try
             {
-                await ResiliencePolicies.GetPolicyFromConfig(_policyConfig).ExecuteAsync(async () =>
+
+                var validationResult = await _entityValidator.ValidateAsync(item);
+
+                response.Success = validationResult.IsValid;
+                response.Errors = HelperValidation.GetErrorsMap(validationResult).ToList();
+                //Translate Message  
+                if (response.Errors != null && response.Errors.Count > 0)
                 {
-                    var validationResult = await _entityValidator.ValidateAsync(item);
-
-                    response.Success = validationResult.IsValid;
-                    response.Errors = HelperValidation.GetErrorsMap(validationResult).ToList();
-                    response.Message = HelperValidation.GetMessage(validationResult.IsValid);
-                    //Translate Message  
-                    if (response.Errors != null && response.Errors.Count > 0)
+                    List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
+                    foreach (var errosItem in response.Errors)
                     {
-                        List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
-                        foreach (var errosItem in response.Errors)
+                        var errosAdd = new ErrorResponse()
                         {
-                            var errosAdd = new ErrorResponse()
-                            {
-                                Message = await GetLocalization(errosItem.ErrorCode, errosItem.Message)
-                                ,
-                                Name = errosItem.Name
-                            };
+                            Name = errosItem.Name,
+                            Message = await GetLocalization(errosItem.ErrorCode, errosItem.DefaultMessage),
+                            DefaultMessage = errosItem.DefaultMessage,
+                            ErrorCode = errosItem.ErrorCode,
+                            FullMessage = errosItem.FullMessage
+                        };
+                        errosAdd = HelperValidation.TranslateErroCode(errosAdd);
 
-                            errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
-
-                            errosTranslated.Add(errosAdd);
-                        }
-                        response.Errors = errosTranslated;
+                        errosTranslated.Add(errosAdd);
                     }
-                    response.Message = await GetLocalization(ValidatorConstants.ValidateErroMessageKey, response.Message);
-                });
-
+                    response.Errors = errosTranslated;
+                    response.Message = await GetLocalization(ValidatorConstants.ValidateErroMessageKey, ValidatorConstants.ValidateErroMessage_Message);
+                }
+                else
+                {
+                    response.Message = await GetLocalization(ValidatorConstants.ValidateSuccessMessageKey, ValidatorConstants.ValidateSuccessMessage_Message);
+                }
             }
             catch (Exception ex)
             {
@@ -323,6 +328,33 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                 _logger.Error(ex, "Validate: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
+        }
+        //HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors)
+
+        protected async Task<List<ErrorResponse>> GetLocalizationErros(List<ErrorResponse> errorResponses)
+        {
+            if (errorResponses != null && errorResponses.Count > 0)
+            {
+                List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
+                foreach (var errosItem in errorResponses)
+                {
+                    var errosAdd = new ErrorResponse()
+                    {
+                        //GetMennsage 
+                        Name = errosItem.Name,
+                        ErrorCode = errosItem.ErrorCode,
+                        Message = await GetLocalization(errosItem.ErrorCode, errosItem.DefaultMessage),
+                        DefaultMessage = errosItem.DefaultMessage,
+                        FullMessage = errosItem.FullMessage,
+                    };
+                    errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
+                    errosAdd = HelperValidation.TranslateErroCode(errosAdd);
+
+                    errosTranslated.Add(errosAdd);
+                }
+                errorResponses = errosTranslated;
+            }
+            return errorResponses!;
         }
     }
 }

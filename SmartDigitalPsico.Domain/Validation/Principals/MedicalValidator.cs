@@ -15,47 +15,47 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(entity => entity.Name)
                 .NotNull().NotEmpty()
-                .WithMessage("ErrorValidator_Name_Null");
+                .WithMessage("Name_Validator_IsRequired_Key|Name is required.");
 
             RuleFor(entity => entity.Accreditation)
                 .NotNull().NotEmpty()
-                .WithMessage("ErrorValidator_Accreditation_Null")
+                .WithMessage("Accreditation_Validator_IsRequired_Key|Accreditation is required.")
                 .MaximumLength(10)
-                .WithMessage("O Accreditation não pode ultrapassar {MaxLength} carateres.")
+                .WithMessage("Accreditation_Validator_MaxLength_Key|Accreditation cannot exceed {0} characters.|10")
                 .MustAsync(async (entity, value, c) => await IsUniqueAccreditation(entity, value))
-               .WithMessage("ErrorValidator_Accreditation_Unique");
+                .WithMessage("Accreditation_Validator_Unique_Key|Accreditation must be unique.");
 
             RuleFor(entity => entity.Email)
-               .NotNull().NotEmpty()
-               .WithMessage("ErrorValidator_Email_Null")
-               .EmailAddress()
-                .WithMessage("ErrorValidator_Email_Invalid")
-               .MaximumLength(100)
-               .WithMessage("O Email não pode ultrapassar {MaxLength} carateres.")
-               .MustAsync(async (entity, value, c) => await IsUniqueEmail(entity, value))
-               .WithMessage("ErrorValidator_Email_Unique");
+                .NotNull().NotEmpty()
+                .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
+                .EmailAddress()
+                .WithMessage("Email_Validator_Invalid_Key|Invalid email address.")
+                .MaximumLength(100)
+                .WithMessage("Email_Validator_MaxLength_Key|Email cannot exceed {0} characters.|100")
+                .MustAsync(async (entity, value, c) => await IsUniqueEmail(entity, value))
+                .WithMessage("Email_Validator_Unique_Key|Email must be unique.");
 
             RuleFor(p => p.SecurityKey)
                 .MaximumLength(255)
-               .WithMessage("O SecurityKey não pode ultrapassar {MaxLength} carateres.");
+                .WithMessage("SecurityKey_Validator_MaxLength_Key|SecurityKey cannot exceed {0} characters.|255");
 
             RuleFor(m => m.StartWorkingTime)
-                .NotEmpty().WithMessage("Start working time is required.")
+                .NotEmpty().WithMessage("StartWorkingTime_Validator_IsRequired_Key|Start working time is required.")
                 .LessThan(m => m.EndWorkingTime)
-                .WithMessage("Start working time must be before end working time.");
+                .WithMessage("StartWorkingTime_Validator_BeforeEnd_Key|Start working time must be before end working time.");
 
             RuleFor(m => m.EndWorkingTime)
-                .NotEmpty().WithMessage("End working time is required.");
+                .NotEmpty().WithMessage("EndWorkingTime_Validator_IsRequired_Key|End working time is required.");
 
-            #endregion
+            #endregion Columns
 
             #region Relationship
 
             RuleFor(entity => entity.CreatedUserId)
-              .NotNull()
-              .WithMessage("ErrorValidator_CreatedUserId_Invalid");
+                .NotNull()
+                .WithMessage("ErrorValidator_CreatedUserId_Invalid_Key|Invalid created user ID.");
 
-            #endregion Relationship 
+            #endregion Relationship
         }
 
         private async Task<bool> IsUniqueAccreditation(Medical entity, string value)

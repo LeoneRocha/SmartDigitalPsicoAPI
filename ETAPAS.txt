@@ -1,4 +1,8 @@
-﻿  
+﻿
+
+
+---AJUSTAR FRONT PARA LER A MENSSAGEM CORRETAMENTE 
+  
 ------------------------------------------------------------- PENDENCIAS 12 01 2025 
 --- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 
 --- Arrumar layout dos botoes trazer para dentro do componente form event FEITO 
@@ -310,6 +314,8 @@ Add-Migration AddUrlApp -Context SmartDigitalPsicoDataContextSqlServer -OutputDi
  Add-Migration WorkingDays -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
+
+  Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 Remove-Migration -Context SmartDigitalPsicoDataContextMysql -Project SmartDigitalPsico.Data
 Add-Migration UpdateFileTableCloud -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations -Project SmartDigitalPsico.Data
@@ -871,3 +877,7 @@ Seguindo a estrutura json  abaixo de i18n para angular 2+ typescript , gere o re
      "title": "Calendar" 
    }
 
+
+
+
+   Com base no Exemplo  CalendarCriteriaValidator ajuste o  MedicalCalendarListValidatorpara eu siga o padrao KEY|Message  se a menssagem tiver variaveis dinamica KEY|Message|Valor1|Valor1

@@ -9,47 +9,48 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
     {
 
         public PatientHospitalizationInformationValidator(IPatientHospitalizationInformationRepository entityRepository,
-            IPatientRepository patientRepository) : base(patientRepository, entityRepository)
+                                                         IPatientRepository patientRepository)
+            : base(patientRepository, entityRepository)
         {
             #region Columns
 
             RuleFor(entity => entity.Description)
-              .NotNull().NotEmpty()
-              .WithMessage("A Description não pode ser vazia.")
-              .MaximumLength(255)
-              .WithMessage("O Description não pode ultrapassar {MaxLength} carateres.");
+                .NotNull().NotEmpty()
+                .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
+                .MaximumLength(255)
+                .WithMessage("Description_Validator_MaxLength_Key|Description cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.StartDate)
                 .NotNull()
-               .WithMessage("A StartDate não pode ser vazia.");
+                .WithMessage("StartDate_Validator_IsRequired_Key|StartDate is required.");
 
             RuleFor(entity => entity.CID)
-            .NotNull().NotEmpty()
-            .WithMessage("A CID não pode ser vazia.")
-            .MaximumLength(20)
-            .WithMessage("O CID não pode ultrapassar {MaxLength} carateres.");
+                .NotNull().NotEmpty()
+                .WithMessage("CID_Validator_IsRequired_Key|CID is required.")
+                .MaximumLength(20)
+                .WithMessage("CID_Validator_MaxLength_Key|CID cannot exceed {0} characters.|20");
 
             RuleFor(entity => entity.Observation)
                 .NotNull().NotEmpty()
-                .WithMessage("A Observation não pode ser vazia.")
+                .WithMessage("Observation_Validator_IsRequired_Key|Observation is required.")
                 .MaximumLength(2000)
-                .WithMessage("O Observation não pode ultrapassar {MaxLength} carateres.");
+                .WithMessage("Observation_Validator_MaxLength_Key|Observation cannot exceed {0} characters.|2000");
 
             #endregion Columns 
 
             #region Relationship
 
             RuleFor(entity => entity.CreatedUserId)
-              .NotNull()
-              .WithMessage("ErrorValidator_CreatedUserId_Null");
+                .NotNull()
+                .WithMessage("CreatedUserId_Validator_IsRequired_Key|Created user ID is required.");
 
             RuleFor(entity => entity.PatientId)
                 .NotNull()
-                .WithMessage("ErrorValidator_Patient_Null")
+                .WithMessage("PatientId_Validator_IsRequired_Key|Patient ID is required.")
                 .MustAsync(async (entity, value, c) => await PatientIdFound(entity))
-                .WithMessage("ErrorValidator_Patient_NotFound")
+                .WithMessage("PatientId_Validator_NotFound_Key|Patient not found.")
                 .MustAsync(async (entity, value, c) => await PatientIdChanged(entity))
-                .WithMessage("ErrorValidator_Patient_Changed");
+                .WithMessage("PatientId_Validator_Changed_Key|Patient has changed.");
 
             #endregion Relationship  
         }

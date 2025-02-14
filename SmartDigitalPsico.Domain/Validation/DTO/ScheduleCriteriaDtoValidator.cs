@@ -12,38 +12,56 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
         private readonly IPatientRepository _patientRepository;
         private readonly IMedicalRepository _medicalRepository;
 
-        public ScheduleCriteriaDtoValidator(IMedicalCalendarRepository medicalCalendarRepository
-            , IPatientRepository patientRepository
-            , IMedicalRepository medicalRepository)
+        public ScheduleCriteriaDtoValidator(IMedicalCalendarRepository medicalCalendarRepository,
+                                             IPatientRepository patientRepository,
+                                             IMedicalRepository medicalRepository)
         {
             _medicalCalendarRepository = medicalCalendarRepository;
             _patientRepository = patientRepository;
             _medicalRepository = medicalRepository;
 
-            RuleFor(x => x.MedicalId).GreaterThan(0);
-            RuleFor(x => x.PatientId).GreaterThan(0);
-            RuleFor(x => x.AppointmentDateTime).GreaterThanOrEqualTo(DateHelper.GetDateTimeNowFromUtc());
-            RuleFor(x => x.Reason).NotEmpty();
-            RuleFor(x => x.TimeZone).NotEmpty();
+            RuleFor(x => x.MedicalId)
+                .GreaterThan(0)
+                .WithMessage("MedicalId_Validator_GreaterThan_Key|Medical ID must be greater than {0}.|0");
 
-            RuleFor(x => x).MustAsync(BeAValidPatientOfMedical)
-                .WithMessage("The patient does not belong to the specified doctor.");
+            RuleFor(x => x.PatientId)
+                .GreaterThan(0)
+                .WithMessage("PatientId_Validator_GreaterThan_Key|Patient ID must be greater than {0}.|0");
 
-            RuleFor(x => x).MustAsync(HaveValidStatusForCancellation)
-                .When(x => x.ScheduleType == EScheduleCalendarType.Cancellation)
-                .WithMessage("The appointment cannot be canceled because its status does not allow it or it is too close to the appointment time.");
+            RuleFor(x => x.AppointmentDateTime)
+                .GreaterThanOrEqualTo(DateHelper.GetDateTimeNowFromUtc())
+                .WithMessage("AppointmentDateTime_Validator_GreaterThanOrEqualTo_Key|Appointment date and time must be greater than or equal to the current time.");
 
-            RuleFor(x => x).MustAsync(BeWithinWorkingHours)
-                .WithMessage("The appointment time is outside the doctor's working hours.");
+            RuleFor(x => x.Reason)
+                .NotEmpty()
+                .WithMessage("Reason_Validator_NotEmpty_Key|Reason is required.");
 
-            RuleFor(x => x).MustAsync(NotHaveSchedulingConflict)
-                .When(x => x.ScheduleType == EScheduleCalendarType.Schedule)
-                .WithMessage("The doctor already has an appointment at this time.");
+            RuleFor(x => x.TimeZone)
+                .NotEmpty()
+                .WithMessage("TimeZone_Validator_NotEmpty_Key|Time zone is required.");
 
             RuleFor(x => x)
-            .MustAsync(BeAtLeast23HoursInAdvance)
-            .When(x => x.ScheduleType == EScheduleCalendarType.Schedule)
-            .WithMessage("The appointment must be scheduled at least 23 hours in advance.");
+                .MustAsync(BeAValidPatientOfMedical)
+                .WithMessage("Patient_Validator_BelongToDoctor_Key|The patient does not belong to the specified doctor.");
+
+            RuleFor(x => x)
+                .MustAsync(HaveValidStatusForCancellation)
+                .When(x => x.ScheduleType == EScheduleCalendarType.Cancellation)
+                .WithMessage("Appointment_Validator_CannotBeCancelled_Key|The appointment cannot be canceled because its status does not allow it or it is too close to the appointment time.");
+
+            RuleFor(x => x)
+                .MustAsync(BeWithinWorkingHours)
+                .WithMessage("Appointment_Validator_OutsideWorkingHours_Key|The appointment time is outside the doctor's working hours.");
+
+            RuleFor(x => x)
+                .MustAsync(NotHaveSchedulingConflict)
+                .When(x => x.ScheduleType == EScheduleCalendarType.Schedule)
+                .WithMessage("Appointment_Validator_SchedulingConflict_Key|The doctor already has an appointment at this time.");
+
+            RuleFor(x => x)
+                .MustAsync(BeAtLeast23HoursInAdvance)
+                .When(x => x.ScheduleType == EScheduleCalendarType.Schedule)
+                .WithMessage("Appointment_Validator_AtLeast23HoursInAdvance_Key|The appointment must be scheduled at least {0} hours in advance.|23");
         }
 
         private async Task<bool> BeAValidPatientOfMedical(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)

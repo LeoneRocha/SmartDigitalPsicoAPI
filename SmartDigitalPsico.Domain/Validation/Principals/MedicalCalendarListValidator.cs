@@ -15,8 +15,9 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission");
+                .WithMessage("ErrorValidator_User_Not_Permission|User does not have permission.");
         }
+
         private async Task<bool> HasPermissionAsync(RecordsList<MedicalCalendar> recordsList, long userIdLogged, CancellationToken cancellationToken)
         {
             try

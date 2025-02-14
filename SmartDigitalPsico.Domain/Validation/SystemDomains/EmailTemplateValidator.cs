@@ -8,22 +8,22 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         public EmailTemplateValidator()
         {
             RuleFor(x => x.Description)
-            .NotEmpty()
-            .WithMessage("Template name is required.")
-            .MaximumLength(100)
-            .WithMessage("Template name must be less than 100 characters.");
+                .NotEmpty()
+                .WithMessage("Description_Validator_IsRequired_Key|Template name is required.")
+                .MaximumLength(100)
+                .WithMessage("Description_Validator_MaxLength_Key|Template name must be less than {0} characters.|100");
 
             RuleFor(x => x.Subject)
                 .NotEmpty()
-                .WithMessage("Subject is required.")
+                .WithMessage("Subject_Validator_IsRequired_Key|Subject is required.")
                 .MaximumLength(200)
-                .WithMessage("Subject must be less than 200 characters.");
+                .WithMessage("Subject_Validator_MaxLength_Key|Subject must be less than {0} characters.|200");
 
             RuleFor(x => x.Body)
                 .NotEmpty()
-                .WithMessage("Body is required.")
+                .WithMessage("Body_Validator_IsRequired_Key|Body is required.")
                 .MaximumLength(8000)
-                .WithMessage("Body must be less than 8000 characters.");
+                .WithMessage("Body_Validator_MaxLength_Key|Body must be less than {0} characters.|8000");
         }
     }
 }

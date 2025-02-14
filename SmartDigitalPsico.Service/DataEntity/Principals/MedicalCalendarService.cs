@@ -1,6 +1,8 @@
+using Azure;
 using FluentValidation;
 using FluentValidation.Results;
 using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO;
@@ -88,8 +90,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 _logger.Error(ex, "Error at MedicalCalendarService.Create");
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = await base.GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
             }
+
             return response;
         }
 
@@ -148,9 +151,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 _logger.Error(ex, "Error at MedicalCalendarService.Update");
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = await base.GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
             }
-
             return response;
         }
 
@@ -327,7 +329,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             catch (Exception ex)
             {
                 _logger.Error(ex, "Error at MedicalCalendarService.DeleteOneOrRecurrence");
-                return new ServiceResponse<bool> { Success = false, Message = "An error occurred while deleting." };
+                var response = new ServiceResponse<bool>();
+                response.Message = await base.GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
+
+                return response;
             }
         }
 
@@ -476,7 +481,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 _logger.Error(ex, "Error at MedicalCalendarService.GetMonthlyCalendar");
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = await base.GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
             }
 
             return response;
@@ -489,7 +494,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
         private async Task<bool> ValidateCriteriaAsync(CalendarCriteriaDto criteria, ServiceResponse<CalendarDto> response)
         {
-            var validator = new CalendarCriteriaValidator(_userRepository);
+             var validator = new CalendarCriteriaValidator(_userRepository);
             var validationResult = await validator.ValidateAsync(criteria);
 
             if (!validationResult.IsValid)
@@ -554,16 +559,17 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             };
             response.Success = false;
             response.Data = sDto;
-            response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarSuccess, MedicalCalendarMenssageConstants.CalendarSuccess);
-
-            response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
+            response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.Calendar_Error, MedicalCalendarMenssageConstants.Calendar_Error);
+            var errosValidate = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
+            response.Errors = await base.GetLocalizationErros(errosValidate);
         }
         private async Task<Medical> GetMedicalAsync(long medicalId)
         {
             var medical = await _medicalRepository.FindByID(medicalId);
             if (medical == null)
             {
-                throw new AppWarningException("Medical not found.");
+                var valueMenssage = await base.GetLocalization(MedicalKeyConstants.Medical_Not_Found, MedicalMenssageConstants.Medical_Not_Found);
+                throw new AppWarningException(valueMenssage);
             }
             return medical;
         }
@@ -573,7 +579,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var userResult = await _userRepository.FindByID(userId);
             if (userResult == null)
             {
-                throw new AppWarningException("User not found.");
+                var valueMenssage = await base.GetLocalization(UserKeyConstants.User_Not_Found, UserMenssageConstants.User_Not_Found);
+                throw new AppWarningException(valueMenssage);
             }
             return userResult;
         }
@@ -727,7 +734,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 _logger.Error(ex, "Error at MedicalCalendarService.GetAvailableMedicalCalendar");
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = await base.GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
             }
 
             return response;
@@ -788,7 +795,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 _logger.Error(ex, "Error at MedicalCalendarService.RequestAppointment");
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = await base.GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
             }
 
             return response;
@@ -828,7 +835,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 var resultCreate = await _entityRepository.Create(newAppointment);
 
                 response.Success = true;
-                response.Message = $"Appointment successfully created and is pending confirmation. ({resultCreate.Id})";
+                response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.Schedule_Appointment_Success, MedicalCalendarMenssageConstants.Schedule_Appointment_Success) + $". ({resultCreate.Id})";
             }
             return response;
         }
@@ -858,8 +865,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             var resultCreate = await _entityRepository.Update(appointment);
 
-            response.Success = true;
-            response.Message = $"Cancellation request successfully made. ({resultCreate.Id})";
+            response.Success = true; 
+            response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.Cancel_Appointment_Success, MedicalCalendarMenssageConstants.Cancel_Appointment_Success) + $". ({resultCreate.Id})";
+
+
             return response;
         }
         #endregion PRIVATE RequestAppointmentAsync
@@ -908,7 +917,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 _logger.Error(ex, "Error at MedicalCalendarService.GetAppointments");
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = await base.GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
             }
 
             return response;

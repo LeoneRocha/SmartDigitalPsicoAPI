@@ -9,13 +9,13 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         {
             RuleFor(entity => entity.Description)
                 .NotNull().NotEmpty()
-              .WithMessage("ErrorValidator_Description_Null");
+                .WithMessage("Description_Validator_IsRequired_Key|Description is required.");
 
             RuleFor(entity => entity.Language)
                 .NotNull().NotEmpty()
-                .WithMessage("ErrorValidator_Language_Null")
+                .WithMessage("Language_Validator_IsRequired_Key|Language is required.")
                 .MaximumLength(10)
-                .WithMessage("O Language não pode ultrapassar {MaxLength} carateres.");
+                .WithMessage("Language_Validator_MaxLength_Key|Language cannot exceed {0} characters.|10");
         }
     }
 }

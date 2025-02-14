@@ -13,7 +13,8 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             _entityRepository = entityRepository;
 
             RuleFor(m => m)
-                .MustAsync(NoDateConflict).WithMessage("There is a date and time conflict for the same doctor.");
+                .MustAsync(NoDateConflict)
+                .WithMessage("ErrorValidator_Date_Conflict|There is a date and time conflict for the same doctor.");
         }
 
         private async Task<bool> NoDateConflict(MedicalCalendar calendar, CancellationToken cancellationToken)
