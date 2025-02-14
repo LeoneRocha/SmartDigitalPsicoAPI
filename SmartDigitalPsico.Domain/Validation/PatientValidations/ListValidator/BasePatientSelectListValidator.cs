@@ -8,13 +8,14 @@ using SmartDigitalPsico.Domain.Validation.Contratcs;
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
 {
     public abstract class BasePatientSelectListValidator<T> : RecordsListValidator<T> where T : IEntityBaseLogUser, IEntityPatientBase
-    { 
+    {
         protected BasePatientSelectListValidator(IUserRepository userRepository)
           : base(userRepository)
-        {
+        { 
+
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission");
+                .WithMessage("User_Not_Permission_Key|User does not have permission.");
         }
         protected override async Task<bool> HasPermissionAsync(RecordsList<T> recordsList, long userIdLogged, CancellationToken cancellationToken)
         {

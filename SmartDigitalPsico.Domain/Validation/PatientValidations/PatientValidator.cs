@@ -8,112 +8,111 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
     public class PatientValidator : MedicalBaseValidator<Patient>
     {
-        private new readonly IPatientRepository _entityRepository; 
-        public PatientValidator(IPatientRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
+        private new readonly IPatientRepository _entityRepository;
+        public PatientValidator(IPatientRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository)
+           : base(medicalRepository, entityRepository, userRepository)
         {
-            _entityRepository = entityRepository; 
+            _entityRepository = entityRepository;
 
             #region Columns
 
             RuleFor(entity => entity.Name)
-             .NotNull().NotEmpty()
-          .WithMessage("ErrorValidator_Description_Null");
+                .NotNull().NotEmpty()
+                .WithMessage("Name_Validator_IsRequired_Key|Name is required.");
 
             RuleFor(entity => entity.Profession)
                 .MaximumLength(255)
-                .WithMessage("O Profession não pode ultrapassar {MaxLength} carateres.");
+                .WithMessage("Profession_Validator_MaxLength_Key|Profession cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.Email)
-               .NotNull().NotEmpty()
-               .WithMessage("ErrorValidator_Email_Null")
-               .EmailAddress()
-               .WithMessage("ErrorValidator_Email_Invalid")
-               .MaximumLength(100)
-               .WithMessage("O Email não pode ultrapassar {MaxLength} carateres.")
-               .MustAsync(async (entity, value, c) => await UniqueEmail(entity, value))
-              .WithMessage("ErrorValidator_Email_Unique");
+                .NotNull().NotEmpty()
+                .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
+                .EmailAddress()
+                .WithMessage("Email_Validator_Invalid_Key|Invalid email address.")
+                .MaximumLength(100)
+                .WithMessage("Email_Validator_MaxLength_Key|Email cannot exceed {0} characters.|100")
+                .MustAsync(async (entity, value, c) => await UniqueEmail(entity, value))
+                .WithMessage("Email_Validator_Unique_Key|Email must be unique.");
 
-            RuleFor(p => p.DateOfBirth).Must(beAValidAge)
-                .WithMessage("ErrorValidator_DateOfBirth_Invalid");
+            RuleFor(p => p.DateOfBirth)
+                .Must(beValidAge)
+                .WithMessage("DateOfBirth_Validator_Invalid_Key|Invalid date of birth.");
 
             RuleFor(p => p.Rg)
                 .NotNull().NotEmpty()
-                .WithMessage("ErrorValidator_RG_Null")
+                .WithMessage("RG_Validator_IsRequired_Key|RG is required.")
                 .Length(10, 15)
-               .WithMessage("Rg must be between 10 and {MaxLength} characters long");
-
+                .WithMessage("RG_Validator_Length_Key|RG must be between {0} and {1} characters long.|10|15");
 
             RuleFor(p => p.Cpf)
                 .NotNull().NotEmpty()
-                .WithMessage("ErrorValidator_CPF_Null")
+                .WithMessage("CPF_Validator_IsRequired_Key|CPF is required.")
                 .Length(10, 15)
-               .WithMessage("Rg must be between 10 and {MaxLength} characters long");
-
+                .WithMessage("CPF_Validator_Length_Key|CPF must be between {0} and {1} characters long.|10|15");
 
             RuleFor(entity => entity.Profession)
                 .MaximumLength(255)
-                .WithMessage("O Profession não pode ultrapassar {MaxLength} carateres.");
-
+                .WithMessage("Profession_Validator_MaxLength_Key|Profession cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.Education)
                 .MaximumLength(255)
-                .WithMessage("O Education não pode ultrapassar {MaxLength} carateres.");
+                .WithMessage("Education_Validator_MaxLength_Key|Education cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.PhoneNumber)
                 .MaximumLength(20)
-                .WithMessage("O PhoneNumber não pode ultrapassar {MaxLength} carateres.")
+                .WithMessage("PhoneNumber_Validator_MaxLength_Key|PhoneNumber cannot exceed {0} characters.|20")
                 .Length(8, 20)
-               .WithMessage("PhoneNumber must be between 8 and {MaxLength} characters long");
+                .WithMessage("PhoneNumber_Validator_Length_Key|PhoneNumber must be between {0} and {1} characters long.|8|20");
 
             RuleFor(entity => entity.AddressStreet)
                 .MaximumLength(255)
-                .WithMessage("O AddressStreet não pode ultrapassar {MaxLength} carateres.");
+                .WithMessage("AddressStreet_Validator_MaxLength_Key|AddressStreet cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.AddressNeighborhood)
                 .MaximumLength(255)
-                .WithMessage("O AddressNeighborhood não pode ultrapassar {MaxLength} carateres.");
+                .WithMessage("AddressNeighborhood_Validator_MaxLength_Key|AddressNeighborhood cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.AddressCity)
-              .MaximumLength(255)
-              .WithMessage("O AddressCity não pode ultrapassar {MaxLength} carateres.");
+                .MaximumLength(255)
+                .WithMessage("AddressCity_Validator_MaxLength_Key|AddressCity cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.AddressState)
                 .MaximumLength(255)
-                .WithMessage("O AddressState não pode ultrapassar {MaxLength} carateres.");
+                .WithMessage("AddressState_Validator_MaxLength_Key|AddressState cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.AddressCep)
                 .MaximumLength(20)
-                .WithMessage("O AddressCep não pode ultrapassar {MaxLength} carateres.")
+                .WithMessage("AddressCep_Validator_MaxLength_Key|AddressCep cannot exceed {0} characters.|20")
                 .Length(8, 20)
-               .WithMessage("AddressCep must be between 8 and {MaxLength} characters long");
+                .WithMessage("AddressCep_Validator_Length_Key|AddressCep must be between {0} and {1} characters long.|8|20");
 
             RuleFor(entity => entity.EmergencyContactName)
-             .MaximumLength(255)
-             .WithMessage("O EmergencyContactName não pode ultrapassar {MaxLength} carateres.");
+                .MaximumLength(255)
+                .WithMessage("EmergencyContactName_Validator_MaxLength_Key|EmergencyContactName cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.EmergencyContactPhoneNumber)
-             .MaximumLength(255)
-             .WithMessage("O EmergencyContactPhoneNumber não pode ultrapassar {MaxLength} carateres.");
+                .MaximumLength(255)
+                .WithMessage("EmergencyContactPhoneNumber_Validator_MaxLength_Key|EmergencyContactPhoneNumber cannot exceed {0} characters.|255");
 
             #endregion
 
             #region Relationship
 
             RuleFor(entity => entity.CreatedUserId)
-              .NotNull()
-              .WithMessage("ErrorValidator_CreatedUserId_Null");
+                .NotNull()
+                .WithMessage("CreatedUserId_Validator_IsRequired_Key|Created user ID is required.");
 
             RuleFor(entity => entity.MedicalId)
-            .NotNull()
-            .WithMessage("ErrorValidator_MedicalId_Null")
-            .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
-            .WithMessage("ErrorValidator_MedicalId_NotFound")
-            .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
-            .WithMessage("ErrorValidator_Medical_Changed")
-            .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
-            .WithMessage("ErrorValidator_MedicalCreated_Invalid")
-            .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
-            .WithMessage("ErrorValidator_MedicalModify_Invalid");
+                .NotNull()
+                .WithMessage("MedicalId_Validator_IsRequired_Key|Medical ID is required.")
+                .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
+                .WithMessage("MedicalId_Validator_NotFound_Key|Medical ID not found.")
+                .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
+                .WithMessage("Medical_Validator_Changed_Key|Medical ID has changed.")
+                .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
+                .WithMessage("Medical_Validator_Created_Invalid_Key|Invalid medical record created.")
+                .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
+                .WithMessage("Medical_Validator_Modify_Invalid_Key|Invalid medical record modified.");
 
             #endregion Relationship 
         }
@@ -149,7 +148,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             return true;
         }
          
-        private static bool beAValidAge(DateTime date)
+        private static bool beValidAge(DateTime date)
         {
             int currentYear = DateHelper.GetDateTimeNowFromUtc().Year;
             int dobYear = date.Year;

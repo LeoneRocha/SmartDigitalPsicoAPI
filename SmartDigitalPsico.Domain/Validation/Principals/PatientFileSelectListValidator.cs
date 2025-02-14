@@ -9,12 +9,13 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
     {
 
         public MedicalFileSelectListValidator(IUserRepository userRepository)
-            : base(userRepository)
-        {
+           : base(userRepository)
+        {  
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission");  
+                .WithMessage("ErrorValidator_User_Not_Permission|User does not have permission.");
         }
+
         protected override async Task<bool> HasPermissionAsync(RecordsList<MedicalFile> recordsList, long userIdLogged, CancellationToken cancellationToken)
         {
             try

@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
             {
                 var error = new ErrorResponse()
                 {
-                    Message = "Permissão negada! Deve se informa usuario.",
+                    Message = "UserRequired_Key|Permission denied! User must be provided.",
                     Name = ValidatorConstants.Validate_Permission_Medical
                 };
                 return error;
@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
             {
                 var error = new ErrorResponse()
                 {
-                    Message = "Permissão negada! Medico Informado deve ser o mesmo logado.",
+                    Message = "MedicalUserMismatch_Key|Permission denied! The logged-in doctor must be the same as the one provided.",
                     Name = ValidatorConstants.Validate_Permission_Medical
                 };
 
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
                 var error = new ErrorResponse()
                 {
                     ErrorCode = 401.ToString(),
-                    Message = "Permissão negada! Deve se informa usuario.",
+                    Message = "UserRequired_Key|Permission denied! User must be provided.",
                     Name = ValidatorConstants.Validate_Permission_Medical
                 };
                 return error;
@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
                 var error = new ErrorResponse()
                 {
                     ErrorCode = 401.ToString(),
-                    Message = "Permissão negada! Apenas administradores podem acessar.",
+                    Message = "AdminAccessOnly_Key|Permission denied! Only administrators can access.",
                     Name = ValidatorConstants.Validate_Permission_Medical
                 };
 

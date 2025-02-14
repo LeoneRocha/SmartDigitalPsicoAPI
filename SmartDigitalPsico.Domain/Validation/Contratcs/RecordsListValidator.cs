@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Validation.Contratcs
 {
@@ -18,7 +16,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
 
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
-                .WithMessage("ErrorValidator_User_Not_Permission");
+                .WithMessage("ErrorValidator_User_Not_Permission|User does not have permission.");
         }
 
         protected virtual async Task<bool> HasPermissionAsync(RecordsList<T> recordsList, long userIdLogged, CancellationToken cancellationToken)

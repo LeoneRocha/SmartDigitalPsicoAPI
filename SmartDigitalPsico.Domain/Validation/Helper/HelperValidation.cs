@@ -38,13 +38,7 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
             }
 
             return errorAdd;
-        }
-
-
-        public static string GetMessage(bool isValid)
-        {
-            return isValid ? "All validations passed " : "The validations did not pass";
-        }
+        }  
         public static ErrorResponse TranslateErroCode(ErrorResponse errorItem)
         {
             if (errorItem.FullMessage.Contains('|') && errorItem.FullMessage.Contains('_'))
@@ -53,7 +47,7 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
                 var parts = processedMessage.Split('|');
                 errorItem.ErrorCode = parts[0];
                 errorItem.Message = parts.Length > 1 ? parts[1] : errorItem.FullMessage;
-            } 
+            }
 
             return errorItem;
         }

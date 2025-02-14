@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure;
+using DocumentFormat.OpenXml.Spreadsheet;
 using FluentValidation;
 using FluentValidation.Results;
 using SmartDigitalPsico.Domain.Constants;
@@ -295,7 +296,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
 
                     response.Success = validationResult.IsValid;
                     response.Errors = HelperValidation.GetErrorsMap(validationResult).ToList();
-                    response.Message = HelperValidation.GetMessage(validationResult.IsValid);
                     //Translate Message  
                     if (response.Errors != null && response.Errors.Count > 0)
                     {
@@ -314,10 +314,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                             errosTranslated.Add(errosAdd);
                         }
                         response.Errors = errosTranslated;
+                        response.Message = await GetLocalization(ValidatorConstants.ValidateErroMessageKey, ValidatorConstants.ValidateErroMessage_Message);
                     }
-                    response.Message = await GetLocalization(ValidatorConstants.ValidateErroMessageKey, response.Message);
+                    response.Message = await GetLocalization(ValidatorConstants.ValidateSuccessMessageKey, ValidatorConstants.ValidateSuccessMessage_Message);
                 });
-
             }
             catch (Exception ex)
             {
@@ -343,7 +343,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                         ErrorCode = errosItem.ErrorCode,
                         Message = await GetLocalization(errosItem.ErrorCode, errosItem.DefaultMessage),
                         DefaultMessage = errosItem.DefaultMessage,
-                        FullMessage= errosItem.FullMessage,
+                        FullMessage = errosItem.FullMessage,
                     };
                     errosAdd.Message = HelperValidation.TranslateErroCode(errosAdd.Message, errosAdd.ErrorCode);
                     errosAdd = HelperValidation.TranslateErroCode(errosAdd);
