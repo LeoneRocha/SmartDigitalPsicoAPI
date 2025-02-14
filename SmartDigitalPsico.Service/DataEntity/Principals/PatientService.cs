@@ -174,7 +174,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);   
                 return response;
             }
-            response.Data = listResult.Select(c => _mapper.Map<GetPatientDto>(c)).ToList();
+            response.Data = listResult.Select(c => _mapper.Map<GetPatientDto>(c))
+                .OrderBy(e=> e.Name)
+                .ToList();
+
             response.Success = true;
             response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             return response;

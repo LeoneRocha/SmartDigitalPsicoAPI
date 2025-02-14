@@ -1,4 +1,8 @@
-﻿  
+﻿
+
+
+---AJUSTAR FRONT PARA LER A MENSSAGEM CORRETAMENTE 
+  
 ------------------------------------------------------------- PENDENCIAS 12 01 2025 
 --- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 
 --- Arrumar layout dos botoes trazer para dentro do componente form event FEITO 
