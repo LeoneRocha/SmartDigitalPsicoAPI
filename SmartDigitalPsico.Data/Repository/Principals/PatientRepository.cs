@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsico.Domain.DTO.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
+using System.Linq;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
@@ -59,7 +61,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                .Where(p => p.MedicalId == medicalId)
                .ToListAsync();
 #pragma warning restore CS8602
-        } 
+        }
         public async Task<Patient> GetPatientDetailsByIdAsync(long id)
         {
             Patient entityResponse = await _dataset
@@ -77,5 +79,21 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .FirstAsync(p => p.Id == id);
             return entityResponse;
         }
+
+        public async Task<List<Patient>> PatientSearch(PatientSearchCriteriaDto patientSearchCriteriaDto)
+        {
+#pragma warning disable CS8602
+            return await _dataset
+                .AsNoTracking()
+                .Where(p => p.MedicalId == patientSearchCriteriaDto.MedicalId && p.Name.StartsWith(patientSearchCriteriaDto.Name, StringComparison.OrdinalIgnoreCase))
+                .Select(e => new Patient
+                {
+                    Id = e.Id,
+                    Name = e.Name
+                })
+                .ToListAsync();
+#pragma warning restore CS8602
+        }
+
     }
 }

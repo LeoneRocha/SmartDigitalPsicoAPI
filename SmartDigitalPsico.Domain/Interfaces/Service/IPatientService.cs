@@ -8,5 +8,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     {
         Task<ServiceResponse<List<GetPatientDto>>> FindAll(long medicalId);
         Task<ServiceResponse<GetPatientDto>> FindByPatient(GetPatientDto info);
+        Task<ServiceResponse<List<GetPatientDto>>> PatientSearch(PatientSearchCriteriaDto patientSearchCriteriaDto);
     }
 }
