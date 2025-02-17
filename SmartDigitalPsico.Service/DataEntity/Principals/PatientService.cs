@@ -148,6 +148,41 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             throw new NotImplementedException();
         }
 
+        public async Task<ServiceResponse<List<GetPatientDto>>> PatientSearch(PatientSearchCriteriaDto patientSearchCriteriaDto)
+        {
+            ServiceResponse<List<GetPatientDto>> response = new ServiceResponse<List<GetPatientDto>>();
+
+            List<Patient> listResult = await _entityRepository.PatientSearch(patientSearchCriteriaDto);
+            var recordsList = new RecordsList<Patient>
+            {
+                UserIdLogged = UserId,
+                Records = listResult
+
+            };
+            var validator = new PatientSelectListValidator(_userRepository);
+            var validationResult = await validator.ValidateAsync(recordsList);
+            if (!validationResult.IsValid)
+            {
+                response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
+                response.Success = false;
+                response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
+                return response;
+            }
+            if (listResult == null || listResult.Count == 0)
+            {
+                response.Success = false;
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
+                return response;
+            }
+            response.Data = listResult.Select(c => _mapper.Map<GetPatientDto>(c))
+                .OrderBy(e => e.Name)
+                .ToList();
+
+            response.Success = true;
+            response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
+            return response;
+        }
+
         public async Task<ServiceResponse<List<GetPatientDto>>> FindAll(long medicalId)
         {
             ServiceResponse<List<GetPatientDto>> response = new ServiceResponse<List<GetPatientDto>>();
@@ -174,7 +209,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);   
                 return response;
             }
-            response.Data = listResult.Select(c => _mapper.Map<GetPatientDto>(c)).ToList();
+            response.Data = listResult.Select(c => _mapper.Map<GetPatientDto>(c))
+                .OrderBy(e=> e.Name)
+                .ToList();
+
             response.Success = true;
             response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             return response;

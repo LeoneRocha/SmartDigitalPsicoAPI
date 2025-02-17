@@ -1,7 +1,8 @@
 ﻿
 
+----------- MUDAR O CAMPO SELECT POR BUSCA SELECT ----|||||||||||||||||||||||<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
 
----AJUSTAR FRONT PARA LER A MENSSAGEM CORRETAMENTE 
+---AJUSTAR FRONT PARA LER A MENSSAGEM CORRETAMENTE  - FEITO
   
 ------------------------------------------------------------- PENDENCIAS 12 01 2025 
 --- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 

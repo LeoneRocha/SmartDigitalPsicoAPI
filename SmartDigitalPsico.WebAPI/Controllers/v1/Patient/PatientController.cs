@@ -32,8 +32,16 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindAll(medicalId));
-        }
+        } 
 
+        [HttpPost("Search")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        public async Task<ActionResult<ServiceResponse<List<GetPatientDto>>>> PatientSearch(PatientSearchCriteriaDto patientSearchCriteriaDto)
+        {
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
+            return Ok(await _entityService.PatientSearch(patientSearchCriteriaDto));
+        }
+         
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         public async Task<ActionResult<ServiceResponse<GetPatientDto>>> FindByID(long id)
