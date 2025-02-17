@@ -1,10 +1,9 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
-using System.ComponentModel.DataAnnotations;
+using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Hypermedia;
+using SmartDigitalPsico.Domain.Hypermedia.Abstract;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient
 {
