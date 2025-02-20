@@ -49,13 +49,14 @@ namespace SmartDigitalPsico.Service.Configure.Domain
                 typeof(IUserTokenSessionRepository)
             };
 
-            var filteredRepositories = repositories
-                .Where(repo => !ignoredInterfaces.Contains(repo.InterfaceType!) && !registeredInterfaces.Contains(repo.InterfaceType!))
-                .ToArray();
+            var servicesToAdd = ServiceCollectionHelper.FilterItems(repositories.Select(repo => repo.InterfaceType!).ToArray(), registeredInterfaces, ignoredInterfaces);
 
-            foreach (var repo in filteredRepositories)
+             
+            var finalRepositoriesToAdd = repositories.Where(service => servicesToAdd.Contains(service.InterfaceType)).OrderBy(service => service.InterfaceType!.Name).ToArray();
+
+            foreach (var service in finalRepositoriesToAdd)
             {
-                services.AddScoped(repo.InterfaceType!, repo.ImplementationType!);
+                services.AddScoped(service.InterfaceType!, service.ImplementationType!);
             }
         }
     }
