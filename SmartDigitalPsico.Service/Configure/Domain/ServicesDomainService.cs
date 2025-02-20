@@ -27,29 +27,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         }
         private static void RegisterManuallyAddedServices(IServiceCollection services)
         {
-            services.AddScoped<ICacheService, CacheService>();
-            services.AddScoped<IApplicationLanguageService, ApplicationLanguageService>();
-            services.AddScoped<IApplicationConfigSettingService, ApplicationConfigSettingService>();
-            services.AddScoped<IGenderService, GenderService>();
-            services.AddScoped<IOfficeService, OfficeService>();
-            services.AddScoped<IRoleGroupService, RoleGroupService>();
-            services.AddScoped<ISpecialtyService, SpecialtyService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IMedicalService, MedicalService>();
-            services.AddScoped<IPatientFileService, PatientFileService>();
-            services.AddScoped<IMedicalFileService, MedicalFileService>();
-
-            #region PATIENT
-            services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<IPatientRecordService, PatientRecordService>();
-            services.AddScoped<IPatientMedicationInformationService, PatientMedicationInformationService>();
-            services.AddScoped<IPatientHospitalizationInformationService, PatientHospitalizationInformationService>();
-            services.AddScoped<IPatientAdditionalInformationService, PatientAdditionalInformationService>();
-            services.AddScoped<IPatientNotificationMessageService, PatientNotificationMessageService>();
-            #endregion PATIENT
-
-            services.AddScoped<IEmailTemplateService, EmailTemplateService>();
-            //services.AddScoped<IMedicalCalendarService, MedicalCalendarService>();
+            services.AddScoped<ICacheService, CacheService>();       
         }
         private static void RegisterServices(IServiceCollection services)
         {
