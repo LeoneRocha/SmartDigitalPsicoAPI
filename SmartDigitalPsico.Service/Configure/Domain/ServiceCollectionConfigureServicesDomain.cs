@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         {
             ServicesDomainRepository.AddDependencies(services);
 
-            ServicesDomainService.AddDependencies(services);
+            ServicesDomainService.AddDependenciesManually(services);
 
             addDependenciesSingleton(services);
 
@@ -38,6 +38,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             ServicesDomainAudit.AddDependencies(services);
 
             ServicesDomainAuthentication.AddDependencies(services);
+
+            ServicesDomainService.AddDependenciesAuto(services);
         }
         private static void addCollectionDependencies(IServiceCollection services)
         {

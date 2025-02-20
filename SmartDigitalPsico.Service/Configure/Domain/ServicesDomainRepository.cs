@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
                 Assembly.Load("SmartDigitalPsico.Data")
             };
 
-            var repositories = RepositoryHelper.GetRepositories(RepositorySuffix, assemblies);
+            var repositories = ServiceCollectionHelper.GetInterfaces(RepositorySuffix, assemblies);
 
             var registeredInterfaces = new[]
             {
