@@ -1,45 +1,62 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
-using SmartDigitalPsico.Data.Repository.Principals;
-using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Service.Helpers;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
+using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
     public static class ServicesDomainRepository
     {
+        private const string RepositorySuffix = "Repository";
+
         public static void AddDependencies(IServiceCollection services)
+        {
+            RegisterManuallyAddedServices(services);
+            RegisterRepositories(services);
+        }
+
+        private static void RegisterManuallyAddedServices(IServiceCollection services)
         {
             services.AddSingleton<IMemoryCacheRepository, MemoryCacheRepository>();
             services.AddScoped<IFileManager, FileManager>();
-            services.AddScoped<IFileDiskRepository, FileDiskRepository>();
-            services.AddScoped<IDiskCacheRepository, DiskCacheRepository>();
             services.AddScoped<IStorageBlobAdapter, AzureStorageBlobAdapter>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IMedicalRepository, MedicalRepository>();
-            services.AddScoped<IPatientFileRepository, PatientFileRepository>();
-            services.AddScoped<IMedicalFileRepository, MedicalFileRepository>();
-            #region PATIENT
-            services.AddScoped<IPatientRepository, PatientRepository>();
-            services.AddScoped<IPatientRecordRepository, PatientRecordRepository>();
-            services.AddScoped<IPatientMedicationInformationRepository, PatientMedicationInformationRepository>();
-            services.AddScoped<IPatientHospitalizationInformationRepository, PatientHospitalizationInformationRepository>();
-            services.AddScoped<IPatientAdditionalInformationRepository, PatientAdditionalInformationRepository>();
-            services.AddScoped<IPatientNotificationMessageRepository, PatientNotificationMessageRepository>();
-            #endregion PATIENT
-            services.AddScoped<IApplicationLanguageRepository, ApplicationLanguageRepository>();
-            services.AddScoped<IApplicationConfigSettingRepository, ApplicationConfigSettingRepository>();
-            services.AddScoped<IApplicationCacheLogRepository, ApplicationCacheLogRepository>();
-            services.AddScoped<IGenderRepository, GenderRepository>();
-            services.AddScoped<IOfficeRepository, OfficeRepository>();
-            services.AddScoped<IRoleGroupRepository, RoleGroupRepository>();
-            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
-            services.AddScoped<IAuditDataSelectiveEntityLogRepository, AuditDataSelectiveEntityLogRepository>();
-            services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>(); 
-            services.AddScoped<IMedicalCalendarRepository, MedicalCalendarRepository>();
+        }
+
+        private static void RegisterRepositories(IServiceCollection services)
+        {
+            var assemblies = new[]
+            {
+                Assembly.GetExecutingAssembly(),
+                Assembly.Load("SmartDigitalPsico.Domain"),
+                Assembly.Load("SmartDigitalPsico.Data")
+            };
+
+            var repositories = RepositoryHelper.GetRepositories(RepositorySuffix, assemblies);
+
+            var registeredInterfaces = new[]
+            {
+                typeof(IMemoryCacheRepository),
+                typeof(IFileManager),
+                typeof(IStorageBlobAdapter)
+            };
+
+            var ignoredInterfaces = new[]
+            {
+                typeof(IUserTokenSessionRepository)
+            };
+
+            var filteredRepositories = repositories
+                .Where(repo => !ignoredInterfaces.Contains(repo.InterfaceType!) && !registeredInterfaces.Contains(repo.InterfaceType!))
+                .ToArray();
+
+            foreach (var repo in filteredRepositories)
+            {
+                services.AddScoped(repo.InterfaceType!, repo.ImplementationType!);
+            }
         }
     }
 }

@@ -1,34 +1,38 @@
-﻿
-
------------ MUDAR O CAMPO SELECT POR BUSCA SELECT ----|||||||||||||||||||||||<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
-
----AJUSTAR FRONT PARA LER A MENSSAGEM CORRETAMENTE  - FEITO
-  
-------------------------------------------------------------- PENDENCIAS 12 01 2025 
---- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 
---- Arrumar layout dos botoes trazer para dentro do componente form event FEITO 
----- testar editar adicionar e arrumar idomas e labes -------FEITO 
----- ARRUMAR O DEPLOY DA MASTER EM PRODUCAO E ARRUMAR LINKS DAS DOCUMENTACOES  -------FEITO 
-
-Falta ajustar o campo ERecurrenceCalendarType  -------FEITO 
-
---criar campo atualizar em serie  para quando for editar aparecer o campo para poder flagar ou nao que atualizara os registros existentes em diante  -------FEITO 
- 
-carregar quando existir o token aparecer flagado  -------FEITO 
-
- 
------------------------------ >>>>>>>>>>>>>>>> MELHORIAS <<<<<<<<<<<<<<<<<< 
----- COlocar algunas validacoes no form -------FEITO 
-1) se selecionar recorrencia obrigar selecionar o tipo e os dias da semana  -------FEITO 
-
--- VALIDAR AO PEDIR ANGENDAMENTO OU GERAR HORARIO VALIDAR OS DIAS DA SEMANA SE O MEDICO TRABALHA    -------FEITO 
-
--- EXIBIR O CAMPO AO EDITAR PARA PODER SELECIONAR O STATUS QUE DESEJA ATUALIZAR -------------------------- FEITO 
-
--- CRIAR UM BOTAO APAGAR -------------------------  -------FEITO 
+﻿,
 
 
------------- I18 REVISAR TODO AS MENSSAGENS E COLOCAR RESSOURCE CASO NAO ACHE MENSSAGEM PADRO ------------------------ PENDNETE 
+
+
+----------------------------------------------------
+https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
+https://lionscorp.visualstudio.com/SMARTDIGITALPSICO 
+https://portal.azure.com/#home
+https://painelbd.host.uol.com.br/main.html?servicetype=mysql
+https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
+https://hub.docker.com/u/leonecr
+
+admin
+mock123adm
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
+1) Criar telas no front para editar os tamplates EmailTemplate <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+2)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
+
+3) adicionar campos para sincronizar com google agenda 
+
+4) adicionar IA PARA traduzir os idiomas 
+
+
+11) Criar campos para adionar valor e tabela status pagamento das consultas /agendamentos ou gerar uma cobranca unica para o paciente 
+
+
+
+12)-- No paciente ter um botao novo donload historico 
+
+-- Criar url para redefinir senha ou acesso.  ----------- PENDENTE PROXIMO XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
+
 
 
 ------------ 2 Criar processo de feriados por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  ter um pre-gerar feriados por ia ou service.
@@ -61,15 +65,37 @@ RuleNotificationMedical ?
 
 -------------------------6 COM ISSO CRIAR UM JOB (WEBJOB,SERVICE, API para chamar por um azurefunction)  QUE BUSCA TODAS NOTIFICACOES E VERIFICA a regra 
 
+------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
+ 
+----------- MUDAR O CAMPO SELECT POR BUSCA SELECT  - FEITO
 
-----------------------------------------------------
-https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
-https://lionscorp.visualstudio.com/SMARTDIGITALPSICO 
-https://portal.azure.com/#home
-https://painelbd.host.uol.com.br/main.html?servicetype=mysql
-https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
-https://hub.docker.com/u/leonecr
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---AJUSTAR FRONT PARA LER A MENSSAGEM CORRETAMENTE  - FEITO
+  
+------------------------------------------------------------- PENDENCIAS 12 01 2025 
+--- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 
+--- Arrumar layout dos botoes trazer para dentro do componente form event FEITO 
+---- testar editar adicionar e arrumar idomas e labes -------FEITO 
+---- ARRUMAR O DEPLOY DA MASTER EM PRODUCAO E ARRUMAR LINKS DAS DOCUMENTACOES  -------FEITO 
+
+Falta ajustar o campo ERecurrenceCalendarType  -------FEITO 
+
+--criar campo atualizar em serie  para quando for editar aparecer o campo para poder flagar ou nao que atualizara os registros existentes em diante  -------FEITO 
+ 
+carregar quando existir o token aparecer flagado  -------FEITO 
+
+ 
+----------------------------- >>>>>>>>>>>>>>>> MELHORIAS <<<<<<<<<<<<<<<<<< 
+---- COlocar algunas validacoes no form -------FEITO 
+1) se selecionar recorrencia obrigar selecionar o tipo e os dias da semana  -------FEITO 
+
+-- VALIDAR AO PEDIR ANGENDAMENTO OU GERAR HORARIO VALIDAR OS DIAS DA SEMANA SE O MEDICO TRABALHA    -------FEITO 
+
+-- EXIBIR O CAMPO AO EDITAR PARA PODER SELECIONAR O STATUS QUE DESEJA ATUALIZAR -------------------------- FEITO 
+
+-- CRIAR UM BOTAO APAGAR -------------------------  -------FEITO 
+
+
+------------ I18 REVISAR TODO AS MENSSAGENS E COLOCAR RESSOURCE CASO NAO ACHE MENSSAGEM PADRO ------------------------ PENDNETE 
 
 ---------------  ||||||||||||||||||||||||||||||||||| TODO 2024/2025 ||||||||||||||||||||||||||||||||||
 
@@ -92,9 +118,9 @@ https://hub.docker.com/u/leonecr
 
 ---ARRUMAR O PASSAR DE MES 
 
-2.4) Incluir outros campos 
-2.5) Excluir (Inativar) agendamentos. Sera um campo no update se deseja excluir ou nao on/off que vai ser o enable. Deverar refletir na busca nao trazer inativos e ao salvar validacao somente dos ativos da sobreposicao de horario.
-2.6) Aplicar idoma e resource 
+2.4) Incluir outros campos    --- FEITO 
+2.5) Excluir (Inativar) agendamentos. Sera um campo no update se deseja excluir ou nao on/off que vai ser o enable. Deverar refletir na busca nao trazer inativos e ao salvar validacao somente dos ativos da sobreposicao de horario.   --- FEITO 
+2.6) Aplicar idoma e resource    --- FEITO 
 
 
 
@@ -107,22 +133,15 @@ https://hub.docker.com/u/leonecr
 ---------REGRAS 
 
 
-No calendario so deve mostrar horarios disponiveis e horarios ja gravados 
--- Para os disponiveis pode adicionar 
---- Para os existentes apagar ou editar
---- Para os que nao foi gravado nao existe agendamento e foi passado nao pode fazer edicao adicionar ou excluir
---- Para o passado que foi gravado nao pode editar so visualizar os detalhes. 
+No calendario so deve mostrar horarios disponiveis e horarios ja gravados    --- FEITO 
+-- Para os disponiveis pode adicionar    --- FEITO 
+--- Para os existentes apagar ou editar   --- FEITO 
+--- Para os que nao foi gravado nao existe agendamento e foi passado nao pode fazer edicao adicionar ou excluir   --- FEITO 
+--- Para o passado que foi gravado nao pode editar so visualizar os detalhes.    --- FEITO 
 
 
 -------- POR ENQUANTO NAO PODE MOVER (FUTURAMENTE SIM AI ALTERA DIA E HORA SE NAO TIVER CONFLITO )
-
-
-
-
-4)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
-
-5)-- No paciente ter um botao novo donload historico 
-
+ 
 6)-- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
 
 
@@ -140,34 +159,28 @@ ATUALIZAR FRONT END
 
 3)-- Configurar a pipeline para teste e tambem sonar coverage - CANCELADO
 
-
-
  
- --- Calendario ja tem o insert basico no controler 
- -- Criar um Add e update que receber uma flag de Serie e recebe uma data Inicial e uma data final de no maximo 12 meses 
+ 
+ --- Calendario ja tem o insert basico no controler     --- FEITO 
+ -- Criar um Add e update que receber uma flag de Serie e recebe uma data Inicial e uma data final de no maximo 12 meses   --- FEITO 
 
  Acredito que teria que so criar a tela 
 
  --- CRIAR UM PROCESSO DE NOTIFICACAO SEJA POR EMAIL OU SMS igual goggle agenda seguir que pode ser feitas varias notificacoes para uma agendamento 
  ****************************************** ARRUMAR ERRO DE RECURSO DE IDIOMA NA TELA CARGO front
-  
-
-
+    
   ------------- ATUALIZANDO PACOTES 
 
   dotnet tool install --global dotnet-outdated-tool
 
   dotnet outdated --upgrade
-
-
-
+   
 ---------------  ||||||||||||||||||||||||||||||||||| TODO: |||||||||||||||||||||||||||||||||||
 
 
 EM um projeto angular 14 com type scriot gere um componente com o forumalrio baseado nas proprieades da api em C# 
 
-
-
+ 
 
 ------------------------------- IMplantar para gravar sessao do usuario no storage table / mongo 
   
@@ -177,7 +190,7 @@ Ideias a implantar:
 https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 -- Ao criar um medico dispara email com as informacoes de acesso  ----------- OK 
 
--- Criar url para redefinir senha ou acesso.  ----------- PENDENTE PROXIMO XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
+
 
 -- Implantar processo de gerar log e relatorios de logs inicialmente pela api apenas com regras de acesso somente medico pode visualizar quando referente aos pacientes.  ----------- PENDENTE PROXIMO  XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
 
@@ -247,12 +260,12 @@ ADM nao pode ver arquiDTOs do medico
 13  - HABLITAR DOCKER----------------- Finalizado
 -- ADICIONADO SUPORTE ------- Finalizado
 -- CRIADO SERVICE CONNECTION ------- Finalizado
--- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB------- Finalizado
--- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB ------- Finalizado PARCIAL
+-- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB ------- Finalizado
+-- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB ------- Finalizado
 
 ---- RODAR A IMAGEM DO HUB LOCAL  -- OK
 
--- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO  -- PARCIAL
+-- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO ------- Finalizado
  
 
 ------------------------------------------------------------------------ Readequacao  1 - CONCLUIDO ------------------------------------------------------------------------ 
@@ -314,9 +327,11 @@ Add-Migration AddUrlApp -Context SmartDigitalPsicoDataContextSqlServer -OutputDi
 
  Add-Migration WorkingDays -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
-
-
   Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
+
+
+  Add-Migration MedicalSettings -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 Remove-Migration -Context SmartDigitalPsicoDataContextMysql -Project SmartDigitalPsico.Data
 Add-Migration UpdateFileTableCloud -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations -Project SmartDigitalPsico.Data
