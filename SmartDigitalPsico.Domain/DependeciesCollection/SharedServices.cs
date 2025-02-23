@@ -12,18 +12,18 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         public ICryptoService CryptoService { get; }
         public IEmailService EmailService { get; }
         private readonly IServiceProvider _serviceProvider;
-
+         
         public SharedServices(
             ICacheService cacheService,
             ICryptoService cryptoService,
             IEmailService emailService,
-            IServiceProvider serviceProvider
+            IServiceProvider serviceProvider 
         )
         {
             CacheService = cacheService;
             CryptoService = cryptoService;
             EmailService = emailService;
-            _serviceProvider = serviceProvider;
+            _serviceProvider = serviceProvider; 
         }
 
         public IApplicationLanguageService ApplicationLanguageService
@@ -35,5 +35,13 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
             }
         }
 
+        public IEmailTemplateService EmailTemplateService
+        {
+            get
+            {
+                return _serviceProvider.GetService<IEmailTemplateService>()
+                    ?? throw new InvalidOperationException("IEmailTemplateService not available.");
+            }
+        }
     }
 }

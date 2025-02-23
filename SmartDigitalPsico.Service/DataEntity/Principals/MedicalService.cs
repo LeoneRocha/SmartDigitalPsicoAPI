@@ -1,4 +1,5 @@
 using FluentValidation;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
@@ -23,20 +24,21 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IUserRepository _userRepository;
         private readonly ISpecialtyRepository _specialtyRepository;
         private readonly IEmailService _emailService;
+        private readonly ISharedServices _sharedServices;
+
         public MedicalService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
             IMedicalRepository entityRepository,
             ISpecialtyRepository specialtyRepository,
-            IValidator<Medical> entityValidator
-
-            )
+            IValidator<Medical> entityValidator)
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
             _userRepository = sharedRepositories.UserRepository;
             _specialtyRepository = specialtyRepository;
             _emailService = sharedServices.EmailService;
+            _sharedServices = sharedServices;
         }
         public override async Task<ServiceResponse<GetMedicalDto>> Create(AddMedicalDto item)
         {
@@ -140,16 +142,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        private async Task sendAlertEmail(Medical entityResponse)
-        {
-            EmailMessageDto emailMessageVO = new EmailMessageDto()
-            {
-                Subject = await GetLocalization(GeneralLanguageKeyConstants.MedicalUpdateTitle, GeneralLanguageMenssageConstants.MedicalUpdateTitle),
-                Message = $"Médico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
-                ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
-            };
-            await _emailService.SendEmailAsync(emailMessageVO);
-        }
 
         public override Task<ServiceResponse<bool>> Delete(long id)
         {
@@ -230,6 +222,51 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 return response;
             }
             return response;
+        }
+        private async Task sendAlertEmail(Medical entityResponse)
+        {
+            try
+            {
+                var templateResult = await _sharedServices.EmailTemplateService.GetEmailTemplateAsync(EmailTemplateTagConstants.MedicalUpdateEmail);
+
+                if (templateResult != null && templateResult.Success && templateResult.Data != null)
+                {
+                    var template = templateResult.Data;
+                    User userAction = await _userRepository.FindByID(UserId);
+
+                    var tokens = new Dictionary<string, string>
+                {
+                    { "UserName", userAction.Name },
+                    { "MedicalName", entityResponse.Name },
+                    { "MedicalId", entityResponse.Id.ToString() }
+                };
+                    var body = EmailHelper.ReplaceTokens(template.Body, tokens);
+
+                    EmailMessageDto emailMessageVO = new EmailMessageDto()
+                    {
+                        Subject = template.Subject,
+                        Message = body,
+                        ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
+                    };
+                    await _sharedServices.EmailService.SendEmailAsync(emailMessageVO);
+                }
+                else { await fallBackEmail(entityResponse); }
+            }
+            catch (Exception)
+            {
+                await fallBackEmail(entityResponse);
+            }
+        }
+
+        private async Task fallBackEmail(Medical entityResponse)
+        {
+            EmailMessageDto fallbackEmail = new EmailMessageDto()
+            {
+                Subject = await GetLocalization(GeneralLanguageKeyConstants.MedicalUpdateTitle, GeneralLanguageMenssageConstants.MedicalUpdateTitle),
+                Message = $"Médico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
+                ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
+            };
+            await _emailService.SendEmailAsync(fallbackEmail);
         }
     }
 }

@@ -79,7 +79,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 response.Data = await executeLoginJwt(user);
             }
             response.Success = true;
-            response.Message = await GetLocalization(GeneralLanguageKeyConstants.UserLogged, GeneralLanguageMenssageConstants.UserLogged); 
+            response.Message = await GetLocalization(GeneralLanguageKeyConstants.UserLogged, GeneralLanguageMenssageConstants.UserLogged);
             return response;
         }
 
@@ -447,23 +447,28 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
         private async Task SendEmailCreateAcessAsync(AddUserDto user, string accessUrl)
         {
-            var template = await _sharedRepositories.EmailTemplateRepository.GetEmailTemplateAsync("Welcome Email");
+            var templateResult = await _sharedServices.EmailTemplateService.GetEmailTemplateAsync(EmailTemplateTagConstants.LoginReleaseEmail);
 
-            var tokens = new Dictionary<string, string>
+            if (templateResult != null && templateResult.Success && templateResult.Data != null)
             {
-                { "AccessUrl", accessUrl},
-                { "Email", user.Email },
-                { "Password", user.Password }
-            };
-            var body = EmailHelper.ReplaceTokens(template.Body, tokens);
+                var template = templateResult.Data;
 
-            EmailMessageDto emailMessageVO = new EmailMessageDto()
-            {
-                Subject = template.Subject,
-                Message = body,
-                ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
-            };
-            await _sharedServices.EmailService.SendEmailAsync(emailMessageVO);
+                var tokens = new Dictionary<string, string>
+                {
+                    { "AccessUrl", accessUrl},
+                    { "Email", user.Email },
+                    { "Password", user.Password }
+                };
+                var body = EmailHelper.ReplaceTokens(template.Body, tokens);
+
+                EmailMessageDto emailMessageVO = new EmailMessageDto()
+                {
+                    Subject = template.Subject,
+                    Message = body,
+                    ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
+                };
+                await _sharedServices.EmailService.SendEmailAsync(emailMessageVO);
+            }
         }
     }
 }

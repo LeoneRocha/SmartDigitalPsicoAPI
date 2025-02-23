@@ -9,6 +9,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
         IApplicationLanguageService ApplicationLanguageService { get; }
         IEmailService EmailService { get; }
         ICacheService CacheService { get; }
-        ICryptoService CryptoService { get; }    
+        ICryptoService CryptoService { get; }
+        IEmailTemplateService EmailTemplateService { get; }
     }
 }
