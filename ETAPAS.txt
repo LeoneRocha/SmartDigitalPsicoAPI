@@ -350,7 +350,7 @@ Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -Ou
 Add-Migration MedicalSettings -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
-Add-Migration EmailTemplateUpdates2 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+Add-Migration EmailTemplateUpdates3 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
 
