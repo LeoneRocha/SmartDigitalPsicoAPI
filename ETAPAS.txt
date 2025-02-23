@@ -1,6 +1,22 @@
-﻿,
+﻿ 
+ **************** 
+
+ No tamplate tem que ter um codigo do sistema 
 
 
+
+
+
+
+
+ **************
+ --- PENDENTE
+ 
+ -- NO SERVICE AO SALVAR O MEDICO  NO UPDATE PASSAR NO DTO AS DEMAIS INFORMACOES E FAZER LOGICA DE CRIAR E CHAMAR O REPOSITORIO 
+
+ -------- CRIAR TELA NO FRONT para salvar e listar os tampletes de email 
+
+ ----- AJUSTAR NA TELA OS NOVOS CAMPOS AO EDITAR PARA CONFIGURACAO Ou uma tela de configuracao MELHOR UMA TELA SEPARADA SO PARA CONFIGURACAO acho que nao ums campos a mais melhor unifica a tela 
 
 
 ----------------------------------------------------
