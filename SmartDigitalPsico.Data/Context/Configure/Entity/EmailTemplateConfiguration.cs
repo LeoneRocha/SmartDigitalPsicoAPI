@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(c => c.Enable);
             builder.Property(c => c.Description).HasMaxLength(255); 
             builder.Property(c => c.Language).HasMaxLength(10);
-
+            builder.Property(c => c.TagApi).HasMaxLength(255); 
             builder.Property(e => e.Subject)
                 .IsRequired()
                 .HasMaxLength(200);
