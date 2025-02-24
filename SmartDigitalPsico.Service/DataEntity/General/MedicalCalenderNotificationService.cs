@@ -11,50 +11,43 @@ namespace SmartDigitalPsico.Service.DataEntity.General
     public class MedicalCalenderNotificationService : IMedicalCalenderNotificationService
     {
         private readonly ISharedServices _sharedServices;
-        private readonly ISharedRepositories _sharedRepositories;
 
-        public MedicalCalenderNotificationService(ISharedServices sharedServices, ISharedRepositories sharedRepositories)
+        public MedicalCalenderNotificationService(ISharedServices sharedServices)
         {
-            _sharedRepositories = sharedRepositories;
             _sharedServices = sharedServices;
         }
 
         public async Task NotifyAsync(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
-            GetEmailTemplateDto? template = null;
-            long userId = 0;
-            action = changeTypeActionByStatus(calendar, action);            
-
+            GetEmailTemplateDto? template = null;            
+            action = changeTypeActionByStatus(calendar, action);
             switch (action)
             {
                 case EMedicalCalendarActionType.Add:
                 case EMedicalCalendarActionType.Scheduled:
-                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentScheduledSuccess);
-                    userId = calendar.CreatedUserId.GetValueOrDefault();
+                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentScheduledSuccess);                    
                     break;
                 case EMedicalCalendarActionType.Update:
                 case EMedicalCalendarActionType.Rescheduled:
-                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentRescheduled);
-                    userId = calendar.ModifyUserId.GetValueOrDefault();
+                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentRescheduled);                    
                     break;
                 case EMedicalCalendarActionType.Delete:
                 case EMedicalCalendarActionType.Cancelled:
-                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentCancelled);
-                    userId = calendar.ModifyUserId.GetValueOrDefault();
+                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentCancelled); 
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
-            }   
+            }
             var tokens = new Dictionary<string, string>
-            { 
-                { "MedicalName", calendar.Medical?.Name ?? string.Empty }, 
+            {
+                { "MedicalName", calendar.Medical?.Name ?? string.Empty },
                 { "PatientName", calendar.Patient?.Name ?? string.Empty },
                 { "Title", calendar.Title },
                 { "StartDateTime", calendar.StartDateTime.ToString("g") },
-                { "EndDateTime", calendar.EndDateTime?.ToString("g") ?? string.Empty }, 
-                { "Description", calendar.Description }, 
+                { "EndDateTime", calendar.EndDateTime?.ToString("g") ?? string.Empty },
+                { "Description", calendar.Description },
                 { "AppointmentLocation", calendar.Location }
-            }; 
+            };
             if (template != null)
             {
                 string emailBody = template.Body;
@@ -71,24 +64,24 @@ namespace SmartDigitalPsico.Service.DataEntity.General
 
         private static EMedicalCalendarActionType changeTypeActionByStatus(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
-            if (calendar != null) 
+            if (calendar != null)
             {
                 switch (calendar.Status)
                 {
                     case EStatusCalendar.Active:
-                        return EMedicalCalendarActionType.Scheduled;                        
+                        return EMedicalCalendarActionType.Scheduled;
                     case EStatusCalendar.Scheduled:
-                        return EMedicalCalendarActionType.Scheduled;                        
+                        return EMedicalCalendarActionType.Scheduled;
                     case EStatusCalendar.Confirmed:
-                        return EMedicalCalendarActionType.Scheduled;                        
+                        return EMedicalCalendarActionType.Scheduled;
                     case EStatusCalendar.Refused:
-                        return EMedicalCalendarActionType.Refused;                        
+                        return EMedicalCalendarActionType.Refused;
                     case EStatusCalendar.Completed:
-                        return EMedicalCalendarActionType.Update; 
+                        return EMedicalCalendarActionType.Update;
                     case EStatusCalendar.NoShow:
-                        return EMedicalCalendarActionType.Update;                        
+                        return EMedicalCalendarActionType.Update;
                     case EStatusCalendar.PendingConfirmation:
-                        return EMedicalCalendarActionType.Scheduled;                        
+                        return EMedicalCalendarActionType.Scheduled;
                     case EStatusCalendar.InProgress:
                         return EMedicalCalendarActionType.Scheduled;
                     case EStatusCalendar.Rescheduled:
@@ -100,7 +93,7 @@ namespace SmartDigitalPsico.Service.DataEntity.General
                     default:
                         break;
                 }
-            }  
+            }
             return action;
         }
 
