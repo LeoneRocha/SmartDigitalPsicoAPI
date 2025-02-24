@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         public IApplicationLanguageRepository ApplicationLanguageRepository { get; }
         public IApplicationConfigSettingRepository ApplicationConfigSettingRepository { get; }
 
-        public IEmailTemplateRepository EmailTemplateRepository { get; }
+     
 
         public SharedRepositories(
             IUserRepository userRepository, 
@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
             UserRepository = userRepository;
             ApplicationLanguageRepository = applicationLanguageRepository;
             ApplicationConfigSettingRepository = applicationConfigSettingRepository;
-            EmailTemplateRepository = emailTemplateRepository;
+         
         }
     }
 }

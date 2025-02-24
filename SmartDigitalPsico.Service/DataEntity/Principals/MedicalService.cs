@@ -1,14 +1,14 @@
 using FluentValidation;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
-using SmartDigitalPsico.Domain.DTO.SMTP;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
 using SmartDigitalPsico.Domain.VO;
@@ -22,21 +22,20 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     {
         private readonly IUserRepository _userRepository;
         private readonly ISpecialtyRepository _specialtyRepository;
-        private readonly IEmailService _emailService;
+        private readonly ISharedServices _sharedServices;
+
         public MedicalService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
             IMedicalRepository entityRepository,
             ISpecialtyRepository specialtyRepository,
-            IValidator<Medical> entityValidator
-
-            )
+            IValidator<Medical> entityValidator)
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
             _userRepository = sharedRepositories.UserRepository;
             _specialtyRepository = specialtyRepository;
-            _emailService = sharedServices.EmailService;
+            _sharedServices = sharedServices;
         }
         public override async Task<ServiceResponse<GetMedicalDto>> Create(AddMedicalDto item)
         {
@@ -133,23 +132,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     response.Data = _mapper.Map<GetMedicalDto>(entityResponse);
 
                     response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
-                    await sendAlertEmail(entityResponse);
+                    await notifyAsync(entityResponse);
                 }
             }
 
             return response;
         }
 
-        private async Task sendAlertEmail(Medical entityResponse)
-        {
-            EmailMessageDto emailMessageVO = new EmailMessageDto()
-            {
-                Subject = await GetLocalization(GeneralLanguageKeyConstants.MedicalUpdateTitle, GeneralLanguageMenssageConstants.MedicalUpdateTitle),
-                Message = $"Médico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
-                ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
-            };
-            await _emailService.SendEmailAsync(emailMessageVO);
-        }
 
         public override Task<ServiceResponse<bool>> Delete(long id)
         {
@@ -230,6 +219,48 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 return response;
             }
             return response;
+        }
+        private async Task notifyAsync(Medical entityResponse)
+        {
+            try
+            {
+                var templateResult = await _sharedServices.EmailTemplateService.GetEmailTemplateAsync(EmailTemplateTagConstants.MedicalUpdateEmail);
+
+                if (templateResult != null && templateResult.Success && templateResult.Data != null)
+                {
+                    var template = templateResult.Data;
+                    User userAction = await _userRepository.FindByID(UserId);
+                    var tokens = new Dictionary<string, string>                {
+                        { "UserName", userAction.Name },
+                        { "MedicalName", entityResponse.Name },
+                        { "MedicalId", entityResponse.Id.ToString() }
+                    };
+
+                    NotificationTemplate notificationMessageVO = new NotificationTemplate()
+                    {
+                        Subject = template.Subject,
+                        Body = template.Body,
+                        ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
+                    };
+                    await _sharedServices.SendNotificationService.SendNotificationAsync(notificationMessageVO, NotificationServiceType.Email, tokens);
+                }
+                else { await fallBackEmail(entityResponse); }
+            }
+            catch (Exception)
+            {
+                await fallBackEmail(entityResponse);
+            }
+        }
+
+        private async Task fallBackEmail(Medical entityResponse)
+        {
+            NotificationTemplate fallbackEmail = new NotificationTemplate()
+            {
+                Subject = await GetLocalization(GeneralLanguageKeyConstants.MedicalUpdateTitle, GeneralLanguageMenssageConstants.MedicalUpdateTitle),
+                Body = $"Médico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
+                ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
+            };
+            await _sharedServices.SendNotificationService.SendNotificationAsync(fallbackEmail, NotificationServiceType.Email, []);
         }
     }
 }

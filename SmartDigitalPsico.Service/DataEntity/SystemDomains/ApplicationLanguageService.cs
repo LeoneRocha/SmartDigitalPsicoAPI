@@ -61,10 +61,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         public async Task<string> GetLocalization<T>(string key, string defaultMenssage, ICacheService cacheService)
         {
             string resultLocalization = string.Empty;
-
-            var culturenameCurrent = CultureInfo.CurrentCulture;
             string keyCache = "FindAll_GetApplicationLanguageVO";
             string resourceKey = typeof(T).Name.Replace("I", "");
+            var culturenameCurrent = CultureInfo.CurrentCulture;
             string language = culturenameCurrent.Name;
             await SaveCache(keyCache);
             try

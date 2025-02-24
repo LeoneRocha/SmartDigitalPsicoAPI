@@ -8,7 +8,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
         IApplicationLanguageRepository ApplicationLanguageRepository { get; }
 
         IApplicationConfigSettingRepository ApplicationConfigSettingRepository { get; }
-
-        IEmailTemplateRepository EmailTemplateRepository { get; }
+         
     }
 }

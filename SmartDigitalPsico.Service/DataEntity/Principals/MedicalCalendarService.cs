@@ -1,4 +1,3 @@
-using Azure;
 using FluentValidation;
 using FluentValidation.Results;
 using SmartDigitalPsico.Domain.AppException;
@@ -11,6 +10,7 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -27,18 +27,23 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IMedicalRepository _medicalRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMedicalCalendarValidators _validators;
+        private readonly IMedicalCalenderNotificationService _medicalCalenderNotification;
+
         public MedicalCalendarService(
+            IServiceProvider serviceProvider,
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             IMedicalCalendarValidators medicalCalendarValidators,
             IMedicalCalendarRepository entityRepository,
-            IPatientRepositories repositoriesShared
+            IPatientRepositories repositoriesShared,
+            IMedicalCalenderNotificationService medicalCalenderNotification
             )
             : base(sharedServices, sharedDependenciesConfig, repositoriesShared.SharedRepositories, entityRepository, medicalCalendarValidators.EntityValidator)
         {
             _medicalRepository = repositoriesShared.MedicalRepository;
             _userRepository = repositoriesShared.SharedRepositories.UserRepository;
             _validators = medicalCalendarValidators;
+            _medicalCalenderNotification = medicalCalenderNotification;
         }
 
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
@@ -83,6 +88,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
                         response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred);
+                    }
+
+                    if (response.Success)
+                    {
+                        MedicalCalendar entitySend = await _entityRepository.FindByID(entityAdd.Id, p => p.Medical!, p => p.Patient!);
+                        await _medicalCalenderNotification.NotifyAsync(entitySend, EMedicalCalendarActionType.Add);
                     }
                 }
             }
@@ -145,6 +156,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
                         response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarUpdated, MedicalCalendarMenssageConstants.CalendarUpdated);
                     }
+                }
+
+                if (response.Success)
+                {
+                    MedicalCalendar entitySend = await _entityRepository.FindByID(entityUpdate.Id, p => p.Medical!, p => p.Patient!);
+
+                    await _medicalCalenderNotification.NotifyAsync(entitySend, EMedicalCalendarActionType.Update);
                 }
             }
             catch (Exception ex)
@@ -317,14 +335,17 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             try
             {
+                ServiceResponse<bool> result = new ServiceResponse<bool>();
                 if (request.DeleteSeries)
                 {
-                    return await DeleteSeries(request);
+                    result = await DeleteSeries(request);
                 }
                 else
                 {
-                    return await DeleteOne(request);
+                    result = await DeleteOne(request);
                 }
+                return result;
+
             }
             catch (Exception ex)
             {
@@ -494,7 +515,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
         private async Task<bool> ValidateCriteriaAsync(CalendarCriteriaDto criteria, ServiceResponse<CalendarDto> response)
         {
-             var validator = new CalendarCriteriaValidator(_userRepository);
+            var validator = new CalendarCriteriaValidator(_userRepository);
             var validationResult = await validator.ValidateAsync(criteria);
 
             if (!validationResult.IsValid)
@@ -865,7 +886,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             var resultCreate = await _entityRepository.Update(appointment);
 
-            response.Success = true; 
+            response.Success = true;
             response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.Cancel_Appointment_Success, MedicalCalendarMenssageConstants.Cancel_Appointment_Success) + $". ({resultCreate.Id})";
 
 
