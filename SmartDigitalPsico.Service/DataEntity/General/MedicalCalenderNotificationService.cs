@@ -53,9 +53,7 @@ namespace SmartDigitalPsico.Service.DataEntity.General
                 { "Title", calendar.Title },
                 { "StartDateTime", calendar.StartDateTime.ToString("g") },
                 { "EndDateTime", calendar.EndDateTime?.ToString("g") ?? string.Empty }, 
-                { "Description", calendar.Description },
-                { "AppointmentDate", calendar.StartDateTime.ToString("d") },
-                { "AppointmentTime", calendar.StartDateTime.ToString("t") },
+                { "Description", calendar.Description }, 
                 { "AppointmentLocation", calendar.Location }
             }; 
             if (template != null)

@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
@@ -27,9 +28,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
         private readonly IMedicalRepository _medicalRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IMedicalCalendarValidators _validators; 
+        private readonly IMedicalCalendarValidators _validators;
         private readonly IMedicalCalenderNotificationService _medicalCalenderNotification;
-        
+
         public MedicalCalendarService(
             IServiceProvider serviceProvider,
             ISharedServices sharedServices,
@@ -43,7 +44,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             _medicalRepository = repositoriesShared.MedicalRepository;
             _userRepository = repositoriesShared.SharedRepositories.UserRepository;
-            _validators = medicalCalendarValidators; 
+            _validators = medicalCalendarValidators;
             _medicalCalenderNotification = medicalCalenderNotification;
         }
 
@@ -93,7 +94,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                     if (response.Success)
                     {
-                       await _medicalCalenderNotification.NotifyAsync(entityAdd, EMedicalCalendarActionType.Add);
+                        await _medicalCalenderNotification.NotifyAsync(entityAdd, EMedicalCalendarActionType.Add);
                     }
                 }
             }
@@ -160,7 +161,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 if (response.Success)
                 {
-                    await _medicalCalenderNotification.NotifyAsync(entityUpdate, EMedicalCalendarActionType.Update);
+                    MedicalCalendar entitySend = await _entityRepository.FindByID(entityUpdate.Id, p => p.Medical!, p => p.Patient!);
+
+                    await _medicalCalenderNotification.NotifyAsync(entitySend, EMedicalCalendarActionType.Update);
                 }
             }
             catch (Exception ex)
