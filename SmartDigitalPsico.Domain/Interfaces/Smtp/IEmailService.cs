@@ -1,9 +1,8 @@
-﻿using SmartDigitalPsico.Domain.DTO.SMTP;
+﻿using SmartDigitalPsico.Domain.Interfaces.Notification;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Smtp
 {
-    public interface IEmailService
-    {
-        Task SendEmailAsync(EmailMessageDto emailMessage);
+    public interface IEmailService : INotificationService
+    { 
     }
 }

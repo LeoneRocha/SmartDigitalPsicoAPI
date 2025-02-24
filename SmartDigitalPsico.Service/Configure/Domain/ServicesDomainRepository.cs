@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
                 Assembly.Load("SmartDigitalPsico.Data")
             };
 
-            var repositories = ServiceCollectionHelper.GetInterfaces(RepositorySuffix, assemblies);
+            var repositories = ServiceCollectionHelper.GetInterfaces([RepositorySuffix], assemblies);
 
             var registeredInterfaces = new[]
             {
@@ -51,7 +51,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
 
             var servicesToAdd = ServiceCollectionHelper.FilterItems(repositories.Select(repo => repo.InterfaceType!).ToArray(), registeredInterfaces, ignoredInterfaces);
 
-             
+
             var finalRepositoriesToAdd = repositories.Where(service => servicesToAdd.Contains(service.InterfaceType)).OrderBy(service => service.InterfaceType!.Name).ToArray();
 
             foreach (var service in finalRepositoriesToAdd)

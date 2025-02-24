@@ -1,18 +1,20 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Service.Helpers;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
+using SmartDigitalPsico.Service.Infrastructure.Notification;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
     public static class ServicesDomainService
     {
-        private const string ServiceSuffix = "Service";
+        private const string ServiceSuffix = "Service"; 
 
         public static void AddDependenciesManually(IServiceCollection services)
         {
@@ -24,7 +26,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         }
         private static void RegisterManuallyAddedServices(IServiceCollection services)
         {
-            services.AddScoped<ICacheService, CacheService>();       
+            services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<INotificationServiceFactory, NotificationServiceFactory>(); 
         }
         private static void RegisterServices(IServiceCollection services)
         {
@@ -35,7 +38,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
                 Assembly.Load("SmartDigitalPsico.Data")
             };
 
-            var servicesToRegister = ServiceCollectionHelper.GetInterfaces(ServiceSuffix, assemblies);
+            var servicesToRegister = ServiceCollectionHelper.GetInterfaces([ServiceSuffix], assemblies);
 
             var registeredInterfaces = ServiceCollectionHelper.GetRegisteredInterfaces(services).ToArray();
 
@@ -43,8 +46,10 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             {
                 typeof(ICryptoService),
                 typeof(IEmailService),
-                typeof(ITokenService),  
+                typeof(ITokenService),
                 typeof(IAuditContextService),
+                typeof(ICacheService), 
+                typeof(INotificationServiceFactory),
             };
 
             var servicesToAdd = ServiceCollectionHelper.FilterItems(
@@ -59,6 +64,6 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             {
                 services.AddScoped(service.InterfaceType!, service.ImplementationType!);
             }
-        }   
+        }
     }
 }

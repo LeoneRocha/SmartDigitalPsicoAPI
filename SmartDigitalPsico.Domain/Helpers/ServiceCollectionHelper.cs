@@ -32,14 +32,14 @@ namespace SmartDigitalPsico.Service.Helpers
         }
 
 
-        public static RepositoryInfo[] GetInterfaces(string classSuffix, params Assembly[] assemblies)
+        public static RepositoryInfo[] GetInterfaces(string[] classSuffixes, params Assembly[] assemblies)
         {
             var repositories = new List<RepositoryInfo>();
 
             foreach (var assembly in assemblies)
             {
                 var types = assembly.GetTypes()
-                    .Where(type => type.IsClass && !type.IsAbstract && type.Name.EndsWith(classSuffix))
+                    .Where(type => type.IsClass && !type.IsAbstract && classSuffixes.Any(suffix => type.Name.EndsWith(suffix)))
                     .ToArray();
 
                 foreach (var type in types)
@@ -60,5 +60,6 @@ namespace SmartDigitalPsico.Service.Helpers
 
             return repositories.ToArray();
         }
+
     }
 }

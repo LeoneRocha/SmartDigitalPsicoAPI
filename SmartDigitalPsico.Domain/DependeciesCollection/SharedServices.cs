@@ -1,8 +1,8 @@
 ﻿using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Security;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
+using SmartDigitalPsico.Domain.Interfaces.Service; 
 using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
@@ -10,20 +10,18 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     {
         public ICacheService CacheService { get; }
         public ICryptoService CryptoService { get; }
-        public IEmailService EmailService { get; }
+
         private readonly IServiceProvider _serviceProvider;
-         
+
         public SharedServices(
             ICacheService cacheService,
-            ICryptoService cryptoService,
-            IEmailService emailService,
-            IServiceProvider serviceProvider 
+            ICryptoService cryptoService, 
+            IServiceProvider serviceProvider
         )
         {
             CacheService = cacheService;
             CryptoService = cryptoService;
-            EmailService = emailService;
-            _serviceProvider = serviceProvider; 
+            _serviceProvider = serviceProvider;
         }
 
         public IApplicationLanguageService ApplicationLanguageService
@@ -34,7 +32,14 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
                     ?? throw new InvalidOperationException("IApplicationLanguageService not available.");
             }
         }
-
+        public ISendNotificationService SendNotificationService
+        {
+            get
+            {
+                return _serviceProvider.GetService<ISendNotificationService>()
+                    ?? throw new InvalidOperationException("ISendNotificationService not available.");
+            }
+        }
         public IEmailTemplateService EmailTemplateService
         {
             get

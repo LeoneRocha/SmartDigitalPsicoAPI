@@ -458,16 +458,15 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     { "AccessUrl", accessUrl},
                     { "Email", user.Email },
                     { "Password", user.Password }
-                };
-                var body = EmailHelper.ReplaceTokens(template.Body, tokens);
+                }; 
 
-                EmailMessageDto emailMessageVO = new EmailMessageDto()
+                NotificationTemplate notificationMessageVO = new NotificationTemplate()
                 {
                     Subject = template.Subject,
-                    Message = body,
+                    Body = template.Body,
                     ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
                 };
-                await _sharedServices.EmailService.SendEmailAsync(emailMessageVO);
+                await _sharedServices.SendNotificationService.SendNotificationAsync(notificationMessageVO,NotificationServiceType.Email, tokens);
             }
         }
     }
