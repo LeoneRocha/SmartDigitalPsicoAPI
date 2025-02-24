@@ -8,6 +8,7 @@
         Cancelled,
         Rescheduled,
         Scheduled,
+        Refused,
     }
 
 }

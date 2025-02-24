@@ -1,7 +1,5 @@
 using FluentValidation;
 using FluentValidation.Results;
-using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
@@ -94,7 +92,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                     if (response.Success)
                     {
-                        await _medicalCalenderNotification.NotifyAsync(entityAdd, EMedicalCalendarActionType.Add);
+                        MedicalCalendar entitySend = await _entityRepository.FindByID(entityAdd.Id, p => p.Medical!, p => p.Patient!);
+                        await _medicalCalenderNotification.NotifyAsync(entitySend, EMedicalCalendarActionType.Add);
                     }
                 }
             }
