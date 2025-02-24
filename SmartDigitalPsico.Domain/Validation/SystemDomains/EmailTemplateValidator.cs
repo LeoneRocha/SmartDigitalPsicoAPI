@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             var sanitized = HtmlSanitizerHelper.Sanitize(body);
 
             // Remover espaços em branco extras
-            string removeWhitespace(string input) => Regex.Replace(input, @"\s+", "");
+            string removeWhitespace(string input) => Regex.Replace(input, @"\s+", "", RegexOptions.None, TimeSpan.FromMilliseconds(100));
 
             var originalCleaned = removeWhitespace(body);
             var sanitizedCleaned = removeWhitespace(sanitized);

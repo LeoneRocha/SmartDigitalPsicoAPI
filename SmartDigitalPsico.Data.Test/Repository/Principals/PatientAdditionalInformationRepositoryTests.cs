@@ -99,9 +99,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
              
             _entityRepository = new PatientAdditionalInformationRepository(_mockContext);
             // Arrange 
-            var mockData = _mockContext.PatientAdditionalInformations.Include(e => e.Patient)
-                .ThenInclude(e => e.Medical)
-                .ThenInclude(e => e.User)
+            var mockData = _mockContext.PatientAdditionalInformations
+                .Include(e => e.Patient)
+                .ThenInclude(e => e!.Medical)
+                .ThenInclude(e => e!.User)
                 .Include(e => e.CreatedUser).First();
 
             // Act

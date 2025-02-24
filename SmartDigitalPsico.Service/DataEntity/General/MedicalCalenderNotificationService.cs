@@ -44,9 +44,7 @@ namespace SmartDigitalPsico.Service.DataEntity.General
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
-            } 
-            User userAction = await _sharedRepositories.UserRepository.FindByID(userId);
-             
+            }   
             var tokens = new Dictionary<string, string>
             { 
                 { "MedicalName", calendar.Medical?.Name ?? string.Empty }, 
@@ -71,7 +69,7 @@ namespace SmartDigitalPsico.Service.DataEntity.General
             }
         }
 
-        private EMedicalCalendarActionType changeTypeActionByStatus(MedicalCalendar calendar, EMedicalCalendarActionType action)
+        private static EMedicalCalendarActionType changeTypeActionByStatus(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
             if (calendar != null) 
             {

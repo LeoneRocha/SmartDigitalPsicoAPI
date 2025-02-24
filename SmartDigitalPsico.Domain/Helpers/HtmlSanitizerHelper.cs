@@ -4,13 +4,7 @@ namespace SmartDigitalPsico.Domain.Helpers
 {
     public static class HtmlSanitizerHelper
     {
-        private static readonly HtmlSanitizer _sanitizer;
-
-        static HtmlSanitizerHelper()
-        {
-            _sanitizer = new HtmlSanitizer();
-            ConfigureSanitizer(_sanitizer);
-        }
+        private static readonly HtmlSanitizer _sanitizer = new HtmlSanitizer();
 
         private static void ConfigureSanitizer(HtmlSanitizer sanitizer)
         {
@@ -41,6 +35,7 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static string Sanitize(string input)
         {
+            ConfigureSanitizer(_sanitizer);
             return _sanitizer.Sanitize(input);
         }
     }

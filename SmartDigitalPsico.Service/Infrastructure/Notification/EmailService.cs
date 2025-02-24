@@ -1,14 +1,13 @@
 ﻿using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.Infrastructure.Smtp;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Notification
 {
-    public class EmailService : IEmailService, INotificationService
+    public class EmailService : IEmailService
     {
         private readonly EmailContext _emailContext;
 

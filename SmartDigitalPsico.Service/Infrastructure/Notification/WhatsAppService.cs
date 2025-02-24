@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Notification
 {
-    public class WhatsAppService : INotificationService, IWhatsAppService
+    public class WhatsAppService : IWhatsAppService
     {
         public async Task SendAsync(NotificationTemplate template, Dictionary<string, string> tokens)
         {
