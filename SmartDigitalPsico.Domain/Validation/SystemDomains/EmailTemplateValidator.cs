@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
+using System.Text.RegularExpressions;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
@@ -23,7 +25,23 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .NotEmpty()
                 .WithMessage("Body_Validator_IsRequired_Key|Body is required.")
                 .MaximumLength(8000)
-                .WithMessage("Body_Validator_MaxLength_Key|Body must be less than {0} characters.|8000");
+                .WithMessage("Body_Validator_MaxLength_Key|Body must be less than {0} characters.|8000")
+                .Must(BeSafeHtml)
+                .WithMessage("Body_Validator_Invalid_Key|Body contains unsafe HTML content.");
+        }
+
+        private bool BeSafeHtml(string body)
+        {
+            var sanitized = HtmlSanitizerHelper.Sanitize(body);
+
+            // Remover espaços em branco extras
+            string removeWhitespace(string input) => Regex.Replace(input, @"\s+", "", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+
+            var originalCleaned = removeWhitespace(body);
+            var sanitizedCleaned = removeWhitespace(sanitized);
+
+            var isEqualContent = string.Equals(originalCleaned, sanitizedCleaned, StringComparison.OrdinalIgnoreCase);
+            return isEqualContent;
         }
     }
 }

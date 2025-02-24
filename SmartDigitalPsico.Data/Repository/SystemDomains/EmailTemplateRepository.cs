@@ -10,10 +10,11 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
     {
         public EmailTemplateRepository(IEntityDataContext context) : base(context) { }
 
-        public async Task<EmailTemplate> GetEmailTemplateAsync(string templateName)
+        public async Task<EmailTemplate> GetEmailTemplateAsync(string tagApi, string language)
         {
             var template = await _context.EmailTemplates
-                .FirstAsync(t => t.Description == templateName);
+                .AsNoTracking()
+                .SingleAsync(t => t.TagApi == tagApi && t.Language == language && t.Enable);
 
             return template;
         }

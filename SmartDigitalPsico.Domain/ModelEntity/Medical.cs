@@ -10,6 +10,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         {
             Patienties = new List<Patient>();
             MedicalSpecialties = new List<MedicalSpecialty>();
+            MedicalSettings = new List<MedicalSettings>();
         }
         #region Columns
         public string Accreditation { get; set; } = string.Empty;
@@ -33,6 +34,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public ICollection<Patient> Patienties { get; set; }
 
         public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; } 
+        public ICollection<MedicalSettings> MedicalSettings { get; set; }
         #endregion Relationship
     }
 }

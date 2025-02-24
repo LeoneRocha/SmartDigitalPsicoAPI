@@ -1,34 +1,54 @@
-﻿
-
------------ MUDAR O CAMPO SELECT POR BUSCA SELECT ----|||||||||||||||||||||||<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
-
----AJUSTAR FRONT PARA LER A MENSSAGEM CORRETAMENTE  - FEITO
-  
-------------------------------------------------------------- PENDENCIAS 12 01 2025 
---- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 
---- Arrumar layout dos botoes trazer para dentro do componente form event FEITO 
----- testar editar adicionar e arrumar idomas e labes -------FEITO 
----- ARRUMAR O DEPLOY DA MASTER EM PRODUCAO E ARRUMAR LINKS DAS DOCUMENTACOES  -------FEITO 
-
-Falta ajustar o campo ERecurrenceCalendarType  -------FEITO 
-
---criar campo atualizar em serie  para quando for editar aparecer o campo para poder flagar ou nao que atualizara os registros existentes em diante  -------FEITO 
- 
-carregar quando existir o token aparecer flagado  -------FEITO 
+﻿ 
+**************** 
 
  
------------------------------ >>>>>>>>>>>>>>>> MELHORIAS <<<<<<<<<<<<<<<<<< 
----- COlocar algunas validacoes no form -------FEITO 
-1) se selecionar recorrencia obrigar selecionar o tipo e os dias da semana  -------FEITO 
 
--- VALIDAR AO PEDIR ANGENDAMENTO OU GERAR HORARIO VALIDAR OS DIAS DA SEMANA SE O MEDICO TRABALHA    -------FEITO 
-
--- EXIBIR O CAMPO AO EDITAR PARA PODER SELECIONAR O STATUS QUE DESEJA ATUALIZAR -------------------------- FEITO 
-
--- CRIAR UM BOTAO APAGAR -------------------------  -------FEITO 
+--------------------------- Criar um service de notificacao 
 
 
------------- I18 REVISAR TODO AS MENSSAGENS E COLOCAR RESSOURCE CASO NAO ACHE MENSSAGEM PADRO ------------------------ PENDNETE 
+**************
+--- PENDENTE
+ 
+-- NO SERVICE AO SALVAR O MEDICO  NO UPDATE PASSAR NO DTO AS DEMAIS INFORMACOES E FAZER LOGICA DE CRIAR E CHAMAR O REPOSITORIO 
+
+-------- CRIAR TELA NO FRONT para salvar e listar os tampletes de email 
+
+----- AJUSTAR NA TELA OS NOVOS CAMPOS AO EDITAR PARA CONFIGURACAO Ou uma tela de configuracao MELHOR UMA TELA SEPARADA SO PARA CONFIGURACAO acho que nao ums campos a mais melhor unifica a tela 
+
+
+----------------------------------------------------
+https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
+https://lionscorp.visualstudio.com/SMARTDIGITALPSICO 
+https://portal.azure.com/#home
+https://painelbd.host.uol.com.br/main.html?servicetype=mysql
+https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
+https://hub.docker.com/u/leonecr
+
+admin
+mock123adm
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
+1) Criar telas no front para editar os tamplates EmailTemplate ---------------- FEITO  
+
+1.1) Arrumar listagem da agenda do dia. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  
+
+
+2)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager ------------------ XXXXXXXXXXXXXXX 
+
+3) adicionar campos para sincronizar com google agenda 
+
+4) adicionar IA PARA traduzir os idiomas 
+
+
+11) Criar campos para adionar valor e tabela status pagamento das consultas /agendamentos ou gerar uma cobranca unica para o paciente 
+
+
+
+12)-- No paciente ter um botao novo donload historico 
+
+-- Criar url para redefinir senha ou acesso.  ----------- PENDENTE PROXIMO XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
+
 
 
 ------------ 2 Criar processo de feriados por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  ter um pre-gerar feriados por ia ou service.
@@ -61,15 +81,37 @@ RuleNotificationMedical ?
 
 -------------------------6 COM ISSO CRIAR UM JOB (WEBJOB,SERVICE, API para chamar por um azurefunction)  QUE BUSCA TODAS NOTIFICACOES E VERIFICA a regra 
 
+------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
+ 
+----------- MUDAR O CAMPO SELECT POR BUSCA SELECT  - FEITO
 
-----------------------------------------------------
-https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
-https://lionscorp.visualstudio.com/SMARTDIGITALPSICO 
-https://portal.azure.com/#home
-https://painelbd.host.uol.com.br/main.html?servicetype=mysql
-https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico
-https://hub.docker.com/u/leonecr
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---AJUSTAR FRONT PARA LER A MENSSAGEM CORRETAMENTE  - FEITO
+  
+------------------------------------------------------------- PENDENCIAS 12 01 2025 
+--- Arrumar titulo do formulario com idioma al adicionar ou editar calendario FEITO 
+--- Arrumar layout dos botoes trazer para dentro do componente form event FEITO 
+---- testar editar adicionar e arrumar idomas e labes -------FEITO 
+---- ARRUMAR O DEPLOY DA MASTER EM PRODUCAO E ARRUMAR LINKS DAS DOCUMENTACOES  -------FEITO 
+
+Falta ajustar o campo ERecurrenceCalendarType  -------FEITO 
+
+--criar campo atualizar em serie  para quando for editar aparecer o campo para poder flagar ou nao que atualizara os registros existentes em diante  -------FEITO 
+ 
+carregar quando existir o token aparecer flagado  -------FEITO 
+
+ 
+----------------------------- >>>>>>>>>>>>>>>> MELHORIAS <<<<<<<<<<<<<<<<<< 
+---- COlocar algunas validacoes no form -------FEITO 
+1) se selecionar recorrencia obrigar selecionar o tipo e os dias da semana  -------FEITO 
+
+-- VALIDAR AO PEDIR ANGENDAMENTO OU GERAR HORARIO VALIDAR OS DIAS DA SEMANA SE O MEDICO TRABALHA    -------FEITO 
+
+-- EXIBIR O CAMPO AO EDITAR PARA PODER SELECIONAR O STATUS QUE DESEJA ATUALIZAR -------------------------- FEITO 
+
+-- CRIAR UM BOTAO APAGAR -------------------------  -------FEITO 
+
+
+------------ I18 REVISAR TODO AS MENSSAGENS E COLOCAR RESSOURCE CASO NAO ACHE MENSSAGEM PADRO ------------------------ PENDNETE 
 
 ---------------  ||||||||||||||||||||||||||||||||||| TODO 2024/2025 ||||||||||||||||||||||||||||||||||
 
@@ -92,9 +134,9 @@ https://hub.docker.com/u/leonecr
 
 ---ARRUMAR O PASSAR DE MES 
 
-2.4) Incluir outros campos 
-2.5) Excluir (Inativar) agendamentos. Sera um campo no update se deseja excluir ou nao on/off que vai ser o enable. Deverar refletir na busca nao trazer inativos e ao salvar validacao somente dos ativos da sobreposicao de horario.
-2.6) Aplicar idoma e resource 
+2.4) Incluir outros campos    --- FEITO 
+2.5) Excluir (Inativar) agendamentos. Sera um campo no update se deseja excluir ou nao on/off que vai ser o enable. Deverar refletir na busca nao trazer inativos e ao salvar validacao somente dos ativos da sobreposicao de horario.   --- FEITO 
+2.6) Aplicar idoma e resource    --- FEITO 
 
 
 
@@ -107,22 +149,15 @@ https://hub.docker.com/u/leonecr
 ---------REGRAS 
 
 
-No calendario so deve mostrar horarios disponiveis e horarios ja gravados 
--- Para os disponiveis pode adicionar 
---- Para os existentes apagar ou editar
---- Para os que nao foi gravado nao existe agendamento e foi passado nao pode fazer edicao adicionar ou excluir
---- Para o passado que foi gravado nao pode editar so visualizar os detalhes. 
+No calendario so deve mostrar horarios disponiveis e horarios ja gravados    --- FEITO 
+-- Para os disponiveis pode adicionar    --- FEITO 
+--- Para os existentes apagar ou editar   --- FEITO 
+--- Para os que nao foi gravado nao existe agendamento e foi passado nao pode fazer edicao adicionar ou excluir   --- FEITO 
+--- Para o passado que foi gravado nao pode editar so visualizar os detalhes.    --- FEITO 
 
 
 -------- POR ENQUANTO NAO PODE MOVER (FUTURAMENTE SIM AI ALTERA DIA E HORA SE NAO TIVER CONFLITO )
-
-
-
-
-4)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
-
-5)-- No paciente ter um botao novo donload historico 
-
+ 
 6)-- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
 
 
@@ -140,34 +175,28 @@ ATUALIZAR FRONT END
 
 3)-- Configurar a pipeline para teste e tambem sonar coverage - CANCELADO
 
-
-
  
- --- Calendario ja tem o insert basico no controler 
- -- Criar um Add e update que receber uma flag de Serie e recebe uma data Inicial e uma data final de no maximo 12 meses 
+ 
+--- Calendario ja tem o insert basico no controler     --- FEITO 
+-- Criar um Add e update que receber uma flag de Serie e recebe uma data Inicial e uma data final de no maximo 12 meses   --- FEITO 
 
- Acredito que teria que so criar a tela 
+Acredito que teria que so criar a tela 
 
- --- CRIAR UM PROCESSO DE NOTIFICACAO SEJA POR EMAIL OU SMS igual goggle agenda seguir que pode ser feitas varias notificacoes para uma agendamento 
- ****************************************** ARRUMAR ERRO DE RECURSO DE IDIOMA NA TELA CARGO front
-  
+--- CRIAR UM PROCESSO DE NOTIFICACAO SEJA POR EMAIL OU SMS igual goggle agenda seguir que pode ser feitas varias notificacoes para uma agendamento 
+****************************************** ARRUMAR ERRO DE RECURSO DE IDIOMA NA TELA CARGO front
+    
+------------- ATUALIZANDO PACOTES 
 
+dotnet tool install --global dotnet-outdated-tool
 
-  ------------- ATUALIZANDO PACOTES 
-
-  dotnet tool install --global dotnet-outdated-tool
-
-  dotnet outdated --upgrade
-
-
-
+dotnet outdated --upgrade
+   
 ---------------  ||||||||||||||||||||||||||||||||||| TODO: |||||||||||||||||||||||||||||||||||
 
 
 EM um projeto angular 14 com type scriot gere um componente com o forumalrio baseado nas proprieades da api em C# 
 
-
-
+ 
 
 ------------------------------- IMplantar para gravar sessao do usuario no storage table / mongo 
   
@@ -177,7 +206,7 @@ Ideias a implantar:
 https://www.emailarchitect.net/easendmail/ex/c/20.aspx
 -- Ao criar um medico dispara email com as informacoes de acesso  ----------- OK 
 
--- Criar url para redefinir senha ou acesso.  ----------- PENDENTE PROXIMO XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
+
 
 -- Implantar processo de gerar log e relatorios de logs inicialmente pela api apenas com regras de acesso somente medico pode visualizar quando referente aos pacientes.  ----------- PENDENTE PROXIMO  XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
 
@@ -208,29 +237,29 @@ ADM nao pode ver arquiDTOs do medico
 ********* IMPLANTAR SISTEMA DE LOG DE REGISTRO  -- OK 
 
   
- ------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
+------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
   
- -- IMPLANTAR AUTENTICACAO AZURE 
- https://learn.microsoft.com/en-us/entra/identity-platform/tutorial-v2-angular-auth-code
- https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-angular-spa-app
+-- IMPLANTAR AUTENTICACAO AZURE 
+https://learn.microsoft.com/en-us/entra/identity-platform/tutorial-v2-angular-auth-code
+https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-angular-spa-app
 
- https://medium.com/@sifatandel4nov/simplified-guide-integrating-msal-and-azure-ad-authentication-in-your-angular-application-e223f4a8b058
+https://medium.com/@sifatandel4nov/simplified-guide-integrating-msal-and-azure-ad-authentication-in-your-angular-application-e223f4a8b058
 
- https://learn.microsoft.com/en-us/samples/azure-samples/ms-identity-ciam-javascript-tutorial/ms-identity-ciam-javascript-tutorial-2-sign-in-angular/
+https://learn.microsoft.com/en-us/samples/azure-samples/ms-identity-ciam-javascript-tutorial/ms-identity-ciam-javascript-tutorial-2-sign-in-angular/
    
- ------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
+------------------------------------------------------------------------ ETAPAS CLOUD   AZ_01  - EM ANDAMENTO  ------------------------------------------------------------------------ 
 
- ------------------------------------------------------------------------ UPLOAD ARQUIDTOs  CLOUD - BLOB   ------------------------------------------------------------------------ 
+------------------------------------------------------------------------ UPLOAD ARQUIDTOs  CLOUD - BLOB   ------------------------------------------------------------------------ 
    
- ---3) APLICAR RBAC para somente ter permisao o proprio usuario que subiu "medico" -- SO VAI SER POSSIVEL APOS IMPLANTAR O AZURE AD (ENTRA)
+---3) APLICAR RBAC para somente ter permisao o proprio usuario que subiu "medico" -- SO VAI SER POSSIVEL APOS IMPLANTAR O AZURE AD (ENTRA)
 
 ------------------------------------------------------------------------ UPLOAD ARQUIDTOs  CLOUD - BLOB   ------------------------------------------------------------------------ 
  
 
- ------------------------------------------------------------------------ Readequacao  1  - CONCLUIDO ------------------------------------------------------------------------ 
- --resiliency-
- Em uma consulta EF pode se aplicar retry police que excutara o codigo de consulta de acordo com a politica criada
- ---------------------
+------------------------------------------------------------------------ Readequacao  1  - CONCLUIDO ------------------------------------------------------------------------ 
+--resiliency-
+Em uma consulta EF pode se aplicar retry police que excutara o codigo de consulta de acordo com a politica criada
+---------------------
 01  - Domain ------- Finalizado 
 02  - Data ------- Finalizado  
 03  - Service -------  Finalizado 
@@ -247,18 +276,18 @@ ADM nao pode ver arquiDTOs do medico
 13  - HABLITAR DOCKER----------------- Finalizado
 -- ADICIONADO SUPORTE ------- Finalizado
 -- CRIADO SERVICE CONNECTION ------- Finalizado
--- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB------- Finalizado
--- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB ------- Finalizado PARCIAL
+-- TESTE MANUAL PARA REGISTRAR NO DOCKER HUB ------- Finalizado
+-- FAZER A PIPE LINE  PUBLICAR NO DOCKER HUB ------- Finalizado
 
 ---- RODAR A IMAGEM DO HUB LOCAL  -- OK
 
--- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO  -- PARCIAL
+-- FAZER A RELEASE UTILIZAR O DOCKER HUB PAGAR IMAGEN NA PUBLICACAO ------- Finalizado
  
 
 ------------------------------------------------------------------------ Readequacao  1 - CONCLUIDO ------------------------------------------------------------------------ 
  
  
-  ------------------------------------------------------------------------ Readequacao  3 PENDENTE ------------------------------------------------------------------------ 
+------------------------------------------------------------------------ Readequacao  3 PENDENTE ------------------------------------------------------------------------ 
 
 1) - CRIAR PROJETO DE TESTE UNITARIO DO DATA -- 
 
@@ -272,11 +301,11 @@ https://www.nuget.org/packages/bogus
   
 ------------------------------------------------------------------------ UI CI CD ------------------------------------------------------------------------ 
 
-  https://www.youtube.com/watch?v=NFqrWsUPCAM 
+https://www.youtube.com/watch?v=NFqrWsUPCAM 
 
-  Add-Migration UpdateDescriptionRecordPatient -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations -Project SmartDigitalPsico.Data
+Add-Migration UpdateDescriptionRecordPatient -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations -Project SmartDigitalPsico.Data
 
- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 *** rEPOSITORIO AI INSERIR SETAR ENABLE COMO TRUE
 ----------------------------------------------------
@@ -312,11 +341,18 @@ Add-Migration AddUrlApp -Context SmartDigitalPsicoDataContextSqlServer -OutputDi
  
 
 
- Add-Migration WorkingDays -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+Add-Migration WorkingDays -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
+Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
+Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
+Add-Migration MedicalSettings -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
+Add-Migration EmailTemplateUpdates3 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
-  Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
 
 Remove-Migration -Context SmartDigitalPsicoDataContextMysql -Project SmartDigitalPsico.Data
 Add-Migration UpdateFileTableCloud -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations -Project SmartDigitalPsico.Data
@@ -358,11 +394,11 @@ docker run -v C:/Users/leocr/AppData/Roaming/Microsoft/UserSecrets:/root/.micros
 
 https://fernando-silva.medium.com/habilitando-api-do-docker-de-forma-segura-a0db2e650892
   
-  https://www.youtube.com/watch?v=lcaDDxJv260
-  https://www.youtube.com/watch?v=rBc93sCcwIE
-  https://www.youtube.com/watch?v=MaTmUlDALfk
+https://www.youtube.com/watch?v=lcaDDxJv260
+https://www.youtube.com/watch?v=rBc93sCcwIE
+https://www.youtube.com/watch?v=MaTmUlDALfk
 
-  https://www.youtube.com/watch?v=rBc93sCcwIE
+https://www.youtube.com/watch?v=rBc93sCcwIE
 
 --docker run -d -p 443:443 --name nome-do-seu-container smartdigitalpsicowebapi_image
 
@@ -448,7 +484,7 @@ https://imasters.com.br/devsecops/devops-ci-cd-azure-pipeline-docker-yaml
 ---
 
  
- docker-compose -f docker-compose.yml build --force-rm
+docker-compose -f docker-compose.yml build --force-rm
 
 
 docker build . -t leonecr/smartdigitalpsicowebapi_image:latest
@@ -506,28 +542,28 @@ ENTRYPOINT ["dotnet", "YourWebApi.dll"]
 
 public class Program
 {
-    public static void Main(string[] args)
-    {
-        CreateHostBuilder(args).Build().Run();
-    }
+public static void Main(string[] args)
+{
+CreateHostBuilder(args).Build().Run();
+}
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>()
-                          .UseUrls("http://*:80", "https://*:443"); // Configura o Kestrel para ouvir nas portas 80 e 443
-            });
+public static IHostBuilder CreateHostBuilder(string[] args) =>
+Host.CreateDefaultBuilder(args)
+.ConfigureWebHostDefaults(webBuilder =>
+{
+webBuilder.UseStartup<Startup>()
+.UseUrls("http://*:80", "https://*:443"); // Configura o Kestrel para ouvir nas portas 80 e 443
+});
 }
 
 
 webBuilder.UseKestrel(serverOptions =>
 {
-    serverOptions.Listen(IPAddress.Any, 80);
-    serverOptions.Listen(IPAddress.Any, 443, listenOptions =>
-    {
-        listenOptions.UseHttps("certificate.pfx", "password");
-    });
+serverOptions.Listen(IPAddress.Any, 80);
+serverOptions.Listen(IPAddress.Any, 443, listenOptions =>
+{
+listenOptions.UseHttps("certificate.pfx", "password");
+});
 })
 .UseStartup<Startup>();
 
@@ -555,24 +591,24 @@ using System.Runtime.Serialization;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
-    [Serializable]
-    public class AppWarningException : Exception
-    {
-        protected AppWarningException()
-        {
-        }
+[Serializable]
+public class AppWarningException : Exception
+{
+protected AppWarningException()
+{
+}
 
-        public AppWarningException(string? message) : base(message)
-        {
-        }
+public AppWarningException(string? message) : base(message)
+{
+}
 
-        public AppWarningException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
-        public AppWarningException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-    }
+public AppWarningException(string? message, Exception? innerException) : base(message, innerException)
+{
+}
+public AppWarningException(SerializationInfo info, StreamingContext context) : base(info, context)
+{
+}
+}
 }
 
 
@@ -642,20 +678,20 @@ docker run -p 8080:80 smartdigitalpsico
 --- IA  
 https://www.codium.ai/?gad_source=1&gclid=Cj0KCQjw3ZayBhDRARIsAPWzx8opfHMeBxKDpv0RxPJXdrNvnNoWmVN5OnaMjXYm17OAvoVwSvd3yL8aAoiYEALw_wcB
 
- <NoWarn>$(NoWarn);S1192</NoWarn>
+<NoWarn>$(NoWarn);S1192</NoWarn>
  
-   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable> 
-  </PropertyGroup>
+<PropertyGroup>
+<TargetFramework>net8.0</TargetFramework>
+<ImplicitUsings>enable</ImplicitUsings>
+<Nullable>enable</Nullable> 
+</PropertyGroup>
 
 
 
 Em C# ajuste o codigo abaixo para corrigir o erro do sonarcloud "The parameter name 'fileName' is not declared in the argument list."
   
 Trecho:   
- throw new ArgumentNullException(nameof(fileName), "FileName cannot be null.");
+throw new ArgumentNullException(nameof(fileName), "FileName cannot be null.");
   
  
  
@@ -696,45 +732,45 @@ Em C# .net core 8 usando NUnit 4 usando padrao novo That  e Moq gere teste unita
 
 
    
-        Em C# .net core 8 o codigo abaixao usando o FluentValidation melhore o codigo para validar os campos FileExtension e FileContentType para apenas tipos de arquiDTOs como imagens word e excel e pdf e impedir arquiDTOs maliciosos e que exceda mais que 100 mb e que os tipos de arquiDTOs seja possivel definir via appsetings 
+Em C# .net core 8 o codigo abaixao usando o FluentValidation melhore o codigo para validar os campos FileExtension e FileContentType para apenas tipos de arquiDTOs como imagens word e excel e pdf e impedir arquiDTOs maliciosos e que exceda mais que 100 mb e que os tipos de arquiDTOs seja possivel definir via appsetings 
 
- public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
- { 
+public MedicalFileValidator(IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
+{ 
 
-     #region Columns
-     RuleFor(entity => entity.Description)
-         .MaximumLength(255)
-         .WithMessage("O Description não pode ultrapassar {MaxLength} carateres.");
+#region Columns
+RuleFor(entity => entity.Description)
+.MaximumLength(255)
+.WithMessage("O Description não pode ultrapassar {MaxLength} carateres.");
 
-     RuleFor(entity => entity.FilePath)
-         .MaximumLength(2083)
-         .WithMessage("O FilePath não pode ultrapassar {MaxLength} carateres.");
+RuleFor(entity => entity.FilePath)
+.MaximumLength(2083)
+.WithMessage("O FilePath não pode ultrapassar {MaxLength} carateres.");
 
-     RuleFor(entity => entity.FileExtension)
-      .MaximumLength(3)
-      .WithMessage("O FileExtension não pode ultrapassar {MaxLength} carateres.");
+RuleFor(entity => entity.FileExtension)
+.MaximumLength(3)
+.WithMessage("O FileExtension não pode ultrapassar {MaxLength} carateres.");
 
-     RuleFor(entity => entity.FileContentType)
-      .MaximumLength(100)
-      .WithMessage("O FileContentType não pode ultrapassar {MaxLength} carateres.");
+RuleFor(entity => entity.FileContentType)
+.MaximumLength(100)
+.WithMessage("O FileContentType não pode ultrapassar {MaxLength} carateres.");
 
-     #endregion Columns
+#endregion Columns
 
-     #region Relationship
-     RuleFor(entity => entity.MedicalId)
-     .NotNull()
-     .WithMessage("ErrorValidator_MedicalId_Null")
-     .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
-     .WithMessage("ErrorValidator_MedicalId_NotFound")
-     .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
-     .WithMessage("ErrorValidator_Medical_Changed")
-     .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
-     .WithMessage("ErrorValidator_MedicalCreated_Invalid")
-     .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
-     .WithMessage("ErrorValidator_MedicalModify_Invalid");
+#region Relationship
+RuleFor(entity => entity.MedicalId)
+.NotNull()
+.WithMessage("ErrorValidator_MedicalId_Null")
+.MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
+.WithMessage("ErrorValidator_MedicalId_NotFound")
+.MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
+.WithMessage("ErrorValidator_Medical_Changed")
+.MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
+.WithMessage("ErrorValidator_MedicalCreated_Invalid")
+.MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
+.WithMessage("ErrorValidator_MedicalModify_Invalid");
 
-     #endregion Relationship
- }
+#endregion Relationship
+}
 
 Claro! Aqui está uma versão aprimorada do código para validar os campos `FileExtension` e `FileContentType` usando FluentValidation em C# .NET Core 8. Este código garante que apenas arquiDTOs de imagem, Word, Excel e PDF sejam aceitos, impede arquiDTOs maliciosos e limita o tamanho dos arquiDTOs a 100 MB.
 
@@ -745,51 +781,51 @@ using System.Linq;
 
 public class FileValidator : AbstractValidator<IFormFile>
 {
-    private readonly string[] _permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".doc", ".docx", ".xls", ".xlsx", ".pdf" };
-    private readonly string[] _permittedContentTypes = { "image/jpeg", "image/png", "image/gif", "image/bmp", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/pdf" };
-    private const long MaxFileSize = 100 * 1024 * 1024; // 100 MB
+private readonly string[] _permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".doc", ".docx", ".xls", ".xlsx", ".pdf" };
+private readonly string[] _permittedContentTypes = { "image/jpeg", "image/png", "image/gif", "image/bmp", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/pdf" };
+private const long MaxFileSize = 100 * 1024 * 1024; // 100 MB
 
-    public FileValidator()
-    {
-        RuleFor(file => file.Length)
-            .NotNull()
-            .LessThanOrEqualTo(MaxFileSize)
-            .WithMessage("O tamanho do arquivo não pode exceder 100 MB.");
+public FileValidator()
+{
+RuleFor(file => file.Length)
+.NotNull()
+.LessThanOrEqualTo(MaxFileSize)
+.WithMessage("O tamanho do arquivo não pode exceder 100 MB.");
 
-        RuleFor(file => file.FileName)
-            .NotNull()
-            .Must(HavePermittedExtension)
-            .WithMessage("Tipo de arquivo não permitido.");
+RuleFor(file => file.FileName)
+.NotNull()
+.Must(HavePermittedExtension)
+.WithMessage("Tipo de arquivo não permitido.");
 
-        RuleFor(file => file.ContentType)
-            .NotNull()
-            .Must(HavePermittedContentType)
-            .WithMessage("Tipo de conteúdo do arquivo não permitido.");
-    }
+RuleFor(file => file.ContentType)
+.NotNull()
+.Must(HavePermittedContentType)
+.WithMessage("Tipo de conteúdo do arquivo não permitido.");
+}
 
-    private bool HavePermittedExtension(string fileName)
-    {
-        var extension = System.IO.Path.GetExtension(fileName).ToLowerInvariant();
-        return _permittedExtensions.Contains(extension);
-    }
+private bool HavePermittedExtension(string fileName)
+{
+var extension = System.IO.Path.GetExtension(fileName).ToLowerInvariant();
+return _permittedExtensions.Contains(extension);
+}
 
-    private bool HavePermittedContentType(string contentType)
-    {
-        return _permittedContentTypes.Contains(contentType);
-    }
+private bool HavePermittedContentType(string contentType)
+{
+return _permittedContentTypes.Contains(contentType);
+}
 }
 
 public class CustomViewModel
 {
-    public IList<IFormFile> Files { get; set; }
+public IList<IFormFile> Files { get; set; }
 }
 
 public class CustomValidator : AbstractValidator<CustomViewModel>
 {
-    public CustomValidator()
-    {
-        RuleForEach(x => x.Files).SetValidator(new FileValidator());
-    }
+public CustomValidator()
+{
+RuleForEach(x => x.Files).SetValidator(new FileValidator());
+}
 }
 ```
 
@@ -805,7 +841,7 @@ Fonte: conversa com o Copilot, 07/08/2024
 
  
 
- Para garantir a qualidade do código, segurança, build, testes, e um bom CI/CD em uma aplicação Web API em C# e .NET Core, aqui estão algumas tarefas recomendadas:
+Para garantir a qualidade do código, segurança, build, testes, e um bom CI/CD em uma aplicação Web API em C# e .NET Core, aqui estão algumas tarefas recomendadas:
 
 ### Qualidade de Código
 1. **Análise Estática de Código**: Utilize ferramentas como SonarQube ou ReSharper para identificar problemas de qualidade e vulnerabilidades no código.
@@ -874,11 +910,11 @@ Fonte: conversa com o Copilot, 02/10/2024
 
 Seguindo a estrutura json  abaixo de i18n para angular 2+ typescript , gere o resource em ingles americano, espanhol e portugues brasileiro dos valores abaixo 
 
- "calendar": {       
-     "title": "Calendar" 
-   }
+"calendar": {       
+"title": "Calendar" 
+}
 
 
 
 
-   Com base no Exemplo  CalendarCriteriaValidator ajuste o  MedicalCalendarListValidatorpara eu siga o padrao KEY|Message  se a menssagem tiver variaveis dinamica KEY|Message|Valor1|Valor1
+Com base no Exemplo  CalendarCriteriaValidator ajuste o  MedicalCalendarListValidatorpara eu siga o padrao KEY|Message  se a menssagem tiver variaveis dinamica KEY|Message|Valor1|Valor1

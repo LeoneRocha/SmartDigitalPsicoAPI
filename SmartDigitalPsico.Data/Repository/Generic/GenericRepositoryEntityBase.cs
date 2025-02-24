@@ -36,7 +36,7 @@ namespace SmartDigitalPsico.Data.Repository.Generic
             {
                 query = query.Include(include);
             } 
-            return await _dataset.FirstAsync(p => p.Id.Equals(id));
+            return await query.FirstAsync(p => p.Id.Equals(id));
         }
         public virtual async Task<T> FindByID(long id, Action<IQueryable<T>> includeAction)
         {

@@ -1,4 +1,5 @@
-﻿using SmartDigitalPsico.Data.Repository.Principals;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
@@ -39,8 +40,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
             _mockContext.Patients.AddRange(mockDataPatientList2);
             _mockContext.SaveChanges();
-            
-            
+
+
             var mockDataPatientRecordlist = PatientMedicationInformationMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable().ToList();
             _mockContext.PatientMedicationInformations.AddRange(mockDataPatientRecordlist);
             _mockContext.SaveChanges();
@@ -72,11 +73,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         {
             // Arrange 
             var mockDataPatient = PatientMockHelper.GetMock().Take(1).AsQueryable().First();
-             
+
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientMedicationInformationRepository(_mockContext);
-             
+
             // Act
             var result = await _entityRepository.FindAllByPatient(mockDataPatient.Id);
 
@@ -91,12 +92,17 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
         [Test]
         public async Task FindByID_Success_ReturnsPatientMedicationInformation()
-        { 
+        {
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientMedicationInformationRepository(_mockContext);
             // Arrange 
-            var mockData = _mockContext.PatientMedicationInformations.First();
+            var mockData = _mockContext.PatientMedicationInformations
+                .Include(e => e.Patient)
+                .ThenInclude(e => e!.Medical)
+                .ThenInclude(e => e!.User)
+                .Include(e => e.CreatedUser)
+                .First();
 
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
@@ -108,8 +114,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result.Id, Is.EqualTo(mockData.Id));
                 Assert.That(result.Patient, Is.Not.Null);
                 Assert.That(result.CreatedUser, Is.Not.Null);
-                Assert.That(result.Patient?.Medical, Is.Not.Null); 
+                Assert.That(result.Patient?.Medical, Is.Not.Null);
             });
         }
     }
-} 
+}
