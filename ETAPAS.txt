@@ -1,7 +1,6 @@
 ﻿ 
 **************** 
 
-No tamplate tem que ter um codigo do sistema 
  
 
 --------------------------- Criar um service de notificacao 
@@ -30,9 +29,12 @@ mock123adm
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
-1) Criar telas no front para editar os tamplates EmailTemplate <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+1) Criar telas no front para editar os tamplates EmailTemplate ---------------- FEITO  
 
-2)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager
+1.1) Arrumar listagem da agenda do dia. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  
+
+
+2)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager ------------------ XXXXXXXXXXXXXXX 
 
 3) adicionar campos para sincronizar com google agenda 
 
