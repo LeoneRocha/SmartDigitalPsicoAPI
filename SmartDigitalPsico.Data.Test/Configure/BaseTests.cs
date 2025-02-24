@@ -18,6 +18,7 @@ namespace SmartDigitalPsico.Data.Test.Configure
         {
             if (_mockContext != null)
             {
+                _mockContext.Database.EnsureDeleted();
                 _mockContext.Dispose();
             }
         } 

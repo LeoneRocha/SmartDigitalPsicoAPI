@@ -1,4 +1,5 @@
-﻿using SmartDigitalPsico.Data.Repository.Principals;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
@@ -96,7 +97,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientMedicationInformationRepository(_mockContext);
             // Arrange 
-            var mockData = _mockContext.PatientMedicationInformations.First();
+            var mockData = _mockContext.PatientMedicationInformations.Include(e => e.Patient)
+                .ThenInclude(e => e.Medical)
+                .ThenInclude(e => e.User)
+                .Include(e => e.CreatedUser).First();
 
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
