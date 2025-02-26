@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    //Registered in AddValidatorsFromAssemblyContaining
     public class EmailTemplateValidator : AbstractValidator<EmailTemplate>
     {
         public EmailTemplateValidator()

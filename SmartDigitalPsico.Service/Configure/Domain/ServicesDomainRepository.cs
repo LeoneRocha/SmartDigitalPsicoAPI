@@ -35,29 +35,15 @@ namespace SmartDigitalPsico.Service.Configure.Domain
                 Assembly.Load("SmartDigitalPsico.Data")
             };
 
-            var repositories = ServiceCollectionHelper.GetInterfaces([RepositorySuffix], assemblies);
-
-            var registeredInterfaces = new[]
+            var ignoredInterfaces = new List<Type>
             {
                 typeof(IMemoryCacheRepository),
                 typeof(IFileManager),
-                typeof(IStorageBlobAdapter)
-            };
-
-            var ignoredInterfaces = new[]
-            {
+                typeof(IStorageBlobAdapter),
                 typeof(IUserTokenSessionRepository)
             };
 
-            var servicesToAdd = ServiceCollectionHelper.FilterItems(repositories.Select(repo => repo.InterfaceType!).ToArray(), registeredInterfaces, ignoredInterfaces);
-
-
-            var finalRepositoriesToAdd = repositories.Where(service => servicesToAdd.Contains(service.InterfaceType)).OrderBy(service => service.InterfaceType!.Name).ToArray();
-
-            foreach (var service in finalRepositoriesToAdd)
-            {
-                services.AddScoped(service.InterfaceType!, service.ImplementationType!);
-            }
-        }
+            ServiceCollectionHelper.RegisterInterfaces(services, [RepositorySuffix], ignoredInterfaces, assemblies);
+        } 
     }
 }

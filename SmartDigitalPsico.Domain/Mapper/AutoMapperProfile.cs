@@ -24,6 +24,7 @@ namespace SmartDigitalPsico.Domain.Mapper
 {
     public class AutoMapperProfile : Profile
     {
+        
         public AutoMapperProfile()
         {
             #region EntityBase
@@ -215,6 +216,16 @@ namespace SmartDigitalPsico.Domain.Mapper
 
             CreateMap<UserTokenSession, UserTokenSessionTableEntity>();
             CreateMap<UserTokenSessionTableEntity, UserTokenSession>();
+
+
+            #region Leaves
+            CreateMap<Leaves, GetLeavesDto>();
+            CreateMap<GetLeavesDto, Leaves>();
+
+            CreateMap<AddLeavesDto, Leaves>();
+            CreateMap<UpdateLeavesDto, Leaves>();
+            #endregion Leaves 
+
         }
     }
 }

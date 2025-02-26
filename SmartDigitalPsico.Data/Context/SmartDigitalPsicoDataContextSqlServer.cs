@@ -30,8 +30,8 @@ namespace SmartDigitalPsico.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Configure FLUENT API 
+            ConfigurationEntitiesHelper.AddConfigurationEntitiesManually(modelBuilder, ETypeDataBase.MSsqlServer);
             ConfigurationEntitiesHelper.AddConfigurationEntities(modelBuilder, ETypeDataBase.MSsqlServer);
-              
             base.OnModelCreating(modelBuilder);
         }
     }

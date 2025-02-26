@@ -1,20 +1,14 @@
 ﻿ 
 **************** 
 
- 
+---------- CRIAR TABELAS ORM 
 
---------------------------- Criar um service de notificacao 
+--------- CRIAR REPOSITORIOS 
 
+---------- CRIAR SERVICES (VAZIO)
 
-**************
---- PENDENTE
- 
--- NO SERVICE AO SALVAR O MEDICO  NO UPDATE PASSAR NO DTO AS DEMAIS INFORMACOES E FAZER LOGICA DE CRIAR E CHAMAR O REPOSITORIO 
-
--------- CRIAR TELA NO FRONT para salvar e listar os tampletes de email 
-
------ AJUSTAR NA TELA OS NOVOS CAMPOS AO EDITAR PARA CONFIGURACAO Ou uma tela de configuracao MELHOR UMA TELA SEPARADA SO PARA CONFIGURACAO acho que nao ums campos a mais melhor unifica a tela 
-
+----------- CRiar processamento e regra de negocio 
+     
 
 ----------------------------------------------------
 https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
@@ -27,28 +21,6 @@ https://hub.docker.com/u/leonecr
 admin
 mock123adm
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
------------------- ======================================== PENDENCIAS ATUAL  ========================================  ------------------
-1) Criar telas no front para editar os tamplates EmailTemplate ---------------- FEITO  
-
-1.1) Arrumar listagem da agenda do dia. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  
-
-
-2)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager ------------------ XXXXXXXXXXXXXXX 
-
-3) adicionar campos para sincronizar com google agenda 
-
-4) adicionar IA PARA traduzir os idiomas 
-
-
-11) Criar campos para adionar valor e tabela status pagamento das consultas /agendamentos ou gerar uma cobranca unica para o paciente 
-
-
-
-12)-- No paciente ter um botao novo donload historico 
-
--- Criar url para redefinir senha ou acesso.  ----------- PENDENTE PROXIMO XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
-
 
 
 ------------ 2 Criar processo de feriados por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  ter um pre-gerar feriados por ia ou service.
@@ -81,7 +53,49 @@ RuleNotificationMedical ?
 
 -------------------------6 COM ISSO CRIAR UM JOB (WEBJOB,SERVICE, API para chamar por um azurefunction)  QUE BUSCA TODAS NOTIFICACOES E VERIFICA a regra 
 
+
+
+
+
+
+
+
+
+
 ------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
+
+
+--- PENDENTE
+ 
+-- NO SERVICE AO SALVAR O MEDICO  NO UPDATE PASSAR NO DTO AS DEMAIS INFORMACOES E FAZER LOGICA DE CRIAR E CHAMAR O REPOSITORIO 
+
+-------- CRIAR TELA NO FRONT para salvar e listar os tampletes de email ---------------- FEITO  
+
+----- AJUSTAR NA TELA OS NOVOS CAMPOS AO EDITAR PARA CONFIGURACAO Ou uma tela de configuracao MELHOR UMA TELA SEPARADA SO PARA CONFIGURACAO acho que nao ums campos a mais melhor unifica a tela 
+ 
+
+1) Criar telas no front para editar os tamplates EmailTemplate ---------------- FEITO  
+
+1.1) Arrumar listagem da agenda do dia. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  
+
+
+2)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager ------------------ XXXXXXXXXXXXXXX 
+
+3) adicionar campos para sincronizar com google agenda 
+
+4) adicionar IA PARA traduzir os idiomas 
+
+
+11) Criar campos para adionar valor e tabela status pagamento das consultas /agendamentos ou gerar uma cobranca unica para o paciente 
+
+
+
+12)-- No paciente ter um botao novo donload historico 
+
+-- Criar url para redefinir senha ou acesso.  ----------- PENDENTE PROXIMO XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
+
+------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
+ 
  
 ----------- MUDAR O CAMPO SELECT POR BUSCA SELECT  - FEITO
 
@@ -338,19 +352,15 @@ ou
 
 Add-Migration AddUrlApp -Context SmartDigitalPsicoDataContextSqlServer -OutputDir Migrations\SqlServer -Project SmartDigitalPsico.Data
 --------------- ADD 
- 
 
 
 Add-Migration WorkingDays -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-
 Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-
 Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-
 Add-Migration MedicalSettings -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-
-
 Add-Migration EmailTemplateUpdates3 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
+Add-Migration Leaves -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
 
