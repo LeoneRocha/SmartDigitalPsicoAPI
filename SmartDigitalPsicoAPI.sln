@@ -11,10 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		certificate.pfx = certificate.pfx
-		DICA AI.txt = DICA AI.txt
 		SmartDigitalPsico.WebAPI\Dockerfile = SmartDigitalPsico.WebAPI\Dockerfile
-		ETAPAS.txt = ETAPAS.txt
-		MELHORIAS 2025.txt = MELHORIAS 2025.txt
+		Readme\ETAPAS.txt = Readme\ETAPAS.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.Service", "SmartDigitalPsico.Service\SmartDigitalPsico.Service.csproj", "{586687A9-BC7E-426E-A68D-106CCCAF5B14}"
