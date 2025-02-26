@@ -352,19 +352,15 @@ ou
 
 Add-Migration AddUrlApp -Context SmartDigitalPsicoDataContextSqlServer -OutputDir Migrations\SqlServer -Project SmartDigitalPsico.Data
 --------------- ADD 
- 
 
 
 Add-Migration WorkingDays -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-
 Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-
 Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-
 Add-Migration MedicalSettings -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-
-
 Add-Migration EmailTemplateUpdates3 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
+Add-Migration Leaves -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
 

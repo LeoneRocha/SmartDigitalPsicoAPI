@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Helper
     {
         public static void AddConfigurationEntities(this ModelBuilder modelBuilder, ETypeDataBase eDataBaseType, Assembly assembly, List<Type> manuallyConfiguredTypes)
         {
-            Type[] configTypes = ListClassConfiguration(assembly, manuallyConfiguredTypes);
+            Type[] configTypes = ListClassConfiguration(assembly, manuallyConfiguredTypes).OrderBy(t=> t.Name).ToArray();
 
             foreach (var configType in configTypes)
             {
