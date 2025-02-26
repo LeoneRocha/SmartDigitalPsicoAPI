@@ -11,6 +11,13 @@
     <FileVersion>2025.02.25.01</FileVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="logs\**" />
+    <Content Remove="logs\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="logs\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.13.2" />
@@ -57,11 +64,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="logs\" />
   </ItemGroup>
 
 
