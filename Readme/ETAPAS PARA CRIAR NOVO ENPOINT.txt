@@ -13,15 +13,15 @@ Exemplo: LeavesValidator
 
 * A injecao esta automatizada pelo AddValidatorsFromAssemblyContaining do extension do pacote 
 
-5) Criar o repositorio (SmartDigitalPsico.Data.Repository) *Precisa criar interface- ok
+4) Criar o repositorio (SmartDigitalPsico.Data.Repository) *Precisa criar interface- ok
 
-6) Criar os DTOS (SmartDigitalPsico.Domain.DTO) - ok
+5) Criar os DTOS (SmartDigitalPsico.Domain.DTO) - ok
 
 7) Adicionar manualmente no AutoMapperProfile  - ok
 **//Melhoria criar uma forma automatizada que crie uma interface de Mapper e carregue 
 
-8) Criar o service   (SmartDigitalPsico.Service.DataEntity) **Precisa criar interface - ok
+6) Criar o service   (SmartDigitalPsico.Service.DataEntity) **Precisa criar interface - ok
 
-9) Criar o controller/endpoint   (SmartDigitalPsico.WebAPI)  - ok
+7) Criar o controller/endpoint   (SmartDigitalPsico.WebAPI)  - ok
 
 ====================================== FRONT END  =========================
