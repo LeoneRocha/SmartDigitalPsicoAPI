@@ -3,7 +3,6 @@ using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.DTO;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {

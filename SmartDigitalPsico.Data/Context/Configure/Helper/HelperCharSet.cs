@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Domain.Enuns;
 
-namespace SmartDigitalPsico.Data.Context.Configure
+namespace SmartDigitalPsico.Data.Context.Configure.Helper
 {
     public static class HelperCharSet
     {

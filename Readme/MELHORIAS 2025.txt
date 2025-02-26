@@ -1,73 +1,4 @@
-﻿Gere para mim um roteiro e detalhes do que preciso criar os escopos , campos tabelas e processos 
-Eu tenho um projeto em C# e react e Mysql usando api rest e EF que se trata de cadastro de medico e pacientes especifico para psicologia,
-Os seguintes pontos 
-1) ja tenho um cadastro de calendario / agendamento de horarios quero caora criar um processo de que o medico , agora quero melhorar criar um cadastro de feriado gere os nomes do campos em ingles que preciso criar no banco via EF 
-2) Criar um processo e quais tabelas preciso para que possa ser gerenciando notificacoes das datas cadastrada no calendario com regras de envio por exemplo enviar email ou sms (usando padrao strategy e factory) com 24 e ou 48 horas de atencendencias sendo assim vai ter um lista de regras cadastros de notificacao . segue os meu esboco da tabela 
-Medical Id 
-Enable 
-Datas (padrao)
-Descricao
-Tipo de intervalo (minutos, hora, dia , meses , ano)
-Tempo de intervalo (int 999) + e - 
-Tipos de envios  (array email, sms , whatsapp)
-
-
-3) De acordo com as rergras de notificacao o processo saber que determinado angendamento ja foi enviado para aquela regra evitando envios duplicados ou repetidos entao um processo de que controle esse tipo acredito que ao criar o agendamenteo ja crie essas regras talves uma tabela mais resumida e performatica sem muitos campos ou registros semelhantes talves so id da data e json com informeoes segue os meu esboco da tabela 
-Medical Id 
-Patiente Id
-Data Hora Enviar Notificacao 
-Tipos Envios (array email, sms , whatsapp)
-Data De envio da notificao 
-FoiENviado (bool)
-RuleNotificationMedical ? 
---------------------
-
-
-
-
-
-
-Claro! Podemos renomear a tabela para **`Leaves`** (que pode englobar feriados, férias e folgas) e adicionar um campo opcional para a data final. Aqui está a estrutura atualizada da tabela:
-
-### **Tabela `Leaves`**
-
-- **`Id`**: `int` (chave primária)
-- **`MedicalId`**: `int` (chave estrangeira referenciando o médico)
-- **`StartDate`**: `date` (data de início)
-- **`EndDate`**: `date` (data final, opcional)
-- **`Description`**: `string` (descrição do período de folga)
-- **`IsRecurring`**: `bool` (indica se o período se repete anualmente)
-- **`CreatedAt`**: `datetime` (data de criação)
-- **`UpdatedAt`**: `datetime` (data da última atualização)
-
-**Observações:**
-
-- **Relação com Médicos**: Certifique-se de estabelecer a relação adequada entre a tabela `Leaves` e a tabela `Medicals` via Entity Framework.
-- **Validações**: Implemente validações para evitar conflitos de datas e sobreposições com agendamentos existentes.
-
-Essa estrutura deve cobrir todos os tipos de folgas, feriados e férias que você precisa gerenciar. Se precisar de mais alguma coisa, é só dizer!
-Olá! Parece que você está aprimorando seu sistema de agendamento médico específico para psicologia e quer adicionar funcionalidades como cadastro de feriados e gerenciamento de notificações. Vamos detalhar os campos e tabelas que você precisa criar, com os nomes dos campos em inglês conforme solicitado.
-
----
-
-### **1) Cadastro de Feriados**
-
-Para permitir que o médico registre feriados e indisponibilidades no seu calendário, você pode criar uma tabela chamada **`Holidays`**. Aqui estão os campos que você pode incluir:
-
-- **`Id`**: `int` (chave primária)
-- **`MedicalId`**: `int` (chave estrangeira referenciando o médico)
-- **`Date`**: `date` (data do feriado)
-- **`Description`**: `string` (descrição do feriado)
-- **`IsRecurring`**: `bool` (indica se o feriado se repete anualmente)
-- **`CreatedAt`**: `datetime` (data de criação)
-- **`UpdatedAt`**: `datetime` (data da última atualização)
-
-**Observações:**
-
-- **Relação com Médicos**: Certifique-se de estabelecer a relação adequada entre a tabela `Holidays` e a tabela `Medicals` via Entity Framework.
-- **Validações**: Implemente validações para evitar conflitos de datas e sobreposições com agendamentos existentes.
-
----
+﻿---
 
 ### **2) Gerenciamento de Notificações e Regras**
 
@@ -322,3 +253,80 @@ Claro! Vamos melhorar a tabela `Notifications` para incluir todas as regras apli
 3. **Testes e Validação**: Realize testes para garantir que as notificações são agendadas e enviadas corretamente, sem duplicidades.
 
 Se precisar de mais ajustes ou tiver outras perguntas, sinta-se à vontade para me chamar!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+FEITOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+
+
+
+Gere para mim um roteiro e detalhes do que preciso criar os escopos , campos tabelas e processos 
+Eu tenho um projeto em C# e react e Mysql usando api rest e EF que se trata de cadastro de medico e pacientes especifico para psicologia,
+Os seguintes pontos 
+1) ja tenho um cadastro de calendario / agendamento de horarios quero caora criar um processo de que o medico , agora quero melhorar criar um cadastro de feriado gere os nomes do campos em ingles que preciso criar no banco via EF 
+2) Criar um processo e quais tabelas preciso para que possa ser gerenciando notificacoes das datas cadastrada no calendario com regras de envio por exemplo enviar email ou sms (usando padrao strategy e factory) com 24 e ou 48 horas de atencendencias sendo assim vai ter um lista de regras cadastros de notificacao . segue os meu esboco da tabela 
+Medical Id 
+Enable 
+Datas (padrao)
+Descricao
+Tipo de intervalo (minutos, hora, dia , meses , ano)
+Tempo de intervalo (int 999) + e - 
+Tipos de envios  (array email, sms , whatsapp)
+
+
+3) De acordo com as rergras de notificacao o processo saber que determinado angendamento ja foi enviado para aquela regra evitando envios duplicados ou repetidos entao um processo de que controle esse tipo acredito que ao criar o agendamenteo ja crie essas regras talves uma tabela mais resumida e performatica sem muitos campos ou registros semelhantes talves so id da data e json com informeoes segue os meu esboco da tabela 
+Medical Id 
+Patiente Id
+Data Hora Enviar Notificacao 
+Tipos Envios (array email, sms , whatsapp)
+Data De envio da notificao 
+FoiENviado (bool)
+RuleNotificationMedical ? 
+--------------------
+
+
+
+
+
+
+Claro! Podemos renomear a tabela para **`Leaves`** (que pode englobar feriados, férias e folgas) e adicionar um campo opcional para a data final. Aqui está a estrutura atualizada da tabela:
+
+### **Tabela `Leaves`**
+
+- **`Id`**: `int` (chave primária)
+- **`MedicalId`**: `int` (chave estrangeira referenciando o médico)
+- **`StartDate`**: `date` (data de início)
+- **`EndDate`**: `date` (data final, opcional)
+- **`Description`**: `string` (descrição do período de folga)
+- **`IsRecurring`**: `bool` (indica se o período se repete anualmente)
+- **`CreatedAt`**: `datetime` (data de criação)
+- **`UpdatedAt`**: `datetime` (data da última atualização)
+
+**Observações:**
+
+- **Relação com Médicos**: Certifique-se de estabelecer a relação adequada entre a tabela `Leaves` e a tabela `Medicals` via Entity Framework.
+- **Validações**: Implemente validações para evitar conflitos de datas e sobreposições com agendamentos existentes.
+
+Essa estrutura deve cobrir todos os tipos de folgas, feriados e férias que você precisa gerenciar. Se precisar de mais alguma coisa, é só dizer!
+Olá! Parece que você está aprimorando seu sistema de agendamento médico específico para psicologia e quer adicionar funcionalidades como cadastro de feriados e gerenciamento de notificações. Vamos detalhar os campos e tabelas que você precisa criar, com os nomes dos campos em inglês conforme solicitado.
+
+---

@@ -32,38 +32,24 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         private static void RegisterServices(IServiceCollection services)
         {
             var assemblies = new[]
-            {
+           {
                 Assembly.GetExecutingAssembly(),
                 Assembly.Load("SmartDigitalPsico.Domain"),
                 Assembly.Load("SmartDigitalPsico.Data")
             };
 
-            var servicesToRegister = ServiceCollectionHelper.GetInterfaces([ServiceSuffix], assemblies);
-
-            var registeredInterfaces = ServiceCollectionHelper.GetRegisteredInterfaces(services).ToArray();
-
-            var ignoredInterfaces = new[]
+            var ignoredInterfaces = new List<Type>
             {
                 typeof(ICryptoService),
                 typeof(IEmailService),
                 typeof(ITokenService),
                 typeof(IAuditContextService),
-                typeof(ICacheService), 
-                typeof(INotificationServiceFactory),
-            };
+                typeof(ICacheService),
+                typeof(INotificationServiceFactory)
+            }; 
+            ignoredInterfaces.AddRange(ServiceCollectionHelper.GetRegisteredInterfaces(services));
 
-            var servicesToAdd = ServiceCollectionHelper.FilterItems(
-                servicesToRegister.Select(repo => repo.InterfaceType!).ToArray(),
-                registeredInterfaces,
-                ignoredInterfaces
-            );
-
-            var finalServicesToAdd = servicesToRegister.Where(service => servicesToAdd.Contains(service.InterfaceType)).ToArray();
-
-            foreach (var service in finalServicesToAdd)
-            {
-                services.AddScoped(service.InterfaceType!, service.ImplementationType!);
-            }
+            ServiceCollectionHelper.RegisterInterfaces(services, [ServiceSuffix], ignoredInterfaces, assemblies);
         }
     }
 }
