@@ -14,13 +14,13 @@ namespace SmartDigitalPsico.Service.Infrastructure.Notification
             _serviceProvider = serviceProvider;
         }
 
-        public INotificationService GetService(NotificationServiceType serviceType)
+        public INotificationService GetService(ENotificationServiceType serviceType)
         {
             return serviceType switch
             {
-                NotificationServiceType.Email => _serviceProvider.GetRequiredService<IEmailService>(),
-                NotificationServiceType.Sms => _serviceProvider.GetRequiredService<ISmsService>(),
-                NotificationServiceType.WhatsApp => _serviceProvider.GetRequiredService<IWhatsAppService>(),
+                ENotificationServiceType.Email => _serviceProvider.GetRequiredService<IEmailService>(),
+                ENotificationServiceType.Sms => _serviceProvider.GetRequiredService<ISmsService>(),
+                ENotificationServiceType.WhatsApp => _serviceProvider.GetRequiredService<IWhatsAppService>(),
                 _ => throw new ArgumentException("Invalid service type", nameof(serviceType))
             };
         }

@@ -1,6 +1,6 @@
 ﻿namespace SmartDigitalPsico.Domain.Enuns
 {
-    public enum NotificationServiceType
+    public enum ENotificationServiceType
     {
         Email,
         Sms,

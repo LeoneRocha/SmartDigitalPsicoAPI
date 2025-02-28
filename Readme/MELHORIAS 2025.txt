@@ -1,24 +1,4 @@
-﻿---
-
-### **2) Gerenciamento de Notificações e Regras**
-
-Para enviar notificações automáticas aos pacientes com base em regras pré-definidas, você pode criar as seguintes estruturas:
-
-#### **a) Tabela `NotificationRules`**
-
-Esta tabela armazenará as diferentes regras de notificação que um médico pode configurar.
-
-- **`Id`**: `int` (chave primária)
-- **`MedicalId`**: `int` (chave estrangeira)
-- **`IsEnabled`**: `bool` (indica se a regra está ativa)
-- **`IntervalType`**: `string` (tipo de intervalo: "Minutes", "Hours", "Days", "Months", "Years")
-- **`IntervalValue`**: `int` (valor numérico do intervalo)
-- **`IsBefore`**: `bool` (se a notificação é enviada antes ou depois do agendamento)
-- **`NotificationMethods`**: `string` (métodos de envio separados por vírgula, por exemplo: "Email,SMS,WhatsApp")
-- **`Description`**: `string` (descrição da regra)
-- **`CreatedAt`**: `datetime`
-- **`UpdatedAt`**: `datetime`
-
+﻿
 #### **b) Tabela `Notifications`**
 
 Esta tabela rastreia cada notificação agendada ou enviada, evitando duplicidades.
@@ -34,6 +14,12 @@ Esta tabela rastreia cada notificação agendada ou enviada, evitando duplicidad
 - **`UpdatedAt`**: `datetime`
 
 ---
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### **3) Ajustes na Tabela de Agendamentos**
 
@@ -308,9 +294,9 @@ RuleNotificationMedical ?
 
 
 
-Claro! Podemos renomear a tabela para **`Leaves`** (que pode englobar feriados, férias e folgas) e adicionar um campo opcional para a data final. Aqui está a estrutura atualizada da tabela:
+Claro! Podemos renomear a tabela para **`NotificationRules`** (que pode englobar feriados, férias e folgas) e adicionar um campo opcional para a data final. Aqui está a estrutura atualizada da tabela:
 
-### **Tabela `Leaves`**
+### **Tabela `NotificationRules`**
 
 - **`Id`**: `int` (chave primária)
 - **`MedicalId`**: `int` (chave estrangeira referenciando o médico)
@@ -323,10 +309,35 @@ Claro! Podemos renomear a tabela para **`Leaves`** (que pode englobar feriados, 
 
 **Observações:**
 
-- **Relação com Médicos**: Certifique-se de estabelecer a relação adequada entre a tabela `Leaves` e a tabela `Medicals` via Entity Framework.
+- **Relação com Médicos**: Certifique-se de estabelecer a relação adequada entre a tabela `NotificationRules` e a tabela `Medicals` via Entity Framework.
 - **Validações**: Implemente validações para evitar conflitos de datas e sobreposições com agendamentos existentes.
 
 Essa estrutura deve cobrir todos os tipos de folgas, feriados e férias que você precisa gerenciar. Se precisar de mais alguma coisa, é só dizer!
 Olá! Parece que você está aprimorando seu sistema de agendamento médico específico para psicologia e quer adicionar funcionalidades como cadastro de feriados e gerenciamento de notificações. Vamos detalhar os campos e tabelas que você precisa criar, com os nomes dos campos em inglês conforme solicitado.
 
 ---
+
+
+
+
+
+---
+
+### **2) Gerenciamento de Notificações e Regras**
+
+Para enviar notificações automáticas aos pacientes com base em regras pré-definidas, você pode criar as seguintes estruturas:
+
+#### **a) Tabela `NotificationRules`**
+
+Esta tabela armazenará as diferentes regras de notificação que um médico pode configurar.
+
+- **`Id`**: `int` (chave primária)
+- **`MedicalId`**: `int` (chave estrangeira)
+- **`IsEnabled`**: `bool` (indica se a regra está ativa)
+- **`IntervalType`**: `string` (tipo de intervalo: "Minutes", "Hours", "Days", "Months", "Years")
+- **`IntervalValue`**: `int` (valor numérico do intervalo)
+- **`IsBefore`**: `bool` (se a notificação é enviada antes ou depois do agendamento)
+- **`NotificationMethods`**: `string` (métodos de envio separados por vírgula, por exemplo: "Email,SMS,WhatsApp")
+- **`Description`**: `string` (descrição da regra)
+- **`CreatedAt`**: `datetime`
+- **`UpdatedAt`**: `datetime`
