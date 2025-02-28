@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Notification
 {
     public interface ISendNotificationService
     {
-        Task SendNotificationAsync(NotificationTemplate template, NotificationServiceType serviceType, Dictionary<string, string> tokens);
+        Task SendNotificationAsync(NotificationTemplate template, ENotificationServiceType serviceType, Dictionary<string, string> tokens);
 
     }
 }

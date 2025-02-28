@@ -58,7 +58,7 @@ namespace SmartDigitalPsico.Service.DataEntity.General
                     ToEmails = new List<string> { "leocr_lem@yahoo.com.br" }
                 };
 
-                await _sharedServices.SendNotificationService.SendNotificationAsync(notificationVO, NotificationServiceType.Email, tokens);
+                await _sharedServices.SendNotificationService.SendNotificationAsync(notificationVO, ENotificationServiceType.Email, tokens);
             }
         }
 
