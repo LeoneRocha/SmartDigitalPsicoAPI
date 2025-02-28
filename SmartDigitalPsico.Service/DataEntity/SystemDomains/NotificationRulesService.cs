@@ -10,19 +10,19 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class LeavesService
-      : EntityBaseService<Leaves, AddLeavesDto, UpdateLeavesDto, GetLeavesDto, ILeavesRepository>, ILeavesService
+    public class NotificationRulesService
+      : EntityBaseService<NotificationRules, AddNotificationRulesDto, UpdateNotificationRulesDto, GetNotificationRulesDto, INotificationRulesRepository>, INotificationRulesService
     {
-        public LeavesService(
+        public NotificationRulesService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
-            ILeavesRepository entityRepository,
+            INotificationRulesRepository entityRepository,
             IApplicationLanguageRepository applicationLanguageRepository,
-            IValidator<Leaves> entityValidator
+            IValidator<NotificationRules> entityValidator
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         { 
-        }  
+        }
     }
 }

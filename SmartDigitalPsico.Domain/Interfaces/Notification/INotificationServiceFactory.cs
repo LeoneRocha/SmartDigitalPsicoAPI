@@ -4,6 +4,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Notification
 {
     public interface INotificationServiceFactory
     {
-        INotificationService GetService(NotificationServiceType serviceType);
+        INotificationService GetService(ENotificationServiceType serviceType);
     }
 }

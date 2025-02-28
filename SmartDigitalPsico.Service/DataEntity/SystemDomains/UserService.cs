@@ -466,7 +466,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     Body = template.Body,
                     ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
                 };
-                await _sharedServices.SendNotificationService.SendNotificationAsync(notificationMessageVO,NotificationServiceType.Email, tokens);
+                await _sharedServices.SendNotificationService.SendNotificationAsync(notificationMessageVO,ENotificationServiceType.Email, tokens);
             }
         }
     }

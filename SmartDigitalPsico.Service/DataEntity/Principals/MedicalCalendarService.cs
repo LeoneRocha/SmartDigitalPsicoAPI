@@ -137,7 +137,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 if (response.Success)
                 {
-                    if (entityUpdate.RecurrenceType != ERecurrenceCalendarType.None && (item.UpdateSeries || !string.IsNullOrEmpty(item.TokenRecurrence)))
+                    if (entityUpdate.RecurrenceType != ERecurrenceCalendarType.None && (item.UpdateSeries && !string.IsNullOrEmpty(item.TokenRecurrence)))
                     {
                         try
                         {

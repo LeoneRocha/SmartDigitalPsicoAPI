@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Notification
             _notificationServiceFactory = notificationServiceFactory;
         }
 
-        public async Task SendNotificationAsync(NotificationTemplate template, NotificationServiceType serviceType, Dictionary<string, string> tokens)
+        public async Task SendNotificationAsync(NotificationTemplate template, ENotificationServiceType serviceType, Dictionary<string, string> tokens)
         {
             var service = _notificationServiceFactory.GetService(serviceType);
             await service.SendAsync(template, tokens);
