@@ -1,6 +1,6 @@
 ﻿namespace SmartDigitalPsico.Domain.Interfaces.Notification
 {
-    public interface ISmsService : INotificationService
+    public interface ISmsService : INotificationPlatformService
     {
         
     }

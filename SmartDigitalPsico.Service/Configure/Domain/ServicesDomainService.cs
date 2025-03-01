@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         private static void RegisterManuallyAddedServices(IServiceCollection services)
         {
             services.AddScoped<ICacheService, CacheService>();
-            services.AddScoped<INotificationServiceFactory, NotificationServiceFactory>(); 
+            services.AddScoped<INotificationPlatformServiceFactory, NotificationPlatformServiceFactory>(); 
         }
         private static void RegisterServices(IServiceCollection services)
         {
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
                 typeof(ITokenService),
                 typeof(IAuditContextService),
                 typeof(ICacheService),
-                typeof(INotificationServiceFactory)
+                typeof(INotificationPlatformServiceFactory)
             }; 
             ignoredInterfaces.AddRange(ServiceCollectionHelper.GetRegisteredInterfaces(services));
 
