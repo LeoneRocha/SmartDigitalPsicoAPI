@@ -235,6 +235,15 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<UpdateNotificationRulesDto, NotificationRules>();
             #endregion NotificationRules 
 
+            #region NotificationRecords
+            CreateMap<NotificationRecords, GetNotificationRecordsDto>();
+            CreateMap<GetNotificationRecordsDto, NotificationRecords>();
+
+            CreateMap<AddNotificationRecordsDto, NotificationRecords>();
+            CreateMap<UpdateNotificationRecordsDto, NotificationRecords>();
+            #endregion NotificationRecords 
+
+
         }
     }
 }
