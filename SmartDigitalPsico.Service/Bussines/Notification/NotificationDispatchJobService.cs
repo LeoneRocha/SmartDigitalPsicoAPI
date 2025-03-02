@@ -93,6 +93,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 {
                     await NotifyAsync(record.MedicalCalendar, record.Id, rule.ScheduledSendTime);
                     rule.IsSent = true;
+                    rule.ActualSendTime = currentUtc;
                     updated = true;
                 }
             }
@@ -138,7 +139,12 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 NotificationRules = record.NotificationRules,
                 IsCompleted = record.IsCompleted,
                 FinalSendDate = record.FinalSendDate,
-                ModifyDate = DateTime.UtcNow
+                CreatedDate = record.CreatedDate,
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                Description = record.MedicalCalendar!.Description,
+                Enable = record.Enable,
+                EventDate = record.EventDate,
+                Language = "en", 
             };
         }
     }
