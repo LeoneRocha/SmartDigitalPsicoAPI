@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(AddNotificationRecordsDto item)
         {
-            item.NextScheduledSendTime = AdjustNextScheduledSendTime(item);
+            item.NextScheduledSendTime = GetNextScheduledSendTime(item);
             item.CreatedDate = DateTime.UtcNow;
             item.ModifyDate = DateTime.UtcNow;
             return await base.Create(item);
@@ -42,7 +42,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(UpdateNotificationRecordsDto item)
         {
-            item.NextScheduledSendTime = AdjustNextScheduledSendTime(item);
+            item.NextScheduledSendTime = GetNextScheduledSendTime(item);
             item.ModifyDate = DateTime.UtcNow;
             return await base.Update(item);
         }
@@ -81,13 +81,18 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         private static NotificationRuleStatus[] GenerateNotificationRulesDtos(NotificationRules[] notificationRules, MedicalCalendar medicalCalendar)
         {
-            return notificationRules.Select(nr => new NotificationRuleStatus
-            {
-                NotificationRuleId = nr.Id,
-                ScheduledSendTime = CalculateScheduledSendTime(nr, medicalCalendar.StartDateTime, medicalCalendar.TimeZone),
-                IsSent = false,
-                NotificationMethods = nr.ENotificationServiceType
-            }).ToArray();
+            var currentTime  = DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
+
+            return notificationRules
+                .Select(nr => new NotificationRuleStatus
+                {
+                    NotificationRuleId = nr.Id,
+                    ScheduledSendTime = CalculateScheduledSendTime(nr, medicalCalendar.StartDateTime, medicalCalendar.TimeZone),
+                    IsSent = false,
+                    NotificationMethods = nr.ENotificationServiceType
+                })
+                .Where(nr => nr.ScheduledSendTime > currentTime)
+                .ToArray();
         }
 
         private static bool ValidateCompletion(bool isCompletedFromDto, NotificationRuleStatus[] notificationRulesDtos)
@@ -98,14 +103,15 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private static AddNotificationRecordsDto CreateNotificationRecordsDto(MedicalCalendar medicalCalendar, NotificationRuleStatus[] notificationRulesDtos, bool isCompleted)
         {
             return new AddNotificationRecordsDto
-            { 
+            {
                 Enable = true,
+                EventDate = medicalCalendar.StartDateTime,
                 Language = "en",
-                Description = medicalCalendar.Description,                
+                Description = medicalCalendar.Description,
                 MedicalCalendarId = medicalCalendar.Id,
                 NotificationRules = notificationRulesDtos,
                 IsCompleted = isCompleted,
-                FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null 
+                FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
             };
         }
 
@@ -117,11 +123,12 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             {
                 var updateNotificationRecordDto = new UpdateNotificationRecordsDto
                 {
-                    Id = existingRecord.Id, 
+                    Id = existingRecord.Id,
+                    EventDate = medicalCalendar.StartDateTime,
                     MedicalCalendarId = existingRecord.MedicalCalendarId,
                     NotificationRules = notificationRecordDto.NotificationRules,
                     IsCompleted = isCompleted,
-                    FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null 
+                    FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
                 };
 
                 await Update(updateNotificationRecordDto);
@@ -157,7 +164,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         #region private
 
-        private DateTime? AdjustNextScheduledSendTime(NotificationRecordsBaseDto dto)
+        private DateTime? GetNextScheduledSendTime(NotificationRecordsBaseDto dto)
         {
             if (dto.NotificationRules == null || !dto.NotificationRules.Any(r => !r.IsSent))
             {
@@ -166,16 +173,19 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             var minScheduledLocal = dto.NotificationRules
                 .Where(r => !r.IsSent)
-                .Min(r => r.ScheduledSendTime);
+                .Min(r => r.ScheduledSendTime);            
 
-            int timeZoneOffset = GetAppointmentTimeZoneOffset(dto.MedicalCalendarId);
-
-            return minScheduledLocal.AddHours(-timeZoneOffset);
+            return minScheduledLocal;
         }
 
         private int GetAppointmentTimeZoneOffset(long? appointmentId)
         {
             return appointmentId.HasValue ? -3 : 0;
+        }
+
+        public async Task<NotificationRecords[]> GetPendingNotificationsAsync()
+        {
+            return await _entityRepository.GetPendingNotificationsAsync();
         }
 
         #endregion private

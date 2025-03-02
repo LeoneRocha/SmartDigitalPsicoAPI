@@ -13,14 +13,16 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
 
 
         public async Task<NotificationRecords[]> GetPendingNotificationsAsync()
-        { 
-            var currentTimeUtc = DateHelper.GetDateTimeNowFromUtc();
-            // Consulta otimizada usando EF Core
+        {
+            var currentDateUtc = DateHelper.GetDateTimeNowFromUtc().Date;
+          
             return await _dataset
                 .Where(nr => !nr.IsCompleted
                              && nr.NextScheduledSendTime.HasValue
-                             && nr.NextScheduledSendTime >= currentTimeUtc)
+                             && nr.NextScheduledSendTime.Value >= currentDateUtc
+                             && nr.EventDate > currentDateUtc)
                 .ToArrayAsync();
         }
+
     }
 }

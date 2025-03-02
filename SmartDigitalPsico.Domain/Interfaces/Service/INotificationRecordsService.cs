@@ -7,7 +7,8 @@ using SmartDigitalPsico.Domain.ModelEntity;
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
     public interface INotificationRecordsService : IEntityBaseService<NotificationRecords, AddNotificationRecordsDto, UpdateNotificationRecordsDto, GetNotificationRecordsDto>
-    { 
+    {
+        Task<NotificationRecords[]> GetPendingNotificationsAsync();
         Task CreateOrUpdateNotificationRecordsAsync(GenerateNotificationRecordsDto dto);
     }
 }

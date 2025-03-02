@@ -33,7 +33,9 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
         /// Data final que marca quando todos os envios foram concluídos (apenas quando IsCompleted for true).
         /// </summary>
         public DateTime? FinalSendDate { get; set; }
-         
+
+        public DateTime EventDate { get; set; }
+
         public DateTime CreatedDate { get; set; }
          
         public DateTime ModifyDate { get; set; }
