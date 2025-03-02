@@ -5,12 +5,7 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
 {
 
     public abstract class NotificationRecordsBaseDto : EntityDtoBaseDomain
-    {
-        /// <summary>
-        /// ID opcional do agendamento.
-        /// </summary>
-        public long? AppointmentId { get; set; }
-
+    {  
         /// <summary>
         /// ID opcional do calendário médico.
         /// </summary>
@@ -38,15 +33,9 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
         /// Data final que marca quando todos os envios foram concluídos (apenas quando IsCompleted for true).
         /// </summary>
         public DateTime? FinalSendDate { get; set; }
-
-        /// <summary>
-        /// Data de criação do registro.
-        /// </summary>
-        public DateTime CreatedAt { get; set; }
-
-        /// <summary>
-        /// Data da última atualização do registro.
-        /// </summary>
-        public DateTime UpdatedAt { get; set; }
+         
+        public DateTime CreatedDate { get; set; }
+         
+        public DateTime ModifyDate { get; set; }
     }
 }

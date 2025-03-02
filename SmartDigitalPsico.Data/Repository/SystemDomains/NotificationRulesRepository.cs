@@ -11,13 +11,13 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
     {
         public NotificationRulesRepository(IEntityDataContext context) : base(context) { }
 
-        public async Task<List<NotificationRules>> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId)
+        public async Task<NotificationRules[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId)
         {
             return await _dataset
                 .Where(nr => nr.NotificationType == notificationType
                 && nr.IsEnabled == isEnabled
                 && nr.MedicalId == medicalId)
-                .ToListAsync();
+                .ToArrayAsync();
         }
     }
 }
