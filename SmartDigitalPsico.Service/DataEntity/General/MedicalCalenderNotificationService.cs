@@ -33,7 +33,10 @@ namespace SmartDigitalPsico.Service.DataEntity.General
                     break;
                 case EMedicalCalendarActionType.Delete:
                 case EMedicalCalendarActionType.Cancelled:
-                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentCancelled); 
+                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentCancelled);
+                    break;
+                case EMedicalCalendarActionType.NotificationDispatch:
+                    template = await GetTemplate(EmailTemplateTagConstants.NotificationDispatch);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);

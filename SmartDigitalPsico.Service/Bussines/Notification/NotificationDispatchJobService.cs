@@ -109,7 +109,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         {
             _logger.Information("Sending notification for record {RecordId} (ScheduledSendTime: {ScheduleTime}) / Enviando notificação para registro {RecordId} (ScheduledSendTime: {ScheduleTime}).",
                 recordId, ruleTime);
-            await _medicalCalenderNotificationService.NotifyAsync(calendar, EMedicalCalendarActionType.Add);
+            await _medicalCalenderNotificationService.NotifyAsync(calendar, EMedicalCalendarActionType.NotificationDispatch);
         }
 
         private static void UpdateRecordStatus(NotificationRecords record, DateTime currentUtc)

@@ -4,9 +4,11 @@
 
 --------------3) CRIAR LOGICA PARA RECEBER UM APONTAMENTO E CRIAR OS RECORDS DE NOTIFICACAO  -  
 
---------------4) CRIAR UM LOGICA QUE BUSCA E PROCESSAS OS ENVIOS PENDENTES  -  - AMANHA ? ------------- PENDENTE
+--------------4) CRIAR UM LOGICA QUE BUSCA E PROCESSAS OS ENVIOS PENDENTES  -   FEITO - PENDENTE TESTE
 
---------------5) CRIAR END POINT PARA CHAMAR O PROCESSAMENTO ENVIO - SEGUNDA
+--------------5) CRIAR END POINT PARA CHAMAR O PROCESSAMENTO ENVIO - FEITO - PENDENTE TESTE
+
+---------- 5.1 MELHORAR PROCESSO PARA ENVIAR EVENTOS DE PROGRESSO EVENTOS 
 
 --------------6) CRIAR WINDOWS SERVICE PARA CHAMAR A LOGICA DE ENVIO - ?
 
@@ -16,6 +18,7 @@
 
 --------------9) MELHORAR WEB JOB PARA ATUALIZAR O STATUS QUE PROCESSAMENTO TA ATIVO - EVENTOS E GATILHOS   - ?
 
+Criar um tamplate de aviso de agendamento 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

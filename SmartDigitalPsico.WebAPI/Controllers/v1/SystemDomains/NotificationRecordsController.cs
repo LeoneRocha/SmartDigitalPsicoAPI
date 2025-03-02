@@ -5,6 +5,7 @@ using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.VO;
 
@@ -16,11 +17,15 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     public class NotificationRecordsController : ApiBaseController
     {
         private readonly INotificationRecordsService _entityService;
-
-        public NotificationRecordsController(INotificationRecordsService entityService
-             , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        private readonly INotificationDispatchJobService _notificationDispatchJobService;
+        public NotificationRecordsController(
+              INotificationRecordsService entityService
+             , IOptions<AuthConfigurationDto> configurationAuth
+            , INotificationDispatchJobService notificationDispatchJobService
+            ) : base(configurationAuth)
         {
             _entityService = entityService;
+            _notificationDispatchJobService = notificationDispatchJobService;
         }
         private void setUserIdCurrent()
         {
@@ -50,6 +55,23 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
                 return NotFound(response);
             }
             return Ok(response);
-        } 
+        }
+
+
+        [AllowAnonymous] // Permite acesso sem autenticação / Allow access without authentication
+        [HttpGet("NotificationDispatch")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        public async Task<ActionResult> NotificationDispatch()
+        {
+            try
+            { 
+                await _notificationDispatchJobService.ProcessPendingNotificationsAsync();
+                return Ok();
+            }
+            catch (Exception )
+            {
+                return BadRequest();
+            }
+        }
     }
 }
