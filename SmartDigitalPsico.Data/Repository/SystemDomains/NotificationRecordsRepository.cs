@@ -17,6 +17,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
             var currentDateUtc = DateHelper.GetDateTimeNowFromUtc().Date;
           
             return await _dataset
+                .Include(x=> x.MedicalCalendar) 
                 .Where(nr => !nr.IsCompleted
                              && nr.NextScheduledSendTime.HasValue
                              && nr.NextScheduledSendTime.Value >= currentDateUtc
