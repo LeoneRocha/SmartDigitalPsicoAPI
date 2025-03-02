@@ -27,69 +27,62 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
 
         public async Task ProcessPendingNotificationsAsync()
         {
-            _logger.Information("Iniciando processamento de notificações pendentes.");
+            _logger.Information("Starting processing of pending notifications / Iniciando processamento de notificações pendentes.");
             var pendingRecords = await _notificationRecordsService.GetPendingNotificationsAsync();
-            _logger.Information("Encontrados {Count} registros pendentes.", pendingRecords.Length);
+            _logger.Information("Found {Count} pending records / Encontrados {Count} registros pendentes.", pendingRecords.Length);
             var currentUtc = DateHelper.GetDateTimeNowFromUtc();
 
-            // Agrupa registros com MedicalCalendar por MedicalId.
+            // Agrupa os registros com MedicalCalendar por MedicalId.
             var groupedRecords = pendingRecords
                 .Where(r => r.MedicalCalendar != null)
                 .GroupBy(r => r.MedicalCalendar!.MedicalId)
                 .ToList();
-            _logger.Information("Registros agrupados em {GroupCount} grupos.", groupedRecords.Count);
+            _logger.Information("Records grouped into {GroupCount} groups / Registros agrupados em {GroupCount} grupos.", groupedRecords.Count);
 
             var updatedRecords = new ConcurrentBag<NotificationRecords>();
 
             // Processa os grupos em paralelo.
             await Parallel.ForEachAsync(groupedRecords, async (group, cancellationToken) =>
             {
-                _logger.Debug("Processando grupo para MedicalId {MedicalId} com {Count} registros.", group.Key, group.Count());
+                _logger.Debug("Processing group for MedicalId {MedicalId} with {Count} records / Processando grupo para MedicalId {MedicalId} com {Count} registros.", group.Key, group.Count());
                 foreach (var record in group)
                 {
                     if (await ProcessRecordAsync(record, currentUtc))
                     {
                         updatedRecords.Add(record);
-                        _logger.Debug("Registro {RecordId} processado para atualização.", record.Id);
+                        _logger.Debug("Record {RecordId} processed for update / Registro {RecordId} processado para atualização.", record.Id);
                     }
                 }
             });
 
-            // Processa os registros sem MedicalCalendar.
+            // Processa também os registros sem MedicalCalendar.
             var recordsWithoutCalendar = pendingRecords.Where(r => r.MedicalCalendar == null).ToList();
-            _logger.Information("Processando {Count} registros sem MedicalCalendar.", recordsWithoutCalendar.Count);
+            _logger.Information("Processing {Count} records without MedicalCalendar / Processando {Count} registros sem MedicalCalendar.", recordsWithoutCalendar.Count);
             await Parallel.ForEachAsync(recordsWithoutCalendar, async (record, cancellationToken) =>
             {
                 if (await ProcessRecordAsync(record, currentUtc))
                 {
                     updatedRecords.Add(record);
-                    _logger.Debug("Registro {RecordId} (sem MedicalCalendar) processado para atualização.", record.Id);
+                    _logger.Debug("Record {RecordId} (without MedicalCalendar) processed for update / Registro {RecordId} (sem MedicalCalendar) processado para atualização.", record.Id);
                 }
             });
 
-            // Atualiza os registros processados (executado de forma sequencial para preservar a thread-safety do DbContext).
+            // Atualiza os registros processados de forma sequencial para preservar a thread-safety do DbContext.
             foreach (var record in updatedRecords)
             {
                 var updateDto = MapToUpdateDto(record);
                 await _notificationRecordsService.Update(updateDto);
-                _logger.Information("Registro {RecordId} atualizado com sucesso.", record.Id);
+                _logger.Information("Record {RecordId} updated successfully / Registro {RecordId} atualizado com sucesso.", record.Id);
             }
-            _logger.Information("Processamento concluído. Registros atualizados: {UpdatedCount}.", updatedRecords.Count);
+            _logger.Information("Processing completed. Updated records: {UpdatedCount} / Processamento concluído. Registros atualizados: {UpdatedCount}.", updatedRecords.Count);
         }
 
-        /// <summary>
-        /// Processa um registro pendente enviando notificações para as regras cujo ScheduledSendTime já ocorreu.
-        /// Retorna true se ao menos uma regra foi processada.
-        /// </summary>
         private async Task<bool> ProcessRecordAsync(NotificationRecords record, DateTime currentUtc)
         {
             if (record.NotificationRules == null || !record.NotificationRules.Any())
                 return false;
 
-            var pendingRules = record.NotificationRules
-                                    .Where(r => !r.IsSent && r.ScheduledSendTime <= currentUtc)
-                                    .ToList();
-
+            var pendingRules = record.NotificationRules.Where(r => !r.IsSent && r.ScheduledSendTime <= currentUtc).ToList();
             if (!pendingRules.Any())
                 return false;
 
@@ -103,28 +96,22 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                     updated = true;
                 }
             }
-
             if (updated)
             {
                 UpdateRecordStatus(record, currentUtc);
-                _logger.Debug("Registro {RecordId} atualizado: NextScheduledSendTime={NextTime}, IsCompleted={Completed}.",
+                _logger.Debug("Record {RecordId} updated status: NextScheduledSendTime={NextTime}, IsCompleted={Completed} / Registro {RecordId} atualizado: NextScheduledSendTime={NextTime}, IsCompleted={Completed}.",
                     record.Id, record.NextScheduledSendTime, record.IsCompleted);
             }
             return updated;
         }
 
-        /// <summary>
-        /// Envia a notificação para o MedicalCalendar e registra o evento.
-        /// </summary>
         private async Task NotifyAsync(MedicalCalendar calendar, long recordId, DateTime ruleTime)
         {
-            _logger.Information("Enviando notificação para registro {RecordId} (ScheduledSendTime: {ScheduleTime}).", recordId, ruleTime);
+            _logger.Information("Sending notification for record {RecordId} (ScheduledSendTime: {ScheduleTime}) / Enviando notificação para registro {RecordId} (ScheduledSendTime: {ScheduleTime}).",
+                recordId, ruleTime);
             await _medicalCalenderNotificationService.NotifyAsync(calendar, EMedicalCalendarActionType.Add);
         }
 
-        /// <summary>
-        /// Atualiza os campos NextScheduledSendTime, IsCompleted e FinalSendDate com base nas regras ainda não enviadas.
-        /// </summary>
         private static void UpdateRecordStatus(NotificationRecords record, DateTime currentUtc)
         {
             var unsentRules = record.NotificationRules.Where(r => !r.IsSent).ToList();
@@ -142,9 +129,6 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             }
         }
 
-        /// <summary>
-        /// Mapeia o registro atualizado para o DTO de atualização.
-        /// </summary>
         private static UpdateNotificationRecordsDto MapToUpdateDto(NotificationRecords record)
         {
             return new UpdateNotificationRecordsDto
