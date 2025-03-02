@@ -48,31 +48,35 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// Cria ou atualiza registros de NotificationRecords para um MedicalCalendar, associando todas as regras existentes.
+        /// Cria ou atualiza registros de NotificationRecords para um ou mais MedicalCalendars, associando todas as regras existentes.
         /// </summary>
-        /// <param name="dto">DTO contendo o MedicalCalendar e o tipo de notificação.</param>
+        /// <param name="dto">DTO contendo os MedicalCalendars e o tipo de notificação.</param>
         /// <returns>Task representando a operação assíncrona.</returns>
         public async Task CreateOrUpdateNotificationRecordsAsync(GenerateNotificationRecordsDto dto)
         {
-            var medicalCalendar = dto.MedicalCalendar;
+            foreach (var medicalCalendar in dto.MedicalCalendars)
+            {
+                await ProcessSingleMedicalCalendarAsync(medicalCalendar, dto);
+            }
+        }
 
-            var notificationRules = await GetNotificationRulesAsync(dto);
+        private async Task ProcessSingleMedicalCalendarAsync(MedicalCalendar medicalCalendar, GenerateNotificationRecordsDto dto)
+        {
+            var notificationRules = await GetNotificationRulesAsync(dto, medicalCalendar.MedicalId);
 
             if (notificationRules.Length > 0)
             {
                 var notificationRulesDtos = GenerateNotificationRulesDtos(notificationRules, medicalCalendar);
-
                 bool isCompleted = ValidateCompletion(dto.IsCompleted, notificationRulesDtos);
-
                 var notificationRecordDto = CreateNotificationRecordsDto(medicalCalendar, notificationRulesDtos, isCompleted);
 
                 await SaveNotificationRecordAsync(medicalCalendar, notificationRecordDto, isCompleted);
             }
         }
 
-        private async Task<NotificationRules[]> GetNotificationRulesAsync(GenerateNotificationRecordsDto dto)
+        private async Task<NotificationRules[]> GetNotificationRulesAsync(GenerateNotificationRecordsDto dto, long medicalId)
         {
-            return await _notificationRulesService.GetNotificationRulesAsync(dto.NotificationType, dto.IsEnabled, dto.MedicalCalendar.MedicalId);
+            return await _notificationRulesService.GetNotificationRulesAsync(dto.NotificationType, dto.IsEnabled, medicalId);
         }
 
         private static NotificationRuleStatus[] GenerateNotificationRulesDtos(NotificationRules[] notificationRules, MedicalCalendar medicalCalendar)
@@ -95,16 +99,19 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             return new AddNotificationRecordsDto
             { 
+                Enable = true,
+                Language = "en",
+                Description = medicalCalendar.Description,                
                 MedicalCalendarId = medicalCalendar.Id,
                 NotificationRules = notificationRulesDtos,
                 IsCompleted = isCompleted,
-                FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null, 
+                FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null 
             };
         }
 
         private async Task SaveNotificationRecordAsync(MedicalCalendar medicalCalendar, AddNotificationRecordsDto notificationRecordDto, bool isCompleted)
         {
-            var existingRecord = (await _entityRepository.FindByCustomWhere(nr => nr.MedicalCalendarId == medicalCalendar.Id)).First();
+            var existingRecord = (await _entityRepository.FindByCustomWhere(nr => nr.MedicalCalendarId == medicalCalendar.Id)).FirstOrDefault();
 
             if (existingRecord != null)
             {
@@ -114,7 +121,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     MedicalCalendarId = existingRecord.MedicalCalendarId,
                     NotificationRules = notificationRecordDto.NotificationRules,
                     IsCompleted = isCompleted,
-                    FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null  
+                    FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null 
                 };
 
                 await Update(updateNotificationRecordDto);
@@ -166,9 +173,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return minScheduledLocal.AddHours(-timeZoneOffset);
         }
 
-        private int GetAppointmentTimeZoneOffset(long? medicalCalendarId)
+        private int GetAppointmentTimeZoneOffset(long? appointmentId)
         {
-            return medicalCalendarId.HasValue ? -3 : 0;
+            return appointmentId.HasValue ? -3 : 0;
         }
 
         #endregion private

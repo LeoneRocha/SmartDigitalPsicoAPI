@@ -31,6 +31,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
              
             builder.Property(e => e.CreatedDate).IsRequired();
             builder.Property(e => e.ModifyDate).IsRequired();
+            builder.Property(e => e.EventDate).IsRequired();
 
             // Propriedade usada para filtragem rápida de notificações pendentes.
             builder.Property(e => e.NextScheduledSendTime)
@@ -42,8 +43,11 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.FinalSendDate)
                    .IsRequired(false);
 
-            // Relationship  
-            builder.HasOne(e => e.MedicalCalendar).WithMany().HasForeignKey(e => e.MedicalCalendarId);
+            // Relationship   
+            builder.HasOne(e => e.MedicalCalendar)
+                   .WithMany()
+                   .HasForeignKey(e => e.MedicalCalendarId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
             // Indexes (using Fluent API) 
             // Índices para melhorar a performance das consultas. 

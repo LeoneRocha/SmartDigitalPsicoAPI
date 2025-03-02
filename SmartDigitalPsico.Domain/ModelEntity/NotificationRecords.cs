@@ -19,8 +19,9 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public bool IsCompleted { get; set; }
 
         // Se IsCompleted for true, esta data indica o momento em que todas as notificações foram enviadas.
-        public DateTime? FinalSendDate { get; set; } 
-    } 
+        public DateTime? FinalSendDate { get; set; }
+        public DateTime EventDate { get; set; }
+    }
     public class NotificationRuleStatus
     {
         public long NotificationRuleId { get; set; }

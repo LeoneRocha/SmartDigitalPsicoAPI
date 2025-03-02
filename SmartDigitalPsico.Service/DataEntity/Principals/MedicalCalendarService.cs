@@ -7,6 +7,7 @@ using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
+using SmartDigitalPsico.Domain.DTO.Notification;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -28,7 +29,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IUserRepository _userRepository;
         private readonly IMedicalCalendarValidators _validators;
         private readonly IMedicalCalenderNotificationService _medicalCalenderNotification;
-
+        private readonly INotificationRecordsService _notificationRecordsService;
         public MedicalCalendarService(
             IServiceProvider serviceProvider,
             ISharedServices sharedServices,
@@ -36,7 +37,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             IMedicalCalendarValidators medicalCalendarValidators,
             IMedicalCalendarRepository entityRepository,
             IPatientRepositories repositoriesShared,
-            IMedicalCalenderNotificationService medicalCalenderNotification
+            IMedicalCalenderNotificationService medicalCalenderNotification,
+            INotificationRecordsService notificationRecordsService
             )
             : base(sharedServices, sharedDependenciesConfig, repositoriesShared.SharedRepositories, entityRepository, medicalCalendarValidators.EntityValidator)
         {
@@ -44,6 +46,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _userRepository = repositoriesShared.SharedRepositories.UserRepository;
             _validators = medicalCalendarValidators;
             _medicalCalenderNotification = medicalCalenderNotification;
+            _notificationRecordsService = notificationRecordsService;
         }
 
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
@@ -73,7 +76,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         {
                             entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
                             await GenerateRecurrenceAsync(entityAdd, false);
-                            response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
+                            response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);                             
                             response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred);
 
                         }
@@ -86,7 +89,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     else
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
-                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
+                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);                        
+                        await CreateOrUpdateNotificationRecordsAsync([entityAdd]);
                         response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred);
                     }
 
@@ -105,6 +109,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
 
             return response;
+        }
+        private async Task CreateOrUpdateNotificationRecordsAsync(MedicalCalendar[] entities)
+        {
+            var notificationDto = new GenerateNotificationRecordsDto() { MedicalCalendars = entities, IsEnabled = true, NotificationType = ENotificationType.BeforeAppointment };
+            await _notificationRecordsService.CreateOrUpdateNotificationRecordsAsync(notificationDto);
         }
 
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
@@ -154,6 +163,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Update(entityUpdate);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
+                        await CreateOrUpdateNotificationRecordsAsync([entityUpdate]);
                         response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarUpdated, MedicalCalendarMenssageConstants.CalendarUpdated);
                     }
                 }
@@ -204,6 +214,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             events = events.OrderBy(e => e.StartDateTime).ToList();
             await _entityRepository.AddRangeAsync(events);
+            await CreateOrUpdateNotificationRecordsAsync(events.ToArray());
         }
         private static async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count, int interval, ETimeUnitCalendarType unit)
         {
