@@ -174,15 +174,21 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             var timeZoneOffset = GetTimeZoneOffset(timeZone);
             var adjustedStartDateTime = startDateTime.AddHours(-timeZoneOffset);
 
-            return notificationRule.IntervalType switch
+            switch (notificationRule.IntervalType)
             {
-                EIntervalNotificationType.Minutes => adjustedStartDateTime.AddMinutes(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
-                EIntervalNotificationType.Hours => adjustedStartDateTime.AddHours(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
-                EIntervalNotificationType.Days => adjustedStartDateTime.AddDays(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
-                EIntervalNotificationType.Months => adjustedStartDateTime.AddMonths(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
-                EIntervalNotificationType.Years => adjustedStartDateTime.AddYears(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
-                _ => throw new ArgumentOutOfRangeException(nameof(notificationRule.IntervalType), "Unsupported interval type.", notificationRule.IntervalType.ToString())
-            };
+                case EIntervalNotificationType.Minutes:
+                    return adjustedStartDateTime.AddMinutes(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue);
+                case EIntervalNotificationType.Hours:
+                    return adjustedStartDateTime.AddHours(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue);
+                case EIntervalNotificationType.Days:
+                    return adjustedStartDateTime.AddDays(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue);
+                case EIntervalNotificationType.Months:
+                    return adjustedStartDateTime.AddMonths(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue);
+                case EIntervalNotificationType.Years:
+                    return adjustedStartDateTime.AddYears(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue);
+                default: 
+                    return adjustedStartDateTime;
+            }
         }
          
         private static int GetTimeZoneOffset(string timeZone)
