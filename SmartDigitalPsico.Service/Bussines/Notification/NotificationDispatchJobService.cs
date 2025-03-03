@@ -84,7 +84,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             }
 
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
-        } 
+        }
 
         private async Task<bool> ProcessRecordAsync(NotificationRecords record, DateTime currentUtc)
         {
@@ -166,8 +166,11 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 Processed = processed,
                 Total = total
             });
-            // Log para progresso em porcentagem
-            LogInformation("Processing progress: {Percentage:F2}% / Progresso do processamento: {Percentage:F2}%", (double)processed / total * 100);
+            if (total > 0 && processed > 0)
+            {
+                // Log para progresso em porcentagem
+                LogInformation("Processing progress: {Percentage:F2}% / Progresso do processamento: {Percentage:F2}%", (double)processed / total * 100);
+            }  
         }
     }
 }
