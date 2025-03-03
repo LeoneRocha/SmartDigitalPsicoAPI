@@ -181,7 +181,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 EIntervalNotificationType.Days => adjustedStartDateTime.AddDays(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
                 EIntervalNotificationType.Months => adjustedStartDateTime.AddMonths(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
                 EIntervalNotificationType.Years => adjustedStartDateTime.AddYears(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
-                _ => throw new ArgumentOutOfRangeException(nameof(notificationRule.IntervalType), notificationRule.IntervalType, "Unsupported interval type.")
+                _ => throw new ArgumentOutOfRangeException(nameof(notificationRule.IntervalType), "Unsupported interval type.", notificationRule.IntervalType.ToString())
             };
         }
          
