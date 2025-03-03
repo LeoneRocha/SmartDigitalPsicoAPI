@@ -80,9 +80,8 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             {
                 var updateDto = MapToUpdateDto(record);
                 await _notificationRecordsService.Update(updateDto);
-                LogInformation(NotificationDispatchConstants.SendedNotification, record.Id);
+                LogInformation(NotificationDispatchConstants.UpdatedStatus, record.Id);
             }
-
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
         }
 
@@ -170,7 +169,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             {
                 // Log para progresso em porcentagem
                 LogInformation("Processing progress: {Percentage:F2}% / Progresso do processamento: {Percentage:F2}%", (double)processed / total * 100);
-            }  
+            }
         }
     }
 }
