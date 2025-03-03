@@ -21,7 +21,7 @@
         public const string ProcessingWithoutCalendar = $"Processing {Count} records without MedicalCalendar / Processando {Count} registros sem MedicalCalendar.";
         public const string RecordUpdated = $"Record {RecordId} updated successfully / Registro {RecordId} atualizado com sucesso.";
         public const string ProcessingCompleted = $"Processing completed. Updated records: {UpdatedCount} / Processamento concluído. Registros atualizados: {UpdatedCount}.";
-        public const string SendingNotification = $"Sending notification for record {RecordId} (ScheduledSendTime: {ScheduleTime}) / Enviando notificação para registro {RecordId} (ScheduledSendTime: {ScheduleTime}).";
+        public const string SendedNotification = $"Sended notification for record {RecordId} (ScheduledSendTime: {ScheduleTime}) / Enviado notificação para registro {RecordId} (ScheduledSendTime: {ScheduleTime}).";
         public const string UpdatedStatus = $"Record {RecordId} updated status: NextScheduledSendTime={NextTime}, IsCompleted={Completed} / Registro {RecordId} atualizado: NextScheduledSendTime={NextTime}, IsCompleted={Completed}.";
     }
 }

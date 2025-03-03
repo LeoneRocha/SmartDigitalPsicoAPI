@@ -102,8 +102,8 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
 
         private async Task NotifyAsync(MedicalCalendar calendar, long recordId, DateTime ruleTime)
         {
-            _logger.Information(NotificationDispatchConstants.SendingNotification, recordId, ruleTime);
             await _medicalCalenderNotificationService.NotifyAsync(calendar, EMedicalCalendarActionType.NotificationDispatch);
+            _logger.Information(NotificationDispatchConstants.SendedNotification, recordId, ruleTime);
         }
 
         private static void UpdateRecordStatus(NotificationRecords record, DateTime currentUtc)
