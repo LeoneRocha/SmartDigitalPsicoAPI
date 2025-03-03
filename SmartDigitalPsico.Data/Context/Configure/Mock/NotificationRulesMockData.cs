@@ -99,7 +99,24 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
-            }
+            },       // Envio 24 horas antes do agendamento
+            new NotificationRules
+            {
+                Id = 6,
+                Enable = true,
+                MedicalId = 1,
+                IsEnabled = true,
+                IntervalType = EIntervalNotificationType.Hours,
+                IntervalValue = 48,
+                IsBefore = true,
+                ENotificationServiceType = new [] { ENotificationServiceType.Email },
+                Description = "Envio 48 horas antes do agendamento",
+                Language = "pt-BR",
+                NotificationType = ENotificationType.BeforeAppointment,
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+            },
         };
         }
     }

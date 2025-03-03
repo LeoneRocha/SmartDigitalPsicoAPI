@@ -144,7 +144,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 Description = record.MedicalCalendar!.Description,
                 Enable = record.Enable,
                 EventDate = record.EventDate,
-                Language = "en", 
+                Language = "en",
             };
         }
     }

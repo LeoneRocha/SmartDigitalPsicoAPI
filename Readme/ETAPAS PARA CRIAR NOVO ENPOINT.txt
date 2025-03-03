@@ -6,7 +6,7 @@ Exemplo:  NotificationRules
 2) Criar a classe de configuracao do EF core  (SmartDigitalPsico.Data.Context.Configure.Entity) -------------------------- OK   
 Exemplo:  NotificationRulesConfiguration
 
-Add-Migration NotificationRules -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+Add-Migration NotificationRules5 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
 * A injecao esta automatizada pelo ModelBuilderExtensions.AddConfigurationEntities chamado no ConfigurationEntitiesHelper dentro do OnModelCreating

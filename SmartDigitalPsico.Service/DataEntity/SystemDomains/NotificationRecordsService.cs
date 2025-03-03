@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
@@ -42,9 +43,38 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(UpdateNotificationRecordsDto item)
         {
-            item.NextScheduledSendTime = GetNextScheduledSendTime(item);
-            item.ModifyDate = DateTime.UtcNow;
-            return await base.Update(item);
+            ServiceResponse<GetNotificationRecordsDto> response = new ServiceResponse<GetNotificationRecordsDto>();
+
+            NotificationRecords? entityUpdate = await _entityRepository.FindByID(item.Id);
+            if (entityUpdate != null)
+            {   
+                entityUpdate.NotificationRules = item.NotificationRules;
+                entityUpdate.NextScheduledSendTime = item.NextScheduledSendTime;
+                entityUpdate.FinalSendDate = item.FinalSendDate;
+                entityUpdate.EventDate = item.EventDate;
+                entityUpdate.Enable = item.Enable;
+                entityUpdate.IsCompleted = item.IsCompleted;               
+               
+                // Atualiza as datas e o usuário modificador
+                entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+
+                response = await base.Validate(entityUpdate);
+
+                if (response.Success)
+                {  
+                    NotificationRecords entityResponse = await _entityRepository.Update(entityUpdate);
+
+                    response.Data = _mapper.Map<GetNotificationRecordsDto>(entityResponse);
+                    response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
+            }
+
+            return response;
         }
 
         /// <summary>
