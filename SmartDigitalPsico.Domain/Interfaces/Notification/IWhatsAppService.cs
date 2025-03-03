@@ -1,6 +1,6 @@
 ﻿namespace SmartDigitalPsico.Domain.Interfaces.Notification
 {
-    public interface IWhatsAppService : INotificationService
+    public interface IWhatsAppService : INotificationPlatformService
     { 
     }
 }

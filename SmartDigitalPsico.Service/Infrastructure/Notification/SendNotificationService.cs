@@ -6,9 +6,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Notification
 {
     public class SendNotificationService : ISendNotificationService
     {
-        private readonly INotificationServiceFactory _notificationServiceFactory;
+        private readonly INotificationPlatformServiceFactory _notificationServiceFactory;
 
-        public SendNotificationService(INotificationServiceFactory notificationServiceFactory)
+        public SendNotificationService(INotificationPlatformServiceFactory notificationServiceFactory)
         {
             _notificationServiceFactory = notificationServiceFactory;
         }

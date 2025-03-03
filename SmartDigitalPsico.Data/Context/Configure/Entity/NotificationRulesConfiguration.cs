@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -36,15 +37,19 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.Description).HasMaxLength(255).IsRequired();
             builder.Property(e => e.CreatedDate).IsRequired(true);
             builder.Property(e => e.ModifyDate).IsRequired(true);
-             
+
+            builder.Property(e => e.NotificationType).IsRequired()
+                .HasConversion(
+                    v => (short)v,
+                    v => (ENotificationType)v);
+
             // Relationship  
             builder.HasOne(e => e.Medical).WithMany().HasForeignKey(e => e.MedicalId);
-
-
+             
             // Indexes (using Fluent API)
             builder.HasIndex(e => e.MedicalId).HasDatabaseName("IX_NotificationRules_MedicalId");
-        }
-    }
 
-     
-}
+            builder.HasData(NotificationRulesMockData.GetMock());
+        }
+    } 
+} 

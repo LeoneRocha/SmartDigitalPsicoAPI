@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Smtp
 {
-    public interface IEmailService : INotificationService
+    public interface IEmailService : INotificationPlatformService
     { 
     }
 }

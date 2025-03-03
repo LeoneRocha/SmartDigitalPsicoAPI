@@ -5,8 +5,8 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
-    public static class ApplicationConfigSettingMockData  
-    { 
+    public static class ApplicationConfigSettingMockData
+    {
         public static ApplicationConfigSetting[] GetMock()
         {
             return [
@@ -22,8 +22,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                   TypeLocationQueeMessaging = ETypeLocationQueeMessaging.MongoDB,
                   EndPointUrl_Cache = string.Empty,
                   EndPointUrl_StorageFiles = string.Empty,
-                  Enable = true, 
-                  UrlRootManager = "https://smartdigitalpsicoui-staging.azurewebsites.net/"
+                  Enable = true,
+                  UrlRootManager = string.Empty,
               }
               ];
         }

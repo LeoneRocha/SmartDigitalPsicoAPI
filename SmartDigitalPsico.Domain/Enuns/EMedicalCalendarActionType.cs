@@ -9,6 +9,7 @@
         Rescheduled,
         Scheduled,
         Refused,
+        NotificationDispatch,
     }
 
 }
