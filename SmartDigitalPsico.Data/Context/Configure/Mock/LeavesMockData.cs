@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 2,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(2025, 2, 25, 0, 0, 0, DateTimeKind.Local),
+                StartDate = new DateTime(currentYear, 2, 25, 0, 0, 0, DateTimeKind.Local),
                 Description = "Carnaval",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -42,7 +42,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 3,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(2025, 4, 18, 0, 0, 0, DateTimeKind.Local),
+                StartDate = new DateTime(currentYear, 4, 18, 0, 0, 0, DateTimeKind.Local),
                 Description = "Sexta-feira Santa",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -75,7 +75,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 6,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(2025, 6, 19, 0, 0, 0, DateTimeKind.Local),
+                StartDate = new DateTime(currentYear, 6, 19, 0, 0, 0, DateTimeKind.Local),
                 Description = "Corpus Christi",
                 Language = LanguagePtBR,
                 IsRecurring = true
