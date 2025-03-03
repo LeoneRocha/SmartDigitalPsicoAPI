@@ -38,6 +38,9 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             int totalRecords = pendingRecords.Length; // Total de registros pendentes
             int processedCount = 0; // Contador compartilhado para progresso
 
+            // Dispara evento inicial de progresso com 0%
+            RaiseProgressChanged(0, totalRecords);
+
             // Agrupa os registros com MedicalCalendar por MedicalId.
             var groupedRecords = pendingRecords
                 .Where(r => r.MedicalCalendar != null)
@@ -81,7 +84,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             }
 
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
-        }
+        } 
 
         private async Task<bool> ProcessRecordAsync(NotificationRecords record, DateTime currentUtc)
         {
