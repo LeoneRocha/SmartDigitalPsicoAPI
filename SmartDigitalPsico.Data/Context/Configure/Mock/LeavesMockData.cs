@@ -5,8 +5,10 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
     public static class LeavesMockData
     {
+        private const string LanguagePtBR = "pt-BR";
+
         public static Leaves[] GetMock()
-        { 
+        {
             var currentYear = DateTime.Now.Year;
 
             // Lista dos principais feriados no Brasil
@@ -18,9 +20,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 1,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 1, 1),
+                StartDate = new DateTime(currentYear, 1, 1, 0, 0, 0, DateTimeKind.Local),
                 Description = "Ano Novo",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Carnaval (exemplo de data variável: terça-feira de Carnaval em 2025)
@@ -29,9 +31,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 2,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(2025, 2, 25),
+                StartDate = new DateTime(2025, 2, 25, 0, 0, 0, DateTimeKind.Local),
                 Description = "Carnaval",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Sexta-feira Santa (exemplo de data variável em 2025)
@@ -40,9 +42,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 3,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(2025, 4, 18),
+                StartDate = new DateTime(2025, 4, 18, 0, 0, 0, DateTimeKind.Local),
                 Description = "Sexta-feira Santa",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Tiradentes
@@ -51,9 +53,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 4,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 4, 21),
+                StartDate = new DateTime(currentYear, 4, 21, 0, 0, 0, DateTimeKind.Local),
                 Description = "Tiradentes",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Dia do Trabalho
@@ -62,9 +64,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 5,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 5, 1),
+                StartDate = new DateTime(currentYear, 5, 1, 0, 0, 0, DateTimeKind.Local),
                 Description = "Dia do Trabalho",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Corpus Christi (exemplo de data variável em 2025)
@@ -73,9 +75,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 6,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(2025, 6, 19),
+                StartDate = new DateTime(2025, 6, 19, 0, 0, 0, DateTimeKind.Local),
                 Description = "Corpus Christi",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Independência do Brasil
@@ -84,9 +86,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 7,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 9, 7),
+                StartDate = new DateTime(currentYear, 9, 7, 0, 0, 0, DateTimeKind.Local),
                 Description = "Independência do Brasil",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Nossa Senhora Aparecida
@@ -95,9 +97,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 8,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 10, 12),
+                StartDate = new DateTime(currentYear, 10, 12, 0, 0, 0, DateTimeKind.Local),
                 Description = "Nossa Senhora Aparecida",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Finados
@@ -106,9 +108,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 9,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 11, 2),
+                StartDate = new DateTime(currentYear, 11, 2, 0, 0, 0, DateTimeKind.Local),
                 Description = "Finados",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Proclamação da República
@@ -117,9 +119,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 10,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 11, 15),
+                StartDate = new DateTime(currentYear, 11, 15, 0, 0, 0, DateTimeKind.Local),
                 Description = "Proclamação da República",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             },
             // Natal
@@ -128,9 +130,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 11,
                 Enable = true,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 12, 25),
+                StartDate = new DateTime(currentYear, 12, 25, 0, 0, 0, DateTimeKind.Local),
                 Description = "Natal",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 IsRecurring = true
             }
         };

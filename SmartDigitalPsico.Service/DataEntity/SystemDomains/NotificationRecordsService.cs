@@ -194,7 +194,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         #region private
 
-        private DateTime? GetNextScheduledSendTime(NotificationRecordsBaseDto dto)
+        private static DateTime? GetNextScheduledSendTime(NotificationRecordsBaseDto dto)
         {
             if (dto.NotificationRules == null || !dto.NotificationRules.Any(r => !r.IsSent))
             {
@@ -208,7 +208,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return minScheduledLocal;
         }
 
-        private int GetAppointmentTimeZoneOffset(long? appointmentId)
+        private static int GetAppointmentTimeZoneOffset(long? appointmentId)
         {
             return appointmentId.HasValue ? -3 : 0;
         }

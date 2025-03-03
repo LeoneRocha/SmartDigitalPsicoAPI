@@ -28,9 +28,9 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
 
         public async Task ProcessPendingNotificationsAsync()
         {
-            _logger.Information(NotificationDispatchConstants.StartingProcessing);
+            LogInformation(NotificationDispatchConstants.StartingProcessing);
             var pendingRecords = await _notificationRecordsService.GetPendingNotificationsAsync();
-            _logger.Information(NotificationDispatchConstants.FoundPendingRecords, pendingRecords.Length);
+            LogInformation(NotificationDispatchConstants.FoundPendingRecords, pendingRecords.Length);
             var currentUtc = DateHelper.GetDateTimeNowFromUtc();
 
             // Agrupa os registros com MedicalCalendar por MedicalId.
@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 .Where(r => r.MedicalCalendar != null)
                 .GroupBy(r => r.MedicalCalendar!.MedicalId)
                 .ToList();
-            _logger.Information(NotificationDispatchConstants.RecordsGrouped, groupedRecords.Count);
+            LogInformation(NotificationDispatchConstants.RecordsGrouped, groupedRecords.Count);
 
             var updatedRecords = new ConcurrentBag<NotificationRecords>();
 
@@ -58,7 +58,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
 
             // Processa também os registros sem MedicalCalendar.
             var recordsWithoutCalendar = pendingRecords.Where(r => r.MedicalCalendar == null).ToList();
-            _logger.Information(NotificationDispatchConstants.ProcessingWithoutCalendar, recordsWithoutCalendar.Count);
+            LogInformation(NotificationDispatchConstants.ProcessingWithoutCalendar, recordsWithoutCalendar.Count);
             await Parallel.ForEachAsync(recordsWithoutCalendar, async (record, cancellationToken) =>
             {
                 if (await ProcessRecordAsync(record, currentUtc))
@@ -73,9 +73,9 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             {
                 var updateDto = MapToUpdateDto(record);
                 await _notificationRecordsService.Update(updateDto);
-                _logger.Information(NotificationDispatchConstants.RecordUpdated, record.Id);
+                LogInformation(NotificationDispatchConstants.RecordUpdated, record.Id);
             }
-            _logger.Information(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
+            LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
         }
 
         private async Task<bool> ProcessRecordAsync(NotificationRecords record, DateTime currentUtc)
@@ -145,6 +145,11 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 EventDate = record.EventDate,
                 Language = "en",
             };
+        }
+
+        private void LogInformation(string message, params object[] args)
+        {
+            _logger.Information(message, args);
         }
     }
 }

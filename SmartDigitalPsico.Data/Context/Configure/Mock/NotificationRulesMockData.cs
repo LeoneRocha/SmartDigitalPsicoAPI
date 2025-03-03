@@ -6,6 +6,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
     public static class NotificationRulesMockData
     {
+        private const string LanguagePtBR = "pt-BR";
+
         public static NotificationRules[] GetMock()
         {
             return new[]
@@ -22,7 +24,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 IsBefore = true,
                 ENotificationServiceType = new [] { ENotificationServiceType.Email },
                 Description = "Envio 24 horas antes do agendamento",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
@@ -40,7 +42,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 IsBefore = true,
                 ENotificationServiceType = new [] { ENotificationServiceType.Email },
                 Description = "Envio 3 dias antes do agendamento",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
@@ -58,7 +60,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 IsBefore = true,
                 ENotificationServiceType = new [] { ENotificationServiceType.Email },
                 Description = "Envio 1 hora antes do agendamento",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
@@ -76,7 +78,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 IsBefore = true,
                 ENotificationServiceType = new [] { ENotificationServiceType.Email },
                 Description = "Envio 15 minutos antes do agendamento",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
@@ -94,12 +96,13 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 IsBefore = true,
                 ENotificationServiceType = new [] { ENotificationServiceType.Email },
                 Description = "Lembrete de pagamento (3 dias antes do vencimento)",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 NotificationType = ENotificationType.PaymentReminder,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
-            },       // Envio 24 horas antes do agendamento
+            },       
+            // Envio 48 horas antes do agendamento
             new NotificationRules
             {
                 Id = 6,
@@ -111,7 +114,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 IsBefore = true,
                 ENotificationServiceType = new [] { ENotificationServiceType.Email },
                 Description = "Envio 48 horas antes do agendamento",
-                Language = "pt-BR",
+                Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
