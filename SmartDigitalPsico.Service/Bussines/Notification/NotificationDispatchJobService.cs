@@ -33,7 +33,6 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         {
             LogInformation(NotificationDispatchConstants.StartingProcessing);
             var pendingRecords = await _notificationRecordsService.GetPendingNotificationsAsync();
-            LogInformation(NotificationDispatchConstants.FoundPendingRecords, pendingRecords.Length);
             var currentUtc = DateHelper.GetDateTimeNowFromUtc();
 
             int totalRecords = pendingRecords.Length; // Total de registros pendentes
@@ -44,14 +43,12 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 .Where(r => r.MedicalCalendar != null)
                 .GroupBy(r => r.MedicalCalendar!.MedicalId)
                 .ToList();
-            LogInformation(NotificationDispatchConstants.RecordsGrouped, groupedRecords.Count);
 
             var updatedRecords = new ConcurrentBag<NotificationRecords>();
 
             // Processa os grupos em paralelo.
             await Parallel.ForEachAsync(groupedRecords, async (group, cancellationToken) =>
             {
-                _logger.Debug(NotificationDispatchConstants.ProcessingGroup, group.Key, group.Count());
                 foreach (var record in group)
                 {
                     if (await ProcessRecordAsync(record, currentUtc))
@@ -59,14 +56,12 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                         updatedRecords.Add(record);
                         int current = Interlocked.Increment(ref processedCount);
                         RaiseProgressChanged(current, totalRecords);
-                        LogInformation(NotificationDispatchConstants.RecordProcessed, record.Id);
                     }
                 }
             });
 
             // Processa também os registros sem MedicalCalendar.
             var recordsWithoutCalendar = pendingRecords.Where(r => r.MedicalCalendar == null).ToList();
-            LogInformation(NotificationDispatchConstants.ProcessingWithoutCalendar, recordsWithoutCalendar.Count);
             await Parallel.ForEachAsync(recordsWithoutCalendar, async (record, cancellationToken) =>
             {
                 if (await ProcessRecordAsync(record, currentUtc))
@@ -74,7 +69,6 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                     updatedRecords.Add(record);
                     int current = Interlocked.Increment(ref processedCount);
                     RaiseProgressChanged(current, totalRecords);
-                    LogInformation(NotificationDispatchConstants.RecordProcessed, record.Id);
                 }
             });
 
@@ -83,8 +77,9 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             {
                 var updateDto = MapToUpdateDto(record);
                 await _notificationRecordsService.Update(updateDto);
-                LogInformation(NotificationDispatchConstants.RecordUpdated, record.Id);
+                LogInformation(NotificationDispatchConstants.SendedNotification, record.Id);
             }
+
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
         }
 
@@ -111,7 +106,6 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             if (updated)
             {
                 UpdateRecordStatus(record, currentUtc);
-                LogInformation(NotificationDispatchConstants.UpdatedStatus, record.Id, record.NextScheduledSendTime!, record.IsCompleted);
             }
             return updated;
         }
@@ -138,7 +132,6 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 record.FinalSendDate = currentUtc;
             }
         }
-
 
         private static UpdateNotificationRecordsDto MapToUpdateDto(NotificationRecords record)
         {
@@ -170,6 +163,8 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 Processed = processed,
                 Total = total
             });
+            // Log para progresso em porcentagem
+            LogInformation("Processing progress: {Percentage:F2}% / Progresso do processamento: {Percentage:F2}%", (double)processed / total * 100);
         }
     }
 }
