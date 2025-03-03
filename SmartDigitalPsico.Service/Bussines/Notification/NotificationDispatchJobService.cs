@@ -29,8 +29,8 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         public async Task ProcessPendingNotificationsAsync()
         {
             LogInformation(NotificationDispatchConstants.StartingProcessing);
+
             var pendingRecords = await _notificationRecordsService.GetPendingNotificationsAsync();
-            LogInformation(NotificationDispatchConstants.FoundPendingRecords, pendingRecords.Length);
             var currentUtc = DateHelper.GetDateTimeNowFromUtc();
 
             // Agrupa os registros com MedicalCalendar por MedicalId.
@@ -38,33 +38,28 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 .Where(r => r.MedicalCalendar != null)
                 .GroupBy(r => r.MedicalCalendar!.MedicalId)
                 .ToList();
-            LogInformation(NotificationDispatchConstants.RecordsGrouped, groupedRecords.Count);
 
             var updatedRecords = new ConcurrentBag<NotificationRecords>();
 
             // Processa os grupos em paralelo.
             await Parallel.ForEachAsync(groupedRecords, async (group, cancellationToken) =>
             {
-                _logger.Debug(NotificationDispatchConstants.ProcessingGroup, group.Key, group.Count());
                 foreach (var record in group)
                 {
                     if (await ProcessRecordAsync(record, currentUtc))
                     {
                         updatedRecords.Add(record);
-                        _logger.Debug(NotificationDispatchConstants.RecordProcessed, record.Id);
                     }
                 }
             });
 
             // Processa também os registros sem MedicalCalendar.
             var recordsWithoutCalendar = pendingRecords.Where(r => r.MedicalCalendar == null).ToList();
-            LogInformation(NotificationDispatchConstants.ProcessingWithoutCalendar, recordsWithoutCalendar.Count);
             await Parallel.ForEachAsync(recordsWithoutCalendar, async (record, cancellationToken) =>
             {
                 if (await ProcessRecordAsync(record, currentUtc))
                 {
                     updatedRecords.Add(record);
-                    _logger.Debug(NotificationDispatchConstants.RecordProcessed, record.Id);
                 }
             });
 
@@ -73,8 +68,8 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             {
                 var updateDto = MapToUpdateDto(record);
                 await _notificationRecordsService.Update(updateDto);
-                LogInformation(NotificationDispatchConstants.RecordUpdated, record.Id);
             }
+
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
         }
 
@@ -101,7 +96,6 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             if (updated)
             {
                 UpdateRecordStatus(record, currentUtc);
-                _logger.Debug(NotificationDispatchConstants.UpdatedStatus, record.Id, record.NextScheduledSendTime, record.IsCompleted);
             }
             return updated;
         }
@@ -146,7 +140,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 Language = "en",
             };
         }
-
+        
         private void LogInformation(string message, params object[] args)
         {
             _logger.Information(message, args);
