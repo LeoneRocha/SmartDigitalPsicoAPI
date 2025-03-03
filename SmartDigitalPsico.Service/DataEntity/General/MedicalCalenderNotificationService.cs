@@ -19,17 +19,17 @@ namespace SmartDigitalPsico.Service.DataEntity.General
 
         public async Task NotifyAsync(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
-            GetEmailTemplateDto? template = null;            
+            GetEmailTemplateDto? template = null;
             action = changeTypeActionByStatus(calendar, action);
             switch (action)
             {
                 case EMedicalCalendarActionType.Add:
                 case EMedicalCalendarActionType.Scheduled:
-                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentScheduledSuccess);                    
+                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentScheduledSuccess);
                     break;
                 case EMedicalCalendarActionType.Update:
                 case EMedicalCalendarActionType.Rescheduled:
-                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentRescheduled);                    
+                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentRescheduled);
                     break;
                 case EMedicalCalendarActionType.Delete:
                 case EMedicalCalendarActionType.Cancelled:
@@ -67,38 +67,35 @@ namespace SmartDigitalPsico.Service.DataEntity.General
 
         private static EMedicalCalendarActionType changeTypeActionByStatus(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
-            if (calendar != null)
+            if (calendar != null && action != EMedicalCalendarActionType.NotificationDispatch)
             {
-                if (action != EMedicalCalendarActionType.NotificationDispatch)
+                switch (calendar.Status)
                 {
-                    switch (calendar.Status)
-                    {
-                        case EStatusCalendar.Active:
-                            return EMedicalCalendarActionType.Scheduled;
-                        case EStatusCalendar.Scheduled:
-                            return EMedicalCalendarActionType.Scheduled;
-                        case EStatusCalendar.Confirmed:
-                            return EMedicalCalendarActionType.Scheduled;
-                        case EStatusCalendar.Refused:
-                            return EMedicalCalendarActionType.Refused;
-                        case EStatusCalendar.Completed:
-                            return EMedicalCalendarActionType.Update;
-                        case EStatusCalendar.NoShow:
-                            return EMedicalCalendarActionType.Update;
-                        case EStatusCalendar.PendingConfirmation:
-                            return EMedicalCalendarActionType.Scheduled;
-                        case EStatusCalendar.InProgress:
-                            return EMedicalCalendarActionType.Scheduled;
-                        case EStatusCalendar.Rescheduled:
-                            return EMedicalCalendarActionType.Scheduled;
-                        case EStatusCalendar.Canceled:
-                            return EMedicalCalendarActionType.Cancelled;
-                        case EStatusCalendar.PendingCancellation:
-                            return EMedicalCalendarActionType.Scheduled;
-                        default:
-                            break;
-                    }
-                } 
+                    case EStatusCalendar.Active:
+                        return EMedicalCalendarActionType.Scheduled;
+                    case EStatusCalendar.Scheduled:
+                        return EMedicalCalendarActionType.Scheduled;
+                    case EStatusCalendar.Confirmed:
+                        return EMedicalCalendarActionType.Scheduled;
+                    case EStatusCalendar.Refused:
+                        return EMedicalCalendarActionType.Refused;
+                    case EStatusCalendar.Completed:
+                        return EMedicalCalendarActionType.Update;
+                    case EStatusCalendar.NoShow:
+                        return EMedicalCalendarActionType.Update;
+                    case EStatusCalendar.PendingConfirmation:
+                        return EMedicalCalendarActionType.Scheduled;
+                    case EStatusCalendar.InProgress:
+                        return EMedicalCalendarActionType.Scheduled;
+                    case EStatusCalendar.Rescheduled:
+                        return EMedicalCalendarActionType.Scheduled;
+                    case EStatusCalendar.Canceled:
+                        return EMedicalCalendarActionType.Cancelled;
+                    case EStatusCalendar.PendingCancellation:
+                        return EMedicalCalendarActionType.Scheduled;
+                    default:
+                        break;
+                }
             }
             return action;
         }

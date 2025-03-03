@@ -75,11 +75,11 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
 
         private async Task<bool> ProcessRecordAsync(NotificationRecords record, DateTime currentUtc)
         {
-            if (record.NotificationRules == null || !record.NotificationRules.Any())
+            if (record.NotificationRules == null || record.NotificationRules.Length == 0)
                 return false;
 
             var pendingRules = record.NotificationRules.Where(r => !r.IsSent && r.ScheduledSendTime <= currentUtc).ToList();
-            if (!pendingRules.Any())
+            if (pendingRules.Count == 0)
                 return false;
 
             bool updated = false;
@@ -99,7 +99,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             }
             return updated;
         }
-
+         
         private async Task NotifyAsync(MedicalCalendar calendar, long recordId, DateTime ruleTime)
         {
             await _medicalCalenderNotificationService.NotifyAsync(calendar, EMedicalCalendarActionType.NotificationDispatch);
@@ -109,7 +109,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         private static void UpdateRecordStatus(NotificationRecords record, DateTime currentUtc)
         {
             var unsentRules = record.NotificationRules.Where(r => !r.IsSent).ToList();
-            if (unsentRules.Any())
+            if (unsentRules.Count > 0)
             {
                 record.NextScheduledSendTime = unsentRules.Min(r => r.ScheduledSendTime);
                 record.IsCompleted = false;
@@ -122,6 +122,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 record.FinalSendDate = currentUtc;
             }
         }
+
 
         private static UpdateNotificationRecordsDto MapToUpdateDto(NotificationRecords record)
         {

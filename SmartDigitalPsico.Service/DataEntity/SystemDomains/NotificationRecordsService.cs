@@ -181,10 +181,10 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 EIntervalNotificationType.Days => adjustedStartDateTime.AddDays(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
                 EIntervalNotificationType.Months => adjustedStartDateTime.AddMonths(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
                 EIntervalNotificationType.Years => adjustedStartDateTime.AddYears(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue),
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(notificationRule.IntervalType), notificationRule.IntervalType, "Unsupported interval type.")
             };
         }
-
+         
         private static int GetTimeZoneOffset(string timeZone)
         {
             // Implementação simplificada, ajustar conforme necessidade
@@ -206,12 +206,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 .Min(r => r.ScheduledSendTime);            
 
             return minScheduledLocal;
-        }
-
-        private static int GetAppointmentTimeZoneOffset(long? appointmentId)
-        {
-            return appointmentId.HasValue ? -3 : 0;
-        }
+        } 
 
         public async Task<NotificationRecords[]> GetPendingNotificationsAsync()
         {
