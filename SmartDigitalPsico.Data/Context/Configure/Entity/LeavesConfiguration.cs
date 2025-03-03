@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -28,6 +29,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             // Indexes (using Fluent API)
             builder.HasIndex(e => e.MedicalId).HasDatabaseName("IX_Leaves_MedicalId");
             builder.HasIndex(e => new { e.StartDate, e.EndDate }).HasDatabaseName("IX_Leaves_StartDate_EndDate");
+
+            builder.HasData(LeavesMockData.GetMock());
         }
     }
 }

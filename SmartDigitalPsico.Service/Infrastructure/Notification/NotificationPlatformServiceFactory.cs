@@ -5,16 +5,16 @@ using SmartDigitalPsico.Domain.Interfaces.Smtp;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Notification
 {
-    public class NotificationServiceFactory : INotificationServiceFactory
+    public class NotificationPlatformServiceFactory : INotificationPlatformServiceFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public NotificationServiceFactory(IServiceProvider serviceProvider)
+        public NotificationPlatformServiceFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public INotificationService GetService(ENotificationServiceType serviceType)
+        public INotificationPlatformService GetService(ENotificationServiceType serviceType)
         {
             return serviceType switch
             {

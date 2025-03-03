@@ -1,0 +1,98 @@
+
+
+---
+
+## 3. Validação (FluentValidation)  
+No validator, definimos regras para os campos opcionais e obrigatórios. Também adicionamos um controle para que, se a notificação estiver marcada como concluída (`IsCompleted == true`), o `FinalSendDate` não seja nulo e seja consistente com as demais datas.
+
+```csharp
+using FluentValidation;
+using SmartDigitalPsico.Domain.ModelEntity;
+
+namespace SmartDigitalPsico.Domain.Validation.SystemDomains
+{
+    public class NotificationRecordsValidator : AbstractValidator<NotificationRecords>
+    {
+        public NotificationRecordsValidator()
+        {
+            // Se fornecido, AppointmentId e MedicalCalendarId devem ser maiores que zero.
+            RuleFor(x => x.AppointmentId)
+                .GreaterThan(0)
+                .When(x => x.AppointmentId.HasValue)
+                .WithMessage("NotificationRecords_AppointmentId_Validator_Invalid|If provided, AppointmentId must be greater than 0.");
+            
+            RuleFor(x => x.MedicalCalendarId)
+                .GreaterThan(0)
+                .When(x => x.MedicalCalendarId.HasValue)
+                .WithMessage("NotificationRecords_MedicalCalendarId_Validator_Invalid|If provided, MedicalCalendarId must be greater than 0.");
+            
+            // Valida cada item do array de NotificationRules.
+            RuleForEach(x => x.NotificationRules).SetValidator(new NotificationRuleStatusValidator());
+            
+            RuleFor(x => x.CreatedAt)
+                .NotEmpty()
+                .WithMessage("NotificationRecords_CreatedAt_Validator_IsRequired|CreatedAt is required.");
+            
+            RuleFor(x => x.UpdatedAt)
+                .NotEmpty()
+                .WithMessage("NotificationRecords_UpdatedAt_Validator_IsRequired|UpdatedAt is required.");
+            
+            // Validação para controle de conclusão:
+            When(x => x.IsCompleted, () =>
+            {
+                RuleFor(x => x.FinalSendDate)
+                    .NotNull()
+                    .WithMessage("NotificationRecords_FinalSendDate_Validator_IsRequired|FinalSendDate is required when notifications are completed.");
+                
+                RuleFor(x => x.FinalSendDate)
+                    .GreaterThanOrEqualTo(x => x.CreatedAt)
+                    .WithMessage("NotificationRecords_FinalSendDate_Validator_Invalid|FinalSendDate must be equal to or later than CreatedAt.");
+            });
+        }
+    }
+
+    public class NotificationRuleStatusValidator : AbstractValidator<NotificationRuleStatus>
+    {
+        public NotificationRuleStatusValidator()
+        {
+            RuleFor(x => x.NotificationRuleId)
+                .GreaterThan(0)
+                .WithMessage("NotificationRuleStatus_NotificationRuleId_Validator_IsRequired|NotificationRuleId must be greater than 0.");
+            
+            RuleFor(x => x.ScheduledSendTime)
+                .NotEmpty()
+                .WithMessage("NotificationRuleStatus_ScheduledSendTime_Validator_IsRequired|ScheduledSendTime is required.");
+            
+            RuleFor(x => x.IsSent)
+                .NotNull()
+                .WithMessage("NotificationRuleStatus_IsSent_Validator_IsRequired|IsSent is required.");
+            
+            RuleFor(x => x.NotificationMethods)
+                .NotEmpty()
+                .WithMessage("NotificationRuleStatus_NotificationMethods_Validator_IsRequired|NotificationMethods are required.");
+        }
+    }
+}
+```
+
+---
+
+## Resumo do Fluxo de Processamento
+
+1. **Filtragem dos Registros a Processar:**  
+   Seu serviço pode realizar consultas com condições como:
+   ```sql
+   SELECT * FROM dbo.NotificationRecords
+   WHERE IsCompleted = 0
+     AND NextScheduledSendTime IS NOT NULL
+     AND NextScheduledSendTime >= GETUTCDATE();
+   ```
+   Dessa forma, você filtra apenas os registros com notificações pendentes.
+
+2. **Controle de Conclusão:**  
+   Assim que todas as regras da notificação tiverem sido processadas, seu código deverá atualizar `IsCompleted` para `true` e definir `FinalSendDate` com a data do último envio. Essa coluna serve para arquivar e evitar novos processamentos desnecessários.
+
+3. **Manutenção do JSON:**  
+   Embora as regras estejam armazenadas em formato JSON, o processamento inicial não precisa percorrer esse JSON para identificar registros pendentes, pois o campo `NextScheduledSendTime` – indexado – já fornece essa informação rapidamente.
+
+Com essa estrutura, você ganha performance na consulta e ainda mantém a flexibilidade e rastreamento completo do envio de notificações. Se houver mais necessidades ou dúvidas, estou à disposição para continuar ajudando!

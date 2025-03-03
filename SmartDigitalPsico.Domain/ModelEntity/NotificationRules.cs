@@ -15,6 +15,6 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         public ENotificationServiceType[] ENotificationServiceType { get; set; } = [];
         public string Description { get; set; } = string.Empty;
         public string Language { get; set; } = string.Empty;
-    }
-
+        public ENotificationType NotificationType { get; set; }
+    } 
 }

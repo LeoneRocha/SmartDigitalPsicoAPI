@@ -19,21 +19,24 @@ namespace SmartDigitalPsico.Service.DataEntity.General
 
         public async Task NotifyAsync(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
-            GetEmailTemplateDto? template = null;            
+            GetEmailTemplateDto? template = null;
             action = changeTypeActionByStatus(calendar, action);
             switch (action)
             {
                 case EMedicalCalendarActionType.Add:
                 case EMedicalCalendarActionType.Scheduled:
-                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentScheduledSuccess);                    
+                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentScheduledSuccess);
                     break;
                 case EMedicalCalendarActionType.Update:
                 case EMedicalCalendarActionType.Rescheduled:
-                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentRescheduled);                    
+                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentRescheduled);
                     break;
                 case EMedicalCalendarActionType.Delete:
                 case EMedicalCalendarActionType.Cancelled:
-                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentCancelled); 
+                    template = await GetTemplate(EmailTemplateTagConstants.AppointmentCancelled);
+                    break;
+                case EMedicalCalendarActionType.NotificationDispatch:
+                    template = await GetTemplate(EmailTemplateTagConstants.NotificationDispatch);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
@@ -64,7 +67,7 @@ namespace SmartDigitalPsico.Service.DataEntity.General
 
         private static EMedicalCalendarActionType changeTypeActionByStatus(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
-            if (calendar != null)
+            if (calendar != null && action != EMedicalCalendarActionType.NotificationDispatch)
             {
                 switch (calendar.Status)
                 {
