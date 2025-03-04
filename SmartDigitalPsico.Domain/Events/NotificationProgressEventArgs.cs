@@ -1,6 +1,6 @@
 ﻿namespace SmartDigitalPsico.Domain.Events
 {
-    public class ProgressEventArgs : EventArgs
+    public class NotificationProgressEventArgs : EventArgs
     {
         public int Processed { get; set; }
         public int Total { get; set; }
