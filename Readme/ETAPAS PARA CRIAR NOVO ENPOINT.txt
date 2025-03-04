@@ -54,4 +54,4 @@ DELETE FROM NotificationRecords WHERE MedicalCalendarId IS NOT NULL;
 TRUNCATE TABLE MedicalCalendar;
 
 
-Add-Migration NotificationRecordsAdjustTable -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+Add-Migration NotificationRecordsAjustarForeignKey -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data

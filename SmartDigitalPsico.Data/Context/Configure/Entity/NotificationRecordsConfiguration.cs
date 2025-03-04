@@ -47,6 +47,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.HasOne(e => e.MedicalCalendar)
                 .WithMany()
                 .HasForeignKey(e => e.MedicalCalendarId)
+                .IsRequired(false) 
                 .OnDelete(DeleteBehavior.NoAction);
 
 
