@@ -37,7 +37,6 @@ namespace SmartDigitalPsico.Domain.Helpers
                       .CreateLogger();
         }
 
-
         public static AppInformationVersionProductDto GetInformationVersionProduct()
         {
             var assembly = Assembly.GetEntryAssembly();
@@ -116,6 +115,18 @@ namespace SmartDigitalPsico.Domain.Helpers
             {
                 Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", envVal);
             }
+        }
+
+        // Método para encapsular chamadas a _logger.Information_
+        public static void LogInfo(ILogger logger, string message, params object[] args)
+        {
+            logger.Information(message, args);
+        }
+
+        // Método para encapsular chamadas a _logger.Error_
+        public static void LogError(ILogger logger, Exception ex, string message, params object[] args)
+        {
+            logger.Error(ex, message, args);
         }
     }
 }
