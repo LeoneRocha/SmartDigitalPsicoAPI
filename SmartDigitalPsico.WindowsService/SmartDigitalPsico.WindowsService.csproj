@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-SmartDigitalPsico.WindowsService-dcfcac41-bc1a-47cc-b818-f7f43368e79e</UserSecretsId>
-    <AssemblyVersion>2025.03.02.01</AssemblyVersion>
-    <FileVersion>2025.03.02.01</FileVersion>
+    <AssemblyVersion>2025.03.04.01</AssemblyVersion>
+    <FileVersion>2025.03.04.01</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

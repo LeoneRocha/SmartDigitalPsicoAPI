@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-SmartDigitalPsico.WebJob-348efa7d-70e3-4a05-8909-a8fb01859f84</UserSecretsId>
-    <AssemblyVersion>2025.03.02.01</AssemblyVersion>
-    <FileVersion>2025.03.02.01</FileVersion>
+    <AssemblyVersion>2025.03.04.01</AssemblyVersion>
+    <FileVersion>2025.03.04.01</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
