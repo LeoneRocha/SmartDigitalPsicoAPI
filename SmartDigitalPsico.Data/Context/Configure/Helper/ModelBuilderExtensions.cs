@@ -19,7 +19,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Helper
 
         private static Type[] ListClassConfiguration(Assembly assembly, List<Type> manuallyConfiguredTypes)
         {
-            return assembly.GetTypes().Where(t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)) && !manuallyConfiguredTypes.Contains(t) && t.Name.EndsWith("Configuration")).ToArray();
+            var listAdd = assembly.GetTypes().Where(t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)) && !manuallyConfiguredTypes.Contains(t) && t.Name.EndsWith("Configuration")).ToArray();  
+            return listAdd;
         }
     }
 }

@@ -45,9 +45,10 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
 
             // Relationship   
             builder.HasOne(e => e.MedicalCalendar)
-                   .WithMany()
-                   .HasForeignKey(e => e.MedicalCalendarId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                .WithMany()
+                .HasForeignKey(e => e.MedicalCalendarId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             // Indexes (using Fluent API) 
             // Índices para melhorar a performance das consultas. 

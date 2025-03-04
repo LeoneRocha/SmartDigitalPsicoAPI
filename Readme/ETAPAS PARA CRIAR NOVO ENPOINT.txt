@@ -41,3 +41,17 @@ Ex : INotificationRulesService / NotificationRulesService
 7) Criar o controller/endpoint   (SmartDigitalPsico.WebAPI)    -------------------------- 
 
 ====================================== FRONT END  =========================
+
+
+
+TROBLESHOTING 
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE MedicalCalendar;
+SET FOREIGN_KEY_CHECKS = 1;
+
+DELETE FROM NotificationRecords WHERE MedicalCalendarId IS NOT NULL;
+TRUNCATE TABLE MedicalCalendar;
+
+
+Add-Migration NotificationRecordsAdjustTable -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
