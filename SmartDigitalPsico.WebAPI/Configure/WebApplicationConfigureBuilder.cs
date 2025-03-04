@@ -33,9 +33,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             if (_logger != null)
             {
                 try
-                {
-                    LogAppHelper.Set_ASPNETCORE_ENVIRONMENT(builder.Configuration);
-
+                { 
                     var app = builder.Build();
 
                     //Application Builder
