@@ -7,6 +7,8 @@ Exemplo:  NotificationRules
 Exemplo:  NotificationRulesConfiguration
 
 Add-Migration NotificationRules5 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+Add-Migration PatientMockDataUpdate04032025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
 
 
 * A injecao esta automatizada pelo ModelBuilderExtensions.AddConfigurationEntities chamado no ConfigurationEntitiesHelper dentro do OnModelCreating

@@ -1,0 +1,228 @@
+﻿using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.ModelEntity;
+
+namespace SmartDigitalPsico.Data.Context.Configure.Mock
+{
+    public static class EmailTemplateMockData
+    {
+        public static EmailTemplate[] GetMocks() {
+
+            var mocksAppointment = GetMockAppointment().ToList();
+
+            var mocksRegisters = GetMocksRegisters().ToList();
+
+            List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
+            emailTemplates.AddRange(mocksAppointment);  
+
+            return emailTemplates.ToArray();
+
+        }
+        public static EmailTemplate[] GetMockAppointment()
+        {
+            // Template base com placeholders para personalizar a mensagem
+            string baseTemplate = @"
+<div style=""font-family:Arial, sans-serif;background-color:rgba(244, 244, 249, 1);padding:20px;"">
+    <div style=""max-width:600px;margin:0 auto;background-color:rgba(255, 255, 255, 1);border-radius:10px;overflow:hidden;"">
+        <div style=""background-color:rgba(76, 175, 80, 1);padding:20px;text-align:center;"">
+            <h1 style=""margin:0;color:rgba(255, 255, 255, 1);"">{0}</h1>
+        </div>
+        <div style=""padding:20px;"">
+            <p>Olá [{PatientName}],</p>
+            <p>Este é um lembrete para sua consulta {1} com o médico(a) [{MedicalName}].</p>
+            <p>Por favor, prepare-se para a consulta, trazendo quaisquer notas ou questionamentos que desejar discutir. Sua participação é fundamental para o sucesso do tratamento.</p>
+            <p>Detalhes da consulta:</p>
+            <ul>
+                <li>Título: [{Title}]</li>
+                <li>Data de Início: [{StartDateTime}]</li>
+                <li>Data de Término: [{EndDateTime}]</li>
+                <li>Local: [{AppointmentLocation}]</li>
+            </ul>
+            <p>Descrição: [{Description}]</p>
+            <p>É importante estar presente no horário marcado.</p>
+        </div>
+    </div>
+</div>";
+
+            return new EmailTemplate[]
+            {
+            // Template para Add / Scheduled:
+            new EmailTemplate
+            {
+                Id = 1,
+                Enable = true,
+                TagApi = EmailTemplateTagConstants.AppointmentScheduledSuccess,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = "Consulta Agendada com Sucesso",
+                Subject = "Lembrete - Consulta Agendada",
+                Body = string.Format(baseTemplate, "Lembrete de Consulta Agendada", "agendada"),
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+            },
+
+            // Template para Update / Rescheduled:
+            new EmailTemplate
+            {
+                Id = 2,
+                Enable = true,
+                TagApi = EmailTemplateTagConstants.AppointmentRescheduled,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = "Consulta Remarcada",
+                Subject = "Lembrete - Consulta Remarcada",
+                Body = string.Format(baseTemplate, "Lembrete de Consulta Remarcada", "remarcada"),
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+            },
+
+            // Template para Delete / Cancelled:
+            new EmailTemplate
+            {
+                Id = 3,
+                Enable = true,
+                TagApi = EmailTemplateTagConstants.AppointmentCancelled,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = "Consulta Cancelada",
+                Subject = "Aviso - Consulta Cancelada",
+                Body = string.Format(baseTemplate, "Aviso de Cancelamento", "cancelada"),
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+            },
+
+            // Template para NotificationDispatch:
+            new EmailTemplate
+            {
+                Id = 4,
+                Enable = true,
+                TagApi = EmailTemplateTagConstants.NotificationDispatch,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = "Notificação de Consulta",
+                Subject = "Notificação - Consulta",
+                Body = string.Format(baseTemplate, "Notificação de Consulta", "para sua consulta"),
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+            }
+            };
+        }
+
+        public static EmailTemplate[] GetMocksRegisters()
+        {
+            // Template base para textos genéricos (usuário)
+            string baseTemplate = @"
+<div style=""font-family:Arial, sans-serif;background-color:#f4f4f9;padding:20px;"">
+    <div style=""max-width:600px;margin:0 auto;background-color:#fff;border-radius:10px;overflow:hidden;"">
+        <div style=""background-color:#4CAF50;padding:20px;text-align:center;"">
+            <h1 style=""margin:0;color:#fff;"">{0}</h1>
+        </div>
+        <div style=""padding:20px;"">
+            <p>{1}</p>
+            {2}
+        </div>
+    </div>
+</div>";
+
+            // Bloco de detalhes para cadastro (informando email e senha temporária)
+            string registrationDetails = @"
+<p><strong>Email:</strong> [{Email}]</p>
+<p><strong>Temporary Password:</strong> [{TemporaryPassword}]</p>";
+
+            // Template para cadastrar o usuário
+            var cadastrarUsuario = new EmailTemplate
+            {
+                Id = 1,
+                Enable = true,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = "Cadastro de Usuário",
+                Subject = "Bem-vindo à Plataforma",
+                Body = string.Format(
+                    baseTemplate,
+                    "Registro Realizado",
+                    "Seu cadastro foi realizado com sucesso.",
+                    registrationDetails
+                ),
+                TagApi = EmailTemplateTagConstants.LoginReleaseEmail,
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+            };
+
+            // Template para editar o usuário
+            var editarUsuario = new EmailTemplate
+            {
+                Id = 2,
+                Enable = true,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = "Edição de Usuário",
+                Subject = "Perfil Atualizado",
+                Body = string.Format(
+                    baseTemplate,
+                    "Atualização de Perfil",
+                    "Seu perfil foi atualizado com sucesso.",
+                    string.Empty
+                ),
+                TagApi = EmailTemplateTagConstants.AccountChangeSuccess,
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+            };
+
+            // Template para cadastrar o médico
+            var cadastrarMedico = new EmailTemplate
+            {
+                Id = 3,
+                Enable = true,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = "Cadastro de Médico",
+                Subject = "Bem-vindo à Plataforma Médica",
+                Body = string.Format(
+                    baseTemplate,
+                    "Registro Médico Realizado",
+                    "Seu cadastro como médico foi realizado com sucesso.",
+                    registrationDetails
+                ),
+                TagApi = EmailTemplateTagConstants.LoginReleaseEmail,
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+            };
+
+            // Template base para médicos (solicitando nome do médico)
+            string doctorBaseTemplate = @"
+<div style=""font-family:Arial, sans-serif;background-color:#f4f4f9;padding:20px;"">
+    <div style=""max-width:600px;margin:0 auto;background-color:#fff;border-radius:10px;overflow:hidden;"">
+        <div style=""background-color:#4CAF50;padding:20px;text-align:center;"">
+            <h1 style=""margin:0;color:#fff;"">{0}</h1>
+        </div>
+        <div style=""padding:20px;"">
+            <p>Olá Dr(a). [{DoctorName}],</p>
+            <p>{1}</p>
+        </div>
+    </div>
+</div>";
+
+            // Template para editar o médico
+            var editarMedico = new EmailTemplate
+            {
+                Id = 4,
+                Enable = true,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = "Edição de Médico",
+                Subject = "Cadastro Médico Atualizado",
+                Body = string.Format(
+                    doctorBaseTemplate,
+                    "Atualização de Cadastro Médico",
+                    "Suas informações profissionais foram atualizadas com êxito."
+                ),
+                TagApi = EmailTemplateTagConstants.MedicalUpdateEmail,
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+            };
+
+            return new EmailTemplate[] { cadastrarUsuario, editarUsuario, cadastrarMedico, editarMedico };
+        }
+    }
+}
