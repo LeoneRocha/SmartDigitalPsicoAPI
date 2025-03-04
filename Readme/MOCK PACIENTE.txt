@@ -1,10 +1,10 @@
-﻿using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
-    public static class PatientMockData
-    {
+    public static class PatientMockData  
+    { 
         public static Patient[] GetMock()
         {
             var newAddPatient = new Patient
@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 GenderId = 1,
             };
 
-
+            
             return [
                  newAddPatient,
                  // Paciente 2
@@ -75,7 +75,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Enable = true,
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                CreatedUserId = 2,
+                CreatedUserId = 3,
                 AddressCep = "98765-432",
                 AddressCity = "Rio de Janeiro",
                 AddressNeighborhood = "Copacabana",
@@ -86,7 +86,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Education = "Superior Completo",
                 EmergencyContactName = "Mariana Silva",
                 EmergencyContactPhoneNumber = "(21) 99876-5432",
-                MedicalId = 1,
+                MedicalId = 2,
                 PhoneNumber = "(21) 3000-7000",
                 Profession = "Advogado",
                 Rg = "98.765.432-1",
@@ -103,7 +103,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Enable = true,
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                CreatedUserId = 2,
+                CreatedUserId = 4,
                 AddressCep = "45678-123",
                 AddressCity = "Belo Horizonte",
                 AddressNeighborhood = "Savassi",
@@ -114,7 +114,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Education = "Pós-Graduação",
                 EmergencyContactName = "Fernando Oliveira",
                 EmergencyContactPhoneNumber = "(31) 97654-3210",
-                MedicalId = 1,
+                MedicalId = 3,
                 PhoneNumber = "(31) 4004-3003",
                 Profession = "Arquiteta",
                 Rg = "45.678.912-0",
@@ -131,7 +131,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Enable = true,
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                CreatedUserId = 2,
+                CreatedUserId = 5,
                 AddressCep = "65432-789",
                 AddressCity = "Curitiba",
                 AddressNeighborhood = "Centro Cívico",
@@ -142,7 +142,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Education = "Fundamental Completo",
                 EmergencyContactName = "Lucas Santos",
                 EmergencyContactPhoneNumber = "(41) 98432-1234",
-                MedicalId = 1,
+                MedicalId = 4,
                 PhoneNumber = "(41) 3020-8989",
                 Profession = "Atendente",
                 Rg = "65.432.198-7",
@@ -157,7 +157,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             Enable = true,
             LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
             ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-            CreatedUserId = 2,
+            CreatedUserId = 3,
             AddressCep = "89010-123",
             AddressCity = "Blumenau",
             AddressNeighborhood = "Centro",
@@ -168,7 +168,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             Education = "Médio Completo",
             EmergencyContactName = "Ana Costa",
             EmergencyContactPhoneNumber = "(47) 99987-6543",
-            MedicalId = 1,
+            MedicalId = 2,
             PhoneNumber = "(47) 3030-2020",
             Profession = "Estilista",
             Rg = "12.345.678-9",
@@ -183,7 +183,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             Enable = true,
             LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
             ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-            CreatedUserId = 2,
+            CreatedUserId = 3,
             AddressCep = "01310-100",
             AddressCity = "São Paulo",
             AddressNeighborhood = "Bela Vista",
@@ -194,7 +194,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             Education = "Pós-Graduação",
             EmergencyContactName = "Marina Almeida",
             EmergencyContactPhoneNumber = "(11) 98888-1234",
-            MedicalId = 1,
+            MedicalId = 3,
             PhoneNumber = "(11) 3111-4567",
             Profession = "Analista de Sistemas",
             Rg = "23.456.789-0",

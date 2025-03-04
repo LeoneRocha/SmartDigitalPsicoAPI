@@ -1,0 +1,193 @@
+﻿Segue abaixo os HTMLs dos templates, cada um com uma cor de cabeçalho diferenciada de acordo com o status (TagApi). Você poderá editar via tela e manter os tokens para substituição dinâmica.
+
+---
+
+### 1. Template para LoginReleaseEmail  
+*(Cor do cabeçalho: Azul – rgba(33,150,243,1))*
+
+```html
+<div style="font-family:Arial, sans-serif; background-color:rgba(244,244,249,1); padding:20px;">
+  <div style="max-width:600px; margin:0 auto; background-color:#fff; border-radius:10px; overflow:hidden;">
+    <div style="background-color:rgba(33,150,243,1); padding:20px; text-align:center;">
+      <h1 style="margin:0; color:#fff;">Acesso Liberado</h1>
+    </div>
+    <div style="padding:20px;">
+      <p>Olá, [{UserName}],</p>
+      <p>Seu acesso foi liberado com sucesso.</p>
+      <p>Utilize as informações abaixo para fazer login e, posteriormente, definir sua nova senha:</p>
+      <p><strong>Link de Acesso:</strong> <a href="[{AccessUrl}]">[{AccessUrl}]</a></p>
+      <p><strong>E-mail:</strong> [{Email}]</p>
+      <p><strong>Senha Temporária:</strong> [{TemporaryPassword}]</p>
+      <p>Agradecemos por fazer parte de nossa plataforma!</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+### 2. Template para AccountChangeSuccess  
+*(Cor do cabeçalho: Verde – rgba(76,175,80,1))*
+
+```html
+<div style="font-family:Arial, sans-serif; background-color:rgba(244,244,249,1); padding:20px;">
+  <div style="max-width:600px; margin:0 auto; background-color:#fff; border-radius:10px; overflow:hidden;">
+    <div style="background-color:rgba(76,175,80,1); padding:20px; text-align:center;">
+      <h1 style="margin:0; color:#fff;">Conta Atualizada</h1>
+    </div>
+    <div style="padding:20px;">
+      <p>Olá, [{UserName}],</p>
+      <p>Suas informações de conta foram atualizadas com sucesso.</p>
+      <p>Acesse seu perfil para confirmar os dados atualizados e garantir que tudo esteja conforme o esperado.</p>
+      <p>Estamos sempre prontos para atender você com segurança e agilidade.</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+### 3. Template para AppointmentScheduledSuccess  
+*(Cor do cabeçalho: Roxo – rgba(156,39,176,1))*
+
+```html
+<div style="font-family:Arial, sans-serif; background-color:rgba(244,244,249,1); padding:20px;">
+  <div style="max-width:600px; margin:0 auto; background-color:#fff; border-radius:10px; overflow:hidden;">
+    <div style="background-color:rgba(156,39,176,1); padding:20px; text-align:center;">
+      <h1 style="margin:0; color:#fff;">Consulta Confirmada</h1>
+    </div>
+    <div style="padding:20px;">
+      <p>Olá, [{PatientName}],</p>
+      <p>Sua consulta com o(a) médico(a) [{MedicalName}] foi confirmada.</p>
+      <p>Confira os detalhes e organize-se para comparecer no horário agendado:</p>
+      <ul>
+        <li><strong>Título:</strong> [{Title}]</li>
+        <li><strong>Data de Início:</strong> [{StartDateTime}]</li>
+        <li><strong>Data de Término:</strong> [{EndDateTime}]</li>
+        <li><strong>Local:</strong> [{AppointmentLocation}]</li>
+      </ul>
+      <p><strong>Observação:</strong> [{Description}]</p>
+      <p>Se precisar de mais informações, entre em contato conosco.</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+### 4. Template para AppointmentRescheduled  
+*(Cor do cabeçalho: Laranja – rgba(255,152,0,1))*
+
+```html
+<div style="font-family:Arial, sans-serif; background-color:rgba(244,244,249,1); padding:20px;">
+  <div style="max-width:600px; margin:0 auto; background-color:#fff; border-radius:10px; overflow:hidden;">
+    <div style="background-color:rgba(255,152,0,1); padding:20px; text-align:center;">
+      <h1 style="margin:0; color:#fff;">Consulta Remarcada</h1>
+    </div>
+    <div style="padding:20px;">
+      <p>Olá, [{PatientName}],</p>
+      <p>Sua consulta com o(a) médico(a) [{MedicalName}] foi remarcada.</p>
+      <p>Confira os novos detalhes abaixo:</p>
+      <ul>
+        <li><strong>Título:</strong> [{Title}]</li>
+        <li><strong>Nova Data de Início:</strong> [{StartDateTime}]</li>
+        <li><strong>Nova Data de Término:</strong> [{EndDateTime}]</li>
+        <li><strong>Local:</strong> [{AppointmentLocation}]</li>
+      </ul>
+      <p><strong>Observação:</strong> [{Description}]</p>
+      <p>Por favor, confirme sua disponibilidade para o novo horário.</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+### 5. Template para AppointmentCancelled  
+*(Cor do cabeçalho: Vermelho – rgba(244,67,54,1))*
+
+```html
+<div style="font-family:Arial, sans-serif; background-color:rgba(244,244,249,1); padding:20px;">
+  <div style="max-width:600px; margin:0 auto; background-color:#fff; border-radius:10px; overflow:hidden;">
+    <div style="background-color:rgba(244,67,54,1); padding:20px; text-align:center;">
+      <h1 style="margin:0; color:#fff;">Consulta Cancelada</h1>
+    </div>
+    <div style="padding:20px;">
+      <p>Olá, [{PatientName}],</p>
+      <p>Informamos que sua consulta com o(a) médico(a) [{MedicalName}] foi cancelada.</p>
+      <p>Confira os dados da consulta cancelada:</p>
+      <ul>
+        <li><strong>Título:</strong> [{Title}]</li>
+        <li><strong>Data de Início:</strong> [{StartDateTime}]</li>
+        <li><strong>Data de Término:</strong> [{EndDateTime}]</li>
+        <li><strong>Local:</strong> [{AppointmentLocation}]</li>
+      </ul>
+      <p><strong>Observação:</strong> [{Description}]</p>
+      <p>Se desejar reagendar ou obter mais informações, entre em contato conosco.</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+### 6. Template para MedicalUpdateEmail  
+*(Cor do cabeçalho: Ciano – rgba(0,188,212,1))*
+
+```html
+<div style="font-family:Arial, sans-serif; background-color:rgba(244,244,249,1); padding:20px;">
+  <div style="max-width:600px; margin:0 auto; background-color:#fff; border-radius:10px; overflow:hidden;">
+    <div style="background-color:rgba(0,188,212,1); padding:20px; text-align:center;">
+      <h1 style="margin:0; color:#fff;">Atualização de Dados Médicos</h1>
+    </div>
+    <div style="padding:20px;">
+      <p>Olá, [{MedicalName}],</p>
+      <p>Seus dados profissionais foram atualizados com sucesso.</p>
+      <p>Recomendamos que você acesse seu perfil para revisar as novas informações.</p>
+      <p>Em caso de dúvidas, nossa equipe estará pronta para auxiliá-lo.</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+### 7. Template para NotificationDispatch (Lembrete de Consulta)  
+*(Cor do cabeçalho: Âmbar – rgba(255,193,7,1))*
+
+```html
+<div style="font-family:Arial, sans-serif; background-color:rgba(244,244,249,1); padding:20px;">
+  <div style="max-width:600px; margin:0 auto; background-color:#fff; border-radius:10px; overflow:hidden;">
+    <div style="background-color:rgba(255,193,7,1); padding:20px; text-align:center;">
+      <h1 style="margin:0; color:#fff;">Lembrete de Consulta</h1>
+    </div>
+    <div style="padding:20px;">
+      <p>Olá, [{PatientName}],</p>
+      <p>Este é um lembrete para sua consulta agendada com o(a) médico(a) [{MedicalName}].</p>
+      <p>Confira os principais detalhes:</p>
+      <ul>
+        <li><strong>Título:</strong> [{Title}]</li>
+        <li><strong>Data de Início:</strong> [{StartDateTime}]</li>
+        <li><strong>Local:</strong> [{AppointmentLocation}]</li>
+      </ul>
+      <p><strong>Observação:</strong> [{Description}]</p>
+      <p>Para mais informações, estamos à disposição.</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+### Considerações Finais
+
+- **Variação de Cores:**  
+  Cada template possui uma cor de cabeçalho própria, facilitando a identificação visual do status baseado no valor do `TagApi`.
+
+- **Tokens:**  
+  Os tokens, como `[{PatientName}]`, `[{MedicalName}]`, `[{Title}]`, etc., permanecem para que o sistema os substitua dinamicamente com os dados reais.
+
+- **Estilo e Mensagens:**  
+  As mensagens foram aprimoradas para um tom profissional e acolhedor.
+
+Sinta-se à vontade para ajustar cores, textos e estilos conforme as diretrizes da sua identidade visual. Se precisar de mais alterações, estou à disposição!
