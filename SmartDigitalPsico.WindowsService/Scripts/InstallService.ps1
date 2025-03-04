@@ -1,5 +1,5 @@
 # Caminho fixo do executavel do servico
-$ServiceExePath = "D:\GITHUB\SmartDigitalPsicoAPI\SmartDigitalPsico.WindowsService\bin\Debug\net8.0\SmartDigitalPsico.WindowsService.exe"
+$ServiceExePath = "MyfolderRoot\SmartDigitalPsico.WindowsService.exe"
 
 # Configuracoes fixas do servico
 $ServiceName = "SmartDigitalPsicoWindowsService"
@@ -49,6 +49,4 @@ try {
     exit 1
 }
 #Exemplo de Comando para Execução
-#.\InstallService.ps1 -ServiceExePath "D:\GITHUB\SmartDigitalPsicoAPI\SmartDigitalPsico.WindowsService\bin\Debug\net8.0\SmartDigitalPsico.WindowsService.exe"
-#powershell.exe -ExecutionPolicy Bypass -File "D:\GITHUB\SmartDigitalPsicoAPI\SmartDigitalPsico.WindowsService\Scripts\InstallService.ps1" 
-
+#powershell.exe -ExecutionPolicy Bypass -File "MyfolderRoot\Scripts\InstallService.ps1"  

@@ -1,6 +1,5 @@
-﻿using SmartDigitalPsico.Domain.Hypermedia;
+﻿using SmartDigitalPsico.Service.Configure;
 using SmartDigitalPsico.Service.Configure.Domain;
-using SmartDigitalPsico.Service.Configure;
 
 namespace SmartDigitalPsico.WindowsService.Configure
 {
