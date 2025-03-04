@@ -55,7 +55,7 @@ namespace SmartDigitalPsico.WebJob
                 if (executionMode.Equals("Continuous", StringComparison.OrdinalIgnoreCase))
                 {
                     // Modo contínuo: o host manterá os serviços rodando.
-                    LogAppHelper.LogInfo(_logger, "Modo contínuo ativado. / Continuous mode activated. Host será mantido em execução.");
+                    LogAppHelper.LogInfo(_logger!, "Modo contínuo ativado. / Continuous mode activated. Host será mantido em execução.");
                     await host.RunAsync();
                 }
                 else
@@ -65,9 +65,9 @@ namespace SmartDigitalPsico.WebJob
                     var jobService = host.Services.GetRequiredService<IBackgroundJobService>();
                     if (jobService != null)
                     {
-                        LogAppHelper.LogInfo(_logger, "Execução única iniciada. / Single execution started. Chamando ExecuteNotificationProcessAsync...");
+                        LogAppHelper.LogInfo(_logger!, "Execução única iniciada. / Single execution started. Chamando ExecuteNotificationProcessAsync...");
                         await jobService.ExecuteNotificationProcessAsync();
-                        LogAppHelper.LogInfo(_logger, "Execução única concluída. / Single execution completed.");
+                        LogAppHelper.LogInfo(_logger!, "Execução única concluída. / Single execution completed.");
                     }
                     else
                     {
