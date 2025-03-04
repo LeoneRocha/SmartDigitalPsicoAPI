@@ -1,14 +1,13 @@
 ﻿ 
 **************** 
+ 
+  
+  -- ARrumar na pipe de build para zipar os projetos separados  do web job e windows service 
+--- CRIAR UM DEPLOY PARA WEBJOB e da API 
+-- STAGING e PRODUCTION 
 
----------- CRIAR TABELAS ORM 
 
---------- CRIAR REPOSITORIOS 
 
----------- CRIAR SERVICES (VAZIO)
-
------------ CRiar processamento e regra de negocio 
-     
 
 ----------------------------------------------------
 https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
