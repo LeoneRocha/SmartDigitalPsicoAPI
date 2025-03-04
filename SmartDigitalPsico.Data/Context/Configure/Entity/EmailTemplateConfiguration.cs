@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .IsRequired()
                 .HasMaxLength(200);
             builder.Property(e => e.Body)
-                .HasMaxLength(8000)
+                .HasMaxLength(EntityTypeConfigurationConstants.GetMaxLengthByTypeDataBase(ETypeDataBase))
                 .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase))
                 .IsRequired();
 
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.HasIndex(c => new { c.Language, c.TagApi, c.Enable }).HasDatabaseName("IX_EmailTemplate_Language_TagApi_Enable");
 
             // Seed data
-            builder.HasData(EmailTemplateMockData.GetMock());
+            builder.HasData(EmailTemplateMockData.GetMocks());
         }
     }
 }

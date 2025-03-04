@@ -6,50 +6,115 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
     public static class EmailTemplateMockData
     {
-        public static EmailTemplate[] GetMock()
+
+        public static EmailTemplate[] GetMocks()
         {
-            return [
-                new EmailTemplate
-                {
-                    Id = 1,
-                    Enable = true,
-                    Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
-                    Description = "Welcome Email",
-                    Subject ="Access Granted",
-                    Body = @"<html>
-<head>
-    <style>
-        body {{ font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333; padding: 20px; }}
-        .container {{ max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }}
-        .header {{ text-align: center; padding-bottom: 20px; }}
-        .header h1 {{ margin: 0; color: #4CAF50; }}
-        .content {{ line-height: 1.6; }}
-        .footer {{ text-align: center; padding-top: 20px; font-size: 0.9em; color: #777; }}
-    </style>
-</head>
-<body>
-    <div class='container'>
-        <div class='header'>
-            <h1>Access Granted</h1>
-        </div>
-        <div class='content'>
-            <p>Hello,</p>
-            <p>Your access has been granted. Below are your login details:</p>
-            <p><strong>URL:</strong> <a href='[{AccessUrl}]'>[{AccessUrl}]</a></p>
-            <p><strong>Email:</strong> [{Email}]</p>
-            <p><strong>Temporary Password:</strong> [{Password}]</p>
-            <p>Please change your password after your first login.</p>
-        </div>
-        <div class='footer'>
-            <p>Thank you for joining us!</p>
-        </div>
-    </div>
-</body>
-</html>",                    
-                    CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                    ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                    LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
-            } ];
+
+            var mocksInitial = GetMockInitial().ToList();
+
+            List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
+            emailTemplates.AddRange(mocksInitial);
+            //emailTemplates.AddRange(mocksAppointment);
+
+            return emailTemplates.ToArray();
+
+        }
+        public static EmailTemplate[] GetMockInitial()
+        {
+            return new EmailTemplate[]
+            {
+        new EmailTemplate
+        {
+            Id = 1,
+            Enable = true,
+            Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+            Description = "Liberar Login",
+            Subject = "Acesso Concedido",
+            Body = "<p>Seu acesso foi concedido com sucesso.</p>",
+            TagApi = EmailTemplateTagConstants.LoginReleaseEmail,
+            CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+            ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+            LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+        },
+        new EmailTemplate
+        {
+            Id = 2,
+            Enable = true,
+            Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+            Description = "Alteração de Conta Concluída",
+            Subject = "Dados da Conta Atualizados",
+            Body = "<p>Seus dados da conta foram atualizados com sucesso.</p>",
+            TagApi = EmailTemplateTagConstants.AccountChangeSuccess,
+            CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+            ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+            LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+        },
+        new EmailTemplate
+        {
+            Id = 3,
+            Enable = true,
+            Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+            Description = "Consulta Agendada",
+            Subject = "Sua Consulta Foi Agendada",
+            Body = "<p>Sua consulta foi agendada com sucesso.</p>",
+            TagApi = EmailTemplateTagConstants.AppointmentScheduledSuccess,
+            CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+            ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+            LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+        },
+        new EmailTemplate
+        {
+            Id = 4,
+            Enable = true,
+            Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+            Description = "Consulta Remarcada",
+            Subject = "Sua Consulta Foi Remarcada",
+            Body = "<p>Sua consulta foi remarcada com sucesso.</p>",
+            TagApi = EmailTemplateTagConstants.AppointmentRescheduled,
+            CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+            ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+            LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+        },
+        new EmailTemplate
+        {
+            Id = 5,
+            Enable = true,
+            Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+            Description = "Consulta Cancelada",
+            Subject = "Sua Consulta Foi Cancelada",
+            Body = "<p>Sua consulta foi cancelada.</p>",
+            TagApi = EmailTemplateTagConstants.AppointmentCancelled,
+            CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+            ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+            LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+        },
+        new EmailTemplate
+        {
+            Id = 6,
+            Enable = true,
+            Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+            Description = "Atualização de Cadastro Médico",
+            Subject = "Dados Médicos Atualizados",
+            Body = "<p>Seus dados médicos foram atualizados com sucesso.</p>",
+            TagApi = EmailTemplateTagConstants.MedicalUpdateEmail,
+            CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+            ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+            LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+        },
+        new EmailTemplate
+        {
+            Id = 7,
+            Enable = true,
+            Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+            Description = "Lembrete de Consulta",
+            Subject = "Lembrete de Consulta Agendada",
+            Body = "<p>Este é um lembrete para sua consulta agendada.</p>",
+            TagApi = EmailTemplateTagConstants.NotificationDispatch,
+            CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+            ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+            LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+        }
+            };
         }
     }
 }
