@@ -20,13 +20,14 @@ namespace SmartDigitalPsico.WindowsService
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.Information("Service [START] -> {SystemName} - StartAsync", SystemName);
+            LogAppHelper.LogInfo(_logger, "Service [START] -> {SystemName} - StartAsync", SystemName);
+            LogAppHelper.PrintLogInformationVersionProduct(_logger);
             return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.Information("Service [STOP] -> {SystemName} - StopAsync", SystemName);
+            LogAppHelper.LogInfo(_logger, "Service [STOP] -> {SystemName} - StopAsync", SystemName);
             return base.StopAsync(cancellationToken);
         }
 
@@ -34,11 +35,9 @@ namespace SmartDigitalPsico.WindowsService
         {
             // Utiliza o método GetValue para obter o delay configurado com um valor default de 1 minuto
             int minutesDelay = _configuration.GetValue("TaskDelayMinutes", 1);
-            LogAppHelper.PrintLogInformationVersionProduct(_logger);
-
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.Information("Worker running at: {Time}", DateHelper.GetDateTimeNowToLog());
+                LogAppHelper.LogInfo(_logger, "Worker running at: {Time}", DateHelper.GetDateTimeNowToLog());
                 try
                 {
                     using (var scope = _serviceProvider.CreateScope())
@@ -49,7 +48,7 @@ namespace SmartDigitalPsico.WindowsService
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex, "ExecuteAsync Error: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                    LogAppHelper.LogError(_logger, ex, "ExecuteAsync Error: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
                 }
                 // Aguarda o intervalo configurado (em minutos)
                 await Task.Delay(TimeSpan.FromMinutes(minutesDelay), stoppingToken);
