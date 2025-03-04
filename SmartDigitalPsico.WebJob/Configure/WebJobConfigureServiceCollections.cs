@@ -1,9 +1,9 @@
 ﻿using SmartDigitalPsico.Service.Configure;
 using SmartDigitalPsico.Service.Configure.Domain;
 
-namespace SmartDigitalPsico.WindowsService.Configure
+namespace SmartDigitalPsico.WebJob.Configure
 {
-    public static class WindowsServiceConfigureServiceCollections
+    public static class WebJobConfigureServiceCollections
     {
         public static void Configure(IServiceCollection services, IConfiguration configuration, Serilog.Core.Logger _logger)
         {
