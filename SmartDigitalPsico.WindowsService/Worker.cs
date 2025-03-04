@@ -19,14 +19,14 @@ namespace SmartDigitalPsico.WindowsService
         }
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.Information("Serviço [START] -> {SystemName}- StartAsync", SystemName);
+            _logger.Information("Service [START] -> {SystemName}- StartAsync", SystemName);
 
             return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.Information("Serviço [STOP] -> {SystemName}- StartAsync", SystemName);
+            _logger.Information("Service [STOP] -> {SystemName}- StopAsync", SystemName);
             return base.StopAsync(cancellationToken);
         }
 
