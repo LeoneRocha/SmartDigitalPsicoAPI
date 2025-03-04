@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         private readonly ILogger _logger;
 
         // Evento de progresso que pode ser assinado para acompanhar o percentual de processamento.
-        public event EventHandler<ProgressEventArgs>? ProgressChanged;
+        public event EventHandler<NotificationProgressEventArgs>? ProgressChanged;
         public NotificationDispatchJobService(
              INotificationRecordsService notificationRecordsService,
              IMedicalCalenderNotificationService medicalCalenderNotificationService,
@@ -160,7 +160,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         // Método para disparar o evento de progresso
         private void RaiseProgressChanged(int processed, int total)
         {
-            ProgressChanged?.Invoke(this, new ProgressEventArgs
+            ProgressChanged?.Invoke(this, new NotificationProgressEventArgs
             {
                 Processed = processed,
                 Total = total

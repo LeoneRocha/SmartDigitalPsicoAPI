@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.DTO;
@@ -36,7 +37,6 @@ namespace SmartDigitalPsico.Domain.Helpers
                       .CreateLogger();
         }
 
-
         public static AppInformationVersionProductDto GetInformationVersionProduct()
         {
             var assembly = Assembly.GetEntryAssembly();
@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 var assemblyApp = assembly.GetName();
                 if (assemblyApp != null)
                 {
-                    var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Undefined";
+                    var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? GetHostEnvironmentName();
                     var nameApp = assemblyApp.Name ?? "Undefined";
                     var version = "Undefined";
                     if (assemblyApp.Version != null)
@@ -70,6 +70,16 @@ namespace SmartDigitalPsico.Domain.Helpers
                 appDto.Message = string.Format("Assembly information could not be retrieved.{0}", Environment.NewLine);
             }
             return appDto;
+        }
+        private static string GetHostEnvironmentName()
+        {
+            // Obtém o nome do ambiente do host
+            var hostEnvironment = new HostBuilder().UseContentRoot(AppContext.BaseDirectory).ConfigureHostConfiguration(config =>
+            {
+                config.AddEnvironmentVariables();
+            }).Build().Services.GetService(typeof(IHostEnvironment)) as IHostEnvironment;
+
+            return hostEnvironment?.EnvironmentName ?? "Undefined";
         }
 
         public static string ShowInformationVersionProductString()
@@ -105,6 +115,18 @@ namespace SmartDigitalPsico.Domain.Helpers
             {
                 Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", envVal);
             }
+        }
+
+        // Método para encapsular chamadas a _logger.Information_
+        public static void LogInfo(ILogger logger, string message, params object[] args)
+        {
+            logger.Information(message, args);
+        }
+
+        // Método para encapsular chamadas a _logger.Error_
+        public static void LogError(ILogger logger, Exception ex, string message, params object[] args)
+        {
+            logger.Error(ex, message, args);
         }
     }
 }
