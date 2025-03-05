@@ -8,6 +8,8 @@ using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace SmartDigitalPsico.Service.Bussines.Notification
 {
@@ -17,7 +19,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         private readonly IMedicalCalenderNotificationService _medicalCalenderNotificationService;
         private readonly ILogger _logger;
 
-        // Evento de progresso que pode ser assinado para acompanhar o percentual de processamento.
+        // Evento de progresso para acompanhar o percentual de processamento.
         public event EventHandler<NotificationProgressEventArgs>? ProgressChanged;
         public NotificationDispatchJobService(
              INotificationRecordsService notificationRecordsService,
@@ -35,30 +37,27 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             var pendingRecords = await _notificationRecordsService.GetPendingNotificationsAsync();
             var currentUtc = DateHelper.GetDateTimeNowFromUtc();
 
-            // Filtra os registros pendentes antes de qualquer processamento
+            // Filtra os registros pendentes com base nas regras.
             var filteredRecords = FilterPendingRecords(pendingRecords, currentUtc);
+            int totalRecords = filteredRecords.Length;
+            int processedCount = 0;
 
-            int totalRecords = filteredRecords.Length; // Total de registros pendentes
-            int processedCount = 0; // Contador compartilhado para progresso
-
-            // Dispara evento inicial de progresso com 0%
+            // Evento inicial de progresso com 0%.
             RaiseProgressChanged(0, totalRecords);
 
+            var updatedRecords = new ConcurrentBag<NotificationRecords>();
             // Agrupa os registros com MedicalCalendar por MedicalId.
             var groupedRecords = filteredRecords
                 .Where(r => r.MedicalCalendar != null)
                 .GroupBy(r => r.MedicalCalendar!.MedicalId)
                 .ToList();
 
-            var updatedRecords = new ConcurrentBag<NotificationRecords>();
-
-            // Processa os grupos em paralelo.
-            processedCount = await ProcesseByMedicalId(currentUtc, totalRecords, processedCount, groupedRecords, updatedRecords);
+            processedCount = await ProcessByMedicalId(currentUtc, totalRecords, processedCount, groupedRecords, updatedRecords);
 
             // Processa também os registros sem MedicalCalendar.
             processedCount = await ProcessWithOutMedical(currentUtc, filteredRecords, totalRecords, processedCount, updatedRecords);
 
-            // Atualiza os registros processados de forma sequencial para preservar a thread-safety do DbContext.
+            // Atualiza os registros processados de forma sequencial.
             await UpdateRecordsSended(updatedRecords);
 
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
@@ -70,14 +69,15 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             {
                 var updateDto = MapToUpdateDto(record);
                 await _notificationRecordsService.Update(updateDto);
-                LogInformation(NotificationDispatchConstants.UpdatedStatus, record.Id);
+                LogInformation(NotificationDispatchConstants.RecordUpdated, record.Id);
             }
         }
 
         private async Task<int> ProcessWithOutMedical(DateTime currentUtc, NotificationRecords[] filteredRecords, int totalRecords, int processedCount, ConcurrentBag<NotificationRecords> updatedRecords)
         {
             var recordsWithoutCalendar = filteredRecords.Where(r => r.MedicalCalendar == null).ToList();
-            await Parallel.ForEachAsync(recordsWithoutCalendar, async (record, cancellationToken) =>
+            var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            await Parallel.ForEachAsync(recordsWithoutCalendar, parallelOptions, async (record, cancellationToken) =>
             {
                 if (await ProcessRecordAsync(record, currentUtc))
                 {
@@ -89,9 +89,13 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             return processedCount;
         }
 
-        private async Task<int> ProcesseByMedicalId(DateTime currentUtc, int totalRecords, int processedCount, List<IGrouping<long, NotificationRecords>> groupedRecords, ConcurrentBag<NotificationRecords> updatedRecords)
+
+        private async Task<int> ProcessByMedicalId(DateTime currentUtc, int totalRecords, int processedCount,
+                                                     List<IGrouping<long, NotificationRecords>> groupedRecords,
+                                                     ConcurrentBag<NotificationRecords> updatedRecords)
         {
-            await Parallel.ForEachAsync(groupedRecords, async (group, cancellationToken) =>
+            var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            await Parallel.ForEachAsync(groupedRecords, parallelOptions, async (group, cancellationToken) =>
             {
                 foreach (var record in group)
                 {
@@ -106,9 +110,9 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             return processedCount;
         }
 
-        private  NotificationRecords[] FilterPendingRecords(NotificationRecords[] records, DateTime currentUtc)
+        private NotificationRecords[] FilterPendingRecords(NotificationRecords[] records, DateTime currentUtc)
         {
-            // Método para filtrar os registros pendentes com base nas regras
+            // Filtra os registros que possuem ao menos uma regra pendente (não enviada e cujo horário seja menor ou igual ao atual)
             return records
                 .Where(record =>
                     record.NotificationRules != null &&
@@ -147,6 +151,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         private async Task NotifyAsync(MedicalCalendar calendar, long recordId, DateTime ruleTime)
         {
             await _medicalCalenderNotificationService.NotifyAsync(calendar, EMedicalCalendarActionType.NotificationDispatch);
+            // Log único para cada envio de notificação.
             LogInformation(NotificationDispatchConstants.SendedNotification, recordId, ruleTime);
         }
 
@@ -178,7 +183,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 FinalSendDate = record.FinalSendDate,
                 CreatedDate = record.CreatedDate,
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                Description = record.MedicalCalendar!.Description,
+                Description = record.MedicalCalendar?.Description ?? string.Empty,
                 Enable = record.Enable,
                 EventDate = record.EventDate,
                 Language = "en",
@@ -189,7 +194,8 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         {
             _logger.Information(message, args);
         }
-        // Método para disparar o evento de progresso
+
+        // Dispara o evento de progresso e registra a porcentagem processada
         private void RaiseProgressChanged(int processed, int total)
         {
             ProgressChanged?.Invoke(this, new NotificationProgressEventArgs
@@ -199,8 +205,8 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             });
             if (total > 0 && processed > 0)
             {
-                // Log para progresso em porcentagem
-                LogInformation("Processing progress: {Percentage:F2}% / Progresso do processamento: {Percentage:F2}%", (double)processed / total * 100);
+                double percentage = (double)processed / total * 100;
+                LogInformation("Processing progress: {Percentage:F2}% / Progresso do processamento: {Percentage:F2}%", percentage);
             }
         }
     }
