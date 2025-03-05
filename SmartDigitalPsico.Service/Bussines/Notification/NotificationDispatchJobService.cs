@@ -8,8 +8,6 @@ using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace SmartDigitalPsico.Service.Bussines.Notification
 {
@@ -42,7 +40,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             int totalRecords = filteredRecords.Length;
             int processedCount = 0;
 
-            LogInformation(NotificationDispatchConstants.FoundPendingRecords, totalRecords);             
+            LogInformation(NotificationDispatchConstants.FoundPendingRecords, totalRecords);
             // Evento inicial de progresso com 0%.
             RaiseProgressChanged(0, totalRecords);
 
@@ -89,7 +87,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             });
             return processedCount;
         }
-         
+
         private async Task<int> ProcessByMedicalId(DateTime currentUtc, int totalRecords, int processedCount, List<IGrouping<long, NotificationRecords>> groupedRecords, ConcurrentBag<NotificationRecords> updatedRecords)
         {
             var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
