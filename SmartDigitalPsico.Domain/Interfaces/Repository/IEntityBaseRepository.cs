@@ -5,7 +5,8 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
     public interface IEntityBaseRepository<T> where T : IEntityBase
     {
         Task<T> Create(T item);
-        Task<T> FindByID(long id);
+        Task<T> FindByID(long id);    
+        Task<T?> FindAsync(long id, params Expression<Func<T, object>>[] includes);
         Task<T> FindByID(long id, params Expression<Func<T, object>>[] includes);
         Task<T> FindByID(long id, Action<IQueryable<T>> includeAction);
 

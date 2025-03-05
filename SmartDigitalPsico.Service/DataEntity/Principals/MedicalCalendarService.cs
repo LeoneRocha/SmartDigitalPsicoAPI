@@ -4,6 +4,7 @@ using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.DTO;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
@@ -25,6 +26,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     public class MedicalCalendarService : EntityBaseService<MedicalCalendar, AddMedicalCalendarDto, UpdateMedicalCalendarDto, GetMedicalCalendarDto, IMedicalCalendarRepository>, IMedicalCalendarService
     {
 
+        private readonly IPatientRepositories _patientRepositoriesShared;
         private readonly IMedicalRepository _medicalRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMedicalCalendarValidators _validators;
@@ -36,14 +38,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ISharedDependenciesConfig sharedDependenciesConfig,
             IMedicalCalendarValidators medicalCalendarValidators,
             IMedicalCalendarRepository entityRepository,
-            IPatientRepositories repositoriesShared,
+            IPatientRepositories repositoriesPatientShared,
             IMedicalCalenderNotificationService medicalCalenderNotification,
             INotificationRecordsService notificationRecordsService
             )
-            : base(sharedServices, sharedDependenciesConfig, repositoriesShared.SharedRepositories, entityRepository, medicalCalendarValidators.EntityValidator)
+            : base(sharedServices, sharedDependenciesConfig, repositoriesPatientShared.SharedRepositories, entityRepository, medicalCalendarValidators.EntityValidator)
         {
-            _medicalRepository = repositoriesShared.MedicalRepository;
-            _userRepository = repositoriesShared.SharedRepositories.UserRepository;
+            _medicalRepository = repositoriesPatientShared.MedicalRepository;
+            _patientRepositoriesShared = repositoriesPatientShared;
+            _userRepository = repositoriesPatientShared.SharedRepositories.UserRepository;
             _validators = medicalCalendarValidators;
             _medicalCalenderNotification = medicalCalenderNotification;
             _notificationRecordsService = notificationRecordsService;
@@ -76,7 +79,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         {
                             entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
                             await GenerateRecurrenceAsync(entityAdd, false);
-                            response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);                             
+                            response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
                             response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred);
 
                         }
@@ -89,15 +92,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     else
                     {
                         MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
-                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);                        
+                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
                         await CreateOrUpdateNotificationRecordsAsync([entityAdd]);
                         response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred);
                     }
 
                     if (response.Success)
                     {
-                        MedicalCalendar entitySend = await _entityRepository.FindByID(entityAdd.Id, p => p.Medical!, p => p.Patient!);
-                        await _medicalCalenderNotification.NotifyAsync(entitySend, EMedicalCalendarActionType.Add);
+                        await SendNotifyRegister(entityAdd);
                     }
                 }
             }
@@ -107,9 +109,25 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 response.Success = false;
                 response.Message = await base.GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
             }
-
             return response;
         }
+
+        private async Task SendNotifyRegister(MedicalCalendar entityAdd)
+        {
+            MedicalCalendar? entitySend = await _entityRepository.FindAsync(entityAdd.Id, p => p.Medical!, p => p.Patient!);
+            if (entitySend != null)
+            {
+                await _medicalCalenderNotification.NotifyAsync(entitySend, EMedicalCalendarActionType.Add);
+            }
+            else
+            {
+                var patient = await _patientRepositoriesShared.PatientRepository.FindAsync(entityAdd.PatientId.GetValueOrDefault(), p => p.Medical!);
+                entityAdd.Patient = patient;
+                entityAdd.Medical = patient?.Medical;
+                await _medicalCalenderNotification.NotifyAsync(entityAdd, EMedicalCalendarActionType.Add);
+            }
+        }
+
         private async Task CreateOrUpdateNotificationRecordsAsync(MedicalCalendar[] entities)
         {
             var notificationDto = new GenerateNotificationRecordsDto() { MedicalCalendars = entities, IsEnabled = true, NotificationType = ENotificationType.BeforeAppointment };
@@ -170,9 +188,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 if (response.Success)
                 {
-                    MedicalCalendar entitySend = await _entityRepository.FindByID(entityUpdate.Id, p => p.Medical!, p => p.Patient!);
-
-                    await _medicalCalenderNotification.NotifyAsync(entitySend, EMedicalCalendarActionType.Update);
+                    await SendNotifyRegister(entityUpdate);
                 }
             }
             catch (Exception ex)
