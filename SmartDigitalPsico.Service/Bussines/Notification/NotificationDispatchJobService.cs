@@ -88,11 +88,8 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             });
             return processedCount;
         }
-
-
-        private async Task<int> ProcessByMedicalId(DateTime currentUtc, int totalRecords, int processedCount,
-                                                     List<IGrouping<long, NotificationRecords>> groupedRecords,
-                                                     ConcurrentBag<NotificationRecords> updatedRecords)
+         
+        private async Task<int> ProcessByMedicalId(DateTime currentUtc, int totalRecords, int processedCount, List<IGrouping<long, NotificationRecords>> groupedRecords, ConcurrentBag<NotificationRecords> updatedRecords)
         {
             var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
             await Parallel.ForEachAsync(groupedRecords, parallelOptions, async (group, cancellationToken) =>
@@ -110,7 +107,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             return processedCount;
         }
 
-        private NotificationRecords[] FilterPendingRecords(NotificationRecords[] records, DateTime currentUtc)
+        private static NotificationRecords[] FilterPendingRecords(NotificationRecords[] records, DateTime currentUtc)
         {
             // Filtra os registros que possuem ao menos uma regra pendente (não enviada e cujo horário seja menor ou igual ao atual)
             return records
