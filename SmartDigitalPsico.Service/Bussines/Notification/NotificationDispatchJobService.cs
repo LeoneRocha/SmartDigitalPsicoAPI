@@ -35,14 +35,17 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             var pendingRecords = await _notificationRecordsService.GetPendingNotificationsAsync();
             var currentUtc = DateHelper.GetDateTimeNowFromUtc();
 
-            int totalRecords = pendingRecords.Length; // Total de registros pendentes
+            // Filtra os registros pendentes antes de qualquer processamento
+            var filteredRecords = FilterPendingRecords(pendingRecords, currentUtc);
+
+            int totalRecords = filteredRecords.Length; // Total de registros pendentes
             int processedCount = 0; // Contador compartilhado para progresso
 
             // Dispara evento inicial de progresso com 0%
             RaiseProgressChanged(0, totalRecords);
 
             // Agrupa os registros com MedicalCalendar por MedicalId.
-            var groupedRecords = pendingRecords
+            var groupedRecords = filteredRecords
                 .Where(r => r.MedicalCalendar != null)
                 .GroupBy(r => r.MedicalCalendar!.MedicalId)
                 .ToList();
@@ -50,6 +53,44 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             var updatedRecords = new ConcurrentBag<NotificationRecords>();
 
             // Processa os grupos em paralelo.
+            processedCount = await ProcesseByMedicalId(currentUtc, totalRecords, processedCount, groupedRecords, updatedRecords);
+
+            // Processa também os registros sem MedicalCalendar.
+            processedCount = await ProcessWithOutMedical(currentUtc, filteredRecords, totalRecords, processedCount, updatedRecords);
+
+            // Atualiza os registros processados de forma sequencial para preservar a thread-safety do DbContext.
+            await UpdateRecordsSended(updatedRecords);
+
+            LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
+        }
+
+        private async Task UpdateRecordsSended(ConcurrentBag<NotificationRecords> updatedRecords)
+        {
+            foreach (var record in updatedRecords)
+            {
+                var updateDto = MapToUpdateDto(record);
+                await _notificationRecordsService.Update(updateDto);
+                LogInformation(NotificationDispatchConstants.UpdatedStatus, record.Id);
+            }
+        }
+
+        private async Task<int> ProcessWithOutMedical(DateTime currentUtc, NotificationRecords[] filteredRecords, int totalRecords, int processedCount, ConcurrentBag<NotificationRecords> updatedRecords)
+        {
+            var recordsWithoutCalendar = filteredRecords.Where(r => r.MedicalCalendar == null).ToList();
+            await Parallel.ForEachAsync(recordsWithoutCalendar, async (record, cancellationToken) =>
+            {
+                if (await ProcessRecordAsync(record, currentUtc))
+                {
+                    updatedRecords.Add(record);
+                    int current = Interlocked.Increment(ref processedCount);
+                    RaiseProgressChanged(current, totalRecords);
+                }
+            });
+            return processedCount;
+        }
+
+        private async Task<int> ProcesseByMedicalId(DateTime currentUtc, int totalRecords, int processedCount, List<IGrouping<long, NotificationRecords>> groupedRecords, ConcurrentBag<NotificationRecords> updatedRecords)
+        {
             await Parallel.ForEachAsync(groupedRecords, async (group, cancellationToken) =>
             {
                 foreach (var record in group)
@@ -62,27 +103,18 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                     }
                 }
             });
+            return processedCount;
+        }
 
-            // Processa também os registros sem MedicalCalendar.
-            var recordsWithoutCalendar = pendingRecords.Where(r => r.MedicalCalendar == null).ToList();
-            await Parallel.ForEachAsync(recordsWithoutCalendar, async (record, cancellationToken) =>
-            {
-                if (await ProcessRecordAsync(record, currentUtc))
-                {
-                    updatedRecords.Add(record);
-                    int current = Interlocked.Increment(ref processedCount);
-                    RaiseProgressChanged(current, totalRecords);
-                }
-            });
-
-            // Atualiza os registros processados de forma sequencial para preservar a thread-safety do DbContext.
-            foreach (var record in updatedRecords)
-            {
-                var updateDto = MapToUpdateDto(record);
-                await _notificationRecordsService.Update(updateDto);
-                LogInformation(NotificationDispatchConstants.UpdatedStatus, record.Id);
-            }
-            LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
+        private  NotificationRecords[] FilterPendingRecords(NotificationRecords[] records, DateTime currentUtc)
+        {
+            // Método para filtrar os registros pendentes com base nas regras
+            return records
+                .Where(record =>
+                    record.NotificationRules != null &&
+                    record.NotificationRules.Count(rule => !rule.IsSent && rule.ScheduledSendTime <= currentUtc) > 0
+                )
+                .ToArray();
         }
 
         private async Task<bool> ProcessRecordAsync(NotificationRecords record, DateTime currentUtc)
