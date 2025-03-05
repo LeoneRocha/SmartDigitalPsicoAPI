@@ -28,6 +28,15 @@ namespace SmartDigitalPsico.Data.Repository.Generic
         {
             return await _dataset.FirstAsync(p => p.Id.Equals(id));
         }
+        public virtual async Task<T?> FindAsync(long id, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _dataset;
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return await query.FirstOrDefaultAsync(p => p.Id.Equals(id));
+        }
 
         public virtual async Task<T> FindByID(long id, params Expression<Func<T, object>>[] includes)
         {

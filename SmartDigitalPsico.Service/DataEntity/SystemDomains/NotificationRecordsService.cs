@@ -84,9 +84,16 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <returns>Task representando a operação assíncrona.</returns>
         public async Task CreateOrUpdateNotificationRecordsAsync(GenerateNotificationRecordsDto dto)
         {
-            foreach (var medicalCalendar in dto.MedicalCalendars)
+            try
             {
-                await ProcessSingleMedicalCalendarAsync(medicalCalendar, dto);
+                foreach (var medicalCalendar in dto.MedicalCalendars)
+                {
+                    await ProcessSingleMedicalCalendarAsync(medicalCalendar, dto);
+                }
+            } 
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error at CreateOrUpdateNotificationRecordsAsync");
             }
         }
 
@@ -147,26 +154,34 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         private async Task SaveNotificationRecordAsync(MedicalCalendar medicalCalendar, AddNotificationRecordsDto notificationRecordDto, bool isCompleted)
         {
-            var existingRecord = (await _entityRepository.FindByCustomWhere(nr => nr.MedicalCalendarId == medicalCalendar.Id)).FirstOrDefault();
-
-            if (existingRecord != null)
+            try
             {
-                var updateNotificationRecordDto = new UpdateNotificationRecordsDto
+                var existingRecord = (await _entityRepository.FindByCustomWhere(nr => nr.MedicalCalendarId == medicalCalendar.Id)).FirstOrDefault();
+
+                if (existingRecord != null)
                 {
-                    Id = existingRecord.Id,
-                    EventDate = medicalCalendar.StartDateTime,
-                    MedicalCalendarId = existingRecord.MedicalCalendarId,
-                    NotificationRules = notificationRecordDto.NotificationRules,
-                    IsCompleted = isCompleted,
-                    FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
-                };
+                    var updateNotificationRecordDto = new UpdateNotificationRecordsDto
+                    {
+                        Id = existingRecord.Id,
+                        EventDate = medicalCalendar.StartDateTime,
+                        MedicalCalendarId = existingRecord.MedicalCalendarId,
+                        NotificationRules = notificationRecordDto.NotificationRules,
+                        IsCompleted = isCompleted,
+                        FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
+                    };
 
-                await Update(updateNotificationRecordDto);
+                    await Update(updateNotificationRecordDto);
+                }
+                else
+                {
+                    await Create(notificationRecordDto);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await Create(notificationRecordDto);
+                _logger.Error(ex, "Error at SaveNotificationRecordAsync");
             }
+
         }
 
         private static DateTime CalculateScheduledSendTime(NotificationRules notificationRule, DateTime startDateTime, string timeZone)
