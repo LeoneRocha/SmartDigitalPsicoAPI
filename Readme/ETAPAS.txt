@@ -1,8 +1,13 @@
 ﻿ 
 **************** 
- 
   
-  -- ARrumar na pipe de build para zipar os projetos separados  do web job e windows service 
+
+----------------------------------- ARRUMAR ERRO AO SALVAR CALENDARIO RECORRERNT 
+
+----------------------------------- AO PROCESSAR PARECE QUE TA INDO SO 1 NOTIFICACAO E MELHORAR O LOG PARA ENDER REALMENTE QUANTOS FORAM ENCONTRADOS PARA NOTIFICAR 
+
+
+-- ARrumar na pipe de build para zipar os projetos separados  do web job e windows service  - FEITO 
 --- CRIAR UM DEPLOY PARA WEBJOB e da API 
 -- STAGING e PRODUCTION 
 
