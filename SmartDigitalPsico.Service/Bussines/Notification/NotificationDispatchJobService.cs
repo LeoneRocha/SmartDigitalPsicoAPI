@@ -42,6 +42,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             int totalRecords = filteredRecords.Length;
             int processedCount = 0;
 
+            LogInformation(NotificationDispatchConstants.FoundPendingRecords, totalRecords);             
             // Evento inicial de progresso com 0%.
             RaiseProgressChanged(0, totalRecords);
 
