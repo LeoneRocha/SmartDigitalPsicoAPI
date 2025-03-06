@@ -1,13 +1,13 @@
 ﻿namespace SmartDigitalPsico.Domain.VO
 {
-    public class NotificationTemplate
+    public class DataNotificationTemplateVO
     {
         public string Subject { get; set; } = string.Empty;
         public string Body { get; set; } = string.Empty;
         public List<string> ToEmails { get; set; }
         public List<string> ToPhoneNumbers { get; set; }
 
-        public NotificationTemplate(string subject, string body)
+        public DataNotificationTemplateVO(string subject, string body)
         {
             Subject = subject;
             Body = body;            
@@ -15,7 +15,7 @@
             ToPhoneNumbers = new List<string>();
         }
 
-        public NotificationTemplate( )
+        public DataNotificationTemplateVO( )
         {
             ToEmails = new List<string>();
             ToPhoneNumbers = new List<string>();

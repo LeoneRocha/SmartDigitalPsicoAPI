@@ -224,7 +224,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             try
             {
-                var templateResult = await _sharedServices.EmailTemplateService.GetEmailTemplateAsync(EmailTemplateTagConstants.MedicalUpdateEmail);
+                var templateResult = await _sharedServices.NotificationTemplateService.GetNotificationTemplatesAsync(EmailTemplateTagConstants.MedicalUpdateEmail);
 
                 if (templateResult != null && templateResult.Success && templateResult.Data != null)
                 {
@@ -236,7 +236,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         { "MedicalId", entityResponse.Id.ToString() }
                     };
 
-                    NotificationTemplate notificationMessageVO = new NotificationTemplate()
+                    var notificationMessageVO = new DataNotificationTemplateVO()
                     {
                         Subject = template.Subject,
                         Body = template.Body,
@@ -254,7 +254,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
         private async Task fallBackEmail(Medical entityResponse)
         {
-            NotificationTemplate fallbackEmail = new NotificationTemplate()
+            DataNotificationTemplateVO fallbackEmail = new DataNotificationTemplateVO()
             {
                 Subject = await GetLocalization(GeneralLanguageKeyConstants.MedicalUpdateTitle, GeneralLanguageMenssageConstants.MedicalUpdateTitle),
                 Body = $"Médico {entityResponse.Name} ({entityResponse.Id}) atualizado.",

@@ -7,52 +7,51 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.Globalization;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class EmailTemplateService
-      : EntityBaseService<EmailTemplate, AddEmailTemplateDto, UpdateEmailTemplateDto, GetEmailTemplateDto, IEmailTemplateRepository>, IEmailTemplateService
+    public class NotificationTemplateService
+      : EntityBaseService<Domain.ModelEntity.NotificationTemplate, AddNotificationTemplateDto, UpdateNotificationTemplateDto, GetNotificationTemplateDto, INotificationTemplateRepository>, INotificationTemplateService
     {
-        public EmailTemplateService(
+        public NotificationTemplateService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
-            IEmailTemplateRepository entityRepository,
+            INotificationTemplateRepository entityRepository,
             IApplicationLanguageRepository applicationLanguageRepository,
-            IValidator<EmailTemplate> entityValidator
+            IValidator<Domain.ModelEntity.NotificationTemplate> entityValidator
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
 
         }
-        public override async Task<ServiceResponse<GetEmailTemplateDto>> Update(UpdateEmailTemplateDto item)
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(UpdateNotificationTemplateDto item)
         {
             item.Body = HtmlSanitizerHelper.Sanitize(item.Body);
 
             return await base.Update(item);
         }
-        public override async Task<ServiceResponse<GetEmailTemplateDto>> Create(AddEmailTemplateDto item)
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(AddNotificationTemplateDto item)
         {
             item.Body = HtmlSanitizerHelper.Sanitize(item.Body);
             return await base.Create(item);
         }
 
-        public async Task<ServiceResponse<GetEmailTemplateDto>> GetEmailTemplateAsync(string tagApi)
+        public async Task<ServiceResponse<GetNotificationTemplateDto>> GetNotificationTemplatesAsync(string tagApi)
         {
-            ServiceResponse<GetEmailTemplateDto> response = new ServiceResponse<GetEmailTemplateDto>();
+            ServiceResponse<GetNotificationTemplateDto> response = new ServiceResponse<GetNotificationTemplateDto>();
 
             var culturenameCurrent = CultureInfo.CurrentCulture;
             string language = culturenameCurrent.Name;
 
-            EmailTemplate entityResponse = await _entityRepository.GetEmailTemplateAsync(tagApi, language);
+            Domain.ModelEntity.NotificationTemplate entityResponse = await _entityRepository.GetNotificationTemplateAsync(tagApi, language);
 
             if (entityResponse != null)
             {
-                response.Data = _mapper.Map<GetEmailTemplateDto>(entityResponse);
+                response.Data = _mapper.Map<GetNotificationTemplateDto>(entityResponse);
                 response.Success = true;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             }

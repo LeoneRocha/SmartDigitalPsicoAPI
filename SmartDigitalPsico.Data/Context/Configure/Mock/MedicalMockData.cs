@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             var newAddMedical = new Medical
             {
                 Id = 1,
-                Name = "Medical MOCK ",
+                Name = "Dr. Gabriel Monteiro",
                 Email = "medical@sistemas.com",
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
                 Enable = true,
@@ -22,7 +22,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 OfficeId = 1,
                 CreatedUserId = 1,
                 StartWorkingTime = new TimeSpan(6, 0, 0),
-                EndWorkingTime = new TimeSpan(20, 0, 0),    
+                EndWorkingTime = new TimeSpan(20, 0, 0),   
+                PatientIntervalTimeMinutes = 60,
                 WorkingDays = [
                     DayOfWeek.Monday,
                     DayOfWeek.Tuesday,

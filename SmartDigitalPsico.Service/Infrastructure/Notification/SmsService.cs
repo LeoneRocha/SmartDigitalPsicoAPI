@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Notification
 {
     public class SmsService : ISmsService
     {
-        public async Task SendAsync(NotificationTemplate template, Dictionary<string, string> tokens)
+        public async Task SendAsync(DataNotificationTemplateVO template, Dictionary<string, string> tokens)
         {
             await Task.CompletedTask;
         }

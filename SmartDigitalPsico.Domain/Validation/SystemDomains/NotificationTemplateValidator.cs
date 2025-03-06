@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     //Registered in AddValidatorsFromAssemblyContaining
-    public class EmailTemplateValidator : AbstractValidator<EmailTemplate>
+    public class NotificationTemplateValidator : AbstractValidator<NotificationTemplate>
     {
-        public EmailTemplateValidator()
+        public NotificationTemplateValidator()
         {
             RuleFor(x => x.Description)
                 .NotEmpty()

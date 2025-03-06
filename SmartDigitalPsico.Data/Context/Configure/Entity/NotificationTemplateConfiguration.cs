@@ -8,12 +8,12 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class EmailTemplateConfiguration : EntityBaseConfiguration<EmailTemplate>
+    public class NotificationTemplateConfiguration : EntityBaseConfiguration<NotificationTemplate>
     {
-        public EmailTemplateConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
-        public override void Configure(EntityTypeBuilder<EmailTemplate> builder)
+        public NotificationTemplateConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
+        public override void Configure(EntityTypeBuilder<NotificationTemplate> builder)
         {
-            builder.ToTable("EmailTemplate", "dbo");
+            builder.ToTable("NotificationTemplate", "dbo");
             HelperCharSet.AddCharSet(builder, ETypeDataBase);
             builder.HasKey(e => e.Id);
 
@@ -31,13 +31,15 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase))
                 .IsRequired();
 
+            builder.Property(e => e.NotificationTemplateType).HasConversion<byte>();
+
             // Indexes (using Fluent API)
-            builder.HasIndex(c => c.Language).HasDatabaseName("IX_EmailTemplate_Language");
-            builder.HasIndex(c => c.TagApi).HasDatabaseName("IX_EmailTemplate_TagApi");
-            builder.HasIndex(c => new { c.Language, c.TagApi, c.Enable }).HasDatabaseName("IX_EmailTemplate_Language_TagApi_Enable");
+            builder.HasIndex(c => c.Language).HasDatabaseName("IX_NotificationTemplate_Language");
+            builder.HasIndex(c => c.TagApi).HasDatabaseName("IX_NotificationTemplate_TagApi");
+            builder.HasIndex(c => new { c.Language, c.TagApi, c.Enable }).HasDatabaseName("IX_NotificationTemplate_Language_TagApi_Enable");
 
             // Seed data
-            builder.HasData(EmailTemplateMockData.GetMocks());
+            builder.HasData(NotificationTemplateMockData.GetMocks());
         }
     }
 }

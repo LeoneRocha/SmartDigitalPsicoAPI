@@ -206,13 +206,13 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<UpdateAuditDataSelectiveEntityLogDto, AuditDataSelectiveEntityLog>();
             #endregion Audit  
 
-            #region EmailTemplate
-            CreateMap<EmailTemplate, GetEmailTemplateDto>();
-            CreateMap<GetEmailTemplateDto, EmailTemplate>();
+            #region NotificationTemplate
+            CreateMap<NotificationTemplate, GetNotificationTemplateDto>();
+            CreateMap<GetNotificationTemplateDto, NotificationTemplate>();
 
-            CreateMap<AddEmailTemplateDto, EmailTemplate>();
-            CreateMap<UpdateEmailTemplateDto, EmailTemplate>();
-            #endregion EmailTemplate 
+            CreateMap<AddNotificationTemplateDto, NotificationTemplate>();
+            CreateMap<UpdateNotificationTemplateDto, NotificationTemplate>();
+            #endregion NotificationTemplate 
 
             CreateMap<UserTokenSession, UserTokenSessionTableEntity>();
             CreateMap<UserTokenSessionTableEntity, UserTokenSession>();

@@ -447,7 +447,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
         private async Task SendEmailCreateAcessAsync(AddUserDto user, string accessUrl)
         {
-            var templateResult = await _sharedServices.EmailTemplateService.GetEmailTemplateAsync(EmailTemplateTagConstants.LoginReleaseEmail);
+            var templateResult = await _sharedServices.NotificationTemplateService.GetNotificationTemplatesAsync(EmailTemplateTagConstants.LoginReleaseEmail);
 
             if (templateResult != null && templateResult.Success && templateResult.Data != null)
             {
@@ -458,15 +458,15 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     { "AccessUrl", accessUrl},
                     { "Email", user.Email },
                     { "Password", user.Password }
-                }; 
+                };
 
-                NotificationTemplate notificationMessageVO = new NotificationTemplate()
+                var notificationMessageVO = new DataNotificationTemplateVO()
                 {
                     Subject = template.Subject,
                     Body = template.Body,
                     ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
                 };
-                await _sharedServices.SendNotificationService.SendNotificationAsync(notificationMessageVO,ENotificationServiceType.Email, tokens);
+                await _sharedServices.SendNotificationService.SendNotificationAsync(notificationMessageVO, ENotificationServiceType.Email, tokens);
             }
         }
     }

@@ -40,12 +40,12 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
                     ?? throw new InvalidOperationException("ISendNotificationService not available.");
             }
         }
-        public IEmailTemplateService EmailTemplateService
+        public INotificationTemplateService NotificationTemplateService
         {
             get
             {
-                return _serviceProvider.GetService<IEmailTemplateService>()
-                    ?? throw new InvalidOperationException("IEmailTemplateService not available.");
+                return _serviceProvider.GetService<INotificationTemplateService>()
+                    ?? throw new InvalidOperationException("INotificationTemplateService not available.");
             }
         }
     }
