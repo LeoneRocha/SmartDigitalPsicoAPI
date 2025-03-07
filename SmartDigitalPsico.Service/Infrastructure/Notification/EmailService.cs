@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Notification
         }
 
         public async Task SendAsync(
-            NotificationTemplate template, Dictionary<string, string> tokens)
+            DataNotificationTemplateVO template, Dictionary<string, string> tokens)
         {
             var body = EmailHelper.ReplaceTokens(template.Body, tokens);
             var emailMessage = new EmailMessageDto

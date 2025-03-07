@@ -3,8 +3,8 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface INotificationRulesRepository : IEntityBaseRepository<NotificationRules>
+    public interface INotificationRulesRepository : IEntityBaseRepository<NotificationRule>
     {
-        Task<NotificationRules[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId);
+        Task<NotificationRule[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId);
     }
 } 

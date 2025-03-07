@@ -2,7 +2,7 @@
 using SmartDigitalPsico.Domain.ModelEntity;
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
-    public class NotificationRecordsValidator : AbstractValidator<NotificationRecords>
+    public class NotificationRecordsValidator : AbstractValidator<NotificationRecord>
     {
         public NotificationRecordsValidator()
         { 

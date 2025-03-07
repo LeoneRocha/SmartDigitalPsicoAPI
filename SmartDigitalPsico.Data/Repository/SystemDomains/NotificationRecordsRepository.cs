@@ -7,11 +7,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
-    public class NotificationRecordsRepository : GenericRepositoryEntityBase<NotificationRecords>, INotificationRecordsRepository
+    public class NotificationRecordsRepository : GenericRepositoryEntityBase<NotificationRecord>, INotificationRecordsRepository
     {
         public NotificationRecordsRepository(IEntityDataContext context) : base(context) { }
 
-        public override async Task<NotificationRecords> Update(NotificationRecords item)
+        public override async Task<NotificationRecord> Update(NotificationRecord item)
         {
             var existingEntity = await _dataset.SingleAsync(p => p.Id == item.Id);
             // Marca a entidade como modificada e anexa-a ao contexto
@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
             return item;
         }
 
-        public async Task<NotificationRecords[]> GetPendingNotificationsAsync()
+        public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
             var currentDateUtc = DateHelper.GetDateTimeNowFromUtc().Date;
             var currentDateUtcDay1Plus = DateHelper.GetDateTimeNowFromUtc().Date.AddDays(1);

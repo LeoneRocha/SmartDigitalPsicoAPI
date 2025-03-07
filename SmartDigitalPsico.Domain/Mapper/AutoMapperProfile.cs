@@ -206,13 +206,13 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<UpdateAuditDataSelectiveEntityLogDto, AuditDataSelectiveEntityLog>();
             #endregion Audit  
 
-            #region EmailTemplate
-            CreateMap<EmailTemplate, GetEmailTemplateDto>();
-            CreateMap<GetEmailTemplateDto, EmailTemplate>();
+            #region NotificationTemplate
+            CreateMap<NotificationTemplate, GetNotificationTemplateDto>();
+            CreateMap<GetNotificationTemplateDto, NotificationTemplate>();
 
-            CreateMap<AddEmailTemplateDto, EmailTemplate>();
-            CreateMap<UpdateEmailTemplateDto, EmailTemplate>();
-            #endregion EmailTemplate 
+            CreateMap<AddNotificationTemplateDto, NotificationTemplate>();
+            CreateMap<UpdateNotificationTemplateDto, NotificationTemplate>();
+            #endregion NotificationTemplate 
 
             CreateMap<UserTokenSession, UserTokenSessionTableEntity>();
             CreateMap<UserTokenSessionTableEntity, UserTokenSession>();
@@ -228,19 +228,19 @@ namespace SmartDigitalPsico.Domain.Mapper
 
 
             #region NotificationRules
-            CreateMap<NotificationRules, GetNotificationRulesDto>();
-            CreateMap<GetNotificationRulesDto, NotificationRules>();
+            CreateMap<NotificationRule, GetNotificationRulesDto>();
+            CreateMap<GetNotificationRulesDto, NotificationRule>();
 
-            CreateMap<AddNotificationRulesDto, NotificationRules>();
-            CreateMap<UpdateNotificationRulesDto, NotificationRules>();
+            CreateMap<AddNotificationRulesDto, NotificationRule>();
+            CreateMap<UpdateNotificationRulesDto, NotificationRule>();
             #endregion NotificationRules 
 
             #region NotificationRecords
-            CreateMap<NotificationRecords, GetNotificationRecordsDto>();
-            CreateMap<GetNotificationRecordsDto, NotificationRecords>();
+            CreateMap<NotificationRecord, GetNotificationRecordsDto>();
+            CreateMap<GetNotificationRecordsDto, NotificationRecord>();
 
-            CreateMap<AddNotificationRecordsDto, NotificationRecords>();
-            CreateMap<UpdateNotificationRecordsDto, NotificationRecords>();
+            CreateMap<AddNotificationRecordsDto, NotificationRecord>();
+            CreateMap<UpdateNotificationRecordsDto, NotificationRecord>();
             #endregion NotificationRecords 
 
 

@@ -10,6 +10,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
         ISendNotificationService SendNotificationService { get; }
         ICacheService CacheService { get; }
         ICryptoService CryptoService { get; }
-        IEmailTemplateService EmailTemplateService { get; }
+        INotificationTemplateService NotificationTemplateService { get; }
     }
 }

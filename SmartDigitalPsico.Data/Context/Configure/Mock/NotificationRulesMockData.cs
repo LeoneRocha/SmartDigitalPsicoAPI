@@ -8,12 +8,12 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
     {
         private const string LanguagePtBR = "pt-BR";
 
-        public static NotificationRules[] GetMock()
+        public static NotificationRule[] GetMock()
         {
             return new[]
             {
             // Envio 24 horas antes do agendamento
-            new NotificationRules
+            new NotificationRule
             {
                 Id = 1,
                 Enable = true,
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             // Envio 3 dias antes do agendamento
-            new NotificationRules
+            new NotificationRule
             {
                 Id = 2,
                 Enable = true,
@@ -49,7 +49,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             // Envio 1 hora antes do agendamento
-            new NotificationRules
+            new NotificationRule
             {
                 Id = 3,
                 Enable = true,
@@ -67,7 +67,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },
             // Envio 15 minutos antes do agendamento
-            new NotificationRules
+            new NotificationRule
             {
                 Id = 4,
                 Enable = true,
@@ -85,7 +85,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             }, 
             // Lembrete de pagamento (3 dias antes do vencimento)
-            new NotificationRules
+            new NotificationRule
             {
                 Id = 5,
                 Enable = true,
@@ -103,7 +103,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
             },       
             // Envio 48 horas antes do agendamento
-            new NotificationRules
+            new NotificationRule
             {
                 Id = 6,
                 Enable = true,

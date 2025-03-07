@@ -6,8 +6,8 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IEmailTemplateService : IEntityBaseService<EmailTemplate, AddEmailTemplateDto, UpdateEmailTemplateDto, GetEmailTemplateDto>
+    public interface INotificationTemplateService : IEntityBaseService<ModelEntity.NotificationTemplate, AddNotificationTemplateDto, UpdateNotificationTemplateDto, GetNotificationTemplateDto>
     {
-        Task<ServiceResponse<GetEmailTemplateDto>> GetEmailTemplateAsync(string tagApi);
+        Task<ServiceResponse<GetNotificationTemplateDto>> GetNotificationTemplatesAsync(string tagApi);
     }
 }

@@ -15,11 +15,11 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     [ApiController]
     [Authorize("Bearer")]
     [Route("api/[controller]/v1")]
-    public class EmailTemplateController : ApiBaseController
+    public class NotificationTemplateController : ApiBaseController
     {
-        private readonly IEmailTemplateService _entityService;
+        private readonly INotificationTemplateService _entityService;
 
-        public EmailTemplateController(IEmailTemplateService entityService
+        public NotificationTemplateController(INotificationTemplateService entityService
              , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<List<GetEmailTemplateDto>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetNotificationTemplateDto>>>> Get()
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.FindAll();
@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetEmailTemplateDto>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetNotificationTemplateDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.FindByID(id);
@@ -56,7 +56,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetEmailTemplateDto>>> Create(AddEmailTemplateDto newEntity)
+        public async Task<ActionResult<ServiceResponse<GetNotificationTemplateDto>>> Create(AddNotificationTemplateDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Create(newEntity);
@@ -69,7 +69,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
-        public async Task<ActionResult<ServiceResponse<GetEmailTemplateDto>>> Update(UpdateEmailTemplateDto updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetNotificationTemplateDto>>> Update(UpdateNotificationTemplateDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(updateEntity);

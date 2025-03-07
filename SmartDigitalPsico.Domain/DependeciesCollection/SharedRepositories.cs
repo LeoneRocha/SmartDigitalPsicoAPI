@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
             IUserRepository userRepository, 
             IApplicationLanguageRepository applicationLanguageRepository,
             IApplicationConfigSettingRepository applicationConfigSettingRepository,
-            IEmailTemplateRepository emailTemplateRepository)
+            INotificationTemplateRepository notificationTemplateRepository)
         {
             UserRepository = userRepository;
             ApplicationLanguageRepository = applicationLanguageRepository;
