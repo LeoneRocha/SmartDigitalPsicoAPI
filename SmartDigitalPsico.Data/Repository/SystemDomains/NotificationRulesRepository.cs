@@ -7,11 +7,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
-    public class NotificationRulesRepository : GenericRepositoryEntityBase<NotificationRules>, INotificationRulesRepository
+    public class NotificationRulesRepository : GenericRepositoryEntityBase<NotificationRule>, INotificationRulesRepository
     {
         public NotificationRulesRepository(IEntityDataContext context) : base(context) { }
 
-        public async Task<NotificationRules[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId)
+        public async Task<NotificationRule[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId)
         {
             return await _dataset
                 .Where(nr => nr.NotificationType == notificationType

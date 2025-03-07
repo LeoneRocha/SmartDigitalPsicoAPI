@@ -2,8 +2,8 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
-    public interface INotificationRecordsRepository : IEntityBaseRepository<NotificationRecords>
+    public interface INotificationRecordsRepository : IEntityBaseRepository<NotificationRecord>
     {
-        Task<NotificationRecords[]> GetPendingNotificationsAsync();
+        Task<NotificationRecord[]> GetPendingNotificationsAsync();
     }
 } 

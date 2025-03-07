@@ -8,11 +8,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
-    public class NotificationRulesConfiguration : EntityBaseConfiguration<NotificationRules>
+    public class NotificationRuleConfiguration : EntityBaseConfiguration<NotificationRule>
     {
-        public NotificationRulesConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
+        public NotificationRuleConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
 
-        public override void Configure(EntityTypeBuilder<NotificationRules> builder)
+        public override void Configure(EntityTypeBuilder<NotificationRule> builder)
         {
             builder.ToTable("NotificationRules", "dbo");
             HelperCharSet.AddCharSet(builder, ETypeDataBase);

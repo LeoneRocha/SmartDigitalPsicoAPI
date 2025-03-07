@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
-    public class NotificationRules : EntityBase, IEntityBaseDomains
+    public class NotificationRule : EntityBase, IEntityBaseDomains
     {
         public Medical? Medical { get; set; }
         public long MedicalId { get; set; }

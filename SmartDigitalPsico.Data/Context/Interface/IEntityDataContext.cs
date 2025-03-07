@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Infrastructure; 
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Interface
@@ -28,6 +28,10 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<MedicalFile> MedicalFiles { get; set; }
         DbSet<Medical> Medicals { get; set; }
         DbSet<MedicalSpecialty> MedicalSpecialties { get; set; }
+        DbSet<NotificationRecord> NotificationRecords { get; set; }
+        DbSet<NotificationRule> NotificationRules { get; set; }
+        DbSet<NotificationTemplate> NotificationTemplates { get; set; }
+
         DbSet<Office> Offices { get; set; }
         DbSet<PatientAdditionalInformation> PatientAdditionalInformations { get; set; }
         DbSet<PatientFile> PatientFiles { get; set; }
@@ -41,7 +45,6 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<RoleGroupUser> RoleGroupUsers { get; set; }
         DbSet<Specialty> Specialties { get; set; }
         DbSet<User> Users { get; set; }
-        DbSet<NotificationTemplate> NotificationTemplates { get; set; }
         DbSet<UserTokenSession> UserTokenSessions { get; set; }
 
         #endregion DbSets 

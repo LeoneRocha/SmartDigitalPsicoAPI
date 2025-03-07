@@ -25,6 +25,9 @@ namespace SmartDigitalPsico.Data.Context
         public virtual DbSet<MedicalCalendar> MedicalCalendars { get; set; }
         public virtual DbSet<MedicalFile> MedicalFiles { get; set; }
         public virtual DbSet<MedicalSpecialty> MedicalSpecialties { get; set; }
+        public virtual DbSet<NotificationRecord> NotificationRecords { get; set; }
+        public virtual DbSet<NotificationRule> NotificationRules { get; set; }
+        public virtual DbSet<NotificationTemplate> NotificationTemplates { get; set; }
         public virtual DbSet<Office> Offices { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<PatientAdditionalInformation> PatientAdditionalInformations { get; set; }
@@ -40,9 +43,8 @@ namespace SmartDigitalPsico.Data.Context
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<AuditDataEntityLog> AuditLogs { get; set; }
         public virtual DbSet<AuditDataSelectiveEntityLog> AuditSelectiveLogs { get; set; }
-        public virtual DbSet<NotificationTemplate> NotificationTemplates { get; set; }
         public virtual DbSet<UserTokenSession> UserTokenSessions { get; set; }
-
+         
         #endregion DBsets  
     }
 }

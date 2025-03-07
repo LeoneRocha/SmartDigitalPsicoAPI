@@ -6,8 +6,8 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface INotificationRulesService : IEntityBaseService<NotificationRules, AddNotificationRulesDto, UpdateNotificationRulesDto, GetNotificationRulesDto>
+    public interface INotificationRulesService : IEntityBaseService<NotificationRule, AddNotificationRulesDto, UpdateNotificationRulesDto, GetNotificationRulesDto>
     {
-        Task<NotificationRules[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId);
+        Task<NotificationRule[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId);
     }
 }
