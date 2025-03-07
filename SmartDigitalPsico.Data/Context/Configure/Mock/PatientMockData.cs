@@ -5,6 +5,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
     public static class PatientMockData
     {
+        private const string AddressCitySP = "São Paulo";
         public static Patient[] GetMock()
         {
             var newAddPatient = new Patient
@@ -49,9 +50,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
                 CreatedUserId = 2,
                 AddressCep = "12345-678",
-                AddressCity = "São Paulo",
+                AddressCity = AddressCitySP,
                 AddressNeighborhood = "Jardins",
-                AddressState = "São Paulo",
+                AddressState = AddressCitySP,
                 AddressStreet = "Rua das Flores, 123",
                 Cpf = "123.456.789-00",
                 DateOfBirth = new DateTime(1990, 05, 22, 0, 0, 0, DateTimeKind.Utc),
@@ -185,9 +186,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
             CreatedUserId = 2,
             AddressCep = "01310-100",
-            AddressCity = "São Paulo",
+            AddressCity = AddressCitySP,
             AddressNeighborhood = "Bela Vista",
-            AddressState = "São Paulo",
+            AddressState = AddressCitySP,
             AddressStreet = "Avenida Paulista, 1500",
             Cpf = "123.456.789-00",
             DateOfBirth = new DateTime(1985, 11, 30, 0, 0, 0, DateTimeKind.Utc),
