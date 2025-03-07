@@ -59,7 +59,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             // Atualiza os registros processados de forma sequencial.
             await UpdateRecordsSended(updatedRecords);
 
-            LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
+            LogInformation(NotificationDispatchConstants.ProcessingCompleted, processedCount);
         }
 
         private async Task UpdateRecordsSended(ConcurrentBag<NotificationRecords> updatedRecords)
@@ -69,7 +69,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 var updateDto = MapToUpdateDto(record);
                 await _notificationRecordsService.Update(updateDto);
                 LogInformation(NotificationDispatchConstants.RecordUpdated, record.Id);
-            }
+            } 
         }
 
         private async Task<int> ProcessWithOutMedical(DateTime currentUtc, NotificationRecords[] filteredRecords, int totalRecords, int processedCount, ConcurrentBag<NotificationRecords> updatedRecords)
@@ -112,7 +112,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             return records
                 .Where(record =>
                     record.NotificationRules != null &&
-                    record.NotificationRules.Count(rule => !rule.IsSent && rule.ScheduledSendTime <= currentUtc) > 0
+                    record.NotificationRules.Any(rule => !rule.IsSent && rule.ScheduledSendTime <= currentUtc)  
                 )
                 .ToArray();
         }

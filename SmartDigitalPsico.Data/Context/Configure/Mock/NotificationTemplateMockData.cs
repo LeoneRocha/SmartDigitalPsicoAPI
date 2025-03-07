@@ -10,8 +10,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
         {
             var mocksInitial = GetMockInitial().ToList();
             List<NotificationTemplate> notificationTemplates = new List<NotificationTemplate>();
-            notificationTemplates.AddRange(mocksInitial);
-            //notificationTemplates.AddRange(mocksAppointment);
+            notificationTemplates.AddRange(mocksInitial); 
             return notificationTemplates.ToArray();
         }
         public static NotificationTemplate[] GetMockInitial()
