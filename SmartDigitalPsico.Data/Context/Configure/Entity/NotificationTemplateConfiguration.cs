@@ -36,6 +36,11 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             // Indexes (using Fluent API)
             builder.HasIndex(c => c.Language).HasDatabaseName("IX_NotificationTemplate_Language");
             builder.HasIndex(c => c.TagApi).HasDatabaseName("IX_NotificationTemplate_TagApi");
+
+            builder.HasIndex(c => new { c.Language, c.TagApi })
+                .IsUnique() 
+                .HasDatabaseName("IX_NotificationTemplate_Language_TagApi_Unique");
+
             builder.HasIndex(c => new { c.Language, c.TagApi, c.Enable }).HasDatabaseName("IX_NotificationTemplate_Language_TagApi_Enable");
 
             // Seed data

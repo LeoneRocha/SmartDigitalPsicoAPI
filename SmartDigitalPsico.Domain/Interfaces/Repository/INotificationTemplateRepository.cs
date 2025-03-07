@@ -1,4 +1,5 @@
-﻿using SmartDigitalPsico.Domain.ModelEntity;
+﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
