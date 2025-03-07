@@ -2,12 +2,18 @@
 
 1) Criar a classe da tabela (SmartDigitalPsico.Domain.ModelEntity) --------------------------  OK 
 Exemplo:  NotificationRules
+ 
+1.1 COLOCAR NO IEntityDataContext DBSET 
+
+
 
 2) Criar a classe de configuracao do EF core  (SmartDigitalPsico.Data.Context.Configure.Entity) -------------------------- OK   
 Exemplo:  NotificationRulesConfiguration
 
 Add-Migration NotificationRules5 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-Add-Migration PatientMockDataUpdate04032025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+
+
+Add-Migration NotificationTemplateV2 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
 

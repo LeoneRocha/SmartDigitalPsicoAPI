@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
-    public class NotificationRecords : EntityBase 
+    public class NotificationRecord : EntityBase 
     {
         #region Relationship   
         public long? MedicalCalendarId { get; set; }

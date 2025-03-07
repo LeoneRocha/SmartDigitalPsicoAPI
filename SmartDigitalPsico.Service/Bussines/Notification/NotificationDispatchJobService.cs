@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             // Evento inicial de progresso com 0%.
             RaiseProgressChanged(0, totalRecords);
 
-            var updatedRecords = new ConcurrentBag<NotificationRecords>();
+            var updatedRecords = new ConcurrentBag<NotificationRecord>();
             // Agrupa os registros com MedicalCalendar por MedicalId.
             var groupedRecords = filteredRecords
                 .Where(r => r.MedicalCalendar != null)
@@ -59,20 +59,20 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             // Atualiza os registros processados de forma sequencial.
             await UpdateRecordsSended(updatedRecords);
 
-            LogInformation(NotificationDispatchConstants.ProcessingCompleted, updatedRecords.Count);
+            LogInformation(NotificationDispatchConstants.ProcessingCompleted, processedCount);
         }
 
-        private async Task UpdateRecordsSended(ConcurrentBag<NotificationRecords> updatedRecords)
+        private async Task UpdateRecordsSended(ConcurrentBag<NotificationRecord> updatedRecords)
         {
             foreach (var record in updatedRecords)
             {
                 var updateDto = MapToUpdateDto(record);
                 await _notificationRecordsService.Update(updateDto);
                 LogInformation(NotificationDispatchConstants.RecordUpdated, record.Id);
-            }
+            } 
         }
 
-        private async Task<int> ProcessWithOutMedical(DateTime currentUtc, NotificationRecords[] filteredRecords, int totalRecords, int processedCount, ConcurrentBag<NotificationRecords> updatedRecords)
+        private async Task<int> ProcessWithOutMedical(DateTime currentUtc, NotificationRecord[] filteredRecords, int totalRecords, int processedCount, ConcurrentBag<NotificationRecord> updatedRecords)
         {
             var recordsWithoutCalendar = filteredRecords.Where(r => r.MedicalCalendar == null).ToList();
             var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
@@ -88,7 +88,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             return processedCount;
         }
 
-        private async Task<int> ProcessByMedicalId(DateTime currentUtc, int totalRecords, int processedCount, List<IGrouping<long, NotificationRecords>> groupedRecords, ConcurrentBag<NotificationRecords> updatedRecords)
+        private async Task<int> ProcessByMedicalId(DateTime currentUtc, int totalRecords, int processedCount, List<IGrouping<long, NotificationRecord>> groupedRecords, ConcurrentBag<NotificationRecord> updatedRecords)
         {
             var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
             await Parallel.ForEachAsync(groupedRecords, parallelOptions, async (group, cancellationToken) =>
@@ -106,18 +106,18 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             return processedCount;
         }
 
-        private static NotificationRecords[] FilterPendingRecords(NotificationRecords[] records, DateTime currentUtc)
+        private static NotificationRecord[] FilterPendingRecords(NotificationRecord[] records, DateTime currentUtc)
         {
             // Filtra os registros que possuem ao menos uma regra pendente (não enviada e cujo horário seja menor ou igual ao atual)
             return records
                 .Where(record =>
                     record.NotificationRules != null &&
-                    record.NotificationRules.Count(rule => !rule.IsSent && rule.ScheduledSendTime <= currentUtc) > 0
+                    record.NotificationRules.Any(rule => !rule.IsSent && rule.ScheduledSendTime <= currentUtc)  
                 )
                 .ToArray();
         }
 
-        private async Task<bool> ProcessRecordAsync(NotificationRecords record, DateTime currentUtc)
+        private async Task<bool> ProcessRecordAsync(NotificationRecord record, DateTime currentUtc)
         {
             if (record.NotificationRules == null || record.NotificationRules.Length == 0)
                 return false;
@@ -151,7 +151,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             LogInformation(NotificationDispatchConstants.SendedNotification, recordId, ruleTime);
         }
 
-        private static void UpdateRecordStatus(NotificationRecords record, DateTime currentUtc)
+        private static void UpdateRecordStatus(NotificationRecord record, DateTime currentUtc)
         {
             var unsentRules = record.NotificationRules.Where(r => !r.IsSent).ToList();
             if (unsentRules.Count > 0)
@@ -168,7 +168,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             }
         }
 
-        private static UpdateNotificationRecordsDto MapToUpdateDto(NotificationRecords record)
+        private static UpdateNotificationRecordsDto MapToUpdateDto(NotificationRecord record)
         {
             return new UpdateNotificationRecordsDto
             {

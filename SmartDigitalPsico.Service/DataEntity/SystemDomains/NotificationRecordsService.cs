@@ -16,7 +16,7 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class NotificationRecordsService : EntityBaseService<NotificationRecords, AddNotificationRecordsDto, UpdateNotificationRecordsDto, GetNotificationRecordsDto, INotificationRecordsRepository>, INotificationRecordsService
+    public class NotificationRecordsService : EntityBaseService<NotificationRecord, AddNotificationRecordsDto, UpdateNotificationRecordsDto, GetNotificationRecordsDto, INotificationRecordsRepository>, INotificationRecordsService
     {
         private readonly INotificationRulesService _notificationRulesService;
 
@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ISharedRepositories sharedRepositories,
             INotificationRecordsRepository entityRepository,
             IApplicationLanguageRepository applicationLanguageRepository,
-            IValidator<NotificationRecords> entityValidator,
+            IValidator<NotificationRecord> entityValidator,
             INotificationRulesService notificationRulesService)
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             ServiceResponse<GetNotificationRecordsDto> response = new ServiceResponse<GetNotificationRecordsDto>();
 
-            NotificationRecords? entityUpdate = await _entityRepository.FindByID(item.Id);
+            NotificationRecord? entityUpdate = await _entityRepository.FindByID(item.Id);
             if (entityUpdate != null)
             {   
                 entityUpdate.NotificationRules = item.NotificationRules;
@@ -62,7 +62,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
                 if (response.Success)
                 {  
-                    NotificationRecords entityResponse = await _entityRepository.Update(entityUpdate);
+                    NotificationRecord entityResponse = await _entityRepository.Update(entityUpdate);
 
                     response.Data = _mapper.Map<GetNotificationRecordsDto>(entityResponse);
                     response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
@@ -111,12 +111,12 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
         }
 
-        private async Task<NotificationRules[]> GetNotificationRulesAsync(GenerateNotificationRecordsDto dto, long medicalId)
+        private async Task<NotificationRule[]> GetNotificationRulesAsync(GenerateNotificationRecordsDto dto, long medicalId)
         {
             return await _notificationRulesService.GetNotificationRulesAsync(dto.NotificationType, dto.IsEnabled, medicalId);
         }
 
-        private static NotificationRuleStatus[] GenerateNotificationRulesDtos(NotificationRules[] notificationRules, MedicalCalendar medicalCalendar)
+        private static NotificationRuleStatus[] GenerateNotificationRulesDtos(NotificationRule[] notificationRules, MedicalCalendar medicalCalendar)
         {
             var currentTime  = DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
 
@@ -184,7 +184,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         }
 
-        private static DateTime CalculateScheduledSendTime(NotificationRules notificationRule, DateTime startDateTime, string timeZone)
+        private static DateTime CalculateScheduledSendTime(NotificationRule notificationRule, DateTime startDateTime, string timeZone)
         {
             var timeZoneOffset = GetTimeZoneOffset(timeZone);
             var adjustedStartDateTime = startDateTime.AddHours(-timeZoneOffset);
@@ -229,7 +229,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return minScheduledLocal;
         } 
 
-        public async Task<NotificationRecords[]> GetPendingNotificationsAsync()
+        public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
             return await _entityRepository.GetPendingNotificationsAsync();
         }

@@ -78,7 +78,7 @@ RuleNotificationMedical ?
 ----- AJUSTAR NA TELA OS NOVOS CAMPOS AO EDITAR PARA CONFIGURACAO Ou uma tela de configuracao MELHOR UMA TELA SEPARADA SO PARA CONFIGURACAO acho que nao ums campos a mais melhor unifica a tela 
  
 
-1) Criar telas no front para editar os tamplates EmailTemplate ---------------- FEITO  
+1) Criar telas no front para editar os tamplates NotificationTemplate ---------------- FEITO  
 
 1.1) Arrumar listagem da agenda do dia. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  
 
@@ -176,7 +176,7 @@ No calendario so deve mostrar horarios disponiveis e horarios ja gravados    ---
 
 -------- POR ENQUANTO NAO PODE MOVER (FUTURAMENTE SIM AI ALTERA DIA E HORA SE NAO TIVER CONFLITO )
  
-6)-- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - EmailTemplate
+6)-- CRUD DE TEMPLATE DE EMAIL COM EDICAO DE HTML - NotificationTemplate
 
 
 //// NO CALENDARIO FAZER ALGUM CADASTRO OU BUSCAR POR API OS FERIADOS OU POR IA ****** TODO CALENDARIO
@@ -362,7 +362,7 @@ Add-Migration WorkingDays -Context SmartDigitalPsicoDataContextMysql -OutputDir 
 Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 Add-Migration RefreshData13022025 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 Add-Migration MedicalSettings -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
-Add-Migration EmailTemplateUpdates3 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+Add-Migration NotificationTemplateUpdates3 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 Add-Migration NotificationRules -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 

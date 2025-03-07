@@ -12,7 +12,7 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     public class NotificationRulesService
-      : EntityBaseService<NotificationRules, AddNotificationRulesDto, UpdateNotificationRulesDto, GetNotificationRulesDto, INotificationRulesRepository>, INotificationRulesService
+      : EntityBaseService<NotificationRule, AddNotificationRulesDto, UpdateNotificationRulesDto, GetNotificationRulesDto, INotificationRulesRepository>, INotificationRulesService
     {
         public NotificationRulesService(
             ISharedServices sharedServices,
@@ -20,12 +20,12 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ISharedRepositories sharedRepositories,
             INotificationRulesRepository entityRepository,
             IApplicationLanguageRepository applicationLanguageRepository,
-            IValidator<NotificationRules> entityValidator
+            IValidator<NotificationRule> entityValidator
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         { 
         } 
-        public async Task<NotificationRules[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId)
+        public async Task<NotificationRule[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId)
         { 
             return await _entityRepository.GetNotificationRulesAsync(notificationType, isEnabled, medicalId);
         }

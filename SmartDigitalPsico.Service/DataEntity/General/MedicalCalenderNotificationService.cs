@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Service.DataEntity.General
 
         public async Task NotifyAsync(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
-            GetEmailTemplateDto? template = null;
+            GetNotificationTemplateDto? template = null;
             action = changeTypeActionByStatus(calendar, action);
             switch (action)
             {
@@ -54,7 +54,7 @@ namespace SmartDigitalPsico.Service.DataEntity.General
             if (template != null)
             {
                 string emailBody = template.Body;
-                var notificationVO = new NotificationTemplate
+                var notificationVO = new DataNotificationTemplateVO
                 {
                     Subject = template.Subject,
                     Body = emailBody,
@@ -100,9 +100,9 @@ namespace SmartDigitalPsico.Service.DataEntity.General
             return action;
         }
 
-        private async Task<GetEmailTemplateDto?> GetTemplate(string tag)
+        private async Task<GetNotificationTemplateDto?> GetTemplate(string tag)
         {
-            var templateResult = await _sharedServices.EmailTemplateService.GetEmailTemplateAsync(tag);
+            var templateResult = await _sharedServices.NotificationTemplateService.GetNotificationTemplatesAsync(tag);
             return templateResult != null && templateResult.Success ? templateResult.Data : null;
         }
     }

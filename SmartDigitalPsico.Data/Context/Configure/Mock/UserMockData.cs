@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             var newAddUserMedical = new User
             {
                 Id = 2,
-                Name = "User Medical",
+                Name = "Dr. Gabriel Monteiro",
                 Login = "doctor",
                 Admin = false,
                 Email = "doctor@sistemas.com",
