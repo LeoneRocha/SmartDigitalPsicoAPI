@@ -26,7 +26,11 @@ Exemplo: NotificationRulesValidator
 
 4) Criar o repositorio (SmartDigitalPsico.Data.Repository) *Precisa criar interface   --------------------------    OK 
 ex: INotificationRulesRepository / NotificationRulesRepository
-e
+
+* A injecao esta automatizada pelo ServicesDomainRepository RegisterRepositories
+
+
+ 
 5) Criar os DTOS (SmartDigitalPsico.Domain.DTO)    --------------------------    OK  
 Ex: NotificationRulesBaseDto / AddNotificationRulesDto / GetNotificationRulesDto / UpdateNotificationRulesDto
 
