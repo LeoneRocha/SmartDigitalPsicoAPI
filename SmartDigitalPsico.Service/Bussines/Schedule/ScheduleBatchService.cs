@@ -420,6 +420,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     response.Message = validationResult.Errors.First().ErrorMessage;
                     return response;
                 }
+                
 
                 // Adicionar o item ao batch
                 var updatedItems = batch.ScheduleData.ToList();
@@ -596,6 +597,180 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             return response;
         }
+public async Task<ServiceResponse<bool>> AddHolidayExceptionAsync(string batchToken, DateTime holidayDate)
+{
+    var response = new ServiceResponse<bool>();
+    try
+    {
+        var batch = await _entityRepository.GetByBatchTokenAsync(batchToken);
+        if (batch == null)
+        {
+            response.Success = false;
+            response.Message = await base.GetLocalization(
+                GeneralLanguageKeyConstants.RegisterIsNotFound, 
+                GeneralLanguageMenssageConstants.RegisterIsNotFound);
+            return response;
+        }
+        
+        // Remover itens que caem no feriado
+        var items = batch.ScheduleData.ToList();
+        var itemsToRemove = items.Where(i => i.StartDateTime.Date == holidayDate.Date).ToList();
+        
+        foreach (var item in itemsToRemove)
+        {
+            items.Remove(item);
+        }
+        
+        batch.ScheduleData = items.ToArray();
+        batch.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+        batch.ModifyUserId = UserId;
+        
+        await _entityRepository.Update(batch);
+        
+        response.Success = true;
+        response.Data = true;
+        response.Message = await base.GetLocalization(
+            "Holiday_Exception_Added_Key", 
+            "Holiday exception added successfully");
+    }
+    catch (Exception ex)
+    {
+        _logger.Error(ex, "Error at ScheduleBatchService.AddHolidayExceptionAsync");
+        response.Success = false;
+        response.Message = await base.GetLocalization(
+            ValidatorConstants.GenericErroMessageKey, 
+            ValidatorConstants.Generic_Erro_Message);
+    }
+    return response;
+}
+
+public async Task<ServiceResponse<bool>> AdjustRecurrenceAsync(string batchToken, DateTime fromDate, ScheduleBatchRecurrenceDto newPattern)
+{
+    var response = new ServiceResponse<bool>();
+    try
+    {
+        var batch = await _entityRepository.GetByBatchTokenAsync(batchToken);
+        if (batch == null)
+        {
+            response.Success = false;
+            response.Message = await base.GetLocalization(
+                GeneralLanguageKeyConstants.RegisterIsNotFound, 
+                GeneralLanguageMenssageConstants.RegisterIsNotFound);
+            return response;
+        }
+        
+        // Remover itens a partir da data especificada
+        var items = batch.ScheduleData.ToList();
+        items.RemoveAll(i => i.StartDateTime >= fromDate);
+        
+        // Gerar novos itens com o novo padrão
+        var newItems = new List<ScheduleItem>();
+        var templateItem = _mapper.Map<ScheduleItem>(newPattern.TemplateItem);
+        templateItem.TokenRecurrence = batch.BatchToken;
+        templateItem.StartDateTime = fromDate;
+        templateItem.RecurrenceType = newPattern.RecurrenceType;
+        templateItem.RecurrenceEndDate = newPattern.RecurrenceEndDate;
+        templateItem.RecurrenceCount = newPattern.RecurrenceCount;
+        templateItem.RecurrenceDays = newPattern.RecurrenceDays;
+        
+        // Gerar novos itens com base no tipo de recorrência
+        switch (newPattern.RecurrenceType)
+        {
+            case ERecurrenceCalendarType.Daily:
+                GenerateDailyRecurrence(templateItem, newItems, newPattern.RecurrenceEndDate, newPattern.RecurrenceCount);
+                break;
+            case ERecurrenceCalendarType.Weekly:
+                GenerateWeeklyRecurrence(templateItem, newItems, newPattern.RecurrenceEndDate, newPattern.RecurrenceCount, newPattern.RecurrenceDays);
+                break;
+            case ERecurrenceCalendarType.Monthly:
+                GenerateMonthlyRecurrence(templateItem, newItems, newPattern.RecurrenceEndDate, newPattern.RecurrenceCount);
+                break;
+            case ERecurrenceCalendarType.Yearly:
+                GenerateYearlyRecurrence(templateItem, newItems, newPattern.RecurrenceEndDate, newPattern.RecurrenceCount);
+                break;
+        }
+        
+        // Adicionar novos itens ao batch
+        items.AddRange(newItems);
+        batch.ScheduleData = items.ToArray();
+        
+        // Atualizar período do batch
+        if (items.Any())
+        {
+            batch.StartPeriod = items.Min(i => i.StartDateTime);
+            batch.EndPeriod = items.Max(i => i.EndDateTime ?? i.StartDateTime);
+        }
+        
+        batch.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+        batch.ModifyUserId = UserId;
+        
+        await _entityRepository.Update(batch);
+        
+        response.Success = true;
+        response.Data = true;
+        response.Message = await base.GetLocalization(
+            "Recurrence_Adjusted_Key", 
+            "Recurrence adjusted successfully");
+    }
+    catch (Exception ex)
+    {
+        _logger.Error(ex, "Error at ScheduleBatchService.AdjustRecurrenceAsync");
+        response.Success = false;
+        response.Message = await base.GetLocalization(
+            ValidatorConstants.GenericErroMessageKey, 
+            ValidatorConstants.Generic_Erro_Message);
+    }
+    return response;
+}
+
+public async Task<ServiceResponse<ScheduleBatchStatisticsDto>> GetBatchStatisticsAsync(string batchToken)
+{
+    var response = new ServiceResponse<ScheduleBatchStatisticsDto>();
+    try
+    {
+        var batch = await _entityRepository.GetByBatchTokenAsync(batchToken);
+        if (batch == null)
+        {
+            response.Success = false;
+            response.Message = await base.GetLocalization(
+                GeneralLanguageKeyConstants.RegisterIsNotFound, 
+                GeneralLanguageMenssageConstants.RegisterIsNotFound);
+            return response;
+        }
+        
+        var items = batch.ScheduleData;
+        var statistics = new ScheduleBatchStatisticsDto
+        {
+            TotalItems = items.Length,
+            ItemsByDay = items.GroupBy(i => i.StartDateTime.DayOfWeek)
+                .Select(g => new DayCountDto { Day = g.Key, Count = g.Count() })
+                .ToArray(),
+            ItemsByMonth = items.GroupBy(i => i.StartDateTime.Month)
+                .Select(g => new MonthCountDto { Month = g.Key, Count = g.Count() })
+                .ToArray(),
+            AverageItemsPerDay = items.GroupBy(i => i.StartDateTime.Date)
+                .Average(g => g.Count()),
+            EarliestDate = items.Min(i => i.StartDateTime),
+            LatestDate = items.Max(i => i.StartDateTime)
+        };
+        
+        response.Success = true;
+        response.Data = statistics;
+        response.Message = await base.GetLocalization(
+            "Statistics_Generated_Key", 
+            "Statistics generated successfully");
+    }
+    catch (Exception ex)
+    {
+        _logger.Error(ex, "Error at ScheduleBatchService.GetBatchStatisticsAsync");
+        response.Success = false;
+        response.Message = await base.GetLocalization(
+            ValidatorConstants.GenericErroMessageKey, 
+            ValidatorConstants.Generic_Erro_Message);
+    }
+    return response;
+}
+
 
         #region Private Methods for Recurrence Generation
         private void GenerateDailyRecurrence(ScheduleItem template, List<ScheduleItem> items, DateTime? endDate, short? count)
@@ -732,6 +907,35 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             return start.AddDays(daysToAdd);
         }
+        #region Private Methods for Validation
+
+        private async Task<bool> ValidateTimeSlotOverlap(ScheduleItem newItem, List<ScheduleItem> existingItems)
+        {
+            // Verificar se o novo item se sobrepõe a itens existentes
+            return !existingItems.Any(item =>
+                item.StartDateTime < newItem.EndDateTime &&
+                item.EndDateTime > newItem.StartDateTime);
+        }
+
+        private async Task<bool> ValidateWorkingHours(ScheduleItem item, long medicalId)
+        {
+            var medical = await _medicalRepository.FindByID(medicalId);
+            if (medical == null) return false;
+
+            // Verificar se o dia da semana está nos dias de trabalho do médico
+            if (!medical.WorkingDays.Contains(item.StartDateTime.DayOfWeek))
+                return false;
+
+            // Verificar se o horário está dentro do horário de trabalho
+            var startTimeOfDay = item.StartDateTime.TimeOfDay;
+            var endTimeOfDay = item.EndDateTime.GetValueOrDefault().TimeOfDay;
+
+            return startTimeOfDay >= medical.StartWorkingTime &&
+                   endTimeOfDay <= medical.EndWorkingTime;
+        }
+
+        #endregion Private Methods for Validation 
+
         #endregion Private Methods for Recurrence Generation
     }
 }

@@ -58,5 +58,33 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
         /// <param name="item">The updated item</param>
         /// <returns>Success or failure response</returns>
         Task<ServiceResponse<bool>> UpdateItemInBatchAsync(string batchToken, UpdateScheduleItemDto item);
+
+
+        // Adicione estes métodos à interface existente
+
+        /// <summary>
+        /// Adds a holiday exception to the batch, removing any items on that date
+        /// </summary>
+        /// <param name="batchToken">The batch token</param>
+        /// <param name="holidayDate">The holiday date</param>
+        /// <returns>Success or failure response</returns>
+        Task<ServiceResponse<bool>> AddHolidayExceptionAsync(string batchToken, DateTime holidayDate);
+
+        /// <summary>
+        /// Adjusts the recurrence pattern from a specific date
+        /// </summary>
+        /// <param name="batchToken">The batch token</param>
+        /// <param name="fromDate">The date from which to adjust</param>
+        /// <param name="newPattern">The new recurrence pattern</param>
+        /// <returns>Success or failure response</returns>
+        Task<ServiceResponse<bool>> AdjustRecurrenceAsync(string batchToken, DateTime fromDate, ScheduleBatchRecurrenceDto newPattern);
+
+        /// <summary>
+        /// Gets statistics about the batch
+        /// </summary>
+        /// <param name="batchToken">The batch token</param>
+        /// <returns>Batch statistics</returns>
+        Task<ServiceResponse<ScheduleBatchStatisticsDto>> GetBatchStatisticsAsync(string batchToken);
+
     }
 }
