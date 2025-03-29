@@ -1,12 +1,11 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Base;
 
-namespace SmartDigitalPsico.Domain.Validation.SystemDomains
+namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
 {
     public class MedicalCalendarValidator : MedicalBaseValidator<MedicalCalendar>
     {

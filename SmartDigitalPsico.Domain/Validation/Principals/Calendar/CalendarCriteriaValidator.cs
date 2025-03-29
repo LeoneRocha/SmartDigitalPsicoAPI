@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using System.Data.SqlTypes;
 
-namespace SmartDigitalPsico.Domain.Validation.SystemDomains
+namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
 {
     public class CalendarCriteriaValidator : AbstractValidator<CalendarCriteriaDto>
     {

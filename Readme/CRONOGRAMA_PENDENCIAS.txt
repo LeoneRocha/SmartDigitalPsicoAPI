@@ -1,4 +1,82 @@
-﻿--------------1) CRIAR O MOCK DOS FERIASDOS COMUMS NO BRASIL  - HOJE  -OK 
+﻿
+
+
+
+-----------------REFATORAR PROCESSO DE CADASTRO DE CALENDARIO 
+
+--- CRIAR BANCO 
+-- CRIAR REPOSITORIO
+-- CRIAR SERVICE 
+
+--- COMECAR SUBSTITUIR RO SERVICE ANTIGO PARA O NOVO MIGRANDO A LOGICA e ADAPATANDO NESSE NOVO E
+
+--- DEPOIS CRIAR UM NOVO CONTROLLER COM O NOVO 
+
+
+
+
+
+------------ 2 Criar processo de feriados por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  ter um pre-gerar feriados por ia ou service.
+Medical Id 
+Enable 
+Datas (padrao)
+Descricao
+DataFeriado
+
+--------------------------------------------------------------------------- PENDENTE CRIAR TELA NO FRONT END 
+
+----------- 3 Validar ao salvar se nao esta em feriado e nao gerar dias de feriado responder como indisponivel se feriado for ativo 
+------------4 Criar processo de configurar notificacoes por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  (Regras de notificacao) RuleNotificationMedical
+Medical Id 
+Enable 
+Datas (padrao)
+Descricao
+Tipo de intervalo (minutos, hora, dia , meses , ano)
+Tempo de intervalo (int 999) + e - 
+Tipos de envios  (array email, sms , whatsapp)
+
+
+--------------------------------------------------------------------------- PENDENTE CRIAR TELA NO FRONT END 
+
+
+
+------------5 Criar processo de gerar notificacao (Notificacao calendar) quando salvar "inicialente buscar nas regras ativas e gerar 1 registro para cada regra" ------------  FEITO PENDENTE TESTES 
+Campos: 
+Medical Id 
+Patiente Id
+Data Hora Enviar Notificacao 
+Tipos Envios (array email, sms , whatsapp)
+Data De envio da notificao 
+FoiENviado (bool)
+RuleNotificationMedical ? 
+
+-------------------------6 COM ISSO CRIAR UM JOB (WEBJOB,SERVICE, API para chamar por um azurefunction)  QUE BUSCA TODAS NOTIFICACOES E VERIFICA a regra 
+
+
+
+------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
+
+-- NO SERVICE AO SALVAR O MEDICO  NO UPDATE PASSAR NO DTO AS DEMAIS INFORMACOES E FAZER LOGICA DE CRIAR E CHAMAR O REPOSITORIO 
+
+----- AJUSTAR NA TELA OS NOVOS CAMPOS AO EDITAR PARA CONFIGURACAO Ou uma tela de configuracao MELHOR UMA TELA SEPARADA SO PARA CONFIGURACAO acho que nao ums campos a mais melhor unifica a tela 
+
+
+2)-- CAMPO URL NA CONFIGURACAO DO SISTEMA POR CAUSA DO DISPARO DE ENVIO DE EMALI DE ACESSO  UrlRootManager ------------------ XXXXXXXXXXXXXXX 
+
+3) adicionar campos para sincronizar com google agenda 
+
+4) adicionar IA PARA traduzir os idiomas 
+
+5) Criar campos para adionar valor e tabela status pagamento das consultas /agendamentos ou gerar uma cobranca unica para o paciente 
+
+
+6)-- No paciente ter um botao novo donload historico 
+
+-- Criar url para redefinir senha ou acesso.  ----------- PENDENTE PROXIMO XXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<<<<<<<<<<<<<< AQUI PROXIMO PASSO 
+
+------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
+
+--------------1) CRIAR O MOCK DOS FERIASDOS COMUMS NO BRASIL  - HOJE  -OK 
 
 --------------2) CRIAR O MOCK DAS REGRAS  - HOJE -OK 
 

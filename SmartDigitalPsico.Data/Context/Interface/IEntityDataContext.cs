@@ -45,7 +45,8 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<RoleGroupUser> RoleGroupUsers { get; set; }
         DbSet<Specialty> Specialties { get; set; }
         DbSet<User> Users { get; set; }
-        DbSet<UserTokenSession> UserTokenSessions { get; set; }
+        DbSet<UserTokenSession> UserTokenSessions { get; set; } 
+        DbSet<ScheduleBatch> ScheduleBatchs { get; set; }
 
         #endregion DbSets 
     }

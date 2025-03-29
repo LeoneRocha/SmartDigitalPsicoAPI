@@ -1,40 +1,38 @@
 ====================================== BACK END =========================
 
-1) Criar a classe da tabela (SmartDigitalPsico.Domain.ModelEntity) --------------------------  OK 
+1) Criar a classe da tabela (SmartDigitalPsico.Domain.ModelEntity) --------------------------  OK   
 Exemplo:  NotificationRules
  
-1.1 COLOCAR NO IEntityDataContext DBSET 
+1.1 COLOCAR NO IEntityDataContext DBSET  
 
-
-
-2) Criar a classe de configuracao do EF core  (SmartDigitalPsico.Data.Context.Configure.Entity) -------------------------- OK   
+2) Criar a classe de configuracao do EF core  (SmartDigitalPsico.Data.Context.Configure.Entity) --------------------------      OK  
 Exemplo:  NotificationRulesConfiguration
 
 Add-Migration NotificationRules5 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
-Add-Migration NotificationTemplateV2 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+Add-Migration ScheduleBatch -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
 
 * A injecao esta automatizada pelo ModelBuilderExtensions.AddConfigurationEntities chamado no ConfigurationEntitiesHelper dentro do OnModelCreating
 
-3) Criar o Validador FluentAPi  (SmartDigitalPsico.Domain.Validation) --------------------------  OK 
+3) Criar o Validador FluentAPi  (SmartDigitalPsico.Domain.Validation) --------------------------      OK 
 Exemplo: NotificationRulesValidator
 
 * A injecao esta automatizada pelo AddValidatorsFromAssemblyContaining do extension do pacote 
 
-4) Criar o repositorio (SmartDigitalPsico.Data.Repository) *Precisa criar interface   --------------------------    OK 
+4) Criar o repositorio (SmartDigitalPsico.Data.Repository) *Precisa criar interface   --------------------------        OK 
 ex: INotificationRulesRepository / NotificationRulesRepository
 
 * A injecao esta automatizada pelo ServicesDomainRepository RegisterRepositories
 
 
  
-5) Criar os DTOS (SmartDigitalPsico.Domain.DTO)    --------------------------    OK  
+5) Criar os DTOS (SmartDigitalPsico.Domain.DTO)    --------------------------       
 Ex: NotificationRulesBaseDto / AddNotificationRulesDto / GetNotificationRulesDto / UpdateNotificationRulesDto
 
-7) Adicionar manualmente no AutoMapperProfile     --------------------------    OK     
+7) Adicionar manualmente no AutoMapperProfile     --------------------------          
 
 #region NotificationRules
 CreateMap<NotificationRules, GetNotificationRulesDto>();
@@ -53,9 +51,7 @@ Ex : INotificationRulesService / NotificationRulesService
 7) Criar o controller/endpoint   (SmartDigitalPsico.WebAPI)    -------------------------- 
 
 ====================================== FRONT END  =========================
-
-
-
+ 
 TROBLESHOTING 
 
 SET FOREIGN_KEY_CHECKS = 0;
