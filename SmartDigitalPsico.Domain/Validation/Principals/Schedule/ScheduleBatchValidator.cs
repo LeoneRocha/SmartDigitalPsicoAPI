@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
             : base(medicalRepository, entityRepository, userRepository)
         {
             _repository = entityRepository;
-            _scheduleItemValidator = new ScheduleItemValidator();
+            _scheduleItemValidator = new ScheduleItemValidator(medicalRepository);
 
             #region Columns
             RuleFor(e => e.BatchToken)

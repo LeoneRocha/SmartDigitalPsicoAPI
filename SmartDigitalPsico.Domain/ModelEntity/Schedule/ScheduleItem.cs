@@ -20,6 +20,8 @@ namespace SmartDigitalPsico.Domain.ModelEntity.Schedule
         public ERecurrenceCalendarType RecurrenceType { get; set; }  
         public DateTime? RecurrenceEndDate { get; set; }
         public short? RecurrenceCount { get; set; }
-        public string ReasonCancellation { get; set; } = string.Empty; 
+        public string ReasonCancellation { get; set; } = string.Empty;
+        public required long MedicalId { get; set; }
+        public required int PatientId { get; set; } 
     }
 }

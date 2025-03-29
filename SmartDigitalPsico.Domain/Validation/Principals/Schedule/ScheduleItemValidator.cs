@@ -1,13 +1,18 @@
 ﻿using FluentValidation;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
     public class ScheduleItemValidator : AbstractValidator<ScheduleItem>
     {
-        public ScheduleItemValidator()
+        private readonly IMedicalRepository? _medicalRepository;
+
+        public ScheduleItemValidator(IMedicalRepository medicalRepository)
         {
+            _medicalRepository = medicalRepository;
+
             #region Columns
             RuleFor(e => e.Title)
                 .NotEmpty()
@@ -74,11 +79,51 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
                 .MaximumLength(1000)
                 .WithMessage("ReasonCancellation_Validator_MaxLength_Key|Reason for cancellation cannot exceed {0} characters.|1000");
             #endregion Columns
+
+            // Adicionar validação de horário de trabalho apenas se o repositório médico estiver disponível
+            if (_medicalRepository != null)
+            {
+                RuleFor(e => e)
+                    .MustAsync(async (item, cancellationToken) => await BeInWorkingDays(item))
+                    .WithMessage("ScheduleItem_Validator_WorkingDay_Key|The schedule item must be on a working day for the doctor.")
+                    .MustAsync(async (item, cancellationToken) => await BeInWorkingHours(item))
+                    .WithMessage("ScheduleItem_Validator_WorkingHours_Key|The schedule item must be within the doctor's working hours.");
+            }
         }
 
         private static bool BeValidDays(DayOfWeek[] recurrenceDays)
         {
             return recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(typeof(DayOfWeek), day));
+        }
+
+        private async Task<bool> BeInWorkingDays(ScheduleItem item)
+        {
+            // Se não temos informações do médico, não podemos validar
+            if (_medicalRepository == null || item.MedicalId <= 0)
+                return true;
+
+            var medical = await _medicalRepository.FindByID(item.MedicalId);
+            if (medical == null)
+                return false;
+
+            return medical.WorkingDays.Contains(item.StartDateTime.DayOfWeek);
+        }
+
+        private async Task<bool> BeInWorkingHours(ScheduleItem item)
+        {
+            // Se não temos informações do médico, não podemos validar
+            if (_medicalRepository == null || item.MedicalId <= 0)
+                return true;
+
+            var medical = await _medicalRepository.FindByID(item.MedicalId);
+            if (medical == null)
+                return false;
+
+            var startTimeOfDay = item.StartDateTime.TimeOfDay;
+            var endTimeOfDay = item.EndDateTime.GetValueOrDefault().TimeOfDay;
+
+            return startTimeOfDay >= medical.StartWorkingTime &&
+                   endTimeOfDay <= medical.EndWorkingTime;
         }
     }
 }
