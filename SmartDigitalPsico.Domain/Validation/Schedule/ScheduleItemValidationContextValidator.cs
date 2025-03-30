@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.DTO.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
-    public class ScheduleItemOverlapValidator : AbstractValidator<ScheduleItemValidationContext>
+    public class ScheduleItemValidationContextValidator : AbstractValidator<ScheduleItemValidationContext>
     {
-        public ScheduleItemOverlapValidator()
+        public ScheduleItemValidationContextValidator()
         {
             RuleFor(context => context)
                 .Must(NoTimeSlotOverlap)
@@ -19,12 +19,5 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 
             return !context.ExistingItems.Any(item => item.StartDateTime < context.NewItem?.EndDateTime && context.NewItem.StartDateTime < item.EndDateTime);
         }
-    }
-
-    public class ScheduleItemValidationContext
-    {
-        public ScheduleItem? NewItem { get; set; }
-        public ScheduleItem[] ExistingItems { get; set; } = [];
-        public long MedicalId { get; set; }
-    }
+    } 
 }

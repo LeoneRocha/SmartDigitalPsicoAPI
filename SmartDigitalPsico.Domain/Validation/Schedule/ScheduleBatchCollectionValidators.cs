@@ -14,7 +14,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
         public IValidator<ScheduleBatch> ScheduleBatchValidator { get; }
         public IValidator<ScheduleItem> ScheduleItemValidator { get; }
         public IValidator<ScheduleBatch> ScheduleBatchRangeValidator { get; }
-        public IValidator<ScheduleItemValidationContext> ScheduleItemOverlapValidator { get; }
+        public IValidator<ScheduleItemValidationContext> ScheduleItemValidationContextValidator { get; }
         public IValidator<ScheduleMedicalCalendarCriteriaDto> ScheduleMedicalCalendarCriteriaDtoValidator { get; }  
 
         public ScheduleBatchCollectionValidators(
@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
             ScheduleBatchValidator = new ScheduleBatchValidator(configuration, entityRepository, medicalRepository, userRepository);
             ScheduleItemValidator = new ScheduleItemValidator(medicalRepository);
             ScheduleBatchRangeValidator = new ScheduleBatchRangeValidator(entityRepository);
-            ScheduleItemOverlapValidator = new ScheduleItemOverlapValidator();
+            ScheduleItemValidationContextValidator = new ScheduleItemValidationContextValidator();
             ScheduleMedicalCalendarCriteriaDtoValidator = scheduleBatchCalendarDtoValidator; // Atribuição
 
         }

@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Validation
         IValidator<ScheduleBatch> ScheduleBatchValidator { get; }
         IValidator<ScheduleItem> ScheduleItemValidator { get; }
         IValidator<ScheduleBatch> ScheduleBatchRangeValidator { get; }
-        IValidator<ScheduleItemValidationContext> ScheduleItemOverlapValidator { get; }
+        IValidator<ScheduleItemValidationContext> ScheduleItemValidationContextValidator { get; }
         IValidator<ScheduleMedicalCalendarCriteriaDto> ScheduleMedicalCalendarCriteriaDtoValidator { get; } // Novo validador
 
     }
