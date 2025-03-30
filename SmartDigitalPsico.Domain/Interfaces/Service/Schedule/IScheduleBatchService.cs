@@ -1,5 +1,4 @@
 ﻿using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.DTO.Schedule.UpdateDTOs;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 
@@ -27,6 +26,8 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
         /// <param name="batchToken">The batch token</param>
         /// <returns>Batch statistics</returns>
         Task<ServiceResponse<ScheduleBatchStatisticsDto>> GetBatchStatisticsAsync(string batchToken);
+
+        Task<ServiceResponse<GetScheduleBatchDto>> CreateOrUpdateBatchAsync(ScheduleMedicalCalendarCriteriaDto request);
 
     }
 }

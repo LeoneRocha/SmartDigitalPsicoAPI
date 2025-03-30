@@ -1,7 +1,6 @@
 ﻿using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -105,6 +104,74 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Cria ou atualiza um lote de agendamentos, gerando recorrências se necessário
+        /// </summary>
+        /// <param name="item">DTO com os dados do agendamento</param>
+        /// <param name="isUpdate">Indica se é uma atualização (true) ou criação (false)</param>
+        /// <param name="updateSeries">Indica se deve atualizar toda a série (apenas para atualizações)</param>
+        /// <returns>Resposta do serviço com os dados do lote criado/atualizado</returns>
+        public async Task<ServiceResponse<GetScheduleBatchDto>> CreateOrUpdateBatchAsync(ScheduleMedicalCalendarCriteriaDto request)
+        {
+            var response = new ServiceResponse<GetScheduleBatchDto>();
+
+            try
+            {
+                // Validate input
+                if (!await ValidateScheduleBatchRequest(request, response))
+                {
+                    return response;
+                }
+
+                // Get or create batch entity
+                var (entityBatch, batchToken) = await GetOrCreateBatchEntity(request);
+                if (entityBatch == null)
+                {
+                    response.Success = false;
+                    response.Message = await base.GetLocalization(
+                        GeneralLanguageKeyConstants.RegisterIsNotFound,
+                        GeneralLanguageMenssageConstants.RegisterIsNotFound);
+                    return response;
+                }
+
+                // Handle early return for metadata-only updates
+                if (request.IsUpdate && !string.IsNullOrEmpty(request.TokenRecurrence) && !request.UpdateSeries)
+                {
+                    return await HandleMetadataOnlyUpdate(entityBatch);
+                }
+
+                // Generate schedule items based on recurrence pattern
+                var scheduleItems = GenerateScheduleItems(request, batchToken);
+                if (!scheduleItems.Any())
+                {
+                    response.Success = false;
+                    response.Message = "No items were generated";
+                    return response;
+                }
+
+                // Update batch with generated items
+                UpdateBatchWithScheduleItems(entityBatch, scheduleItems);
+
+                // Validate batch entity before saving
+                if (!await ValidateBatchEntity(entityBatch, response))
+                {
+                    return response;
+                }
+
+                // Save batch and return response
+                return await SaveBatchAndCreateResponse(entityBatch, request.IsUpdate);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error at ScheduleBatchService.CreateOrUpdateBatchAsync");
+                response.Success = false;
+                response.Message = await base.GetLocalization(
+                    ValidatorConstants.GenericErroMessageKey,
+                    ValidatorConstants.Generic_Erro_Message);
+                return response;
+            }
+        }
+
         public async Task<ServiceResponse<GetScheduleItemDto[]>> GetScheduleItemsAsync(ScheduleBatchCriteriaDto criteria)
         {
             var response = new ServiceResponse<GetScheduleItemDto[]>();
@@ -200,213 +267,193 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        /// <summary>
-        /// Cria ou atualiza um lote de agendamentos, gerando recorrências se necessário
-        /// </summary>
-        /// <param name="item">DTO com os dados do agendamento</param>
-        /// <param name="isUpdate">Indica se é uma atualização (true) ou criação (false)</param>
-        /// <param name="updateSeries">Indica se deve atualizar toda a série (apenas para atualizações)</param>
-        /// <returns>Resposta do serviço com os dados do lote criado/atualizado</returns>
-        public async Task<ServiceResponse<GetScheduleBatchDto>> CreateOrUpdateBatchAsync(ScheduleMedicalCalendarCriteriaDto item)
+        #region  CreateOrUpdateBatchAsync    
+        private async Task<bool> ValidateScheduleBatchRequest(ScheduleMedicalCalendarCriteriaDto request, ServiceResponse<GetScheduleBatchDto> response)
         {
-            ServiceResponse<GetScheduleBatchDto> response = new ServiceResponse<GetScheduleBatchDto>();
-            try
+            var validationResult = await _validators.ScheduleBatchCalendarDtoValidator.ValidateAsync(request);
+            if (!validationResult.IsValid)
             {
-                // Validar o DTO usando o validador específico
-                var validationResultInput = await _validators.ScheduleBatchCalendarDtoValidator.ValidateAsync(item);
-                if (!validationResultInput.IsValid)
-                {
-                    response.Success = false;
-                    response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResultInput.Errors);
-                    response.Message = validationResultInput.Errors.First().ErrorMessage;
-                    return response;
-                }
-
-                ScheduleBatch? entityBatch;
-                string batchToken;
-
-                // Verificar se é atualização ou criação
-                if (item.IsUpdate && !string.IsNullOrEmpty(item.TokenRecurrence))
-                {
-                    // Buscar o batch existente para atualização
-                    entityBatch = await _entityRepository.GetByBatchTokenAsync(item.TokenRecurrence);
-                    if (entityBatch == null)
-                    {
-                        response.Success = false;
-                        response.Message = await base.GetLocalization(
-                            GeneralLanguageKeyConstants.RegisterIsNotFound,
-                            GeneralLanguageMenssageConstants.RegisterIsNotFound);
-                        return response;
-                    }
-                    batchToken = entityBatch.BatchToken;
-
-                    // Remover itens existentes se for atualizar a série
-                    if (item.UpdateSeries)
-                    {
-                        // Excluir todos os itens existentes para recriar com o novo padrão
-                        await _entityRepository.DeleteRangeAsync(new[] { entityBatch });
-
-                        // Criar um novo batch com o mesmo token
-                        entityBatch = new ScheduleBatch
-                        {
-                            MedicalId = item.MedicalId,
-                            PatientId = item.PatientId,
-                            BatchToken = batchToken,
-                            CreatedUserId = entityBatch.CreatedUserId,
-                            CreatedDate = entityBatch.CreatedDate,
-                            ModifyUserId = UserId,
-                            ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                            LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
-                            Enable = true
-                        };
-                    }
-                    else
-                    {
-                        // Atualizar apenas os metadados do batch
-                        entityBatch.ModifyUserId = UserId;
-                        entityBatch.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-                        entityBatch.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
-                        entityBatch.MedicalId = item.MedicalId;
-                        entityBatch.PatientId = item.PatientId;
-
-                        // Manter os itens existentes
-                        response.Data = _mapper.Map<GetScheduleBatchDto>(entityBatch);
-                        response.Success = true;
-                        response.Message = await base.GetLocalization(
-                            "ScheduleBatch_Updated_Key",
-                            "Schedule batch updated successfully.");
-                        return response;
-                    }
-                }
-                else
-                {
-                    // Criar um novo batch
-                    batchToken = string.IsNullOrEmpty(item.TokenRecurrence) ?
-                        Guid.NewGuid().ToString() : item.TokenRecurrence;
-
-                    entityBatch = new ScheduleBatch
-                    {
-                        MedicalId = item.MedicalId,
-                        PatientId = item.PatientId,
-                        BatchToken = batchToken,
-                        CreatedUserId = UserId,
-                        ModifyUserId = UserId,
-                        CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                        ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                        LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
-                        Enable = true
-                    };
-                }
-
-                // Criar lista para armazenar itens gerados
-                var scheduleItems = new List<ScheduleItem>();
-
-                // Criar o item template a partir do DTO
-                var templateItem = new ScheduleItem
-                {
-                    MedicalId = item.MedicalId,
-                    PatientId = item.PatientId ?? 0,
-                    Title = item.Title,
-                    Description = item.Description,
-                    Location = item.Location,
-                    StartDateTime = item.StartDateTime,
-                    EndDateTime = item.EndDateTime,
-                    IsAllDay = item.IsAllDay,
-                    Status = item.Status,
-                    ColorCategoryHexa = item.ColorCategoryHexa,
-                    IsPushedCalendar = item.IsPushedCalendar,
-                    TimeZone = item.TimeZone,
-                    TokenRecurrence = batchToken,
-                    RecurrenceType = item.RecurrenceType,
-                    RecurrenceDays = item.RecurrenceDays,
-                    RecurrenceEndDate = item.RecurrenceEndDate,
-                    RecurrenceCount = item.RecurrenceCount
-                };
-
-                // Determinar datas de início e fim para o batch
-                DateTime startPeriod = templateItem.StartDateTime;
-                DateTime endPeriod = item.RecurrenceEndDate ?? templateItem.StartDateTime.AddYears(1);
-
-                // Gerar itens recorrentes com base no tipo de recorrência
-                if (item.RecurrenceType != ERecurrenceCalendarType.None)
-                {
-                    switch (item.RecurrenceType)
-                    {
-                        case ERecurrenceCalendarType.Daily:
-                            GenerateDailyRecurrence(templateItem, scheduleItems, item.RecurrenceEndDate, item.RecurrenceCount);
-                            break;
-                        case ERecurrenceCalendarType.Weekly:
-                            GenerateWeeklyRecurrence(templateItem, scheduleItems, item.RecurrenceEndDate, item.RecurrenceCount, item.RecurrenceDays);
-                            break;
-                        case ERecurrenceCalendarType.Monthly:
-                            GenerateMonthlyRecurrence(templateItem, scheduleItems, item.RecurrenceEndDate, item.RecurrenceCount);
-                            break;
-                        case ERecurrenceCalendarType.Yearly:
-                            GenerateYearlyRecurrence(templateItem, scheduleItems, item.RecurrenceEndDate, item.RecurrenceCount);
-                            break;
-                    }
-                }
-                else
-                {
-                    // Para ERecurrenceCalendarType.None, apenas adicionar o item original
-                    scheduleItems.Add(templateItem);
-                }
-
-                if (scheduleItems.Count == 0)
-                {
-                    response.Success = false;
-                    response.Message = "No items were generated";
-                    return response;
-                }
-
-                // Atualizar o batch com os itens gerados
-                entityBatch.ScheduleData = scheduleItems.ToArray();
-                entityBatch.StartPeriod = scheduleItems.Min(i => i.StartDateTime);
-                entityBatch.EndPeriod = scheduleItems.Max(i => i.EndDateTime ?? i.StartDateTime);
-
-                // Validar o batch antes de salvar
-                var validationResultEntity = await _validators.EntityValidator.ValidateAsync(entityBatch);
-                if (!validationResultEntity.IsValid)
-                {
-                    response.Success = false;
-                    response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResultInput.Errors);
-                    response.Message = validationResultEntity.Errors.First().ErrorMessage;
-                    return response;
-                }
-
-                // Salvar o batch
-                ScheduleBatch entityResponse;
-                if (item.IsUpdate && !string.IsNullOrEmpty(item.TokenRecurrence))
-                {
-                    entityResponse = await _entityRepository.Update(entityBatch);
-                    response.Message = await base.GetLocalization(
-                        "ScheduleBatch_Updated_Key",
-                        "Schedule batch updated successfully.");
-                }
-                else
-                {
-                    entityResponse = await _entityRepository.Create(entityBatch);
-                    response.Message = await base.GetLocalization(
-                        "ScheduleBatch_Created_Key",
-                        "Schedule batch created successfully.");
-                }
-
-                response.Success = true;
-                response.Data = _mapper.Map<GetScheduleBatchDto>(entityResponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Error at ScheduleBatchService.CreateOrUpdateBatchAsync");
                 response.Success = false;
-                response.Message = await base.GetLocalization(
-                    ValidatorConstants.GenericErroMessageKey,
-                    ValidatorConstants.Generic_Erro_Message);
+                response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
+                response.Message = validationResult.Errors.First().ErrorMessage;
+                return false;
             }
+            return true;
+        }
+
+        private async Task<(ScheduleBatch? entityBatch, string batchToken)> GetOrCreateBatchEntity(ScheduleMedicalCalendarCriteriaDto request)
+        {
+            string batchToken;
+            ScheduleBatch? entityBatch = null;
+
+            if (request.IsUpdate && !string.IsNullOrEmpty(request.TokenRecurrence))
+            {
+                // Handle update scenario
+                entityBatch = await _entityRepository.GetByBatchTokenAsync(request.TokenRecurrence);
+                if (entityBatch == null)
+                {
+                    return (null, string.Empty);
+                }
+
+                batchToken = entityBatch.BatchToken;
+
+                if (request.UpdateSeries)
+                {
+                    // Delete existing batch for full series update
+                    await _entityRepository.DeleteRangeAsync(new[] { entityBatch });
+
+                    // Create new batch with same token
+                    entityBatch = CreateNewBatchEntity(
+                        request.MedicalId,
+                        request.PatientId,
+                        batchToken,
+                        entityBatch.CreatedUserId,
+                        entityBatch.CreatedDate);
+                }
+                else
+                {
+                    // Update metadata only
+                    UpdateBatchMetadata(entityBatch, request.MedicalId, request.PatientId);
+                }
+            }
+            else
+            {
+                // Handle create scenario
+                batchToken = string.IsNullOrEmpty(request.TokenRecurrence)
+                    ? Guid.NewGuid().ToString()
+                    : request.TokenRecurrence;
+
+                entityBatch = CreateNewBatchEntity(
+                    request.MedicalId,
+                    request.PatientId,
+                    batchToken);
+            }
+
+            return (entityBatch, batchToken);
+        }
+
+        private ScheduleBatch CreateNewBatchEntity(long medicalId, long? patientId, string batchToken, long? createdUserId = null, DateTime? createdDate = null)
+        {
+            var now = DateHelper.GetDateTimeNowFromUtc();
+
+            return new ScheduleBatch
+            {
+                MedicalId = medicalId,
+                PatientId = patientId,
+                BatchToken = batchToken,
+                CreatedUserId = createdUserId ?? UserId,
+                CreatedDate = createdDate ?? now,
+                ModifyUserId = UserId,
+                ModifyDate = now,
+                LastAccessDate = now,
+                Enable = true
+            };
+        }
+
+        private void UpdateBatchMetadata(ScheduleBatch batch, long medicalId, long? patientId)
+        {
+            var now = DateHelper.GetDateTimeNowFromUtc();
+
+            batch.ModifyUserId = UserId;
+            batch.ModifyDate = now;
+            batch.LastAccessDate = now;
+            batch.MedicalId = medicalId;
+            batch.PatientId = patientId;
+        }
+
+        private async Task<ServiceResponse<GetScheduleBatchDto>> HandleMetadataOnlyUpdate(ScheduleBatch entityBatch)
+        {
+            var response = new ServiceResponse<GetScheduleBatchDto>
+            {
+                Data = _mapper.Map<GetScheduleBatchDto>(entityBatch),
+                Success = true,
+                Message = await base.GetLocalization(
+                    "ScheduleBatch_Updated_Key",
+                    "Schedule batch updated successfully.")
+            };
+
             return response;
         }
 
+        private List<ScheduleItem> GenerateScheduleItems(ScheduleMedicalCalendarCriteriaDto request, string batchToken)
+        {
+            // Create template item from request
+            var templateItem = CreateTemplateScheduleItem(request, batchToken);
+
+            // Generate items based on recurrence type
+            var scheduleItems = new List<ScheduleItem>();
+
+            if (request.RecurrenceType == ERecurrenceCalendarType.None)
+            {
+                scheduleItems.Add(templateItem);
+                return scheduleItems;
+            }
+
+            switch (request.RecurrenceType)
+            {
+                case ERecurrenceCalendarType.Daily:
+                    GenerateDailyRecurrence(templateItem, scheduleItems, request.RecurrenceEndDate, request.RecurrenceCount);
+                    break;
+                case ERecurrenceCalendarType.Weekly:
+                    GenerateWeeklyRecurrence(templateItem, scheduleItems, request.RecurrenceEndDate, request.RecurrenceCount, request.RecurrenceDays);
+                    break;
+                case ERecurrenceCalendarType.Monthly:
+                    GenerateMonthlyRecurrence(templateItem, scheduleItems, request.RecurrenceEndDate, request.RecurrenceCount);
+                    break;
+                case ERecurrenceCalendarType.Yearly:
+                    GenerateYearlyRecurrence(templateItem, scheduleItems, request.RecurrenceEndDate, request.RecurrenceCount);
+                    break;
+            }
+
+            return scheduleItems;
+        }
+
+        private static ScheduleItem CreateTemplateScheduleItem(ScheduleMedicalCalendarCriteriaDto request, string batchToken)
+        {
+            return new ScheduleItem
+            {
+                MedicalId = request.MedicalId,
+                PatientId = request.PatientId ?? 0,
+                Title = request.Title,
+                Description = request.Description,
+                Location = request.Location,
+                StartDateTime = request.StartDateTime,
+                EndDateTime = request.EndDateTime,
+                IsAllDay = request.IsAllDay,
+                Status = request.Status,
+                ColorCategoryHexa = request.ColorCategoryHexa,
+                IsPushedCalendar = request.IsPushedCalendar,
+                TimeZone = request.TimeZone,
+                TokenRecurrence = batchToken,
+                RecurrenceType = request.RecurrenceType,
+                RecurrenceDays = request.RecurrenceDays,
+                RecurrenceEndDate = request.RecurrenceEndDate,
+                RecurrenceCount = request.RecurrenceCount
+            };
+        }
+
+        private static void UpdateBatchWithScheduleItems(ScheduleBatch batch, List<ScheduleItem> items)
+        {
+            batch.ScheduleData = items.ToArray();
+            batch.StartPeriod = items.Min(i => i.StartDateTime);
+            batch.EndPeriod = items.Max(i => i.EndDateTime ?? i.StartDateTime);
+        }
+
+        private async Task<bool> ValidateBatchEntity(ScheduleBatch entityBatch, ServiceResponse<GetScheduleBatchDto> response)
+        {
+            var validationResult = await _validators.EntityValidator.ValidateAsync(entityBatch);
+            if (!validationResult.IsValid)
+            {
+                response.Success = false;
+                response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
+                response.Message = validationResult.Errors.First().ErrorMessage;
+                return false;
+            }
+            return true;
+        }
+        #endregion  CreateOrUpdateBatchAsync
         #region Private Methods for Recurrence Generation
-  
+
         private static void GenerateDailyRecurrence(ScheduleItem template, List<ScheduleItem> items, DateTime? endDate, short? count)
         {
             DateTime currentDate = template.StartDateTime;
@@ -462,7 +509,30 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 currentDate = currentDate.AddDays(7);
             }
         }
+        private async Task<ServiceResponse<GetScheduleBatchDto>> SaveBatchAndCreateResponse(ScheduleBatch entityBatch, bool isUpdate)
+        {
+            var response = new ServiceResponse<GetScheduleBatchDto>();
+            ScheduleBatch entityResponse;
 
+            if (isUpdate)
+            {
+                entityResponse = await _entityRepository.Update(entityBatch);
+                response.Message = await base.GetLocalization(
+                    "ScheduleBatch_Updated_Key",
+                    "Schedule batch updated successfully.");
+            }
+            else
+            {
+                entityResponse = await _entityRepository.Create(entityBatch);
+                response.Message = await base.GetLocalization(
+                    "ScheduleBatch_Created_Key",
+                    "Schedule batch created successfully.");
+            }
+
+            response.Success = true;
+            response.Data = _mapper.Map<GetScheduleBatchDto>(entityResponse);
+            return response;
+        }
         private static void GenerateMonthlyRecurrence(ScheduleItem template, List<ScheduleItem> items, DateTime? endDate, short? count)
         {
             DateTime currentDate = template.StartDateTime;
@@ -542,7 +612,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 return start;
             }
             return start.AddDays(daysToAdd);
-        } 
+        }
 
         #endregion Private Methods for Recurrence Generation
     }
