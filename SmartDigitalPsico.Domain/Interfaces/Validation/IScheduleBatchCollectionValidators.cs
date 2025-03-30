@@ -8,11 +8,11 @@ namespace SmartDigitalPsico.Domain.Interfaces.Validation
 {
     public interface IScheduleBatchCollectionValidators
     {
-        IValidator<ScheduleBatch> ScheduleBatchMedicalValidator { get; }
+        IValidator<ScheduleBatch> ScheduleBatchValidator { get; }
         IValidator<ScheduleItem> ScheduleItemValidator { get; }
         IValidator<ScheduleBatch> ScheduleBatchRangeValidator { get; }
         IValidator<ScheduleItemValidationContext> ScheduleItemOverlapValidator { get; }
-        IValidator<ScheduleMedicalCalendarCriteriaDto> ScheduleBatchCalendarDtoValidator { get; } // Novo validador
+        IValidator<ScheduleMedicalCalendarCriteriaDto> ScheduleMedicalCalendarCriteriaDtoValidator { get; } // Novo validador
 
     }
 }

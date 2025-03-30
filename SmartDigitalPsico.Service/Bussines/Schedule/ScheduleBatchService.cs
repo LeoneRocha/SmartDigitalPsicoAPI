@@ -25,7 +25,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             IScheduleBatchCollectionValidators scheduleBatchValidators,
             IScheduleBatchRepository entityRepository,
             IPatientRepositories repositoriesPatientShared)
-            : base(sharedServices, sharedDependenciesConfig, repositoriesPatientShared.SharedRepositories, entityRepository, scheduleBatchValidators.ScheduleBatchMedicalValidator)
+            : base(sharedServices, sharedDependenciesConfig, repositoriesPatientShared.SharedRepositories, entityRepository, scheduleBatchValidators.ScheduleBatchValidator)
         {
             _validators = scheduleBatchValidators;
         }
@@ -64,7 +64,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     return response;
                 }
 
-                var validationResult = await _validators.ScheduleBatchMedicalValidator.ValidateAsync(batch);
+                var validationResult = await _validators.ScheduleBatchValidator.ValidateAsync(batch);
 
                 if (validationResult.IsValid)
                 {
@@ -262,7 +262,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         #region  CreateOrUpdateBatchAsync    
         private async Task<bool> ValidateScheduleBatchRequest(ScheduleMedicalCalendarCriteriaDto request, ServiceResponse<GetScheduleBatchDto> response)
         {
-            var validationResult = await _validators.ScheduleBatchCalendarDtoValidator.ValidateAsync(request);
+            var validationResult = await _validators.ScheduleMedicalCalendarCriteriaDtoValidator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
                 response.Success = false;
@@ -422,7 +422,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
         private async Task<bool> ValidateBatchEntity(ScheduleBatch entityBatch, ServiceResponse<GetScheduleBatchDto> response)
         {
-            var validationResult = await _validators.ScheduleBatchMedicalValidator.ValidateAsync(entityBatch);
+            var validationResult = await _validators.ScheduleBatchValidator.ValidateAsync(entityBatch);
             if (!validationResult.IsValid)
             {
                 response.Success = false;
