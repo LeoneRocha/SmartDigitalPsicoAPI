@@ -25,7 +25,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             IScheduleBatchCollectionValidators scheduleBatchValidators,
             IScheduleBatchRepository entityRepository,
             IPatientRepositories repositoriesPatientShared)
-            : base(sharedServices, sharedDependenciesConfig, repositoriesPatientShared.SharedRepositories, entityRepository, scheduleBatchValidators.EntityValidator)
+            : base(sharedServices, sharedDependenciesConfig, repositoriesPatientShared.SharedRepositories, entityRepository, scheduleBatchValidators.ScheduleBatchMedicalValidator)
         {
             _validators = scheduleBatchValidators;
         }
@@ -64,7 +64,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     return response;
                 }
 
-                var validationResult = await _validators.EntityValidator.ValidateAsync(batch);
+                var validationResult = await _validators.ScheduleBatchMedicalValidator.ValidateAsync(batch);
 
                 if (validationResult.IsValid)
                 {
@@ -422,7 +422,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
         private async Task<bool> ValidateBatchEntity(ScheduleBatch entityBatch, ServiceResponse<GetScheduleBatchDto> response)
         {
-            var validationResult = await _validators.EntityValidator.ValidateAsync(entityBatch);
+            var validationResult = await _validators.ScheduleBatchMedicalValidator.ValidateAsync(entityBatch);
             if (!validationResult.IsValid)
             {
                 response.Success = false;

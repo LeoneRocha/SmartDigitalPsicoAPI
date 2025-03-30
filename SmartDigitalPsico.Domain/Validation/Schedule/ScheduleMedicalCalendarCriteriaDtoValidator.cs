@@ -6,12 +6,12 @@ using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
-    public class ScheduleBatchCalendarDtoValidator : AbstractValidator<ScheduleMedicalCalendarCriteriaDto>
+    public class ScheduleMedicalCalendarCriteriaDtoValidator : AbstractValidator<ScheduleMedicalCalendarCriteriaDto>
     {
         private readonly IScheduleBatchRepository _scheduleBatchRepository;
         private readonly IMedicalRepository _medicalRepository;
 
-        public ScheduleBatchCalendarDtoValidator(
+        public ScheduleMedicalCalendarCriteriaDtoValidator(
             IScheduleBatchRepository scheduleBatchRepository,
             IMedicalRepository medicalRepository)
         {
