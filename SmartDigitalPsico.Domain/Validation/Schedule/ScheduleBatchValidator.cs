@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
             _scheduleItemValidator = new ScheduleItemValidator(medicalRepository);
 
             #region Columns
-            RuleFor(e => e.BatchToken)
+            RuleFor(e => e.UniqueToken)
                 .NotEmpty()
                 .WithMessage("BatchToken_Validator_IsRequired_Key|Batch token is required.")
                 .MaximumLength(40)

@@ -1,5 +1,5 @@
 using FluentValidation;
-using FluentValidation.Results;
+using FluentValidation.Results; 
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
@@ -20,6 +20,7 @@ using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
+using System.Diagnostics;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -59,6 +60,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
         {
+            var stopwatch = new Stopwatch();
             ServiceResponse<GetMedicalCalendarDto> response = new ServiceResponse<GetMedicalCalendarDto>();
             try
             {
@@ -80,13 +82,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 {
                     if (entityAdd.RecurrenceType != ERecurrenceCalendarType.None)
                     {
+                        stopwatch.Reset();
+                        stopwatch.Start();
                         try
                         {
                             entityAdd.TokenRecurrence = Guid.NewGuid().ToString();
                             await GenerateRecurrenceAsync(entityAdd, false);
                             response.Data = _mapper.Map<GetMedicalCalendarDto>(entityAdd);
                             response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred);
-
+                            stopwatch.Stop();
+                            _logger.Information(" MedicalCalendarService - Create - GenerateRecurrenceAsync  (Recurrence): Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
                         }
                         catch (Exception ex)
                         {
@@ -96,21 +101,37 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     }
                     else
                     {
+                        stopwatch.Reset();
+                        stopwatch.Start();
+
                         MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
                         await CreateOrUpdateNotificationRecordsAsync([entityAdd]);
                         response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred);
+
+                        stopwatch.Stop();
+                        _logger.Information("MedicalCalendarService - Create - CreateOrUpdateNotificationRecordsAsync (SINGLE) : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
                     }
+                    stopwatch.Reset();
+                    stopwatch.Start();
 
                     var scheduleDto = CreateScheduleMedicalCalendarCriteriaDto(item, entityAdd.TokenRecurrence);
                     var responseSchedule = await _scheduleBatchService.CreateOrUpdateBatchAsync(scheduleDto);
+
+                    stopwatch.Stop();
+                    _logger.Information("MedicalCalendarService - Create - CreateOrUpdateBatchAsync : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
 
                     if (!responseSchedule.Success)
                         response.Errors.AddRange(responseSchedule.Errors);
 
                     if (response.Success)
                     {
+                        stopwatch.Reset();
+                        stopwatch.Start();
                         await SendNotifyRegister(entityAdd);
+
+                        stopwatch.Stop();
+                        _logger.Information("MedicalCalendarService - Create - SendNotifyRegister : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
                     }
                 }
             }

@@ -13,9 +13,9 @@ namespace SmartDigitalPsico.Data.Repository
 
 
         public async Task DeleteRangeAsync(IEnumerable<ScheduleBatch> batches)
-        { 
-                _dataset.RemoveRange(batches);
-                await _context.SaveChangesAsync(); 
+        {
+            _dataset.RemoveRange(batches);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ScheduleBatch?> GetByMedicalAndPatientAsync(long medicalId, long? patientId, DateTime startDate, DateTime endDate)
@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Data.Repository
             if (patientId.HasValue)
             {
                 query = query.Where(x => x.PatientId == patientId.Value);
-            } 
+            }
             return await query.FirstOrDefaultAsync();
         }
 
@@ -41,10 +41,10 @@ namespace SmartDigitalPsico.Data.Repository
                 .ToArrayAsync();
         }
 
-        public async Task<ScheduleBatch?> GetByBatchTokenAsync(string batchToken)
+        public async Task<ScheduleBatch?> GetByUniqueTokenAsync(string batchToken)
         {
             return await _dataset
-                .Where(x => x.BatchToken == batchToken)
+                .Where(x => x.UniqueToken == batchToken)
                 .FirstOrDefaultAsync();
         }
 
@@ -72,13 +72,18 @@ namespace SmartDigitalPsico.Data.Repository
 
         public async Task<ScheduleItem[]> GetScheduleItemsByTokenAsync(string batchToken)
         {
-            var batch = await GetByBatchTokenAsync(batchToken);
+            var batch = await GetByUniqueTokenAsync(batchToken);
 
             if (batch != null && batch.ScheduleData.Length > 0)
             {
                 return batch.ScheduleData;
-            } 
+            }
             return [];
         }
+
+        public async Task<string?> GetUniqueTokenByPatientIdAsync(long patientId)
+        {
+            return await _dataset.Where(x => x.PatientId == patientId).Select(x=> x.UniqueToken).FirstOrDefaultAsync();
+        }
     }
-} 
+}

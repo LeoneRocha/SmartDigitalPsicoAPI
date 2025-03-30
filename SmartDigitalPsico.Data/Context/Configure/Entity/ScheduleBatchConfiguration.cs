@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(e => e.Enable);
              
-            builder.Property(e => e.BatchToken)
+            builder.Property(e => e.UniqueToken)
                 .HasMaxLength(40)
                 .HasColumnType("varchar(40)");
 
@@ -51,9 +51,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasDatabaseName("IX_ScheduleBatch_MedicalId_PatientId_Period")
                 .IsUnique(false);
 
-            builder.HasIndex(p => p.BatchToken)
-                .HasDatabaseName("IX_ScheduleBatch_BatchToken")
-                .IsUnique(false);
+            builder.HasIndex(p => p.UniqueToken)
+                .HasDatabaseName("IX_ScheduleBatch_UniqueToken")
+                .IsUnique(true);
         }
     }
 }

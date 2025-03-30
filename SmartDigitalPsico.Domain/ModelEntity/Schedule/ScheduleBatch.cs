@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 
         #region Columns 
         public ScheduleItem[] ScheduleData { get; set; } = []; // string containing multiple schedule entries 
-        public string BatchToken { get; set; } = string.Empty; // Token para identificação do lote (ex: TokenRecurrence)
+        public string UniqueToken { get; set; } = string.Empty; // Token para identificação do lote (ex: TokenRecurrence)
         public DateTime StartPeriod { get; set; }
         public DateTime EndPeriod { get; set; } 
         #endregion Columns 

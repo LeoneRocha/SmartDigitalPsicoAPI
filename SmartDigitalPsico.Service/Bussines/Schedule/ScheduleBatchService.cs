@@ -45,14 +45,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 ScheduleBatch? batch = null;
 
-                // Buscar por ID ou BatchToken
+                // Buscar por ID ou uniqueToken
                 if (request.Id > 0)
                 {
                     batch = await _entityRepository.FindByID(request.Id);
                 }
-                else if (!string.IsNullOrEmpty(request.BatchToken))
+                else if (!string.IsNullOrEmpty(request.UniqueToken))
                 {
-                    batch = await _entityRepository.GetByBatchTokenAsync(request.BatchToken);
+                    batch = await _entityRepository.GetByUniqueTokenAsync(request.UniqueToken);
                 }
 
                 if (batch == null)
@@ -116,7 +116,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 }
 
                 // Get or create batch entity
-                var (entityBatch, batchToken) = await GetOrCreateBatchEntity(request);
+                var (entityBatch, uniqueToken) = await GetOrCreateBatchEntity(request);
                 if (entityBatch == null)
                 {
                     response.Success = false;
@@ -133,7 +133,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 }
 
                 // Generate schedule items based on recurrence pattern
-                var scheduleItems = GenerateScheduleItems(request, batchToken);
+                var scheduleItems = GenerateScheduleItems(request);
                 if (scheduleItems.Count == 0)
                 {
                     response.Success = false;
@@ -211,12 +211,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        public async Task<ServiceResponse<ScheduleBatchStatisticsDto>> GetBatchStatisticsAsync(string batchToken)
+        public async Task<ServiceResponse<ScheduleBatchStatisticsDto>> GetBatchStatisticsAsync(string uniqueToken)
         {
             var response = new ServiceResponse<ScheduleBatchStatisticsDto>();
             try
             {
-                var batch = await _entityRepository.GetByBatchTokenAsync(batchToken);
+                var batch = await _entityRepository.GetByUniqueTokenAsync(uniqueToken);
                 if (batch == null)
                 {
                     response.Success = false;
@@ -273,47 +273,32 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return true;
         }
 
-        private async Task<(ScheduleBatch? entityBatch, string batchToken)> GetOrCreateBatchEntity(ScheduleMedicalCalendarCriteriaDto request)
+        private async Task<(ScheduleBatch? entityBatch, string uniqueToken)> GetOrCreateBatchEntity(ScheduleMedicalCalendarCriteriaDto request)
         {
-            string batchToken;
+            string uniqueToken;
             ScheduleBatch? entityBatch = null;
 
             if (request.IsUpdate && !string.IsNullOrEmpty(request.TokenRecurrence))
             {
+                uniqueToken = await _entityRepository.GetUniqueTokenByPatientIdAsync(request.PatientId.GetValueOrDefault()) ?? string.Empty;
+
                 // Handle update scenario
-                entityBatch = await _entityRepository.GetByBatchTokenAsync(request.TokenRecurrence);
+                entityBatch = await _entityRepository.GetByUniqueTokenAsync(uniqueToken ?? string.Empty);
                 if (entityBatch == null)
                 {
                     return (null, string.Empty);
                 }
-
-                batchToken = entityBatch.BatchToken;
-
-                if (request.UpdateSeries)
-                {
-                    // Delete existing batch for full series update
-                    await _entityRepository.DeleteRangeAsync(new[] { entityBatch });
-
-                    // Create new batch with same token
-                    entityBatch = CreateNewBatchEntity(request);
-                }
-                else
-                {
-                    // Update metadata only
-                    UpdateBatchMetadata(entityBatch, request.MedicalId, request.PatientId);
-                }
+                // Update metadata only
+                UpdateBatchMetadata(entityBatch, request.MedicalId, request.PatientId);
             }
             else
             {
                 // Handle create scenario
-                batchToken = string.IsNullOrEmpty(request.TokenRecurrence)
-                    ? Guid.NewGuid().ToString()
-                    : request.TokenRecurrence;
-
                 entityBatch = CreateNewBatchEntity(request);
-            }
-
-            return (entityBatch, batchToken);
+                uniqueToken = Guid.NewGuid().ToString();
+                entityBatch.UniqueToken = uniqueToken;
+            } 
+            return (entityBatch, uniqueToken)!;
         }
 
         private ScheduleBatch CreateNewBatchEntity(ScheduleMedicalCalendarCriteriaDto request)
@@ -321,12 +306,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var now = DateHelper.GetDateTimeNowFromUtc();
 
             // Map the common properties from ActionMedicalCalendarDtoBase
-            var criteriaDto = _mapper.Map<ScheduleBatch>(request);  
-            criteriaDto.BatchToken = request.TokenRecurrence; 
+            var criteriaDto = _mapper.Map<ScheduleBatch>(request);
             criteriaDto.Enable = true;
 
             criteriaDto.StartPeriod = request.StartDateTime;
-            criteriaDto.EndPeriod = request.EndDateTime ?? request.RecurrenceEndDate ?? request.StartDateTime;            
+            criteriaDto.EndPeriod = request.EndDateTime ?? request.RecurrenceEndDate ?? request.StartDateTime;
 
             return criteriaDto;
         }
@@ -356,10 +340,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        private static List<ScheduleItem> GenerateScheduleItems(ScheduleMedicalCalendarCriteriaDto request, string batchToken)
+        private static List<ScheduleItem> GenerateScheduleItems(ScheduleMedicalCalendarCriteriaDto request)
         {
             // Create template item from request
-            var templateItem = CreateTemplateScheduleItem(request, batchToken);
+            var templateItem = CreateTemplateScheduleItem(request);
 
             // Generate items based on recurrence type
             var scheduleItems = new List<ScheduleItem>();
@@ -389,7 +373,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return scheduleItems;
         }
 
-        private static ScheduleItem CreateTemplateScheduleItem(ScheduleMedicalCalendarCriteriaDto request, string batchToken)
+        private static ScheduleItem CreateTemplateScheduleItem(ScheduleMedicalCalendarCriteriaDto request)
         {
             return new ScheduleItem
             {
@@ -405,7 +389,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 ColorCategoryHexa = request.ColorCategoryHexa,
                 IsPushedCalendar = request.IsPushedCalendar,
                 TimeZone = request.TimeZone,
-                TokenRecurrence = batchToken,
+                TokenRecurrence = request.TokenRecurrence,
                 RecurrenceType = request.RecurrenceType,
                 RecurrenceDays = request.RecurrenceDays,
                 RecurrenceEndDate = request.RecurrenceEndDate,

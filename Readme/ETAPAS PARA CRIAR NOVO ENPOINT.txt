@@ -11,7 +11,7 @@ Exemplo:  NotificationRulesConfiguration
 Add-Migration NotificationRules5 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
-Add-Migration ScheduleBatch -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
+Add-Migration ScheduleBatch2 -Context SmartDigitalPsicoDataContextMysql -OutputDir Migrations\MySql -Project SmartDigitalPsico.Data
 
 
 
