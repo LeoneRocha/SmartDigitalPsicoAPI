@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.DTO.Schedule.UpdateDTOs;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -14,6 +15,13 @@ namespace SmartDigitalPsico.Service.Mapper
             CreateMap<ScheduleItem, GetScheduleItemDto>();
             CreateMap<AddScheduleItemDto, ScheduleItem>();
             CreateMap<UpdateScheduleItemDto, ScheduleItem>();
+             
+            CreateMap<AddMedicalCalendarDto, ScheduleMedicalCalendarCriteriaDto>();
+
+            CreateMap<GetScheduleBatchDto, GetMedicalCalendarDto>();
+
+            CreateMap<ScheduleMedicalCalendarCriteriaDto, ScheduleBatch>();
+
 
             // ScheduleBatch mappings
             CreateMap<ScheduleBatch, GetScheduleBatchDto>()

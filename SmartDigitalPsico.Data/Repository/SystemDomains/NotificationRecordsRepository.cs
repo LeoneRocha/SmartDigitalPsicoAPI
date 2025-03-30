@@ -45,5 +45,33 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
                 .ToArrayAsync();
         }
 
+        public async Task<bool> DeleteAll(long medicalCalendarId)
+        {
+            var result = await _dataset.Where(p => p.MedicalCalendarId == medicalCalendarId).ToArrayAsync();
+            foreach (var item in result)
+            {
+                if (item != null)
+                {
+                    _dataset.Remove(item);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return true;
+        }
+         
+        public async Task<bool> DeleteAll(long[] medicalCalendarIds)
+        {
+            var result = await _dataset.Where(p => medicalCalendarIds.Contains(p.MedicalCalendarId ?? 0 )).ToArrayAsync();
+
+            foreach (var item in result)
+            {
+                if (item != null)
+                {
+                    _dataset.Remove(item);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

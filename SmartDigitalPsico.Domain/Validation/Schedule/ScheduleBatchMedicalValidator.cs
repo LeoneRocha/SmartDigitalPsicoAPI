@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
                 .WithMessage("ScheduleData_Validator_NotNull_Key|Schedule data cannot be null.")
                 .Must(data => data.Length > 0)
                 .WithMessage("ScheduleData_Validator_NotEmpty_Key|Schedule data cannot be empty.")
-                .Must(HaveValidScheduleItems)
+                .MustAsync(HaveValidScheduleItems)
                 .WithMessage("ScheduleData_Validator_InvalidItems_Key|One or more schedule items are invalid.");
             #endregion Columns
 
@@ -74,14 +74,14 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
                 .WithMessage("ScheduleConflict_Validator_Key|There is a scheduling conflict for the specified time.");
         }
 
-        private bool HaveValidScheduleItems(ScheduleItem[] scheduleItems)
+        private async Task<bool> HaveValidScheduleItems(ScheduleItem[] scheduleItems, CancellationToken cancellationToken)
         {
             if (scheduleItems == null || scheduleItems.Length == 0)
                 return false;
 
             foreach (var item in scheduleItems)
             {
-                var validationResult = _scheduleItemValidator.Validate(item);
+                var validationResult = await _scheduleItemValidator.ValidateAsync(item);
                 if (!validationResult.IsValid)
                     return false;
             }

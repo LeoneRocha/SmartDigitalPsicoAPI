@@ -295,12 +295,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     await _entityRepository.DeleteRangeAsync(new[] { entityBatch });
 
                     // Create new batch with same token
-                    entityBatch = CreateNewBatchEntity(
-                        request.MedicalId,
-                        request.PatientId,
-                        batchToken,
-                        entityBatch.CreatedUserId,
-                        entityBatch.CreatedDate);
+                    entityBatch = CreateNewBatchEntity(request);
                 }
                 else
                 {
@@ -315,31 +310,25 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     ? Guid.NewGuid().ToString()
                     : request.TokenRecurrence;
 
-                entityBatch = CreateNewBatchEntity(
-                    request.MedicalId,
-                    request.PatientId,
-                    batchToken);
+                entityBatch = CreateNewBatchEntity(request);
             }
 
             return (entityBatch, batchToken);
         }
 
-        private ScheduleBatch CreateNewBatchEntity(long medicalId, long? patientId, string batchToken, long? createdUserId = null, DateTime? createdDate = null)
+        private ScheduleBatch CreateNewBatchEntity(ScheduleMedicalCalendarCriteriaDto request)
         {
             var now = DateHelper.GetDateTimeNowFromUtc();
 
-            return new ScheduleBatch
-            {
-                MedicalId = medicalId,
-                PatientId = patientId,
-                BatchToken = batchToken,
-                CreatedUserId = createdUserId ?? UserId,
-                CreatedDate = createdDate ?? now,
-                ModifyUserId = UserId,
-                ModifyDate = now,
-                LastAccessDate = now,
-                Enable = true
-            };
+            // Map the common properties from ActionMedicalCalendarDtoBase
+            var criteriaDto = _mapper.Map<ScheduleBatch>(request);  
+            criteriaDto.BatchToken = request.TokenRecurrence; 
+            criteriaDto.Enable = true;
+
+            criteriaDto.StartPeriod = request.StartDateTime;
+            criteriaDto.EndPeriod = request.EndDateTime ?? request.RecurrenceEndDate ?? request.StartDateTime;            
+
+            return criteriaDto;
         }
 
         private void UpdateBatchMetadata(ScheduleBatch batch, long medicalId, long? patientId)
@@ -518,8 +507,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             var response = new ServiceResponse<GetScheduleBatchDto>();
             ScheduleBatch entityResponse;
 
+            entityBatch.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+
             if (isUpdate)
             {
+                entityBatch.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
                 entityResponse = await _entityRepository.Update(entityBatch);
                 response.Message = await base.GetLocalization(
                     "ScheduleBatch_Updated_Key",
@@ -527,6 +519,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             }
             else
             {
+                entityBatch.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+
                 entityResponse = await _entityRepository.Create(entityBatch);
                 response.Message = await base.GetLocalization(
                     "ScheduleBatch_Created_Key",
