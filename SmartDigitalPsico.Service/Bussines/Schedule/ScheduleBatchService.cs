@@ -12,6 +12,7 @@ using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
+using System.Diagnostics;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
@@ -106,9 +107,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         public async Task<ServiceResponse<GetScheduleBatchDto>> CreateOrUpdateBatchAsync(ScheduleMedicalCalendarCriteriaDto request)
         {
             var response = new ServiceResponse<GetScheduleBatchDto>();
-
+            var stopwatch = new Stopwatch();
             try
             {
+                //Start Time log
+                stopwatch.Reset();
+                stopwatch.Start();
+
                 // Validate input
                 if (!await ValidateScheduleBatchRequest(request, response))
                 {
@@ -151,7 +156,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 }
 
                 // Save batch and return response
-                return await SaveBatchAndCreateResponse(entityBatch, request.IsUpdate);
+                response = await SaveBatchAndCreateResponse(entityBatch, request.IsUpdate);
+                stopwatch.Stop();
+                _logger.Information("ScheduleBatchService - CreateOrUpdateBatchAsync : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
+                return response;
+
             }
             catch (Exception ex)
             {

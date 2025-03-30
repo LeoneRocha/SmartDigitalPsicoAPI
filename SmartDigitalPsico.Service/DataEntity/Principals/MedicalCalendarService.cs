@@ -106,6 +106,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                         MedicalCalendar entityResponse = await _entityRepository.Create(entityAdd);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityResponse);
+
+                        stopwatch.Stop();
+                        _logger.Information("MedicalCalendarService - Create - Create (SINGLE) : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
+
                         await CreateOrUpdateNotificationRecordsAsync([entityAdd]);
                         response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred);
 
@@ -172,8 +176,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             return criteriaDto;
         }
-
-
+         
         private async Task SendNotifyRegister(MedicalCalendar entityAdd)
         {
             MedicalCalendar? entitySend = await _entityRepository.FindAsync(entityAdd.Id, p => p.Medical!, p => p.Patient!);
@@ -199,9 +202,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         public override async Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
         {
             ServiceResponse<GetMedicalCalendarDto> response = new ServiceResponse<GetMedicalCalendarDto>();
-
+            var stopwatch = new Stopwatch();
             try
             {
+                //Start Time log
+                stopwatch.Reset();
+                stopwatch.Start();
+
                 var entityUpdate = _mapper.Map<MedicalCalendar>(item);
                 entityUpdate.Enable = item.Enable;
                 #region Relationship
@@ -230,7 +237,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     {
                         await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
                         response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
-                        response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarUpdated, MedicalCalendarMenssageConstants.CalendarUpdated);
+                        response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarUpdated, MedicalCalendarMenssageConstants.CalendarUpdated); 
                     }
                     else
                     {
@@ -239,12 +246,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         await CreateOrUpdateNotificationRecordsAsync([entityUpdate]);
                         response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarUpdated, MedicalCalendarMenssageConstants.CalendarUpdated);
                     }
-                }
-
+                } 
                 if (response.Success)
                 {
                     await SendNotifyRegister(entityUpdate);
-                }
+                } 
+                stopwatch.Stop();
+                _logger.Information("MedicalCalendarService - Update : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
             }
             catch (Exception ex)
             {
