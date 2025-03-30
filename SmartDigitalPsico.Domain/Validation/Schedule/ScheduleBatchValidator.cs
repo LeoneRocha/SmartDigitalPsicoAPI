@@ -81,7 +81,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 
             foreach (var item in scheduleItems)
             {
-                var validationResult = await _scheduleItemValidator.ValidateAsync(item);
+                var validationResult = await _scheduleItemValidator.ValidateAsync(item, cancellationToken);
                 if (!validationResult.IsValid)
                     return false;
             }
@@ -91,49 +91,56 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 
         private async Task<bool> NoScheduleConflict(ScheduleBatch batch, CancellationToken cancellationToken)
         {
-            // Verificar se há conflitos entre os itens do próprio batch
-            var items = batch.ScheduleData;
-            for (int i = 0; i < items.Length; i++)
+            if (HasInternalConflict(batch.ScheduleData))
             {
-                for (int j = i + 1; j < items.Length; j++)
-                {
-                    if (items[i].StartDateTime < items[j].EndDateTime &&
-                        items[j].StartDateTime < items[i].EndDateTime)
-                    {
-                        return false; // Conflito encontrado
-                    }
-                }
+                return false; // Conflito encontrado nos itens do próprio batch
             }
 
-            // Verificar se há conflitos com outros batches
             var existingBatches = await _repository.GetByMedicalAsync(
                 batch.MedicalId, batch.StartPeriod, batch.EndPeriod);
 
+            return !HasExternalConflict(batch, existingBatches);
+        }
+
+        private static bool HasInternalConflict(ScheduleItem[] items)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items.Skip(i + 1).Any(item => HasItemOverlap(items[i], item)))
+                {
+                    return true;
+                }
+            } 
+            return false;
+        }
+
+        private static bool HasExternalConflict(ScheduleBatch batch, IEnumerable<ScheduleBatch> existingBatches)
+        {
             foreach (var existingBatch in existingBatches)
             {
-                if (existingBatch.Id == batch.Id)
-                    continue; // Ignorar o próprio batch
+                if (existingBatch.Id == batch.Id) continue;
 
-                // Verificar se há sobreposição de períodos
-                if (existingBatch.StartPeriod <= batch.EndPeriod &&
-                    batch.StartPeriod <= existingBatch.EndPeriod)
+                if (HasPeriodConflict(batch, existingBatch) && HasItemConflict(batch.ScheduleData, existingBatch.ScheduleData))
                 {
-                    // Verificar conflitos entre os itens de agendamento
-                    foreach (var existingItem in existingBatch.ScheduleData)
-                    {
-                        foreach (var newItem in batch.ScheduleData)
-                        {
-                            if (existingItem.StartDateTime < newItem.EndDateTime &&
-                                newItem.StartDateTime < existingItem.EndDateTime)
-                            {
-                                return false; // Conflito encontrado
-                            }
-                        }
-                    }
+                    return true;
                 }
-            }
+            } 
+            return false;
+        }
 
-            return true; // Nenhum conflito encontrado
+        private static bool HasPeriodConflict(ScheduleBatch batch, ScheduleBatch existingBatch)
+        {
+            return existingBatch.StartPeriod <= batch.EndPeriod && batch.StartPeriod <= existingBatch.EndPeriod;
+        }
+
+        private static bool HasItemConflict(ScheduleItem[] newItems, ScheduleItem[] existingItems)
+        {
+            return newItems.Any(newItem => existingItems.Any(existingItem => HasItemOverlap(newItem, existingItem)));
+        }
+
+        private static bool HasItemOverlap(ScheduleItem item1, ScheduleItem item2)
+        {
+            return item1.StartDateTime < item2.EndDateTime && item2.StartDateTime < item1.EndDateTime;
         }
     }
 }

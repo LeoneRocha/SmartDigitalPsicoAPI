@@ -113,9 +113,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         _logger.Information("MedicalCalendarService - Create - CreateOrUpdateNotificationRecordsAsync (SINGLE) : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
                     }
 
-                    //ServiceResponse<GetScheduleBatchDto> responseSchedule = await migrationProcess(item, stopwatch, entityAdd);
-                    //if (!responseSchedule.Success)
-                    //  response.Errors.AddRange(responseSchedule.Errors);
+                    ServiceResponse<GetScheduleBatchDto> responseSchedule = await migrationProcess(item, stopwatch, entityAdd);
+                    if (!responseSchedule.Success)
+                        response.Errors.AddRange(responseSchedule.Errors);
 
                     if (response.Success)
                     {

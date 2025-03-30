@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
@@ -25,31 +26,42 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
         public static async Task<bool> ValidConflict(ScheduleBatch batch, IScheduleBatchRepository _entityRepository)
         {
             var existingBatches = await _entityRepository.GetByMedicalAsync(
-                 batch.MedicalId, batch.StartPeriod, batch.EndPeriod);
+                batch.MedicalId, batch.StartPeriod, batch.EndPeriod);
 
-            // Verificar se há sobreposição de períodos com outros batches
             foreach (var existingBatch in existingBatches)
             {
-                if (existingBatch.Id != batch.Id &&
-                    existingBatch.StartPeriod <= batch.EndPeriod &&
-                    batch.StartPeriod <= existingBatch.EndPeriod)
+                if (HasPeriodConflict(batch, existingBatch) && HasScheduleItemConflict(batch, existingBatch))
                 {
-                    // Verificar conflitos entre os itens de agendamento
-                    foreach (var existingItem in existingBatch.ScheduleData)
-                    {
-                        foreach (var newItem in batch.ScheduleData)
-                        {
-                            if (existingItem.StartDateTime < newItem.EndDateTime &&
-                                newItem.StartDateTime < existingItem.EndDateTime)
-                            {
-                                return false; // Conflito encontrado
-                            }
-                        }
-                    }
+                    return false;
                 }
             }
 
-            return true; // Nenhum conflito encontrado
+            return true;
+        }
+
+        private static bool HasPeriodConflict(ScheduleBatch batch, ScheduleBatch existingBatch)
+        {
+            return existingBatch.Id != batch.Id &&
+                   existingBatch.StartPeriod <= batch.EndPeriod &&
+                   batch.StartPeriod <= existingBatch.EndPeriod;
+        }
+
+        private static bool HasScheduleItemConflict(ScheduleBatch batch, ScheduleBatch existingBatch)
+        {
+            foreach (var existingItem in existingBatch.ScheduleData)
+            {
+                if (batch.ScheduleData.Any(newItem => HasItemOverlap(existingItem, newItem)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool HasItemOverlap(ScheduleItem existingItem, ScheduleItem newItem)
+        {
+            return existingItem.StartDateTime < newItem.EndDateTime && newItem.StartDateTime < existingItem.EndDateTime;
         }
     }
 }

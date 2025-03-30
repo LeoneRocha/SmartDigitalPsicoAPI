@@ -25,7 +25,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
         /// </summary>
         /// <param name="batchToken">The batch token</param>
         /// <returns>Batch statistics</returns>
-        Task<ServiceResponse<ScheduleBatchStatisticsDto>> GetBatchStatisticsAsync(string batchToken);
+        Task<ServiceResponse<ScheduleBatchStatisticsDto>> GetBatchStatisticsAsync(string uniqueToken);
 
         Task<ServiceResponse<GetScheduleBatchDto>> CreateOrUpdateBatchAsync(ScheduleMedicalCalendarCriteriaDto request);
 
