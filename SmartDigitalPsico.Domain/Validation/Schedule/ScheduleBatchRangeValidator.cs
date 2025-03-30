@@ -48,17 +48,11 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 
         private static bool HasScheduleItemConflict(ScheduleBatch batch, ScheduleBatch existingBatch)
         {
-            foreach (var existingItem in existingBatch.ScheduleData)
-            {
-                if (batch.ScheduleData.Any(newItem => HasItemOverlap(existingItem, newItem)))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return existingBatch.ScheduleData
+                .Where(existingItem => batch.ScheduleData.Any(newItem => HasItemOverlap(existingItem, newItem)))
+                .Any();   
         }
-
+         
         private static bool HasItemOverlap(ScheduleItem existingItem, ScheduleItem newItem)
         {
             return existingItem.StartDateTime < newItem.EndDateTime && newItem.StartDateTime < existingItem.EndDateTime;

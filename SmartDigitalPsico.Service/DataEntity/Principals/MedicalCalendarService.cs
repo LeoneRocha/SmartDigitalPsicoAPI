@@ -228,16 +228,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 {
                     if (entityUpdate.RecurrenceType != ERecurrenceCalendarType.None && (item.UpdateSeries && !string.IsNullOrEmpty(item.TokenRecurrence)))
                     {
-                        try
-                        {
-                            await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
-                            response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
-                            response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarUpdated, MedicalCalendarMenssageConstants.CalendarUpdated);
-                        }
-                        catch (Exception)
-                        {
-                            throw;
-                        }
+                        await GenerateRecurrenceAsync(entityUpdate, item.UpdateSeries);
+                        response.Data = _mapper.Map<GetMedicalCalendarDto>(entityUpdate);
+                        response.Message = await base.GetLocalization(MedicalCalendarKeyConstants.CalendarUpdated, MedicalCalendarMenssageConstants.CalendarUpdated);
                     }
                     else
                     {
@@ -328,21 +321,27 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             while ((calculatedEndDate == null || currentStart <= calculatedEndDate) && (totalOccurrences == 0 || count.Value < totalOccurrences))
             {
-                foreach (var day in medicalCalendar.RecurrenceDays)
-                {
-                    var nextDate = GetNextWeekday(currentStart, day);
-                    if (calculatedEndDate != null && nextDate > calculatedEndDate)
-                        break;
-
-                    if (medicalCalendar.RecurrenceDays.Contains(nextDate.DayOfWeek))
-                    {
-                        await AddEventAsync(medicalCalendar, events, validator, count, nextDate, nextDate.Add(currentEnd - currentStart));
-                    }
-                }
+                await GenerateAddEventAsync(medicalCalendar, events, validator, count, currentStart, currentEnd, calculatedEndDate);
                 currentStart = currentStart.AddDays(7);
                 currentEnd = currentEnd.AddDays(7);
             }
         }
+
+        private static async Task GenerateAddEventAsync(MedicalCalendar medicalCalendar, List<MedicalCalendar> events, MedicalCalendarRangeValidator validator, RefDto<int> count, DateTime currentStart, DateTime currentEnd, DateTime? calculatedEndDate)
+        {
+            foreach (var day in medicalCalendar.RecurrenceDays)
+            {
+                var nextDate = GetNextWeekday(currentStart, day);
+                if (calculatedEndDate != null && nextDate > calculatedEndDate)
+                    break;
+
+                if (medicalCalendar.RecurrenceDays.Contains(nextDate.DayOfWeek))
+                {
+                    await AddEventAsync(medicalCalendar, events, validator, count, nextDate, nextDate.Add(currentEnd - currentStart));
+                }
+            }
+        }
+
         private static DateTime CalculateEndDate(MedicalCalendar medicalCalendar, int totalOccurrences, DateTime? calculatedEndDate)
         {
             // Calcula a data final com base no n�mero total de ocorr�ncias
@@ -424,17 +423,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             try
             {
-                ServiceResponse<bool> result = new ServiceResponse<bool>();
                 if (request.DeleteSeries)
                 {
-                    result = await DeleteSeries(request);
+                    return await DeleteSeries(request);
                 }
                 else
                 {
-                    result = await DeleteOne(request);
+                    return await DeleteOne(request);
                 }
-                return result;
-
             }
             catch (Exception ex)
             {
@@ -604,7 +600,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         #region PRIVATE  GetMonthlyCalendar
-        private DayCalendarDto[] OrdenateDays(DayCalendarDto[] filteredDays)
+        private static DayCalendarDto[] OrdenateDays(DayCalendarDto[] filteredDays)
         {
             return filteredDays.OrderBy(x => x.Date).ToArray();
         }
@@ -857,7 +853,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         #region PRIVATE GetAvailableTimeSlotsAsync
-        private DayCalendarDto[] FilterIsTimeSlotAvailable(DateTime startTime, DateTime endTime, DayCalendarDto[] daysCalendar)
+        private static DayCalendarDto[] FilterIsTimeSlotAvailable(DateTime startTime, DateTime endTime, DayCalendarDto[] daysCalendar)
         {
             var dateCurrent = DateHelper.GetDateTimeNowFromUtc();
             var filteredDays = daysCalendar
@@ -868,7 +864,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         .Where(slot => !slot.IsPast && slot.IsAvailable && slot.StartTime >= dateCurrent && slot.MedicalCalendar == null && slot.StartTime >= startTime && slot.EndTime <= endTime)
                         .ToArray()
                 })
-                .Where(day => day.TimeSlots.Any())
+                .Where(day => day.TimeSlots.Length > 0)
                 .ToArray();
 
             return filteredDays;
@@ -886,7 +882,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 {
                     response.Success = false;
                     response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
-                    response.Message = validationResult.Errors.First().ErrorMessage;
+                    response.Message = validationResult.Errors[0].ErrorMessage;
                     return response;
                 }
                 if (criteria.ScheduleType == EScheduleCalendarType.Schedule)
@@ -1000,7 +996,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 {
                     response.Success = false;
                     response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
-                    response.Message = validationResult.Errors.First().ErrorMessage;
+                    response.Message = validationResult.Errors[0].ErrorMessage;
                     return response;
                 }
                 // Define the start and end dates for the month

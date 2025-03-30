@@ -302,9 +302,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         private ScheduleBatch CreateNewBatchEntity(ScheduleMedicalCalendarCriteriaDto request)
-        {
-            var now = DateHelper.GetDateTimeNowFromUtc();
-
+        {  
             // Map the common properties from ActionMedicalCalendarDtoBase
             var criteriaDto = _mapper.Map<ScheduleBatch>(request);
             criteriaDto.Enable = true;
