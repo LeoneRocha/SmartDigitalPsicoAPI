@@ -51,33 +51,24 @@ namespace SmartDigitalPsico.Data.Repository
         public async Task<ScheduleItem[]> GetScheduleItemsAsync(long medicalId, long? patientId, DateTime startDate, DateTime endDate)
         {
             var query = _dataset.Where(x => x.MedicalId == medicalId &&
-                                          x.StartPeriod <= endDate &&
-                                          x.EndPeriod >= startDate);
+                                             x.StartPeriod <= endDate &&
+                                             x.EndPeriod >= startDate);
 
             if (patientId.HasValue)
             {
                 query = query.Where(x => x.PatientId == patientId.Value);
             }
+
             var batches = await query.ToArrayAsync();
 
-            // Usando uma lista temporária para acumular os resultados
-            var resultList = new List<ScheduleItem>();
-
-            foreach (var batch in batches)
-            {
-                if (batch.ScheduleData.Length > 0)
-                {
-                    var filteredItems = batch.ScheduleData
-                        .Where(i => i.StartDateTime <= endDate &&
-                                   (i.EndDateTime ?? i.StartDateTime) >= startDate)
-                        .ToArray();
-
-                    resultList.AddRange(filteredItems);
-                }
-            } 
-            // Convertendo para array no final
-            return resultList.ToArray();
+            // Simplificando o loop com LINQ
+            return batches
+                .SelectMany(batch => batch.ScheduleData)
+                .Where(i => i.StartDateTime <= endDate &&
+                           (i.EndDateTime ?? i.StartDateTime) >= startDate)
+                .ToArray();
         }
+
 
         public async Task<ScheduleItem[]> GetScheduleItemsByTokenAsync(string batchToken)
         {

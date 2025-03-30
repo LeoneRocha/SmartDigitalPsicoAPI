@@ -7,8 +7,7 @@ using System.Text.Json.Serialization;
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 {
     public class GetMedicalCalendarTimeSlotDto : GetMedicalCalendarDtoBase, ISupportsHyperMedia
-    { 
-        public string TokenRecurrence { get; set; } = string.Empty;
+    {  
         #region Relationship  
         public long? PatientId { get; set; }
           

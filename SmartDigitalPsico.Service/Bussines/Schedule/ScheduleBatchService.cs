@@ -1,6 +1,5 @@
 ﻿using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -64,13 +63,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         GeneralLanguageMenssageConstants.RegisterIsNotFound);
                     return response;
                 }
-
-                // Verificar permissões
-                var recordsList = new RecordsList<ScheduleBatch>
-                {
-                    UserIdLogged = UserId,
-                    Records = new List<ScheduleBatch>() { batch }
-                };
 
                 var validationResult = await _validators.EntityValidator.ValidateAsync(batch);
 
@@ -142,7 +134,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 // Generate schedule items based on recurrence pattern
                 var scheduleItems = GenerateScheduleItems(request, batchToken);
-                if (!scheduleItems.Any())
+                if (scheduleItems.Count == 0)
                 {
                     response.Success = false;
                     response.Message = "No items were generated";
@@ -275,7 +267,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 response.Success = false;
                 response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
-                response.Message = validationResult.Errors.First().ErrorMessage;
+                response.Message = validationResult.Errors[0].ErrorMessage;
                 return false;
             }
             return true;
@@ -375,7 +367,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        private List<ScheduleItem> GenerateScheduleItems(ScheduleMedicalCalendarCriteriaDto request, string batchToken)
+        private static List<ScheduleItem> GenerateScheduleItems(ScheduleMedicalCalendarCriteriaDto request, string batchToken)
         {
             // Create template item from request
             var templateItem = CreateTemplateScheduleItem(request, batchToken);
@@ -446,7 +438,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 response.Success = false;
                 response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
-                response.Message = validationResult.Errors.First().ErrorMessage;
+                response.Message = validationResult.Errors[0].ErrorMessage;
                 return false;
             }
             return true;
@@ -555,9 +547,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 if (dayOfMonth > daysInMonth)
                 {
                     currentDate = new DateTime(currentDate.Year, currentDate.Month, daysInMonth,
-                        currentDate.Hour, currentDate.Minute, currentDate.Second);
-                }
-
+                        currentDate.Hour, currentDate.Minute, currentDate.Second, DateTimeKind.Utc); 
+                } 
                 itemCount++;
             }
         }

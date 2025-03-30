@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
@@ -14,7 +12,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
                 .WithMessage("ScheduleItem_Validator_Overlap_Key|The schedule item overlaps with an existing item.");
         }
 
-        private bool NoTimeSlotOverlap(ScheduleItemValidationContext context)
+        private static bool NoTimeSlotOverlap(ScheduleItemValidationContext context)
         {
             if (context.ExistingItems == null || context.ExistingItems.Length > 0)
                 return true;

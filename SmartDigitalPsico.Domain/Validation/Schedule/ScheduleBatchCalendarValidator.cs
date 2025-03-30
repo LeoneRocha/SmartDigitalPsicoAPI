@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -67,7 +66,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
                 .WithMessage("ErrorValidator_Date_Conflict|There is a date and time conflict for the same doctor.");
         }
 
-        private bool ValidateRecurrenceParameters(ScheduleMedicalCalendarCriteriaDto model)
+        private static bool ValidateRecurrenceParameters(ScheduleMedicalCalendarCriteriaDto model)
         {
             // Verificar se pelo menos um dos parâmetros de recorrência está definido
             if (model.RecurrenceEndDate.HasValue)
