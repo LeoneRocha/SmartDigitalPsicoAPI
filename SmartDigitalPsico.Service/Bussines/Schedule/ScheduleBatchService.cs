@@ -387,7 +387,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     GenerateDailyRecurrence(templateItem, scheduleItems, request.RecurrenceEndDate, request.RecurrenceCount);
                     break;
                 case ERecurrenceCalendarType.Weekly:
-                    GenerateWeeklyRecurrence(templateItem, scheduleItems, request.RecurrenceEndDate, request.RecurrenceCount, request.RecurrenceDays);
+                    GenerateWeeklyRecurrence(new WeeklyRecurrenceParams() { Template = templateItem, Items = scheduleItems, EndDate = request.RecurrenceEndDate, Count = request.RecurrenceCount, Days = request.RecurrenceDays });
                     break;
                 case ERecurrenceCalendarType.Monthly:
                     GenerateMonthlyRecurrence(templateItem, scheduleItems, request.RecurrenceEndDate, request.RecurrenceCount);
@@ -463,44 +463,56 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 itemCount++;
             }
         }
-
-        private static void GenerateWeeklyRecurrence(ScheduleItem template, List<ScheduleItem> items, DateTime? endDate, short? count, DayOfWeek[] days)
+        private static void GenerateWeeklyRecurrence(WeeklyRecurrenceParams recurrenceParams)
         {
-            if (days == null || days.Length == 0)
+            recurrenceParams.Days ??= new[] { recurrenceParams.Template.StartDateTime.DayOfWeek };
+
+            var context = new RecurrenceContext
             {
-                days = new[] { template.StartDateTime.DayOfWeek };
-            }
+                CurrentDate = recurrenceParams.Template.StartDateTime,
+                ItemCount = 0,
+                Duration = recurrenceParams.Template.EndDateTime.GetValueOrDefault() - recurrenceParams.Template.StartDateTime
+            };
 
-            DateTime currentDate = template.StartDateTime;
-            int itemCount = 0;
-            TimeSpan duration = template.EndDateTime.GetValueOrDefault() - template.StartDateTime;
-
-            // Ajustar para a primeira ocorrência
-            while ((endDate == null || currentDate <= endDate) && (count == null || itemCount < count))
+            while (ShouldContinueRecurrence(context, recurrenceParams))
             {
-                foreach (var day in days)
-                {
-                    // Encontrar o próximo dia da semana correspondente
-                    DateTime nextDate = GetNextWeekday(currentDate, day);
-
-                    if (endDate != null && nextDate > endDate)
-                        continue;
-
-                    if (count != null && itemCount >= count)
-                        break;
-
-                    var newItem = CloneScheduleItem(template);
-                    newItem.StartDateTime = nextDate;
-                    newItem.EndDateTime = nextDate.Add(duration);
-                    items.Add(newItem);
-
-                    itemCount++;
-                }
-
-                // Avançar para a próxima semana
-                currentDate = currentDate.AddDays(7);
+                ProcessDaysForRecurrence(recurrenceParams, context);
+                context.CurrentDate = context.CurrentDate.AddDays(7); // Avançar para a próxima semana
             }
         }
+
+        private static bool ShouldContinueRecurrence(RecurrenceContext context, WeeklyRecurrenceParams recurrenceParams)
+        {
+            return (recurrenceParams.EndDate == null || context.CurrentDate <= recurrenceParams.EndDate) &&
+                   (recurrenceParams.Count == null || context.ItemCount < recurrenceParams.Count);
+        }
+
+        private static void ProcessDaysForRecurrence(WeeklyRecurrenceParams recurrenceParams, RecurrenceContext context)
+        {
+            foreach (var day in recurrenceParams.Days)
+            {
+                DateTime nextDate = GetNextWeekday(context.CurrentDate, day);
+
+                if (ShouldSkipItem(nextDate, recurrenceParams, context)) continue;
+
+                AddScheduleItem(recurrenceParams.Template, recurrenceParams.Items, nextDate, context.Duration);
+                context.ItemCount++;
+            }
+        }
+
+        private static bool ShouldSkipItem(DateTime nextDate, WeeklyRecurrenceParams recurrenceParams, RecurrenceContext context)
+        {
+            return (recurrenceParams.EndDate != null && nextDate > recurrenceParams.EndDate) || (recurrenceParams.Count != null && context.ItemCount >= recurrenceParams.Count);
+        }
+
+        private static void AddScheduleItem(ScheduleItem template, List<ScheduleItem> items, DateTime nextDate, TimeSpan duration)
+        {
+            var newItem = CloneScheduleItem(template);
+            newItem.StartDateTime = nextDate;
+            newItem.EndDateTime = nextDate.Add(duration);
+            items.Add(newItem);
+        }
+
         private async Task<ServiceResponse<GetScheduleBatchDto>> SaveBatchAndCreateResponse(ScheduleBatch entityBatch, bool isUpdate)
         {
             var response = new ServiceResponse<GetScheduleBatchDto>();
@@ -547,8 +559,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 if (dayOfMonth > daysInMonth)
                 {
                     currentDate = new DateTime(currentDate.Year, currentDate.Month, daysInMonth,
-                        currentDate.Hour, currentDate.Minute, currentDate.Second, DateTimeKind.Utc); 
-                } 
+                        currentDate.Hour, currentDate.Minute, currentDate.Second, DateTimeKind.Utc);
+                }
                 itemCount++;
             }
         }
