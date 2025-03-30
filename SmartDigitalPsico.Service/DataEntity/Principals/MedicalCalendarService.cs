@@ -1,5 +1,5 @@
 using FluentValidation;
-using FluentValidation.Results; 
+using FluentValidation.Results;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
@@ -112,17 +112,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                         stopwatch.Stop();
                         _logger.Information("MedicalCalendarService - Create - CreateOrUpdateNotificationRecordsAsync (SINGLE) : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
                     }
-                    stopwatch.Reset();
-                    stopwatch.Start();
 
-                    var scheduleDto = CreateScheduleMedicalCalendarCriteriaDto(item, entityAdd.TokenRecurrence);
-                    var responseSchedule = await _scheduleBatchService.CreateOrUpdateBatchAsync(scheduleDto);
-
-                    stopwatch.Stop();
-                    _logger.Information("MedicalCalendarService - Create - CreateOrUpdateBatchAsync : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
-
-                    if (!responseSchedule.Success)
-                        response.Errors.AddRange(responseSchedule.Errors);
+                    //ServiceResponse<GetScheduleBatchDto> responseSchedule = await migrationProcess(item, stopwatch, entityAdd);
+                    //if (!responseSchedule.Success)
+                    //  response.Errors.AddRange(responseSchedule.Errors);
 
                     if (response.Success)
                     {
@@ -142,6 +135,19 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 response.Message = await base.GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
             }
             return response;
+        }
+
+        private async Task<ServiceResponse<GetScheduleBatchDto>> migrationProcess(AddMedicalCalendarDto item, Stopwatch stopwatch, MedicalCalendar entityAdd)
+        {
+            stopwatch.Reset();
+            stopwatch.Start();
+
+            var scheduleDto = CreateScheduleMedicalCalendarCriteriaDto(item, entityAdd.TokenRecurrence);
+            var responseSchedule = await _scheduleBatchService.CreateOrUpdateBatchAsync(scheduleDto);
+
+            stopwatch.Stop();
+            _logger.Information("MedicalCalendarService - Create - CreateOrUpdateBatchAsync : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
+            return responseSchedule;
         }
 
         /// <summary>
@@ -464,7 +470,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (validationResult.IsValid)
             {
 
-                await _notificationRecordsRepository.DeleteAll(calendars.Select(x=> x.MedicalId).ToArray());
+                await _notificationRecordsRepository.DeleteAll(calendars.Select(x => x.MedicalId).ToArray());
                 response = await base.Delete(request.Id);
 
                 await _entityRepository.DeleteRangeAsync(calendars);
@@ -509,7 +515,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
 
                 await _notificationRecordsRepository.DeleteAll(calendar.Id);
-               response = await base.Delete(request.Id);                
+                response = await base.Delete(request.Id);
             }
             else
             {
