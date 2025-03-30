@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Validation;
@@ -8,23 +9,27 @@ using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
-    public class ScheduleBatchValidators : IScheduleBatchValidators
+    public class ScheduleBatchCollectionValidators : IScheduleBatchCollectionValidators
     {
         public IValidator<ScheduleBatch> EntityValidator { get; }
         public IValidator<ScheduleItem> ScheduleItemValidator { get; }
         public IValidator<ScheduleBatch> ScheduleBatchRangeValidator { get; }
         public IValidator<ScheduleItemValidationContext> ScheduleItemOverlapValidator { get; }
+        public IValidator<ScheduleMedicalCalendarCriteriaDto> ScheduleBatchCalendarDtoValidator { get; }  
 
-        public ScheduleBatchValidators(
+        public ScheduleBatchCollectionValidators(
             IConfiguration configuration,
             IScheduleBatchRepository entityRepository,
             IMedicalRepository medicalRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IValidator<ScheduleMedicalCalendarCriteriaDto> scheduleBatchCalendarDtoValidator)  
         {
-            EntityValidator = new ScheduleBatchValidator(configuration, entityRepository, medicalRepository, userRepository);
+            EntityValidator = new ScheduleBatchMedicalValidator(configuration, entityRepository, medicalRepository, userRepository);
             ScheduleItemValidator = new ScheduleItemValidator(medicalRepository);
             ScheduleBatchRangeValidator = new ScheduleBatchRangeValidator(entityRepository);
             ScheduleItemOverlapValidator = new ScheduleItemOverlapValidator();
+            ScheduleBatchCalendarDtoValidator = scheduleBatchCalendarDtoValidator; // Atribuição
+
         }
     }
 }

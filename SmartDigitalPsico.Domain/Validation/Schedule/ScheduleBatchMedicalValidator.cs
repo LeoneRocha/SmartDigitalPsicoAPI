@@ -8,12 +8,12 @@ using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
-    public class ScheduleBatchValidator : MedicalBaseValidator<ScheduleBatch>
+    public class ScheduleBatchMedicalValidator : MedicalBaseValidator<ScheduleBatch>
     {
         private readonly IScheduleBatchRepository _repository;
         private readonly ScheduleItemValidator _scheduleItemValidator;
 
-        public ScheduleBatchValidator(
+        public ScheduleBatchMedicalValidator(
             IConfiguration configuration,
             IScheduleBatchRepository entityRepository,
             IMedicalRepository medicalRepository,

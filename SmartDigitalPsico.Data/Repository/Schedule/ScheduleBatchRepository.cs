@@ -11,6 +11,13 @@ namespace SmartDigitalPsico.Data.Repository
     {
         public ScheduleBatchRepository(IEntityDataContext context) : base(context) { }
 
+
+        public async Task DeleteRangeAsync(IEnumerable<ScheduleBatch> batches)
+        { 
+                _dataset.RemoveRange(batches);
+                await _context.SaveChangesAsync(); 
+        }
+
         public async Task<ScheduleBatch?> GetByMedicalAndPatientAsync(long medicalId, long? patientId, DateTime startDate, DateTime endDate)
         {
             var query = _dataset

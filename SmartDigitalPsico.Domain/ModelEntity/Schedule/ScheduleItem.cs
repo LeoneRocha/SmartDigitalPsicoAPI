@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity.Schedule
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
         public bool IsAllDay { get; set; }
-        public byte Status { get; set; } // EStatusCalendar como byte
+        public EStatusCalendar Status { get; set; }  
         public string ColorCategoryHexa { get; set; } = string.Empty;
         public bool IsPushedCalendar { get; set; }
         public string TimeZone { get; set; } = string.Empty;
@@ -22,6 +22,6 @@ namespace SmartDigitalPsico.Domain.ModelEntity.Schedule
         public short? RecurrenceCount { get; set; }
         public string ReasonCancellation { get; set; } = string.Empty;
         public required long MedicalId { get; set; }
-        public required int PatientId { get; set; } 
+        public required long PatientId { get; set; } 
     }
 }
