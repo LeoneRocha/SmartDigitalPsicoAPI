@@ -49,8 +49,8 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
         private static bool HasScheduleItemConflict(ScheduleBatch batch, ScheduleBatch existingBatch)
         {
             return existingBatch.ScheduleData
-                .Where(existingItem => batch.ScheduleData.Any(newItem => HasItemOverlap(existingItem, newItem)))
-                .Any();   
+                .Count(existingItem => batch.ScheduleData.Count(newItem => HasItemOverlap(existingItem, newItem)) > 0) > 0;
+                  
         }
          
         private static bool HasItemOverlap(ScheduleItem existingItem, ScheduleItem newItem)

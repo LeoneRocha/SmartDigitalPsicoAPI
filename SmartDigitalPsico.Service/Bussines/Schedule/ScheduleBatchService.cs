@@ -116,7 +116,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 }
 
                 // Get or create batch entity
-                var (entityBatch, uniqueToken) = await GetOrCreateBatchEntity(request);
+                var entityBatch = (await GetOrCreateBatchEntity(request)).entityBatch;
                 if (entityBatch == null)
                 {
                     response.Success = false;
@@ -297,12 +297,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityBatch = CreateNewBatchEntity(request);
                 uniqueToken = Guid.NewGuid().ToString();
                 entityBatch.UniqueToken = uniqueToken;
-            } 
+            }
             return (entityBatch, uniqueToken)!;
         }
 
         private ScheduleBatch CreateNewBatchEntity(ScheduleMedicalCalendarCriteriaDto request)
-        {  
+        {
             // Map the common properties from ActionMedicalCalendarDtoBase
             var criteriaDto = _mapper.Map<ScheduleBatch>(request);
             criteriaDto.Enable = true;
