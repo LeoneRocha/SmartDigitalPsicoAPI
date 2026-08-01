@@ -1,5 +1,4 @@
 ﻿using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
@@ -26,9 +25,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Description = "Envio 24 horas antes do agendamento",
                 Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = MockSeedDates.SeedUtc,
+                ModifyDate = MockSeedDates.SeedUtc,
+                LastAccessDate = MockSeedDates.SeedUtc
             },
             // Envio 3 dias antes do agendamento
             new NotificationRule
@@ -44,9 +43,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Description = "Envio 3 dias antes do agendamento",
                 Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = MockSeedDates.SeedUtc,
+                ModifyDate = MockSeedDates.SeedUtc,
+                LastAccessDate = MockSeedDates.SeedUtc
             },
             // Envio 1 hora antes do agendamento
             new NotificationRule
@@ -62,9 +61,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Description = "Envio 1 hora antes do agendamento",
                 Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = MockSeedDates.SeedUtc,
+                ModifyDate = MockSeedDates.SeedUtc,
+                LastAccessDate = MockSeedDates.SeedUtc
             },
             // Envio 15 minutos antes do agendamento
             new NotificationRule
@@ -80,9 +79,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Description = "Envio 15 minutos antes do agendamento",
                 Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = MockSeedDates.SeedUtc,
+                ModifyDate = MockSeedDates.SeedUtc,
+                LastAccessDate = MockSeedDates.SeedUtc
             }, 
             // Lembrete de pagamento (3 dias antes do vencimento)
             new NotificationRule
@@ -98,9 +97,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Description = "Lembrete de pagamento (3 dias antes do vencimento)",
                 Language = LanguagePtBR,
                 NotificationType = ENotificationType.PaymentReminder,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = MockSeedDates.SeedUtc,
+                ModifyDate = MockSeedDates.SeedUtc,
+                LastAccessDate = MockSeedDates.SeedUtc
             },       
             // Envio 48 horas antes do agendamento
             new NotificationRule
@@ -116,9 +115,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Description = "Envio 48 horas antes do agendamento",
                 Language = LanguagePtBR,
                 NotificationType = ENotificationType.BeforeAppointment,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = MockSeedDates.SeedUtc,
+                ModifyDate = MockSeedDates.SeedUtc,
+                LastAccessDate = MockSeedDates.SeedUtc
             },
         };
         }

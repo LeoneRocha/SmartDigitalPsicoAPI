@@ -1,5 +1,4 @@
-﻿using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.ModelEntity;
+﻿using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
@@ -9,7 +8,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
 
         public static Leaves[] GetMock()
         {
-            var currentYear = DateTime.Now.Year;
+            var currentYear = MockSeedDates.SeedYear;
 
             // Lista dos principais feriados no Brasil
             var holidays = new List<Leaves>
@@ -19,8 +18,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 1,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 1, 1, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Ano Novo",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -30,8 +29,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 2,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 2, 25, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 2, 25, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Carnaval",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -41,8 +40,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 3,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 4, 18, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 4, 18, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Sexta-feira Santa",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -52,8 +51,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 4,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 4, 21, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 4, 21, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Tiradentes",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -63,8 +62,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 5,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 5, 1, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 5, 1, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Dia do Trabalho",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -74,8 +73,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 6,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 6, 19, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 6, 19, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Corpus Christi",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -85,8 +84,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 7,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 9, 7, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 9, 7, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Independência do Brasil",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -96,8 +95,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 8,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 10, 12, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 10, 12, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Nossa Senhora Aparecida",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -107,8 +106,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 9,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 11, 2, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 11, 2, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Finados",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -118,8 +117,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 10,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 11, 15, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 11, 15, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Proclamação da República",
                 Language = LanguagePtBR,
                 IsRecurring = true
@@ -129,8 +128,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             {
                 Id = 11,
                 Enable = true,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                StartDate = new DateTime(currentYear, 12, 25, 0, 0, 0, DateTimeKind.Local),
+                CreatedDate = MockSeedDates.SeedUtc,
+                StartDate = new DateTime(currentYear, 12, 25, 0, 0, 0, DateTimeKind.Utc),
                 Description = "Natal",
                 Language = LanguagePtBR,
                 IsRecurring = true

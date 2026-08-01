@@ -1,5 +1,4 @@
 ﻿using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
@@ -13,10 +12,10 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Id = 1,
                 Name = "Dr. Gabriel Monteiro",
                 Email = "medical@sistemas.com",
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                CreatedDate = MockSeedDates.SeedUtc,
                 Enable = true,
-                LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
-                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                LastAccessDate = MockSeedDates.SeedUtc,
+                ModifyDate = MockSeedDates.SeedUtc,
                 Accreditation = "123456",
                 TypeAccreditation = ETypeAccreditation.CRM,
                 OfficeId = 1,

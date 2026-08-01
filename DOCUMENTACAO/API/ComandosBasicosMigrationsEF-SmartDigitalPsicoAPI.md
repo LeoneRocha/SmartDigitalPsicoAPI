@@ -218,6 +218,12 @@ dotnet ef migrations remove `
 
 **Não** substitua um `InitialCreate` já aplicado em produção por outro com o mesmo propósito sem limpar o banco ou sem alinhar `__EFMigrationsHistory` — isso causa erros do tipo `Table '...' already exists`.
 
+### Seeds / HasData — datas estáticas
+
+Mocks em `SmartDigitalPsico.Data/Context/Configure/Mock/` devem usar `MockSeedDates.SeedUtc` (nunca `DateTime.Now` / `DateHelper.GetDateTimeNowFromUtc()` / `CreatePasswordHash` em seed). Caso contrário, cada `migrations add` gera `UpdateData` espúrio.
+
+Validação: gerar migration temporária; se `Up`/`Down` vazios, o modelo está estável — remover com `migrations remove --force`.
+
 ---
 
 ## 6. Script SQL (opcional)
