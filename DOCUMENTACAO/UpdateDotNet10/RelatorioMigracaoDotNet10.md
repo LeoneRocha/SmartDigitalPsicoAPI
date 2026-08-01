@@ -168,7 +168,7 @@ Migrations validadas: técnica temporária MySQL OK (sem DDL)
 | Dual SqlServer/MySQL | Validar `database update` em homolog |
 | Pipeline DevOps desalinhado | Atualizar UseDotNet 10.x no Azure DevOps |
 | WebJobs + Hosting 10 | Validar smoke WebJob |
-| Seeds com DateTime dinâmico | Drift em `ef migrations add` — considerar datas fixas em `HasData` |
+| Seeds com DateTime dinâmico | **Mitigado** pós-migração — seeds HasData estabilizados (`MockSeedDates` / hashes estáticos); ver migrations MySQL posteriores ao ciclo DotNet10 |
 
 ---
 

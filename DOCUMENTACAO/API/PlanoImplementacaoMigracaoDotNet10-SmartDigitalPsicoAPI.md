@@ -5,7 +5,10 @@
 **Conjunto Homologado:** `DOCUMENTACAO/API/2026-07-LevantamentoConjuntoHomologado-SmartDigitalPsicoAPI.md`  
 **Processo-base:** `DOCUMENTACAO/GuiaGenericoAtualizacaoPacotes.md`  
 **Plano de ação / RFC / relatório:** `DOCUMENTACAO/UpdateDotNet10/PlanoAcaoMigracaoDotNet10.md`, `RascunhoPlanoUpdateDotNet10.md`, `RelatorioMigracaoDotNet10.md`  
-**Data:** 2026-07-31
+**Data:** 2026-07-31  
+**Status:** CONCLUÍDO (2026-08-01) — TFM `net10.0`, SDK pin `10.0.301` em `global.json`; ver `DOCUMENTACAO/UpdateDotNet10/RelatorioMigracaoDotNet10.md`
+
+> Stack atual: **.NET 10** / ASP.NET Core, EF Core 9 + Pomelo 9, Swashbuckle 10. Frontend companion: Angular **22** (repositório UI).
 
 ---
 

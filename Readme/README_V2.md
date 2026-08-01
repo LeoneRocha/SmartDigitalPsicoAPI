@@ -13,5 +13,7 @@ Homologação/staging: **não disponível**.
 
 ## Documentação técnica
 
-- `DOCUMENTACAO/` na raiz do projeto API  
+- README oficial: [`../README.md`](../README.md) — **.NET 10** / SDK 10 (`global.json`)
+- Relatório migração: `DOCUMENTACAO/UpdateDotNet10/RelatorioMigracaoDotNet10.md`
+- UI (Angular **22**): repositório `SmartDigitalPsicoUIDashboard`
 - Swagger produção: https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
