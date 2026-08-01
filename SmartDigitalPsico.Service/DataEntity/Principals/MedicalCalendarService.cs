@@ -474,7 +474,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (validationResult.IsValid)
             {
 
-                await _notificationRecordsRepository.DeleteAll(calendars.Select(x => x.MedicalId).ToArray());
+                await _notificationRecordsRepository.DeleteAll(calendars.Select(x => x.Id).ToArray());
                 response = await base.Delete(request.Id);
 
                 await _entityRepository.DeleteRangeAsync(calendars);

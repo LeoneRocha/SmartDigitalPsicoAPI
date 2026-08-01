@@ -30,6 +30,7 @@
     <ProjectReference Include="..\SmartDigitalPsico.Domain\SmartDigitalPsico.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Migrations\MySql\" />
     <Folder Include="Migrations\SqlServer\" />
   </ItemGroup>
 
