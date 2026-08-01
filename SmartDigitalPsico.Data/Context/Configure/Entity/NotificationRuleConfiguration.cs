@@ -32,7 +32,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasMaxLength(100)
                 .HasConversion(
                     v => string.Join(',', v.Select(d => ((int)d).ToString())),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => (ENotificationServiceType)int.Parse(s)).ToArray())
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => (ENotificationServiceType)int.Parse(s)).ToArray(),
+                    CollectionValueComparerHelper.ForArray<ENotificationServiceType>())
                 .IsRequired();
             builder.Property(e => e.Description).HasMaxLength(255).IsRequired();
             builder.Property(e => e.CreatedDate).IsRequired(true);

@@ -36,9 +36,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
                 .HasMaxLength(EntityTypeConfigurationConstants.GetMaxLengthByTypeDataBase(ETypeDataBase.Mysql))
                 .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase.Mysql))
                 .HasConversion(
-                    v => JsonConvert.SerializeObject(v), // Serialização
-                    v => JsonConvert.DeserializeObject<ScheduleItem[]>(v)! // Desserialização
-                );
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<ScheduleItem[]>(v)!,
+                    CollectionValueComparerHelper.ForJsonArray<ScheduleItem>());
               
             // Relationship
             builder.HasOne(e => e.CreatedUser).WithMany().HasForeignKey(e => e.CreatedUserId);

@@ -24,7 +24,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.NotificationRules)
                 .HasConversion(
                     v => JsonConvert.SerializeObject(v),
-                    v => JsonConvert.DeserializeObject<NotificationRuleStatus[]>(v)!)
+                    v => JsonConvert.DeserializeObject<NotificationRuleStatus[]>(v)!,
+                    CollectionValueComparerHelper.ForJsonArray<NotificationRuleStatus>())
                 .HasMaxLength(EntityTypeConfigurationConstants.GetMaxLengthByTypeDataBase(ETypeDataBase))
                 .HasColumnType(EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(ETypeDataBase))
                 .IsRequired();
