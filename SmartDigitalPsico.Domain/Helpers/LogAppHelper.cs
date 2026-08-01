@@ -41,7 +41,7 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         public static AppInformationVersionProductDto GetInformationVersionProduct()
         {
-            var assembly = Assembly.GetEntryAssembly();
+            var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
             var appDto = new AppInformationVersionProductDto() { Name = "Unknown", Version = "Unknown", EnvironmentName = "Unknown" };
 
             if (assembly != null)
@@ -51,9 +51,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 {
                     var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? GetHostEnvironmentName();
                     var nameApp = assemblyApp.Name ?? "Undefined";
-                    var version = "Undefined";
-                    if (assemblyApp.Version != null)
-                        version = assemblyApp.Version.ToString();
+                    var version = GetAssemblyVersion();
 
                     appDto.Name = nameApp;
                     appDto.Version = version;
@@ -72,6 +70,15 @@ namespace SmartDigitalPsico.Domain.Helpers
                 appDto.Message = string.Format("Assembly information could not be retrieved.{0}", Environment.NewLine);
             }
             return appDto;
+        }
+
+        /// <summary>
+        /// AssemblyVersion do entry assembly (estampado no build).
+        /// </summary>
+        public static string GetAssemblyVersion()
+        {
+            var version = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly())?.GetName().Version;
+            return version?.ToString() ?? "0.0.0.0";
         }
         private static string GetHostEnvironmentName()
         {

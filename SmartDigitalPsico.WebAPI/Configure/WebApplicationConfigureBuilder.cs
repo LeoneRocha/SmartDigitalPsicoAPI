@@ -112,7 +112,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
             app.UseCors();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartDigitalPsico.WebAPI v1"));
+            app.UseSwaggerUI(c =>
+            {
+                var assemblyVersion = LogAppHelper.GetAssemblyVersion();
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"SmartDigitalPsico.WebAPI {assemblyVersion}");
+                c.DocumentTitle = $"SmartDigitalPsico.WebAPI {assemblyVersion}";
+            });
 
             var option = new RewriteOptions();
             option.AddRedirect("^$", "swagger");
