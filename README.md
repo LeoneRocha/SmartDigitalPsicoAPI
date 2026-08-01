@@ -1,233 +1,210 @@
+# SmartDigitalPsico — API
 
-<h1 align="center">
-     🏥  <a href="#" alt="Atendimento Inteligente Digital De Pacientes de Psicologia"> SmartDigitalPsico</a>
-</h1>
-
-<h3 align="center">
-    💚 Atendimento Inteligente Digital De Pacientes de Psicologia. 🩺
-</h3>
- <h1 align="center">
-    <img alt="SmartDigitalPsico" title="#SmartDigitalPsico" src="./assets/banner.jpg" />
-</h1>
-<p align="center"> 
- <img src="https://sonarcloud.io/api/project_badges/measure?project=lionscorp_smartdigitalpsico&metric=coverage"/>
- <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge"/> 
-</p>
- 
-
-<h4 align="center">
-	🚧 Em desenvolvimento 🚧
-</h4>
-
----
-
-Tabela de conteúdos
-=================
-<!--ts-->
-   * [Sobre o projeto](#-sobre-o-projeto) 
-   * [Links de acesso (Frontend e Backend)](#-Links-Front-Back)
-   * [Como executar o projeto](#-como-executar-o-projeto)
-     * [Pré-requisitos](#pré-requisitos)
-     * [Rodando o Backend (servidor)](#user-content--rodando-o-backend-servidor)
-     * [Rodando a aplicação web (Frontend)](#user-content--rodando-a-aplicação-web-frontend)
-   * [Tecnologias](#-tecnologias) 
-   * [Como contribuir no projeto](#-como-contribuir-no-projeto)
-   * [Autor](#-autor)
-   * [Licença](#user-content--licença)
-<!--te-->
-
----
-
-## 💻 Sobre o projeto
-
-🏥 Atendimento Inteligente Digital De Pacientes de Psicologia. Sistema de cadastro de prontuário de paciente de psicologia. 🩺
-
----
-
-## 🧰 Funcionalidades
-
-- Cadastros de Perfil administrativo:
-  - [x] Cadastro de Codnigurações gerais do sistema
-  - [x] Cadastro de Especialidade do médico 
-  - [x] Cadastro de Grupo de Funções de autorização dos usuarios.
-  - [x] Cadastro de Profisão do Médico
-  - [x] Cadastro de Gêneros para os cadastros.
-  - [x] Cadastro de Idioma e traduções do BackEnd.
-  - [x] Cadastro de usuários
-  - [x] Cadastro de Médicos
-- Cadastros de Perfil Médico:
-  - [x] Upload e Donwload de arquivos do médico
-  - [x] Cadastro de Paciente: 
-    -  Upload e Donwload de arquivos do paciente.
-    -  Informações Complementares do paciente.
-    -  Informações de Hospitalização do paciente. 
-    -  Informações sobre Medicamentos do paciente. 
-    -  Anotação do Registro de atendimento ao paciente 
-
----
-
-## 🔗 Links de acesso (Frontend e Backend)
-
-### Produção:  
-   - [Backend](https://smartdigitalpsicoapi.azurewebsites.net) 
-   - [Frontend](https://smartdigitalpsicoui-d4e0bbcfaabrava8.brazilsouth-01.azurewebsites.net/) 
-
-### Homologação:  
-   - [Backend](https://smartdigitalpsicoapi-staging.azurewebsites.net) 
-   - [Frontend](https://smartdigitalpsicoui-staging-c8c4ayfegbg7ath2.brazilsouth-01.azurewebsites.net) 
-
----
-
-## ⚙️ Build Status e 🚀 Deploy Status
-
-### Backend (API) :  
-
-| **Ambiente** | **Status Pacote** | **Quality Gate**   |  **Vulnerabilidades**  | **Publicação**  |
-|--|--|--|--|--|
-| Homologação| [![Build status](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_apis/build/status/Homologation/CI-Homologation-SMARTDIGITALPSICO-API)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build/latest?definitionId=20)  | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lionscorp_smartdigitalpsico&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lionscorp_smartdigitalpsico) | [![Snykstatus](https://snyk.io/test/github/LeoneRocha/SmartDigitalPsicoAPI/badge.svg)](https://snyk.io/test/github/LeoneRocha/SmartDigitalPsicoAPI/badge.svg)|[![Release status](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/5/5)](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/5/5)
-||||||
-| Produção | [![Build status](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_apis/build/status/Production/CI-Production-SMARTDIGITALPSICO-API)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build/latest?definitionId=21)| [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lionscorp_smartdigitalpsico&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lionscorp_smartdigitalpsico) |[![Snykstatus](https://snyk.io/test/github/LeoneRocha/SmartDigitalPsicoAPI/badge.svg)](https://snyk.io/test/github/LeoneRocha/SmartDigitalPsicoAPI/badge.svg) |[![Release status](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/6/6)](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/6/6)|
-
-### Front (Web) :  
-
-| **Ambiente** | **Status Pacote** | **Quality Gate**   |  **Vulnerabilidades**  | **Publicação**  |
-|--|--|--|--|--|
-| Homologação| [![Build status](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_apis/build/status/Homologation/CI-Homologation-SMARTDIGITALPSICO-UI)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build/latest?definitionId=28) | - | - |[![Release status](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/10/10)](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/10/10)
-||||||
-| Produção | [![Build status](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_apis/build/status/Production/CI-Production-SMARTDIGITALPSICO-UI)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build/latest?definitionId=30)| - |-|[![Release status](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/12/12)](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/12/12)|
-   
----
-## 🔗 Links do Projeto
- 
-- [Repositorio - Git Hub ](https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer) 
-- [DevOps](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO) 
-- [DevOps - Pipelines](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build) 
-- [DevOps - Deploys](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_release) 
-- [Contêiner de imagens - Docker Hub](https://hub.docker.com/u/leonecr) 
-- [Hosting Front e Back - Azure](https://portal.azure.com) 
-- [Hosting Banco de dados - Mysql na Uol](https://painelbd.host.uol.com.br/main.html?servicetype=mysql) 
-- [Quality Gate - SonarCloud](https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico)
-- [Vulnerabilities Gate - Snyk](https://app.snyk.io/org/leonerocha/projects?groupBy=targets&before&after&searchQuery=&sortBy=highest+severity&filters[Show]=&filters[Integrations]=&filters[CollectionIds]=)
-- [Swagger Hub](https://app.swaggerhub.com/apis/LEOCRLEM/smart-digital_psico_web_api/v1)
----
-   
-##  📝 Pré-requisitos
-
-Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/). 
-
-Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
-
-- Visual Studio 2022 e [Visual studio Code](https://code.visualstudio.com/)
-- [MySql](https://www.mysql.com/downloads/) ou  [Sql Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) 
-- [.NET 8.0](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) 
-
----
-
-## 🛠 Tecnologias
-<br /> 
-<p align="center">    
-<img alt="License MIT" src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
-<img alt=".NET" src="https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white"/> 
-<img alt="angular" src="https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white"/> 
-<img alt="bootstrap" src="https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white"/> 
-<img alt="NPM" src="https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white"/> 
-<img alt="node js" src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white"/> 
-<img alt="node js" src="https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white"/> 
-<img alt="Visual Code" src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white"/> 
-<img alt="Visual Studio" src="https://img.shields.io/badge/Visual%20Studio-5C2D91.svg?style=for-the-badge&logo=visual-studio&logoColor=white"/> 
-<img alt="C #" src="https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white"/> 
-<img alt="typescript" src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white"/> 
-<img alt="docker" src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white"/> 
-<img alt="mysql" src="https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white"/> 
-<img alt="Microsoft SQL Server" src="https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white"/> 
-<img alt="Azure DevOps" src="https://img.shields.io/badge/Azure_DevOps-0078D7?style=for-the-badge&logo=azure-devops&logoColor=white"/> 
-<img alt="snyk" src="https://img.shields.io/badge/Snyk-4C4A73?style=for-the-badge&logo=snyk&logoColor=white"/> 
-<img alt="nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/> 
-<img alt="Sonar cloud" src="https://img.shields.io/badge/Sonar%20cloud-F3702A?style=for-the-badge&logo=sonarcloud&logoColor=white"/> 
-<img alt="Sonar cloud" src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white"/> 
-
+<p align="center">
+  <img alt="SmartDigitalPsico" title="#SmartDigitalPsico" src="./assets/banner.jpg" />
 </p>
 
- 
-- .Net Core 8
+<p align="center">
+  <img src="https://sonarcloud.io/api/project_badges/measure?project=lionscorp_smartdigitalpsico&metric=coverage"/>
+  <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge"/>
+</p>
+
+<p align="center"><strong>Atendimento inteligente digital de pacientes de psicologia</strong> — API REST de prontuário e cadastros.</p>
+
+<p align="center">🚧 Em desenvolvimento 🚧</p>
+
+---
+
+## Índice
+
+- [Sobre o projeto](#sobre-o-projeto)
+- [Funcionalidades](#funcionalidades)
+- [Links de publicação](#links-de-publicação)
+- [Build e deploy](#build-e-deploy)
+- [Links do projeto](#links-do-projeto)
+- [Pré-requisitos](#pré-requisitos)
+- [Tecnologias](#tecnologias)
+- [Documentação da API](#documentação-da-api)
+- [Como executar](#como-executar)
+- [Documentação interna](#documentação-interna)
+- [Contribuindo](#contribuindo)
+- [Autor](#autor)
+- [Licença](#licença)
+
+---
+
+## Sobre o projeto
+
+Sistema de cadastro de prontuário de pacientes de psicologia. Este repositório contém o **backend** (`SmartDigitalPsicoAPI`): Web API, serviços, dados, testes, Windows Service e WebJob.
+
+Frontend (dashboard Angular): repositório [`SmartDigitalPsicoUIDashboard`](https://github.com/LeoneRocha/SmartDigitalPsicoUIDashboard) (ou pasta irmã neste monorepo local).
+
+---
+
+## Funcionalidades
+
+**Perfil administrativo**
+
+- [x] Configurações gerais do sistema
+- [x] Especialidade do médico
+- [x] Grupo de funções / autorização
+- [x] Profissão do médico
+- [x] Gêneros
+- [x] Idioma e traduções (backend)
+- [x] Usuários
+- [x] Médicos
+
+**Perfil médico**
+
+- [x] Upload/download de arquivos do médico
+- [x] Cadastro de paciente (arquivos, informações complementares, hospitalização, medicamentos, registro de atendimento)
+
+---
+
+## Links de publicação
+
+### Produção
+
+| Serviço | URL |
+| ------- | --- |
+| Backend (API / Swagger) | https://smartdigitalpsicoapi.azurewebsites.net/ |
+| Frontend (UI — login) | https://smartdigitalpsicoui.azurewebsites.net/authpages/login |
+
+> Ambiente de **homologação/staging não está mais disponível** (API e UI).
+
+Swagger em produção: https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
+
+---
+
+## Build e deploy
+
+### Backend (API)
+
+| Ambiente | Status pacote | Quality Gate | Vulnerabilidades | Publicação |
+| -------- | ------------- | ------------ | ---------------- | ---------- |
+| Produção | [![Build status](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_apis/build/status/Production/CI-Production-SMARTDIGITALPSICO-API)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build/latest?definitionId=21) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lionscorp_smartdigitalpsico&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lionscorp_smartdigitalpsico) | [![Snyk](https://snyk.io/test/github/LeoneRocha/SmartDigitalPsicoAPI/badge.svg)](https://snyk.io/test/github/LeoneRocha/SmartDigitalPsicoAPI) | [![Release](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/6/6)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_release) |
+
+### Frontend (UI)
+
+| Ambiente | Status pacote | Publicação |
+| -------- | ------------- | ---------- |
+| Produção | [![Build status](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_apis/build/status/Production/CI-Production-SMARTDIGITALPSICO-UI)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build/latest?definitionId=30) | [![Release](https://lionscorp.vsrm.visualstudio.com/_apis/public/Release/badge/4f28fc9c-3bc3-4ea2-8eac-62870312ef10/12/12)](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_release) |
+
+---
+
+## Links do projeto
+
+- [Repositório GitHub (API)](https://github.com/LeoneRocha/SmartDigitalPsicoAPI)
+- [Azure DevOps](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO)
+- [Pipelines](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_build)
+- [Releases](https://lionscorp.visualstudio.com/SMARTDIGITALPSICO/_release)
+- [Docker Hub](https://hub.docker.com/u/leonecr)
+- [Azure Portal](https://portal.azure.com)
+- [SonarCloud](https://sonarcloud.io/project/branches_list?id=lionscorp_smartdigitalpsico)
+- [Snyk](https://app.snyk.io/org/leonerocha/projects)
+- [SwaggerHub](https://app.swaggerhub.com/apis/LEOCRLEM/smart-digital_psico_web_api/v1)
+
+---
+
+## Pré-requisitos
+
+- [Git](https://git-scm.com)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) ou [VS Code](https://code.visualstudio.com/)
+- [.NET SDK 8](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [MySQL](https://www.mysql.com/downloads/) e/ou [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads)
+- Para o frontend: [Node.js](https://nodejs.org/) (ver `engines` do UI Dashboard)
+
+---
+
+## Tecnologias
+
+- .NET 8 / ASP.NET Core
 - C#
-- Entity Framework Core
-- MySQL Connector
-- Swagger
-- Node.js
-- Angular 14
-- TypeScript
-- Visual Studio 2022
-- Visual Studio Code
-
-## 📘 Documentação API
-
-<br />
-
-A documentação da API pode ser acessada através do Swagger em : https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
-
-Para geração de classes da api https://editor.swagger.io/ ou https://editor-next.swagger.io/
+- Entity Framework Core (SqlServer e/ou MySQL via Pomelo)
+- JWT (`JwtBearer`)
+- Serilog
+- Swagger / Swashbuckle
+- Docker / Azure App Service
+- Frontend companion: Angular 14 + TypeScript (UI Dashboard)
 
 ---
 
-## ▶️ Como executar o projeto
+## Documentação da API
 
-Este projeto é divido em duas partes:
-1. Backend  
-2. Frontend   
+- Produção: https://smartdigitalpsicoapi.azurewebsites.net/swagger/index.html
+- Local (após `dotnet run`): `https://localhost:53892/swagger` (ver `launchSettings.json`)
+- Geração de clientes: https://editor.swagger.io/
 
 ---
 
-#### 🎲 Rodando o Backend (servidor)
+## Como executar
+
+### Backend (este repositório)
 
 ```bash
+git clone https://github.com/LeoneRocha/SmartDigitalPsicoAPI.git
+cd SmartDigitalPsicoAPI
 
-# Clone este repositório
-$ git clone git@github.com:tgmarinho/README-ecoleta.git
-
+# Ajustar connection strings / secrets em appsettings ou User Secrets
+dotnet restore SmartDigitalPsicoAPI.sln
+dotnet build SmartDigitalPsicoAPI.sln -c Release
+dotnet run --project SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj
 ```
 
-#### 🧭 Rodando a aplicação web (Frontend)
+URLs locais típicas: `https://localhost:53892` e `http://localhost:53893`.
+
+Testes:
 
 ```bash
-# Clone este repositório
-$ git clone git@github.com:tgmarinho/README-ecoleta.git
-
-# A aplicação será aberta na porta:3000 - acesse http://localhost:3000
-
+dotnet test SmartDigitalPsicoAPI.sln -c Release
 ```
 
-## 🦸 Autor
-<br />
-<a href="https://www.linkedin.com/in/leone-costa-rocha-14049722">
- <b>Leone Costa Rocha</b></a>
- <br />
- <br />
- 
-[![Linkedin Badge](https://img.shields.io/badge/-Leone-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/leone-costa-rocha-14049722)](https://www.linkedin.com/in/leone-costa-rocha-14049722) 
+Docker (exemplo):
 
-[![Gmail Badge](https://img.shields.io/badge/-leonecrocha@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:leonecrocha@gmail.com)](mailto:leonecrocha@gmail.com)
+```bash
+docker build -f SmartDigitalPsico.WebAPI/Dockerfile -t smartdigitalpsicoapi .
+docker run -p 8080:80 smartdigitalpsicoapi
+```
 
----
+### Frontend (UI Dashboard)
 
-## 💹 Contribuindo
-Contribuições são sempre bem-vindas. Se você deseja contribuir com o projeto, por favor, abra uma Issue ou um Pull Request.
-
----
-## 💰 Como contribuir
-
-Faça um fork do repositório
-Crie uma branch para a sua feature: git checkout -b minha-feature
-Faça commit das suas mudanças: git commit -m "Adiciona minha feature"
-Faça push para a sua branch: git push origin minha-feature
-Abra um Pull Request
+Clone/abra o projeto `SmartDigitalPsicoUIDashboard`, configure `APIUrl` em `src/environments/` e execute `npm install` + `npm start`.  
+Publicação: https://smartdigitalpsicoui.azurewebsites.net/authpages/login
 
 ---
 
-## 🔑 Licença
+## Documentação interna
 
-Este projeto esta sobe a licença [MIT](./LICENSE).
+Planejamento e migrações em `DOCUMENTACAO/`:
 
-Feito por Leone Costa Rocha [Entre em contato!](https://www.linkedin.com/in/leone-costa-rocha-14049722)
- 
+- `DOCUMENTACAO/API/` — levantamento e plano .NET 8 → 10
+- `DOCUMENTACAO/UpdateDotNet10/` — RFC, plano de ação, relatório
+- `DOCUMENTACAO/GuiaGenericoAtualizacaoPacotes.md`
+
+Anotações técnicas avulsas: pasta `Readme/` (rascunhos; o README oficial é este arquivo).
+
+---
+
+## Contribuindo
+
+1. Fork do repositório  
+2. Branch: `git checkout -b minha-feature`  
+3. Commit e push  
+4. Abra um Pull Request  
+
+Issues e PRs são bem-vindos.
+
+---
+
+## Autor
+
+**Leone Costa Rocha**
+
+[![LinkedIn](https://img.shields.io/badge/-Leone-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/leone-costa-rocha-14049722)
+[![Gmail](https://img.shields.io/badge/-leonecrocha@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white)](mailto:leonecrocha@gmail.com)
+
+---
+
+## Licença
+
+Este projeto está sob a licença [MIT](./LICENSE).
