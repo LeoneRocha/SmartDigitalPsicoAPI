@@ -465,6 +465,11 @@ $RECYCLE.BIN/
 *.editorconfig
 *.json
 *.cache
+# Central Package Management + SDK pin must be tracked (override *.props / *.json)
+!Directory.Packages.props
+!Directory.Build.props
+!Directory.Build.targets
+!global.json
 obj/*
 bin/*
  

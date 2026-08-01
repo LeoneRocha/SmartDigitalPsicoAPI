@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -37,6 +38,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.TableStorageRowKey)
                 .HasMaxLength(40)
                 .IsRequired(false);
+
+            builder.HasData(PatientRecordMockData.GetMock());
         }
     }
 

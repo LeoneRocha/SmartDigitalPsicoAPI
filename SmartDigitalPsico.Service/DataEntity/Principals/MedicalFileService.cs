@@ -17,7 +17,6 @@ using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using Azure;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
-using MySqlX.XDevAPI.Common;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {

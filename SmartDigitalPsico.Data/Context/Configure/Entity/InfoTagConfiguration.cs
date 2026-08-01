@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -26,6 +27,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
 
             builder.HasOne(e => e.Medical).WithMany().HasForeignKey(e => e.MedicalId);
             builder.HasMany(e => e.PatientInfoTags).WithOne();
+
+            builder.HasData(InfoTagMockData.GetMock());
         }
     }
 }

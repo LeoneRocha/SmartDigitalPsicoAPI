@@ -43,12 +43,16 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.FinalSendDate)
                    .IsRequired(false);
 
-            // Relationship   
+            // Relationship: ClientCascade so EF cleans dependents when MedicalCalendar
+            // is deleted in the change tracker. The DB FK is intentionally dropped by
+            // migration DropFkNotificationRecordsMedicalCalendarAllowTruncate — MySQL
+            // forbids TRUNCATE on a parent table that is still referenced by any FK (error 1701),
+            // even with ON DELETE CASCADE. App deletes NotificationRecords before calendars.
             builder.HasOne(e => e.MedicalCalendar)
                 .WithMany()
                 .HasForeignKey(e => e.MedicalCalendarId)
-                .IsRequired(false) 
-                .OnDelete(DeleteBehavior.NoAction);
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
 
             // Indexes (using Fluent API) 

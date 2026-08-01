@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -21,6 +22,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             // Relationship
             builder.HasOne(e => e.InfoTag).WithMany(p => p.PatientInfoTags).HasForeignKey(e => e.InfoTagId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(e => e.Patient).WithMany(p => p.PatientInfoTags).HasForeignKey(e => e.PatientId).OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasData(PatientInfoTagMockData.GetMock());
         }
     }
 }
