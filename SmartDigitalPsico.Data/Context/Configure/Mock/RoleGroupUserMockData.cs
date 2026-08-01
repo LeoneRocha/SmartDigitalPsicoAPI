@@ -12,8 +12,15 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 UserId = 1,
             };
 
+            var userMedical = new RoleGroupUser
+            {
+                RoleGroupId = 2,
+                UserId = 2,
+            };
+
             return [
-                userAdmin
+                userAdmin,
+                userMedical
             ];
         }
 

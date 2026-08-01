@@ -7,8 +7,17 @@
     <UserSecretsId>2635b1f2-66d1-4197-bb29-908740cba17d</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-    <AssemblyVersion>2025.06.08.01</AssemblyVersion>
-    <FileVersion>2025.06.08.01</FileVersion>
+    <!-- Versão automática no build: yyyy.M.d.HHmm (UTC). Override: -p:AssemblyVersion=2026.8.1.1 -->
+    <VersionYear Condition="'$(VersionYear)' == ''">$([System.DateTime]::UtcNow.ToString(yyyy))</VersionYear>
+    <VersionMonth Condition="'$(VersionMonth)' == ''">$([System.DateTime]::UtcNow.Month)</VersionMonth>
+    <VersionDay Condition="'$(VersionDay)' == ''">$([System.DateTime]::UtcNow.Day)</VersionDay>
+    <VersionRevision Condition="'$(VersionRevision)' == ''">$([System.Convert]::ToInt32($([System.DateTime]::UtcNow.ToString(HHmm))))</VersionRevision>
+    <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">$(VersionYear).$(VersionMonth).$(VersionDay).$(VersionRevision)</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+    <Version>$(AssemblyVersion)</Version>
+    <!-- Permite AssemblyVersion diferente a cada build baseado em horário -->
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +30,7 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Identity" />
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">

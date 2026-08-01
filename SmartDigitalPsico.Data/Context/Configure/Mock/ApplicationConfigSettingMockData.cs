@@ -1,6 +1,5 @@
 ﻿using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
@@ -14,9 +13,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                   Id = 1,
                   Description = "Default",
                   Language = CultureConstants.LanguagePTBR,
-                  CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                  ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                  LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
+                  CreatedDate = MockSeedDates.SeedUtc,
+                  ModifyDate = MockSeedDates.SeedUtc,
+                  LastAccessDate = MockSeedDates.SeedUtc,
                   TypeLocationCache = ETypeLocationCache.Memory,
                   TypeLocationSaveFiles = ETypeLocationSaveFiles.DataBase,
                   TypeLocationQueeMessaging = ETypeLocationQueeMessaging.MongoDB,

@@ -3,11 +3,13 @@
 **Documento:** RFC + prompt operacional para IA/agente  
 **Solução:** `SmartDigitalPsicoAPI/SmartDigitalPsicoAPI.sln`  
 **Data:** 2026-07-31  
-**Status:** Planejado (não executado)  
+**Status:** CONCLUÍDO (2026-08-01) — ver `RelatorioMigracaoDotNet10.md`  
 **Planos oficiais:**  
 - `DOCUMENTACAO/UpdateDotNet10/PlanoAcaoMigracaoDotNet10.md`  
 - `DOCUMENTACAO/API/2026-07-LevantamentoConjuntoHomologado-SmartDigitalPsicoAPI.md`  
 - `DOCUMENTACAO/API/PlanoImplementacaoMigracaoDotNet10-SmartDigitalPsicoAPI.md`
+
+> RFC histórico. Destino aplicado: **.NET 10** (`net10.0`), SDK `10.0.301`.
 
 ---
 

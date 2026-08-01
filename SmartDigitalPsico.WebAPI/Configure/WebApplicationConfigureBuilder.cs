@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Rewrite;
+﻿using System.Diagnostics;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Serilog;
+using Serilog.Context;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
@@ -10,6 +13,8 @@ namespace SmartDigitalPsico.WebAPI.Configure
 {
     public static class WebApplicationConfigureBuilder
     {
+        private const string ApplicationInsightsConnectionStringEnv = "APPLICATIONINSIGHTS_CONNECTION_STRING";
+
         public static (WebApplicationBuilder, Serilog.Core.Logger?) CreateHostBuilder(string[] args)
         {
             Serilog.Core.Logger? _logger;
@@ -19,50 +24,58 @@ namespace SmartDigitalPsico.WebAPI.Configure
                 .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
+            LogAppHelper.Set_ASPNETCORE_ENVIRONMENT(builder.Configuration);
+
             _logger = LogAppHelper.CreateLogger(builder.Configuration);
+            Log.Logger = _logger;
 
             //Service Collections.
             WebApplicationConfigureServiceCollections.Configure(builder.Services, builder.Configuration, _logger);
 
-            builder.Host.UseSerilog();
+            // Bridge MEL → Serilog (aparecem no Console/File e, se habilitado, no Azure Monitor)
+            builder.Host.UseSerilog(_logger, dispose: false);
+
+            AddAzureMonitorOpenTelemetry(builder);
+
             return (builder, _logger);
         }
 
         public static void BuildAndRunAPP(WebApplicationBuilder builder, Serilog.Core.Logger? _logger)
         {
-            if (_logger != null)
+            if (_logger == null)
             {
-                try
-                { 
-                    var app = builder.Build();
+                return;
+            }
 
-                    //Application Builder
-                    Configure(app, builder.Environment, builder.Configuration);
+            try
+            {
+                var app = builder.Build();
 
-                    LogAppHelper.PrintLogInformationVersionProduct(_logger);
+                Configure(app, builder.Environment, builder.Configuration);
 
-                    _logger.Information("Web API Loading at: {time}", DateHelper.GetDateTimeNowToLog());
-                    app.Run();
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex, "Web API Error Loading at: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
-                }
+                LogAppHelper.PrintLogInformationVersionProduct(_logger);
+
+                _logger.Information("Web API Loading at: {time}", DateHelper.GetDateTimeNowToLog());
+                app.Run();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Web API Error Loading at: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                throw;
             }
         }
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
         {
-            // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            // Migrate latest database changes during startup
+
             addAutoMigrate(app);
 
             app.UseHttpsRedirection();
-              
+
             string diretorioTemp = DirectoryHelper.GetDiretoryTemp(configuration);
 
             app.UseStaticFiles(new StaticFileOptions()
@@ -73,10 +86,38 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             app.UseRouting();
 
+            // Correlation TraceId/SpanId em cada request (logs + Azure traces)
+            app.Use(async (context, next) =>
+            {
+                var activity = Activity.Current;
+                using (LogContext.PushProperty("TraceId", activity?.TraceId.ToString() ?? context.TraceIdentifier))
+                using (LogContext.PushProperty("SpanId", activity?.SpanId.ToString() ?? string.Empty))
+                {
+                    await next();
+                }
+            });
+
+            app.UseSerilogRequestLogging(options =>
+            {
+                options.MessageTemplate =
+                    "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+                options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+                {
+                    diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+                    diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+                    diagnosticContext.Set("UserAgent", httpContext.Request.Headers.UserAgent.ToString());
+                };
+            });
+
             app.UseCors();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartDigitalPsico.WebAPI v1"));
+            app.UseSwaggerUI(c =>
+            {
+                var assemblyVersion = LogAppHelper.GetAssemblyVersion();
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"SmartDigitalPsico.WebAPI {assemblyVersion}");
+                c.DocumentTitle = $"SmartDigitalPsico.WebAPI {assemblyVersion}";
+            });
 
             var option = new RewriteOptions();
             option.AddRedirect("^$", "swagger");
@@ -90,20 +131,41 @@ namespace SmartDigitalPsico.WebAPI.Configure
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //HyperMedia
                 endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
             });
 
             addCustomMiddleware(app);
         }
 
+        private static void AddAzureMonitorOpenTelemetry(WebApplicationBuilder builder)
+        {
+            var connectionString =
+                builder.Configuration[ApplicationInsightsConnectionStringEnv]
+                ?? Environment.GetEnvironmentVariable(ApplicationInsightsConnectionStringEnv);
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                Log.Information(
+                    "Azure Monitor OpenTelemetry disabled: set {EnvVar} to enable Application Insights traces/logs.",
+                    ApplicationInsightsConnectionStringEnv);
+                return;
+            }
+
+            builder.Services.AddOpenTelemetry().UseAzureMonitor(options =>
+            {
+                options.ConnectionString = connectionString;
+            });
+
+            Log.Information("Azure Monitor OpenTelemetry enabled (Application Insights).");
+        }
+
         private static void addCustomMiddleware(IApplicationBuilder app)
         {
-            app.UseMiddleware<RequestCultureMiddleware>(); 
+            app.UseMiddleware<RequestCultureMiddleware>();
         }
+
         private static void addAutoMigrate(IApplicationBuilder app)
         {
-            // Migrate latest database changes during startup
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 using (var context = serviceScope.ServiceProvider.GetService<IEntityDataContext>())

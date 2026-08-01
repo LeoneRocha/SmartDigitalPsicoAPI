@@ -429,20 +429,45 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             List<GetRoleGroupDto> result = new List<GetRoleGroupDto>();
 
-            foreach (var item in entityResponse.UserRoleGroups.Select(x => x.RoleGroup))
+            var roleGroups = entityResponse.UserRoleGroups?
+                .Select(x => x.RoleGroup)
+                .Where(item => item != null) ?? Enumerable.Empty<RoleGroup>();
+
+            foreach (var item in roleGroups)
             {
-                if (item != null)
+                result.Add(new GetRoleGroupDto()
                 {
-                    result.Add(new GetRoleGroupDto()
-                    {
-                        RolePolicyClaimCode = item.RolePolicyClaimCode,
-                        Description = item.Description,
-                        Id = item.Id,
-                        Enable = item.Enable,
-                        Language = item.Language,
-                    });
-                }
+                    RolePolicyClaimCode = item!.RolePolicyClaimCode,
+                    Description = item.Description,
+                    Id = item.Id,
+                    Enable = item.Enable,
+                    Language = item.Language,
+                });
             }
+
+            // Fallback when RoleGroupUser link is missing (e.g. incomplete seed)
+            if (result.Count == 0 && !string.IsNullOrWhiteSpace(entityResponse.Role))
+            {
+                result.Add(new GetRoleGroupDto
+                {
+                    RolePolicyClaimCode = entityResponse.Role,
+                    Description = entityResponse.Role,
+                    Enable = true,
+                    Language = entityResponse.Language ?? string.Empty
+                });
+            }
+
+            if (entityResponse.Admin && !result.Exists(r => r.RolePolicyClaimCode == "Admin"))
+            {
+                result.Add(new GetRoleGroupDto
+                {
+                    RolePolicyClaimCode = "Admin",
+                    Description = "Administrador",
+                    Enable = true,
+                    Language = entityResponse.Language ?? string.Empty
+                });
+            }
+
             return result;
         }
         private async Task SendEmailCreateAcessAsync(AddUserDto user, string accessUrl)

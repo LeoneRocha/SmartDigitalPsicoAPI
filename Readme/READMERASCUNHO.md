@@ -20,4 +20,6 @@ dotnet restore SmartDigitalPsicoAPI.sln
 dotnet run --project SmartDigitalPsico.WebAPI/SmartDigitalPsico.WebAPI.csproj
 ```
 
-Stack atual do backend: **.NET 8**, EF Core, MySQL e/ou SQL Server, Swagger, JWT.
+Stack atual do backend: **.NET 10**, EF Core 9 (Pomelo MySQL e/ou SqlServer), Swagger, JWT.  
+Frontend companion: Angular **22** (UI Dashboard).  
+Documentação oficial: [`../README.md`](../README.md).

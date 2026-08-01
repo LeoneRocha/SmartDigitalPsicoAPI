@@ -23,11 +23,11 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.GoogleRefreshToken).HasMaxLength(255).HasColumnType("varchar(255)");
             builder.Property(e => e.GoogleTokenExpiry).HasColumnType("datetime");
 
-            // Relationship
+            // Relationship (WithMany na coleção evita FK sombra MedicalId1)
             builder.HasOne(e => e.Medical)
-                   .WithMany()
+                   .WithMany(m => m.MedicalSettings)
                    .HasForeignKey(e => e.MedicalId)
-                   .OnDelete(DeleteBehavior.Cascade);  // Cascade delete when Medical is deleted
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

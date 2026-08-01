@@ -1,6 +1,5 @@
 ﻿using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
@@ -27,9 +26,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                     Body = "<p>Seu acesso foi concedido com sucesso.</p>",
                     TagApi = EmailTemplateTagConstants.LoginReleaseEmail,
                     NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                    ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                    LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                    CreatedDate = MockSeedDates.SeedUtc,
+                    ModifyDate = MockSeedDates.SeedUtc,
+                    LastAccessDate = MockSeedDates.SeedUtc
                 },
                 new NotificationTemplate
                 {
@@ -41,9 +40,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                     Body = "<p>Seus dados da conta foram atualizados com sucesso.</p>",
                     TagApi = EmailTemplateTagConstants.AccountChangeSuccess,
                     NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                    ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                    LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                    CreatedDate = MockSeedDates.SeedUtc,
+                    ModifyDate = MockSeedDates.SeedUtc,
+                    LastAccessDate = MockSeedDates.SeedUtc
                 },
                 new NotificationTemplate
                 {
@@ -55,9 +54,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                     Body = "<p>Sua consulta foi agendada com sucesso.</p>",
                     TagApi = EmailTemplateTagConstants.AppointmentScheduledSuccess,
                     NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                    ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                    LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                    CreatedDate = MockSeedDates.SeedUtc,
+                    ModifyDate = MockSeedDates.SeedUtc,
+                    LastAccessDate = MockSeedDates.SeedUtc
                 },
                 new NotificationTemplate
                 {
@@ -69,9 +68,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                     Body = "<p>Sua consulta foi remarcada com sucesso.</p>",
                     TagApi = EmailTemplateTagConstants.AppointmentRescheduled,
                     NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                    ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                    LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                    CreatedDate = MockSeedDates.SeedUtc,
+                    ModifyDate = MockSeedDates.SeedUtc,
+                    LastAccessDate = MockSeedDates.SeedUtc
                 },
                 new NotificationTemplate
                 {
@@ -83,9 +82,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                     Body = "<p>Sua consulta foi cancelada.</p>",
                     TagApi = EmailTemplateTagConstants.AppointmentCancelled,
                     NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                    ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                    LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                    CreatedDate = MockSeedDates.SeedUtc,
+                    ModifyDate = MockSeedDates.SeedUtc,
+                    LastAccessDate = MockSeedDates.SeedUtc
                 },
                 new NotificationTemplate
                 {
@@ -97,9 +96,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                     Body = "<p>Seus dados médicos foram atualizados com sucesso.</p>",
                     TagApi = EmailTemplateTagConstants.MedicalUpdateEmail,
                     NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                    ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                    LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                    CreatedDate = MockSeedDates.SeedUtc,
+                    ModifyDate = MockSeedDates.SeedUtc,
+                    LastAccessDate = MockSeedDates.SeedUtc
                 },
                 new NotificationTemplate
                 {
@@ -111,9 +110,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                     Body = "<p>Este é um lembrete para sua consulta agendada.</p>",
                     TagApi = EmailTemplateTagConstants.NotificationDispatch,
                     NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
-                    ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
-                    LastAccessDate = DateHelper.GetDateTimeNowFromUtc()
+                    CreatedDate = MockSeedDates.SeedUtc,
+                    ModifyDate = MockSeedDates.SeedUtc,
+                    LastAccessDate = MockSeedDates.SeedUtc
                 }
             };
         }

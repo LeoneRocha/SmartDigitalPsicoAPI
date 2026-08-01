@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartDigitalPsico.Data.Context;
 
@@ -11,9 +12,11 @@ using SmartDigitalPsico.Data.Context;
 namespace SmartDigitalPsico.Data.Migrations.MySql
 {
     [DbContext(typeof(SmartDigitalPsicoDataContextMySql))]
-    partial class SmartDigitalPsicoDataContextMySqlModelSnapshot : ModelSnapshot
+    [Migration("20260801195732_SeedPatientHelenaNogueira")]
+    partial class SeedPatientHelenaNogueira
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1630,6 +1633,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Property<long>("MedicalId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("MedicalId1")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("ModifyDate")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("ModifyDate");
@@ -1637,6 +1643,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.HasKey("Id");
 
                     b.HasIndex("MedicalId");
+
+                    b.HasIndex("MedicalId1");
 
                     b.ToTable("MedicalSettings", "dbo");
 
@@ -5919,10 +5927,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
             modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalSettings", b =>
                 {
                     b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
-                        .WithMany("MedicalSettings")
+                        .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", null)
+                        .WithMany("MedicalSettings")
+                        .HasForeignKey("MedicalId1");
 
                     b.Navigation("Medical");
                 });

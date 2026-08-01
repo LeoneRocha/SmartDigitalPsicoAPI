@@ -26,6 +26,7 @@
 - [Tecnologias](#tecnologias)
 - [Documentação da API](#documentação-da-api)
 - [Como executar](#como-executar)
+- [Atualização de stack](#atualização-de-stack)
 - [Documentação interna](#documentação-interna)
 - [Contribuindo](#contribuindo)
 - [Autor](#autor)
@@ -109,23 +110,23 @@ Swagger em produção: https://smartdigitalpsicoapi.azurewebsites.net/swagger/in
 ## Pré-requisitos
 
 - [Git](https://git-scm.com)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) ou [VS Code](https://code.visualstudio.com/)
-- [.NET SDK 10](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) ou [VS Code](https://code.visualstudio.com/) / Cursor
+- [.NET SDK 10](https://dotnet.microsoft.com/download/dotnet/10.0) — pin em `global.json` (`10.0.301`, `rollForward: latestFeature`)
 - [MySQL](https://www.mysql.com/downloads/) e/ou [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads)
-- Para o frontend: [Node.js](https://nodejs.org/) (ver `engines` do UI Dashboard)
+- Para o frontend: [Node.js](https://nodejs.org/) `^22.22.3 || ^24.15.0 || ^26.0.0` (ver `engines` do UI Dashboard)
 
 ---
 
 ## Tecnologias
 
-- .NET 10 / ASP.NET Core
+- .NET 10 / ASP.NET Core (`net10.0`; CPM em `Directory.Packages.props`)
 - C#
-- Entity Framework Core (SqlServer e/ou MySQL via Pomelo)
+- Entity Framework Core 9 (SqlServer e/ou MySQL via Pomelo 9)
 - JWT (`JwtBearer`)
-- Serilog
-- Swagger / Swashbuckle
+- Serilog (+ Azure Monitor OpenTelemetry quando configurado)
+- Swagger / Swashbuckle 10
 - Docker / Azure App Service
-- Frontend companion: Angular 14 + TypeScript (UI Dashboard)
+- Frontend companion: Angular **22** + TypeScript **6** (UI Dashboard)
 
 ---
 
@@ -168,8 +169,26 @@ docker run -p 8080:80 smartdigitalpsicoapi
 
 ### Frontend (UI Dashboard)
 
-Clone/abra o projeto `SmartDigitalPsicoUIDashboard`, configure `APIUrl` em `src/environments/` e execute `npm install` + `npm start`.  
-Publicação: https://smartdigitalpsicoui.azurewebsites.net/authpages/login
+Clone/abra o projeto `SmartDigitalPsicoUIDashboard`, configure `APIUrl` em `src/environments/` e execute:
+
+```bash
+npm install --legacy-peer-deps
+npm start
+```
+
+Publicação: https://smartdigitalpsicoui.azurewebsites.net/authpages/login  
+Detalhes: [README do UI Dashboard](https://github.com/LeoneRocha/SmartDigitalPsicoUIDashboard/blob/main/README.md)
+
+---
+
+## Atualização de stack
+
+| Componente | De | Para | Status |
+| ---------- | -- | ---- | ------ |
+| API (.NET SDK / TFM) | .NET 8 (`net8.0`) | .NET **10** (`net10.0`, SDK `10.0.301`) | Concluído (2026-08-01) |
+| UI (Angular) | 14 → 21 → | Angular **22.1.x** (Node ≥ 22.22.3, TS ~6) | Concluído (2026-08-01) |
+
+Relatórios: `DOCUMENTACAO/UpdateDotNet10/RelatorioMigracaoDotNet10.md` (API) e, no repositório UI, `DOCUMENTACAO/UI/RelatorioAtualizacaoAngular-SmartDigitalPsicoUIDashboard.md`.
 
 ---
 
@@ -177,9 +196,16 @@ Publicação: https://smartdigitalpsicoui.azurewebsites.net/authpages/login
 
 Planejamento e migrações em `DOCUMENTACAO/`:
 
-- `DOCUMENTACAO/API/` — levantamento e plano .NET 8 → 10
-- `DOCUMENTACAO/UpdateDotNet10/` — RFC, plano de ação, relatório
-- `DOCUMENTACAO/GuiaGenericoAtualizacaoPacotes.md`
+| Documento | Conteúdo |
+| --------- | -------- |
+| `DOCUMENTACAO/UpdateDotNet10/RelatorioMigracaoDotNet10.md` | Relatório da migração **.NET 8 → 10** (concluída) |
+| `DOCUMENTACAO/UpdateDotNet10/PlanoAcaoMigracaoDotNet10.md` | Plano de ação (executado) |
+| `DOCUMENTACAO/API/PlanoImplementacaoMigracaoDotNet10-SmartDigitalPsicoAPI.md` | Checklist operacional |
+| `DOCUMENTACAO/API/2026-07-LevantamentoConjuntoHomologado-SmartDigitalPsicoAPI.md` | Conjunto Homologado v1 (NuGet) |
+| `DOCUMENTACAO/API/ComandosBasicosMigrationsEF-SmartDigitalPsicoAPI.md` | Comandos EF (MySQL/SqlServer) |
+| `DOCUMENTACAO/GuiaGenericoAtualizacaoPacotes.md` | Processo genérico de atualização de pacotes |
+
+Atualização Angular (frontend): ver `SmartDigitalPsicoUIDashboard/DOCUMENTACAO/UI/RelatorioAtualizacaoAngular-SmartDigitalPsicoUIDashboard.md`.
 
 Anotações técnicas avulsas: pasta `Readme/` (rascunhos; o README oficial é este arquivo).
 
