@@ -4,7 +4,7 @@
 **Solução:** `SmartDigitalPsicoAPI/SmartDigitalPsicoAPI.sln`  
 **Baseado em:** `RascunhoPlanoUpdateDotNet10.md`, `DOCUMENTACAO/GuiaGenericoAtualizacaoPacotes.md` e inventário em `DOCUMENTACAO/API/2026-07-LevantamentoConjuntoHomologado-SmartDigitalPsicoAPI.md`  
 **Data:** 2026-07-31  
-**Status:** Planejado (não executado)
+**Status:** Executado (2026-08-01) — ver `RelatorioMigracaoDotNet10.md`
 
 ---
 

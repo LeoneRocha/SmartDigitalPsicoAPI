@@ -1,5 +1,4 @@
 using Azure;
-using MySqlX.XDevAPI.Common;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;

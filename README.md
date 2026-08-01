@@ -110,7 +110,7 @@ Swagger em produção: https://smartdigitalpsicoapi.azurewebsites.net/swagger/in
 
 - [Git](https://git-scm.com)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/) ou [VS Code](https://code.visualstudio.com/)
-- [.NET SDK 8](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [.NET SDK 10](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [MySQL](https://www.mysql.com/downloads/) e/ou [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads)
 - Para o frontend: [Node.js](https://nodejs.org/) (ver `engines` do UI Dashboard)
 
@@ -118,7 +118,7 @@ Swagger em produção: https://smartdigitalpsicoapi.azurewebsites.net/swagger/in
 
 ## Tecnologias
 
-- .NET 8 / ASP.NET Core
+- .NET 10 / ASP.NET Core
 - C#
 - Entity Framework Core (SqlServer e/ou MySQL via Pomelo)
 - JWT (`JwtBearer`)
