@@ -34,6 +34,8 @@ namespace SmartDigitalPsico.Domain.Helpers
             return new LoggerConfiguration()
                       .ReadFrom.Configuration(configuration)
                       .Enrich.FromLogContext()
+                      .Enrich.WithProperty("Application", "SmartDigitalPsico.WebAPI")
+                      .Enrich.WithProperty("MachineName", Environment.MachineName)
                       .CreateLogger();
         }
 
