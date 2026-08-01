@@ -10,11 +10,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A08F06B5-C5FF-4B7B-BFB2-2A98146629FB}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
+		Readme\AnotacoesReferencia.txt = Readme\AnotacoesReferencia.txt
 		certificate.pfx = certificate.pfx
 		SmartDigitalPsico.WebAPI\Dockerfile = SmartDigitalPsico.WebAPI\Dockerfile
+		Readme\CRONOGRAMA_PENDENCIAS.txt = Readme\CRONOGRAMA_PENDENCIAS.txt
 		Readme\ETAPAS PARA CRIAR NOVO ENPOINT.txt = Readme\ETAPAS PARA CRIAR NOVO ENPOINT.txt
-		Readme\ETAPAS.txt = Readme\ETAPAS.txt
-		Readme\MELHORIAS 2025.txt = Readme\MELHORIAS 2025.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.Service", "SmartDigitalPsico.Service\SmartDigitalPsico.Service.csproj", "{586687A9-BC7E-426E-A68D-106CCCAF5B14}"
@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.Domain.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.WindowsService", "SmartDigitalPsico.WindowsService\SmartDigitalPsico.WindowsService.csproj", "{57D59947-BF3D-4023-B644-5AD006A60EAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.WebJob", "SmartDigitalPsico.WebJob\SmartDigitalPsico.WebJob.csproj", "{AD9C60FA-CD50-4536-89D0-35905EEFDD52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDigitalPsico.WebJob", "SmartDigitalPsico.WebJob\SmartDigitalPsico.WebJob.csproj", "{AD9C60FA-CD50-4536-89D0-35905EEFDD52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

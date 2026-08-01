@@ -1,18 +1,11 @@
 ﻿ 
 **************** 
-  
-
 ----------------------------------- ARRUMAR ERRO AO SALVAR CALENDARIO RECORRERNT 
-
 ----------------------------------- AO PROCESSAR PARECE QUE TA INDO SO 1 NOTIFICACAO E MELHORAR O LOG PARA ENDER REALMENTE QUANTOS FORAM ENCONTRADOS PARA NOTIFICAR 
-
 
 -- ARrumar na pipe de build para zipar os projetos separados  do web job e windows service  - FEITO 
 --- CRIAR UM DEPLOY PARA WEBJOB e da API 
 -- STAGING e PRODUCTION 
-
-
-
 
 ----------------------------------------------------
 https://github.com/LeoneRocha/SmartDigitalPsicoAPI/tree/developer
@@ -27,47 +20,7 @@ mock123adm
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
------------- 2 Criar processo de feriados por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  ter um pre-gerar feriados por ia ou service.
-Medical Id 
-Enable 
-Datas (padrao)
-Descricao
-DataFeriado
-
------------ 3 Validar ao salvar se nao esta em feriado e nao gerar dias de feriado responder como indisponivel se feriado for ativo 
-
-------------4 Criar processo de configurar notificacoes por medico. todo REPPOSITORIO SERVICE E CONTROLER E TELA  (Regras de notificacao) RuleNotificationMedical
-Medical Id 
-Enable 
-Datas (padrao)
-Descricao
-Tipo de intervalo (minutos, hora, dia , meses , ano)
-Tempo de intervalo (int 999) + e - 
-Tipos de envios  (array email, sms , whatsapp)
-
-------------5 Criar processo de gerar notificacao (Notificacao calendar) quando salvar "inicialente buscar nas regras ativas e gerar 1 registro para cada regra"
-Campos: 
-Medical Id 
-Patiente Id
-Data Hora Enviar Notificacao 
-Tipos Envios (array email, sms , whatsapp)
-Data De envio da notificao 
-FoiENviado (bool)
-RuleNotificationMedical ? 
-
--------------------------6 COM ISSO CRIAR UM JOB (WEBJOB,SERVICE, API para chamar por um azurefunction)  QUE BUSCA TODAS NOTIFICACOES E VERIFICA a regra 
-
-
-
-
-
-
-
-
-
-
 ------------------ ======================================== PENDENCIAS ATUAL  ========================================  ------------------
-
 
 --- PENDENTE
  
@@ -932,3 +885,21 @@ Seguindo a estrutura json  abaixo de i18n para angular 2+ typescript , gere o re
 
 
 Com base no Exemplo  CalendarCriteriaValidator ajuste o  MedicalCalendarListValidatorpara eu siga o padrao KEY|Message  se a menssagem tiver variaveis dinamica KEY|Message|Valor1|Valor1
+
+
+
+
+ #region Methods
+        public List<T> GetScheduleItems<T>()
+        {
+            if (string.IsNullOrEmpty(ScheduleData))
+                return new List<T>();
+                
+            return JsonSerializer.Deserialize<List<T>>(ScheduleData) ?? new List<T>();
+        }
+
+        public void SetScheduleItems<T>(List<T> items)
+        {
+            ScheduleData = JsonSerializer.Serialize(items);
+        }
+        #endregion Methods

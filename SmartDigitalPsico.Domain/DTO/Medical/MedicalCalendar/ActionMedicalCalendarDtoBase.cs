@@ -33,6 +33,8 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
         public ERecurrenceCalendarType RecurrenceType { get; set; }
         public DateTime? RecurrenceEndDate { get; set; }
         public short RecurrenceCount { get; set; }
+        public bool UpdateSeries { get; set; }
+        public string TokenRecurrence { get; set; } = string.Empty;
         #endregion Columns  
     }
 }

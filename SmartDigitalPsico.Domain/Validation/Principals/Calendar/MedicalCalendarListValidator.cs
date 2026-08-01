@@ -3,8 +3,8 @@ using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Domain.Validation.SystemDomains
-{ 
+namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
+{
     public class MedicalCalendarListValidator : AbstractValidator<RecordsList<MedicalCalendar>>
     {
         private readonly IUserRepository _userRepository;
@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
                 bool userHasPermission = recordsList.Records.TrueForAll(rg =>
                 rg.CreatedUserId == userIdLogged
-                &&  rg.MedicalId == userLogged.MedicalId
+                && rg.MedicalId == userLogged.MedicalId
                 );
                 return userHasPermission;
             }
@@ -37,5 +37,5 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 return false;
             }
         }
-    } 
+    }
 }

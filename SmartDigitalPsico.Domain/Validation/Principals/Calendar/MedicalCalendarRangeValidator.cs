@@ -2,7 +2,7 @@
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Domain.Validation.SystemDomains
+namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
 {
     public class MedicalCalendarRangeValidator : AbstractValidator<MedicalCalendar>
     {
@@ -31,6 +31,6 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                                                c.StartDateTime < calendar.EndDateTime &&
                                                c.EndDateTime > calendar.StartDateTime);
             return !existsDates;
-        } 
-    } 
+        }
+    }
 }

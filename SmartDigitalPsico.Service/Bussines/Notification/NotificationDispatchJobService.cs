@@ -8,6 +8,7 @@ using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 
 namespace SmartDigitalPsico.Service.Bussines.Notification
 {
@@ -31,6 +32,10 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
 
         public async Task ProcessPendingNotificationsAsync()
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Reset();
+            stopwatch.Start();
+
             LogInformation(NotificationDispatchConstants.StartingProcessing);
             var pendingRecords = await _notificationRecordsService.GetPendingNotificationsAsync();
             var currentUtc = DateHelper.GetDateTimeNowFromUtc();
@@ -60,6 +65,9 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             await UpdateRecordsSended(updatedRecords);
 
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, processedCount);
+             
+            stopwatch.Stop();
+            _logger.Information("NotificationDispatchJobService - ProcessPendingNotificationsAsync : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
         }
 
         private async Task UpdateRecordsSended(ConcurrentBag<NotificationRecord> updatedRecords)
