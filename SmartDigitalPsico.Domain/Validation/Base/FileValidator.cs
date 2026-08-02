@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
@@ -18,18 +18,24 @@ namespace SmartDigitalPsico.Domain.Validation.Base
 
             RuleFor(file => file.FileSizeKB)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.FileValidator.FileBase.FileSizeKB.NotNull")
+                .WithMessage("FileSizeKB_Validator_IsRequired_Key|File size is required.")
                 .LessThanOrEqualTo(_maxFileSize)
                 .WithErrorCode("SmartDigitalPsico.FileValidator.FileBase.FileSizeKB.LessThanOrEqualTo")
                 .WithMessage($"FileSizeKB_Validator_MaxSize_Key|The file size cannot exceed {0} MB.|{ConvertBytesToMegabytes(_maxFileSize)}");
 
             RuleFor(file => file.FileExtension)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.FileValidator.FileBase.FileExtension.NotNull")
+                .WithMessage("FileExtension_Validator_IsRequired_Key|File extension is required.")
                 .Must(HavePermittedExtension)
                 .WithErrorCode("SmartDigitalPsico.FileValidator.FileBase.FileExtension.Must")
                 .WithMessage("FileExtension_Validator_NotAllowed_Key|File type not permitted.");
 
             RuleFor(file => file.FileContentType)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.FileValidator.FileBase.FileContentType.NotNull")
+                .WithMessage("FileContentType_Validator_IsRequired_Key|File content type is required.")
                 .Must(HavePermittedContentType)
                 .WithErrorCode("SmartDigitalPsico.FileValidator.FileBase.FileContentType.Must")
                 .WithMessage("FileContentType_Validator_NotAllowed_Key|File content type not permitted.");

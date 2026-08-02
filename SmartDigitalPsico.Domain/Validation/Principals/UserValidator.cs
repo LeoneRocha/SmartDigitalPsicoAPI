@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -14,12 +14,18 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
 
 
             RuleFor(entity => entity.Name)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.UserValidator.User.Name.NotNull")
+                .WithMessage("Name_Validator_IsRequired_Key|Name is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.UserValidator.User.Name.NotEmpty")
                 .WithMessage("Name_Validator_IsRequired_Key|Name is required.");
 
             RuleFor(entity => entity.Login)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.UserValidator.User.Login.NotNull")
+                .WithMessage("Login_Validator_IsRequired_Key|Login is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.UserValidator.User.Login.NotEmpty")
                 .WithMessage("Login_Validator_IsRequired_Key|Login is required.")
                 .MaximumLength(25)
@@ -30,7 +36,10 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
                 .WithMessage("Login_Validator_Unique_Key|Login must be unique.");
 
             RuleFor(entity => entity.Email)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.UserValidator.User.Email.NotNull")
+                .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.UserValidator.User.Email.NotEmpty")
                 .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
                 .EmailAddress()

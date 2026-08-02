@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Base;
@@ -15,7 +15,10 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             #region Columns
 
             RuleFor(entity => entity.Description)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientHospitalizationInformationValidator.PatientHospitalizationInformation.Description.NotNull")
+                .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientHospitalizationInformationValidator.PatientHospitalizationInformation.Description.NotEmpty")
                 .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
                 .MaximumLength(255)
@@ -28,7 +31,10 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 .WithMessage("StartDate_Validator_IsRequired_Key|StartDate is required.");
 
             RuleFor(entity => entity.CID)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientHospitalizationInformationValidator.PatientHospitalizationInformation.CID.NotNull")
+                .WithMessage("CID_Validator_IsRequired_Key|CID is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientHospitalizationInformationValidator.PatientHospitalizationInformation.CID.NotEmpty")
                 .WithMessage("CID_Validator_IsRequired_Key|CID is required.")
                 .MaximumLength(20)
@@ -36,7 +42,10 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 .WithMessage("CID_Validator_MaxLength_Key|CID cannot exceed {0} characters.|20");
 
             RuleFor(entity => entity.Observation)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientHospitalizationInformationValidator.PatientHospitalizationInformation.Observation.NotNull")
+                .WithMessage("Observation_Validator_IsRequired_Key|Observation is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientHospitalizationInformationValidator.PatientHospitalizationInformation.Observation.NotEmpty")
                 .WithMessage("Observation_Validator_IsRequired_Key|Observation is required.")
                 .MaximumLength(2000)

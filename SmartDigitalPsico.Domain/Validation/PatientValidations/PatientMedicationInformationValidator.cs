@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Base;
@@ -14,7 +14,10 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             #region Columns
 
             RuleFor(entity => entity.Description)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientMedicationInformationValidator.PatientMedicationInformation.Description.NotNull")
+                .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientMedicationInformationValidator.PatientMedicationInformation.Description.NotEmpty")
                 .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
                 .MaximumLength(255)

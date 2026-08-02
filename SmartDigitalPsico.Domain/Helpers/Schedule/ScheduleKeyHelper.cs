@@ -1,27 +1,50 @@
 namespace SmartDigitalPsico.Domain.Helpers.Schedule
 {
+    /// <summary>
+    /// Generic schedule key utilities for Core engines — no product/tenant defaults.
+    /// Adapters supply TenantKey / OwnerKey / SubjectKey explicitly.
+    /// </summary>
     public static class ScheduleKeyHelper
     {
-        public const string DefaultTenant = "sdp";
-
-        public static string ForMedical(long medicalId) => $"medical:{medicalId}";
-        public static string ForPatient(long patientId) => $"patient:{patientId}";
-        public static string ForTenant(string tenantKey) => string.IsNullOrWhiteSpace(tenantKey) ? DefaultTenant : tenantKey;
-
-        public static bool TryParseMedicalId(string ownerKey, out long medicalId)
+        /// <summary>
+        /// Validates and trims TenantKey. Does not apply any default — caller must provide it.
+        /// </summary>
+        public static string RequireTenant(string? tenantKey)
         {
-            medicalId = 0;
-            if (string.IsNullOrWhiteSpace(ownerKey) || !ownerKey.StartsWith("medical:", StringComparison.OrdinalIgnoreCase))
-                return false;
-            return long.TryParse(ownerKey.AsSpan("medical:".Length), out medicalId);
+            if (string.IsNullOrWhiteSpace(tenantKey))
+                throw new ArgumentException("TenantKey is required.", nameof(tenantKey));
+            return tenantKey.Trim();
         }
 
-        public static bool TryParsePatientId(string subjectKey, out long patientId)
+        public static string Build(string prefix, long id)
         {
-            patientId = 0;
-            if (string.IsNullOrWhiteSpace(subjectKey) || !subjectKey.StartsWith("patient:", StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrWhiteSpace(prefix))
+                throw new ArgumentException("Prefix is required.", nameof(prefix));
+            return $"{prefix}{id}";
+        }
+
+        public static bool TryParse(string? key, string prefix, out long id)
+        {
+            id = 0;
+            if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(prefix))
                 return false;
-            return long.TryParse(subjectKey.AsSpan("patient:".Length), out patientId);
+            if (!key.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                return false;
+            return long.TryParse(key.AsSpan(prefix.Length), out id);
+        }
+
+        public static bool TryParse(string? key, IEnumerable<string> prefixes, out long id)
+        {
+            id = 0;
+            if (string.IsNullOrWhiteSpace(key) || prefixes == null)
+                return false;
+
+            foreach (var prefix in prefixes)
+            {
+                if (TryParse(key, prefix, out id))
+                    return true;
+            }
+            return false;
         }
     }
 }

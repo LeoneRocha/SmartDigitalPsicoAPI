@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
@@ -9,6 +9,8 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         {
             RuleFor(entity => entity.Description)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.SpecialtyValidator.Specialty.Description.NotNull")
+                .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
                 .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.SpecialtyValidator.Specialty.Description.NotEmpty")
                 .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
@@ -18,6 +20,8 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(entity => entity.Language)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.SpecialtyValidator.Specialty.Language.NotNull")
+                .WithMessage("Language_Validator_IsRequired_Key|Language is required.")
                 .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.SpecialtyValidator.Specialty.Language.NotEmpty")
                 .WithMessage("Language_Validator_IsRequired_Key|Language is required.")

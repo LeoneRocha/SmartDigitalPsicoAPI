@@ -1,10 +1,10 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.DTO
 {
@@ -13,14 +13,18 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
         private readonly IScheduleCalendarRepository _scheduleCalendarRepository;
         private readonly IPatientRepository _patientRepository;
         private readonly IMedicalRepository _medicalRepository;
+        private readonly IScheduleKeyPolicy _scheduleKeys;
 
-        public ScheduleCriteriaDtoValidator(IScheduleCalendarRepository scheduleCalendarRepository,
-                                             IPatientRepository patientRepository,
-                                             IMedicalRepository medicalRepository)
+        public ScheduleCriteriaDtoValidator(
+            IScheduleCalendarRepository scheduleCalendarRepository,
+            IPatientRepository patientRepository,
+            IMedicalRepository medicalRepository,
+            IScheduleKeyPolicy scheduleKeys)
         {
             _scheduleCalendarRepository = scheduleCalendarRepository;
             _patientRepository = patientRepository;
             _medicalRepository = medicalRepository;
+            _scheduleKeys = scheduleKeys;
 
             RuleFor(x => x.MedicalId)
                 .GreaterThan(0)
@@ -84,10 +88,10 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
 
         private async Task<bool> HaveValidStatusForCancellation(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)
         {
-            var ownerKey = ScheduleKeyHelper.ForMedical(criteria.MedicalId);
-            var subjectKey = ScheduleKeyHelper.ForPatient(criteria.PatientId);
+            var ownerKey = _scheduleKeys.BuildOwnerKey(criteria.MedicalId);
+            var subjectKey = _scheduleKeys.BuildSubjectKey(criteria.PatientId);
             var appointment = await _scheduleCalendarRepository.GetItemAsync(
-                ScheduleKeyHelper.DefaultTenant, ownerKey, subjectKey, criteria.AppointmentDateTime);
+                _scheduleKeys.TenantKey, ownerKey, subjectKey, criteria.AppointmentDateTime);
 
             if (appointment == null)
             {
@@ -122,9 +126,9 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
 
         private async Task<bool> NotHaveSchedulingConflict(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)
         {
-            var ownerKey = ScheduleKeyHelper.ForMedical(criteria.MedicalId);
+            var ownerKey = _scheduleKeys.BuildOwnerKey(criteria.MedicalId);
             var hasConflict = await _scheduleCalendarRepository.HasConflictAsync(
-                ScheduleKeyHelper.DefaultTenant, ownerKey, criteria.AppointmentDateTime);
+                _scheduleKeys.TenantKey, ownerKey, criteria.AppointmentDateTime);
             return !hasConflict;
         }
 

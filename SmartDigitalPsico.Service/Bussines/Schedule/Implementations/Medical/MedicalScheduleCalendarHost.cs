@@ -4,7 +4,6 @@ using Serilog;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.DTO.Schedule;
@@ -42,6 +41,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         private readonly MedicalScheduleNotificationAdapter _notifications;
         private readonly IMedicalCalendarValidators _validators;
         private readonly IUserRepository _userRepository;
+        private readonly IPatientRepository _patientRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly IApplicationLanguageService _languageService;
@@ -65,6 +65,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             _cacheService = sharedServices.CacheService;
             _validators = validators;
             _userRepository = patientRepositories.SharedRepositories.UserRepository;
+            _patientRepository = patientRepositories.PatientRepository;
             _scheduleService = scheduleService;
             _gradeEngine = gradeEngine;
             _bookingEngine = bookingEngine;
@@ -149,16 +150,22 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         {
             try
             {
+                var user = await _userRepository.FindByID(_userId)
+                    ?? throw new AppWarningException(await Loc(UserKeyConstants.User_Not_Found, UserMenssageConstants.User_Not_Found));
+
                 if (request.DeleteSeries)
                 {
                     var packagesPreview = await _scheduleService.GetByTokenAsync(request.TokenRecurrence);
-                    var readModels = packagesPreview.Data == null
-                        ? []
-                        : MedicalScheduleMapper.ToMedicalCalendarReadModels(
-                            packagesPreview.Data.ScheduleData ?? [], request.MedicalId, request.PatientId);
-
-                    if (!await EnsureListPermissionAsync(readModels))
+                    if (packagesPreview.Data != null)
+                    {
+                        MedicalScheduleKeys.TryParseMedicalId(packagesPreview.Data.OwnerKey, out var seriesMedicalId);
+                        if (user.MedicalId != seriesMedicalId || user.MedicalId != request.MedicalId)
+                            return FailBool(await Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
+                    }
+                    else if (user.MedicalId != request.MedicalId)
+                    {
                         return FailBool(await Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
+                    }
 
                     var deleted = await _bookingEngine.DeleteByTokenAsync(MedicalScheduleMapper.ToDeleteTokenRequest(request));
                     if (deleted.Success && packagesPreview.Data != null)
@@ -173,17 +180,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 if (!package.Success || package.Data == null)
                     return FailBool(await Loc(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound));
 
-                ScheduleKeyHelper.TryParseMedicalId(package.Data.OwnerKey, out var medicalId);
-                long? patientId = null;
-                if (!string.IsNullOrWhiteSpace(package.Data.SubjectKey) && ScheduleKeyHelper.TryParsePatientId(package.Data.SubjectKey, out var pid))
-                    patientId = pid;
-
-                var one = MedicalScheduleMapper.ToMedicalCalendarReadModel(
-                    package.Data.ScheduleData?.FirstOrDefault() ?? new Domain.ModelEntity.Schedule.ScheduleCalendarItem(),
-                    medicalId, patientId);
-                one.Id = package.Data.Id;
-
-                if (!await EnsureListPermissionAsync([one]))
+                MedicalScheduleKeys.TryParseMedicalId(package.Data.OwnerKey, out var medicalId);
+                if (user.MedicalId != medicalId || user.MedicalId != request.MedicalId)
                     return FailBool(await Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
 
                 await _notifications.DeleteNotificationRecordsAsync(package.Data.Id);
@@ -267,9 +265,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
                 var (start, end) = MedicalScheduleMapper.GetMonthRange(criteria.Year, criteria.Month);
                 var items = await _scheduleService.GetItemsForOwnerSubjectAsync(
-                    ScheduleKeyHelper.DefaultTenant,
-                    ScheduleKeyHelper.ForMedical(criteria.MedicalId),
-                    ScheduleKeyHelper.ForPatient(criteria.PatientId),
+                    MedicalScheduleKeys.TenantKey,
+                    MedicalScheduleKeys.ForMedical(criteria.MedicalId),
+                    MedicalScheduleKeys.ForPatient(criteria.PatientId),
                     start, end);
 
                 if (items.Data == null || items.Data.Length == 0)
@@ -318,22 +316,20 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 if (mode == ScheduleGradeMode.Monthly && !await ValidateCriteriaAsync(criteria, response))
                     return response;
 
+                // Ownership already enforced by CalendarCriteriaValidator (user.MedicalId == criteria.MedicalId).
+                // Do not run MedicalCalendarListValidator on SoT item projections (no CreatedUserId).
+                if (user.MedicalId != criteria.MedicalId)
+                {
+                    response.Success = false;
+                    response.Data = new CalendarDto { MedicalId = medical.Id, MedicalName = medical.Name, Days = [] };
+                    response.Message = await Loc(MedicalCalendarKeyConstants.Calendar_Error, MedicalCalendarMenssageConstants.Calendar_Error);
+                    return response;
+                }
+
                 var gradeRequest = MedicalScheduleMapper.ToGradeRequest(criteria, constraints, user.TimeZone ?? string.Empty, mode);
                 var items = await _scheduleService.GetItemsForOwnerAsync(
                     gradeRequest.TenantKey, gradeRequest.OwnerKey, gradeRequest.StartDate, gradeRequest.EndDate);
                 var preloaded = items.Data ?? [];
-
-                if (mode == ScheduleGradeMode.Monthly)
-                {
-                    var readModels = MedicalScheduleMapper.ToMedicalCalendarReadModels(preloaded, criteria.MedicalId);
-                    if (!await EnsureListPermissionAsync(readModels))
-                    {
-                        response.Success = false;
-                        response.Data = new CalendarDto { MedicalId = medical.Id, MedicalName = medical.Name, Days = [] };
-                        response.Message = await Loc(MedicalCalendarKeyConstants.Calendar_Error, MedicalCalendarMenssageConstants.Calendar_Error);
-                        return response;
-                    }
-                }
 
                 gradeRequest = MedicalScheduleMapper.ToGradeRequest(criteria, constraints, user.TimeZone ?? string.Empty, mode, preloaded);
                 var grade = await _gradeEngine.BuildGradeAsync(gradeRequest);
@@ -346,7 +342,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 }
 
                 response.Success = true;
-                response.Data = MedicalScheduleMapper.ToCalendarDto(grade.Data, medical.Id);
+                var patientNames = await ResolvePatientNamesAsync(grade.Data);
+                response.Data = MedicalScheduleMapper.ToCalendarDto(grade.Data, medical.Id, patientNames);
                 response.Message = await Loc(MedicalCalendarKeyConstants.CalendarSuccess, MedicalCalendarMenssageConstants.CalendarSuccess);
                 return response;
             }
@@ -399,11 +396,37 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             return false;
         }
 
-        private async Task<bool> EnsureListPermissionAsync(IEnumerable<MedicalCalendar> calendars)
+        private async Task<IReadOnlyDictionary<long, string>> ResolvePatientNamesAsync(ScheduleGradeResult grade)
         {
-            var list = new RecordsList<MedicalCalendar> { UserIdLogged = _userId, Records = calendars.ToList() };
-            var result = await _validators.MedicalCalendarListValidator.ValidateAsync(list);
-            return result.IsValid;
+            var patientIds = grade.Days
+                .SelectMany(d => d.TimeSlots)
+                .Where(s => s.Booking != null)
+                .Select(s =>
+                {
+                    if (!string.IsNullOrWhiteSpace(s.Booking!.SubjectKey)
+                        && MedicalScheduleKeys.TryParsePatientId(s.Booking.SubjectKey, out var pid))
+                        return pid;
+                    return 0L;
+                })
+                .Where(id => id > 0)
+                .Distinct()
+                .ToArray();
+
+            var names = new Dictionary<long, string>();
+            foreach (var patientId in patientIds)
+            {
+                try
+                {
+                    var patient = await _patientRepository.FindByID(patientId);
+                    if (patient != null && !string.IsNullOrWhiteSpace(patient.Name))
+                        names[patientId] = patient.Name;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warning(ex, "Failed to resolve patient name for PatientId={PatientId}", patientId);
+                }
+            }
+            return names;
         }
 
         private async Task<string> Loc(string key, string fallback)

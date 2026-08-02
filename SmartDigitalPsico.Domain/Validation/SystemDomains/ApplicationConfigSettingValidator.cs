@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
@@ -8,12 +8,18 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         public ApplicationConfigSettingValidator()
         {
             RuleFor(entity => entity.Description)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.ApplicationConfigSettingValidator.ApplicationConfigSetting.Description.NotNull")
+                .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.ApplicationConfigSettingValidator.ApplicationConfigSetting.Description.NotEmpty")
                 .WithMessage("Description_Validator_IsRequired_Key|Description is required.");
 
             RuleFor(entity => entity.Language)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.ApplicationConfigSettingValidator.ApplicationConfigSetting.Language.NotNull")
+                .WithMessage("Language_Validator_IsRequired_Key|Language is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.ApplicationConfigSettingValidator.ApplicationConfigSetting.Language.NotEmpty")
                 .WithMessage("Language_Validator_IsRequired_Key|Language is required.")
                 .MaximumLength(10)

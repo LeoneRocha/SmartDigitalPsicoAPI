@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+using FluentValidation;
+using SmartDigitalPsico.Domain.Helpers.Medical;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
@@ -20,7 +21,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
 #pragma warning restore CS0618
         private readonly bool _useScheduleSoT;
 
-        /// <summary>DI / ScheduleCalendar actions — conflict against ScheduleCalendar SoT.</summary>
+        /// <summary>DI / ScheduleCalendar actions � conflict against ScheduleCalendar SoT.</summary>
         public MedicalCalendarRangeValidator(IScheduleCalendarRepository scheduleCalendarRepository)
         {
             _scheduleCalendarRepository = scheduleCalendarRepository;
@@ -63,8 +64,8 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
             return await ScheduleCalendarConflictValidator.HasNoConflictAsync(
                 new ScheduleCalendarConflictRequest
                 {
-                    TenantKey = ScheduleKeyHelper.DefaultTenant,
-                    OwnerKey = ScheduleKeyHelper.ForMedical(calendar.MedicalId),
+                    TenantKey = MedicalScheduleKeyHelper.TenantKey,
+                    OwnerKey = MedicalScheduleKeyHelper.ForMedical(calendar.MedicalId),
                     StartDateTime = calendar.StartDateTime,
                     EndDateTime = calendar.EndDateTime,
                     ExcludeToken = calendar.TokenRecurrence

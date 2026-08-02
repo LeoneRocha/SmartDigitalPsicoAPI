@@ -92,7 +92,7 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
             var packages = await GetOverlappingByOwnerAsync(tenantKey, ownerKey, appointmentDateTime, appointmentDateTime.AddTicks(1));
             return packages
                 .Where(p => string.IsNullOrWhiteSpace(subjectKey) || p.SubjectKey == subjectKey)
-                .SelectMany(p => p.ScheduleData ?? [])
+                .SelectMany(p => (p.ScheduleData ?? []).Select(i => StampPackageMetadata(i, p)))
                 .FirstOrDefault(i => i.StartDateTime == appointmentDateTime);
         }
 
@@ -101,7 +101,7 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
             var packages = await GetOverlappingByOwnerAsync(tenantKey, ownerKey, startDate, endDate);
             return packages
                 .Where(p => string.IsNullOrWhiteSpace(subjectKey) || p.SubjectKey == subjectKey)
-                .SelectMany(p => p.ScheduleData ?? [])
+                .SelectMany(p => (p.ScheduleData ?? []).Select(i => StampPackageMetadata(i, p)))
                 .Where(i => i.StartDateTime >= startDate
                             && (i.EndDateTime ?? i.StartDateTime) <= endDate)
                 .ToArray();
@@ -110,9 +110,35 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
         private static ScheduleCalendarItem[] ExpandOverlappingItems(IEnumerable<ScheduleCalendar> packages, DateTime start, DateTime end)
         {
             return packages
-                .SelectMany(p => p.ScheduleData ?? [])
+                .SelectMany(p => (p.ScheduleData ?? []).Select(i => StampPackageMetadata(i, p)))
                 .Where(i => ScheduleOverlapHelper.Overlaps(i.StartDateTime, i.EndDateTime, start, end))
                 .ToArray();
+        }
+
+        private static ScheduleCalendarItem StampPackageMetadata(ScheduleCalendarItem item, ScheduleCalendar package)
+        {
+            return new ScheduleCalendarItem
+            {
+                Title = item.Title,
+                StartDateTime = item.StartDateTime,
+                EndDateTime = item.EndDateTime,
+                IsAllDay = item.IsAllDay,
+                Status = item.Status,
+                ColorCategoryHexa = item.ColorCategoryHexa,
+                IsPushedCalendar = item.IsPushedCalendar,
+                TimeZone = item.TimeZone,
+                Location = item.Location,
+                Description = item.Description,
+                RecurrenceDays = item.RecurrenceDays ?? [],
+                RecurrenceType = item.RecurrenceType,
+                RecurrenceEndDate = item.RecurrenceEndDate,
+                RecurrenceCount = item.RecurrenceCount,
+                ReasonCancellation = item.ReasonCancellation,
+                TokenRecurrence = string.IsNullOrWhiteSpace(item.TokenRecurrence) ? package.UniqueToken : item.TokenRecurrence,
+                PackageId = package.Id,
+                OwnerKey = package.OwnerKey,
+                SubjectKey = package.SubjectKey
+            };
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -17,7 +17,10 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
             #region Columns
 
             RuleFor(entity => entity.Name)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientValidator.Patient.Name.NotNull")
+                .WithMessage("Name_Validator_IsRequired_Key|Name is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientValidator.Patient.Name.NotEmpty")
                 .WithMessage("Name_Validator_IsRequired_Key|Name is required.");
 
@@ -27,7 +30,10 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 .WithMessage("Profession_Validator_MaxLength_Key|Profession cannot exceed {0} characters.|255");
 
             RuleFor(entity => entity.Email)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientValidator.Patient.Email.NotNull")
+                .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientValidator.Patient.Email.NotEmpty")
                 .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
                 .EmailAddress()
@@ -46,7 +52,10 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 .WithMessage("DateOfBirth_Validator_Invalid_Key|Invalid date of birth.");
 
             RuleFor(p => p.Rg)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientValidator.Patient.Rg.NotNull")
+                .WithMessage("RG_Validator_IsRequired_Key|RG is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientValidator.Patient.Rg.NotEmpty")
                 .WithMessage("RG_Validator_IsRequired_Key|RG is required.")
                 .Length(10, 15)
@@ -54,7 +63,10 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 .WithMessage("RG_Validator_Length_Key|RG must be between {0} and {1} characters long.|10|15");
 
             RuleFor(p => p.Cpf)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientValidator.Patient.Cpf.NotNull")
+                .WithMessage("CPF_Validator_IsRequired_Key|CPF is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientValidator.Patient.Cpf.NotEmpty")
                 .WithMessage("CPF_Validator_IsRequired_Key|CPF is required.")
                 .Length(10, 15)

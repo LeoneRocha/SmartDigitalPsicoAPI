@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -14,12 +14,18 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             #region Columns
 
             RuleFor(entity => entity.Name)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Name.NotNull")
+                .WithMessage("Name_Validator_IsRequired_Key|Name is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Name.NotEmpty")
                 .WithMessage("Name_Validator_IsRequired_Key|Name is required.");
 
             RuleFor(entity => entity.Accreditation)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Accreditation.NotNull")
+                .WithMessage("Accreditation_Validator_IsRequired_Key|Accreditation is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Accreditation.NotEmpty")
                 .WithMessage("Accreditation_Validator_IsRequired_Key|Accreditation is required.")
                 .MaximumLength(10)
@@ -30,7 +36,10 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .WithMessage("Accreditation_Validator_Unique_Key|Accreditation must be unique.");
 
             RuleFor(entity => entity.Email)
-                .NotNull().NotEmpty()
+                .NotNull()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Email.NotNull")
+                .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Email.NotEmpty")
                 .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
                 .EmailAddress()

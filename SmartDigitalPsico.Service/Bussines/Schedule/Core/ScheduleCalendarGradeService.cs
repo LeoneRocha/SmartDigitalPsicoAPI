@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
                     return response;
                 }
 
-                var tenant = ScheduleKeyHelper.ForTenant(request.TenantKey);
+                var tenant = ScheduleKeyHelper.RequireTenant(request.TenantKey);
                 var interval = TimeSpan.FromMinutes(Math.Max(1, request.Constraints.IntervalMinutes));
                 var items = request.PreloadedItems
                     ?? await _repository.GetItemsForOwnerAsync(tenant, request.OwnerKey, request.StartDate, request.EndDate);

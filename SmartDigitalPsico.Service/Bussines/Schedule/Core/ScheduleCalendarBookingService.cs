@@ -51,7 +51,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
             var response = new ServiceResponse<ScheduleCancelResult>();
             try
             {
-                var tenant = ScheduleKeyHelper.ForTenant(request.TenantKey);
+                var tenant = ScheduleKeyHelper.RequireTenant(request.TenantKey);
                 var item = await _repository.GetItemAsync(tenant, request.OwnerKey, request.SubjectKey, request.AppointmentDateTime);
                 if (item == null)
                 {

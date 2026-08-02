@@ -30,11 +30,12 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
             {
                 if (string.IsNullOrWhiteSpace(request.UniqueToken)
                     || string.IsNullOrWhiteSpace(request.OwnerKey)
+                    || string.IsNullOrWhiteSpace(request.TenantKey)
                     || request.Items == null
                     || request.Items.Length == 0)
                 {
                     response.Success = false;
-                    response.Message = "UniqueToken, OwnerKey and Items are required.";
+                    response.Message = "UniqueToken, TenantKey, OwnerKey and Items are required.";
                     return response;
                 }
 
@@ -52,7 +53,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
                         ModifyDate = now,
                         LastAccessDate = now,
                         UniqueToken = token,
-                        TenantKey = ScheduleKeyHelper.ForTenant(request.TenantKey),
+                        TenantKey = ScheduleKeyHelper.RequireTenant(request.TenantKey),
                         OwnerKey = request.OwnerKey,
                         SubjectKey = request.SubjectKey,
                         StartPeriod = startPeriod,
@@ -66,7 +67,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
                     entity.Enable = request.Enable;
                     entity.ModifyDate = now;
                     entity.LastAccessDate = now;
-                    entity.TenantKey = ScheduleKeyHelper.ForTenant(request.TenantKey);
+                    entity.TenantKey = ScheduleKeyHelper.RequireTenant(request.TenantKey);
                     entity.OwnerKey = request.OwnerKey;
                     entity.SubjectKey = request.SubjectKey;
                     if (request.UpdateSeries || request.IsUpdate)
@@ -172,35 +173,35 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
 
         public async Task<ServiceResponse<ScheduleCalendar[]>> GetOverlappingPeriodAsync(string tenantKey, string ownerKey, DateTime start, DateTime end)
         {
-            var tenant = ScheduleKeyHelper.ForTenant(tenantKey);
+            var tenant = ScheduleKeyHelper.RequireTenant(tenantKey);
             var data = await _repository.GetOverlappingByOwnerAsync(tenant, ownerKey, start, end);
             return new ServiceResponse<ScheduleCalendar[]> { Data = data, Success = true };
         }
 
         public async Task<ServiceResponse<ScheduleCalendarItem[]>> GetItemsForOwnerAsync(string tenantKey, string ownerKey, DateTime start, DateTime end)
         {
-            var tenant = ScheduleKeyHelper.ForTenant(tenantKey);
+            var tenant = ScheduleKeyHelper.RequireTenant(tenantKey);
             var data = await _repository.GetItemsForOwnerAsync(tenant, ownerKey, start, end);
             return new ServiceResponse<ScheduleCalendarItem[]> { Data = data, Success = true };
         }
 
         public async Task<ServiceResponse<ScheduleCalendarItem[]>> GetItemsForOwnerSubjectAsync(string tenantKey, string ownerKey, string? subjectKey, DateTime start, DateTime end)
         {
-            var tenant = ScheduleKeyHelper.ForTenant(tenantKey);
+            var tenant = ScheduleKeyHelper.RequireTenant(tenantKey);
             var data = await _repository.GetItemsForOwnerSubjectAsync(tenant, ownerKey, subjectKey, start, end);
             return new ServiceResponse<ScheduleCalendarItem[]> { Data = data, Success = true };
         }
 
         public async Task<ServiceResponse<ScheduleCalendarItem?>> GetItemAsync(string tenantKey, string ownerKey, string? subjectKey, DateTime appointmentDateTime)
         {
-            var tenant = ScheduleKeyHelper.ForTenant(tenantKey);
+            var tenant = ScheduleKeyHelper.RequireTenant(tenantKey);
             var data = await _repository.GetItemAsync(tenant, ownerKey, subjectKey, appointmentDateTime);
             return new ServiceResponse<ScheduleCalendarItem?> { Data = data, Success = true };
         }
 
         public async Task<ServiceResponse<bool>> HasConflictAsync(string tenantKey, string ownerKey, DateTime appointmentDateTime)
         {
-            var tenant = ScheduleKeyHelper.ForTenant(tenantKey);
+            var tenant = ScheduleKeyHelper.RequireTenant(tenantKey);
             var hasConflict = await _repository.HasConflictAsync(tenant, ownerKey, appointmentDateTime);
             return new ServiceResponse<bool> { Data = hasConflict, Success = true };
         }

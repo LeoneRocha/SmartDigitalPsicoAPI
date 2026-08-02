@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Base;
@@ -14,6 +14,8 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 
             RuleFor(entity => entity.Description)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientRecordValidator.PatientRecord.Description.NotNull")
+                .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
                 .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientRecordValidator.PatientRecord.Description.NotEmpty")
                 .WithMessage("Description_Validator_IsRequired_Key|Description is required.")
@@ -23,6 +25,8 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 
             RuleFor(entity => entity.Annotation)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.PatientRecordValidator.PatientRecord.Annotation.NotNull")
+                .WithMessage("Annotation_Validator_IsRequired_Key|Annotation is required.")
                 .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.PatientRecordValidator.PatientRecord.Annotation.NotEmpty")
                 .WithMessage("Annotation_Validator_IsRequired_Key|Annotation is required.")

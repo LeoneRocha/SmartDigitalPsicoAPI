@@ -22,10 +22,10 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
             return new ScheduleCalendarWriteRequest
             {
-                TenantKey = ScheduleKeyHelper.DefaultTenant,
-                OwnerKey = ScheduleKeyHelper.ForMedical(entity.MedicalId),
+                TenantKey = MedicalScheduleKeys.TenantKey,
+                OwnerKey = MedicalScheduleKeys.ForMedical(entity.MedicalId),
                 SubjectKey = entity.PatientId.HasValue
-                    ? ScheduleKeyHelper.ForPatient(entity.PatientId.Value)
+                    ? MedicalScheduleKeys.ForPatient(entity.PatientId.Value)
                     : null,
                 UniqueToken = token,
                 IsUpdate = isUpdate,
@@ -37,10 +37,10 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
         public static GetMedicalCalendarDto ToGetDto(ScheduleCalendar package, ScheduleCalendarItem? preferredItem = null)
         {
-            ScheduleKeyHelper.TryParseMedicalId(package.OwnerKey, out var medicalId);
+            MedicalScheduleKeys.TryParseMedicalId(package.OwnerKey, out var medicalId);
             long? patientId = null;
             if (!string.IsNullOrWhiteSpace(package.SubjectKey)
-                && ScheduleKeyHelper.TryParsePatientId(package.SubjectKey, out var parsedPatient))
+                && MedicalScheduleKeys.TryParsePatientId(package.SubjectKey, out var parsedPatient))
             {
                 patientId = parsedPatient;
             }
@@ -75,8 +75,23 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
         public static MedicalCalendar ToMedicalCalendarReadModel(ScheduleCalendarItem item, long medicalId, long? patientId = null)
         {
+            if (!patientId.HasValue
+                && !string.IsNullOrWhiteSpace(item.SubjectKey)
+                && MedicalScheduleKeys.TryParsePatientId(item.SubjectKey, out var parsedPatient))
+            {
+                patientId = parsedPatient;
+            }
+
+            if (medicalId <= 0
+                && !string.IsNullOrWhiteSpace(item.OwnerKey)
+                && MedicalScheduleKeys.TryParseMedicalId(item.OwnerKey, out var parsedMedical))
+            {
+                medicalId = parsedMedical;
+            }
+
             return new MedicalCalendar
             {
+                Id = item.PackageId ?? 0,
                 Title = item.Title,
                 Description = item.Description,
                 Location = item.Location,
@@ -102,34 +117,50 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         public static MedicalCalendar[] ToMedicalCalendarReadModels(ScheduleCalendarItem[] items, long medicalId, long? patientId = null)
             => items.Select(i => ToMedicalCalendarReadModel(i, medicalId, patientId)).ToArray();
 
-        public static CalendarDto ToCalendarDto(ScheduleGradeResult grade, long medicalId)
+        public static CalendarDto ToCalendarDto(
+            ScheduleGradeResult grade,
+            long medicalId,
+            IReadOnlyDictionary<long, string>? patientNames = null)
         {
             return new CalendarDto
             {
                 MedicalId = medicalId,
                 MedicalName = grade.DisplayName,
-                Days = grade.Days.Select(ToDayCalendarDto).ToArray()
+                Days = grade.Days.Select(day => ToDayCalendarDto(day, medicalId, patientNames)).ToArray()
             };
         }
 
-        public static DayCalendarDto ToDayCalendarDto(ScheduleDayDto day)
+        public static DayCalendarDto ToDayCalendarDto(
+            ScheduleDayDto day,
+            long medicalId,
+            IReadOnlyDictionary<long, string>? patientNames = null)
         {
             return new DayCalendarDto
             {
                 Date = day.Date,
                 IsPast = day.IsPast,
-                TimeSlots = day.TimeSlots.Select(ToTimeSlotDto).ToArray()
+                TimeSlots = day.TimeSlots.Select(slot => ToTimeSlotDto(slot, medicalId, patientNames)).ToArray()
             };
         }
 
-        public static TimeSlotDto ToTimeSlotDto(ScheduleTimeSlotDto slot)
+        public static TimeSlotDto ToTimeSlotDto(
+            ScheduleTimeSlotDto slot,
+            long medicalId,
+            IReadOnlyDictionary<long, string>? patientNames = null)
         {
             GetMedicalCalendarTimeSlotDto? bookingDto = null;
             if (slot.Booking != null)
             {
-                var mc = ToMedicalCalendarReadModel(slot.Booking, 0);
+                var mc = ToMedicalCalendarReadModel(slot.Booking, medicalId);
+                var patientName = string.Empty;
+                if (mc.PatientId.HasValue && patientNames != null && patientNames.TryGetValue(mc.PatientId.Value, out var resolvedName))
+                    patientName = resolvedName;
+                if (string.IsNullOrWhiteSpace(patientName))
+                    patientName = mc.Title;
+
                 bookingDto = new GetMedicalCalendarTimeSlotDto
                 {
+                    Id = mc.Id,
                     Title = mc.Title,
                     Description = mc.Description,
                     Location = mc.Location,
@@ -145,6 +176,12 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                     RecurrenceEndDate = mc.RecurrenceEndDate,
                     RecurrenceCount = mc.RecurrenceCount ?? 0,
                     TokenRecurrence = mc.TokenRecurrence,
+                    PatientId = mc.PatientId,
+                    Patient = new Domain.DTO.Patient.GetPatientDto
+                    {
+                        Id = mc.PatientId ?? 0,
+                        Name = patientName
+                    },
                     Enable = true
                 };
             }
@@ -207,8 +244,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
             return new ScheduleGradeRequest
             {
-                TenantKey = ScheduleKeyHelper.DefaultTenant,
-                OwnerKey = ScheduleKeyHelper.ForMedical(criteria.MedicalId),
+                TenantKey = MedicalScheduleKeys.TenantKey,
+                OwnerKey = MedicalScheduleKeys.ForMedical(criteria.MedicalId),
                 DisplayName = constraints.DisplayName,
                 TimeZone = timeZone,
                 StartDate = startDate,
@@ -227,9 +264,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             var token = Guid.NewGuid().ToString();
             return new ScheduleBookRequest
             {
-                TenantKey = ScheduleKeyHelper.DefaultTenant,
-                OwnerKey = ScheduleKeyHelper.ForMedical(criteria.MedicalId),
-                SubjectKey = ScheduleKeyHelper.ForPatient(criteria.PatientId),
+                TenantKey = MedicalScheduleKeys.TenantKey,
+                OwnerKey = MedicalScheduleKeys.ForMedical(criteria.MedicalId),
+                SubjectKey = MedicalScheduleKeys.ForPatient(criteria.PatientId),
                 UniqueToken = token,
                 Item = new ScheduleCalendarItem
                 {
@@ -247,9 +284,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         public static ScheduleCancelRequest ToCancelRequest(ScheduleCriteriaDto criteria)
             => new()
             {
-                TenantKey = ScheduleKeyHelper.DefaultTenant,
-                OwnerKey = ScheduleKeyHelper.ForMedical(criteria.MedicalId),
-                SubjectKey = ScheduleKeyHelper.ForPatient(criteria.PatientId),
+                TenantKey = MedicalScheduleKeys.TenantKey,
+                OwnerKey = MedicalScheduleKeys.ForMedical(criteria.MedicalId),
+                SubjectKey = MedicalScheduleKeys.ForPatient(criteria.PatientId),
                 AppointmentDateTime = criteria.AppointmentDateTime,
                 Reason = criteria.Reason
             };
@@ -258,8 +295,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             => new()
             {
                 UniqueToken = request.TokenRecurrence,
-                OwnerKey = ScheduleKeyHelper.ForMedical(request.MedicalId),
-                SubjectKey = ScheduleKeyHelper.ForPatient(request.PatientId)
+                OwnerKey = MedicalScheduleKeys.ForMedical(request.MedicalId),
+                SubjectKey = MedicalScheduleKeys.ForPatient(request.PatientId)
             };
 
         public static AppointmentDto[] ToAppointmentDtos(ScheduleCalendarItem[] items, long medicalId, string medicalName)

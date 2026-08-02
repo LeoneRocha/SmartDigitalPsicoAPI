@@ -18,6 +18,10 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
 
     public static class TimeSlotGenerator
     {
+        /// <summary>
+        /// Legacy-parity: emit slots for the full calendar day (00:00 → +1 day).
+        /// Availability is gated by working hours and busy intervals.
+        /// </summary>
         public static List<GeneratedTimeSlot> Generate(
             TimeSlotWindow window,
             IReadOnlyList<(DateTime Start, DateTime End)> busyIntervals,
@@ -26,25 +30,27 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
             var result = new List<GeneratedTimeSlot>();
             if (window.Interval <= TimeSpan.Zero) return result;
 
-            var dayStart = window.Date.Date + window.StartWorkingTime;
-            var dayEnd = window.Date.Date + window.EndWorkingTime;
-            if (dayEnd <= dayStart) return result;
+            var dayStart = window.Date.Date;
+            var dayEnd = dayStart.AddDays(1);
+            var workingStart = dayStart + window.StartWorkingTime;
+            var workingEnd = dayStart + window.EndWorkingTime;
 
             var sortedBusy = busyIntervals
                 .Where(b => ScheduleOverlapHelper.Overlaps(b.Start, b.End, dayStart, dayEnd))
                 .OrderBy(b => b.Start)
                 .ToList();
 
-            for (var cursor = dayStart; cursor + window.Interval <= dayEnd; cursor += window.Interval)
+            for (var cursor = dayStart; cursor < dayEnd; cursor += window.Interval)
             {
                 var slotEnd = cursor + window.Interval;
                 var isBusy = sortedBusy.Any(b => ScheduleOverlapHelper.Overlaps(cursor, slotEnd, b.Start, b.End));
+                var isWithinWorkingHours = cursor >= workingStart && slotEnd <= workingEnd;
                 result.Add(new GeneratedTimeSlot
                 {
                     StartTime = cursor,
                     EndTime = slotEnd,
-                    IsAvailable = !isBusy,
-                    IsPast = slotEnd <= nowUtc
+                    IsAvailable = !isBusy && isWithinWorkingHours,
+                    IsPast = cursor <= nowUtc
                 });
             }
 

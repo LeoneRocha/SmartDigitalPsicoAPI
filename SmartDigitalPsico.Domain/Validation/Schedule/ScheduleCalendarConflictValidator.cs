@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.Domain.Validation.Schedule
             IScheduleCalendarRepository scheduleCalendarRepository)
         {
             var end = request.EndDateTime ?? request.StartDateTime;
-            var tenant = ScheduleKeyHelper.ForTenant(request.TenantKey);
+            var tenant = ScheduleKeyHelper.RequireTenant(request.TenantKey);
             var items = await scheduleCalendarRepository.GetConflictingItemsAsync(
                 tenant,
                 request.OwnerKey,
@@ -48,7 +48,7 @@ namespace SmartDigitalPsico.Domain.Validation.Schedule
 
     public class ScheduleCalendarConflictRequest
     {
-        public string TenantKey { get; set; } = ScheduleKeyHelper.DefaultTenant;
+        public string TenantKey { get; set; } = string.Empty;
         public string OwnerKey { get; set; } = string.Empty;
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }

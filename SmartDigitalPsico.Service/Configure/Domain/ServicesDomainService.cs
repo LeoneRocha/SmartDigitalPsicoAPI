@@ -34,6 +34,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleBookingEngine, SmartDigitalPsico.Service.Bussines.Schedule.Core.ScheduleCalendarBookingService>();
 
             // Medical host — thin DTO mapping wrapper (single host implements all FE schedule contracts)
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleKeyPolicy, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleKeyPolicy>();
             services.AddScoped<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleNotificationAdapter>();
             services.AddScoped<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleConstraintsProvider>();
             services.AddScoped<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>();
