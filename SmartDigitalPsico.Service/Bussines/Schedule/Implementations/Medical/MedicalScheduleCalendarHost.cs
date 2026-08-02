@@ -24,7 +24,7 @@ using SmartDigitalPsico.Domain.VO;
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 {
     /// <summary>
-    /// Thin Medical host: validates FE DTOs, maps ↔ Core engines, maps results back. No schedule engine logic.
+    /// Thin Medical host: validates FE DTOs, maps ↔ Core services, maps results back.
     /// </summary>
     public class MedicalScheduleCalendarHost :
         IScheduleCalendarFacade,
@@ -35,9 +35,12 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         IScheduleCalendarGradeService,
         IScheduleCalendarAppointmentService
     {
-        private readonly IScheduleCalendarService _scheduleService;
-        private readonly IScheduleGradeEngine _gradeEngine;
-        private readonly IScheduleBookingEngine _bookingEngine;
+        private readonly IScheduleCreateService _create;
+        private readonly IScheduleUpdateService _update;
+        private readonly IScheduleDeleteService _delete;
+        private readonly IScheduleQueryService _query;
+        private readonly IScheduleAvailabilityService _availability;
+        private readonly IScheduleAppointmentQueryService _appointmentQuery;
         private readonly MedicalScheduleConstraintsProvider _constraintsProvider;
         private readonly MedicalScheduleNotificationAdapter _notifications;
         private readonly IMedicalCalendarValidators _validators;
@@ -54,9 +57,12 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             ISharedDependenciesConfig sharedDependenciesConfig,
             IMedicalCalendarValidators validators,
             IPatientRepositories patientRepositories,
-            IScheduleCalendarService scheduleService,
-            IScheduleGradeEngine gradeEngine,
-            IScheduleBookingEngine bookingEngine,
+            IScheduleCreateService create,
+            IScheduleUpdateService update,
+            IScheduleDeleteService delete,
+            IScheduleQueryService query,
+            IScheduleAvailabilityService availability,
+            IScheduleAppointmentQueryService appointmentQuery,
             MedicalScheduleConstraintsProvider constraintsProvider,
             MedicalScheduleNotificationAdapter notifications)
         {
@@ -67,9 +73,12 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             _validators = validators;
             _userRepository = patientRepositories.SharedRepositories.UserRepository;
             _patientRepository = patientRepositories.PatientRepository;
-            _scheduleService = scheduleService;
-            _gradeEngine = gradeEngine;
-            _bookingEngine = bookingEngine;
+            _create = create;
+            _update = update;
+            _delete = delete;
+            _query = query;
+            _availability = availability;
+            _appointmentQuery = appointmentQuery;
             _constraintsProvider = constraintsProvider;
             _notifications = notifications;
         }
@@ -78,7 +87,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
         public async Task<ServiceResponse<GetMedicalCalendarDto>> FindByID(long id)
         {
-            var result = await _scheduleService.GetByIdAsync(id);
+            var result = await _query.GetByIdAsync(id);
             if (!result.Success || result.Data == null)
                 return FailDto(await Loc(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound));
 
@@ -95,7 +104,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 if (!validation.Success) return validation;
 
                 var write = MedicalScheduleMapper.ToWriteRequest(entity);
-                var persist = await _scheduleService.CreateOrUpdateAsync(write);
+                var persist = await _create.CreateAsync(write);
                 if (!persist.Success || persist.Data == null)
                     return FailDto(persist.Message);
 
@@ -117,14 +126,13 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         {
             try
             {
-                var existing = await _scheduleService.GetByIdAsync(item.Id);
+                var existing = await _query.GetByIdAsync(item.Id);
                 if (!existing.Success || existing.Data == null)
                     return FailDto(await Loc(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound));
 
                 var package = existing.Data;
                 var targetOccurrence = FindTargetOccurrence(package.ScheduleData, item.StartDateTime);
 
-                // Block editing canceled/refused packages (payload status or target occurrence).
                 if (item.Status is EStatusCalendar.Canceled or EStatusCalendar.Refused
                     || targetOccurrence?.Status is EStatusCalendar.Canceled or EStatusCalendar.Refused)
                 {
@@ -137,7 +145,6 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 entity.ModifyUserId = _userId;
                 entity.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
                 entity.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
-                // Never invent a new token on update — preserve package UniqueToken for self-exclude + SoT lookup.
                 entity.TokenRecurrence = package.UniqueToken;
 
                 var validation = await ValidateEntityAsync(entity);
@@ -145,7 +152,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
                 var write = MedicalScheduleMapper.ToWriteRequest(entity, isUpdate: true, updateSeries: item.UpdateSeries);
                 write.PackageId = package.Id;
-                var persist = await _scheduleService.CreateOrUpdateAsync(write);
+                var persist = await _update.UpdateAsync(write);
                 if (!persist.Success || persist.Data == null)
                     return FailDto(persist.Message);
 
@@ -180,7 +187,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
                 if (request.DeleteSeries)
                 {
-                    var packagesPreview = await _scheduleService.GetByTokenAsync(request.TokenRecurrence);
+                    var packagesPreview = await _query.GetByTokenAsync(request.TokenRecurrence);
                     if (packagesPreview.Data != null)
                     {
                         MedicalScheduleKeys.TryParseMedicalId(packagesPreview.Data.OwnerKey, out var seriesMedicalId);
@@ -195,14 +202,14 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                     if (packagesPreview.Data != null)
                         await _notifications.DeleteNotificationRecordsAsync(packagesPreview.Data.UniqueToken);
 
-                    var deleted = await _bookingEngine.DeleteByTokenAsync(MedicalScheduleMapper.ToDeleteTokenRequest(request));
+                    var deleted = await _delete.DeleteByTokenFilteredAsync(MedicalScheduleMapper.ToDeleteTokenRequest(request));
 
                     return deleted.Success
                         ? OkBool(true, await Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
                         : FailBool(deleted.Message);
                 }
 
-                var package = await _scheduleService.GetByIdAsync(request.Id);
+                var package = await _query.GetByIdAsync(request.Id);
                 if (!package.Success || package.Data == null)
                     return FailBool(await Loc(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound));
 
@@ -211,7 +218,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                     return FailBool(await Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
 
                 await _notifications.DeleteNotificationRecordsAsync(package.Data.UniqueToken);
-                var result = await _bookingEngine.DeleteByIdAsync(package.Data.Id);
+                var result = await _delete.DeleteByIdAsync(package.Data.Id);
                 return result.Success
                     ? OkBool(true, await Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
                     : FailBool(result.Message);
@@ -248,7 +255,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 {
                     criteria.UserIdLogged = _userId;
                     var medical = await _constraintsProvider.GetMedicalAsync(criteria.MedicalId);
-                    var booked = await _bookingEngine.BookAsync(MedicalScheduleMapper.ToBookRequest(criteria, medical.PatientIntervalTimeMinutes));
+                    var booked = await _create.BookAsync(MedicalScheduleMapper.ToBookRequest(criteria, medical.PatientIntervalTimeMinutes));
                     return booked.Success
                         ? OkBool(true, await Loc(MedicalCalendarKeyConstants.Schedule_Appointment_Success, MedicalCalendarMenssageConstants.Schedule_Appointment_Success) + $". ({booked.Data?.Id})")
                         : FailBool(booked.Message);
@@ -256,7 +263,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
                 if (criteria.ScheduleType == EScheduleCalendarType.Cancellation)
                 {
-                    var canceled = await _bookingEngine.CancelAsync(MedicalScheduleMapper.ToCancelRequest(criteria));
+                    var canceled = await _update.CancelOccurrenceAsync(MedicalScheduleMapper.ToCancelRequest(criteria));
                     if (canceled.Success && canceled.Data != null)
                         await _notifications.DeleteNotificationRecordsAsync(
                             canceled.Data.UniqueToken,
@@ -292,7 +299,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 }
 
                 var (start, end) = MedicalScheduleMapper.GetMonthRange(criteria.Year, criteria.Month);
-                var items = await _scheduleService.GetItemsForOwnerSubjectAsync(
+                var items = await _appointmentQuery.GetItemsForOwnerSubjectAsync(
                     MedicalScheduleKeys.TenantKey,
                     MedicalScheduleKeys.ForMedical(criteria.MedicalId),
                     MedicalScheduleKeys.ForPatient(criteria.PatientId),
@@ -344,8 +351,6 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 if (mode == ScheduleGradeMode.Monthly && !await ValidateCriteriaAsync(criteria, response))
                     return response;
 
-                // Ownership already enforced by CalendarCriteriaValidator (user.MedicalId == criteria.MedicalId).
-                // Do not run MedicalCalendarListValidator on SoT item projections (no CreatedUserId).
                 if (user.MedicalId != criteria.MedicalId)
                 {
                     response.Success = false;
@@ -355,12 +360,12 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 }
 
                 var gradeRequest = MedicalScheduleMapper.ToGradeRequest(criteria, constraints, user.TimeZone ?? string.Empty, mode);
-                var items = await _scheduleService.GetItemsForOwnerAsync(
+                var items = await _query.GetItemsForOwnerAsync(
                     gradeRequest.TenantKey, gradeRequest.OwnerKey, gradeRequest.StartDate, gradeRequest.EndDate);
                 var preloaded = items.Data ?? [];
 
                 gradeRequest = MedicalScheduleMapper.ToGradeRequest(criteria, constraints, user.TimeZone ?? string.Empty, mode, preloaded);
-                var grade = await _gradeEngine.BuildGradeAsync(gradeRequest);
+                var grade = await _availability.BuildGradeAsync(gradeRequest);
                 if (!grade.Success || grade.Data == null)
                 {
                     response.Success = false;

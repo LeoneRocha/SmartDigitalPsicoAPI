@@ -29,9 +29,14 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<INotificationPlatformServiceFactory, NotificationPlatformServiceFactory>();
 
-            // Schedule Core engines
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleGradeEngine, SmartDigitalPsico.Service.Bussines.Schedule.Core.ScheduleCalendarGradeService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleBookingEngine, SmartDigitalPsico.Service.Bussines.Schedule.Core.ScheduleCalendarBookingService>();
+            // Schedule Core — write / read / conflict (CQRS-ready)
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleConflictService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict.ScheduleConflictService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCreateService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands.ScheduleCreateService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleUpdateService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands.ScheduleUpdateService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleDeleteService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands.ScheduleDeleteService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleQueryService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries.ScheduleQueryService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleAvailabilityService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries.ScheduleAvailabilityService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleAppointmentQueryService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries.ScheduleAppointmentQueryService>();
 
             // Medical host — thin DTO mapping wrapper (single host implements all FE schedule contracts)
             services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleKeyPolicy, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleKeyPolicy>();

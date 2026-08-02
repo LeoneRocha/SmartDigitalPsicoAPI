@@ -7,17 +7,14 @@ using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.VO;
 
-namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
+namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
 {
-    /// <summary>
-    /// Generic month/availability calendar builder — no Medical DTOs.
-    /// </summary>
-    public class ScheduleCalendarGradeService : IScheduleGradeEngine
+    public class ScheduleAvailabilityService : IScheduleAvailabilityService
     {
         private readonly IScheduleCalendarRepository _repository;
         private readonly ILogger _logger;
 
-        public ScheduleCalendarGradeService(IScheduleCalendarRepository repository, ILogger logger)
+        public ScheduleAvailabilityService(IScheduleCalendarRepository repository, ILogger logger)
         {
             _repository = repository;
             _logger = logger;
@@ -58,7 +55,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "ScheduleCalendarGradeService.BuildGradeAsync failed");
+                _logger.Error(ex, "ScheduleAvailabilityService.BuildGradeAsync failed");
                 response.Success = false;
                 response.Message = ex.Message;
                 return response;
