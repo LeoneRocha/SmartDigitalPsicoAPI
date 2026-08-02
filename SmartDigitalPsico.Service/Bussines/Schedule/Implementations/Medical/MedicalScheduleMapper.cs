@@ -15,13 +15,20 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
     {
         public static ScheduleCalendarWriteRequest ToWriteRequest(MedicalCalendar entity, bool isUpdate = false, bool updateSeries = true)
         {
-            var token = string.IsNullOrWhiteSpace(entity.TokenRecurrence)
-                ? Guid.NewGuid().ToString()
-                : entity.TokenRecurrence;
-            entity.TokenRecurrence = token;
+            // Create may mint a token; update must keep the package UniqueToken (Host sets it).
+            if (!isUpdate && string.IsNullOrWhiteSpace(entity.TokenRecurrence))
+                entity.TokenRecurrence = Guid.NewGuid().ToString();
+            var token = entity.TokenRecurrence?.Trim() ?? string.Empty;
+
+            // Partial update: only the seed occurrence — Core merges into existing ScheduleData.
+            // Series update / create: rematerialize full recurrence.
+            var items = isUpdate && !updateSeries
+                ? BuildSingleItem(entity, token)
+                : BuildItems(entity, token);
 
             return new ScheduleCalendarWriteRequest
             {
+                PackageId = entity.Id > 0 ? entity.Id : null,
                 TenantKey = MedicalScheduleKeys.TenantKey,
                 OwnerKey = MedicalScheduleKeys.ForMedical(entity.MedicalId),
                 SubjectKey = entity.PatientId.HasValue
@@ -31,9 +38,33 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 IsUpdate = isUpdate,
                 UpdateSeries = updateSeries,
                 Enable = entity.Enable,
-                Items = BuildItems(entity, token)
+                Items = items
             };
         }
+
+        public static ScheduleCalendarItem[] BuildSingleItem(MedicalCalendar entity, string token)
+            =>
+            [
+                new ScheduleCalendarItem
+                {
+                    Title = entity.Title,
+                    Description = entity.Description,
+                    Location = entity.Location,
+                    StartDateTime = entity.StartDateTime,
+                    EndDateTime = entity.EndDateTime,
+                    IsAllDay = entity.IsAllDay,
+                    Status = entity.Status,
+                    ColorCategoryHexa = entity.ColorCategoryHexa,
+                    TimeZone = entity.TimeZone,
+                    IsPushedCalendar = entity.IsPushedCalendar,
+                    RecurrenceDays = entity.RecurrenceDays ?? [],
+                    RecurrenceType = entity.RecurrenceType,
+                    RecurrenceEndDate = entity.RecurrenceEndDate,
+                    RecurrenceCount = entity.RecurrenceCount,
+                    ReasonCancellation = entity.ReasonCancellation ?? string.Empty,
+                    TokenRecurrence = token
+                }
+            ];
 
         public static GetMedicalCalendarDto ToGetDto(ScheduleCalendar package, ScheduleCalendarItem? preferredItem = null)
         {

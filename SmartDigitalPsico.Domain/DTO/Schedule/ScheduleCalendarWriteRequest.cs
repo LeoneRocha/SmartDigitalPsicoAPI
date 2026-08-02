@@ -7,6 +7,7 @@ namespace SmartDigitalPsico.Domain.DTO.Schedule
     /// </summary>
     public class ScheduleCalendarWriteRequest
     {
+        public long? PackageId { get; set; }
         public string TenantKey { get; set; } = string.Empty;
         public string OwnerKey { get; set; } = string.Empty;
         public string? SubjectKey { get; set; }

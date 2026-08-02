@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Domain.DTO.Notification;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
@@ -43,15 +42,11 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             await _medicalCalenderNotification.NotifyAsync(entityAdd, EMedicalCalendarActionType.Add);
         }
 
-        public async Task CreateOrUpdateNotificationRecordsAsync(MedicalCalendar[] entities)
+        public Task CreateOrUpdateNotificationRecordsAsync(MedicalCalendar[] entities)
         {
-            var notificationDto = new GenerateNotificationRecordsDto
-            {
-                MedicalCalendars = entities,
-                IsEnabled = true,
-                NotificationType = ENotificationType.BeforeAppointment
-            };
-            await _notificationRecordsService.CreateOrUpdateNotificationRecordsAsync(notificationDto);
+            // ScheduleCalendar SoT Ids must not be written to NotificationRecords.MedicalCalendarId
+            // (FK still references MedicalCalendar table). Email notify remains via SendNotifyRegisterAsync.
+            return Task.CompletedTask;
         }
 
         public Task DeleteNotificationRecordsAsync(params long[] scheduleCalendarIds)

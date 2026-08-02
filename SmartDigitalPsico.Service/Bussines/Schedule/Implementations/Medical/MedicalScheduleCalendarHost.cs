@@ -16,6 +16,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
 using SmartDigitalPsico.Domain.VO;
@@ -99,7 +100,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                     return FailDto(persist.Message);
 
                 entity.Id = persist.Data.Id;
-                await _notifications.CreateOrUpdateNotificationRecordsAsync([entity]);
+                // SoT uses ScheduleCalendar — do not write NotificationRecords.MedicalCalendarId (FK to MedicalCalendar).
                 await _notifications.SendNotifyRegisterAsync(entity);
 
                 return Ok(MedicalScheduleMapper.ToGetDto(persist.Data),
@@ -116,27 +117,44 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         {
             try
             {
+                var existing = await _scheduleService.GetByIdAsync(item.Id);
+                if (!existing.Success || existing.Data == null)
+                    return FailDto(await Loc(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound));
+
+                var package = existing.Data;
+                var targetOccurrence = FindTargetOccurrence(package.ScheduleData, item.StartDateTime);
+
+                // Block editing canceled/refused packages (payload status or target occurrence).
+                if (item.Status is EStatusCalendar.Canceled or EStatusCalendar.Refused
+                    || targetOccurrence?.Status is EStatusCalendar.Canceled or EStatusCalendar.Refused)
+                {
+                    return FailDto(await Loc(MedicalCalendarKeyConstants.Calendar_Error, MedicalCalendarMenssageConstants.Calendar_Error));
+                }
+
                 var entity = _mapper.Map<MedicalCalendar>(item);
+                entity.Id = package.Id;
                 entity.CreatedUserId = _userId;
                 entity.ModifyUserId = _userId;
                 entity.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
                 entity.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
-                if (string.IsNullOrWhiteSpace(entity.TokenRecurrence))
-                    entity.TokenRecurrence = Guid.NewGuid().ToString();
+                // Never invent a new token on update — preserve package UniqueToken for self-exclude + SoT lookup.
+                entity.TokenRecurrence = package.UniqueToken;
 
                 var validation = await ValidateEntityAsync(entity);
                 if (!validation.Success) return validation;
 
                 var write = MedicalScheduleMapper.ToWriteRequest(entity, isUpdate: true, updateSeries: item.UpdateSeries);
+                write.PackageId = package.Id;
                 var persist = await _scheduleService.CreateOrUpdateAsync(write);
                 if (!persist.Success || persist.Data == null)
                     return FailDto(persist.Message);
 
                 entity.Id = persist.Data.Id;
-                await _notifications.CreateOrUpdateNotificationRecordsAsync([entity]);
+                // SoT uses ScheduleCalendar — do not write NotificationRecords.MedicalCalendarId (FK to MedicalCalendar).
                 await _notifications.SendNotifyRegisterAsync(entity);
 
-                return Ok(MedicalScheduleMapper.ToGetDto(persist.Data),
+                var preferred = FindTargetOccurrence(persist.Data.ScheduleData, item.StartDateTime);
+                return Ok(MedicalScheduleMapper.ToGetDto(persist.Data, preferred),
                     await Loc(MedicalCalendarKeyConstants.CalendarUpdated, MedicalCalendarMenssageConstants.CalendarUpdated));
             }
             catch (Exception ex)
@@ -144,6 +162,13 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 _logger.Error(ex, "MedicalScheduleCalendarHost.Update");
                 return FailDto(await Loc(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message));
             }
+        }
+
+        private static ScheduleCalendarItem? FindTargetOccurrence(ScheduleCalendarItem[]? items, DateTime startDateTime)
+        {
+            if (items == null || items.Length == 0) return null;
+            return items.FirstOrDefault(i => i.StartDateTime == startDateTime)
+                ?? items.FirstOrDefault(i => i.StartDateTime.Date == startDateTime.Date);
         }
 
         public async Task<ServiceResponse<bool>> DeleteOneOrRecurrence(DeleteMedicalCalendarDto request)

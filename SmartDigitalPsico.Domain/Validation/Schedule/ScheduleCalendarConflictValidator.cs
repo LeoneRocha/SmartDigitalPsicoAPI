@@ -1,4 +1,5 @@
 using FluentValidation;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
@@ -38,7 +39,8 @@ namespace SmartDigitalPsico.Domain.Validation.Schedule
                 end);
 
             var hasConflict = items.Any(c =>
-                ScheduleOverlapHelper.Overlaps(c.StartDateTime, c.EndDateTime, request.StartDateTime, end)
+                c.Status is not (EStatusCalendar.Canceled or EStatusCalendar.Refused)
+                && ScheduleOverlapHelper.Overlaps(c.StartDateTime, c.EndDateTime, request.StartDateTime, end)
                 && (string.IsNullOrWhiteSpace(request.ExcludeToken)
                     || !string.Equals(c.TokenRecurrence, request.ExcludeToken, StringComparison.Ordinal)));
 

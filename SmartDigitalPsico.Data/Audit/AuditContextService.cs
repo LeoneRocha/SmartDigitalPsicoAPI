@@ -124,19 +124,39 @@ namespace SmartDigitalPsico.Data.Audit
 
             return PrimaryKeyValues[0].CurrentValue?.ToString() ?? string.Empty;
         }
+        private const int AuditValuesMaxLength = 8000;
+        private static readonly HashSet<string> LargeJsonProperties = new(StringComparer.Ordinal)
+        {
+            "ScheduleData"
+        };
+
         private static string SerializeOriginalValues(EntityEntry entry)
         {
             var originalValues = entry.OriginalValues.Properties
-                .ToDictionary(p => p.Name, p => entry.OriginalValues[p]);
+                .ToDictionary(p => p.Name, p => SanitizeAuditValue(p.Name, entry.OriginalValues[p]));
 
-            return AuditLogHelper.SerializeObject(originalValues);
+            return TruncateAuditJson(AuditLogHelper.SerializeObject(originalValues));
         }
         private static string SerializeCurrentValues(EntityEntry entry)
         {
             var currentValues = entry.CurrentValues.Properties
-                .ToDictionary(p => p.Name, p => entry.CurrentValues[p]);
+                .ToDictionary(p => p.Name, p => SanitizeAuditValue(p.Name, entry.CurrentValues[p]));
 
-            return AuditLogHelper.SerializeObject(currentValues);
+            return TruncateAuditJson(AuditLogHelper.SerializeObject(currentValues));
+        }
+
+        private static object? SanitizeAuditValue(string propertyName, object? value)
+        {
+            if (LargeJsonProperties.Contains(propertyName) && value != null)
+                return "[omitted]";
+            return value;
+        }
+
+        private static string TruncateAuditJson(string json)
+        {
+            if (string.IsNullOrEmpty(json) || json.Length <= AuditValuesMaxLength)
+                return json;
+            return json[..(AuditValuesMaxLength - 3)] + "...";
         }
         private static (long?, string) GetCurrentUserId(EntityEntry entry)
         {

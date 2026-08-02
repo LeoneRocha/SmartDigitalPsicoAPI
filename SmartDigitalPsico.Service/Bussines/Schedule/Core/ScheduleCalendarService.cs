@@ -41,11 +41,16 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
 
                 var token = request.UniqueToken.Trim();
                 var now = DateHelper.GetDateTimeNowFromUtc();
-                var (startPeriod, endPeriod) = ComputePeriod(request.Items);
 
-                var entity = await _repository.GetByUniqueTokenAsync(token);
+                ScheduleCalendar? entity = null;
+                if (request.PackageId is > 0)
+                    entity = await _repository.FindByID(request.PackageId.Value);
+                if (entity == null)
+                    entity = await _repository.GetByUniqueTokenAsync(token);
+
                 if (entity == null)
                 {
+                    var (startPeriod, endPeriod) = ComputePeriod(request.Items);
                     entity = new ScheduleCalendar
                     {
                         Enable = request.Enable,
@@ -70,12 +75,17 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
                     entity.TenantKey = ScheduleKeyHelper.RequireTenant(request.TenantKey);
                     entity.OwnerKey = request.OwnerKey;
                     entity.SubjectKey = request.SubjectKey;
-                    if (request.UpdateSeries || request.IsUpdate)
-                    {
-                        entity.StartPeriod = startPeriod;
-                        entity.EndPeriod = endPeriod;
-                        entity.ScheduleData = request.Items;
-                    }
+
+                    ScheduleCalendarItem[] finalItems;
+                    if (request.IsUpdate && !request.UpdateSeries)
+                        finalItems = MergeByStartDateTime(entity.ScheduleData, request.Items);
+                    else
+                        finalItems = request.Items;
+
+                    var (startPeriod, endPeriod) = ComputePeriod(finalItems);
+                    entity.StartPeriod = startPeriod;
+                    entity.EndPeriod = endPeriod;
+                    entity.ScheduleData = finalItems;
                     entity = await _repository.Update(entity);
                 }
 
@@ -86,9 +96,10 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "ScheduleCalendarService.CreateOrUpdateAsync failed");
+                _logger.Error(ex, "ScheduleCalendarService.CreateOrUpdateAsync failed. Inner={Inner}",
+                    ex.InnerException?.Message);
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = ex.InnerException?.Message ?? ex.Message;
                 return response;
             }
         }
@@ -211,6 +222,37 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
             var start = items.Min(i => i.StartDateTime);
             var end = items.Max(i => i.EndDateTime ?? i.StartDateTime);
             return (start, end);
+        }
+
+        /// <summary>
+        /// Upsert by StartDateTime: replace matching occurrences, keep all others.
+        /// If StartDateTime changed but same calendar day, replace that day's occurrence (partial reschedule).
+        /// </summary>
+        private static ScheduleCalendarItem[] MergeByStartDateTime(
+            ScheduleCalendarItem[]? existing,
+            ScheduleCalendarItem[] incoming)
+        {
+            var result = (existing ?? []).ToList();
+            foreach (var item in incoming)
+            {
+                var exact = result.FindIndex(e => e.StartDateTime == item.StartDateTime);
+                if (exact >= 0)
+                {
+                    result[exact] = item;
+                    continue;
+                }
+
+                var sameDay = result.FindIndex(e => e.StartDateTime.Date == item.StartDateTime.Date);
+                if (sameDay >= 0)
+                {
+                    result[sameDay] = item;
+                    continue;
+                }
+
+                result.Add(item);
+            }
+
+            return result.OrderBy(i => i.StartDateTime).ToArray();
         }
     }
 }
