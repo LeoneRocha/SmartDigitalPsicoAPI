@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartDigitalPsico.Data.Context;
 
@@ -11,9 +12,11 @@ using SmartDigitalPsico.Data.Context;
 namespace SmartDigitalPsico.Data.Migrations.MySql
 {
     [DbContext(typeof(SmartDigitalPsicoDataContextMySql))]
-    partial class SmartDigitalPsicoDataContextMySqlModelSnapshot : ModelSnapshot
+    [Migration("20260802175802_UpdateNotificationTemplateMocks")]
+    partial class UpdateNotificationTemplateMocks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1953,7 +1956,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-                    b.Property<string>("TemplateKey")
+                    b.Property<string>("TagApi")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
@@ -1963,15 +1966,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.HasIndex("Language")
                         .HasDatabaseName("IX_NotificationTemplate_Language");
 
-                    b.HasIndex("TemplateKey")
-                        .HasDatabaseName("IX_NotificationTemplate_TemplateKey");
+                    b.HasIndex("TagApi")
+                        .HasDatabaseName("IX_NotificationTemplate_TagApi");
 
-                    b.HasIndex("Language", "TemplateKey")
+                    b.HasIndex("Language", "TagApi")
                         .IsUnique()
-                        .HasDatabaseName("IX_NotificationTemplate_Language_TemplateKey_Unique");
+                        .HasDatabaseName("IX_NotificationTemplate_Language_TagApi_Unique");
 
-                    b.HasIndex("Language", "TemplateKey", "Enable")
-                        .HasDatabaseName("IX_NotificationTemplate_Language_TemplateKey_Enable");
+                    b.HasIndex("Language", "TagApi", "Enable")
+                        .HasDatabaseName("IX_NotificationTemplate_Language_TagApi_Enable");
 
                     b.ToTable("NotificationTemplate", "dbo");
 
@@ -1990,7 +1993,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             NotificationTemplateType = (byte)0,
                             Subject = "Acesso Concedido",
-                            TemplateKey = "LoginReleaseEmail"
+                            TagApi = "LoginReleaseEmail"
                         },
                         new
                         {
@@ -2004,7 +2007,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             NotificationTemplateType = (byte)0,
                             Subject = "Dados da Conta Atualizados",
-                            TemplateKey = "AccountChangeSuccess"
+                            TagApi = "AccountChangeSuccess"
                         },
                         new
                         {
@@ -2018,7 +2021,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             NotificationTemplateType = (byte)0,
                             Subject = "Sua Consulta Foi Agendada",
-                            TemplateKey = "AppointmentScheduledSuccess"
+                            TagApi = "AppointmentScheduledSuccess"
                         },
                         new
                         {
@@ -2032,7 +2035,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             NotificationTemplateType = (byte)0,
                             Subject = "Sua Consulta Foi Remarcada",
-                            TemplateKey = "AppointmentRescheduled"
+                            TagApi = "AppointmentRescheduled"
                         },
                         new
                         {
@@ -2046,7 +2049,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             NotificationTemplateType = (byte)0,
                             Subject = "Sua Consulta Foi Cancelada",
-                            TemplateKey = "AppointmentCancelled"
+                            TagApi = "AppointmentCancelled"
                         },
                         new
                         {
@@ -2060,7 +2063,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             NotificationTemplateType = (byte)0,
                             Subject = "Dados Médicos Atualizados",
-                            TemplateKey = "MedicalUpdateEmail"
+                            TagApi = "MedicalUpdateEmail"
                         },
                         new
                         {
@@ -2074,7 +2077,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             NotificationTemplateType = (byte)0,
                             Subject = "Lembrete de Consulta Agendada",
-                            TemplateKey = "AppointmentReminder"
+                            TagApi = "AppointmentReminder"
                         });
                 });
 

@@ -53,7 +53,9 @@ namespace SmartDigitalPsico.Service.DataEntity.General
             };
             if (template != null)
             {
-                string emailBody = template.Body;
+                // Prefer canonical card templates (distinct header color per type).
+                string emailBody = EmailTemplateBodyConstants.Resolve(template.TemplateKey) ?? template.Body;
+
                 var notificationVO = new DataNotificationTemplateVO
                 {
                     Subject = template.Subject,
@@ -67,37 +69,36 @@ namespace SmartDigitalPsico.Service.DataEntity.General
 
         private static EMedicalCalendarActionType changeTypeActionByStatus(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
-            if (calendar != null && action != EMedicalCalendarActionType.NotificationDispatch)
+            // Explicit lifecycle actions (update/delete/dispatch) must keep their templates.
+            if (action is EMedicalCalendarActionType.Update
+                or EMedicalCalendarActionType.Rescheduled
+                or EMedicalCalendarActionType.Delete
+                or EMedicalCalendarActionType.Cancelled
+                or EMedicalCalendarActionType.NotificationDispatch)
             {
-                switch (calendar.Status)
-                {
-                    case EStatusCalendar.Active:
-                        return EMedicalCalendarActionType.Scheduled;
-                    case EStatusCalendar.Scheduled:
-                        return EMedicalCalendarActionType.Scheduled;
-                    case EStatusCalendar.Confirmed:
-                        return EMedicalCalendarActionType.Scheduled;
-                    case EStatusCalendar.Refused:
-                        return EMedicalCalendarActionType.Refused;
-                    case EStatusCalendar.Completed:
-                        return EMedicalCalendarActionType.Update;
-                    case EStatusCalendar.NoShow:
-                        return EMedicalCalendarActionType.Update;
-                    case EStatusCalendar.PendingConfirmation:
-                        return EMedicalCalendarActionType.Scheduled;
-                    case EStatusCalendar.InProgress:
-                        return EMedicalCalendarActionType.Scheduled;
-                    case EStatusCalendar.Rescheduled:
-                        return EMedicalCalendarActionType.Scheduled;
-                    case EStatusCalendar.Canceled:
-                        return EMedicalCalendarActionType.Cancelled;
-                    case EStatusCalendar.PendingCancellation:
-                        return EMedicalCalendarActionType.Scheduled;
-                    default:
-                        break;
-                }
+                return action;
             }
-            return action;
+
+            if (calendar == null)
+                return action;
+
+            return calendar.Status switch
+            {
+                EStatusCalendar.Active
+                    or EStatusCalendar.Scheduled
+                    or EStatusCalendar.Confirmed
+                    or EStatusCalendar.PendingConfirmation
+                    or EStatusCalendar.InProgress
+                    or EStatusCalendar.Rescheduled
+                    or EStatusCalendar.PendingCancellation
+                    => EMedicalCalendarActionType.Scheduled,
+                EStatusCalendar.Canceled => EMedicalCalendarActionType.Cancelled,
+                EStatusCalendar.Completed
+                    or EStatusCalendar.NoShow
+                    => EMedicalCalendarActionType.Update,
+                EStatusCalendar.Refused => EMedicalCalendarActionType.Cancelled,
+                _ => action
+            };
         }
 
         private async Task<GetNotificationTemplateDto?> GetTemplate(string tag)

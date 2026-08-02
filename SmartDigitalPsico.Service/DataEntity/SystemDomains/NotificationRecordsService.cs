@@ -145,7 +145,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 EventDate = medicalCalendar.StartDateTime,
                 Language = "en",
                 Description = medicalCalendar.Description,
-                MedicalCalendarId = medicalCalendar.Id,
+                // Id=0 (SoT ScheduleCalendar path) → null so FK to MedicalCalendar is not violated.
+                MedicalCalendarId = medicalCalendar.Id > 0 ? medicalCalendar.Id : null,
                 NotificationRules = notificationRulesDtos,
                 IsCompleted = isCompleted,
                 FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
@@ -156,7 +157,20 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             try
             {
-                var existingRecord = (await _entityRepository.FindByCustomWhere(nr => nr.MedicalCalendarId == medicalCalendar.Id)).FirstOrDefault();
+                NotificationRecord? existingRecord = null;
+                if (medicalCalendar.Id > 0)
+                {
+                    existingRecord = (await _entityRepository.FindByCustomWhere(
+                        nr => nr.MedicalCalendarId == medicalCalendar.Id)).FirstOrDefault();
+                }
+                else
+                {
+                    // SoT path: no MedicalCalendarId — upsert by EventDate among unlinked records.
+                    existingRecord = (await _entityRepository.FindByCustomWhere(nr =>
+                        nr.MedicalCalendarId == null
+                        && nr.EventDate == medicalCalendar.StartDateTime
+                        && !nr.IsCompleted)).FirstOrDefault();
+                }
 
                 if (existingRecord != null)
                 {

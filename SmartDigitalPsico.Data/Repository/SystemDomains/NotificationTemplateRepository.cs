@@ -10,13 +10,18 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
     {
         public NotificationTemplateRepository(IEntityDataContext context) : base(context) { }
 
-        public async Task<NotificationTemplate> GetNotificationTemplateAsync(string tagApi, string language)
+        public async Task<NotificationTemplate?> GetNotificationTemplateAsync(string templateKey, string language)
         {
-            var template = await _context.NotificationTemplates
-                .AsNoTracking()
-                .SingleAsync(t => t.TagApi == tagApi && t.Language == language && t.Enable);
+            var templates = _context.NotificationTemplates.AsNoTracking()
+                .Where(t => t.TemplateKey == templateKey && t.Enable);
 
-            return template;
+            var template = await templates.FirstOrDefaultAsync(t => t.Language == language);
+            if (template != null)
+                return template;
+
+            // Fallback when CurrentCulture does not match seed language (pt-BR).
+            return await templates.FirstOrDefaultAsync(t => t.Language == "pt-BR")
+                ?? await templates.FirstOrDefaultAsync();
         }
     }
 }

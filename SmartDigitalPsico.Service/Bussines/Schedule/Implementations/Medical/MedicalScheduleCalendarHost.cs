@@ -100,8 +100,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                     return FailDto(persist.Message);
 
                 entity.Id = persist.Data.Id;
-                // SoT uses ScheduleCalendar — do not write NotificationRecords.MedicalCalendarId (FK to MedicalCalendar).
-                await _notifications.SendNotifyRegisterAsync(entity);
+                await _notifications.CreateOrUpdateNotificationRecordsAsync([entity]);
+                await _notifications.SendNotifyRegisterAsync(entity, EMedicalCalendarActionType.Add);
 
                 return Ok(MedicalScheduleMapper.ToGetDto(persist.Data),
                     await Loc(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred));
@@ -150,8 +150,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                     return FailDto(persist.Message);
 
                 entity.Id = persist.Data.Id;
-                // SoT uses ScheduleCalendar — do not write NotificationRecords.MedicalCalendarId (FK to MedicalCalendar).
-                await _notifications.SendNotifyRegisterAsync(entity);
+                await _notifications.CreateOrUpdateNotificationRecordsAsync([entity]);
+                await _notifications.SendNotifyRegisterAsync(entity, EMedicalCalendarActionType.Update);
 
                 var preferred = FindTargetOccurrence(persist.Data.ScheduleData, item.StartDateTime);
                 return Ok(MedicalScheduleMapper.ToGetDto(persist.Data, preferred),

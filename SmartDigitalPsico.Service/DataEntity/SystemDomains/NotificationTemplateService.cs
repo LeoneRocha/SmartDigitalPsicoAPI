@@ -40,14 +40,14 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return await base.Create(item);
         }
 
-        public async Task<ServiceResponse<GetNotificationTemplateDto>> GetNotificationTemplatesAsync(string tagApi)
+        public async Task<ServiceResponse<GetNotificationTemplateDto>> GetNotificationTemplatesAsync(string templateKey)
         {
             ServiceResponse<GetNotificationTemplateDto> response = new ServiceResponse<GetNotificationTemplateDto>();
 
             var culturenameCurrent = CultureInfo.CurrentCulture;
             string language = culturenameCurrent.Name;
 
-            Domain.ModelEntity.NotificationTemplate entityResponse = await _entityRepository.GetNotificationTemplateAsync(tagApi, language);
+            Domain.ModelEntity.NotificationTemplate? entityResponse = await _entityRepository.GetNotificationTemplateAsync(templateKey, language);
 
             if (entityResponse != null)
             {

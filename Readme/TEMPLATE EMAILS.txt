@@ -1,4 +1,4 @@
-﻿Segue abaixo os HTMLs dos templates, cada um com uma cor de cabeçalho diferenciada de acordo com o status (TagApi). Você poderá editar via tela e manter os tokens para substituição dinâmica.
+﻿Segue abaixo os HTMLs dos templates, cada um com uma cor de cabeçalho diferenciada de acordo com o status (TemplateKey). Você poderá editar via tela e manter os tokens para substituição dinâmica.
 
 ---
 
@@ -182,7 +182,7 @@
 ### Considerações Finais
 
 - **Variação de Cores:**  
-  Cada template possui uma cor de cabeçalho própria, facilitando a identificação visual do status baseado no valor do `TagApi`.
+  Cada template possui uma cor de cabeçalho própria, facilitando a identificação visual do status baseado no valor do `TemplateKey`.
 
 - **Tokens:**  
   Os tokens, como `[{PatientName}]`, `[{MedicalName}]`, `[{Title}]`, etc., permanecem para que o sistema os substitua dinamicamente com os dados reais.
