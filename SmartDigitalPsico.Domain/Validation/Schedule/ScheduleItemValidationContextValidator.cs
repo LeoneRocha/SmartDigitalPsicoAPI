@@ -9,6 +9,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
         {
             RuleFor(context => context)
                 .Must(NoTimeSlotOverlap)
+                .WithErrorCode("SmartDigitalPsico.ScheduleItemValidationContextValidator.ScheduleItemValidationContext.Entity.Must")
                 .WithMessage("ScheduleItem_Validator_Overlap_Key|The schedule item overlaps with an existing item.");
         }
 

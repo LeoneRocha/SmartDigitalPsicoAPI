@@ -13,6 +13,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
 
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
+                .WithErrorCode("SmartDigitalPsico.PatientAdditionalInformationSelectListValidator.PatientAdditionalInformation.UserIdLogged.Must")
                 .WithMessage("User_Not_Permission_Key|User does not have permission.");
 
         }

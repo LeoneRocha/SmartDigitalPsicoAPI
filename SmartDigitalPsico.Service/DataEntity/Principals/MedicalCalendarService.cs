@@ -22,9 +22,18 @@ using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.Diagnostics;
 
+#pragma warning disable CS0618 // Historical service still uses obsolete MedicalCalendarRepository / ScheduleBatch
+
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    /// <summary>
+    /// Historical medical calendar implementation kept for reference/rules.
+    /// Runtime path: <see cref="SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarFacade"/>.
+    /// </summary>
+    [Obsolete("Historical medical calendar service. Prefer IScheduleCalendarFacade / ScheduleCalendar* action services.")]
+#pragma warning disable CS0618
     public class MedicalCalendarService : EntityBaseService<MedicalCalendar, AddMedicalCalendarDto, UpdateMedicalCalendarDto, GetMedicalCalendarDto, IMedicalCalendarRepository>, IMedicalCalendarService
+#pragma warning restore CS0618
     {
         private readonly IPatientRepositories _patientRepositoriesShared;
         private readonly IMedicalRepository _medicalRepository;
@@ -267,7 +276,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private async Task GenerateRecurrenceAsync(MedicalCalendar medicalCalendar, bool updateSeries)
         {
             var events = new List<MedicalCalendar>();
-            var validator = new MedicalCalendarRangeValidator(_entityRepository);
+            var validator = MedicalCalendarRangeValidator.ForObsoleteMedicalCalendarRepository(_entityRepository);
             var count = new RefDto<int>(0);
 
             if (updateSeries || !string.IsNullOrEmpty(medicalCalendar.TokenRecurrence))

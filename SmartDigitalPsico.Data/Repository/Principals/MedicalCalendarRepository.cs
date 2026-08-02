@@ -6,6 +6,7 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
+    [Obsolete("Use ScheduleCalendarRepository / IScheduleCalendarRepository as SoT. MedicalCalendar is shadow FE only.")]
     public class MedicalCalendarRepository : GenericRepositoryEntityBase<MedicalCalendar>, IMedicalCalendarRepository
     {
         public MedicalCalendarRepository(IEntityDataContext context) : base(context) { }
@@ -35,20 +36,26 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
         public async Task<MedicalCalendar[]> GetConflictingEventsAsync(long medicalId, DateTime startDateTime, DateTime endDateTime)
         {
+            // Real overlap: Start < rangeEnd AND End > rangeStart (not containment)
             return await _context.MedicalCalendars
                 .AsNoTracking()
-                .Where(mc => mc.MedicalId == medicalId &&
-                             mc.StartDateTime <= startDateTime &&
-                             mc.EndDateTime >= endDateTime)
+                .Where(mc => mc.Enable
+                             && mc.MedicalId == medicalId
+                             && mc.StartDateTime < endDateTime
+                             && (mc.EndDateTime ?? mc.StartDateTime) > startDateTime)
                 .ToArrayAsync();
         }
 
 
         public async Task<MedicalCalendar[]> GetMedicalCalendarsForMedicalAsync(long medicalId, DateTime startDate, DateTime endDate)
         {
+            // Events that overlap the requested window (required for conflict + monthly grid)
             return await _context.MedicalCalendars
                 .AsNoTracking()
-                .Where(mc => mc.Enable && mc.MedicalId == medicalId && mc.StartDateTime >= startDate && mc.EndDateTime <= endDate)
+                .Where(mc => mc.Enable
+                             && mc.MedicalId == medicalId
+                             && mc.StartDateTime < endDate
+                             && (mc.EndDateTime ?? mc.StartDateTime) > startDate)
                 .Include(x => x.Patient)
                 .ToArrayAsync();
         }

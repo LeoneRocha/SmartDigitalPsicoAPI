@@ -15,6 +15,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 
             RuleFor(m => m)
                 .MustAsync(NoDateConflict)
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchRangeValidator.ScheduleBatch.Entity.Must")
                 .WithMessage("ErrorValidator_Date_Conflict|There is a date and time conflict for the same doctor.");
         }
 

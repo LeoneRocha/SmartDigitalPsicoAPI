@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Data.Context
 {
@@ -45,6 +46,7 @@ namespace SmartDigitalPsico.Data.Context
         public virtual DbSet<AuditDataSelectiveEntityLog> AuditSelectiveLogs { get; set; }
         public virtual DbSet<UserTokenSession> UserTokenSessions { get; set; }
         public virtual DbSet<ScheduleBatch> ScheduleBatchs { get; set; }
+        public virtual DbSet<ScheduleCalendar> ScheduleCalendars { get; set; }
         #endregion DBsets  
     }
 }

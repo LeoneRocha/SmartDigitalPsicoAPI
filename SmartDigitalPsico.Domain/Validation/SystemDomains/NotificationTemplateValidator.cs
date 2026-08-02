@@ -12,22 +12,29 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         {
             RuleFor(x => x.Description)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.NotificationTemplateValidator.NotificationTemplate.Description.NotEmpty")
                 .WithMessage("Description_Validator_IsRequired_Key|Template name is required.")
                 .MaximumLength(100)
+                .WithErrorCode("SmartDigitalPsico.NotificationTemplateValidator.NotificationTemplate.Description.MaxLength")
                 .WithMessage("Description_Validator_MaxLength_Key|Template name must be less than {0} characters.|100");
 
             RuleFor(x => x.Subject)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.NotificationTemplateValidator.NotificationTemplate.Subject.NotEmpty")
                 .WithMessage("Subject_Validator_IsRequired_Key|Subject is required.")
                 .MaximumLength(200)
+                .WithErrorCode("SmartDigitalPsico.NotificationTemplateValidator.NotificationTemplate.Subject.MaxLength")
                 .WithMessage("Subject_Validator_MaxLength_Key|Subject must be less than {0} characters.|200");
 
             RuleFor(x => x.Body)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.NotificationTemplateValidator.NotificationTemplate.Body.NotEmpty")
                 .WithMessage("Body_Validator_IsRequired_Key|Body is required.")
                 .MaximumLength(8000)
+                .WithErrorCode("SmartDigitalPsico.NotificationTemplateValidator.NotificationTemplate.Body.MaxLength")
                 .WithMessage("Body_Validator_MaxLength_Key|Body must be less than {0} characters.|8000")
                 .Must(BeSafeHtml)
+                .WithErrorCode("SmartDigitalPsico.NotificationTemplateValidator.NotificationTemplate.Body.Must")
                 .WithMessage("Body_Validator_Invalid_Key|Body contains unsafe HTML content.");
         }
 

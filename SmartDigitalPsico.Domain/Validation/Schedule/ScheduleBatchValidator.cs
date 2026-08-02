@@ -26,51 +26,67 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
             #region Columns
             RuleFor(e => e.UniqueToken)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.UniqueToken.NotEmpty")
                 .WithMessage("BatchToken_Validator_IsRequired_Key|Batch token is required.")
                 .MaximumLength(40)
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.UniqueToken.MaxLength")
                 .WithMessage("BatchToken_Validator_MaxLength_Key|Batch token cannot exceed {0} characters.|40");
 
             RuleFor(e => e.StartPeriod)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.StartPeriod.NotEmpty")
                 .WithMessage("StartPeriod_Validator_IsRequired_Key|Start period is required.")
                 .LessThan(e => e.EndPeriod)
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.StartPeriod.LessThan")
                 .WithMessage("StartPeriod_Validator_BeforeEnd_Key|Start period must be before end period.");
 
             RuleFor(e => e.EndPeriod)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.EndPeriod.NotEmpty")
                 .WithMessage("EndPeriod_Validator_IsRequired_Key|End period is required.")
                 .GreaterThan(e => e.StartPeriod)
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.EndPeriod.GreaterThan")
                 .WithMessage("EndPeriod_Validator_AfterStart_Key|End period must be after start period.");
 
             RuleFor(e => e.ScheduleData)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.ScheduleData.NotNull")
                 .WithMessage("ScheduleData_Validator_NotNull_Key|Schedule data cannot be null.")
                 .Must(data => data.Length > 0)
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.ScheduleData.Must")
                 .WithMessage("ScheduleData_Validator_NotEmpty_Key|Schedule data cannot be empty.")
                 .MustAsync(HaveValidScheduleItems)
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.ScheduleData.Must")
                 .WithMessage("ScheduleData_Validator_InvalidItems_Key|One or more schedule items are invalid.");
             #endregion Columns
 
             #region Relationship
             RuleFor(entity => entity.PatientId)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.PatientId.NotNull")
                 .WithMessage("ErrorValidator_PatientId_Null|Patient is required.");
 
             RuleFor(entity => entity.MedicalId)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.MedicalId.NotNull")
                 .WithMessage("ErrorValidator_MedicalId_Null|Doctor is required.")
                 .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.MedicalId.Must")
                 .WithMessage("ErrorValidator_MedicalId_NotFound|Doctor not found.")
                 .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.MedicalId.Must")
                 .WithMessage("ErrorValidator_Medical_Changed|Doctor has changed.")
                 .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.MedicalId.Must")
                 .WithMessage("ErrorValidator_MedicalCreated_Invalid|Doctor creation is invalid.")
                 .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.MedicalId.Must")
                 .WithMessage("ErrorValidator_MedicalModify_Invalid|Doctor modification is invalid.");
             #endregion Relationship
 
             RuleFor(x => x)
                 .MustAsync(NoScheduleConflict)
+                .WithErrorCode("SmartDigitalPsico.ScheduleBatchValidator.ScheduleBatch.Entity.Must")
                 .WithMessage("ScheduleConflict_Validator_Key|There is a scheduling conflict for the specified time.");
         }
 

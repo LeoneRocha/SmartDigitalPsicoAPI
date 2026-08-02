@@ -16,6 +16,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
 
             RuleFor(enitty => enitty.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
+                .WithErrorCode("SmartDigitalPsico.RecordValidator.Entity.UserIdLogged.Must")
                 .WithMessage("ErrorValidator_User_Not_Permission|User does not have permission.");
         }
 

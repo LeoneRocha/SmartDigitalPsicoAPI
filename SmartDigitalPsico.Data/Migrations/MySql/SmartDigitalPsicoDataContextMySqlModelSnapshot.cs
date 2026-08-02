@@ -5403,6 +5403,77 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
+            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Schedule.ScheduleCalendar", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("Id")
+                        .HasColumnOrder(0);
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("Enable")
+                        .HasColumnOrder(1);
+
+                    b.Property<DateTime>("EndPeriod")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("LastAccessDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("LastAccessDate");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("ModifyDate");
+
+                    b.Property<string>("OwnerKey")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ScheduleData")
+                        .IsRequired()
+                        .HasMaxLength(65535)
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartPeriod")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("SubjectKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("TenantKey")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("UniqueToken")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UniqueToken")
+                        .IsUnique()
+                        .HasDatabaseName("UX_ScheduleCalendar_UniqueToken");
+
+                    b.HasIndex("TenantKey", "OwnerKey", "StartPeriod", "EndPeriod")
+                        .HasDatabaseName("IX_ScheduleCalendar_Tenant_Owner_Period");
+
+                    b.ToTable("ScheduleCalendar", "dbo");
+
+                    MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
+                });
+
             modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ScheduleBatch", b =>
                 {
                     b.Property<long>("Id")

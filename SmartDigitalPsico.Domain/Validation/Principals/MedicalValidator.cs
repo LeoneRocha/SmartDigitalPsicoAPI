@@ -15,37 +15,51 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(entity => entity.Name)
                 .NotNull().NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Name.NotEmpty")
                 .WithMessage("Name_Validator_IsRequired_Key|Name is required.");
 
             RuleFor(entity => entity.Accreditation)
                 .NotNull().NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Accreditation.NotEmpty")
                 .WithMessage("Accreditation_Validator_IsRequired_Key|Accreditation is required.")
                 .MaximumLength(10)
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Accreditation.MaxLength")
                 .WithMessage("Accreditation_Validator_MaxLength_Key|Accreditation cannot exceed {0} characters.|10")
                 .MustAsync(async (entity, value, c) => await IsUniqueAccreditation(entity, value))
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Accreditation.Must")
                 .WithMessage("Accreditation_Validator_Unique_Key|Accreditation must be unique.");
 
             RuleFor(entity => entity.Email)
                 .NotNull().NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Email.NotEmpty")
                 .WithMessage("Email_Validator_IsRequired_Key|Email is required.")
                 .EmailAddress()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Email.EmailAddress")
                 .WithMessage("Email_Validator_Invalid_Key|Invalid email address.")
                 .MaximumLength(100)
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Email.MaxLength")
                 .WithMessage("Email_Validator_MaxLength_Key|Email cannot exceed {0} characters.|100")
                 .MustAsync(async (entity, value, c) => await IsUniqueEmail(entity, value))
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.Email.Must")
                 .WithMessage("Email_Validator_Unique_Key|Email must be unique.");
 
             RuleFor(p => p.SecurityKey)
                 .MaximumLength(255)
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.SecurityKey.MaxLength")
                 .WithMessage("SecurityKey_Validator_MaxLength_Key|SecurityKey cannot exceed {0} characters.|255");
 
             RuleFor(m => m.StartWorkingTime)
-                .NotEmpty().WithMessage("StartWorkingTime_Validator_IsRequired_Key|Start working time is required.")
+                .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.StartWorkingTime.NotEmpty")
+                .WithMessage("StartWorkingTime_Validator_IsRequired_Key|Start working time is required.")
                 .LessThan(m => m.EndWorkingTime)
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.StartWorkingTime.LessThan")
                 .WithMessage("StartWorkingTime_Validator_BeforeEnd_Key|Start working time must be before end working time.");
 
             RuleFor(m => m.EndWorkingTime)
-                .NotEmpty().WithMessage("EndWorkingTime_Validator_IsRequired_Key|End working time is required.");
+                .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.EndWorkingTime.NotEmpty")
+                .WithMessage("EndWorkingTime_Validator_IsRequired_Key|End working time is required.");
 
             #endregion Columns
 
@@ -53,6 +67,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(entity => entity.CreatedUserId)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.MedicalValidator.Medical.CreatedUserId.NotNull")
                 .WithMessage("ErrorValidator_CreatedUserId_Invalid_Key|Invalid created user ID.");
 
             #endregion Relationship

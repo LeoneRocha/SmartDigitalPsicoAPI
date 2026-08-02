@@ -9,6 +9,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             RuleFor(x => x.MedicalCalendarId)
                 .GreaterThan(0)
                 .When(x => x.MedicalCalendarId.HasValue)
+                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.MedicalCalendarId.GreaterThan")
                 .WithMessage("NotificationRecords_MedicalCalendarId_Validator_Invalid|If provided, MedicalCalendarId must be greater than 0.");
 
             // Valida cada item do array de NotificationRules.
@@ -16,10 +17,12 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
             RuleFor(x => x.CreatedDate)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.CreatedDate.NotEmpty")
                 .WithMessage("NotificationRecords_CreatedAt_Validator_IsRequired|CreatedDate is required.");
 
             RuleFor(x => x.ModifyDate)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.ModifyDate.NotEmpty")
                 .WithMessage("NotificationRecords_UpdatedAt_Validator_IsRequired|ModifyDate is required.");
 
             // Validação para controle de conclusão:
@@ -27,10 +30,12 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             {
                 RuleFor(x => x.FinalSendDate)
                     .NotNull()
+                    .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.FinalSendDate.NotNull")
                     .WithMessage("NotificationRecords_FinalSendDate_Validator_IsRequired|FinalSendDate is required when notifications are completed.");
 
                 RuleFor(x => x.FinalSendDate)
                     .GreaterThanOrEqualTo(x => x.CreatedDate)
+                    .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.FinalSendDate.GreaterThanOrEqualTo")
                     .WithMessage("NotificationRecords_FinalSendDate_Validator_Invalid|FinalSendDate must be equal to or later than CreatedDate.");
             });
         }
@@ -41,18 +46,22 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
         {
             RuleFor(x => x.NotificationRuleId)
                 .GreaterThan(0)
+                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.NotificationRuleId.GreaterThan")
                 .WithMessage("NotificationRuleStatus_NotificationRuleId_Validator_IsRequired|NotificationRuleId must be greater than 0.");
 
             RuleFor(x => x.ScheduledSendTime)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.ScheduledSendTime.NotEmpty")
                 .WithMessage("NotificationRuleStatus_ScheduledSendTime_Validator_IsRequired|ScheduledSendTime is required.");
 
             RuleFor(x => x.IsSent)
                 .NotNull()
+                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.IsSent.NotNull")
                 .WithMessage("NotificationRuleStatus_IsSent_Validator_IsRequired|IsSent is required.");
 
             RuleFor(x => x.NotificationMethods)
                 .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.NotificationMethods.NotEmpty")
                 .WithMessage("NotificationRuleStatus_NotificationMethods_Validator_IsRequired|NotificationMethods are required.");
         }
     }

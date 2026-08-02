@@ -15,6 +15,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
 
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
+                .WithErrorCode("SmartDigitalPsico.BasePatientSelectListValidator.Entity.UserIdLogged.Must")
                 .WithMessage("User_Not_Permission_Key|User does not have permission.");
         }
         protected override async Task<bool> HasPermissionAsync(RecordsList<T> recordsList, long userIdLogged, CancellationToken cancellationToken)

@@ -15,6 +15,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
 
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
+                .WithErrorCode("SmartDigitalPsico.MedicalCalendarListValidator.Entity.UserIdLogged.Must")
                 .WithMessage("ErrorValidator_User_Not_Permission|User does not have permission.");
         }
 

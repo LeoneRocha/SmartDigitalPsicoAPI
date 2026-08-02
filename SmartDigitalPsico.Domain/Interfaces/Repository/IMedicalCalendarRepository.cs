@@ -2,6 +2,7 @@
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
+    [Obsolete("Use IScheduleCalendarRepository / ScheduleCalendar as SoT. MedicalCalendar is shadow FE only.")]
     public interface IMedicalCalendarRepository : IEntityBaseRepository<MedicalCalendar>
     {
         Task<MedicalCalendar[]> GetByMedicalCalendarAsync(MedicalCalendar medicalCalendar);

@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure; 
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Data.Context.Interface
 {
@@ -47,6 +48,7 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<User> Users { get; set; }
         DbSet<UserTokenSession> UserTokenSessions { get; set; } 
         DbSet<ScheduleBatch> ScheduleBatchs { get; set; }
+        DbSet<ScheduleCalendar> ScheduleCalendars { get; set; }
 
         #endregion DbSets 
     }

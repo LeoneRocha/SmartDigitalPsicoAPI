@@ -1,12 +1,12 @@
-﻿using SmartDigitalPsico.Domain.DTO.Schedule;
+using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
+    [Obsolete("Legacy Medical-coupled batch. Use IScheduleCalendarService / ScheduleCalendar as SoT.")]
     public interface IScheduleBatchService : IEntityBaseService<ScheduleBatch, AddScheduleBatchDto, UpdateScheduleBatchDto, GetScheduleBatchDto>
-    {
-        /// <summary>
+    {        /// <summary>
         /// Deletes a schedule batch by ID or batch token
         /// </summary>
         /// <param name="request">Delete request containing ID or batch token</param>

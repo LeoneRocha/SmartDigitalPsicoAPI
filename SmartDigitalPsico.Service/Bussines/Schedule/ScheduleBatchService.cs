@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
@@ -16,6 +16,7 @@ using System.Diagnostics;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    [Obsolete("Legacy Medical-coupled batch. Use ScheduleCalendarService as SoT.")]
     public class ScheduleBatchService : EntityBaseService<ScheduleBatch, AddScheduleBatchDto, UpdateScheduleBatchDto, GetScheduleBatchDto, IScheduleBatchRepository>, IScheduleBatchService
     {
         private readonly IScheduleBatchCollectionValidators _validators;
@@ -30,13 +31,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             _validators = scheduleBatchValidators;
         }
+
         public override Task<ServiceResponse<GetScheduleBatchDto>> Create(AddScheduleBatchDto item)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Use CreateOrUpdateBatchAsync for ScheduleBatch SoT writes.");
         }
+
         public override Task<ServiceResponse<GetScheduleBatchDto>> Update(UpdateScheduleBatchDto item)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Use CreateOrUpdateBatchAsync for ScheduleBatch SoT writes.");
         }
 
         public async Task<ServiceResponse<bool>> DeleteBatchAsync(DeleteScheduleBatchDto request)
@@ -287,27 +290,27 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             string uniqueToken;
             ScheduleBatch? entityBatch = null;
 
-            if (request.IsUpdate && !string.IsNullOrEmpty(request.TokenRecurrence))
-            {
-                uniqueToken = await _entityRepository.GetUniqueTokenByPatientIdAsync(request.PatientId.GetValueOrDefault()) ?? string.Empty;
+            // UniqueToken must align with TokenRecurrence (series key)
+            uniqueToken = !string.IsNullOrWhiteSpace(request.TokenRecurrence)
+                ? request.TokenRecurrence
+                : Guid.NewGuid().ToString();
 
-                // Handle update scenario
-                entityBatch = await _entityRepository.GetByUniqueTokenAsync(uniqueToken ?? string.Empty);
-                if (entityBatch == null)
-                {
-                    return (null, string.Empty);
-                }
-                // Update metadata only
-                UpdateBatchMetadata(entityBatch, request.MedicalId, request.PatientId);
+            if (request.IsUpdate || !string.IsNullOrWhiteSpace(request.TokenRecurrence))
+            {
+                entityBatch = await _entityRepository.GetByUniqueTokenAsync(uniqueToken);
+            }
+
+            if (entityBatch == null)
+            {
+                entityBatch = CreateNewBatchEntity(request);
+                entityBatch.UniqueToken = uniqueToken;
             }
             else
             {
-                // Handle create scenario
-                entityBatch = CreateNewBatchEntity(request);
-                uniqueToken = Guid.NewGuid().ToString();
-                entityBatch.UniqueToken = uniqueToken;
+                UpdateBatchMetadata(entityBatch, request.MedicalId, request.PatientId);
             }
-            return (entityBatch, uniqueToken)!;
+
+            return (entityBatch, uniqueToken);
         }
 
         private ScheduleBatch CreateNewBatchEntity(ScheduleMedicalCalendarCriteriaDto request)
