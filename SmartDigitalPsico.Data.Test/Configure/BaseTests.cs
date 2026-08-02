@@ -2,7 +2,7 @@
 
 namespace SmartDigitalPsico.Data.Test.Configure
 { 
-    public class BaseTests
+    public abstract class BaseTests
     {
         protected SmartDigitalPsicoDataContextTest? _mockContext;
 

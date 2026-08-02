@@ -54,7 +54,7 @@ namespace SmartDigitalPsico.Service.Helpers
                 var implementationType = interfaceInfos.First(info => info.InterfaceType == interfaceType).ImplementationType;
                 if (implementationType != null)
                 {
-                    services.AddScoped(interfaceType, implementationType!);
+                    services.AddScoped(interfaceType, implementationType);
                 }
             }
         }

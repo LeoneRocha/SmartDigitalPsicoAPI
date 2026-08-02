@@ -55,13 +55,13 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
                 LogAppHelper.PrintLogInformationVersionProduct(_logger);
 
-                _logger.Information("Web API Loading at: {time}", DateHelper.GetDateTimeNowToLog());
+                _logger.Information("Web API Loading at: {Time}", DateHelper.GetDateTimeNowToLog());
                 app.Run();
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Web API Error Loading at: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
-                throw;
+                _logger.Error(ex, "Web API Error Loading at: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                throw new InvalidOperationException("Web API failed during startup or configuration.", ex);
             }
         }
 

@@ -84,29 +84,59 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
 
         private static void MaterializeWeekly(RecurrenceMaterializeRequest request, TimeSpan duration, List<RecurrenceInterval> items)
         {
-            var days = request.RecurrenceDays.Length > 0 ? request.RecurrenceDays : [request.StartDateTime.DayOfWeek];
-            var weekStart = request.StartDateTime.Date;
-            var currentWeek = weekStart;
+            var days = GetEffectiveRecurrenceDays(request);
+            var currentWeek = request.StartDateTime.Date;
 
             while (ShouldContinue(currentWeek, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
             {
-                foreach (var day in days.OrderBy(d => d))
-                {
-                    if (items.Count >= request.MaxOccurrences) break;
-                    if (request.RecurrenceCount.HasValue && request.RecurrenceCount.Value > 0 && items.Count >= request.RecurrenceCount.Value)
-                        break;
-
-                    var date = GetNextWeekday(currentWeek, day);
-                    var start = date.Date + request.StartDateTime.TimeOfDay;
-                    if (start < request.StartDateTime) continue;
-                    if (request.RecurrenceEndDate.HasValue && start.Date > request.RecurrenceEndDate.Value.Date) continue;
-
-                    items.Add(new RecurrenceInterval { StartDateTime = start, EndDateTime = start + duration });
-                }
+                MaterializeWeeklyOccurrences(request, duration, items, days, currentWeek);
                 currentWeek = currentWeek.AddDays(7);
-                if (!request.RecurrenceCount.HasValue && !request.RecurrenceEndDate.HasValue && items.Count > 0)
+                if (ShouldStopAfterSingleWeek(request, items))
                     break;
             }
+        }
+
+        private static DayOfWeek[] GetEffectiveRecurrenceDays(RecurrenceMaterializeRequest request)
+            => request.RecurrenceDays.Length > 0 ? request.RecurrenceDays : [request.StartDateTime.DayOfWeek];
+
+        private static bool ShouldStopAfterSingleWeek(RecurrenceMaterializeRequest request, List<RecurrenceInterval> items)
+            => !request.RecurrenceCount.HasValue && !request.RecurrenceEndDate.HasValue && items.Count > 0;
+
+        private static void MaterializeWeeklyOccurrences(
+            RecurrenceMaterializeRequest request,
+            TimeSpan duration,
+            List<RecurrenceInterval> items,
+            DayOfWeek[] days,
+            DateTime currentWeek)
+        {
+            foreach (var day in days.OrderBy(d => d))
+            {
+                if (HasReachedOccurrenceLimit(request, items))
+                    break;
+
+                TryAddWeeklyInterval(request, duration, items, currentWeek, day);
+            }
+        }
+
+        private static bool HasReachedOccurrenceLimit(RecurrenceMaterializeRequest request, List<RecurrenceInterval> items)
+            => items.Count >= request.MaxOccurrences
+               || (request.RecurrenceCount.HasValue && request.RecurrenceCount.Value > 0 && items.Count >= request.RecurrenceCount.Value);
+
+        private static void TryAddWeeklyInterval(
+            RecurrenceMaterializeRequest request,
+            TimeSpan duration,
+            List<RecurrenceInterval> items,
+            DateTime currentWeek,
+            DayOfWeek day)
+        {
+            var date = GetNextWeekday(currentWeek, day);
+            var start = date.Date + request.StartDateTime.TimeOfDay;
+            if (start < request.StartDateTime)
+                return;
+            if (request.RecurrenceEndDate.HasValue && start.Date > request.RecurrenceEndDate.Value.Date)
+                return;
+
+            items.Add(new RecurrenceInterval { StartDateTime = start, EndDateTime = start + duration });
         }
 
         private static void MaterializeMonthly(RecurrenceMaterializeRequest request, TimeSpan duration, List<RecurrenceInterval> items)

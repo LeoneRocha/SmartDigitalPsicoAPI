@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Data.Repository.CacheManager;
@@ -59,11 +59,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
             var result = _memoryCacheRepository.TryGet<Gender[]>(cacheKey, out var actualValue);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.True);
                 Assert.That(actualValue, Is.EqualTo(mockData));
-            });
+            }
         }
         [Test]
         public void Set_ValidInput_ReturnsTrue()

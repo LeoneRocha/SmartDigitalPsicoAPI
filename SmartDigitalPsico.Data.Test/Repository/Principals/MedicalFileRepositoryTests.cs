@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Data.Repository.Principals;
+using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
@@ -57,12 +57,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var listResult = await _entityRepository.FindAll(); 
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<MedicalFile>>());
                 Assert.That(listResult, Has.Count.GreaterThanOrEqualTo(1)); 
-            });
+            }
         }
         [Test]
         public async Task FindAllByMedical_Success()
@@ -79,13 +79,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var listResult = await _entityRepository.FindAllByMedical(mockDataList[0].MedicalId);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<MedicalFile>>());
                 Assert.That(listResult, Has.Count.EqualTo(2));
                 Assert.That(listResult.All(f => f.MedicalId == mockDataList[0].MedicalId), Is.True);
-            });
+            }
         }
 
         [Test]
@@ -105,12 +105,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.FindByID(mockData.Id);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result.Id, Is.EqualTo(mockData.Id));
 
-            }); 
+            }
         }
     }
 }

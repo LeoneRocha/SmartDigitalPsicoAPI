@@ -1,4 +1,4 @@
-﻿
+
 using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Tests
@@ -17,12 +17,12 @@ namespace SmartDigitalPsico.Tests
             var result = ApplicationLanguageHelper.ReplaceTokensInMessage(message);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<string>());
                 Assert.That(result, Is.EqualTo(expected));
-            });
+            }
         }
 
         [Test]
@@ -36,12 +36,12 @@ namespace SmartDigitalPsico.Tests
             var result = ApplicationLanguageHelper.ReplaceTokensInMessage(message);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<string>());
                 Assert.That(result, Is.EqualTo(expected));
-            });
+            }
         }
 
         [Test]
@@ -56,12 +56,12 @@ namespace SmartDigitalPsico.Tests
             var result = ApplicationLanguageHelper.ReplaceTokens(template, values);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<string>());
                 Assert.That(result, Is.EqualTo(expected));
-            });
+            }
         }
 
         [Test]
@@ -75,12 +75,12 @@ namespace SmartDigitalPsico.Tests
             var result = ApplicationLanguageHelper.ReplaceTokens(template);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<string>());
                 Assert.That(result, Is.EqualTo(expected));
-            });
+            }
         }
     }
-} 
+}

@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Helper
         {
             return new ValueComparer<T[]>(
                 (a, b) => ReferenceEquals(a, b) || (a != null && b != null && a.SequenceEqual(b)),
-                a => a == null ? 0 : a.Aggregate(0, (h, v) => HashCode.Combine(h, v == null ? 0 : v.GetHashCode())),
+                a => a == null ? 0 : a.Aggregate(0, (h, v) => HashCode.Combine(h, EqualityComparer<T>.Default.GetHashCode(v!))),
                 a => a == null ? Array.Empty<T>() : a.ToArray());
         }
 

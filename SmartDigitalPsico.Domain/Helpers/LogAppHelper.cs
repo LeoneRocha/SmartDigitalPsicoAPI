@@ -108,7 +108,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             var assemblyApp = GetInformationVersionProduct();
             if (assemblyApp != null)
             {
-                logger.Information("Name: {Name} | Version: {Version} | Environment: {envName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
+                logger.Information("Name: {Name} | Version: {Version} | Environment: {EnvironmentName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
             }
             else
             {

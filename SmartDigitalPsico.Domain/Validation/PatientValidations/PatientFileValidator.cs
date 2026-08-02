@@ -8,6 +8,8 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
     public class PatientFileValidator : PatientBaseValidator<PatientFile>
     {
+        private const string PatientIdMustErrorCode = "SmartDigitalPsico.PatientFileValidator.PatientFile.PatientId.Must";
+
         public PatientFileValidator(IConfiguration configuration, IPatientFileRepository entityRepository, IPatientRepository patientRepository)
            : base(patientRepository, entityRepository)
         {
@@ -48,16 +50,16 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations
                 .WithErrorCode("SmartDigitalPsico.PatientFileValidator.PatientFile.PatientId.NotNull")
                 .WithMessage("PatientId_Validator_IsRequired_Key|Patient ID is required.")
                 .MustAsync(async (entity, value, c) => await PatientIdFound(entity))
-                .WithErrorCode("SmartDigitalPsico.PatientFileValidator.PatientFile.PatientId.Must")
+                .WithErrorCode(PatientIdMustErrorCode)
                 .WithMessage("PatientId_Validator_NotFound_Key|Patient not found.")
                 .MustAsync(async (entity, value, c) => await PatientIdChanged(entity))
-                .WithErrorCode("SmartDigitalPsico.PatientFileValidator.PatientFile.PatientId.Must")
+                .WithErrorCode(PatientIdMustErrorCode)
                 .WithMessage("PatientId_Validator_Changed_Key|Patient has changed.")
                 .MustAsync(async (entity, value, c) => await MedicalCreated(entity, entity.CreatedUserId))
-                .WithErrorCode("SmartDigitalPsico.PatientFileValidator.PatientFile.PatientId.Must")
+                .WithErrorCode(PatientIdMustErrorCode)
                 .WithMessage("PatientId_Validator_MedicalCreated_Key|Patient medical record created.")
                 .MustAsync(async (entity, value, c) => await MedicalModify(entity, entity.ModifyUserId))
-                .WithErrorCode("SmartDigitalPsico.PatientFileValidator.PatientFile.PatientId.Must")
+                .WithErrorCode(PatientIdMustErrorCode)
                 .WithMessage("PatientId_Validator_MedicalModify_Key|Patient medical record modified.");
             #endregion Relationship  
         }

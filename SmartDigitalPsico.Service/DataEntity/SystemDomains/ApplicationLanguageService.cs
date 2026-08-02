@@ -132,7 +132,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "GetLocalization: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "GetLocalization: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
 
             return resultLocalization;
@@ -180,7 +180,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Create: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
         }
 

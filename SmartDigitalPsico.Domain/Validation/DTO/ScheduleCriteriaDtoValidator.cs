@@ -10,6 +10,8 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
 {
     public class ScheduleCriteriaDtoValidator : AbstractValidator<ScheduleCriteriaDto>
     {
+        private const string EntityMustErrorCode = "SmartDigitalPsico.ScheduleCriteriaDtoValidator.ScheduleCriteriaDto.Entity.Must";
+
         private readonly IScheduleCalendarRepository _scheduleCalendarRepository;
         private readonly IPatientRepository _patientRepository;
         private readonly IMedicalRepository _medicalRepository;
@@ -53,30 +55,30 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
 
             RuleFor(x => x)
                 .MustAsync(BeAValidPatientOfMedical)
-                .WithErrorCode("SmartDigitalPsico.ScheduleCriteriaDtoValidator.ScheduleCriteriaDto.Entity.Must")
+                .WithErrorCode(EntityMustErrorCode)
                 .WithMessage("Patient_Validator_BelongToDoctor_Key|The patient does not belong to the specified doctor.");
 
             RuleFor(x => x)
                 .MustAsync(HaveValidStatusForCancellation)
                 .When(x => x.ScheduleType == EScheduleCalendarType.Cancellation)
-                .WithErrorCode("SmartDigitalPsico.ScheduleCriteriaDtoValidator.ScheduleCriteriaDto.Entity.Must")
+                .WithErrorCode(EntityMustErrorCode)
                 .WithMessage("Appointment_Validator_CannotBeCancelled_Key|The appointment cannot be canceled because its status does not allow it or it is too close to the appointment time.");
 
             RuleFor(x => x)
                 .MustAsync(BeWithinWorkingHours)
-                .WithErrorCode("SmartDigitalPsico.ScheduleCriteriaDtoValidator.ScheduleCriteriaDto.Entity.Must")
+                .WithErrorCode(EntityMustErrorCode)
                 .WithMessage("Appointment_Validator_OutsideWorkingHours_Key|The appointment time is outside the doctor's working hours.");
 
             RuleFor(x => x)
                 .MustAsync(NotHaveSchedulingConflict)
                 .When(x => x.ScheduleType == EScheduleCalendarType.Schedule)
-                .WithErrorCode("SmartDigitalPsico.ScheduleCriteriaDtoValidator.ScheduleCriteriaDto.Entity.Must")
+                .WithErrorCode(EntityMustErrorCode)
                 .WithMessage("Appointment_Validator_SchedulingConflict_Key|The doctor already has an appointment at this time.");
 
             RuleFor(x => x)
                 .MustAsync(BeAtLeast23HoursInAdvance)
                 .When(x => x.ScheduleType == EScheduleCalendarType.Schedule)
-                .WithErrorCode("SmartDigitalPsico.ScheduleCriteriaDtoValidator.ScheduleCriteriaDto.Entity.Must")
+                .WithErrorCode(EntityMustErrorCode)
                 .WithMessage("Appointment_Validator_AtLeast23HoursInAdvance_Key|The appointment must be scheduled at least {0} hours in advance.|23");
         }
 

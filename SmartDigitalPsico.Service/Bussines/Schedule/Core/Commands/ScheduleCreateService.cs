@@ -119,7 +119,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
                     EndDateTime = item.EndDateTime,
                     ExcludeToken = token
                 });
-                if (!check.Success || check.Data == false)
+                if (!check.Success || !check.Data)
                 {
                     return new ServiceResponse<ScheduleCalendar>
                     {

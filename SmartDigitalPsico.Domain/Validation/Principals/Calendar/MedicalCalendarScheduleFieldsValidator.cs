@@ -81,6 +81,6 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
         }
 
         private static bool BeValidDays(DayOfWeek[] recurrenceDays)
-            => recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(typeof(DayOfWeek), day));
+            => recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(day));
     }
 }

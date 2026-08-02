@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, processedCount);
              
             stopwatch.Stop();
-            _logger.Information("NotificationDispatchJobService - ProcessPendingNotificationsAsync : Finished at: {time}  Duration:  {durationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
+            _logger.Information("NotificationDispatchJobService - ProcessPendingNotificationsAsync : Finished at: {Time}  Duration:  {DurationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
         }
 
         private async Task UpdateRecordsSended(ConcurrentBag<NotificationRecord> updatedRecords)

@@ -68,7 +68,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
         public static GetMedicalCalendarDto ToGetDto(ScheduleCalendar package, ScheduleCalendarItem? preferredItem = null)
         {
-            MedicalScheduleKeys.TryParseMedicalId(package.OwnerKey, out var medicalId);
+            if (!MedicalScheduleKeys.TryParseMedicalId(package.OwnerKey, out var medicalId))
+                medicalId = 0;
             long? patientId = null;
             if (!string.IsNullOrWhiteSpace(package.SubjectKey)
                 && MedicalScheduleKeys.TryParsePatientId(package.SubjectKey, out var parsedPatient))
@@ -109,7 +110,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         /// </summary>
         public static MedicalCalendar ToMedicalCalendarFromPackage(ScheduleCalendar package, DateTime? preferEventDate = null)
         {
-            MedicalScheduleKeys.TryParseMedicalId(package.OwnerKey, out var medicalId);
+            if (!MedicalScheduleKeys.TryParseMedicalId(package.OwnerKey, out var medicalId))
+                medicalId = 0;
             long? patientId = null;
             if (!string.IsNullOrWhiteSpace(package.SubjectKey)
                 && MedicalScheduleKeys.TryParsePatientId(package.SubjectKey, out var parsedPatient))

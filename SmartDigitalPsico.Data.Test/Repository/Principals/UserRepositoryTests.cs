@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Data.Context.Configure.Mock;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
@@ -66,13 +66,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var listCount = listResult.Count;
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<User>>());
                 Assert.That(listResult, Has.Count.EqualTo(5));
                 Assert.That(listCount, Is.EqualTo(5));
-            });
+            }
         }
 
         [Test]
@@ -89,13 +89,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.FindByLogin(mockDataUser.Login);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result?.Login, Is.EqualTo(mockDataUser.Login));
                 Assert.That(result?.UserRoleGroups, Is.Not.Null);
                 Assert.That(result?.Medical, Is.Null);
-            });
+            }
         }
 
         [Test]
@@ -112,13 +112,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.FindByLogin(mockDataUser.Login);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result?.Login, Is.EqualTo(mockDataUser.Login));
                 Assert.That(result?.UserRoleGroups, Is.Not.Null);
                 Assert.That(result?.Medical, Is.Not.Null);
-            });
+            }
         }
 
         [Test]
@@ -152,13 +152,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.FindByID(mockDataUser.Id);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result.Id, Is.EqualTo(mockDataUser.Id));
                 Assert.That(result.UserRoleGroups, Is.Not.Null);
                 Assert.That(result.Medical, Is.Null);
-            });
+            }
         }
 
         [Test]
@@ -175,13 +175,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.FindByEmail(mockDataUser.Email);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result?.Id, Is.EqualTo(mockDataUser.Id));
                 Assert.That(result?.UserRoleGroups, Is.Not.Null);
                 Assert.That(result?.Medical, Is.Null);
-            });
+            }
         }
 
         [Test]
@@ -200,12 +200,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.RefreshUserInfo(mockDataUser);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result.Id, Is.EqualTo(mockDataUser.Id));
                 Assert.That(result.Name, Is.EqualTo(mockDataUser.Name));
-            });
+            }
         }
     }
 }

@@ -66,6 +66,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         {
             Patient entityResponse = await _dataset
                 .AsNoTracking()
+                .AsSplitQuery()
                 .Include(p => p.Medical)
                 .ThenInclude(e => e!.User)
                 .Include(p => p.CreatedUser)

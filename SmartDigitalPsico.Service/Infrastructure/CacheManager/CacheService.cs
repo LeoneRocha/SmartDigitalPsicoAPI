@@ -98,7 +98,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
                         result = checkCacheIsValid(resultDisk, cacheKey);
                         break;
                     case ETypeLocationCache.Memory:
-                        result = _memoryCacheRepository.TryGet(cacheKey, out T? _valueResult);
+                        result = _memoryCacheRepository.TryGet(cacheKey, out T? _);
                         break;
                     case ETypeLocationCache.MongoDB:
                         break;

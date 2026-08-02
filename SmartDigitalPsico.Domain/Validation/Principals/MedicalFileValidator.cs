@@ -8,6 +8,8 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     public class MedicalFileValidator : MedicalBaseValidator<MedicalFile>
     {
+        private const string MedicalIdMustErrorCode = "SmartDigitalPsico.MedicalFileValidator.MedicalFile.MedicalId.Must";
+
         public MedicalFileValidator(IConfiguration configuration, IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
         {  
             #region Columns
@@ -41,16 +43,16 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
                 .WithErrorCode("SmartDigitalPsico.MedicalFileValidator.MedicalFile.MedicalId.NotNull")
                 .WithMessage("ErrorValidator_MedicalId_Null|Doctor is required.")
                 .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
-                .WithErrorCode("SmartDigitalPsico.MedicalFileValidator.MedicalFile.MedicalId.Must")
+                .WithErrorCode(MedicalIdMustErrorCode)
                 .WithMessage("ErrorValidator_MedicalId_NotFound|Doctor not found.")
                 .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
-                .WithErrorCode("SmartDigitalPsico.MedicalFileValidator.MedicalFile.MedicalId.Must")
+                .WithErrorCode(MedicalIdMustErrorCode)
                 .WithMessage("ErrorValidator_Medical_Changed|Doctor has changed.")
                 .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
-                .WithErrorCode("SmartDigitalPsico.MedicalFileValidator.MedicalFile.MedicalId.Must")
+                .WithErrorCode(MedicalIdMustErrorCode)
                 .WithMessage("ErrorValidator_MedicalCreated_Invalid|Doctor creation is invalid.")
                 .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
-                .WithErrorCode("SmartDigitalPsico.MedicalFileValidator.MedicalFile.MedicalId.Must")
+                .WithErrorCode(MedicalIdMustErrorCode)
                 .WithMessage("ErrorValidator_MedicalModify_Invalid|Doctor modification is invalid.");
             #endregion Relationship
         }

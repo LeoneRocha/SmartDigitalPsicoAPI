@@ -43,8 +43,8 @@ namespace SmartDigitalPsico.Domain.Helpers
                 KeyValue = GetKeyValues(entryNew),
                 OldValues = SerializeObject(entryOld, propertiesToIgnore),
                 NewValues = SerializeObject(entryNew, propertiesToIgnore),
-                UserAuditedId = GetCurrentUserId(entryNew!).Item1,
-                UserAuditedLogin = GetCurrentUserName(entryOld!),
+                UserAuditedId = GetCurrentUserId(entryNew).Item1,
+                UserAuditedLogin = GetCurrentUserName(entryOld),
             };
             return auditEntry;
         }

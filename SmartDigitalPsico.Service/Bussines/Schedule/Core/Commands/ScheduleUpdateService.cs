@@ -174,7 +174,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
                     EndDateTime = item.EndDateTime,
                     ExcludeToken = excludeToken
                 });
-                if (!check.Success || check.Data == false)
+                if (!check.Success || !check.Data)
                 {
                     return new ServiceResponse<ScheduleCalendar>
                     {

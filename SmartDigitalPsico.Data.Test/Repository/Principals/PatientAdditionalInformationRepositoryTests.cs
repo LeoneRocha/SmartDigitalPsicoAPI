@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
@@ -60,13 +60,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var listCount = _mockContext.PatientAdditionalInformations.ToList().Count;
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<PatientAdditionalInformation>>());
                 Assert.That(listResult, Has.Count.EqualTo(3));
                 Assert.That(listCount, Is.EqualTo(3));
-            });
+            }
         }
 
         [Test]
@@ -83,12 +83,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.FindAllByPatient(mockDataPatient.Id);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<List<PatientAdditionalInformation>>());
                 Assert.That(result, Has.Count.EqualTo(2));
-            });
+            }
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<PatientAdditionalInformation>());
@@ -116,7 +116,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result.Patient, Is.Not.Null);
                 Assert.That(result.CreatedUser, Is.Not.Null);
                 Assert.That(result.Patient?.Medical, Is.Not.Null);
-            });
+            }
         }
     }
 }

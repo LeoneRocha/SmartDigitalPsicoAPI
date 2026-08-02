@@ -82,7 +82,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             return new ServiceResponse<bool>
             {
                 Success = noConflict.Success,
-                Data = noConflict.Success && noConflict.Data == false,
+                Data = noConflict.Success && !noConflict.Data,
                 Message = noConflict.Message
             };
         }

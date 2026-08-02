@@ -36,35 +36,41 @@ namespace SmartDigitalPsico.Domain.Constants
             "Dados da Conta Atualizados",
             "<p>Olá,</p><p>Seus dados da conta foram atualizados com sucesso.</p><p>Se precisar de mais informações, entre em contato conosco.</p>");
 
-        public static string AppointmentScheduledSuccess { get; } = BuildAppointmentCard(
-            BgAppointmentScheduled,
-            HeaderAppointmentScheduled,
-            "Consulta Confirmada",
-            "Sua consulta com o(a) médico(a) [{MedicalName}] foi confirmada.",
-            "Confira os detalhes e organize-se para comparecer no horário agendado:",
-            "Data de Início",
-            "Data de Término",
-            "Se precisar de mais informações, entre em contato conosco.");
+        public static string AppointmentScheduledSuccess { get; } = BuildAppointmentCard(new AppointmentCardOptions
+        {
+            PageBackgroundColor = BgAppointmentScheduled,
+            HeaderColor = HeaderAppointmentScheduled,
+            HeaderTitle = "Consulta Confirmada",
+            IntroLine = "Sua consulta com o(a) médico(a) [{MedicalName}] foi confirmada.",
+            DetailsLead = "Confira os detalhes e organize-se para comparecer no horário agendado:",
+            StartLabel = "Data de Início",
+            EndLabel = "Data de Término",
+            Closing = "Se precisar de mais informações, entre em contato conosco."
+        });
 
-        public static string AppointmentRescheduled { get; } = BuildAppointmentCard(
-            BgAppointmentRescheduled,
-            HeaderAppointmentRescheduled,
-            "Consulta Remarcada",
-            "Sua consulta com o(a) médico(a) [{MedicalName}] foi remarcada.",
-            "Confira os novos detalhes abaixo:",
-            "Nova Data de Início",
-            "Nova Data de Término",
-            "Por favor, confirme sua disponibilidade para o novo horário.");
+        public static string AppointmentRescheduled { get; } = BuildAppointmentCard(new AppointmentCardOptions
+        {
+            PageBackgroundColor = BgAppointmentRescheduled,
+            HeaderColor = HeaderAppointmentRescheduled,
+            HeaderTitle = "Consulta Remarcada",
+            IntroLine = "Sua consulta com o(a) médico(a) [{MedicalName}] foi remarcada.",
+            DetailsLead = "Confira os novos detalhes abaixo:",
+            StartLabel = "Nova Data de Início",
+            EndLabel = "Nova Data de Término",
+            Closing = "Por favor, confirme sua disponibilidade para o novo horário."
+        });
 
-        public static string AppointmentCancelled { get; } = BuildAppointmentCard(
-            BgAppointmentCancelled,
-            HeaderAppointmentCancelled,
-            "Consulta Cancelada",
-            "Informamos que sua consulta com o(a) médico(a) [{MedicalName}] foi cancelada.",
-            "Confira os dados da consulta cancelada:",
-            "Data de Início",
-            "Data de Término",
-            "Se desejar reagendar ou obter mais informações, entre em contato conosco.");
+        public static string AppointmentCancelled { get; } = BuildAppointmentCard(new AppointmentCardOptions
+        {
+            PageBackgroundColor = BgAppointmentCancelled,
+            HeaderColor = HeaderAppointmentCancelled,
+            HeaderTitle = "Consulta Cancelada",
+            IntroLine = "Informamos que sua consulta com o(a) médico(a) [{MedicalName}] foi cancelada.",
+            DetailsLead = "Confira os dados da consulta cancelada:",
+            StartLabel = "Data de Início",
+            EndLabel = "Data de Término",
+            Closing = "Se desejar reagendar ou obter mais informações, entre em contato conosco."
+        });
 
         public static string MedicalUpdateEmail { get; } = BuildSimpleCard(
             BgMedicalUpdate,
@@ -72,15 +78,17 @@ namespace SmartDigitalPsico.Domain.Constants
             "Dados Médicos Atualizados",
             "<p>Olá,</p><p>Seus dados médicos foram atualizados com sucesso.</p><p>Se precisar de mais informações, entre em contato conosco.</p>");
 
-        public static string NotificationDispatch { get; } = BuildAppointmentCard(
-            BgAppointmentReminder,
-            HeaderAppointmentReminder,
-            "Lembrete de Consulta",
-            "Este é um lembrete da sua consulta com o(a) médico(a) [{MedicalName}].",
-            "Confira os detalhes e organize-se para comparecer no horário agendado:",
-            "Data de Início",
-            "Data de Término",
-            "Se precisar de mais informações, entre em contato conosco.");
+        public static string NotificationDispatch { get; } = BuildAppointmentCard(new AppointmentCardOptions
+        {
+            PageBackgroundColor = BgAppointmentReminder,
+            HeaderColor = HeaderAppointmentReminder,
+            HeaderTitle = "Lembrete de Consulta",
+            IntroLine = "Este é um lembrete da sua consulta com o(a) médico(a) [{MedicalName}].",
+            DetailsLead = "Confira os detalhes e organize-se para comparecer no horário agendado:",
+            StartLabel = "Data de Início",
+            EndLabel = "Data de Término",
+            Closing = "Se precisar de mais informações, entre em contato conosco."
+        });
 
         public static string? TryGetRichBody(string templateKey, string? currentBody)
         {
@@ -112,30 +120,34 @@ namespace SmartDigitalPsico.Domain.Constants
             _ => null
         };
 
-        private static string BuildAppointmentCard(
-            string pageBackgroundColor,
-            string headerColor,
-            string headerTitle,
-            string introLine,
-            string detailsLead,
-            string startLabel,
-            string endLabel,
-            string closing)
+        private sealed class AppointmentCardOptions
+        {
+            public required string PageBackgroundColor { get; init; }
+            public required string HeaderColor { get; init; }
+            public required string HeaderTitle { get; init; }
+            public required string IntroLine { get; init; }
+            public required string DetailsLead { get; init; }
+            public required string StartLabel { get; init; }
+            public required string EndLabel { get; init; }
+            public required string Closing { get; init; }
+        }
+
+        private static string BuildAppointmentCard(AppointmentCardOptions options)
         {
             var inner =
                 $"<p>Olá, [{{PatientName}}],</p>" +
-                $"<p>{introLine}</p>" +
-                $"<p>{detailsLead}</p>" +
+                $"<p>{options.IntroLine}</p>" +
+                $"<p>{options.DetailsLead}</p>" +
                 "<ul>" +
                 "<li><strong>Título:</strong> [{Title}]</li>" +
-                $"<li><strong>{startLabel}:</strong> [{{StartDateTime}}]</li>" +
-                $"<li><strong>{endLabel}:</strong> [{{EndDateTime}}]</li>" +
+                $"<li><strong>{options.StartLabel}:</strong> [{{StartDateTime}}]</li>" +
+                $"<li><strong>{options.EndLabel}:</strong> [{{EndDateTime}}]</li>" +
                 "<li><strong>Local:</strong> [{AppointmentLocation}]</li>" +
                 "</ul>" +
                 "<p><strong>Observação:</strong> [{Description}]</p>" +
-                $"<p>{closing}</p>";
+                $"<p>{options.Closing}</p>";
 
-            return BuildSimpleCard(pageBackgroundColor, headerColor, headerTitle, inner);
+            return BuildSimpleCard(options.PageBackgroundColor, options.HeaderColor, options.HeaderTitle, inner);
         }
 
         private static string BuildSimpleCard(

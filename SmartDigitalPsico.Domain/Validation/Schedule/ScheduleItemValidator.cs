@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
                 .WithMessage("EndDateTime_Validator_AfterStart_Key|End date and time must be after start date and time.");
 
             RuleFor(e => e.Status)
-                .Must(status => Enum.IsDefined(typeof(EStatusCalendar), status))
+                .Must(status => Enum.IsDefined(status))
                 .WithErrorCode("SmartDigitalPsico.ScheduleItemValidator.ScheduleItem.Status.Must")
                 .WithMessage("Status_Validator_Invalid_Key|Invalid status.");
 
@@ -112,7 +112,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 
         private static bool BeValidDays(DayOfWeek[] recurrenceDays)
         {
-            return recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(typeof(DayOfWeek), day));
+            return recurrenceDays.ToList().TrueForAll(day => Enum.IsDefined(day));
         }
 
         private async Task<bool> BeInWorkingDays(ScheduleItem item)

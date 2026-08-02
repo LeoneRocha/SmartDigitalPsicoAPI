@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
-            if (property.PropertyName != null && _propertiesToIgnore.Contains(property.PropertyName!))
+            if (property.PropertyName is { } name && _propertiesToIgnore.Contains(name))
             {
                 property.ShouldSerialize = _ => false;
             }

@@ -41,8 +41,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                     var packagesPreview = await _query.GetByTokenAsync(request.TokenRecurrence);
                     if (packagesPreview.Data != null)
                     {
-                        MedicalScheduleKeys.TryParseMedicalId(packagesPreview.Data.OwnerKey, out var seriesMedicalId);
-                        if (user.MedicalId != seriesMedicalId || user.MedicalId != request.MedicalId)
+                        if (!MedicalScheduleKeys.TryParseMedicalId(packagesPreview.Data.OwnerKey, out var seriesMedicalId)
+                            || user.MedicalId != seriesMedicalId
+                            || user.MedicalId != request.MedicalId)
                             return MedicalScheduleHostSupport.FailBool(
                                 await _support.Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
                     }
@@ -68,8 +69,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                     return MedicalScheduleHostSupport.FailBool(
                         await _support.Loc(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound));
 
-                MedicalScheduleKeys.TryParseMedicalId(package.Data.OwnerKey, out var medicalId);
-                if (user.MedicalId != medicalId || user.MedicalId != request.MedicalId)
+                if (!MedicalScheduleKeys.TryParseMedicalId(package.Data.OwnerKey, out var medicalId)
+                    || user.MedicalId != medicalId
+                    || user.MedicalId != request.MedicalId)
                     return MedicalScheduleHostSupport.FailBool(
                         await _support.Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
 

@@ -91,15 +91,10 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
                 var slots = generated
                     .Select(slot =>
                     {
-                        ScheduleCalendarItem? matched = null;
-                        foreach (var b in busy)
-                        {
-                            if (ScheduleOverlapHelper.Overlaps(b.StartDateTime, b.Item.EndDateTime, slot.StartTime, slot.EndTime))
-                            {
-                                matched = b.Item;
-                                break;
-                            }
-                        }
+                        var matched = busy
+                            .Where(b => ScheduleOverlapHelper.Overlaps(b.StartDateTime, b.Item.EndDateTime, slot.StartTime, slot.EndTime))
+                            .Select(b => b.Item)
+                            .FirstOrDefault();
 
                         return new ScheduleTimeSlotDto
                         {
