@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartDigitalPsico.Data.Context;
 
@@ -11,9 +12,11 @@ using SmartDigitalPsico.Data.Context;
 namespace SmartDigitalPsico.Data.Migrations.MySql
 {
     [DbContext(typeof(SmartDigitalPsicoDataContextMySql))]
-    partial class SmartDigitalPsicoDataContextMySqlModelSnapshot : ModelSnapshot
+    [Migration("20260802183122_DropMedicalCalendarAndScheduleBatch")]
+    partial class DropMedicalCalendarAndScheduleBatch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1587,8 +1590,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         .HasMaxLength(65535)
                         .HasColumnType("text");
 
-                    b.Property<Guid>("TokenId")
-                        .HasColumnType("char(36)");
+                    b.Property<long?>("ScheduleCalendarId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -1598,11 +1601,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.HasIndex("NextScheduledSendTime")
                         .HasDatabaseName("IX_NotificationRecords_NextScheduledSendTime");
 
-                    b.HasIndex("TokenId")
-                        .HasDatabaseName("IX_NotificationRecords_TokenId");
-
-                    b.HasIndex("TokenId", "EventDate")
-                        .HasDatabaseName("IX_NotificationRecords_TokenId_EventDate");
+                    b.HasIndex("ScheduleCalendarId")
+                        .HasDatabaseName("IX_NotificationRecords_ScheduleCalendarId");
 
                     b.ToTable("NotificationRecords", "dbo");
 
@@ -5790,6 +5790,16 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Medical");
 
                     b.Navigation("Specialty");
+                });
+
+            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRecord", b =>
+                {
+                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Schedule.ScheduleCalendar", "ScheduleCalendar")
+                        .WithMany()
+                        .HasForeignKey("ScheduleCalendarId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("ScheduleCalendar");
                 });
 
             modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRule", b =>

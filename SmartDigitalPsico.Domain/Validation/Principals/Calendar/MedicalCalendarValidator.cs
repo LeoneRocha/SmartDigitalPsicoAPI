@@ -1,42 +1,35 @@
 using FluentValidation;
-using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Medical;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.Base;
 using SmartDigitalPsico.Domain.Validation.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
 {
     /// <summary>
     /// Medical/Patient-specific rules + working hours/days + future dates.
-    /// Generic schedule fields via <see cref="MedicalCalendarScheduleFieldsValidator"/>;
-    /// conflict via <see cref="ScheduleCalendarConflictValidator"/>.
+    /// Ownership via MedicalId (no MedicalCalendar persistence). Conflict via ScheduleCalendar SoT.
     /// </summary>
-    public class MedicalCalendarValidator : MedicalBaseValidator<MedicalCalendar>
+    public class MedicalCalendarValidator : AbstractValidator<MedicalCalendar>
     {
         private readonly IScheduleCalendarRepository _scheduleCalendarRepository;
         private readonly IMedicalRepository _repositoryMedical;
+        private readonly IUserRepository _userRepository;
 
-#pragma warning disable CS0618
         public MedicalCalendarValidator(
-            IConfiguration configuration,
-            IMedicalCalendarRepository entityRepository,
             IMedicalRepository medicalRepository,
             IUserRepository userRepository,
             IScheduleCalendarRepository scheduleCalendarRepository)
-            : base(medicalRepository, entityRepository, userRepository)
-#pragma warning restore CS0618
         {
             _scheduleCalendarRepository = scheduleCalendarRepository;
             _repositoryMedical = medicalRepository;
+            _userRepository = userRepository;
 
             Include(new MedicalCalendarScheduleFieldsValidator());
 
-            // Host: future dates
             RuleFor(e => e.StartDateTime)
                 .MustAsync(async (e, startDateTime, cancellationToken) => await BeFutureDateTime(e.CreatedUserId.GetValueOrDefault(), startDateTime))
                 .WithErrorCode("SmartDigitalPsico.MedicalCalendarValidator.MedicalCalendar.StartDateTime.Must")
@@ -48,7 +41,6 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
                 .WithErrorCode("SmartDigitalPsico.MedicalCalendarValidator.MedicalCalendar.EndDateTime.Must")
                 .WithMessage("EndDateTime_Validator_Future_Key|End date and time must be in the future.");
 
-            // Medical-specific: working days/hours
             RuleFor(e => e.StartDateTime)
                 .MustAsync(async (e, startDateTime, cancellationToken) => await BeInWorkingDays(e.MedicalId, startDateTime))
                 .WithErrorCode("SmartDigitalPsico.MedicalCalendarValidator.MedicalCalendar.StartDateTime.Must")
@@ -85,13 +77,10 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
                 .MustAsync(async (entity, value, c) => await MedicalIdFound(entity))
                 .WithErrorCode("SmartDigitalPsico.MedicalCalendarValidator.MedicalCalendar.MedicalId.Must")
                 .WithMessage("ErrorValidator_MedicalId_NotFound|Doctor not found.")
-                .MustAsync(async (entity, value, c) => await MedicalIdChanged(entity))
-                .WithErrorCode("SmartDigitalPsico.MedicalCalendarValidator.MedicalCalendar.MedicalId.Must")
-                .WithMessage("ErrorValidator_Medical_Changed|Doctor has changed.")
-                .MustAsync(async (entity, value, c) => await MedicalCreated(entity, value, entity.CreatedUserId))
+                .MustAsync(async (entity, value, c) => await MedicalCreated(entity, entity.CreatedUserId))
                 .WithErrorCode("SmartDigitalPsico.MedicalCalendarValidator.MedicalCalendar.MedicalId.Must")
                 .WithMessage("ErrorValidator_MedicalCreated_Invalid|Doctor creation is invalid.")
-                .MustAsync(async (entity, value, c) => await MedicalModify(entity, value, entity.ModifyUserId))
+                .MustAsync(async (entity, value, c) => await MedicalModify(entity, entity.ModifyUserId))
                 .WithErrorCode("SmartDigitalPsico.MedicalCalendarValidator.MedicalCalendar.MedicalId.Must")
                 .WithMessage("ErrorValidator_MedicalModify_Invalid|Doctor modification is invalid.");
 
@@ -134,6 +123,43 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
             var medical = await _repositoryMedical.FindByID(medicalId);
             var timeOfDay = dateTime.TimeOfDay;
             return timeOfDay >= medical.StartWorkingTime && timeOfDay <= medical.EndWorkingTime;
+        }
+
+        private async Task<bool> MedicalIdFound(MedicalCalendar entity)
+            => await _repositoryMedical.Exists(entity.MedicalId);
+
+        private async Task<bool> MedicalCreated(MedicalCalendar entity, long? createdUserId)
+        {
+            try
+            {
+                if (entity.Id == 0)
+                {
+                    var userMedical = await _userRepository.FindByID(createdUserId.GetValueOrDefault());
+                    return userMedical.Medical != null && entity.MedicalId == userMedical.Medical.Id;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private async Task<bool> MedicalModify(MedicalCalendar entity, long? modifyUserId)
+        {
+            try
+            {
+                if (entity.Id > 0)
+                {
+                    var userMedical = await _userRepository.FindByID(modifyUserId.GetValueOrDefault());
+                    return userMedical.Medical != null && entity.MedicalId == userMedical.Medical.Id;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
         private async Task<bool> NoScheduleConflict(MedicalCalendar calendar, CancellationToken cancellationToken)

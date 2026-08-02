@@ -52,6 +52,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 entityUpdate.NextScheduledSendTime = item.NextScheduledSendTime;
                 entityUpdate.FinalSendDate = item.FinalSendDate;
                 entityUpdate.EventDate = item.EventDate;
+                entityUpdate.TokenId = item.TokenId;
                 entityUpdate.Enable = item.Enable;
                 entityUpdate.IsCompleted = item.IsCompleted;               
                
@@ -145,8 +146,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 EventDate = medicalCalendar.StartDateTime,
                 Language = "en",
                 Description = medicalCalendar.Description,
-                // Id=0 (SoT ScheduleCalendar path) → null so FK to MedicalCalendar is not violated.
-                MedicalCalendarId = medicalCalendar.Id > 0 ? medicalCalendar.Id : null,
+                TokenId = ParseTokenId(medicalCalendar.TokenRecurrence),
                 NotificationRules = notificationRulesDtos,
                 IsCompleted = isCompleted,
                 FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
@@ -157,20 +157,16 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             try
             {
-                NotificationRecord? existingRecord = null;
-                if (medicalCalendar.Id > 0)
+                var tokenId = notificationRecordDto.TokenId;
+                if (tokenId == Guid.Empty)
                 {
-                    existingRecord = (await _entityRepository.FindByCustomWhere(
-                        nr => nr.MedicalCalendarId == medicalCalendar.Id)).FirstOrDefault();
+                    _logger.Warning("SaveNotificationRecordAsync skipped: empty TokenId for EventDate {EventDate}", medicalCalendar.StartDateTime);
+                    return;
                 }
-                else
-                {
-                    // SoT path: no MedicalCalendarId — upsert by EventDate among unlinked records.
-                    existingRecord = (await _entityRepository.FindByCustomWhere(nr =>
-                        nr.MedicalCalendarId == null
-                        && nr.EventDate == medicalCalendar.StartDateTime
-                        && !nr.IsCompleted)).FirstOrDefault();
-                }
+
+                var existingRecord = (await _entityRepository.FindByCustomWhere(nr =>
+                    nr.TokenId == tokenId
+                    && nr.EventDate == medicalCalendar.StartDateTime)).FirstOrDefault();
 
                 if (existingRecord != null)
                 {
@@ -178,7 +174,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     {
                         Id = existingRecord.Id,
                         EventDate = medicalCalendar.StartDateTime,
-                        MedicalCalendarId = existingRecord.MedicalCalendarId,
+                        TokenId = tokenId,
                         NotificationRules = notificationRecordDto.NotificationRules,
                         IsCompleted = isCompleted,
                         FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
@@ -197,6 +193,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
 
         }
+
+        private static Guid ParseTokenId(string? token)
+            => Guid.TryParse(token, out var id) ? id : Guid.Empty;
 
         private static DateTime CalculateScheduledSendTime(NotificationRule notificationRule, DateTime startDateTime, string timeZone)
         {

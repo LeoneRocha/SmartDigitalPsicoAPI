@@ -104,6 +104,36 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             };
         }
 
+        /// <summary>
+        /// Hydrate MedicalCalendar POCO from ScheduleCalendar package (notification dispatch / read paths).
+        /// </summary>
+        public static MedicalCalendar ToMedicalCalendarFromPackage(ScheduleCalendar package, DateTime? preferEventDate = null)
+        {
+            MedicalScheduleKeys.TryParseMedicalId(package.OwnerKey, out var medicalId);
+            long? patientId = null;
+            if (!string.IsNullOrWhiteSpace(package.SubjectKey)
+                && MedicalScheduleKeys.TryParsePatientId(package.SubjectKey, out var parsedPatient))
+            {
+                patientId = parsedPatient;
+            }
+
+            ScheduleCalendarItem? item = null;
+            if (preferEventDate.HasValue && package.ScheduleData is { Length: > 0 })
+            {
+                item = package.ScheduleData
+                    .OrderBy(i => Math.Abs((i.StartDateTime - preferEventDate.Value).TotalMinutes))
+                    .FirstOrDefault();
+            }
+
+            item ??= package.ScheduleData?.OrderBy(i => i.StartDateTime).FirstOrDefault()
+                ?? new ScheduleCalendarItem();
+
+            var calendar = ToMedicalCalendarReadModel(item, medicalId, patientId);
+            calendar.Id = package.Id;
+            calendar.Enable = package.Enable;
+            return calendar;
+        }
+
         public static MedicalCalendar ToMedicalCalendarReadModel(ScheduleCalendarItem item, long medicalId, long? patientId = null)
         {
             if (!patientId.HasValue

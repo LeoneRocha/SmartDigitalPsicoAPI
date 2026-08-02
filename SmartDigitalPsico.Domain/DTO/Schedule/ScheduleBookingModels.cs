@@ -31,6 +31,7 @@ namespace SmartDigitalPsico.Domain.DTO.Schedule
     public sealed class ScheduleCancelResult
     {
         public long PackageId { get; init; }
+        public string UniqueToken { get; init; } = string.Empty;
         public EStatusCalendar NewStatus { get; init; }
     }
 }

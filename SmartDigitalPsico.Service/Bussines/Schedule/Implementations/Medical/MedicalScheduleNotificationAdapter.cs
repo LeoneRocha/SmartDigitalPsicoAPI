@@ -45,48 +45,27 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 
         public async Task CreateOrUpdateNotificationRecordsAsync(MedicalCalendar[] entities)
         {
-            // SoT Ids are ScheduleCalendar — must not be written to NotificationRecords.MedicalCalendarId
-            // (FK still references MedicalCalendar). Persist reminder rules with MedicalCalendarId = null.
-            var forRecords = entities.Select(WithoutMedicalCalendarFk).ToArray();
             var notificationDto = new GenerateNotificationRecordsDto
             {
-                MedicalCalendars = forRecords,
+                MedicalCalendars = entities,
                 IsEnabled = true,
                 NotificationType = ENotificationType.BeforeAppointment
             };
             await _notificationRecordsService.CreateOrUpdateNotificationRecordsAsync(notificationDto);
         }
 
-        public Task DeleteNotificationRecordsAsync(params long[] scheduleCalendarIds)
-            => _notificationRecordsRepository.DeleteAll(scheduleCalendarIds);
+        public Task DeleteNotificationRecordsAsync(string uniqueToken)
+        {
+            if (!Guid.TryParse(uniqueToken, out var tokenId) || tokenId == Guid.Empty)
+                return Task.CompletedTask;
+            return _notificationRecordsRepository.DeleteAllByTokenAsync(tokenId);
+        }
 
-        /// <summary>
-        /// Clone with Id=0 so NotificationRecords.MedicalCalendarId stays null (avoids FK to MedicalCalendar).
-        /// </summary>
-        private static MedicalCalendar WithoutMedicalCalendarFk(MedicalCalendar source)
-            => new()
-            {
-                Id = 0,
-                Enable = source.Enable,
-                Title = source.Title,
-                Description = source.Description,
-                Location = source.Location,
-                StartDateTime = source.StartDateTime,
-                EndDateTime = source.EndDateTime,
-                IsAllDay = source.IsAllDay,
-                Status = source.Status,
-                ColorCategoryHexa = source.ColorCategoryHexa,
-                TimeZone = source.TimeZone,
-                IsPushedCalendar = source.IsPushedCalendar,
-                RecurrenceDays = source.RecurrenceDays,
-                RecurrenceType = source.RecurrenceType,
-                RecurrenceEndDate = source.RecurrenceEndDate,
-                RecurrenceCount = source.RecurrenceCount,
-                TokenRecurrence = source.TokenRecurrence,
-                MedicalId = source.MedicalId,
-                PatientId = source.PatientId,
-                Patient = source.Patient,
-                Medical = source.Medical
-            };
+        public Task DeleteNotificationRecordsAsync(string uniqueToken, DateTime eventDate)
+        {
+            if (!Guid.TryParse(uniqueToken, out var tokenId) || tokenId == Guid.Empty)
+                return Task.CompletedTask;
+            return _notificationRecordsRepository.DeleteByTokenAndEventAsync(tokenId, eventDate);
+        }
     }
 }

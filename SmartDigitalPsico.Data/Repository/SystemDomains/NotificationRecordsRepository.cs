@@ -14,14 +14,11 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         public override async Task<NotificationRecord> Update(NotificationRecord item)
         {
             var existingEntity = await _dataset.SingleAsync(p => p.Id == item.Id);
-            // Marca a entidade como modificada e anexa-a ao contexto
             _context.Entry(existingEntity).State = EntityState.Detached;
             _context.Entry(item).State = EntityState.Modified;
 
-            // Marca a propriedade NotificationRules como modificada
             _context.Entry(item).Property(i => i.NotificationRules).IsModified = true;
 
-            // Atualiza o restante das propriedades da entidade
             _context.Entry(item).CurrentValues.SetValues(item);
 
             await _context.SaveChangesAsync();
@@ -34,9 +31,6 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
             var currentDateUtcDay1Plus = DateHelper.GetDateTimeNowFromUtc().Date.AddDays(1);
 
             return await _dataset
-                .Include(x => x.MedicalCalendar)
-                .ThenInclude(x => x!.Patient)
-                .ThenInclude(x => x!.Medical)
                 .Where(nr => !nr.IsCompleted
                              && nr.NextScheduledSendTime.HasValue
                              && nr.NextScheduledSendTime.Value >= currentDateUtc
@@ -45,31 +39,31 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
                 .ToArrayAsync();
         }
 
-        public async Task<bool> DeleteAll(long medicalCalendarId)
+        public async Task<bool> DeleteAllByTokenAsync(Guid tokenId)
         {
-            var result = await _dataset.Where(p => p.MedicalCalendarId == medicalCalendarId).ToArrayAsync();
+            var result = await _dataset.Where(p => p.TokenId == tokenId).ToArrayAsync();
             foreach (var item in result)
-            {
-                if (item != null)
-                {
-                    _dataset.Remove(item);
-                }
-            }
+                _dataset.Remove(item);
             await _context.SaveChangesAsync();
             return true;
         }
          
-        public async Task<bool> DeleteAll(long[] medicalCalendarIds)
+        public async Task<bool> DeleteAllByTokenAsync(Guid[] tokenIds)
         {
-            var result = await _dataset.Where(p => medicalCalendarIds.Contains(p.MedicalCalendarId ?? 0 )).ToArrayAsync();
-
+            var result = await _dataset.Where(p => tokenIds.Contains(p.TokenId)).ToArrayAsync();
             foreach (var item in result)
-            {
-                if (item != null)
-                {
-                    _dataset.Remove(item);
-                }
-            }
+                _dataset.Remove(item);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteByTokenAndEventAsync(Guid tokenId, DateTime eventDate)
+        {
+            var result = await _dataset
+                .Where(p => p.TokenId == tokenId && p.EventDate == eventDate)
+                .ToArrayAsync();
+            foreach (var item in result)
+                _dataset.Remove(item);
             await _context.SaveChangesAsync();
             return true;
         }

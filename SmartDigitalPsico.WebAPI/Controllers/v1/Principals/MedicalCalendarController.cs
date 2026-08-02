@@ -6,11 +6,8 @@ using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.VO;
-
-#pragma warning disable CS0618 // Controller keeps IMedicalCalendarService for SetUserId/history; runtime uses IScheduleCalendarFacade
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 {
@@ -19,23 +16,18 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     [Route("api/medical/v1/[controller]")]
     public class MedicalCalendarController : ApiBaseController
     {
-        private readonly IMedicalCalendarService _entityService;
         private readonly IScheduleCalendarFacade _scheduleAdapter;
 
         public MedicalCalendarController(
-            IMedicalCalendarService entityService,
             IScheduleCalendarFacade scheduleAdapter,
             IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
-            _entityService = entityService;
             _scheduleAdapter = scheduleAdapter;
         }
 
         private void setUserIdCurrent()
         {
-            var userId = base.GetUserIdCurrent();
-            _entityService.SetUserId(userId);
-            _scheduleAdapter.SetUserId(userId);
+            _scheduleAdapter.SetUserId(base.GetUserIdCurrent());
         }
 
         [HttpGet("schedule/{id}")]

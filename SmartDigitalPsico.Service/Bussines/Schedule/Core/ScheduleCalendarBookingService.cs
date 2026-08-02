@@ -95,7 +95,12 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core
                 await _repository.Update(package);
 
                 response.Success = true;
-                response.Data = new ScheduleCancelResult { PackageId = package.Id, NewStatus = newStatus };
+                response.Data = new ScheduleCancelResult
+                {
+                    PackageId = package.Id,
+                    UniqueToken = package.UniqueToken,
+                    NewStatus = newStatus
+                };
                 return response;
             }
             catch (Exception ex)

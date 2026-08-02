@@ -25,7 +25,6 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<AuditDataSelectiveEntityLog> AuditSelectiveLogs { get; set; }
         DbSet<Gender> Genders { get; set; }
         DbSet<InfoTag> InfoTags { get; set; }
-        DbSet<MedicalCalendar> MedicalCalendars { get; set; }
         DbSet<MedicalFile> MedicalFiles { get; set; }
         DbSet<Medical> Medicals { get; set; }
         DbSet<MedicalSpecialty> MedicalSpecialties { get; set; }
@@ -46,8 +45,7 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<RoleGroupUser> RoleGroupUsers { get; set; }
         DbSet<Specialty> Specialties { get; set; }
         DbSet<User> Users { get; set; }
-        DbSet<UserTokenSession> UserTokenSessions { get; set; } 
-        DbSet<ScheduleBatch> ScheduleBatchs { get; set; }
+        DbSet<UserTokenSession> UserTokenSessions { get; set; }
         DbSet<ScheduleCalendar> ScheduleCalendars { get; set; }
 
         #endregion DbSets 

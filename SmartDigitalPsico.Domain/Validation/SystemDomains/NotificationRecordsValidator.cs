@@ -6,11 +6,15 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
     {
         public NotificationRecordsValidator()
         { 
-            RuleFor(x => x.MedicalCalendarId)
-                .GreaterThan(0)
-                .When(x => x.MedicalCalendarId.HasValue)
-                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.MedicalCalendarId.GreaterThan")
-                .WithMessage("NotificationRecords_MedicalCalendarId_Validator_Invalid|If provided, MedicalCalendarId must be greater than 0.");
+            RuleFor(x => x.TokenId)
+                .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.TokenId.NotEmpty")
+                .WithMessage("NotificationRecords_TokenId_Validator_Invalid|TokenId is required.");
+
+            RuleFor(x => x.EventDate)
+                .NotEmpty()
+                .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.EventDate.NotEmpty")
+                .WithMessage("NotificationRecords_EventDate_Validator_IsRequired|EventDate is required.");
 
             // Valida cada item do array de NotificationRules.
             RuleForEach(x => x.NotificationRules).SetValidator(new NotificationRuleStatusValidator());

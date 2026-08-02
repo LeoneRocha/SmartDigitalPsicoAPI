@@ -5,11 +5,16 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 {
     public class NotificationRecord : EntityBase 
     {
-        #region Relationship   
-        public long? MedicalCalendarId { get; set; }
-        public MedicalCalendar? MedicalCalendar { get; set; }
-        #endregion Relationship
-         
+        /// <summary>
+        /// Opaque schedule token (ScheduleCalendar.UniqueToken as Guid). No FK to schedule tables.
+        /// </summary>
+        public Guid TokenId { get; set; }
+
+        /// <summary>
+        /// Occurrence datetime that was notified (logical key with TokenId).
+        /// </summary>
+        public DateTime EventDate { get; set; }
+
         public DateTime? NextScheduledSendTime { get; set; }
 
         // Armazena as regras e seus status (em JSON no banco)
@@ -20,7 +25,6 @@ namespace SmartDigitalPsico.Domain.ModelEntity
 
         // Se IsCompleted for true, esta data indica o momento em que todas as notificações foram enviadas.
         public DateTime? FinalSendDate { get; set; }
-        public DateTime EventDate { get; set; }
     }
     public class NotificationRuleStatus
     {

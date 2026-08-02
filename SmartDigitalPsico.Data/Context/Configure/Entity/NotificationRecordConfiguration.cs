@@ -18,9 +18,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             HelperCharSet.AddCharSet(builder, ETypeDataBase);
             builder.HasKey(e => e.Id);
 
-            // Properties
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
-            builder.Property(e => e.MedicalCalendarId).IsRequired(false);
+            builder.Property(e => e.TokenId).IsRequired();
+            builder.Property(e => e.EventDate).IsRequired();
             builder.Property(e => e.NotificationRules)
                 .HasConversion(
                     v => JsonConvert.SerializeObject(v),
@@ -32,33 +32,19 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
              
             builder.Property(e => e.CreatedDate).IsRequired();
             builder.Property(e => e.ModifyDate).IsRequired();
-            builder.Property(e => e.EventDate).IsRequired();
 
-            // Propriedade usada para filtragem rápida de notificações pendentes.
             builder.Property(e => e.NextScheduledSendTime)
                    .IsRequired(false);
 
-            // Novo controle para indicar conclusão dos envios:
             builder.Property(e => e.IsCompleted)
                    .IsRequired();
             builder.Property(e => e.FinalSendDate)
                    .IsRequired(false);
 
-            // Relationship: ClientCascade so EF cleans dependents when MedicalCalendar
-            // is deleted in the change tracker. The DB FK is intentionally dropped by
-            // migration DropFkNotificationRecordsMedicalCalendarAllowTruncate — MySQL
-            // forbids TRUNCATE on a parent table that is still referenced by any FK (error 1701),
-            // even with ON DELETE CASCADE. App deletes NotificationRecords before calendars.
-            builder.HasOne(e => e.MedicalCalendar)
-                .WithMany()
-                .HasForeignKey(e => e.MedicalCalendarId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.ClientCascade);
-
-
-            // Indexes (using Fluent API) 
-            // Índices para melhorar a performance das consultas. 
-            builder.HasIndex(e => e.MedicalCalendarId).HasDatabaseName("IX_NotificationRecords_MedicalCalendarId");            
+            // Logical key for schedule reminders — no FK to ScheduleCalendar.
+            builder.HasIndex(e => new { e.TokenId, e.EventDate })
+                .HasDatabaseName("IX_NotificationRecords_TokenId_EventDate");
+            builder.HasIndex(e => e.TokenId).HasDatabaseName("IX_NotificationRecords_TokenId");
             builder.HasIndex(e => e.NextScheduledSendTime).HasDatabaseName("IX_NotificationRecords_NextScheduledSendTime");
             builder.HasIndex(e => e.IsCompleted).HasDatabaseName("IX_NotificationRecords_IsCompleted");
         }

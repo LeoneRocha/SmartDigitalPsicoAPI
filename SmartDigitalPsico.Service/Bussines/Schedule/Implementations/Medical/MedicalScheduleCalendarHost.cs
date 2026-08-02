@@ -192,9 +192,10 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                         return FailBool(await Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
                     }
 
+                    if (packagesPreview.Data != null)
+                        await _notifications.DeleteNotificationRecordsAsync(packagesPreview.Data.UniqueToken);
+
                     var deleted = await _bookingEngine.DeleteByTokenAsync(MedicalScheduleMapper.ToDeleteTokenRequest(request));
-                    if (deleted.Success && packagesPreview.Data != null)
-                        await _notifications.DeleteNotificationRecordsAsync(packagesPreview.Data.Id);
 
                     return deleted.Success
                         ? OkBool(true, await Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
@@ -209,7 +210,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 if (user.MedicalId != medicalId || user.MedicalId != request.MedicalId)
                     return FailBool(await Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
 
-                await _notifications.DeleteNotificationRecordsAsync(package.Data.Id);
+                await _notifications.DeleteNotificationRecordsAsync(package.Data.UniqueToken);
                 var result = await _bookingEngine.DeleteByIdAsync(package.Data.Id);
                 return result.Success
                     ? OkBool(true, await Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
@@ -257,7 +258,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 {
                     var canceled = await _bookingEngine.CancelAsync(MedicalScheduleMapper.ToCancelRequest(criteria));
                     if (canceled.Success && canceled.Data != null)
-                        await _notifications.DeleteNotificationRecordsAsync(canceled.Data.PackageId);
+                        await _notifications.DeleteNotificationRecordsAsync(
+                            canceled.Data.UniqueToken,
+                            criteria.AppointmentDateTime);
 
                     return canceled.Success
                         ? OkBool(true, await Loc(MedicalCalendarKeyConstants.Cancel_Appointment_Success, MedicalCalendarMenssageConstants.Cancel_Appointment_Success) + $". ({canceled.Data?.PackageId})")

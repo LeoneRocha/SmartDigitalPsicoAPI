@@ -7,9 +7,9 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
     public abstract class NotificationRecordsBaseDto : EntityDtoBaseDomain
     {  
         /// <summary>
-        /// ID opcional do calendário médico.
+        /// Schedule UniqueToken as Guid (opaque; no FK to schedule tables).
         /// </summary>
-        public long? MedicalCalendarId { get; set; }
+        public Guid TokenId { get; set; }
 
         /// <summary>
         /// Indica a próxima data/hora agendada para envio da notificação, em UTC.
@@ -34,6 +34,9 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
         /// </summary>
         public DateTime? FinalSendDate { get; set; }
 
+        /// <summary>
+        /// Occurrence datetime that was notified (logical key with TokenId).
+        /// </summary>
         public DateTime EventDate { get; set; }
 
         public DateTime CreatedDate { get; set; }
