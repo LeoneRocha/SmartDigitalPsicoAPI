@@ -38,18 +38,18 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleAvailabilityService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries.ScheduleAvailabilityService>();
             services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleAppointmentQueryService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries.ScheduleAppointmentQueryService>();
 
-            // Medical host — thin DTO mapping wrapper (single host implements all FE schedule contracts)
+            // Medical host — support + action services + thin facade
             services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleKeyPolicy, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleKeyPolicy>();
             services.AddScoped<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleNotificationAdapter>();
             services.AddScoped<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleConstraintsProvider>();
-            services.AddScoped<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarFacade>(sp => sp.GetRequiredService<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>());
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarFindService>(sp => sp.GetRequiredService<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>());
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarCreateService>(sp => sp.GetRequiredService<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>());
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarUpdateService>(sp => sp.GetRequiredService<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>());
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarDeleteService>(sp => sp.GetRequiredService<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>());
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarGradeService>(sp => sp.GetRequiredService<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>());
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarAppointmentService>(sp => sp.GetRequiredService<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>());
+            services.AddScoped<SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleHostSupport>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarFindService, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions.MedicalScheduleFindService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarCreateService, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions.MedicalScheduleCreateService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarUpdateService, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions.MedicalScheduleUpdateService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarDeleteService, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions.MedicalScheduleDeleteService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarGradeService, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions.MedicalScheduleGradeService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarAppointmentService, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions.MedicalScheduleAppointmentService>();
+            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleCalendarFacade, SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.MedicalScheduleCalendarHost>();
         }
         private static void RegisterServices(IServiceCollection services)
         {
