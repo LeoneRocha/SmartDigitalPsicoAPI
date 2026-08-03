@@ -1,9 +1,14 @@
-﻿using Azure;
+using Azure;
 using Azure.Data.Tables;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 
 namespace SmartDigitalPsico.Domain.TableEntityNoSQL
 {
+    /// <summary>
+    /// Classe responsável por BaseEntityTable.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public abstract class BaseEntityTable : ITableEntity, ITableBaseEntity
     {
         public string PartitionKey { get; set; } = string.Empty;

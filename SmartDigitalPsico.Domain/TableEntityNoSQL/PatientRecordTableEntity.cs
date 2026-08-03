@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.TableEntityNoSQL
+namespace SmartDigitalPsico.Domain.TableEntityNoSQL
 {
+    /// <summary>
+    /// Classe responsável por PatientRecordTableEntity.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class PatientRecordTableEntity : BaseEntityTable
     {
         public long PatientId { get; set; }

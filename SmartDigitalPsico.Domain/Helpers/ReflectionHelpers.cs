@@ -1,10 +1,18 @@
-﻿
+
 using System.ComponentModel;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
+    /// <summary>
+    /// Classe responsável por ReflectionHelpers.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class ReflectionHelpers
     {
+        /// <summary>
+        /// Método GetProperties: consulta e retorna dados.
+        /// </summary>
         public static IOrderedEnumerable<System.Reflection.PropertyInfo> GetProperties(object dataObject, List<string> propertiesToIgnore)
         {
             return dataObject.GetType().GetProperties()
@@ -13,6 +21,9 @@ namespace SmartDigitalPsico.Domain.Helpers
                         .Cast<OrderAttribute>().FirstOrDefault()?.Order ?? int.MaxValue);
         }
 
+        /// <summary>
+        /// Método GetLabelProperty: consulta e retorna dados.
+        /// </summary>
         public static string GetLabelProperty(System.Reflection.PropertyInfo property)
         {
             var label = property.Name;

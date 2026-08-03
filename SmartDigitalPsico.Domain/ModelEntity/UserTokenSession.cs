@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Contracts;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por UserTokenSession.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class UserTokenSession : EntityBase
     {
         public string AccessToken { get; set; } = string.Empty;

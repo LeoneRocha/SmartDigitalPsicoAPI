@@ -1,10 +1,18 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
+    /// <summary>
+    /// Classe responsável por AuditLogHelper.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class AuditLogHelper
     {
+        /// <summary>
+        /// Método GetJsonSettings: consulta e retorna dados.
+        /// </summary>
         public static JsonSerializerSettings GetJsonSettings()
         {
             return new JsonSerializerSettings
@@ -18,6 +26,9 @@ namespace SmartDigitalPsico.Domain.Helpers
                 DefaultValueHandling = DefaultValueHandling.Ignore
             };
         }
+        /// <summary>
+        /// Método SerializeObject: executa a operação SerializeObject.
+        /// </summary>
         public static string SerializeObject(object dataAuditLog)
         {
             if (dataAuditLog != null)
@@ -25,6 +36,9 @@ namespace SmartDigitalPsico.Domain.Helpers
 
             return string.Empty;
         }
+        /// <summary>
+        /// Método SerializeObject: executa a operação SerializeObject.
+        /// </summary>
         public static string SerializeObject(object dataAuditLog, string[] propertiesToIgnore)
         {
             var jsonSettings = GetJsonSettings();
@@ -34,6 +48,9 @@ namespace SmartDigitalPsico.Domain.Helpers
 
             return string.Empty;
         }
+        /// <summary>
+        /// Método CreateAuditEntry: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static AddAuditDataSelectiveEntityLogDto CreateAuditEntry(object entryOld, object entryNew, string operation, string[] propertiesToIgnore)
         {
             var auditEntry = new AddAuditDataSelectiveEntityLogDto

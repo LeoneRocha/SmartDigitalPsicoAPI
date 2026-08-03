@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
@@ -8,9 +8,20 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
+    /// <summary>
+    /// Classe responsável por PatientRecordConfiguration.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class PatientRecordConfiguration : EntityBaseConfiguration<PatientRecord>
     {
+        /// <summary>
+        /// Método PatientRecordConfiguration: executa a operação PatientRecordConfiguration.
+        /// </summary>
         public PatientRecordConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public override void Configure(EntityTypeBuilder<PatientRecord> builder)
         {
             builder.ToTable("PatientRecord", "dbo");

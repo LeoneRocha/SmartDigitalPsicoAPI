@@ -1,10 +1,21 @@
-﻿namespace SmartDigitalPsico.Domain.VO
+namespace SmartDigitalPsico.Domain.VO
 {
+    /// <summary>
+    /// Classe responsável por TokenVO.
+    /// Responsabilidade: value object / objeto de valor de resposta.
+    /// Relação: retornado pelos Services para Controllers.
+    /// </summary>
     public class TokenVO
     {
+        /// <summary>
+        /// Método TokenVO: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public TokenVO()
         {
         } 
+        /// <summary>
+        /// Método TokenVO: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public TokenVO(bool authenticated, string created, string expiration, string accessToken, string refreshToken)
         {
             Authenticated = authenticated;

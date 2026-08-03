@@ -1,13 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace SmartDigitalPsico.Data.Migrations.MySql
 {
     /// <inheritdoc />
+    /// <summary>
+    /// Classe responsável por RenameNotificationTemplateTagApiToTemplateKey.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public partial class RenameNotificationTemplateTagApiToTemplateKey : Migration
     {
         /// <inheritdoc />
+        /// <summary>
+        /// Método Up: executa a operação Up.
+        /// </summary>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
@@ -36,6 +44,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
         }
 
         /// <inheritdoc />
+        /// <summary>
+        /// Método Down: executa a operação Down.
+        /// </summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(

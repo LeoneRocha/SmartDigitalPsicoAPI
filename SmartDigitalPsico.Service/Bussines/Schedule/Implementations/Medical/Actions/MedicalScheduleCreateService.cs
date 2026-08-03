@@ -7,12 +7,20 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions
 {
+    /// <summary>
+    /// Classe responsável por MedicalScheduleCreateService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class MedicalScheduleCreateService : IScheduleCalendarCreateService
     {
         private readonly MedicalScheduleHostSupport _support;
         private readonly IScheduleCreateService _create;
         private readonly MedicalScheduleNotificationAdapter _notifications;
 
+        /// <summary>
+        /// Método MedicalScheduleCreateService: executa a operação MedicalScheduleCreateService.
+        /// </summary>
         public MedicalScheduleCreateService(
             MedicalScheduleHostSupport support,
             IScheduleCreateService create,
@@ -23,8 +31,14 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             _notifications = notifications;
         }
 
+        /// <summary>
+        /// Método SetUserId: configura estado ou dependencias.
+        /// </summary>
         public void SetUserId(long userId) => _support.SetUserId(userId);
 
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
         {
             try

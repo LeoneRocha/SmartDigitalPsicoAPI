@@ -1,17 +1,28 @@
-﻿using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Service.Audit
 {
+    /// <summary>
+    /// Classe responsável por AuditPersistenceLogService.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class AuditPersistenceLogService : IAuditPersistenceService
     {
         private readonly Serilog.ILogger _logger;
 
+        /// <summary>
+        /// Método AuditPersistenceLogService: executa a operação AuditPersistenceLogService.
+        /// </summary>
         public AuditPersistenceLogService(Serilog.ILogger logger)
         {
             _logger = logger;
         }
+        /// <summary>
+        /// Método SaveAuditEntries: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public void SaveAuditEntries(IEnumerable<AuditDataEntityLog> auditEntries)
         {
             foreach (var auditEntry in auditEntries)
@@ -20,6 +31,9 @@ namespace SmartDigitalPsico.Service.Audit
                     auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
             }
         } 
+        /// <summary>
+        /// Método SaveAuditEntry: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task SaveAuditEntry(AuditDataSelectiveEntityLog auditEntry)
         {
             await Task.Run(() =>

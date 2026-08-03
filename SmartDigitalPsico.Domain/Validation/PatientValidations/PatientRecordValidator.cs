@@ -5,8 +5,16 @@ using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
+    /// <summary>
+    /// Classe responsável por PatientRecordValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class PatientRecordValidator : PatientBaseValidator<PatientRecord>
     {
+        /// <summary>
+        /// Método PatientRecordValidator: executa a operação PatientRecordValidator.
+        /// </summary>
         public PatientRecordValidator(IPatientRecordRepository entityRepository, IPatientRepository patientRepository)
             : base(patientRepository, entityRepository)
         {

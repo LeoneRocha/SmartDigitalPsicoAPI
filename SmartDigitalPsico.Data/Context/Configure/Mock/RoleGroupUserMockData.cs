@@ -1,9 +1,17 @@
-﻿using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por RoleGroupUserMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class RoleGroupUserMockData  
     { 
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
         public static RoleGroupUser[] GetMock()
         {
             var userAdmin = new RoleGroupUser
@@ -24,6 +32,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             ];
         }
 
+        /// <summary>
+        /// Método GetMockUnitTest: consulta e retorna dados.
+        /// </summary>
         public static RoleGroupUser[] GetMockUnitTest() => GetMock();
     }
 }

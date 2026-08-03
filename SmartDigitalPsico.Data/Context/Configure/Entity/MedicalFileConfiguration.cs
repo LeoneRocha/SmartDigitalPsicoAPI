@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Domain.Constants;
@@ -7,9 +7,20 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
+    /// <summary>
+    /// Classe responsável por MedicalFileConfiguration.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class MedicalFileConfiguration : EntityBaseConfiguration<MedicalFile>
     {
+        /// <summary>
+        /// Método MedicalFileConfiguration: executa a operação MedicalFileConfiguration.
+        /// </summary>
         public MedicalFileConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public override void Configure(EntityTypeBuilder<MedicalFile> builder)
         {
             builder.ToTable("MedicalFile", "dbo");

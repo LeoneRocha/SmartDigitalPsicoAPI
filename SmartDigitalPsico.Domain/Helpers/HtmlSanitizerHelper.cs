@@ -1,7 +1,12 @@
-﻿using Ganss.Xss;
+using Ganss.Xss;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
+    /// <summary>
+    /// Classe responsável por HtmlSanitizerHelper.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class HtmlSanitizerHelper
     {
         private static readonly HtmlSanitizer _sanitizer = new HtmlSanitizer();
@@ -33,6 +38,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             sanitizer.AllowedTags.Add("i");
         }
 
+        /// <summary>
+        /// Método Sanitize: executa a operação Sanitize.
+        /// </summary>
         public static string Sanitize(string input)
         {
             ConfigureSanitizer(_sanitizer);

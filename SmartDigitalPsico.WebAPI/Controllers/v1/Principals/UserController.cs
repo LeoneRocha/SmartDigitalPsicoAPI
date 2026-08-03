@@ -12,10 +12,18 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     [ApiController] 
     [Authorize("Bearer")]
     [Route("api/[controller]/v1")]
+    /// <summary>
+    /// Classe responsável por UserController.
+    /// Responsabilidade: controller HTTP da WebAPI.
+    /// Relação: expõe endpoints REST e delega para Services/Facades.
+    /// </summary>
     public class UserController : ApiBaseController
     {
         private readonly IUserService _entityService;
 
+        /// <summary>
+        /// Método UserController: executa a operação UserController.
+        /// </summary>
         public UserController(IUserService entityService
             , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
@@ -28,6 +36,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> FindAll()
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -41,6 +52,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -53,6 +67,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPost]
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> Create(UserRegisterDto newEntity)
         {
             var response = await _entityService.Create(newEntity);
@@ -66,6 +83,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> Update(UpdateUserDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -79,6 +99,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPatch]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método UpdateProfile: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> UpdateProfile(UpdateUserProfileDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -93,6 +116,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpDelete("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();

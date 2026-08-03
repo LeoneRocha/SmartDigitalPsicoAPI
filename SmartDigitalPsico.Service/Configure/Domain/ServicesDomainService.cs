@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
@@ -12,14 +12,25 @@ using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
+    /// <summary>
+    /// Classe responsável por ServicesDomainService.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
+    /// </summary>
     public static class ServicesDomainService
     {
         private const string ServiceSuffix = "Service"; 
 
+        /// <summary>
+        /// Método AddDependenciesManually: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static void AddDependenciesManually(IServiceCollection services)
         {
             RegisterManuallyAddedServices(services);
         }
+        /// <summary>
+        /// Método AddDependenciesAuto: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static void AddDependenciesAuto(IServiceCollection services)
         {
             RegisterServices(services);

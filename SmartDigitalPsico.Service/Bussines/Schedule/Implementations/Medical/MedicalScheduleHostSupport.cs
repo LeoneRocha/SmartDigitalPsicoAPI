@@ -22,6 +22,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         private readonly ICacheService _cacheService;
         private readonly IMedicalCalendarValidators _validators;
 
+        /// <summary>
+        /// Método MedicalScheduleHostSupport: executa a operação MedicalScheduleHostSupport.
+        /// </summary>
         public MedicalScheduleHostSupport(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -43,11 +46,20 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         public IUserRepository UserRepository { get; }
         public IPatientRepository PatientRepository { get; }
 
+        /// <summary>
+        /// Método SetUserId: configura estado ou dependencias.
+        /// </summary>
         public void SetUserId(long userId) => UserId = userId;
 
+        /// <summary>
+        /// Método Loc: executa a operação Loc.
+        /// </summary>
         public Task<string> Loc(string key, string fallback)
             => _languageService.GetLocalization<ISharedResource>(key, fallback, _cacheService);
 
+        /// <summary>
+        /// Método TranslateErrors: executa a operação TranslateErrors.
+        /// </summary>
         public async Task<List<ErrorResponse>> TranslateErrors(List<ErrorResponse> errors)
         {
             var translated = new List<ErrorResponse>();
@@ -66,6 +78,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             return translated;
         }
 
+        /// <summary>
+        /// Método ValidateEntityAsync: valida regras ou verifica existência.
+        /// </summary>
         public async Task<ServiceResponse<GetMedicalCalendarDto>> ValidateEntityAsync(MedicalCalendar entity)
         {
             var response = new ServiceResponse<GetMedicalCalendarDto>();
@@ -80,6 +95,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             return response;
         }
 
+        /// <summary>
+        /// Método MapNewEntity: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public MedicalCalendar MapNewEntity(AddMedicalCalendarDto item)
         {
             var entity = Mapper.Map<MedicalCalendar>(item);
@@ -95,15 +113,27 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             return entity;
         }
 
+        /// <summary>
+        /// Método OkDto: executa a operação OkDto.
+        /// </summary>
         public static ServiceResponse<GetMedicalCalendarDto> OkDto(GetMedicalCalendarDto data, string message)
             => new() { Success = true, Data = data, Message = message };
 
+        /// <summary>
+        /// Método FailDto: executa a operação FailDto.
+        /// </summary>
         public static ServiceResponse<GetMedicalCalendarDto> FailDto(string? message)
             => new() { Success = false, Message = message ?? string.Empty };
 
+        /// <summary>
+        /// Método OkBool: executa a operação OkBool.
+        /// </summary>
         public static ServiceResponse<bool> OkBool(bool data, string message)
             => new() { Success = true, Data = data, Message = message };
 
+        /// <summary>
+        /// Método FailBool: executa a operação FailBool.
+        /// </summary>
         public static ServiceResponse<bool> FailBool(string? message)
             => new() { Success = false, Message = message ?? string.Empty };
     }

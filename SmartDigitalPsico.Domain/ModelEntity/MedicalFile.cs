@@ -3,6 +3,11 @@ using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por MedicalFile.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class MedicalFile : FileBase, IEntityBaseLogUser, IEntityMedicalBase
     { 
         #region Relationship         

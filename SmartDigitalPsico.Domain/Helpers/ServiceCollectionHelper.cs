@@ -1,9 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.DTO;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Helpers
 {
+    /// <summary>
+    /// Classe responsável por ServiceCollectionHelper.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class ServiceCollectionHelper
     {
         public static T[] FilterItems<T>(T[] items, params T[][] filters)
@@ -17,6 +22,9 @@ namespace SmartDigitalPsico.Service.Helpers
 
         }
 
+        /// <summary>
+        /// Método GetRegisteredInterfaces: consulta e retorna dados.
+        /// </summary>
         public static HashSet<Type> GetRegisteredInterfaces(IServiceCollection services)
         {
             return services.Where(service => service.Lifetime == ServiceLifetime.Scoped)
@@ -24,6 +32,9 @@ namespace SmartDigitalPsico.Service.Helpers
                            .ToHashSet();
         }
 
+        /// <summary>
+        /// Método GetInterfaces: consulta e retorna dados.
+        /// </summary>
         public static RepositoryInfo[] GetInterfaces(string[] classSuffixes, params Assembly[] assemblies)
         {
             var repositories = assemblies.SelectMany(assembly => assembly.GetTypes())
@@ -39,6 +50,9 @@ namespace SmartDigitalPsico.Service.Helpers
             return repositories.ToArray();
         }
 
+    /// <summary>
+    /// Método RegisterInterfaces: cria ou persiste um novo registro/recurso.
+    /// </summary>
     public static void RegisterInterfaces(IServiceCollection services, string[] classSuffixes, List<Type> ignoredInterfaces, Assembly[] assemblies)
         {
             var interfaceInfos = GetInterfaces(classSuffixes, assemblies);

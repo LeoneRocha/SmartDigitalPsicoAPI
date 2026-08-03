@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -11,8 +11,16 @@ using SmartDigitalPsico.Domain.Security;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
+    /// <summary>
+    /// Classe responsável por ServiceCollectionConfigureServicesDomain.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
+    /// </summary>
     public static class ServiceCollectionConfigureServicesDomain
     {
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public static void Configure(IServiceCollection services, IConfiguration _configuration)
         {
             ServicesDomainRepository.AddDependencies(services);

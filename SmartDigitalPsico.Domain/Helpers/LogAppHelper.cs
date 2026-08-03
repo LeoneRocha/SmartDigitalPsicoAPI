@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using SmartDigitalPsico.Domain.AppException;
@@ -9,12 +9,23 @@ using System.Text;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
+    /// <summary>
+    /// Classe responsável por LogAppHelper.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class LogAppHelper
     {
+        /// <summary>
+        /// Método GetDurationStopwatch: consulta e retorna dados.
+        /// </summary>
         public static string GetDurationStopwatch(Stopwatch stopwatch)
         {
             return TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds).ToString(@"hh\:mm\:ss");
         }
+        /// <summary>
+        /// Método LogException: executa a operação LogException.
+        /// </summary>
         public static void LogException(Serilog.ILogger logger, Exception ex, string logType)
         {
             var message = $"{logType}-LEVEL: {ex.Message} at: {DateHelper.GetDateTimeNowToLog()}";
@@ -29,6 +40,9 @@ namespace SmartDigitalPsico.Domain.Helpers
                 logger.Error(ex, message);
             }
         }
+        /// <summary>
+        /// Método CreateLogger: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static Serilog.Core.Logger CreateLogger(IConfiguration configuration)
         {
             return new LoggerConfiguration()
@@ -39,6 +53,9 @@ namespace SmartDigitalPsico.Domain.Helpers
                       .CreateLogger();
         }
 
+        /// <summary>
+        /// Método GetInformationVersionProduct: consulta e retorna dados.
+        /// </summary>
         public static AppInformationVersionProductDto GetInformationVersionProduct()
         {
             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
@@ -91,6 +108,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return hostEnvironment?.EnvironmentName ?? "Undefined";
         }
 
+        /// <summary>
+        /// Método ShowInformationVersionProductString: executa a operação ShowInformationVersionProductString.
+        /// </summary>
         public static string ShowInformationVersionProductString()
         {
             var assemblyApp = GetInformationVersionProduct();
@@ -102,6 +122,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return "Assembly information could not be retrieved.";
         }
 
+        /// <summary>
+        /// Método PrintLogInformationVersionProduct: executa a operação PrintLogInformationVersionProduct.
+        /// </summary>
         public static void PrintLogInformationVersionProduct(Serilog.ILogger logger)
         {
             logger.Information("******* PRODUCT INFORMATION *******");
@@ -117,6 +140,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             logger.Information("******* PRODUCT INFORMATION *******");
         }
 
+        /// <summary>
+        /// Método Set_ASPNETCORE_ENVIRONMENT: configura estado ou dependencias.
+        /// </summary>
         public static void Set_ASPNETCORE_ENVIRONMENT(IConfiguration configuration)
         {
             string envVal = ConfigurationAppSettingsHelper.GetValueStringConfiguration(configuration, "APP_ENVIRONMENT");
@@ -127,12 +153,18 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
 
         // Método para encapsular chamadas a _logger.Information_
+        /// <summary>
+        /// Método LogInfo: executa a operação LogInfo.
+        /// </summary>
         public static void LogInfo(ILogger logger, string message, params object[] args)
         {
             logger.Information(message, args);
         }
 
         // Método para encapsular chamadas a _logger.Error_
+        /// <summary>
+        /// Método LogError: executa a operação LogError.
+        /// </summary>
         public static void LogError(ILogger logger, Exception ex, string message, params object[] args)
         {
             logger.Error(ex, message, args);

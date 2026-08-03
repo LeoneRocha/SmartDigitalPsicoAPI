@@ -7,12 +7,20 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
 {
+    /// <summary>
+    /// Classe responsável por ScheduleQueryService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class ScheduleQueryService : IScheduleQueryService
     {
         private readonly IScheduleCalendarRepository _repository;
         private readonly IScheduleConflictService _conflictService;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Método ScheduleQueryService: operação de agendamento.
+        /// </summary>
         public ScheduleQueryService(
             IScheduleCalendarRepository repository,
             IScheduleConflictService conflictService,
@@ -23,6 +31,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             _logger = logger;
         }
 
+        /// <summary>
+        /// Método GetByTokenAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar?>> GetByTokenAsync(string uniqueToken)
         {
             return new ServiceResponse<ScheduleCalendar?>
@@ -32,6 +43,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             };
         }
 
+        /// <summary>
+        /// Método GetByIdAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar?>> GetByIdAsync(long id)
         {
             try
@@ -46,6 +60,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             }
         }
 
+        /// <summary>
+        /// Método GetOverlappingPeriodAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar[]>> GetOverlappingPeriodAsync(
             string tenantKey, string ownerKey, DateTime start, DateTime end)
         {
@@ -54,6 +71,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             return new ServiceResponse<ScheduleCalendar[]> { Data = data, Success = true };
         }
 
+        /// <summary>
+        /// Método GetItemsForOwnerAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleCalendarItem[]>> GetItemsForOwnerAsync(
             string tenantKey, string ownerKey, DateTime start, DateTime end)
         {
@@ -62,6 +82,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             return new ServiceResponse<ScheduleCalendarItem[]> { Data = data, Success = true };
         }
 
+        /// <summary>
+        /// Método GetItemAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleCalendarItem?>> GetItemAsync(
             string tenantKey, string ownerKey, string? subjectKey, DateTime appointmentDateTime)
         {
@@ -70,6 +93,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             return new ServiceResponse<ScheduleCalendarItem?> { Data = data, Success = true };
         }
 
+        /// <summary>
+        /// Método HasConflictAsync: executa a operação HasConflictAsync.
+        /// </summary>
         public async Task<ServiceResponse<bool>> HasConflictAsync(string tenantKey, string ownerKey, DateTime appointmentDateTime)
         {
             var noConflict = await _conflictService.HasNoConflictAsync(new Domain.Validation.Schedule.ScheduleCalendarConflictRequest

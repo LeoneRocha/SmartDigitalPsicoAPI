@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -6,10 +6,21 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por NotificationTemplateRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class NotificationTemplateRepository : GenericRepositoryEntityBase<NotificationTemplate>, INotificationTemplateRepository
     {
+        /// <summary>
+        /// Método NotificationTemplateRepository: executa a operação NotificationTemplateRepository.
+        /// </summary>
         public NotificationTemplateRepository(IEntityDataContext context) : base(context) { }
 
+        /// <summary>
+        /// Método GetNotificationTemplateAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<NotificationTemplate?> GetNotificationTemplateAsync(string templateKey, string language)
         {
             var templates = _context.NotificationTemplates.AsNoTracking()

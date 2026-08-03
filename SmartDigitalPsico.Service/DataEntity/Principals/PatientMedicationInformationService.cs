@@ -15,11 +15,19 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientMedicationInformationService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class PatientMedicationInformationService : EntityBaseService<PatientMedicationInformation, AddPatientMedicationInformationDto, UpdatePatientMedicationInformationDto, GetPatientMedicationInformationDto, IPatientMedicationInformationRepository>, IPatientMedicationInformationService
 
     {
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método PatientMedicationInformationService: executa a operação PatientMedicationInformationService.
+        /// </summary>
         public PatientMedicationInformationService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -31,6 +39,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             _userRepository = sharedRepositories.UserRepository;
         }
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Create(AddPatientMedicationInformationDto item)
         {
 
@@ -59,6 +70,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Update(UpdatePatientMedicationInformationDto item)
         {
             PatientMedicationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
@@ -90,6 +104,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientMedicationInformationDto>>> FindAllByPatient(long patientId)
         {
             ServiceResponse<List<GetPatientMedicationInformationDto>> response = new ServiceResponse<List<GetPatientMedicationInformationDto>>();
@@ -124,6 +141,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async override Task<ServiceResponse<List<GetPatientMedicationInformationDto>>> FindAll()
         {
             var result = new ServiceResponse<List<GetPatientMedicationInformationDto>>();
@@ -132,6 +152,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return result;
         }
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> FindByID(long id)
         {
             ServiceResponse<GetPatientMedicationInformationDto> response = new ServiceResponse<GetPatientMedicationInformationDto>();

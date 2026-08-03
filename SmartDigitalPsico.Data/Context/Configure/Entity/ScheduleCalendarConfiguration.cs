@@ -8,10 +8,21 @@ using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
+    /// <summary>
+    /// Classe responsável por ScheduleCalendarConfiguration.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class ScheduleCalendarConfiguration : EntityBaseConfiguration<ScheduleCalendar>
     {
+        /// <summary>
+        /// Método ScheduleCalendarConfiguration: operação de agendamento.
+        /// </summary>
         public ScheduleCalendarConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
 
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public override void Configure(EntityTypeBuilder<ScheduleCalendar> builder)
         {
             builder.ToTable("ScheduleCalendar", "dbo");

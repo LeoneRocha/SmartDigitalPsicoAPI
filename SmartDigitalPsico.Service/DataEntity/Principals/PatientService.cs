@@ -15,10 +15,18 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class PatientService : EntityBaseService<Patient, AddPatientDto, UpdatePatientDto, GetPatientDto, IPatientRepository>, IPatientService
 
     {
         private readonly IUserRepository _userRepository;
+        /// <summary>
+        /// Método PatientService: executa a operação PatientService.
+        /// </summary>
         public PatientService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -30,6 +38,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             _userRepository = sharedRepositories.UserRepository;
         }
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientDto>> Create(AddPatientDto item)
         {
             Patient entityAdd = _mapper.Map<Patient>(item);
@@ -64,6 +75,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientDto>> Update(UpdatePatientDto item)
         {
             ServiceResponse<GetPatientDto> response = new ServiceResponse<GetPatientDto>();
@@ -122,6 +136,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<GetPatientDto>> FindByPatient(GetPatientDto info)
         {
             ServiceResponse<GetPatientDto> response = new ServiceResponse<GetPatientDto>();
@@ -142,12 +159,18 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
 
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<List<GetPatientDto>>> FindAll()
         {
             await Task.Yield();
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Método PatientSearch: executa a operação PatientSearch.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientDto>>> PatientSearch(PatientSearchCriteriaDto patientSearchCriteriaDto)
         {
             ServiceResponse<List<GetPatientDto>> response = new ServiceResponse<List<GetPatientDto>>();
@@ -183,6 +206,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientDto>>> FindAll(long medicalId)
         {
             ServiceResponse<List<GetPatientDto>> response = new ServiceResponse<List<GetPatientDto>>();
@@ -217,6 +243,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             return response;
         }
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientDto>> FindByID(long id)
         {
             ServiceResponse<GetPatientDto> response = new ServiceResponse<GetPatientDto>();

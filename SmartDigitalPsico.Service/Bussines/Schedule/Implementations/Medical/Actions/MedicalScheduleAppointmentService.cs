@@ -9,6 +9,11 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions
 {
+    /// <summary>
+    /// Classe responsável por MedicalScheduleAppointmentService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class MedicalScheduleAppointmentService : IScheduleCalendarAppointmentService
     {
         private readonly MedicalScheduleHostSupport _support;
@@ -19,6 +24,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
         private readonly MedicalScheduleNotificationAdapter _notifications;
         private readonly IMedicalCalendarValidators _validators;
 
+        /// <summary>
+        /// Método MedicalScheduleAppointmentService: executa a operação MedicalScheduleAppointmentService.
+        /// </summary>
         public MedicalScheduleAppointmentService(
             MedicalScheduleHostSupport support,
             IScheduleCreateService create,
@@ -37,8 +45,14 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             _validators = validators;
         }
 
+        /// <summary>
+        /// Método SetUserId: configura estado ou dependencias.
+        /// </summary>
         public void SetUserId(long userId) => _support.SetUserId(userId);
 
+        /// <summary>
+        /// Método RequestAppointment: operação de agendamento.
+        /// </summary>
         public async Task<ServiceResponse<bool>> RequestAppointment(ScheduleCriteriaDto criteria)
         {
             try
@@ -91,6 +105,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             }
         }
 
+        /// <summary>
+        /// Método GetAppointments: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<AppointmentDto[]>> GetAppointments(AppointmentCriteriaDto criteria)
         {
             try

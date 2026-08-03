@@ -2,12 +2,22 @@ using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.Helpers.Schedule
 {
+    /// <summary>
+    /// Classe responsável por RecurrenceInterval.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public sealed class RecurrenceInterval
     {
         public DateTime StartDateTime { get; init; }
         public DateTime EndDateTime { get; init; }
     }
 
+    /// <summary>
+    /// Classe responsável por RecurrenceMaterializeRequest.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public sealed class RecurrenceMaterializeRequest
     {
         public DateTime StartDateTime { get; init; }
@@ -19,8 +29,16 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
         public int MaxOccurrences { get; init; } = 500;
     }
 
+    /// <summary>
+    /// Classe responsável por RecurrenceMaterializer.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class RecurrenceMaterializer
     {
+        /// <summary>
+        /// Método Materialize: executa a operação Materialize.
+        /// </summary>
         public static List<RecurrenceInterval> Materialize(RecurrenceMaterializeRequest request)
         {
             var duration = request.EndDateTime - request.StartDateTime;

@@ -1,10 +1,18 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 
 namespace SmartDigitalPsico.Domain.Helpers.Security
 {
+    /// <summary>
+    /// Classe responsável por AesKeyGeneratorHelper.
+    /// Responsabilidade: segurança e autenticação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class AesKeyGeneratorHelper
     {
 
+        /// <summary>
+        /// Método GenerateKey: executa a operação GenerateKey.
+        /// </summary>
         public static string GenerateKey()
         {
             using (var rng = RandomNumberGenerator.Create())
@@ -15,6 +23,9 @@ namespace SmartDigitalPsico.Domain.Helpers.Security
             }
         }
 
+        /// <summary>
+        /// Método GenerateIV: executa a operação GenerateIV.
+        /// </summary>
         public static string GenerateIV()
         {
             using (var rng = RandomNumberGenerator.Create())

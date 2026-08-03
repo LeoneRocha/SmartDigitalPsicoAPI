@@ -15,8 +15,16 @@ using System.Globalization;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por ApplicationLanguageService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class ApplicationLanguageService : EntityBaseService<ApplicationLanguage, AddApplicationLanguageDto, UpdateApplicationLanguageDto, GetApplicationLanguageDto, IApplicationLanguageRepository>, IApplicationLanguageService
     {
+        /// <summary>
+        /// Método ApplicationLanguageService: executa a operação ApplicationLanguageService.
+        /// </summary>
         public ApplicationLanguageService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -26,6 +34,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ) : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<List<GetApplicationLanguageDto>>> FindAll()
         {
             string keyCache = "FindAll_GetApplicationLanguageVO";
@@ -151,6 +162,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
 
+        /// <summary>
+        /// Método RemoveCache: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task RemoveCache(string keyCache)
         {
             if (_cacheService.IsEnable())
@@ -161,6 +175,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         #endregion GetLocalization
 
 
+        /// <summary>
+        /// Método Save: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public virtual async Task Save(AddApplicationLanguageDto item)
         {
             ServiceResponse<GetApplicationLanguageDto> response = new ServiceResponse<GetApplicationLanguageDto>();

@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Domain.DTO.Schedule
 {
+    /// <summary>
+    /// Enumeração responsável por ScheduleGradeMode.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public enum ScheduleGradeMode
     {
         Monthly = 0,
@@ -28,6 +33,11 @@ namespace SmartDigitalPsico.Domain.DTO.Schedule
         public ScheduleCalendarItem[]? PreloadedItems { get; init; }
     }
 
+    /// <summary>
+    /// Classe responsável por ScheduleGradeResult.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public sealed class ScheduleGradeResult
     {
         public string OwnerKey { get; init; } = string.Empty;
@@ -35,6 +45,11 @@ namespace SmartDigitalPsico.Domain.DTO.Schedule
         public ScheduleDayDto[] Days { get; init; } = [];
     }
 
+    /// <summary>
+    /// Classe responsável por ScheduleDayDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public sealed class ScheduleDayDto
     {
         public DateTime Date { get; set; }
@@ -42,6 +57,11 @@ namespace SmartDigitalPsico.Domain.DTO.Schedule
         public ScheduleTimeSlotDto[] TimeSlots { get; set; } = [];
     }
 
+    /// <summary>
+    /// Classe responsável por ScheduleTimeSlotDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public sealed class ScheduleTimeSlotDto
     {
         public DateTime StartTime { get; set; }

@@ -4,8 +4,16 @@ using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por Medical.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class Medical : EntityBaseWithNameEmail, IEntityBaseLogUser
     {
+        /// <summary>
+        /// Método Medical: executa a operação Medical.
+        /// </summary>
         public Medical()
         {
             Patienties = new List<Patient>();

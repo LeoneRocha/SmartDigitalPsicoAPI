@@ -1,10 +1,18 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por AuditDataSelectiveEntityLogValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class AuditDataSelectiveEntityLogValidator : AbstractValidator<AuditDataSelectiveEntityLog>
     {
+        /// <summary>
+        /// Método AuditDataSelectiveEntityLogValidator: executa a operação AuditDataSelectiveEntityLogValidator.
+        /// </summary>
         public AuditDataSelectiveEntityLogValidator()
         {
             RuleFor(x => x.TableName)

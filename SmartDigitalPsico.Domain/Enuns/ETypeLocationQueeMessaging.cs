@@ -1,7 +1,12 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace SmartDigitalPsico.Domain.Enuns
 {
+    /// <summary>
+    /// Enumeração responsável por ETypeLocationQueeMessaging.
+    /// Responsabilidade: valores enumerados do domínio.
+    /// Relação: usado em entidades, DTOs e regras de negócio.
+    /// </summary>
     public enum ETypeLocationQueeMessaging
     {  
         [Description("Local Salvamento em MongoDB")]

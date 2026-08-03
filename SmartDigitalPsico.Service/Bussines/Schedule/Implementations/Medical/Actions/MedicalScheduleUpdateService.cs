@@ -10,6 +10,11 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions
 {
+    /// <summary>
+    /// Classe responsável por MedicalScheduleUpdateService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class MedicalScheduleUpdateService : IScheduleCalendarUpdateService
     {
         private readonly MedicalScheduleHostSupport _support;
@@ -17,6 +22,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
         private readonly IScheduleUpdateService _update;
         private readonly MedicalScheduleNotificationAdapter _notifications;
 
+        /// <summary>
+        /// Método MedicalScheduleUpdateService: executa a operação MedicalScheduleUpdateService.
+        /// </summary>
         public MedicalScheduleUpdateService(
             MedicalScheduleHostSupport support,
             IScheduleQueryService query,
@@ -29,8 +37,14 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             _notifications = notifications;
         }
 
+        /// <summary>
+        /// Método SetUserId: configura estado ou dependencias.
+        /// </summary>
         public void SetUserId(long userId) => _support.SetUserId(userId);
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
         {
             try

@@ -10,12 +10,20 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
 {
+    /// <summary>
+    /// Classe responsável por ScheduleCreateService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class ScheduleCreateService : IScheduleCreateService
     {
         private readonly IScheduleCalendarRepository _repository;
         private readonly IScheduleConflictService _conflictService;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Método ScheduleCreateService: operação de agendamento.
+        /// </summary>
         public ScheduleCreateService(
             IScheduleCalendarRepository repository,
             IScheduleConflictService conflictService,
@@ -26,6 +34,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
             _logger = logger;
         }
 
+        /// <summary>
+        /// Método BookAsync: operação de agendamento.
+        /// </summary>
         public Task<ServiceResponse<ScheduleCalendar>> BookAsync(ScheduleBookRequest request)
         {
             var write = new ScheduleCalendarWriteRequest
@@ -43,6 +54,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
             return CreateAsync(write);
         }
 
+        /// <summary>
+        /// Método CreateAsync: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar>> CreateAsync(ScheduleCalendarWriteRequest request)
         {
             var response = new ServiceResponse<ScheduleCalendar>();

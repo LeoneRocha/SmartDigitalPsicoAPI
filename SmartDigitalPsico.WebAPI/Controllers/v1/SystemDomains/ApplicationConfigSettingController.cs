@@ -15,9 +15,17 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     [ApiController] 
     [Authorize("Bearer")]
     [Route("api/[controller]/v1")]
+    /// <summary>
+    /// Classe responsável por ApplicationConfigSettingController.
+    /// Responsabilidade: controller HTTP da WebAPI.
+    /// Relação: expõe endpoints REST e delega para Services/Facades.
+    /// </summary>
     public class ApplicationConfigSettingController : ApiBaseController
     {
         private readonly IApplicationConfigSettingService _entityService; 
+        /// <summary>
+        /// Método ApplicationConfigSettingController: executa a operação ApplicationConfigSettingController.
+        /// </summary>
         public ApplicationConfigSettingController(IApplicationConfigSettingService entityService
             , IOptions<AuthConfigurationDto> configurationAuth) :base (configurationAuth)
         {
@@ -30,6 +38,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Get: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<List<GetApplicationConfigSettingDto>>>> Get()
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -38,6 +49,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -46,6 +60,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> Create(AddApplicationConfigSettingDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -54,6 +71,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> Update(UpdateApplicationConfigSettingDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -66,6 +86,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpDelete("{id}")]
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();

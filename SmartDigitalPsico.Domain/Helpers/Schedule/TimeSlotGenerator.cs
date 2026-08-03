@@ -1,5 +1,10 @@
 namespace SmartDigitalPsico.Domain.Helpers.Schedule
 {
+    /// <summary>
+    /// Classe responsável por TimeSlotWindow.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public sealed class TimeSlotWindow
     {
         public DateTime Date { get; init; }
@@ -8,6 +13,11 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
         public TimeSpan Interval { get; init; }
     }
 
+    /// <summary>
+    /// Classe responsável por GeneratedTimeSlot.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public sealed class GeneratedTimeSlot
     {
         public DateTime StartTime { get; init; }
@@ -16,6 +26,11 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
         public bool IsPast { get; init; }
     }
 
+    /// <summary>
+    /// Classe responsável por TimeSlotGenerator.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class TimeSlotGenerator
     {
         /// <summary>

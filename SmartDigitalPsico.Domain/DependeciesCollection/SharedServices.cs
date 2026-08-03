@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Domain.Interfaces.Collection;
+using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service; 
 using Microsoft.Extensions.DependencyInjection;
@@ -6,6 +6,11 @@ using SmartDigitalPsico.Domain.Interfaces.Notification;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
+    /// <summary>
+    /// Classe responsável por SharedServices.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class SharedServices : ISharedServices
     {
         public ICacheService CacheService { get; }
@@ -13,6 +18,9 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
 
         private readonly IServiceProvider _serviceProvider;
 
+        /// <summary>
+        /// Método SharedServices: executa a operação SharedServices.
+        /// </summary>
         public SharedServices(
             ICacheService cacheService,
             ICryptoService cryptoService, 

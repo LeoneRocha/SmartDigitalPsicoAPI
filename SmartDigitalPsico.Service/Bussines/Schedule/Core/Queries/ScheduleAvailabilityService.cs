@@ -9,17 +9,28 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
 {
+    /// <summary>
+    /// Classe responsável por ScheduleAvailabilityService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class ScheduleAvailabilityService : IScheduleAvailabilityService
     {
         private readonly IScheduleCalendarRepository _repository;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Método ScheduleAvailabilityService: operação de agendamento.
+        /// </summary>
         public ScheduleAvailabilityService(IScheduleCalendarRepository repository, ILogger logger)
         {
             _repository = repository;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Método BuildGradeAsync: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleGradeResult>> BuildGradeAsync(ScheduleGradeRequest request)
         {
             var response = new ServiceResponse<ScheduleGradeResult>();

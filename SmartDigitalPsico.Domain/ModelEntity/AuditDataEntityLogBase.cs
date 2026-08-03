@@ -1,9 +1,17 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Contracts;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por AuditDataEntityLogBase.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public abstract class AuditDataEntityLogBase : EntityBase 
     {
+        /// <summary>
+        /// Método AuditDataEntityLogBase: executa a operação AuditDataEntityLogBase.
+        /// </summary>
         protected AuditDataEntityLogBase()
         {
             ModifyDate = DateTime.UtcNow;

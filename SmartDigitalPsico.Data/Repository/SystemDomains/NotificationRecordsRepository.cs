@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Helpers;
@@ -7,10 +7,21 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por NotificationRecordsRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class NotificationRecordsRepository : GenericRepositoryEntityBase<NotificationRecord>, INotificationRecordsRepository
     {
+        /// <summary>
+        /// Método NotificationRecordsRepository: executa a operação NotificationRecordsRepository.
+        /// </summary>
         public NotificationRecordsRepository(IEntityDataContext context) : base(context) { }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override async Task<NotificationRecord> Update(NotificationRecord item)
         {
             var existingEntity = await _dataset.SingleAsync(p => p.Id == item.Id);
@@ -25,6 +36,9 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
             return item;
         }
 
+        /// <summary>
+        /// Método GetPendingNotificationsAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
             var currentDateUtc = DateHelper.GetDateTimeNowFromUtc().Date;
@@ -39,6 +53,9 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
                 .ToArrayAsync();
         }
 
+        /// <summary>
+        /// Método DeleteAllByTokenAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<bool> DeleteAllByTokenAsync(Guid tokenId)
         {
             var result = await _dataset.Where(p => p.TokenId == tokenId).ToArrayAsync();
@@ -48,6 +65,9 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
             return true;
         }
          
+        /// <summary>
+        /// Método DeleteAllByTokenAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<bool> DeleteAllByTokenAsync(Guid[] tokenIds)
         {
             var result = await _dataset.Where(p => tokenIds.Contains(p.TokenId)).ToArrayAsync();
@@ -57,6 +77,9 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
             return true;
         }
 
+        /// <summary>
+        /// Método DeleteByTokenAndEventAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<bool> DeleteByTokenAndEventAsync(Guid tokenId, DateTime eventDate)
         {
             var result = await _dataset

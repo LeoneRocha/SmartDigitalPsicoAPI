@@ -24,6 +24,11 @@ using System.Security.Claims;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por UserService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class UserService : EntityBaseService<User, AddUserDto, UpdateUserDto, GetUserDto, IUserRepository>, IUserService
     {
         private readonly IRoleGroupRepository _roleGroupRepository;
@@ -34,6 +39,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly ITokenSessionPersistenceService _tokenSessionService;
 
         private readonly AuthConfigurationDto _configurationAuth;
+        /// <summary>
+        /// Método UserService: executa a operação UserService.
+        /// </summary>
         public UserService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -56,6 +64,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _tokenSessionService = tokenSessionService;
         }
 
+        /// <summary>
+        /// Método Login: executa a operação Login.
+        /// </summary>
         public async Task<ServiceResponse<GetUserAuthenticatedDto>> Login(string login, string password)
         {
             var response = new ServiceResponse<GetUserAuthenticatedDto>();
@@ -83,6 +94,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
+        /// <summary>
+        /// Método Register: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<ServiceResponse<GetUserDto>> Register(UserRegisterDto userRegisterVO)
         {
             SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -109,6 +123,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override async Task<ServiceResponse<GetUserDto>> Update(UpdateUserDto updateUser)
         {
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
@@ -172,6 +189,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             return response;
         }
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public override async Task<ServiceResponse<GetUserDto>> Create(AddUserDto userRegisterVO)
         {
             SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -216,6 +236,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
+        /// <summary>
+        /// Método UserExists: executa a operação UserExists.
+        /// </summary>
         public async Task<bool> UserExists(string login)
         {
             bool response = await _entityRepository.UserExists(login);
@@ -223,6 +246,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
+        /// <summary>
+        /// Método Logout: executa a operação Logout.
+        /// </summary>
         public async Task<ServiceResponse<bool>> Logout(string login)
         {
             var response = new ServiceResponse<bool>();
@@ -314,6 +340,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         }
 
+        /// <summary>
+        /// Método validateCredentials: valida regras ou verifica existência.
+        /// </summary>
         public async Task<TokenVO> validateCredentials(TokenVO token)
         {
             string accessToken = token.AccessToken ?? string.Empty;
@@ -353,6 +382,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 );
         }
 
+        /// <summary>
+        /// Método UpdateProfile: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task<ServiceResponse<GetUserDto>> UpdateProfile(UpdateUserProfileDto userUpdateProfileVO)
         {
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
@@ -395,6 +427,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetUserDto>> FindByID(long id)
         {
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();

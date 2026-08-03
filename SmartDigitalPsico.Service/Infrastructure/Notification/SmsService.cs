@@ -1,10 +1,18 @@
-﻿using SmartDigitalPsico.Domain.Interfaces.Notification;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Notification
 {
+    /// <summary>
+    /// Classe responsável por SmsService.
+    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
+    /// Relação: suporta Services e jobs de background.
+    /// </summary>
     public class SmsService : ISmsService
     {
+        /// <summary>
+        /// Método SendAsync: dispara notificação ou comunicação.
+        /// </summary>
         public async Task SendAsync(DataNotificationTemplateVO template, Dictionary<string, string> tokens)
         {
             await Task.CompletedTask;

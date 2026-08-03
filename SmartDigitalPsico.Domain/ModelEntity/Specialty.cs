@@ -1,10 +1,18 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por Specialty.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class Specialty : EntityBase, IEntityBaseDomains
     {
+        /// <summary>
+        /// Método Specialty: executa a operação Specialty.
+        /// </summary>
         public Specialty()
         { 
             MedicalSpecialties = new List<MedicalSpecialty>();

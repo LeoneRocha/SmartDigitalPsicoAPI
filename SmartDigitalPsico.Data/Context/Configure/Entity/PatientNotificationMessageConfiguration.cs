@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
@@ -7,9 +7,20 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
+    /// <summary>
+    /// Classe responsável por PatientNotificationMessageConfiguration.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class PatientNotificationMessageConfiguration : EntityBaseConfiguration<PatientNotificationMessage>
     {
+        /// <summary>
+        /// Método PatientNotificationMessageConfiguration: executa a operação PatientNotificationMessageConfiguration.
+        /// </summary>
         public PatientNotificationMessageConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public override void Configure(EntityTypeBuilder<PatientNotificationMessage> builder)
         {
             builder.ToTable("PatientNotificationMessage", "dbo");

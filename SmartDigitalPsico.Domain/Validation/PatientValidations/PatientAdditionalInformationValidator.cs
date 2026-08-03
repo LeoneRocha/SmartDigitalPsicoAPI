@@ -1,12 +1,20 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
+    /// <summary>
+    /// Classe responsável por PatientAdditionalInformationValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class PatientAdditionalInformationValidator : PatientBaseValidator<PatientAdditionalInformation>
     {
+        /// <summary>
+        /// Método PatientAdditionalInformationValidator: executa a operação PatientAdditionalInformationValidator.
+        /// </summary>
         public PatientAdditionalInformationValidator(IPatientAdditionalInformationRepository entityRepository,
                                                       IPatientRepository patientRepository)
              : base(patientRepository, entityRepository)

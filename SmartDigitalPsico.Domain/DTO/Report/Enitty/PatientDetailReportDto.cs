@@ -1,10 +1,15 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace SmartDigitalPsico.Domain.DTO.Report.Enitty
 {
+    /// <summary>
+    /// Classe responsável por PatientDetailReportDto.
+    /// Responsabilidade: geração de relatórios.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class PatientDetailReportDto
     {
         [JsonIgnore]

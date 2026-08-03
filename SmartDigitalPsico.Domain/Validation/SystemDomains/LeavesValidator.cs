@@ -1,11 +1,19 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     //Registered in AddValidatorsFromAssemblyContaining
+    /// <summary>
+    /// Classe responsável por LeavesValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class LeavesValidator : AbstractValidator<Leaves>
     {
+        /// <summary>
+        /// Método LeavesValidator: executa a operação LeavesValidator.
+        /// </summary>
         public LeavesValidator()
         {
             RuleFor(x => x.StartDate)

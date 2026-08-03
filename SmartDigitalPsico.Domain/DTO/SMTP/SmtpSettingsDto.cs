@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.Interfaces.Smtp;
+using SmartDigitalPsico.Domain.Interfaces.Smtp;
 
 namespace SmartDigitalPsico.Domain.DTO.SMTP
 {
+    /// <summary>
+    /// Classe responsável por SmtpSettingsDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class SmtpSettingsDto : ISmtpSettingsDto
     {
         public string Server { get; set; } = string.Empty;

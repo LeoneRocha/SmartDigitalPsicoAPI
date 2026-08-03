@@ -3,8 +3,16 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por ApplicationLanguageValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class ApplicationLanguageValidator : AbstractValidator<ApplicationLanguage>
     {
+        /// <summary>
+        /// Método ApplicationLanguageValidator: executa a operação ApplicationLanguageValidator.
+        /// </summary>
         public ApplicationLanguageValidator()
         {
             RuleFor(entity => entity.Description)

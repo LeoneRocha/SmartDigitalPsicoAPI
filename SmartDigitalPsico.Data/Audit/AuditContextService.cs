@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Caching.Memory;
 using SmartDigitalPsico.Data.Audit.Interface;
@@ -8,13 +8,24 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit
 {
+    /// <summary>
+    /// Classe responsável por AuditContextService.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class AuditContextService : IAuditContextService
     {
         private readonly IMemoryCacheRepository _memoryCacheRepository;
+        /// <summary>
+        /// Método AuditContextService: executa a operação AuditContextService.
+        /// </summary>
         public AuditContextService(IMemoryCacheRepository memoryCacheRepository)
         {
             _memoryCacheRepository = memoryCacheRepository;
         }
+        /// <summary>
+        /// Método OnBeforeSaveChanges: executa a operação OnBeforeSaveChanges.
+        /// </summary>
         public List<AuditDataEntityLog> OnBeforeSaveChanges(DbContext context)
         {
             var auditEntries = new List<AuditDataEntityLog>();
@@ -28,6 +39,9 @@ namespace SmartDigitalPsico.Data.Audit
             }
             return auditEntries;
         }
+        /// <summary>
+        /// Método GetExistingEntries: consulta e retorna dados.
+        /// </summary>
         public List<AuditDataEntityLog> GetExistingEntries(DbContext context, List<AuditDataEntityLog> auditEntriesInput)
         {
             var dtUtcNow = DateHelper.GetDateTimeNowFromUtc();
@@ -44,6 +58,9 @@ namespace SmartDigitalPsico.Data.Audit
                 .ToList();
             return existingEntries;
         }
+        /// <summary>
+        /// Método GetNewEntries: consulta e retorna dados.
+        /// </summary>
         public List<AuditDataEntityLog> GetNewEntries(DbContext context, List<AuditDataEntityLog> auditEntriesInput)
         {
             var existingEntries = handleMemoryIfNotExists(auditEntriesInput);

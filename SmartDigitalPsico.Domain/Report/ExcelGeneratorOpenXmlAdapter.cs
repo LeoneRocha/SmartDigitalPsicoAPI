@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using SmartDigitalPsico.Domain.Helpers;
@@ -8,9 +8,17 @@ using System.Text;
 
 namespace SmartDigitalPsico.Domain.Report
 {
+    /// <summary>
+    /// Classe responsável por ExcelGeneratorOpenXmlAdapter.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class ExcelGeneratorOpenXmlAdapter : IExcelGenerator
     {
 #pragma warning disable S3220
+        /// <summary>
+        /// Método Generate: executa a operação Generate.
+        /// </summary>
         public async Task Generate(ReportWorkbookDataDto workbookDataInput, string filePath)
         {
             await Task.Run(() => GenerateExcel(workbookDataInput, filePath));
@@ -144,9 +152,9 @@ namespace SmartDigitalPsico.Domain.Report
             var columnName = new StringBuilder();
             while (columnNumber > 0)
             {
-                int modulo = (columnNumber - 1) % 26;
-                columnName.Insert(0, Convert.ToChar(65 + modulo));
-                columnNumber = (columnNumber - modulo) / 26;
+                int módulo = (columnNumber - 1) % 26;
+                columnName.Insert(0, Convert.ToChar(65 + módulo));
+                columnNumber = (columnNumber - módulo) / 26;
             }
             return columnName.ToString();
         }
@@ -229,6 +237,9 @@ namespace SmartDigitalPsico.Domain.Report
             };
         }
 
+        /// <summary>
+        /// Método GetStylesheet: consulta e retorna dados.
+        /// </summary>
         public static Stylesheet GetStylesheet()
         {
             Fonts fonts = new Fonts(

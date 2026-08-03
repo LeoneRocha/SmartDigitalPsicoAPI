@@ -18,6 +18,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         private readonly INotificationRecordsService _notificationRecordsService;
         private readonly INotificationRecordsRepository _notificationRecordsRepository;
 
+        /// <summary>
+        /// Método MedicalScheduleNotificationAdapter: executa a operação MedicalScheduleNotificationAdapter.
+        /// </summary>
         public MedicalScheduleNotificationAdapter(
             IPatientRepositories patientRepositoriesShared,
             IMedicalCalenderNotificationService medicalCalenderNotification,
@@ -30,6 +33,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             _notificationRecordsRepository = notificationRecordsRepository;
         }
 
+        /// <summary>
+        /// Método SendNotifyRegisterAsync: dispara notificação ou comunicação.
+        /// </summary>
         public async Task SendNotifyRegisterAsync(MedicalCalendar entity, EMedicalCalendarActionType action = EMedicalCalendarActionType.Add)
         {
             if (entity.Patient == null || entity.Medical == null)
@@ -43,6 +49,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             await _medicalCalenderNotification.NotifyAsync(entity, action);
         }
 
+        /// <summary>
+        /// Método CreateOrUpdateNotificationRecordsAsync: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task CreateOrUpdateNotificationRecordsAsync(MedicalCalendar[] entities)
         {
             var notificationDto = new GenerateNotificationRecordsDto
@@ -54,6 +63,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             await _notificationRecordsService.CreateOrUpdateNotificationRecordsAsync(notificationDto);
         }
 
+        /// <summary>
+        /// Método DeleteNotificationRecordsAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public Task DeleteNotificationRecordsAsync(string uniqueToken)
         {
             if (!Guid.TryParse(uniqueToken, out var tokenId) || tokenId == Guid.Empty)
@@ -61,6 +73,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             return _notificationRecordsRepository.DeleteAllByTokenAsync(tokenId);
         }
 
+        /// <summary>
+        /// Método DeleteNotificationRecordsAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public Task DeleteNotificationRecordsAsync(string uniqueToken, DateTime eventDate)
         {
             if (!Guid.TryParse(uniqueToken, out var tokenId) || tokenId == Guid.Empty)

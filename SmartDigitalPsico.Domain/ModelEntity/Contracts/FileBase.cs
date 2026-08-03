@@ -5,6 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartDigitalPsico.Domain.ModelEntity.Contracts
 {
+    /// <summary>
+    /// Classe responsável por FileBase.
+    /// Responsabilidade: contrato compartilhado entre camadas.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public abstract class FileBase : EntityBase
     {
         #region Columns  

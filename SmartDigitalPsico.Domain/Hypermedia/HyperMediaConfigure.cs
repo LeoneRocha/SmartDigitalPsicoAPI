@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Hypermedia.Enricher.Domains;
 using SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals;
 using SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient;
@@ -6,8 +6,16 @@ using SmartDigitalPsico.Domain.Hypermedia.Filters;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {
+    /// <summary>
+    /// Classe responsável por HyperMediaConfigure.
+    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
+    /// Relação: usado pelos Controllers na serialização.
+    /// </summary>
     public static class HyperMediaConfigure
     {
+        /// <summary>
+        /// Método AddHyperMedia: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static void AddHyperMedia(IServiceCollection Service)
         {
             var filterOptions = new HyperMediaFilterOptions();

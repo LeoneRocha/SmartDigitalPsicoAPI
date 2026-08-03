@@ -18,6 +18,11 @@ using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientFileService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class PatientFileService : EntityBaseService<PatientFile, AddPatientFileDto, UpdatePatientFileDto, GetPatientFileDto, IPatientFileRepository>, IPatientFileService
 
     {
@@ -25,6 +30,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método PatientFileService: executa a operação PatientFileService.
+        /// </summary>
         public PatientFileService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -41,11 +49,17 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _userRepository = sharedRepositories.UserRepository;
         }
 
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public override Task<ServiceResponse<bool>> Delete(long id)
         {
             return base.EnableOrDisable(id);
         }
 
+        /// <summary>
+        /// Método PostFileAsync: executa a operação PostFileAsync.
+        /// </summary>
         public async Task<bool> PostFileAsync(AddPatientFileDto entity)
         {
             ServiceResponse<GetPatientFileDto> response = new ServiceResponse<GetPatientFileDto>();
@@ -91,6 +105,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response.Success;
         }
 
+        /// <summary>
+        /// Método DownloadFileById: executa a operação DownloadFileById.
+        /// </summary>
         public async Task<GetPatientFileDto> DownloadFileById(long fileId)
         {
             var fileEntity = await _entityRepository.FindByID(fileId);
@@ -111,6 +128,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return resultVO;
         }
 
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientFileDto>>> FindAllByPatient(long patientId)
         {
             ServiceResponse<List<GetPatientFileDto>> response = new ServiceResponse<List<GetPatientFileDto>>();
@@ -148,6 +168,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
         }
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientFileDto>> FindByID(long id)
         {
             ServiceResponse<GetPatientFileDto> response = new ServiceResponse<GetPatientFileDto>();

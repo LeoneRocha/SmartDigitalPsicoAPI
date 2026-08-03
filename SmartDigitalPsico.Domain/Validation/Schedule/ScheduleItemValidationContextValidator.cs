@@ -1,10 +1,18 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
+    /// <summary>
+    /// Classe responsável por ScheduleItemValidationContextValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class ScheduleItemValidationContextValidator : AbstractValidator<ScheduleItemValidationContext>
     {
+        /// <summary>
+        /// Método ScheduleItemValidationContextValidator: operação de agendamento.
+        /// </summary>
         public ScheduleItemValidationContextValidator()
         {
             RuleFor(context => context)

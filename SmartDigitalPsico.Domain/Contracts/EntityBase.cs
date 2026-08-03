@@ -1,10 +1,15 @@
-﻿using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartDigitalPsico.Domain.Contracts
 {
+    /// <summary>
+    /// Classe responsável por EntityBase.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public abstract class EntityBase : IEntityBase, IEntityBaseLog
     {
         [Column("Id", Order = 0)]

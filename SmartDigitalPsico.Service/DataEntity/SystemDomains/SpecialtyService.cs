@@ -10,9 +10,17 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por SpecialtyService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class SpecialtyService
         : EntityBaseService<Specialty, AddSpecialtyDto, UpdateSpecialtyDto, GetSpecialtyDto, ISpecialtyRepository>, ISpecialtyService
     {
+        /// <summary>
+        /// Método SpecialtyService: executa a operação SpecialtyService.
+        /// </summary>
         public SpecialtyService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,

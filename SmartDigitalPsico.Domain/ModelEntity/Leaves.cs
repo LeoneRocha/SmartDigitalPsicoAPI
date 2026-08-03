@@ -1,8 +1,13 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por Leaves.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class Leaves : EntityBase, IEntityBaseDomains 
     {
         #region Relationship  

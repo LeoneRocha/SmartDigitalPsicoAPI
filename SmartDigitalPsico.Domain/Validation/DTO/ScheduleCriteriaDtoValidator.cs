@@ -8,6 +8,11 @@ using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.DTO
 {
+    /// <summary>
+    /// Classe responsável por ScheduleCriteriaDtoValidator.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class ScheduleCriteriaDtoValidator : AbstractValidator<ScheduleCriteriaDto>
     {
         private const string EntityMustErrorCode = "SmartDigitalPsico.ScheduleCriteriaDtoValidator.ScheduleCriteriaDto.Entity.Must";
@@ -17,6 +22,9 @@ namespace SmartDigitalPsico.Domain.Validation.DTO
         private readonly IMedicalRepository _medicalRepository;
         private readonly IScheduleKeyPolicy _scheduleKeys;
 
+        /// <summary>
+        /// Método ScheduleCriteriaDtoValidator: operação de agendamento.
+        /// </summary>
         public ScheduleCriteriaDtoValidator(
             IScheduleCalendarRepository scheduleCalendarRepository,
             IPatientRepository patientRepository,

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Hypermedia.Constants;
 using System.Text;
@@ -6,9 +6,17 @@ using SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient
 {
+    /// <summary>
+    /// Classe responsável por GetPatientNotificationMessageEnricher.
+    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
+    /// Relação: usado pelos Controllers na serialização.
+    /// </summary>
     public class GetPatientNotificationMessageEnricher : ContentResponseEnricher<GetPatientNotificationMessageVO>
 
     {
+        /// <summary>
+        /// Método EnrichModel: executa a operação EnrichModel.
+        /// </summary>
         protected override Task EnrichModel(GetPatientNotificationMessageVO content, IUrlHelper urlHelper)
         {
             var path = "api/Patient/v1/PatientNotificationMessage".ToLower();

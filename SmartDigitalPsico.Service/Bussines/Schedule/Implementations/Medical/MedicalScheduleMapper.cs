@@ -13,6 +13,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
     /// </summary>
     public static class MedicalScheduleMapper
     {
+        /// <summary>
+        /// Método ToWriteRequest: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static ScheduleCalendarWriteRequest ToWriteRequest(MedicalCalendar entity, bool isUpdate = false, bool updateSeries = true)
         {
             // Create may mint a token; update must keep the package UniqueToken (Host sets it).
@@ -42,6 +45,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             };
         }
 
+        /// <summary>
+        /// Método BuildSingleItem: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static ScheduleCalendarItem[] BuildSingleItem(MedicalCalendar entity, string token)
             =>
             [
@@ -66,6 +72,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 }
             ];
 
+        /// <summary>
+        /// Método ToGetDto: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static GetMedicalCalendarDto ToGetDto(ScheduleCalendar package, ScheduleCalendarItem? preferredItem = null)
         {
             if (!MedicalScheduleKeys.TryParseMedicalId(package.OwnerKey, out var medicalId))
@@ -136,6 +145,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             return calendar;
         }
 
+        /// <summary>
+        /// Método ToMedicalCalendarReadModel: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static MedicalCalendar ToMedicalCalendarReadModel(ScheduleCalendarItem item, long medicalId, long? patientId = null)
         {
             if (!patientId.HasValue
@@ -177,9 +189,15 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             };
         }
 
+        /// <summary>
+        /// Método ToMedicalCalendarReadModels: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static MedicalCalendar[] ToMedicalCalendarReadModels(ScheduleCalendarItem[] items, long medicalId, long? patientId = null)
             => items.Select(i => ToMedicalCalendarReadModel(i, medicalId, patientId)).ToArray();
 
+        /// <summary>
+        /// Método ToCalendarDto: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static CalendarDto ToCalendarDto(
             ScheduleGradeResult grade,
             long medicalId,
@@ -193,6 +211,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             };
         }
 
+        /// <summary>
+        /// Método ToDayCalendarDto: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static DayCalendarDto ToDayCalendarDto(
             ScheduleDayDto day,
             long medicalId,
@@ -206,6 +227,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             };
         }
 
+        /// <summary>
+        /// Método ToTimeSlotDto: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static TimeSlotDto ToTimeSlotDto(
             ScheduleTimeSlotDto slot,
             long medicalId,
@@ -259,6 +283,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             };
         }
 
+        /// <summary>
+        /// Método BuildItems: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static ScheduleCalendarItem[] BuildItems(MedicalCalendar entity, string token)
         {
             var intervals = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
@@ -292,6 +319,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             }).ToArray();
         }
 
+        /// <summary>
+        /// Método ToGradeRequest: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static ScheduleGradeRequest ToGradeRequest(
             CalendarCriteriaDto criteria,
             ScheduleOwnerConstraints constraints,
@@ -322,6 +352,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             };
         }
 
+        /// <summary>
+        /// Método ToBookRequest: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static ScheduleBookRequest ToBookRequest(ScheduleCriteriaDto criteria, int intervalMinutes)
         {
             var token = Guid.NewGuid().ToString();
@@ -344,6 +377,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             };
         }
 
+        /// <summary>
+        /// Método ToCancelRequest: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static ScheduleCancelRequest ToCancelRequest(ScheduleCriteriaDto criteria)
             => new()
             {
@@ -354,6 +390,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 Reason = criteria.Reason
             };
 
+        /// <summary>
+        /// Método ToDeleteTokenRequest: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static ScheduleDeleteTokenRequest ToDeleteTokenRequest(DeleteMedicalCalendarDto request)
             => new()
             {
@@ -362,6 +401,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 SubjectKey = MedicalScheduleKeys.ForPatient(request.PatientId)
             };
 
+        /// <summary>
+        /// Método ToAppointmentDtos: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static AppointmentDto[] ToAppointmentDtos(ScheduleCalendarItem[] items, long medicalId, string medicalName)
         {
             var currentTime = items.Length == 0
@@ -385,6 +427,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 .ToArray();
         }
 
+        /// <summary>
+        /// Método static: executa a operação static.
+        /// </summary>
         public static (DateTime startDate, DateTime endDate) GetMonthRange(int year, int month)
         {
             var startDate = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Utc);

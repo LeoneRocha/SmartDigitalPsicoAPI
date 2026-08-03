@@ -3,8 +3,16 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por GenderValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class GenderValidator : AbstractValidator<Gender>
     {
+        /// <summary>
+        /// Método GenderValidator: executa a operação GenderValidator.
+        /// </summary>
         public GenderValidator()
         {
             RuleFor(entity => entity.Description)

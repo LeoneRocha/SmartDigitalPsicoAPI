@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage
 {
+    /// <summary>
+    /// Classe responsável por AddPatientNotificationMessageDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class AddPatientNotificationMessageDto : IEntityDtoAdd
     {
         #region Columns  

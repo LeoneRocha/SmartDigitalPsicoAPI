@@ -16,6 +16,9 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
             return tenantKey.Trim();
         }
 
+        /// <summary>
+        /// Método Build: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static string Build(string prefix, long id)
         {
             if (string.IsNullOrWhiteSpace(prefix))
@@ -23,6 +26,9 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
             return $"{prefix}{id}";
         }
 
+        /// <summary>
+        /// Método TryParse: executa a operação TryParse.
+        /// </summary>
         public static bool TryParse(string? key, string prefix, out long id)
         {
             id = 0;
@@ -33,6 +39,9 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
             return long.TryParse(key.AsSpan(prefix.Length), out id);
         }
 
+        /// <summary>
+        /// Método TryParse: executa a operação TryParse.
+        /// </summary>
         public static bool TryParse(string? key, IEnumerable<string> prefixes, out long id)
         {
             id = 0;

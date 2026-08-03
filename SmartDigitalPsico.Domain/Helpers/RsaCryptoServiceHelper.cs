@@ -1,10 +1,18 @@
-﻿using SmartDigitalPsico.Domain.DTO.Security;
+using SmartDigitalPsico.Domain.DTO.Security;
 using System.Security.Cryptography;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
+    /// <summary>
+    /// Classe responsável por RsaCryptoServiceHelper.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class RsaCryptoServiceHelper
     {
+        /// <summary>
+        /// Método GenerateKeys: executa a operação GenerateKeys.
+        /// </summary>
         public static RsaCryptoDto GenerateKeys(RSAEncryptionPadding rsaSize)
         {
             using (var rsa = RSA.Create())
@@ -24,6 +32,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
         }
 
+        /// <summary>
+        /// Método ConvertToBase64: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static string ConvertToBase64(RSAParameters rsaParameters)
         {
             using (var ms = new System.IO.MemoryStream())
@@ -37,6 +48,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
         }
 
+        /// <summary>
+        /// Método ConvertFromBase64: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static RSAParameters ConvertFromBase64(string base64String, RSAEncryptionPadding rsaSize)
         {
             var bytes = Convert.FromBase64String(base64String);

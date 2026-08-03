@@ -18,11 +18,19 @@ using Azure;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientHospitalizationInformationService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class PatientHospitalizationInformationService : EntityBaseService<PatientHospitalizationInformation, AddPatientHospitalizationInformationDto, UpdatePatientHospitalizationInformationDto, GetPatientHospitalizationInformationDto, IPatientHospitalizationInformationRepository>, IPatientHospitalizationInformationService
 
     {
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método PatientHospitalizationInformationService: executa a operação PatientHospitalizationInformationService.
+        /// </summary>
         public PatientHospitalizationInformationService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -35,6 +43,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _userRepository = sharedRepositories.UserRepository;
         }
 
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Create(AddPatientHospitalizationInformationDto item)
         {
 
@@ -64,6 +75,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Update(UpdatePatientHospitalizationInformationDto item)
         {
 
@@ -97,6 +111,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             return response;
         }
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientHospitalizationInformationDto>>> FindAllByPatient(long patientId)
         {
             ServiceResponse<List<GetPatientHospitalizationInformationDto>> response = new ServiceResponse<List<GetPatientHospitalizationInformationDto>>();
@@ -131,6 +148,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async override Task<ServiceResponse<List<GetPatientHospitalizationInformationDto>>> FindAll()
         {
             var response = new ServiceResponse<List<GetPatientHospitalizationInformationDto>>();
@@ -138,6 +158,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound); 
             return response;
         }
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> FindByID(long id)
         {
             ServiceResponse<GetPatientHospitalizationInformationDto> response = new ServiceResponse<GetPatientHospitalizationInformationDto>();

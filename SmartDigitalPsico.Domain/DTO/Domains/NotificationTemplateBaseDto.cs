@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.DTO.Contracts;
+using SmartDigitalPsico.Domain.DTO.Contracts;
 
 namespace SmartDigitalPsico.Domain.DTO.Domains
 {
+    /// <summary>
+    /// Classe responsável por NotificationTemplateBaseDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public abstract class NotificationTemplateBaseDto : EntityDtoBaseDomain
     {
         public string Subject { get; set; } = string.Empty;

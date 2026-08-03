@@ -1,12 +1,20 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Validation.DTO;
 using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
+    /// <summary>
+    /// Classe responsável por ServicesDomainValidation.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
+    /// </summary>
     public static class ServicesDomainValidation
     {
+        /// <summary>
+        /// Método AddDependencies: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static void AddDependencies(IServiceCollection services)
         {
             // MedicalCalendarRangeValidator is constructed for SoT conflict checks;

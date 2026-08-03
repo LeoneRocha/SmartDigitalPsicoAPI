@@ -7,22 +7,39 @@ using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Data.Repository.Schedule
 {
+    /// <summary>
+    /// Classe responsável por ScheduleCalendarRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class ScheduleCalendarRepository : GenericRepositoryEntityBase<ScheduleCalendar>, IScheduleCalendarRepository
     {
+        /// <summary>
+        /// Método ScheduleCalendarRepository: operação de agendamento.
+        /// </summary>
         public ScheduleCalendarRepository(IEntityDataContext context) : base(context) { }
 
+        /// <summary>
+        /// Método AddRangeAsync: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task AddRangeAsync(IEnumerable<ScheduleCalendar> schedules)
         {
             await _dataset.AddRangeAsync(schedules);
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Método DeleteRangeAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task DeleteRangeAsync(IEnumerable<ScheduleCalendar> schedules)
         {
             _dataset.RemoveRange(schedules);
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Método GetByUniqueTokenAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ScheduleCalendar?> GetByUniqueTokenAsync(string uniqueToken)
         {
             return await _dataset
@@ -30,6 +47,9 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
                 .FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Método GetOverlappingByOwnerAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ScheduleCalendar[]> GetOverlappingByOwnerAsync(string tenantKey, string ownerKey, DateTime start, DateTime end)
         {
             return await _dataset
@@ -41,6 +61,9 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
                 .ToArrayAsync();
         }
 
+        /// <summary>
+        /// Método GetByTokenFromStartAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ScheduleCalendar[]> GetByTokenFromStartAsync(string uniqueToken, string ownerKey, string? subjectKey, DateTime startDateTime)
         {
             var query = _dataset.Where(x =>
@@ -54,6 +77,9 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
             return await query.ToArrayAsync();
         }
 
+        /// <summary>
+        /// Método GetByTokenAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ScheduleCalendar[]> GetByTokenAsync(string uniqueToken, string ownerKey, string? subjectKey)
         {
             var query = _dataset.Where(x =>
@@ -66,18 +92,27 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
             return await query.ToArrayAsync();
         }
 
+        /// <summary>
+        /// Método GetConflictingItemsAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ScheduleCalendarItem[]> GetConflictingItemsAsync(string tenantKey, string ownerKey, DateTime startDateTime, DateTime endDateTime)
         {
             var packages = await GetOverlappingByOwnerAsync(tenantKey, ownerKey, startDateTime, endDateTime);
             return ExpandOverlappingItems(packages, startDateTime, endDateTime);
         }
 
+        /// <summary>
+        /// Método GetItemsForOwnerAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ScheduleCalendarItem[]> GetItemsForOwnerAsync(string tenantKey, string ownerKey, DateTime startDate, DateTime endDate)
         {
             var packages = await GetOverlappingByOwnerAsync(tenantKey, ownerKey, startDate, endDate);
             return ExpandOverlappingItems(packages, startDate, endDate);
         }
 
+        /// <summary>
+        /// Método HasConflictAsync: executa a operação HasConflictAsync.
+        /// </summary>
         public async Task<bool> HasConflictAsync(string tenantKey, string ownerKey, DateTime appointmentDateTime)
         {
             var packages = await GetOverlappingByOwnerAsync(tenantKey, ownerKey, appointmentDateTime, appointmentDateTime.AddTicks(1));
@@ -87,6 +122,9 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
                           && (i.EndDateTime ?? i.StartDateTime) >= appointmentDateTime);
         }
 
+        /// <summary>
+        /// Método GetItemAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ScheduleCalendarItem?> GetItemAsync(string tenantKey, string ownerKey, string? subjectKey, DateTime appointmentDateTime)
         {
             var packages = await GetOverlappingByOwnerAsync(tenantKey, ownerKey, appointmentDateTime, appointmentDateTime.AddTicks(1));
@@ -96,6 +134,9 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
                 .FirstOrDefault(i => i.StartDateTime == appointmentDateTime);
         }
 
+        /// <summary>
+        /// Método GetItemsForOwnerSubjectAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ScheduleCalendarItem[]> GetItemsForOwnerSubjectAsync(string tenantKey, string ownerKey, string? subjectKey, DateTime startDate, DateTime endDate)
         {
             var packages = await GetOverlappingByOwnerAsync(tenantKey, ownerKey, startDate, endDate);

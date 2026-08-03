@@ -1,4 +1,4 @@
-﻿using AutoMapper.Configuration.Annotations;
+using AutoMapper.Configuration.Annotations;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -7,6 +7,11 @@ using System.Xml.Serialization;
 namespace SmartDigitalPsico.Domain.VO
 { 
 
+    /// <summary>
+    /// Classe responsável por ErrorResponse.
+    /// Responsabilidade: value object / objeto de valor de resposta.
+    /// Relação: retornado pelos Services para Controllers.
+    /// </summary>
     public class ErrorResponse
     {
 

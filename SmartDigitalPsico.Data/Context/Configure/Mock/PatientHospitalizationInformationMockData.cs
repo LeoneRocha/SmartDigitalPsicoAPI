@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por PatientHospitalizationInformationMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class PatientHospitalizationInformationMockData
     {
         private static readonly DateTime SeedDate = new(2025, 3, 4, 12, 0, 0, DateTimeKind.Utc);
@@ -13,6 +18,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             ("Internação para avaliação diagnóstica", "F90.0", "Em avaliação multidisciplinar.", new DateTime(2025, 1, 15, 0, 0, 0, DateTimeKind.Utc), null)
         ];
 
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
         public static PatientHospitalizationInformation[] GetMock()
         {
             var patients = PatientMockData.GetMock();

@@ -11,12 +11,20 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
 {
+    /// <summary>
+    /// Classe responsável por ScheduleUpdateService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class ScheduleUpdateService : IScheduleUpdateService
     {
         private readonly IScheduleCalendarRepository _repository;
         private readonly IScheduleConflictService _conflictService;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Método ScheduleUpdateService: operação de agendamento.
+        /// </summary>
         public ScheduleUpdateService(
             IScheduleCalendarRepository repository,
             IScheduleConflictService conflictService,
@@ -27,6 +35,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
             _logger = logger;
         }
 
+        /// <summary>
+        /// Método UpdateAsync: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar>> UpdateAsync(ScheduleCalendarWriteRequest request)
         {
             var response = new ServiceResponse<ScheduleCalendar>();
@@ -95,6 +106,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
             }
         }
 
+        /// <summary>
+        /// Método CancelOccurrenceAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleCancelResult>> CancelOccurrenceAsync(ScheduleCancelRequest request)
         {
             var response = new ServiceResponse<ScheduleCancelResult>();

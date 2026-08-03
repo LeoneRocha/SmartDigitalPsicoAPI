@@ -1,11 +1,19 @@
-﻿using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por NotificationTemplateMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class NotificationTemplateMockData
     {
+        /// <summary>
+        /// Método GetMocks: consulta e retorna dados.
+        /// </summary>
         public static NotificationTemplate[] GetMocks()
         {
             var mocksInitial = GetMockInitial().ToList();
@@ -14,6 +22,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             return notificationTemplates.ToArray();
         }
 
+        /// <summary>
+        /// Método GetMockInitial: consulta e retorna dados.
+        /// </summary>
         public static NotificationTemplate[] GetMockInitial()
         {
             return

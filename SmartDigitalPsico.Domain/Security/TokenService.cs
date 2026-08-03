@@ -1,4 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.DTO.Security;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,15 +8,26 @@ using System.Text;
 
 namespace SmartDigitalPsico.Domain.Security
 {
+    /// <summary>
+    /// Classe responsável por TokenService.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class TokenService : ITokenService
     {
         private readonly TokenConfigurationDto _configuration;
 
+        /// <summary>
+        /// Método TokenService: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public TokenService(TokenConfigurationDto configuration)
         {
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Método GenerateAccessToken: executa a operação GenerateAccessToken.
+        /// </summary>
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
             string secretKey = _configuration.Secret;
@@ -34,6 +45,9 @@ namespace SmartDigitalPsico.Domain.Security
             return tokenString;
         }
 
+        /// <summary>
+        /// Método GenerateRefreshToken: executa a operação GenerateRefreshToken.
+        /// </summary>
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
@@ -44,6 +58,9 @@ namespace SmartDigitalPsico.Domain.Security
             }
         }
 
+        /// <summary>
+        /// Método GetPrincipalFromExpiredToken: consulta e retorna dados.
+        /// </summary>
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
             var tokenValidationParameters = new TokenValidationParameters

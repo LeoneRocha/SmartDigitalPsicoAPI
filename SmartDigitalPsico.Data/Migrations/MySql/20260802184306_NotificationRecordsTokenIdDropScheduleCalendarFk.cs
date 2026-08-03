@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,9 +6,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SmartDigitalPsico.Data.Migrations.MySql
 {
     /// <inheritdoc />
+    /// <summary>
+    /// Classe responsável por NotificationRecordsTokenIdDropScheduleCalendarFk.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public partial class NotificationRecordsTokenIdDropScheduleCalendarFk : Migration
     {
         /// <inheritdoc />
+        /// <summary>
+        /// Método Up: executa a operação Up.
+        /// </summary>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // Drop FK if present (partial applies / prior runs).
@@ -82,6 +90,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
         }
 
         /// <inheritdoc />
+        /// <summary>
+        /// Método Down: executa a operação Down.
+        /// </summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(

@@ -6,11 +6,19 @@ using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
+    /// <summary>
+    /// Classe responsável por PatientValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class PatientValidator : MedicalBaseValidator<Patient>
     {
         private const string MedicalIdMustErrorCode = "SmartDigitalPsico.PatientValidator.Patient.MedicalId.Must";
 
         private new readonly IPatientRepository _entityRepository;
+        /// <summary>
+        /// Método PatientValidator: executa a operação PatientValidator.
+        /// </summary>
         public PatientValidator(IPatientRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository)
            : base(medicalRepository, entityRepository, userRepository)
         {

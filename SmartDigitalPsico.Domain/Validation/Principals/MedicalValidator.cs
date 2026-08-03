@@ -4,9 +4,17 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por MedicalValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class MedicalValidator : AbstractValidator<Medical>
     {
         private readonly IMedicalRepository _entityRepository;
+        /// <summary>
+        /// Método MedicalValidator: executa a operação MedicalValidator.
+        /// </summary>
         public MedicalValidator(IMedicalRepository entityRepository)
         {
             _entityRepository = entityRepository;

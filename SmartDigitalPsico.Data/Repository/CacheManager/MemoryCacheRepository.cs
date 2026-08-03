@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -6,10 +6,18 @@ using SmartDigitalPsico.Domain.DTO.Domains;
 
 namespace SmartDigitalPsico.Data.Repository.CacheManager
 {
+    /// <summary>
+    /// Classe responsável por MemoryCacheRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class MemoryCacheRepository : IMemoryCacheRepository
     {
         private readonly IMemoryCache _memoryCache;
         private readonly MemoryCacheEntryOptions? _cacheOptions;
+        /// <summary>
+        /// Método MemoryCacheRepository: executa a operação MemoryCacheRepository.
+        /// </summary>
         public MemoryCacheRepository(IMemoryCache memoryCache, IOptions<CacheConfigurationDto> cacheConfig)
         {
             _memoryCache = memoryCache;
@@ -43,6 +51,9 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             return true;
         }
 
+        /// <summary>
+        /// Método Remove: remove ou cancela um registro/recurso.
+        /// </summary>
         public bool Remove(string cacheKey)
         {
             _memoryCache.Remove(cacheKey);

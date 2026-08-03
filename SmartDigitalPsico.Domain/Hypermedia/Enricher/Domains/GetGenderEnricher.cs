@@ -1,12 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.Hypermedia.Constants;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Domains
 {
+    /// <summary>
+    /// Classe responsável por GetGenderEnricher.
+    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
+    /// Relação: usado pelos Controllers na serialização.
+    /// </summary>
     public class GetGenderEnricher : ContentResponseEnricher<GetGenderDto>
 
     {
+        /// <summary>
+        /// Método EnrichModel: executa a operação EnrichModel.
+        /// </summary>
         protected override Task EnrichModel(GetGenderDto content, IUrlHelper urlHelper)
         {
             var path = "api/gender/v1".ToLower();

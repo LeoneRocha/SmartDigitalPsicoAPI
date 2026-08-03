@@ -18,6 +18,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         private readonly IApplicationLanguageService _languageService;
         private readonly ICacheService _cacheService;
 
+        /// <summary>
+        /// Método MedicalScheduleConstraintsProvider: executa a operação MedicalScheduleConstraintsProvider.
+        /// </summary>
         public MedicalScheduleConstraintsProvider(
             IMedicalRepository medicalRepository,
             IApplicationLanguageService languageService,
@@ -28,6 +31,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             _cacheService = cacheService;
         }
 
+        /// <summary>
+        /// Método GetMedicalAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<MedicalEntity> GetMedicalAsync(long medicalId)
         {
             var medical = await _medicalRepository.FindByID(medicalId);
@@ -42,12 +48,18 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             return medical;
         }
 
+        /// <summary>
+        /// Método GetConstraintsAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ScheduleOwnerConstraints> GetConstraintsAsync(long medicalId)
         {
             var medical = await GetMedicalAsync(medicalId);
             return ToConstraints(medical);
         }
 
+        /// <summary>
+        /// Método ToConstraints: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static ScheduleOwnerConstraints ToConstraints(MedicalEntity medical)
             => new()
             {

@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.DTO.Contracts;
 
 namespace SmartDigitalPsico.Domain.DTO.User
 {
+    /// <summary>
+    /// Classe responsável por UpdateUserDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class UpdateUserDto : EntityDtoBaseName
     {
 

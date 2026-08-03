@@ -9,6 +9,9 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
     /// </summary>
     public class MedicalCalendarScheduleFieldsValidator : AbstractValidator<MedicalCalendar>
     {
+        /// <summary>
+        /// Método MedicalCalendarScheduleFieldsValidator: executa a operação MedicalCalendarScheduleFieldsValidator.
+        /// </summary>
         public MedicalCalendarScheduleFieldsValidator()
         {
             RuleFor(e => e.Title)

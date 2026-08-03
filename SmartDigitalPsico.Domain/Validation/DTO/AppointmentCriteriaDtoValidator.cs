@@ -1,12 +1,20 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Domain.Validation.DTO
 {
+    /// <summary>
+    /// Classe responsável por AppointmentCriteriaDtoValidator.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class AppointmentCriteriaDtoValidator : AbstractValidator<AppointmentCriteriaDto>
     {
         private readonly IPatientRepository _patientRepository;
+        /// <summary>
+        /// Método AppointmentCriteriaDtoValidator: executa a operação AppointmentCriteriaDtoValidator.
+        /// </summary>
         public AppointmentCriteriaDtoValidator(IPatientRepository patientRepository)
         {
             _patientRepository = patientRepository;

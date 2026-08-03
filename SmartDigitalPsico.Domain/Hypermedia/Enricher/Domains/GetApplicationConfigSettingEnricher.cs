@@ -1,12 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.Hypermedia.Constants;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Domains
 {
+    /// <summary>
+    /// Classe responsável por GetApplicationConfigSettingEnricher.
+    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
+    /// Relação: usado pelos Controllers na serialização.
+    /// </summary>
     public class GetApplicationConfigSettingEnricher : ContentResponseEnricher<GetApplicationConfigSettingDto>
 
     {
+        /// <summary>
+        /// Método EnrichModel: executa a operação EnrichModel.
+        /// </summary>
         protected override Task EnrichModel(GetApplicationConfigSettingDto content, IUrlHelper urlHelper)
         {
             var path = "api/ApplicationConfigSetting/v1".ToLower();

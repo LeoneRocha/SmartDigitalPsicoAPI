@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
@@ -7,9 +7,20 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
+    /// <summary>
+    /// Classe responsável por GenderConfiguration.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class GenderConfiguration : EntityBaseConfiguration<Gender>
     {
+        /// <summary>
+        /// Método GenderConfiguration: executa a operação GenderConfiguration.
+        /// </summary>
         public GenderConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public override void Configure(EntityTypeBuilder<Gender> builder)
         {
             builder.ToTable("Gender", "dbo");

@@ -1,4 +1,4 @@
-﻿using Serilog;
+using Serilog;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Enuns;
@@ -15,6 +15,11 @@ using System.Diagnostics;
 
 namespace SmartDigitalPsico.Service.Bussines.Notification
 {
+    /// <summary>
+    /// Classe responsável por NotificationDispatchJobService.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class NotificationDispatchJobService : INotificationDispatchJobService
     {
         private readonly INotificationRecordsService _notificationRecordsService;
@@ -25,6 +30,9 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
 
         public event EventHandler<NotificationProgressEventArgs>? ProgressChanged;
 
+        /// <summary>
+        /// Método NotificationDispatchJobService: executa a operação NotificationDispatchJobService.
+        /// </summary>
         public NotificationDispatchJobService(
              INotificationRecordsService notificationRecordsService,
              IMedicalCalenderNotificationService medicalCalenderNotificationService,
@@ -39,6 +47,9 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             _logger = logger;
         }
 
+        /// <summary>
+        /// Método ProcessPendingNotificationsAsync: executa a operação ProcessPendingNotificationsAsync.
+        /// </summary>
         public async Task ProcessPendingNotificationsAsync()
         {
             var stopwatch = new Stopwatch();

@@ -3,8 +3,16 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por RoleGroupValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class RoleGroupValidator : AbstractValidator<RoleGroup>
     {
+        /// <summary>
+        /// Método RoleGroupValidator: executa a operação RoleGroupValidator.
+        /// </summary>
         public RoleGroupValidator()
         {
             RuleFor(entity => entity.Description)

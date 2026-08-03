@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
@@ -10,9 +10,17 @@ using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Configure
 {
+    /// <summary>
+    /// Classe responsável por ServiceCollectionConfigureOrm.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
+    /// </summary>
     public static class ServiceCollectionConfigureOrm
     {
         private static IConfiguration? _configuration;
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public static void Configure(IServiceCollection services, IConfiguration configuration)
         {
             _configuration = configuration;

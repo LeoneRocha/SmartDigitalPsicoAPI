@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.Interfaces.Smtp
+namespace SmartDigitalPsico.Domain.Interfaces.Smtp
 {
+    /// <summary>
+    /// Interface (contrato) responsável por ISmtpSettingsDto.
+    /// Responsabilidade: contrato de abstração do domínio.
+    /// Relação: implementado nas camadas Data/Service.
+    /// </summary>
     public interface ISmtpSettingsDto
     {
         string Password { get; set; }

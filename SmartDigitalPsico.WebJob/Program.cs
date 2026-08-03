@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.WebJob
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     var env = hostingContext.HostingEnvironment;
-                    // Define o arquivo de configuracao conforme o ambiente
+                    // Define o arquivo de configuraÃ§Ã£o conforme o ambiente
                     string configFile = env.IsProduction() ? "appsettings.json" : $"appsettings.{env.EnvironmentName}.json";
                     config.AddJsonFile(configFile, optional: !env.IsProduction(), reloadOnChange: true)
                           .AddEnvironmentVariables();
@@ -54,24 +54,24 @@ namespace SmartDigitalPsico.WebJob
 
                 if (executionMode.Equals("Continuous", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Modo contínuo: o host manterá os serviços rodando.
-                    LogAppHelper.LogInfo(_logger!, "Modo contínuo ativado. / Continuous mode activated. Host será mantido em execução.");
+                    // Modo contï¿½nuo: o host manterï¿½ os serviï¿½os rodando.
+                    LogAppHelper.LogInfo(_logger!, "Modo contï¿½nuo ativado. / Continuous mode activated. Host serï¿½ mantido em execuï¿½ï¿½o.");
                     await host.RunAsync();
                 }
                 else
                 {
-                    // Modo de execução única: executa o job e finaliza.
+                    // Modo de execuï¿½ï¿½o ï¿½nica: executa o job e finaliza.
                     LogAppHelper.PrintLogInformationVersionProduct(_logger!);
                     var jobService = host.Services.GetRequiredService<IBackgroundJobService>();
                     if (jobService != null)
                     {
-                        LogAppHelper.LogInfo(_logger!, "Execução única iniciada. / Single execution started. Chamando ExecuteNotificationProcessAsync...");
+                        LogAppHelper.LogInfo(_logger!, "Execuï¿½ï¿½o ï¿½nica iniciada. / Single execution started. Chamando ExecuteNotificationProcessAsync...");
                         await jobService.ExecuteNotificationProcessAsync();
-                        LogAppHelper.LogInfo(_logger!, "Execução única concluída. / Single execution completed.");
+                        LogAppHelper.LogInfo(_logger!, "Execuï¿½ï¿½o ï¿½nica concluï¿½da. / Single execution completed.");
                     }
                     else
                     {
-                        throw new InvalidOperationException("Erro na configuração: IBackgroundJobService não foi registrado. / Configuration error: IBackgroundJobService was not registered.");
+                        throw new InvalidOperationException("Erro na configuraï¿½ï¿½o: IBackgroundJobService nï¿½o foi registrado. / Configuration error: IBackgroundJobService was not registered.");
                     }
                 }
             }

@@ -1,12 +1,20 @@
-﻿using FluentValidation.Results;
+using FluentValidation.Results;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Domain.Validation.Helper
 {
+    /// <summary>
+    /// Classe responsável por HelperValidation.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public static class HelperValidation
     {
+        /// <summary>
+        /// Método GetErrorsMap: consulta e retorna dados.
+        /// </summary>
         public static ErrorResponse[] GetErrorsMap(FluentValidation.Results.ValidationResult? validationResult)
         {
             if (validationResult == null || validationResult.IsValid) return Array.Empty<ErrorResponse>();
@@ -47,6 +55,9 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
             return errorAdd;
         }
 
+        /// <summary>
+        /// Método TranslateErroCode: executa a operação TranslateErroCode.
+        /// </summary>
         public static ErrorResponse TranslateErroCode(ErrorResponse errorItem)
         {
             if (errorItem.FullMessage.Contains('|') && errorItem.FullMessage.Contains('_'))
@@ -63,6 +74,9 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
             return errorItem;
         }
 
+        /// <summary>
+        /// Método TranslateErroCode: executa a operação TranslateErroCode.
+        /// </summary>
         public static string TranslateErroCode(string message, string errorCode)
         {
             if (!string.IsNullOrEmpty(errorCode))
@@ -72,6 +86,9 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
             return message;
         }
 
+        /// <summary>
+        /// Método ConvertValidationFailureListToErroResponse: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static List<ErrorResponse> ConvertValidationFailureListToErroResponse(List<ValidationFailure> errors)
         {
             return errors.DistinctBy(d => d.PropertyName).Select(er => ConvertToErrorResponse(er)).ToList();

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
@@ -9,8 +9,16 @@ using System.Text;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
+    /// <summary>
+    /// Classe responsável por FileHelper.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class FileHelper
     {
+        /// <summary>
+        /// Método GetFileExtension: consulta e retorna dados.
+        /// </summary>
         public static string GetFileExtension(string contentType)
         {
             var splitExtension = contentType.Split('/').ToList();
@@ -18,6 +26,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return extensionFile.Substring(0, 3);
         }
 
+        /// <summary>
+        /// Método GetFileFormDataUpload: consulta e retorna dados.
+        /// </summary>
         public static async Task<string> GetFileFormDataUpload(IFormFile file)
         {
             using (var sr = new StreamReader(file.OpenReadStream()))
@@ -26,6 +37,9 @@ namespace SmartDigitalPsico.Domain.Helpers
                 return content;
             }
         }
+        /// <summary>
+        /// Método NormalizePath: executa a operação NormalizePath.
+        /// </summary>
         public static string NormalizePath(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
@@ -42,6 +56,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return normalizedPath;
         }
 
+        /// <summary>
+        /// Método GetFileByRequest: consulta e retorna dados.
+        /// </summary>
         public static async Task<string> GetFileByRequest(HttpRequest request, string folderNameDestination)
         {
             var file = request.Form.Files[0];
@@ -69,6 +86,9 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
 
 
+        /// <summary>
+        /// Método GetFileFromBase64String: consulta e retorna dados.
+        /// </summary>
         public static string GetFileFromBase64String(string dataStringBase64)
         {
             if (!string.IsNullOrEmpty(dataStringBase64) && dataStringBase64.Length > 0)
@@ -81,6 +101,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return string.Empty;
         }
 
+        /// <summary>
+        /// Método GetFromByteSaveTemp: consulta e retorna dados.
+        /// </summary>
         public static async Task GetFromByteSaveTemp(byte[] filedata, string fileName, IConfiguration configuration)
         {
             if (filedata != null)
@@ -100,6 +123,9 @@ namespace SmartDigitalPsico.Domain.Helpers
                 await stream.CopyToAsync(fileStream);
             }
         }
+        /// <summary>
+        /// Método GetByteDataFromIFormFile: consulta e retorna dados.
+        /// </summary>
         public static async Task<byte[]> GetByteDataFromIFormFile(IFormFile fileData)
         {
             byte[] fileDataResult;
@@ -112,6 +138,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return fileDataResult;
         }
 
+        /// <summary>
+        /// Método CreateDiretory: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static void CreateDiretory(string diretorioTemp)
         {
             if (!Directory.Exists(diretorioTemp))
@@ -120,6 +149,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
         }
 
+        /// <summary>
+        /// Método GetContentType: consulta e retorna dados.
+        /// </summary>
         public static string GetContentType(string filePath)
         {
             var provider = new FileExtensionContentTypeProvider();
@@ -131,6 +163,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return contentType;
         }
 
+        /// <summary>
+        /// Método GetFilePath: consulta e retorna dados.
+        /// </summary>
         public static string GetFilePath(string folderOrigin, string fileName)
         {
             if (Path.IsPathFullyQualified(folderOrigin))
@@ -143,17 +178,26 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
         }
 
+        /// <summary>
+        /// Método GetSameName: consulta e retorna dados.
+        /// </summary>
         public static string GetSameName(string fileName)
         {
             string[] nameparts = fileName.Split(new char['.']);
             return nameparts[0].Trim();
         }
 
+        /// <summary>
+        /// Método ProccessDownloadToBrowser: executa a operação ProccessDownloadToBrowser.
+        /// </summary>
         public static FileContentResult ProccessDownloadToBrowser(string folderOrigin, string fileName)
         {
             var filePath = GetFilePath(folderOrigin, fileName);
             return ProccessDownloadToBrowser(filePath);
         }
+        /// <summary>
+        /// Método ProccessDownloadToBrowser: executa a operação ProccessDownloadToBrowser.
+        /// </summary>
         public static FileContentResult ProccessDownloadToBrowser(string filePath)
         {
             using (var fileStream = File.OpenRead(filePath))
@@ -175,6 +219,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
         }
 
+        /// <summary>
+        /// Método CopyFile: executa a operação CopyFile.
+        /// </summary>
         public static async Task CopyFile(string pathSource, string pathDestination)
         {
             if (!File.Exists(pathSource))
@@ -188,6 +235,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
         }
 
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public static async Task Delete(string pathFile)
         {
             if (File.Exists(pathFile))

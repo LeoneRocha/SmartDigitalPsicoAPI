@@ -1,8 +1,13 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por NotificationRecord.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class NotificationRecord : EntityBase 
     {
         /// <summary>
@@ -26,6 +31,11 @@ namespace SmartDigitalPsico.Domain.ModelEntity
         // Se IsCompleted for true, esta data indica o momento em que todas as notificações foram enviadas.
         public DateTime? FinalSendDate { get; set; }
     }
+    /// <summary>
+    /// Classe responsável por NotificationRuleStatus.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class NotificationRuleStatus
     {
         public long NotificationRuleId { get; set; }

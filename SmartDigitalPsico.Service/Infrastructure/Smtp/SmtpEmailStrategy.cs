@@ -1,19 +1,30 @@
-﻿using SmartDigitalPsico.Domain.Interfaces.Smtp;
+using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.DTO.SMTP;
 using System.Net;
 using System.Net.Mail;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Smtp
 {
+    /// <summary>
+    /// Classe responsável por SmtpEmailStrategy.
+    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
+    /// Relação: suporta Services e jobs de background.
+    /// </summary>
     public class SmtpEmailStrategy : IEmailStrategy
     {
         private readonly ISmtpSettingsDto _smtpSettings;
 
+        /// <summary>
+        /// Método SmtpEmailStrategy: executa a operação SmtpEmailStrategy.
+        /// </summary>
         public SmtpEmailStrategy(ISmtpSettingsDto smtpSettings)
         {
             _smtpSettings = smtpSettings;
         }
 
+        /// <summary>
+        /// Método SendEmailAsync: dispara notificação ou comunicação.
+        /// </summary>
         public async Task SendEmailAsync(EmailMessageDto emailMessage)
         {
             var mailMessage = new MailMessage

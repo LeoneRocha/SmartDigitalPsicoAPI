@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -6,6 +6,11 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
+    /// <summary>
+    /// Classe responsável por PatientRecordServiceConfig.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class PatientRecordServiceConfig : IPatientRecordServiceConfig
     {
         public IValidator<PatientRecord> EntityValidator { get; }
@@ -14,6 +19,9 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         public ISharedServices SharedServices { get; }
         public ISharedDependenciesConfig SharedDependenciesConfig { get; }
 
+        /// <summary>
+        /// Método PatientRecordServiceConfig: executa a operação PatientRecordServiceConfig.
+        /// </summary>
         public PatientRecordServiceConfig(
             ISharedRepositories sharedRepositories,
             ISharedServices sharedServices,

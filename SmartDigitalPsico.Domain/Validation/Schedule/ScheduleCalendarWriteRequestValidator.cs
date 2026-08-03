@@ -8,6 +8,9 @@ namespace SmartDigitalPsico.Domain.Validation.Schedule
     /// </summary>
     public class ScheduleCalendarWriteRequestValidator : AbstractValidator<ScheduleCalendarWriteRequest>
     {
+        /// <summary>
+        /// Método ScheduleCalendarWriteRequestValidator: operação de agendamento.
+        /// </summary>
         public ScheduleCalendarWriteRequestValidator(IValidator<SmartDigitalPsico.Domain.ModelEntity.Schedule.ScheduleCalendarItem> itemValidator)
         {
             RuleFor(x => x.UniqueToken)

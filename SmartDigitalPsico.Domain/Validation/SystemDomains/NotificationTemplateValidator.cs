@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 using System.Text.RegularExpressions;
@@ -6,8 +6,16 @@ using System.Text.RegularExpressions;
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     //Registered in AddValidatorsFromAssemblyContaining
+    /// <summary>
+    /// Classe responsável por NotificationTemplateValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class NotificationTemplateValidator : AbstractValidator<NotificationTemplate>
     {
+        /// <summary>
+        /// Método NotificationTemplateValidator: executa a operação NotificationTemplateValidator.
+        /// </summary>
         public NotificationTemplateValidator()
         {
             RuleFor(x => x.Description)

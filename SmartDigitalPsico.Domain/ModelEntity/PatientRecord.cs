@@ -3,6 +3,11 @@ using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por PatientRecord.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class PatientRecord : EntityBase, IEntityBaseLogUser, IEntityPatientBase
     { 
         #region Columns 

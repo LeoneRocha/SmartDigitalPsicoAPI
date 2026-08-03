@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
@@ -9,10 +9,18 @@ using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
+    /// <summary>
+    /// Classe responsável por ServicesDomainRepository.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
+    /// </summary>
     public static class ServicesDomainRepository
     {
         private const string RepositorySuffix = "Repository";
 
+        /// <summary>
+        /// Método AddDependencies: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static void AddDependencies(IServiceCollection services)
         {
             RegisterManuallyAddedServices(services);

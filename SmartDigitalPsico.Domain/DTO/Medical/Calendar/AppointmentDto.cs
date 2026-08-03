@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {
+    /// <summary>
+    /// Classe responsável por AppointmentDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class AppointmentDto
     {
         public string MedicalName { get; set; } = string.Empty;

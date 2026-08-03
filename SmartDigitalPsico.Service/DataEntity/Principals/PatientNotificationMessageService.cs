@@ -14,6 +14,11 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientNotificationMessageService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class PatientNotificationMessageService
         : EntityBaseService<PatientNotificationMessage, AddPatientNotificationMessageDto, UpdatePatientNotificationMessageDto, GetPatientNotificationMessageVO, IPatientNotificationMessageRepository>, IPatientNotificationMessageService
 
@@ -21,6 +26,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método PatientNotificationMessageService: executa a operação PatientNotificationMessageService.
+        /// </summary>
         public PatientNotificationMessageService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -34,6 +42,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _patientRepository = patientRepository;
             _userRepository = sharedRepositories.UserRepository;
         }
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Create(AddPatientNotificationMessageDto item)
         {
             PatientNotificationMessage entityAdd = _mapper.Map<PatientNotificationMessage>(item);
@@ -65,6 +76,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Update(UpdatePatientNotificationMessageDto item)
         {
             PatientNotificationMessage entityUpdate = await _entityRepository.FindByID(item.Id);
@@ -98,6 +112,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             return response;
         }
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientNotificationMessageVO>>> FindAllByPatient(long patientId)
         {
             ServiceResponse<List<GetPatientNotificationMessageVO>> response = new ServiceResponse<List<GetPatientNotificationMessageVO>>();
@@ -116,6 +133,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async override Task<ServiceResponse<List<GetPatientNotificationMessageVO>>> FindAll()
         {
             var result = new ServiceResponse<List<GetPatientNotificationMessageVO>>();
@@ -126,6 +146,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> FindByID(long id)
         {
             ServiceResponse<GetPatientNotificationMessageVO> response = new ServiceResponse<GetPatientNotificationMessageVO>();

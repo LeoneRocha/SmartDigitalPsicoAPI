@@ -14,10 +14,18 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
     [Authorize("Bearer")]
     [Route("api/patient/v1/[controller]")]
 
+    /// <summary>
+    /// Classe responsável por PatientController.
+    /// Responsabilidade: controller HTTP da WebAPI.
+    /// Relação: expõe endpoints REST e delega para Services/Facades.
+    /// </summary>
     public class PatientController : ApiBaseController
     {
         private readonly IPatientService _entityService;
 
+        /// <summary>
+        /// Método PatientController: executa a operação PatientController.
+        /// </summary>
         public PatientController(IPatientService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
@@ -28,6 +36,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<List<GetPatientDto>>>> FindAll(long medicalId)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -36,6 +47,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpPost("Search")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método PatientSearch: executa a operação PatientSearch.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<List<GetPatientDto>>>> PatientSearch(PatientSearchCriteriaDto patientSearchCriteriaDto)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -44,6 +58,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
          
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetPatientDto>>> FindByID(long id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -52,6 +69,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetPatientDto>>> Create(AddPatientDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -60,6 +80,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetPatientDto>>> Update(UpdatePatientDto UpdateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();            
@@ -73,6 +96,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpDelete("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();

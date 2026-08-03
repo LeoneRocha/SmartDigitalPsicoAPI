@@ -1,9 +1,17 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity;
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por NotificationRecordsValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class NotificationRecordsValidator : AbstractValidator<NotificationRecord>
     {
+        /// <summary>
+        /// Método NotificationRecordsValidator: executa a operação NotificationRecordsValidator.
+        /// </summary>
         public NotificationRecordsValidator()
         { 
             RuleFor(x => x.TokenId)
@@ -44,8 +52,16 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
             });
         }
     } 
+    /// <summary>
+    /// Classe responsável por NotificationRuleStatusValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class NotificationRuleStatusValidator : AbstractValidator<NotificationRuleStatus>
     {
+        /// <summary>
+        /// Método NotificationRuleStatusValidator: executa a operação NotificationRuleStatusValidator.
+        /// </summary>
         public NotificationRuleStatusValidator()
         {
             RuleFor(x => x.NotificationRuleId)

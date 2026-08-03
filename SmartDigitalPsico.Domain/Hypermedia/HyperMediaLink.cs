@@ -1,7 +1,12 @@
-﻿using System.Text;
+using System.Text;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {
+    /// <summary>
+    /// Classe responsável por HyperMediaLink.
+    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
+    /// Relação: usado pelos Controllers na serialização.
+    /// </summary>
     public class HyperMediaLink
     {
         public string Rel { get; set; } = string.Empty;

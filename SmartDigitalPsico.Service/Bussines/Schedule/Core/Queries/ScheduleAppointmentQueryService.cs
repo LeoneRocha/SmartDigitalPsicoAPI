@@ -6,15 +6,26 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
 {
+    /// <summary>
+    /// Classe responsável por ScheduleAppointmentQueryService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class ScheduleAppointmentQueryService : IScheduleAppointmentQueryService
     {
         private readonly IScheduleCalendarRepository _repository;
 
+        /// <summary>
+        /// Método ScheduleAppointmentQueryService: operação de agendamento.
+        /// </summary>
         public ScheduleAppointmentQueryService(IScheduleCalendarRepository repository)
         {
             _repository = repository;
         }
 
+        /// <summary>
+        /// Método GetItemsForOwnerSubjectAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<ScheduleCalendarItem[]>> GetItemsForOwnerSubjectAsync(
             string tenantKey, string ownerKey, string? subjectKey, DateTime start, DateTime end)
         {

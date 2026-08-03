@@ -4,6 +4,11 @@ using SmartDigitalPsico.Domain.DTO.Contracts;
 
 namespace SmartDigitalPsico.Domain.DTO.Domains.GetDTOs
 {
+    /// <summary>
+    /// Classe responsável por GetApplicationConfigSettingDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class GetApplicationConfigSettingDto: EntityDtoBaseDomain, ISupportsHyperMedia
     { 
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();         

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
@@ -8,10 +8,21 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
+    /// <summary>
+    /// Classe responsável por NotificationRecordConfiguration.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class NotificationRecordConfiguration : EntityBaseConfiguration<NotificationRecord>
     {
+        /// <summary>
+        /// Método NotificationRecordConfiguration: executa a operação NotificationRecordConfiguration.
+        /// </summary>
         public NotificationRecordConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
 
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public override void Configure(EntityTypeBuilder<NotificationRecord> builder)
         {
             builder.ToTable("NotificationRecords", "dbo");

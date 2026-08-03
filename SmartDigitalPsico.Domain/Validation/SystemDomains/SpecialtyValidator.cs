@@ -3,8 +3,16 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por SpecialtyValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class SpecialtyValidator : AbstractValidator<Specialty>
     {
+        /// <summary>
+        /// Método SpecialtyValidator: executa a operação SpecialtyValidator.
+        /// </summary>
         public SpecialtyValidator()
         {
             RuleFor(entity => entity.Description)

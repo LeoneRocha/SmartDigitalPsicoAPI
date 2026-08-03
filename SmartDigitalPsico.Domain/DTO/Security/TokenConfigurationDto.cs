@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.Interfaces.Security;
+using SmartDigitalPsico.Domain.Interfaces.Security;
 
 namespace SmartDigitalPsico.Domain.DTO.Security
 {
+    /// <summary>
+    /// Classe responsável por TokenConfigurationDto.
+    /// Responsabilidade: segurança e autenticação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class TokenConfigurationDto : ITokenConfigurationDto
     {
         public string Audience { get; set; } = string.Empty;

@@ -3,8 +3,16 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por ApplicationConfigSettingValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class ApplicationConfigSettingValidator : AbstractValidator<ApplicationConfigSetting>
     {
+        /// <summary>
+        /// Método ApplicationConfigSettingValidator: executa a operação ApplicationConfigSettingValidator.
+        /// </summary>
         public ApplicationConfigSettingValidator()
         {
             RuleFor(entity => entity.Description)

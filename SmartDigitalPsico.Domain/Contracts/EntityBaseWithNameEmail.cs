@@ -3,6 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartDigitalPsico.Domain.Contracts
 {
+    /// <summary>
+    /// Classe responsável por EntityBaseWithNameEmail.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public abstract class EntityBaseWithNameEmail : EntityBase
     {
         [Column("Name", TypeName = "varchar(255)", Order = 2)]

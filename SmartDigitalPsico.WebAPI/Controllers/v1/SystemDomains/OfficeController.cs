@@ -14,10 +14,18 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     [ApiController] 
     [Authorize("Bearer")]
     [Route("api/[controller]/v1")]
+    /// <summary>
+    /// Classe responsável por OfficeController.
+    /// Responsabilidade: controller HTTP da WebAPI.
+    /// Relação: expõe endpoints REST e delega para Services/Facades.
+    /// </summary>
     public class OfficeController : ApiBaseController
     {
         private readonly IOfficeService _entityService;
 
+        /// <summary>
+        /// Método OfficeController: executa a operação OfficeController.
+        /// </summary>
         public OfficeController(IOfficeService entityService
              , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
@@ -29,6 +37,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         } 
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Get: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<List<GetOfficeDto>>>> Get()
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -42,6 +53,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetOfficeDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -50,6 +64,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetOfficeDto>>> Create(AddOfficeDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -58,6 +75,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetOfficeDto>>> Update(UpdateOfficeDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -70,6 +90,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpDelete("{id}")]
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();

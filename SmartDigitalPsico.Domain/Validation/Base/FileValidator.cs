@@ -5,11 +5,19 @@ using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Domain.Validation.Base
 {
+    /// <summary>
+    /// Classe responsável por FileValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class FileValidator : AbstractValidator<FileBase>
     {
         private readonly string[] _permittedExtensions;
         private readonly string[] _permittedContentTypes;
        
+        /// <summary>
+        /// Método FileValidator: executa a operação FileValidator.
+        /// </summary>
         public FileValidator(IConfiguration configuration)
         {
             _permittedExtensions = ConfigurationAppSettingsHelper.GetAllowedFileExtensions(configuration);

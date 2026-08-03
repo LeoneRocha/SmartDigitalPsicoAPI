@@ -15,6 +15,9 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
     {
         private readonly IScheduleCalendarRepository _scheduleCalendarRepository;
 
+        /// <summary>
+        /// Método MedicalCalendarRangeValidator: executa a operação MedicalCalendarRangeValidator.
+        /// </summary>
         public MedicalCalendarRangeValidator(IScheduleCalendarRepository scheduleCalendarRepository)
         {
             _scheduleCalendarRepository = scheduleCalendarRepository;
@@ -27,6 +30,9 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
         private async Task<bool> NoDateConflictSchedule(MedicalCalendar calendar, CancellationToken cancellationToken)
             => await ValidConflict(calendar, _scheduleCalendarRepository);
 
+        /// <summary>
+        /// Método ValidConflict: executa a operação ValidConflict.
+        /// </summary>
         public static async Task<bool> ValidConflict(MedicalCalendar calendar, IScheduleCalendarRepository scheduleCalendarRepository)
         {
             return await ScheduleCalendarConflictValidator.HasNoConflictAsync(

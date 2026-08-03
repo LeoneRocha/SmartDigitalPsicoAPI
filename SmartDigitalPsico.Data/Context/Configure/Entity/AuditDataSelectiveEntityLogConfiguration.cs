@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Domain.Constants;
@@ -7,9 +7,20 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
+    /// <summary>
+    /// Classe responsável por AuditDataSelectiveEntityLogConfiguration.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class AuditDataSelectiveEntityLogConfiguration : EntityBaseConfiguration<AuditDataSelectiveEntityLog>
     {
+        /// <summary>
+        /// Método AuditDataSelectiveEntityLogConfiguration: executa a operação AuditDataSelectiveEntityLogConfiguration.
+        /// </summary>
         public AuditDataSelectiveEntityLogConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public override void Configure(EntityTypeBuilder<AuditDataSelectiveEntityLog> builder)
         {
             builder.ToTable("AuditDataSelectiveEntityLog", "dbo");

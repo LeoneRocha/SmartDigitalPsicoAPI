@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Domain.DTO.Schedule
 {
+    /// <summary>
+    /// Classe responsável por WeeklyRecurrenceParams.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class WeeklyRecurrenceParams
     {
         public required ScheduleItem Template { get; set; }
@@ -10,6 +15,11 @@ namespace SmartDigitalPsico.Domain.DTO.Schedule
         public short? Count { get; set; }
         public DayOfWeek[] Days { get; set; } = [];
     }
+    /// <summary>
+    /// Classe responsável por RecurrenceContext.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class RecurrenceContext
     {
         public DateTime CurrentDate { get; set; }

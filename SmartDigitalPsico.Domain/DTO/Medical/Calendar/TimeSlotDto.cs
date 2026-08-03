@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 { 
+    /// <summary>
+    /// Classe responsável por TimeSlotDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class TimeSlotDto
     {
         public DateTime StartTime { get; set; }

@@ -15,12 +15,20 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientAdditionalInformationService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class PatientAdditionalInformationService : EntityBaseService<PatientAdditionalInformation, AddPatientAdditionalInformationDto, UpdatePatientAdditionalInformationDto, GetPatientAdditionalInformationDto
         , IPatientAdditionalInformationRepository>, IPatientAdditionalInformationService
 
     {
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método PatientAdditionalInformationService: executa a operação PatientAdditionalInformationService.
+        /// </summary>
         public PatientAdditionalInformationService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -33,6 +41,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             _userRepository = userRepository;
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async override Task<ServiceResponse<List<GetPatientAdditionalInformationDto>>> FindAll()
         {
             var result = new ServiceResponse<List<GetPatientAdditionalInformationDto>>();
@@ -41,6 +52,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return result;
         }
 
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Create(AddPatientAdditionalInformationDto item)
         {
             PatientAdditionalInformation entityAdd = _mapper.Map<PatientAdditionalInformation>(item);
@@ -68,6 +82,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Update(UpdatePatientAdditionalInformationDto item)
         {
 
@@ -99,6 +116,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientAdditionalInformationDto>>> FindAllByPatient(long patientId)
         {
             ServiceResponse<List<GetPatientAdditionalInformationDto>> response = new ServiceResponse<List<GetPatientAdditionalInformationDto>>();
@@ -138,6 +158,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> FindByID(long id)
         {
             ServiceResponse<GetPatientAdditionalInformationDto> response = new ServiceResponse<GetPatientAdditionalInformationDto>();

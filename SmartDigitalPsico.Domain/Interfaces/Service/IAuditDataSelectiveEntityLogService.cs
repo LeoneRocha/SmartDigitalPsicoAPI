@@ -5,10 +5,18 @@ using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
+    /// <summary>
+    /// Interface (contrato) responsável por IAuditDataSelectiveEntityLogService.
+    /// Responsabilidade: contrato de serviço de negócio.
+    /// Relação: implementado na camada Service e consumido pelos Controllers.
+    /// </summary>
     public interface IAuditDataSelectiveEntityLogService : IEntityBaseService<AuditDataSelectiveEntityLog
         , AddAuditDataSelectiveEntityLogDto, UpdateAuditDataSelectiveEntityLogDto, GetAuditDataSelectiveEntityLogDto>
     {
 
+        /// <summary>
+        /// Método Save: cria ou persiste um novo registro/recurso.
+        /// </summary>
         Task Save(object entryOld, object entryNew, string operation, string[] propertiesToIgnore);
     }
 }

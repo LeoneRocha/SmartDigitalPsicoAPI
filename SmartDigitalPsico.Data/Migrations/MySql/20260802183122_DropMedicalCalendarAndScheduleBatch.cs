@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -7,9 +7,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SmartDigitalPsico.Data.Migrations.MySql
 {
     /// <inheritdoc />
+    /// <summary>
+    /// Classe responsável por DropMedicalCalendarAndScheduleBatch.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public partial class DropMedicalCalendarAndScheduleBatch : Migration
     {
         /// <inheritdoc />
+        /// <summary>
+        /// Método Up: executa a operação Up.
+        /// </summary>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // FK may already be absent (prior partial apply / DropFk allow-truncate).
@@ -77,6 +85,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
         }
 
         /// <inheritdoc />
+        /// <summary>
+        /// Método Down: executa a operação Down.
+        /// </summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

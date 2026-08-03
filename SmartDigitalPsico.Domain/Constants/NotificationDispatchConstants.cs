@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.Constants
+namespace SmartDigitalPsico.Domain.Constants
 {
+    /// <summary>
+    /// Classe responsável por NotificationDispatchConstants.
+    /// Responsabilidade: constantes compartilhadas do sistema.
+    /// Relação: referenciado por Domain, Service e WebAPI.
+    /// </summary>
     public static class NotificationDispatchConstants
     {
         // Constantes de variáveis utilizadas nas mensagens

@@ -1,14 +1,22 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
+    /// <summary>
+    /// Classe responsável por ScheduleItemValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class ScheduleItemValidator : AbstractValidator<ScheduleItem>
     {
         private readonly IMedicalRepository? _medicalRepository;
 
+        /// <summary>
+        /// Método ScheduleItemValidator: operação de agendamento.
+        /// </summary>
         public ScheduleItemValidator(IMedicalRepository medicalRepository)
         {
             _medicalRepository = medicalRepository;

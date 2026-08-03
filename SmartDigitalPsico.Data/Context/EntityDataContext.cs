@@ -5,14 +5,28 @@ using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Data.Context
 {
+    /// <summary>
+    /// Classe responsável por EntityDataContext.
+    /// Responsabilidade: contexto EF Core / configuração de dados.
+    /// Relação: usado pelos repositórios da camada Data.
+    /// </summary>
     public abstract class EntityDataContext : DbContext, IEntityDataContext
     {
+        /// <summary>
+        /// Método EntityDataContext: executa a operação EntityDataContext.
+        /// </summary>
         protected EntityDataContext()
         {
         }
+        /// <summary>
+        /// Método EntityDataContext: executa a operação EntityDataContext.
+        /// </summary>
         protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContextMySql> options) : base(options)
         {
         }
+        /// <summary>
+        /// Método EntityDataContext: executa a operação EntityDataContext.
+        /// </summary>
         protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options) : base(options)
         {
         }

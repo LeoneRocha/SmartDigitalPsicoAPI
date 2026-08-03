@@ -1,4 +1,4 @@
-﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.AppException;
@@ -8,11 +8,19 @@ using SmartDigitalPsico.Domain.Security;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 {
+    /// <summary>
+    /// Classe responsável por AzureStorageBlobAdapter.
+    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
+    /// Relação: suporta Services e jobs de background.
+    /// </summary>
     public class AzureStorageBlobAdapter : IStorageBlobAdapter
     {
         private readonly BlobServiceClient? _blobServiceClient;
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Método AzureStorageBlobAdapter: executa a operação AzureStorageBlobAdapter.
+        /// </summary>
         public AzureStorageBlobAdapter(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -23,12 +31,18 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             }
         }
 
+        /// <summary>
+        /// Método AzureStorageBlobAdapter: executa a operação AzureStorageBlobAdapter.
+        /// </summary>
         public AzureStorageBlobAdapter(IConfiguration configuration, BlobServiceClient blobServiceClient)
         {
             _configuration = configuration;
             _blobServiceClient = blobServiceClient;
         }
 
+        /// <summary>
+        /// Método UploadFileReturnUrl: executa a operação UploadFileReturnUrl.
+        /// </summary>
         public async Task<string> UploadFileReturnUrl(BlobFileDto blobFileVO)
         {
             if (_blobServiceClient == null)
@@ -47,6 +61,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             return blobClient.Uri.AbsoluteUri;
         }
 
+        /// <summary>
+        /// Método CreateContainerIfNotExists: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task CreateContainerIfNotExists(string containerName)
         {
             if (_blobServiceClient == null)
@@ -62,6 +79,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             await containerClient.CreateIfNotExistsAsync();
         }
+        /// <summary>
+        /// Método GetFileStorageUrlPublic: consulta e retorna dados.
+        /// </summary>
         public async Task<string> GetFileStorageUrlPublic(string containerName, string blobName)
         {
             if (_blobServiceClient == null)
@@ -103,6 +123,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             await Task.Delay(1);
             return sasUri?.ToString() ?? string.Empty;
         }
+        /// <summary>
+        /// Método DownloadFile: executa a operação DownloadFile.
+        /// </summary>
         public async Task DownloadFile(string containerName, string blobName, string targetPath)
         {
             if (_blobServiceClient == null)
@@ -119,6 +142,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             }
         }
 
+        /// <summary>
+        /// Método DeleteBlobAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task DeleteBlobAsync(string containerName, string blobName)
         {
             if (_blobServiceClient == null)

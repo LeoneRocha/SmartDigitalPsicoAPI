@@ -1,10 +1,18 @@
-﻿using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por OfficeMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class OfficeMockData  
     { 
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
         public static Office[] GetMock()
         {
             return [

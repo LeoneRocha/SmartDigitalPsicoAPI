@@ -20,12 +20,20 @@ using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    /// <summary>
+    /// Classe responsável por MedicalFileService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class MedicalFileService : EntityBaseService<MedicalFile, AddMedicalFileDto, UpdateMedicalFileDto, GetMedicalFileDto, IMedicalFileRepository>, IMedicalFileService
     {
         private readonly IConfiguration _configuration;
         private readonly IFileManager _filePersistor;
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método MedicalFileService: executa a operação MedicalFileService.
+        /// </summary>
         public MedicalFileService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -40,6 +48,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _filePersistor = filePersistor;
             _userRepository = sharedRepositories.UserRepository;
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<List<GetMedicalFileDto>>> FindAll()
         {
             var result = new ServiceResponse<List<GetMedicalFileDto>>();
@@ -48,6 +59,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return result;
         }
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async override Task<ServiceResponse<GetMedicalFileDto>> FindByID(long id)
         {
             ServiceResponse<GetMedicalFileDto> response = await base.FindByID(id);
@@ -60,6 +74,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAllByMedical: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetMedicalFileDto>>> FindAllByMedical(long medicalId)
         {
             ServiceResponse<List<GetMedicalFileDto>> response = new ServiceResponse<List<GetMedicalFileDto>>();
@@ -96,11 +113,17 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override Task<ServiceResponse<GetMedicalFileDto>> Update(UpdateMedicalFileDto item)
         {
             throw new NotImplementedException("Not Permission");
         }
 
+        /// <summary>
+        /// Método PostFileAsync: executa a operação PostFileAsync.
+        /// </summary>
         public async Task<ServiceResponse<GetMedicalFileDto>> PostFileAsync(AddMedicalFileDto entity)
         {
             ServiceResponse<GetMedicalFileDto> response = new ServiceResponse<GetMedicalFileDto>();
@@ -142,6 +165,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método DownloadFileById: executa a operação DownloadFileById.
+        /// </summary>
         public async Task<GetMedicalFileDto> DownloadFileById(long fileId)
         {
             MedicalFile? fileEntity = await _entityRepository.FindByID(fileId);
@@ -154,6 +180,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             GetMedicalFileDto resultVO = _mapper.Map<GetMedicalFileDto>(fileEntity);
             return resultVO;
         }
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public async override Task<ServiceResponse<bool>> Delete(long id)
         {
             MedicalFile? fileEntity = await _entityRepository.FindByID(id);

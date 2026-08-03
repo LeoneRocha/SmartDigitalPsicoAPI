@@ -1,8 +1,16 @@
-﻿namespace SmartDigitalPsico.Domain.Helpers
+namespace SmartDigitalPsico.Domain.Helpers
 {
+    /// <summary>
+    /// Classe responsável por ApplicationLanguageHelper.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class ApplicationLanguageHelper
     {
 
+        /// <summary>
+        /// Método ReplaceTokensInMessage: executa a operação ReplaceTokensInMessage.
+        /// </summary>
         public static string ReplaceTokensInMessage(string message)
         {
             var parts = message.Split('|');
@@ -17,6 +25,9 @@
             return message;
         }
 
+        /// <summary>
+        /// Método ReplaceTokens: executa a operação ReplaceTokens.
+        /// </summary>
         public static string ReplaceTokens(string template, params string[] values)
         {
             string result = template;

@@ -1,10 +1,18 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por NotificationRulesValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class NotificationRulesValidator : AbstractValidator<NotificationRule>
     {
+        /// <summary>
+        /// Método NotificationRulesValidator: executa a operação NotificationRulesValidator.
+        /// </summary>
         public NotificationRulesValidator()
         {
             RuleFor(x => x.MedicalId)

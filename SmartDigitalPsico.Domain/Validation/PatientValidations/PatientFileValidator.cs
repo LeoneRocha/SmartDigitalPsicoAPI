@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -6,10 +6,18 @@ using SmartDigitalPsico.Domain.Validation.Base;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
+    /// <summary>
+    /// Classe responsável por PatientFileValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class PatientFileValidator : PatientBaseValidator<PatientFile>
     {
         private const string PatientIdMustErrorCode = "SmartDigitalPsico.PatientFileValidator.PatientFile.PatientId.Must";
 
+        /// <summary>
+        /// Método PatientFileValidator: executa a operação PatientFileValidator.
+        /// </summary>
         public PatientFileValidator(IConfiguration configuration, IPatientFileRepository entityRepository, IPatientRepository patientRepository)
            : base(patientRepository, entityRepository)
         {

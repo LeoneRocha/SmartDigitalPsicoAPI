@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Azure;
 using DocumentFormat.OpenXml.Spreadsheet;
 using FluentValidation;
@@ -18,6 +18,11 @@ using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Service.DataEntity.Generic
 {
+    /// <summary>
+    /// Classe responsável por EntityBaseService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class EntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult, Repo>
         : IEntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
         where TEntity : IEntityBase, IEntityBaseLog
@@ -35,6 +40,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         protected readonly IResiliencePolicyConfig _policyConfig;
         protected readonly Lazy<IApplicationLanguageService> _applicationLanguageService;
 
+        /// <summary>
+        /// Método EntityBaseService: executa a operação EntityBaseService.
+        /// </summary>
         public EntityBaseService(
               ISharedServices sharedServices,
               ISharedDependenciesConfig sharedDependenciesConfig,
@@ -51,15 +59,24 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             _entityValidator = entityValidator;
             _applicationLanguageService = new Lazy<IApplicationLanguageService>(() => sharedServices.ApplicationLanguageService);
         }
+        /// <summary>
+        /// Método SetUserId: configura estado ou dependencias.
+        /// </summary>
         public void SetUserId(long id)
         {
             UserId = id;
         }
+        /// <summary>
+        /// Método GetLocalization: consulta e retorna dados.
+        /// </summary>
         protected virtual async Task<string> GetLocalization(string key, string defaultMenssage)
         {
             return await _applicationLanguageService.Value.GetLocalization<ISharedResource>(key, defaultMenssage, _cacheService);
         }
 
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
@@ -92,6 +109,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             }
             return response;
         }
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public virtual async Task<ServiceResponse<bool>> Delete(long id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
@@ -125,6 +145,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             }
             return response;
         }
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> Update(TEntityUpdate item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
@@ -159,6 +182,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             }
             return response;
         }
+        /// <summary>
+        /// Método Exists: valida regras ou verifica existência.
+        /// </summary>
         public async Task<ServiceResponse<bool>> Exists(long id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
@@ -181,6 +207,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             }
             return response;
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public virtual async Task<ServiceResponse<List<TEntityResult>>> FindAll()
         {
             ServiceResponse<List<TEntityResult>> response = new ServiceResponse<List<TEntityResult>>();
@@ -204,6 +233,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             }
             return response;
         }
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> FindByID(long id)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
@@ -230,6 +262,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             }
             return response;
         }
+        /// <summary>
+        /// Método GetCount: consulta e retorna dados.
+        /// </summary>
         public virtual async Task<ServiceResponse<int>> GetCount()
         {
             ServiceResponse<int> response = new ServiceResponse<int>();
@@ -253,6 +288,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             }
             return response;
         }
+        /// <summary>
+        /// Método EnableOrDisable: altera o estado de habilitação do recurso.
+        /// </summary>
         public virtual async Task<ServiceResponse<bool>> EnableOrDisable(long id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
@@ -285,6 +323,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             }
             return response;
         }
+        /// <summary>
+        /// Método Validate: valida regras ou verifica existência.
+        /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> Validate(TEntity item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
@@ -331,6 +372,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         }
         //HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors)
 
+        /// <summary>
+        /// Método GetLocalizationErros: consulta e retorna dados.
+        /// </summary>
         protected async Task<List<ErrorResponse>> GetLocalizationErros(List<ErrorResponse> errorResponses)
         {
             if (errorResponses != null && errorResponses.Count > 0)

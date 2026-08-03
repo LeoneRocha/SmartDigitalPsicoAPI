@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Azure;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -8,17 +8,28 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
+    /// <summary>
+    /// Classe responsável por TableStorageTokenSessionAdapter.
+    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
+    /// Relação: suporta Services e jobs de background.
+    /// </summary>
     public class TableStorageTokenSessionAdapter : ITokenSessionPersistenceAdapter
     {
         private readonly IStorageTableContract<UserTokenSessionTableEntity> _storageTableService;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Método TableStorageTokenSessionAdapter: executa a operação TableStorageTokenSessionAdapter.
+        /// </summary>
         public TableStorageTokenSessionAdapter(IMapper mapper, IStorageTableContract<UserTokenSessionTableEntity> storageTableService)
         {
             _storageTableService = storageTableService;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Método GetSessionAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<UserTokenSession?> GetSessionAsync(long userId)
         {
             var resultTableEntity = await _storageTableService.GetByIdAsync("UserTokenSession", userId.ToString());
@@ -28,6 +39,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
             return result;
         }
 
+        /// <summary>
+        /// Método SaveSessionAsync: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task SaveSessionAsync(UserTokenSession userTokenSession)
         {
             var addToken = _mapper.Map<UserTokenSessionTableEntity>(userTokenSession);

@@ -8,6 +8,9 @@ namespace SmartDigitalPsico.Domain.Validation.Schedule
     /// </summary>
     public class ScheduleCalendarItemValidator : AbstractValidator<ScheduleCalendarItem>
     {
+        /// <summary>
+        /// Método ScheduleCalendarItemValidator: operação de agendamento.
+        /// </summary>
         public ScheduleCalendarItemValidator()
         {
             RuleFor(e => e.Title)

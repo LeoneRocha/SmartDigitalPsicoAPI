@@ -1,13 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Hypermedia.Constants;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientHospitalizationInformation;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient
 {
+    /// <summary>
+    /// Classe responsável por GetPatientHospitalizationInformationEnricher.
+    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
+    /// Relação: usado pelos Controllers na serialização.
+    /// </summary>
     public class GetPatientHospitalizationInformationEnricher : ContentResponseEnricher<GetPatientHospitalizationInformationDto>
 
     {
+        /// <summary>
+        /// Método EnrichModel: executa a operação EnrichModel.
+        /// </summary>
         protected override Task EnrichModel(GetPatientHospitalizationInformationDto content, IUrlHelper urlHelper)
         {
             var path = "api/Patient/v1/PatientHospitalizationInformation/".ToLower();

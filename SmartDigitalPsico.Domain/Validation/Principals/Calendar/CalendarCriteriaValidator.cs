@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -6,10 +6,18 @@ using System.Data.SqlTypes;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
 {
+    /// <summary>
+    /// Classe responsável por CalendarCriteriaValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class CalendarCriteriaValidator : AbstractValidator<CalendarCriteriaDto>
     {
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método CalendarCriteriaValidator: executa a operação CalendarCriteriaValidator.
+        /// </summary>
         public CalendarCriteriaValidator(IUserRepository userRepository)
         {
             int maxDayRange = 90;

@@ -1,8 +1,13 @@
-﻿using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Domain.DTO.Schedule
 {
 
+    /// <summary>
+    /// Classe responsável por ScheduleItemValidationContext.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class ScheduleItemValidationContext
     {
         public ScheduleItem? NewItem { get; set; }

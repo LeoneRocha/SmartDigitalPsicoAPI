@@ -4,10 +4,18 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.Principals
 {
+    /// <summary>
+    /// Classe responsável por UserValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class UserValidator : AbstractValidator<User>
     {
         private readonly IUserRepository _entityRepository;
 
+        /// <summary>
+        /// Método UserValidator: executa a operação UserValidator.
+        /// </summary>
         public UserValidator(IUserRepository entityRepository)
         {
             _entityRepository = entityRepository;

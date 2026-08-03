@@ -1,12 +1,20 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
 {
+    /// <summary>
+    /// Classe responsável por PatientRecordSelectListValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class PatientRecordSelectListValidator   
              : BasePatientSelectListValidator<PatientRecord>
     {
+        /// <summary>
+        /// Método PatientRecordSelectListValidator: executa a operação PatientRecordSelectListValidator.
+        /// </summary>
         public PatientRecordSelectListValidator(IUserRepository userRepository)
             : base(userRepository)
         {

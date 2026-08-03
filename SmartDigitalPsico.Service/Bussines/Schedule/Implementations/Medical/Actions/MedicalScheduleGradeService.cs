@@ -10,6 +10,11 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions
 {
+    /// <summary>
+    /// Classe responsável por MedicalScheduleGradeService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class MedicalScheduleGradeService : IScheduleCalendarGradeService
     {
         private readonly MedicalScheduleHostSupport _support;
@@ -17,6 +22,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
         private readonly IScheduleAvailabilityService _availability;
         private readonly MedicalScheduleConstraintsProvider _constraintsProvider;
 
+        /// <summary>
+        /// Método MedicalScheduleGradeService: executa a operação MedicalScheduleGradeService.
+        /// </summary>
         public MedicalScheduleGradeService(
             MedicalScheduleHostSupport support,
             IScheduleQueryService query,
@@ -29,11 +37,20 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             _constraintsProvider = constraintsProvider;
         }
 
+        /// <summary>
+        /// Método SetUserId: configura estado ou dependencias.
+        /// </summary>
         public void SetUserId(long userId) => _support.SetUserId(userId);
 
+        /// <summary>
+        /// Método GetMonthlyCalendar: consulta e retorna dados.
+        /// </summary>
         public Task<ServiceResponse<CalendarDto>> GetMonthlyCalendar(CalendarCriteriaDto criteria)
             => BuildGradeAsync(criteria, ScheduleGradeMode.Monthly);
 
+        /// <summary>
+        /// Método GetAvailableMedicalCalendar: consulta e retorna dados.
+        /// </summary>
         public Task<ServiceResponse<CalendarDto>> GetAvailableMedicalCalendar(CalendarCriteriaDto criteria)
             => BuildGradeAsync(criteria, ScheduleGradeMode.AvailableOnly);
 

@@ -1,12 +1,20 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por NotificationRulesMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class NotificationRulesMockData
     {
         private const string LanguagePtBR = "pt-BR";
 
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
         public static NotificationRule[] GetMock()
         {
             return new[]

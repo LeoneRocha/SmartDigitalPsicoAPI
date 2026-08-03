@@ -19,6 +19,9 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
         private readonly IMedicalRepository _repositoryMedical;
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método MedicalCalendarValidator: executa a operação MedicalCalendarValidator.
+        /// </summary>
         public MedicalCalendarValidator(
             IMedicalRepository medicalRepository,
             IUserRepository userRepository,

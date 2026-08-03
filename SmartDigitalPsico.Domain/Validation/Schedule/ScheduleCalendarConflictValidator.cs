@@ -13,6 +13,9 @@ namespace SmartDigitalPsico.Domain.Validation.Schedule
     {
         private readonly IScheduleCalendarRepository _scheduleCalendarRepository;
 
+        /// <summary>
+        /// Método ScheduleCalendarConflictValidator: operação de agendamento.
+        /// </summary>
         public ScheduleCalendarConflictValidator(IScheduleCalendarRepository scheduleCalendarRepository)
         {
             _scheduleCalendarRepository = scheduleCalendarRepository;
@@ -26,6 +29,9 @@ namespace SmartDigitalPsico.Domain.Validation.Schedule
         private async Task<bool> NoConflict(ScheduleCalendarConflictRequest request, CancellationToken cancellationToken)
             => await HasNoConflictAsync(request, _scheduleCalendarRepository);
 
+        /// <summary>
+        /// Método HasNoConflictAsync: executa a operação HasNoConflictAsync.
+        /// </summary>
         public static async Task<bool> HasNoConflictAsync(
             ScheduleCalendarConflictRequest request,
             IScheduleCalendarRepository scheduleCalendarRepository)
@@ -48,6 +54,11 @@ namespace SmartDigitalPsico.Domain.Validation.Schedule
         }
     }
 
+    /// <summary>
+    /// Classe responsável por ScheduleCalendarConflictRequest.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class ScheduleCalendarConflictRequest
     {
         public string TenantKey { get; set; } = string.Empty;

@@ -6,14 +6,28 @@ using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Data.Context.Interface
 {
+    /// <summary>
+    /// Interface (contrato) responsável por IEntityDataContext.
+    /// Responsabilidade: contexto EF Core / configuração de dados.
+    /// Relação: usado pelos repositórios da camada Data.
+    /// </summary>
     public interface IEntityDataContext : IDisposable
     {
         #region Common
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         DatabaseFacade Database { get; }
+        /// <summary>
+        /// Método Entry: executa a operação Entry.
+        /// </summary>
         EntityEntry Entry(object entity);
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        /// <summary>
+        /// Método SaveChanges: cria ou persiste um novo registro/recurso.
+        /// </summary>
         int SaveChanges();
+        /// <summary>
+        /// Método SaveChangesAsync: cria ou persiste um novo registro/recurso.
+        /// </summary>
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         #endregion Common
 

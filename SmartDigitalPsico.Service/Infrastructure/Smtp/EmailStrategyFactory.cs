@@ -1,17 +1,28 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Smtp;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Smtp
 {
+    /// <summary>
+    /// Classe responsável por EmailStrategyFactory.
+    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
+    /// Relação: suporta Services e jobs de background.
+    /// </summary>
     public class EmailStrategyFactory : IEmailStrategyFactory
     {
         private readonly ISmtpSettingsDto _smtpSettings;
 
+        /// <summary>
+        /// Método EmailStrategyFactory: executa a operação EmailStrategyFactory.
+        /// </summary>
         public EmailStrategyFactory(ISmtpSettingsDto smtpSettings)
         {
             _smtpSettings = smtpSettings;
         }
 
+        /// <summary>
+        /// Método CreateStrategy: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public IEmailStrategy CreateStrategy(EEmailStrategyType strategyType)
         {
             switch (strategyType)

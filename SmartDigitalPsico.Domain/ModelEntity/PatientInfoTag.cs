@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por PatientInfoTag.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class PatientInfoTag : IEntityPatientBase
     {
         #region Relationship 

@@ -17,15 +17,27 @@ namespace SmartDigitalPsico.Domain.Helpers.Medical
         private static readonly string[] MedicalIdPrefixes = [MedicalIdPrefix, "medical:"];
         private static readonly string[] PatientIdPrefixes = [PatientIdPrefix, "patient:"];
 
+        /// <summary>
+        /// Método ForMedical: executa a operação ForMedical.
+        /// </summary>
         public static string ForMedical(long medicalId)
             => ScheduleKeyHelper.Build(MedicalIdPrefix, medicalId);
 
+        /// <summary>
+        /// Método ForPatient: executa a operação ForPatient.
+        /// </summary>
         public static string ForPatient(long patientId)
             => ScheduleKeyHelper.Build(PatientIdPrefix, patientId);
 
+        /// <summary>
+        /// Método TryParseMedicalId: executa a operação TryParseMedicalId.
+        /// </summary>
         public static bool TryParseMedicalId(string? ownerKey, out long medicalId)
             => ScheduleKeyHelper.TryParse(ownerKey, MedicalIdPrefixes, out medicalId);
 
+        /// <summary>
+        /// Método TryParsePatientId: executa a operação TryParsePatientId.
+        /// </summary>
         public static bool TryParsePatientId(string? subjectKey, out long patientId)
             => ScheduleKeyHelper.TryParse(subjectKey, PatientIdPrefixes, out patientId);
     }

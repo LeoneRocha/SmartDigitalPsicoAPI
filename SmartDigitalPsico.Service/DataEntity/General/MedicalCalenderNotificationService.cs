@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -8,15 +8,26 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.DataEntity.General
 {
+    /// <summary>
+    /// Classe responsável por MedicalCalenderNotificationService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class MedicalCalenderNotificationService : IMedicalCalenderNotificationService
     {
         private readonly ISharedServices _sharedServices;
 
+        /// <summary>
+        /// Método MedicalCalenderNotificationService: executa a operação MedicalCalenderNotificationService.
+        /// </summary>
         public MedicalCalenderNotificationService(ISharedServices sharedServices)
         {
             _sharedServices = sharedServices;
         }
 
+        /// <summary>
+        /// Método NotifyAsync: dispara notificação ou comunicação.
+        /// </summary>
         public async Task NotifyAsync(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {
             GetNotificationTemplateDto? template = null;

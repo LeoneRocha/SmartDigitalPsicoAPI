@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
@@ -8,11 +8,19 @@ using System.Text.Json;
 
 namespace SmartDigitalPsico.Data.Repository.CacheManager
 {
+    /// <summary>
+    /// Classe responsável por DiskCacheRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class DiskCacheRepository : IDiskCacheRepository
     {
         private readonly IFileDiskRepository _repositoryFileDisk;
         private readonly CacheConfigurationDto _cacheConfig;
 
+        /// <summary>
+        /// Método DiskCacheRepository: executa a operação DiskCacheRepository.
+        /// </summary>
         public DiskCacheRepository(IFileDiskRepository repositoryFileDisk, IOptions<CacheConfigurationDto> cacheConfig)
         {
             _repositoryFileDisk = repositoryFileDisk;
@@ -86,6 +94,9 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
             return new KeyValuePair<bool, T>(result, new());
         }
 
+        /// <summary>
+        /// Método RemoveAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<bool> RemoveAsync(string cacheKey)
         {
             string filename = string.Concat(cacheKey, _cacheConfig.ExtensionCache);

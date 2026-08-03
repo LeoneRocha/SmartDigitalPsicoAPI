@@ -1,18 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Filters
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
+    /// <summary>
+    /// Classe responsável por HyperMediaFilterrAttribute.
+    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
+    /// Relação: usado pelos Controllers na serialização.
+    /// </summary>
     public class HyperMediaFilterrAttribute : ResultFilterAttribute
     {
         private readonly HyperMediaFilterOptions _hyperMediaFilterOptions;
 
+        /// <summary>
+        /// Método HyperMediaFilterrAttribute: executa a operação HyperMediaFilterrAttribute.
+        /// </summary>
         public HyperMediaFilterrAttribute(HyperMediaFilterOptions hyperMediaFilterOptions)
         {
             _hyperMediaFilterOptions = hyperMediaFilterOptions;
         }
 
+        /// <summary>
+        /// Método OnResultExecuting: executa a operação OnResultExecuting.
+        /// </summary>
         public override void OnResultExecuting(ResultExecutingContext context)
         {
             TryEnrichResult(context);

@@ -10,9 +10,17 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por RoleGroupService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class RoleGroupService : EntityBaseService<RoleGroup, AddRoleGroupDto, UpdateRoleGroupDto, GetRoleGroupDto, IRoleGroupRepository>, IRoleGroupService
 
     {
+        /// <summary>
+        /// Método RoleGroupService: executa a operação RoleGroupService.
+        /// </summary>
         public RoleGroupService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,

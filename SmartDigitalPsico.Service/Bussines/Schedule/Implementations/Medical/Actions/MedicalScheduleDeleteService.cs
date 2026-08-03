@@ -7,6 +7,11 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions
 {
+    /// <summary>
+    /// Classe responsável por MedicalScheduleDeleteService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class MedicalScheduleDeleteService : IScheduleCalendarDeleteService
     {
         private readonly MedicalScheduleHostSupport _support;
@@ -14,6 +19,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
         private readonly IScheduleDeleteService _delete;
         private readonly MedicalScheduleNotificationAdapter _notifications;
 
+        /// <summary>
+        /// Método MedicalScheduleDeleteService: executa a operação MedicalScheduleDeleteService.
+        /// </summary>
         public MedicalScheduleDeleteService(
             MedicalScheduleHostSupport support,
             IScheduleQueryService query,
@@ -26,8 +34,14 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             _notifications = notifications;
         }
 
+        /// <summary>
+        /// Método SetUserId: configura estado ou dependencias.
+        /// </summary>
         public void SetUserId(long userId) => _support.SetUserId(userId);
 
+        /// <summary>
+        /// Método DeleteOneOrRecurrence: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ServiceResponse<bool>> DeleteOneOrRecurrence(DeleteMedicalCalendarDto request)
         {
             try

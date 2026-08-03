@@ -6,17 +6,28 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
 {
+    /// <summary>
+    /// Classe responsável por ScheduleDeleteService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class ScheduleDeleteService : IScheduleDeleteService
     {
         private readonly IScheduleCalendarRepository _repository;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Método ScheduleDeleteService: operação de agendamento.
+        /// </summary>
         public ScheduleDeleteService(IScheduleCalendarRepository repository, ILogger logger)
         {
             _repository = repository;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Método DeleteByTokenAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ServiceResponse<bool>> DeleteByTokenAsync(string uniqueToken)
         {
             var response = new ServiceResponse<bool>();
@@ -45,6 +56,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
             }
         }
 
+        /// <summary>
+        /// Método DeleteByTokenFilteredAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ServiceResponse<bool>> DeleteByTokenFilteredAsync(ScheduleDeleteTokenRequest request)
         {
             var response = new ServiceResponse<bool>();
@@ -80,6 +94,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
             }
         }
 
+        /// <summary>
+        /// Método DeleteByIdAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ServiceResponse<bool>> DeleteByIdAsync(long id)
         {
             var response = new ServiceResponse<bool>();

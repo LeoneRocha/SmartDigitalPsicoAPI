@@ -6,17 +6,28 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict
 {
+    /// <summary>
+    /// Classe responsável por ScheduleConflictService.
+    /// Responsabilidade: módulo de agendamento (Schedule).
+    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// </summary>
     public class ScheduleConflictService : IScheduleConflictService
     {
         private readonly IScheduleCalendarRepository _repository;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Método ScheduleConflictService: operação de agendamento.
+        /// </summary>
         public ScheduleConflictService(IScheduleCalendarRepository repository, ILogger logger)
         {
             _repository = repository;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Método HasNoConflictAsync: executa a operação HasNoConflictAsync.
+        /// </summary>
         public async Task<ServiceResponse<bool>> HasNoConflictAsync(ScheduleCalendarConflictRequest request)
         {
             try

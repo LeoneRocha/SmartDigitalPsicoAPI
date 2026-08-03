@@ -1,4 +1,4 @@
-﻿using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -8,14 +8,25 @@ using System.Reflection;
 
 namespace SmartDigitalPsico.Domain.Report
 {
+    /// <summary>
+    /// Classe responsável por PDFsharpMigraDocReportAdapter.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class PDFsharpMigraDocReportAdapter : IPdfReportAdapter
     {
         //https://docs.pdfsharp.net/index.html
+        /// <summary>
+        /// Método Generate: executa a operação Generate.
+        /// </summary>
         public byte[] Generate(ReportPageContentDto content)
         {
             var document = CreateDocument(content);
             return RenderDocumentToBytes(document);
         }
+        /// <summary>
+        /// Método Generate: executa a operação Generate.
+        /// </summary>
         public async Task Generate(ReportPageContentDto content, string filePath)
         {
             await Task.Run(() => GeneratePDF(content, filePath));

@@ -14,10 +14,18 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     [ApiController]
     [Authorize("Bearer")]
     [Route("api/medical/v1/[controller]")]
+    /// <summary>
+    /// Classe responsável por MedicalCalendarController.
+    /// Responsabilidade: controller HTTP da WebAPI.
+    /// Relação: expõe endpoints REST e delega para Services/Facades.
+    /// </summary>
     public class MedicalCalendarController : ApiBaseController
     {
         private readonly IScheduleCalendarFacade _scheduleAdapter;
 
+        /// <summary>
+        /// Método MedicalCalendarController: executa a operação MedicalCalendarController.
+        /// </summary>
         public MedicalCalendarController(
             IScheduleCalendarFacade scheduleAdapter,
             IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
@@ -32,6 +40,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpGet("schedule/{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -46,6 +57,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPost("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Create([FromBody] AddMedicalCalendarDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -59,6 +73,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpPut("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetMedicalCalendarDto>>> Update([FromBody] UpdateMedicalCalendarDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -72,6 +89,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 
         [HttpDelete("schedule")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<bool>>> Delete([FromBody] DeleteMedicalCalendarDto request)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -84,6 +104,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPost("calendar")]
+        /// <summary>
+        /// Método GetMonthlyCalendar: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<CalendarDto>>> GetMonthlyCalendar([FromBody] CalendarCriteriaDto criteria)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -92,6 +115,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPost("available")]
+        /// <summary>
+        /// Método GetAvailableMedicalCalendar: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<CalendarDto>>> GetAvailableMedicalCalendar([FromBody] CalendarCriteriaDto criteria)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -100,6 +126,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPost("appointment/send")]
+        /// <summary>
+        /// Método SendAppointments: dispara notificação ou comunicação.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<CalendarDto>>> SendAppointments([FromBody] ScheduleCriteriaDto criteria)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -108,6 +137,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpPost("appointment/get")]
+        /// <summary>
+        /// Método GetAppointments: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<AppointmentDto[]>>> GetAppointments([FromBody] AppointmentCriteriaDto criteria)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();

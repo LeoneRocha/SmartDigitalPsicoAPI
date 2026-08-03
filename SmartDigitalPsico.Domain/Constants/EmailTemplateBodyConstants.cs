@@ -90,6 +90,9 @@ namespace SmartDigitalPsico.Domain.Constants
             Closing = "Se precisar de mais informações, entre em contato conosco."
         });
 
+        /// <summary>
+        /// Método TryGetRichBody: executa a operação TryGetRichBody.
+        /// </summary>
         public static string? TryGetRichBody(string templateKey, string? currentBody)
         {
             if (string.IsNullOrWhiteSpace(templateKey))
@@ -108,6 +111,9 @@ namespace SmartDigitalPsico.Domain.Constants
             return needsUpgrade ? canonical : null;
         }
 
+        /// <summary>
+        /// Método Resolve: executa a operação Resolve.
+        /// </summary>
         public static string? Resolve(string templateKey) => templateKey switch
         {
             EmailTemplateTagConstants.LoginReleaseEmail => LoginReleaseEmail,

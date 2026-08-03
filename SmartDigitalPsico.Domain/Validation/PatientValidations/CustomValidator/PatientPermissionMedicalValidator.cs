@@ -1,11 +1,19 @@
-﻿using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
 {
+    /// <summary>
+    /// Classe responsável por PatientPermissionMedicalValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public static class PatientPermissionMedicalValidator
     {
+        /// <summary>
+        /// Método ValidatePermissionMedical: valida regras ou verifica existência.
+        /// </summary>
         public static ErrorResponse ValidatePermissionMedical(long medicalId, User userAction)
         {
             if (userAction == null)
@@ -30,6 +38,9 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
             return new ErrorResponse();
         }
 
+        /// <summary>
+        /// Método ValidatePermissionAdmin: valida regras ou verifica existência.
+        /// </summary>
         public static ErrorResponse ValidatePermissionAdmin(User userAction)
         {
             if (userAction == null)

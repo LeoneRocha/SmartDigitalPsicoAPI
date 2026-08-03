@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
@@ -16,10 +16,18 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por NotificationRecordsService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class NotificationRecordsService : EntityBaseService<NotificationRecord, AddNotificationRecordsDto, UpdateNotificationRecordsDto, GetNotificationRecordsDto, INotificationRecordsRepository>, INotificationRecordsService
     {
         private readonly INotificationRulesService _notificationRulesService;
 
+        /// <summary>
+        /// Método NotificationRecordsService: executa a operação NotificationRecordsService.
+        /// </summary>
         public NotificationRecordsService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -33,6 +41,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _notificationRulesService = notificationRulesService;
         }
 
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(AddNotificationRecordsDto item)
         {
             item.NextScheduledSendTime = GetNextScheduledSendTime(item);
@@ -41,6 +52,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return await base.Create(item);
         }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(UpdateNotificationRecordsDto item)
         {
             ServiceResponse<GetNotificationRecordsDto> response = new ServiceResponse<GetNotificationRecordsDto>();
@@ -83,6 +97,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// </summary>
         /// <param name="dto">DTO contendo os MedicalCalendars e o tipo de notificação.</param>
         /// <returns>Task representando a operação assíncrona.</returns>
+        /// <summary>
+        /// Método CreateOrUpdateNotificationRecordsAsync: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task CreateOrUpdateNotificationRecordsAsync(GenerateNotificationRecordsDto dto)
         {
             try
@@ -242,6 +259,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return minScheduledLocal;
         } 
 
+        /// <summary>
+        /// Método GetPendingNotificationsAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
             return await _entityRepository.GetPendingNotificationsAsync();

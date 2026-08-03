@@ -3,8 +3,16 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por OfficeValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class OfficeValidator : AbstractValidator<Office>
     {
+        /// <summary>
+        /// Método OfficeValidator: executa a operação OfficeValidator.
+        /// </summary>
         public OfficeValidator()
         {
             RuleFor(entity => entity.Description)

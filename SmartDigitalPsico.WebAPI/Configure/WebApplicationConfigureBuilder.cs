@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +11,18 @@ using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {
+    /// <summary>
+    /// Classe responsável por WebApplicationConfigureBuilder.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
+    /// </summary>
     public static class WebApplicationConfigureBuilder
     {
         private const string ApplicationInsightsConnectionStringEnv = "APPLICATIONINSIGHTS_CONNECTION_STRING";
 
+        /// <summary>
+        /// Método static: executa a operação static.
+        /// </summary>
         public static (WebApplicationBuilder, Serilog.Core.Logger?) CreateHostBuilder(string[] args)
         {
             Serilog.Core.Logger? _logger;
@@ -40,6 +48,9 @@ namespace SmartDigitalPsico.WebAPI.Configure
             return (builder, _logger);
         }
 
+        /// <summary>
+        /// Método BuildAndRunAPP: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public static void BuildAndRunAPP(WebApplicationBuilder builder, Serilog.Core.Logger? _logger)
         {
             if (_logger == null)
@@ -65,6 +76,9 @@ namespace SmartDigitalPsico.WebAPI.Configure
             }
         }
 
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
         {
             if (env.IsDevelopment())
