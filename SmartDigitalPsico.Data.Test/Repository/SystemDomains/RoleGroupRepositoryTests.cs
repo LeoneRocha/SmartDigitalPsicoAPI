@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Data.Context.Configure.Mock;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
@@ -44,13 +44,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var listCount = listResult.Count;
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<RoleGroup>>());
                 Assert.That(listResult, Has.Count.EqualTo(6));
                 Assert.That(listCount, Is.EqualTo(6));
-            });
+            }
         }
 
         [Test]
@@ -67,12 +67,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var result = await _entityRepository.FindByIDs(roleGroupIds);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<List<RoleGroup>>());
                 Assert.That(result, Has.Count.EqualTo(3));
-            });
+            }
         }
     }
 }

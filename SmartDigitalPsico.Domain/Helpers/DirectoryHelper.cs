@@ -1,15 +1,26 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
+    /// <summary>
+    /// Classe responsável por DirectoryHelper.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class DirectoryHelper
     {
+        /// <summary>
+        /// Método GetDiretoryTemp: consulta e retorna dados.
+        /// </summary>
         public static string GetDiretoryTemp(IConfiguration configuration)
         {
             string resourcesTemp = ConfigurationAppSettingsHelper.GetAppSettingsResourcesTemp(configuration);
             return GetDiretory(resourcesTemp);
         }
 
+        /// <summary>
+        /// Método GetDiretory: consulta e retorna dados.
+        /// </summary>
         public static string GetDiretory(string pathCreate)
         {
             string pathResult;
@@ -39,6 +50,9 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         }
 
+        /// <summary>
+        /// Método GetPathSaveCache: consulta e retorna dados.
+        /// </summary>
         public static string GetPathSaveCache(string pathCache)
         {
             string pathToSaveCache;

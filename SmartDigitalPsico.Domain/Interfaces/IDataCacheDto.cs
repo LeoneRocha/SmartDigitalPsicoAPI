@@ -1,6 +1,11 @@
 namespace SmartDigitalPsico.Domain.Interfaces
 {
 
+    /// <summary>
+    /// Interface (contrato) responsável por IDataCacheDto.
+    /// Responsabilidade: contrato de abstração do domínio.
+    /// Relação: implementado nas camadas Data/Service.
+    /// </summary>
     public interface IDataCacheDto<T>
     {
         public string CacheKey { get; }

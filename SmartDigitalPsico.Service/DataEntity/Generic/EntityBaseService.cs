@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Azure;
 using DocumentFormat.OpenXml.Spreadsheet;
 using FluentValidation;
@@ -18,16 +18,17 @@ using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Service.DataEntity.Generic
 {
-    public class EntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult, Repo>
-        : IEntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
+    /// <summary>
+    /// Classe responsável por EntityBaseService (máx. 2 genéricos — Sonar S2436).
+    /// DTOs Add/Update via IEntityDtoAdd/IEntityDto; repositório tipado como IEntityBaseRepository&lt;TEntity&gt;.
+    /// </summary>
+    public class EntityBaseService<TEntity, TEntityResult>
+        : IEntityBaseService<TEntity, TEntityResult>
         where TEntity : IEntityBase, IEntityBaseLog
-        where TEntityAdd : IEntityDtoAdd
-        where TEntityUpdate : IEntityDto
         where TEntityResult : class
-        where Repo : IEntityBaseRepository<TEntity>
     {
         protected readonly IMapper _mapper;
-        protected readonly Repo _entityRepository;
+        protected readonly IEntityBaseRepository<TEntity> _entityRepository;
         protected readonly IValidator<TEntity> _entityValidator;
         protected long UserId { get; private set; }
         protected readonly ICacheService _cacheService;
@@ -35,11 +36,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         protected readonly IResiliencePolicyConfig _policyConfig;
         protected readonly Lazy<IApplicationLanguageService> _applicationLanguageService;
 
+        /// <summary>
+        /// Método EntityBaseService: executa a operação EntityBaseService.
+        /// </summary>
         public EntityBaseService(
               ISharedServices sharedServices,
               ISharedDependenciesConfig sharedDependenciesConfig,
               ISharedRepositories sharedRepositories,
-              Repo entityRepository,
+              IEntityBaseRepository<TEntity> entityRepository,
               IValidator<TEntity> entityValidator
             )
         {
@@ -51,16 +55,25 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             _entityValidator = entityValidator;
             _applicationLanguageService = new Lazy<IApplicationLanguageService>(() => sharedServices.ApplicationLanguageService);
         }
+        /// <summary>
+        /// Método SetUserId: configura estado ou dependencias.
+        /// </summary>
         public void SetUserId(long id)
         {
             UserId = id;
         }
+        /// <summary>
+        /// Método GetLocalization: consulta e retorna dados.
+        /// </summary>
         protected virtual async Task<string> GetLocalization(string key, string defaultMenssage)
         {
             return await _applicationLanguageService.Value.GetLocalization<ISharedResource>(key, defaultMenssage, _cacheService);
         }
 
-        public virtual async Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item)
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
+        public virtual async Task<ServiceResponse<TEntityResult>> Create(IEntityDtoAdd item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
             try
@@ -88,10 +101,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                 response.Errors.Add(new ErrorResponse() { Name = "Create", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
                 response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
 
-                _logger.Error(ex, "Create: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public virtual async Task<ServiceResponse<bool>> Delete(long id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
@@ -121,11 +137,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                 response.Success = false;
                 response.Errors.Add(new ErrorResponse() { Name = "Delete", Message = $"{ex.Message}-{ex.InnerException?.Message}" });
                 response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
-                _logger.Error(ex, "Delete: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Delete: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
-        public virtual async Task<ServiceResponse<TEntityResult>> Update(TEntityUpdate item)
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
+        public virtual async Task<ServiceResponse<TEntityResult>> Update(IEntityDto item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
             try
@@ -155,10 +174,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
-                _logger.Error(ex, "Update: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Update: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
+        /// <summary>
+        /// Método Exists: valida regras ou verifica existência.
+        /// </summary>
         public async Task<ServiceResponse<bool>> Exists(long id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
@@ -177,10 +199,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
-                _logger.Error(ex, "Exists: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Exists: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public virtual async Task<ServiceResponse<List<TEntityResult>>> FindAll()
         {
             ServiceResponse<List<TEntityResult>> response = new ServiceResponse<List<TEntityResult>>();
@@ -200,10 +225,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
-                _logger.Error(ex, "FindAll: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "FindAll: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> FindByID(long id)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
@@ -226,10 +254,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
-                _logger.Error(ex, "FindByID: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "FindByID: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
+        /// <summary>
+        /// Método GetCount: consulta e retorna dados.
+        /// </summary>
         public virtual async Task<ServiceResponse<int>> GetCount()
         {
             ServiceResponse<int> response = new ServiceResponse<int>();
@@ -249,10 +280,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
-                _logger.Error(ex, "GetCount: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "GetCount: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
+        /// <summary>
+        /// Método EnableOrDisable: altera o estado de habilitação do recurso.
+        /// </summary>
         public virtual async Task<ServiceResponse<bool>> EnableOrDisable(long id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
@@ -281,10 +315,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
-                _logger.Error(ex, "EnableOrDisable: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "EnableOrDisable: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
+        /// <summary>
+        /// Método Validate: valida regras ou verifica existência.
+        /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> Validate(TEntity item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
@@ -325,12 +362,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             {
                 response.Success = false;
                 response.Message = await GetLocalization(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
-                _logger.Error(ex, "Validate: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Validate: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
             return response;
         }
         //HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors)
 
+        /// <summary>
+        /// Método GetLocalizationErros: consulta e retorna dados.
+        /// </summary>
         protected async Task<List<ErrorResponse>> GetLocalizationErros(List<ErrorResponse> errorResponses)
         {
             if (errorResponses != null && errorResponses.Count > 0)

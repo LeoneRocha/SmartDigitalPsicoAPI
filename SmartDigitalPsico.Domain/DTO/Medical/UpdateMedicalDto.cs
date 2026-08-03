@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical
 {
+    /// <summary>
+    /// Classe responsável por UpdateMedicalDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class UpdateMedicalDto : ActionMedicalDtoBase, IEntityDto
     {
         #region Relationship        

@@ -1,8 +1,13 @@
-﻿using AutoMapper.Configuration.Annotations;
+using AutoMapper.Configuration.Annotations;
 using System.Text.Json.Serialization;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {
+    /// <summary>
+    /// Classe responsável por CalendarCriteriaDtoBase.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public abstract class CalendarCriteriaDtoBase
     {
         public long MedicalId { get; set; }

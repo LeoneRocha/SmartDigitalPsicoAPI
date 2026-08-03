@@ -15,8 +15,16 @@ using System.Globalization;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class ApplicationLanguageService : EntityBaseService<ApplicationLanguage, AddApplicationLanguageDto, UpdateApplicationLanguageDto, GetApplicationLanguageDto, IApplicationLanguageRepository>, IApplicationLanguageService
+    /// <summary>
+    /// Classe responsável por ApplicationLanguageService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
+    public class ApplicationLanguageService : EntityBaseService<ApplicationLanguage, GetApplicationLanguageDto>, IApplicationLanguageService
     {
+        /// <summary>
+        /// Método ApplicationLanguageService: executa a operação ApplicationLanguageService.
+        /// </summary>
         public ApplicationLanguageService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -26,6 +34,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ) : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<List<GetApplicationLanguageDto>>> FindAll()
         {
             string keyCache = "FindAll_GetApplicationLanguageVO";
@@ -77,7 +88,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 }
                 else
                 {
-                    var existLanguage = await _entityRepository.ExistLanguage(language, key, resourceKey);
+                    var existLanguage = await ((IApplicationLanguageRepository)_entityRepository).ExistLanguage(language, key, resourceKey);
                     if (existLanguage)
                     {
                         resultLocalization = await GetLanguageFromDataBase(key, resultLocalization, resourceKey, language);
@@ -98,7 +109,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         private async Task<string> GetLanguageFromDataBase(string key, string resultLocalization, string resourceKey, string language)
         {
-            var languageFindDB = await _entityRepository.Find(language, key, resourceKey);
+            var languageFindDB = await ((IApplicationLanguageRepository)_entityRepository).Find(language, key, resourceKey);
             if (languageFindDB != null)
             {
                 resultLocalization = languageFindDB.LanguageValue;
@@ -119,7 +130,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 defaultLanguage.ResourceKey = resourceKey;
 
 
-                var existLanguageDafault = await _entityRepository.ExistLanguage(defaultLanguage.Language, key, resourceKey);
+                var existLanguageDafault = await ((IApplicationLanguageRepository)_entityRepository).ExistLanguage(defaultLanguage.Language, key, resourceKey);
                 if (!existLanguageDafault)
                 {
                     await Save(defaultLanguage);
@@ -132,7 +143,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "GetLocalization: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "GetLocalization: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
 
             return resultLocalization;
@@ -143,7 +154,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             if (_cacheService.IsEnable()
                 && (!_cacheService.Exists<GetApplicationLanguageDto>(keyCache) || overWrite))
             {
-                var result = await _entityRepository.FindAll();
+                var result = await ((IApplicationLanguageRepository)_entityRepository).FindAll();
                 var data = result.Select(c => _mapper.Map<GetApplicationLanguageDto>(c)).ToList();
 
                 await CacheService.SaveDataToCache(keyCache, data, _cacheService);
@@ -151,6 +162,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
 
+        /// <summary>
+        /// Método RemoveCache: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task RemoveCache(string keyCache)
         {
             if (_cacheService.IsEnable())
@@ -161,6 +175,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         #endregion GetLocalization
 
 
+        /// <summary>
+        /// Método Save: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public virtual async Task Save(AddApplicationLanguageDto item)
         {
             ServiceResponse<GetApplicationLanguageDto> response = new ServiceResponse<GetApplicationLanguageDto>();
@@ -174,13 +191,13 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
                 if (response.Success)
                 {
-                    ApplicationLanguage entityResponse = await _entityRepository.Create(entityAdd);
+                    ApplicationLanguage entityResponse = await ((IApplicationLanguageRepository)_entityRepository).Create(entityAdd);
                     response.Data = _mapper.Map<GetApplicationLanguageDto>(entityResponse);
                 }
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Create: {Message} at: {time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
         }
 

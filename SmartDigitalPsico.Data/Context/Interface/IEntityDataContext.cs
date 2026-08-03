@@ -1,18 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure; 
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Data.Context.Interface
 {
+    /// <summary>
+    /// Interface (contrato) responsável por IEntityDataContext.
+    /// Responsabilidade: contexto EF Core / configuração de dados.
+    /// Relação: usado pelos repositórios da camada Data.
+    /// </summary>
     public interface IEntityDataContext : IDisposable
     {
         #region Common
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         DatabaseFacade Database { get; }
+        /// <summary>
+        /// Método Entry: executa a operação Entry.
+        /// </summary>
         EntityEntry Entry(object entity);
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        /// <summary>
+        /// Método SaveChanges: cria ou persiste um novo registro/recurso.
+        /// </summary>
         int SaveChanges();
+        /// <summary>
+        /// Método SaveChangesAsync: cria ou persiste um novo registro/recurso.
+        /// </summary>
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         #endregion Common
 
@@ -24,7 +39,6 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<AuditDataSelectiveEntityLog> AuditSelectiveLogs { get; set; }
         DbSet<Gender> Genders { get; set; }
         DbSet<InfoTag> InfoTags { get; set; }
-        DbSet<MedicalCalendar> MedicalCalendars { get; set; }
         DbSet<MedicalFile> MedicalFiles { get; set; }
         DbSet<Medical> Medicals { get; set; }
         DbSet<MedicalSpecialty> MedicalSpecialties { get; set; }
@@ -45,8 +59,8 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<RoleGroupUser> RoleGroupUsers { get; set; }
         DbSet<Specialty> Specialties { get; set; }
         DbSet<User> Users { get; set; }
-        DbSet<UserTokenSession> UserTokenSessions { get; set; } 
-        DbSet<ScheduleBatch> ScheduleBatchs { get; set; }
+        DbSet<UserTokenSession> UserTokenSessions { get; set; }
+        DbSet<ScheduleCalendar> ScheduleCalendars { get; set; }
 
         #endregion DbSets 
     }

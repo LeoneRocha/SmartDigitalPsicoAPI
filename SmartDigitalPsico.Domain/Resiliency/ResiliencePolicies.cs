@@ -1,10 +1,15 @@
-﻿using Polly;
+using Polly;
 using Polly.Retry;
 using SmartDigitalPsico.Domain.Interfaces;
 using System.Data;
 
 namespace SmartDigitalPsico.Domain.Resiliency
 {
+    /// <summary>
+    /// Classe responsável por ResiliencePolicies.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class ResiliencePolicies
     {
         public static AsyncRetryPolicy DefaultRetryPolicy => Policy
@@ -16,6 +21,9 @@ namespace SmartDigitalPsico.Domain.Resiliency
                     TimeSpan.FromSeconds(3)
             });
 
+        /// <summary>
+        /// Método CustomRetryPolicy: executa a operação CustomRetryPolicy.
+        /// </summary>
         public static IAsyncPolicy CustomRetryPolicy(IResiliencePolicyConfig policyConfig)
         {
             // Use default values if not specified in the configuration
@@ -25,6 +33,9 @@ namespace SmartDigitalPsico.Domain.Resiliency
             return CreateRetryPolicy(retryCount, retryDelayInSeconds);
         }
 
+        /// <summary>
+        /// Método CreateRetryPolicy: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static AsyncRetryPolicy CreateRetryPolicy(int retryCount, int retryDelayInSeconds)
         {
             return Policy
@@ -33,6 +44,9 @@ namespace SmartDigitalPsico.Domain.Resiliency
                     .Select(retryAttempt => TimeSpan.FromSeconds(retryDelayInSeconds * retryAttempt)));
         }
 
+        /// <summary>
+        /// Método GetPolicyFromConfig: consulta e retorna dados.
+        /// </summary>
         public static IAsyncPolicy GetPolicyFromConfig(IResiliencePolicyConfig policyConfig)
         {
             if (!string.IsNullOrEmpty(policyConfig.PolicyName))

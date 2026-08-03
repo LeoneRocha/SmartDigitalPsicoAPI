@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
@@ -8,10 +8,21 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
+    /// <summary>
+    /// Classe responsável por NotificationRuleConfiguration.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class NotificationRuleConfiguration : EntityBaseConfiguration<NotificationRule>
     {
+        /// <summary>
+        /// Método NotificationRuleConfiguration: executa a operação NotificationRuleConfiguration.
+        /// </summary>
         public NotificationRuleConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
 
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public override void Configure(EntityTypeBuilder<NotificationRule> builder)
         {
             builder.ToTable("NotificationRules", "dbo");

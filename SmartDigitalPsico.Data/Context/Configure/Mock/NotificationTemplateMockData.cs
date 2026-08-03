@@ -1,120 +1,93 @@
-﻿using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por NotificationTemplateMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class NotificationTemplateMockData
     {
+        /// <summary>
+        /// Método GetMocks: consulta e retorna dados.
+        /// </summary>
         public static NotificationTemplate[] GetMocks()
         {
             var mocksInitial = GetMockInitial().ToList();
             List<NotificationTemplate> notificationTemplates = new List<NotificationTemplate>();
-            notificationTemplates.AddRange(mocksInitial); 
+            notificationTemplates.AddRange(mocksInitial);
             return notificationTemplates.ToArray();
         }
+
+        /// <summary>
+        /// Método GetMockInitial: consulta e retorna dados.
+        /// </summary>
         public static NotificationTemplate[] GetMockInitial()
         {
-            return new NotificationTemplate[]
-            {
-                new NotificationTemplate
-                {
-                    Id = 1,
-                    Enable = true,
-                    Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
-                    Description = "Liberar Login",
-                    Subject = "Acesso Concedido",
-                    Body = "<p>Seu acesso foi concedido com sucesso.</p>",
-                    TagApi = EmailTemplateTagConstants.LoginReleaseEmail,
-                    NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = MockSeedDates.SeedUtc,
-                    ModifyDate = MockSeedDates.SeedUtc,
-                    LastAccessDate = MockSeedDates.SeedUtc
-                },
-                new NotificationTemplate
-                {
-                    Id = 2,
-                    Enable = true,
-                    Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
-                    Description = "Alteração de Conta Concluída",
-                    Subject = "Dados da Conta Atualizados",
-                    Body = "<p>Seus dados da conta foram atualizados com sucesso.</p>",
-                    TagApi = EmailTemplateTagConstants.AccountChangeSuccess,
-                    NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = MockSeedDates.SeedUtc,
-                    ModifyDate = MockSeedDates.SeedUtc,
-                    LastAccessDate = MockSeedDates.SeedUtc
-                },
-                new NotificationTemplate
-                {
-                    Id = 3,
-                    Enable = true,
-                    Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
-                    Description = "Consulta Agendada",
-                    Subject = "Sua Consulta Foi Agendada",
-                    Body = "<p>Sua consulta foi agendada com sucesso.</p>",
-                    TagApi = EmailTemplateTagConstants.AppointmentScheduledSuccess,
-                    NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = MockSeedDates.SeedUtc,
-                    ModifyDate = MockSeedDates.SeedUtc,
-                    LastAccessDate = MockSeedDates.SeedUtc
-                },
-                new NotificationTemplate
-                {
-                    Id = 4,
-                    Enable = true,
-                    Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
-                    Description = "Consulta Remarcada",
-                    Subject = "Sua Consulta Foi Remarcada",
-                    Body = "<p>Sua consulta foi remarcada com sucesso.</p>",
-                    TagApi = EmailTemplateTagConstants.AppointmentRescheduled,
-                    NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = MockSeedDates.SeedUtc,
-                    ModifyDate = MockSeedDates.SeedUtc,
-                    LastAccessDate = MockSeedDates.SeedUtc
-                },
-                new NotificationTemplate
-                {
-                    Id = 5,
-                    Enable = true,
-                    Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
-                    Description = "Consulta Cancelada",
-                    Subject = "Sua Consulta Foi Cancelada",
-                    Body = "<p>Sua consulta foi cancelada.</p>",
-                    TagApi = EmailTemplateTagConstants.AppointmentCancelled,
-                    NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = MockSeedDates.SeedUtc,
-                    ModifyDate = MockSeedDates.SeedUtc,
-                    LastAccessDate = MockSeedDates.SeedUtc
-                },
-                new NotificationTemplate
-                {
-                    Id = 6,
-                    Enable = true,
-                    Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
-                    Description = "Atualização de Cadastro Médico",
-                    Subject = "Dados Médicos Atualizados",
-                    Body = "<p>Seus dados médicos foram atualizados com sucesso.</p>",
-                    TagApi = EmailTemplateTagConstants.MedicalUpdateEmail,
-                    NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = MockSeedDates.SeedUtc,
-                    ModifyDate = MockSeedDates.SeedUtc,
-                    LastAccessDate = MockSeedDates.SeedUtc
-                },
-                new NotificationTemplate
-                {
-                    Id = 7,
-                    Enable = true,
-                    Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
-                    Description = "Lembrete de Consulta",
-                    Subject = "Lembrete de Consulta Agendada",
-                    Body = "<p>Este é um lembrete para sua consulta agendada.</p>",
-                    TagApi = EmailTemplateTagConstants.NotificationDispatch,
-                    NotificationTemplateType = ENotificationServiceType.Email,
-                    CreatedDate = MockSeedDates.SeedUtc,
-                    ModifyDate = MockSeedDates.SeedUtc,
-                    LastAccessDate = MockSeedDates.SeedUtc
-                }
-            };
+            return
+            [
+                Build(
+                    id: 1,
+                    description: "Liberar Login",
+                    subject: "Acesso Concedido",
+                    body: EmailTemplateBodyConstants.LoginReleaseEmail,
+                    templateKey: EmailTemplateTagConstants.LoginReleaseEmail),
+                Build(
+                    id: 2,
+                    description: "Alteração de Conta Concluída",
+                    subject: "Dados da Conta Atualizados",
+                    body: EmailTemplateBodyConstants.AccountChangeSuccess,
+                    templateKey: EmailTemplateTagConstants.AccountChangeSuccess),
+                Build(
+                    id: 3,
+                    description: "Consulta Agendada",
+                    subject: "Sua Consulta Foi Agendada",
+                    body: EmailTemplateBodyConstants.AppointmentScheduledSuccess,
+                    templateKey: EmailTemplateTagConstants.AppointmentScheduledSuccess),
+                Build(
+                    id: 4,
+                    description: "Consulta Remarcada",
+                    subject: "Sua Consulta Foi Remarcada",
+                    body: EmailTemplateBodyConstants.AppointmentRescheduled,
+                    templateKey: EmailTemplateTagConstants.AppointmentRescheduled),
+                Build(
+                    id: 5,
+                    description: "Consulta Cancelada",
+                    subject: "Sua Consulta Foi Cancelada",
+                    body: EmailTemplateBodyConstants.AppointmentCancelled,
+                    templateKey: EmailTemplateTagConstants.AppointmentCancelled),
+                Build(
+                    id: 6,
+                    description: "Atualização de Cadastro Médico",
+                    subject: "Dados Médicos Atualizados",
+                    body: EmailTemplateBodyConstants.MedicalUpdateEmail,
+                    templateKey: EmailTemplateTagConstants.MedicalUpdateEmail),
+                Build(
+                    id: 7,
+                    description: "Lembrete de Consulta",
+                    subject: "Lembrete de Consulta Agendada",
+                    body: EmailTemplateBodyConstants.NotificationDispatch,
+                    templateKey: EmailTemplateTagConstants.NotificationDispatch)
+            ];
         }
+
+        private static NotificationTemplate Build(long id, string description, string subject, string body, string templateKey)
+            => new()
+            {
+                Id = id,
+                Enable = true,
+                Language = EntityTypeConfigurationConstants.Language_Default_PTBR,
+                Description = description,
+                Subject = subject,
+                Body = body,
+                TemplateKey = templateKey,
+                NotificationTemplateType = ENotificationServiceType.Email,
+                CreatedDate = MockSeedDates.SeedUtc,
+                ModifyDate = MockSeedDates.SeedUtc,
+                LastAccessDate = MockSeedDates.SeedUtc
+            };
     }
 }

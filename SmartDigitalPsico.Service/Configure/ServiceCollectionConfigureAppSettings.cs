@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.DTO.Domains;
@@ -13,8 +13,16 @@ using SmartDigitalPsico.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Service.Configure
 {
+    /// <summary>
+    /// Classe responsável por ServiceCollectionConfigureAppSettings.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
+    /// </summary>
     public static class ServiceCollectionConfigureAppSettings
     {
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public static void Configure(IServiceCollection services, IConfiguration _configuration)
         {  
             addSmtpConfig(services, _configuration);
@@ -44,6 +52,9 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddSingleton<ISmtpSettingsDto>(smtpSettings);
         }
 
+        /// <summary>
+        /// Método AddAndReturnTokenConfiguration: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static TokenConfigurationDto AddAndReturnTokenConfiguration(IServiceCollection services, IConfiguration _configuration)
         {  
             var configValue = ConfigurationAppSettingsHelper.GetTokenConfigurations(_configuration);
@@ -81,6 +92,9 @@ namespace SmartDigitalPsico.Service.Configure
             services.AddSingleton<ILocationSaveFileConfigurationDto>(locationSaveFileConfigurationVO);
         } 
 
+        /// <summary>
+        /// Método AddAndReturnTypeDataBase: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static ETypeDataBase AddAndReturnTypeDataBase(IConfiguration configuration)
         {
             DataBaseConfigurationDto configDB = new DataBaseConfigurationDto();

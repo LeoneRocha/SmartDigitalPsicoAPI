@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.DTO.Contracts;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.PatientMedicationInformation
 {
+    /// <summary>
+    /// Classe responsável por UpdatePatientMedicationInformationDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class UpdatePatientMedicationInformationDto : EntityDtoBase
     {
         #region Columns 

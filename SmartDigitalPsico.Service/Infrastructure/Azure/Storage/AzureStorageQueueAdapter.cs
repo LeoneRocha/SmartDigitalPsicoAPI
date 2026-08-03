@@ -1,4 +1,4 @@
-﻿using Azure.Storage.Queues;
+using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Helpers;
@@ -6,10 +6,18 @@ using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 {
+    /// <summary>
+    /// Classe responsável por AzureStorageQueueAdapter.
+    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
+    /// Relação: suporta Services e jobs de background.
+    /// </summary>
     public class AzureStorageQueueAdapter : IStorageQueueContract
     {
         private readonly QueueClient? _queueClient; 
 
+        /// <summary>
+        /// Método AzureStorageQueueAdapter: executa a operação AzureStorageQueueAdapter.
+        /// </summary>
         public AzureStorageQueueAdapter(IConfiguration configuration, string queueName)
         { 
             string conBSC = ConfigurationAppSettingsHelper.GetStorageServicesAzureStorageConnectionString(configuration);
@@ -19,6 +27,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
                 _queueClient.CreateIfNotExists();
             }
         } 
+        /// <summary>
+        /// Método EnqueueMessageAsync: executa a operação EnqueueMessageAsync.
+        /// </summary>
         public async Task EnqueueMessageAsync(string message)
         {
             if (_queueClient == null)
@@ -28,6 +39,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             await _queueClient.SendMessageAsync(message);
         }
 
+        /// <summary>
+        /// Método DequeueMessageAsync: executa a operação DequeueMessageAsync.
+        /// </summary>
         public async Task<string> DequeueMessageAsync()
         {
             if (_queueClient == null)
@@ -42,6 +56,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             return retrievedMessage[0].MessageText;
         }
 
+        /// <summary>
+        /// Método DeleteMessageAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task DeleteMessageAsync(string messageId, string popReceipt)
         {
             if (_queueClient == null)

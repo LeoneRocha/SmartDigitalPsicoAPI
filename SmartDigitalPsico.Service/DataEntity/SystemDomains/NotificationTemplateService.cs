@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
@@ -11,11 +11,21 @@ using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.Globalization;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por NotificationTemplateService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class NotificationTemplateService
-      : EntityBaseService<Domain.ModelEntity.NotificationTemplate, AddNotificationTemplateDto, UpdateNotificationTemplateDto, GetNotificationTemplateDto, INotificationTemplateRepository>, INotificationTemplateService
+      : EntityBaseService<Domain.ModelEntity.NotificationTemplate, GetNotificationTemplateDto>, INotificationTemplateService
     {
+        /// <summary>
+        /// Método NotificationTemplateService: executa a operação NotificationTemplateService.
+        /// </summary>
         public NotificationTemplateService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -28,26 +38,37 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
 
         }
-        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(UpdateNotificationTemplateDto item)
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(IEntityDto item)
         {
-            item.Body = HtmlSanitizerHelper.Sanitize(item.Body);
+            var dto = (UpdateNotificationTemplateDto)item;
+            dto.Body = HtmlSanitizerHelper.Sanitize(dto.Body);
 
-            return await base.Update(item);
+            return await base.Update(dto);
         }
-        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(AddNotificationTemplateDto item)
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(IEntityDtoAdd item)
         {
-            item.Body = HtmlSanitizerHelper.Sanitize(item.Body);
-            return await base.Create(item);
+            var dto = (AddNotificationTemplateDto)item;
+            dto.Body = HtmlSanitizerHelper.Sanitize(dto.Body);
+            return await base.Create(dto);
         }
 
-        public async Task<ServiceResponse<GetNotificationTemplateDto>> GetNotificationTemplatesAsync(string tagApi)
+        /// <summary>
+        /// Método GetNotificationTemplatesAsync: consulta e retorna dados.
+        /// </summary>
+        public async Task<ServiceResponse<GetNotificationTemplateDto>> GetNotificationTemplatesAsync(string templateKey)
         {
             ServiceResponse<GetNotificationTemplateDto> response = new ServiceResponse<GetNotificationTemplateDto>();
 
             var culturenameCurrent = CultureInfo.CurrentCulture;
             string language = culturenameCurrent.Name;
 
-            Domain.ModelEntity.NotificationTemplate entityResponse = await _entityRepository.GetNotificationTemplateAsync(tagApi, language);
+            Domain.ModelEntity.NotificationTemplate? entityResponse = await ((INotificationTemplateRepository)_entityRepository).GetNotificationTemplateAsync(templateKey, language);
 
             if (entityResponse != null)
             {

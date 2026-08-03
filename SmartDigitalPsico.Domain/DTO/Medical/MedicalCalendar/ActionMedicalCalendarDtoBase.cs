@@ -1,8 +1,13 @@
-﻿using SmartDigitalPsico.Domain.DTO.Contracts;
+using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 {
+    /// <summary>
+    /// Classe responsável por ActionMedicalCalendarDtoBase.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public abstract class ActionMedicalCalendarDtoBase : GetMedicalCalendarDtoBase
     {
         #region Relationship 
@@ -16,6 +21,11 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
         #endregion Columns  
     }
 
+    /// <summary>
+    /// Classe responsável por GetMedicalCalendarDtoBase.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public abstract class GetMedicalCalendarDtoBase : EntityDtoBase
     { 
         #region Columns  

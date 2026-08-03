@@ -1,8 +1,13 @@
-﻿using SmartDigitalPsico.Domain.DTO.Report.Contracts;
+using SmartDigitalPsico.Domain.DTO.Report.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Report
 {
+    /// <summary>
+    /// Classe responsável por ReportPageDataDto.
+    /// Responsabilidade: geração de relatórios.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class ReportPageDataDto : ReportDataBaseDto
     {
         public EReportPageType PageType { get; set; }

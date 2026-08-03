@@ -3,6 +3,11 @@ using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 
 namespace SmartDigitalPsico.WindowsService
 {
+    /// <summary>
+    /// Classe responsável por Worker.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class Worker : BackgroundService
     {
         private const string SystemName = "SmartDigitalPsico.WindowsService";
@@ -10,14 +15,20 @@ namespace SmartDigitalPsico.WindowsService
         private readonly IServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Método Worker: executa a operação Worker.
+        /// </summary>
         public Worker(Serilog.ILogger logger, IConfiguration configuration, IServiceProvider serviceProvider)
         {
-            // Caso o logger seja nulo, crie um novo a partir da configura��o
+            // Caso o logger seja nulo, cria a partir da configuração
             _logger = logger ?? LogAppHelper.CreateLogger(configuration);
             _configuration = configuration;
             _serviceProvider = serviceProvider;
         }
 
+        /// <summary>
+        /// Método StartAsync: executa a operação StartAsync.
+        /// </summary>
         public override Task StartAsync(CancellationToken cancellationToken)
         {
             LogAppHelper.LogInfo(_logger, "Service [START] -> {SystemName} - StartAsync", SystemName);
@@ -25,16 +36,21 @@ namespace SmartDigitalPsico.WindowsService
             return base.StartAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Método StopAsync: executa a operação StopAsync.
+        /// </summary>
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             LogAppHelper.LogInfo(_logger, "Service [STOP] -> {SystemName} - StopAsync", SystemName);
             return base.StopAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Método ExecuteAsync: executa a operação ExecuteAsync.
+        /// </summary>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            // Utiliza o m�todo GetValue para obter o delay configurado com um valor default de 1 minuto
-            int minutesDelay = _configuration.GetValue("TaskDelayMinutes", 1);
+            var minutesDelay = _configuration.GetValue("TaskDelayMinutes", 1);
             while (!stoppingToken.IsCancellationRequested)
             {
                 LogAppHelper.LogInfo(_logger, "Worker running at: {Time}", DateHelper.GetDateTimeNowToLog());
@@ -50,7 +66,7 @@ namespace SmartDigitalPsico.WindowsService
                 {
                     LogAppHelper.LogError(_logger, ex, "ExecuteAsync Error: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
                 }
-                // Aguarda o intervalo configurado (em minutos)
+
                 await Task.Delay(TimeSpan.FromMinutes(minutesDelay), stoppingToken);
             }
         }

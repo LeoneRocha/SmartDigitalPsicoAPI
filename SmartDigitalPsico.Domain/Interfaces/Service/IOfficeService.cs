@@ -5,7 +5,12 @@ using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IOfficeService : IEntityBaseService<Office, AddOfficeDto, UpdateOfficeDto, GetOfficeDto>
+    /// <summary>
+    /// Interface (contrato) responsável por IOfficeService.
+    /// Responsabilidade: contrato de serviço de negócio.
+    /// Relação: implementado na camada Service e consumido pelos Controllers.
+    /// </summary>
+    public interface IOfficeService : IEntityBaseService<Office, GetOfficeDto>
     {
 
     }

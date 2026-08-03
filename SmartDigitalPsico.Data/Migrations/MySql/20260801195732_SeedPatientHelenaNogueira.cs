@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -8,9 +8,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SmartDigitalPsico.Data.Migrations.MySql
 {
     /// <inheritdoc />
+    /// <summary>
+    /// Classe responsável por SeedPatientHelenaNogueira.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public partial class SeedPatientHelenaNogueira : Migration
     {
         /// <inheritdoc />
+        /// <summary>
+        /// Método Up: executa a operação Up.
+        /// </summary>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.InsertData(
@@ -98,6 +106,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
         }
 
         /// <inheritdoc />
+        /// <summary>
+        /// Método Down: executa a operação Down.
+        /// </summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DeleteData(

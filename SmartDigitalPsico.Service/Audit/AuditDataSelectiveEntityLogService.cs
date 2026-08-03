@@ -10,13 +10,23 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por AuditDataSelectiveEntityLogService.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class AuditDataSelectiveEntityLogService
-        : EntityBaseService<AuditDataSelectiveEntityLog, AddAuditDataSelectiveEntityLogDto, UpdateAuditDataSelectiveEntityLogDto, GetAuditDataSelectiveEntityLogDto, IAuditDataSelectiveEntityLogRepository>, IAuditDataSelectiveEntityLogService
+        : EntityBaseService<AuditDataSelectiveEntityLog, GetAuditDataSelectiveEntityLogDto>, IAuditDataSelectiveEntityLogService
     {
         private readonly ISharedDependenciesConfig _sharedDependenciesConfig;
 
+        /// <summary>
+        /// Método AuditDataSelectiveEntityLogService: executa a operação AuditDataSelectiveEntityLogService.
+        /// </summary>
         public AuditDataSelectiveEntityLogService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -29,11 +39,17 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             _sharedDependenciesConfig = sharedDependenciesConfig;
         }
-        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(AddAuditDataSelectiveEntityLogDto item)
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
+        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(IEntityDtoAdd item)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Método Save: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task Save(object entryOld, object entryNew, string operation, string[] propertiesToIgnore)
         {
             AddAuditDataSelectiveEntityLogDto? auditEntry = null;

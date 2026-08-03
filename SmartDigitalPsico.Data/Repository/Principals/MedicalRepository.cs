@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -6,16 +6,30 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
+    /// <summary>
+    /// Classe responsável por MedicalRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class MedicalRepository : GenericRepositoryEntityBase<Medical>, IMedicalRepository
     {
+        /// <summary>
+        /// Método MedicalRepository: executa a operação MedicalRepository.
+        /// </summary>
         public MedicalRepository(IEntityDataContext context) : base(context) { }
 
+        /// <summary>
+        /// Método Exists: valida regras ou verifica existência.
+        /// </summary>
         public async Task<bool> Exists(string accreditation)
         {
             return await _dataset
                 .AsNoTracking()
                 .AnyAsync(x => x.Accreditation.ToLower().Equals(accreditation.ToLower()));
         }
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async override Task<Medical> FindByID(long id)
         {
             return await _dataset
@@ -26,6 +40,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async override Task<List<Medical>> FindAll()
         {
             return await _dataset
@@ -38,6 +55,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Método FindByEmail: consulta e retorna dados.
+        /// </summary>
         public async Task<Medical?> FindByEmail(string email)
         {
             var normalizedEmail = email.ToLower();
@@ -49,6 +69,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 
             return entityResult;
         }
+        /// <summary>
+        /// Método FindByAccreditation: consulta e retorna dados.
+        /// </summary>
         public async Task<Medical?> FindByAccreditation(string accreditation)
         {
             var normalizedAccreditation = accreditation.ToLower();

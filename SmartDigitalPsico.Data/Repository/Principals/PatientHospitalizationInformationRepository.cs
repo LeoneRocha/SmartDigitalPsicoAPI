@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -6,10 +6,21 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientHospitalizationInformationRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class PatientHospitalizationInformationRepository : GenericRepositoryEntityBase<PatientHospitalizationInformation>, IPatientHospitalizationInformationRepository
     {
+        /// <summary>
+        /// Método PatientHospitalizationInformationRepository: executa a operação PatientHospitalizationInformationRepository.
+        /// </summary>
         public PatientHospitalizationInformationRepository(IEntityDataContext context) : base(context) { }
 
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<List<PatientHospitalizationInformation>> FindAllByPatient(long patientId)
         {
 #pragma warning disable CS8602 
@@ -25,6 +36,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         }
 
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async override Task<PatientHospitalizationInformation> FindByID(long id)
         {
 #pragma warning disable CS8602

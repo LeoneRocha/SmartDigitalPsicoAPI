@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
@@ -45,14 +45,14 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var listCount = listResult.Count;
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<ApplicationCacheLog>>());
                 Assert.That(listResult, Has.Count.EqualTo(1));
                 Assert.That(listCount, Is.EqualTo(1));
                 Assert.That(mockDataList, Has.Count.EqualTo(1));
-            });
+            }
         }
 
         [Test]
@@ -77,11 +77,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var target = await _mockContext.ApplicationCacheLogs.FirstOrDefaultAsync(x => x.CacheKey.Equals(existingEnity.CacheKey, StringComparison.OrdinalIgnoreCase));
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.True);
                 Assert.That(target, Is.Null);
-            });
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -6,6 +6,11 @@ using SmartDigitalPsico.Domain.Validation.DTO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Collection
 {
+    /// <summary>
+    /// Interface (contrato) responsável por IMedicalCalendarValidators.
+    /// Responsabilidade: contrato de abstração do domínio.
+    /// Relação: implementado nas camadas Data/Service.
+    /// </summary>
     public interface IMedicalCalendarValidators
     {
         IValidator<MedicalCalendar> EntityValidator { get; }

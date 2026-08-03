@@ -1,21 +1,32 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Validation;
 
 namespace SmartDigitalPsico.Domain.Validation.Base
 {
+    /// <summary>
+    /// Classe responsável por PatientBaseValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public class PatientBaseValidator<T> : AbstractValidator<T>, IPatientBaseValidator<T> where T : IEntityPatientBase, IEntityBase
     {
         protected readonly IPatientRepository _patientRepository;
         protected readonly IEntityBaseRepository<T> _entityRepository;
 
+        /// <summary>
+        /// Método PatientBaseValidator: executa a operação PatientBaseValidator.
+        /// </summary>
         public PatientBaseValidator(IPatientRepository patientRepository, IEntityBaseRepository<T> entityRepository)
         {
             _patientRepository = patientRepository;
             _entityRepository = entityRepository;
         }
 
+        /// <summary>
+        /// Método PatientIdChanged: executa a operação PatientIdChanged.
+        /// </summary>
         public virtual async Task<bool> PatientIdChanged(T entity)
         {
             try
@@ -36,12 +47,18 @@ namespace SmartDigitalPsico.Domain.Validation.Base
             return true;
         }
 
+        /// <summary>
+        /// Método PatientIdFound: executa a operação PatientIdFound.
+        /// </summary>
         public virtual async Task<bool> PatientIdFound(T entity)
         {
             bool result = await _patientRepository.Exists(entity.PatientId);
             return result;
         }
 
+        /// <summary>
+        /// Método MedicalCreated: executa a operação MedicalCreated.
+        /// </summary>
         public virtual async Task<bool> MedicalCreated(T entity, long? createdUserId)
         {
             long idUser = createdUserId.GetValueOrDefault();
@@ -60,6 +77,9 @@ namespace SmartDigitalPsico.Domain.Validation.Base
             return true;
         }
 
+        /// <summary>
+        /// Método MedicalModify: executa a operação MedicalModify.
+        /// </summary>
         public virtual async Task<bool> MedicalModify(T entity, long? modifyUserId)
         {
             long idUser = modifyUserId.GetValueOrDefault();

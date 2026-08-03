@@ -3,6 +3,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por PatientFileMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class PatientFileMockData
     {
         private static readonly DateTime SeedDate = new(2025, 3, 4, 12, 0, 0, DateTimeKind.Utc);
@@ -14,6 +19,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             ("Documento de identificação", "identificacao.png", "png", "image/png", 85)
         ];
 
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
         public static PatientFile[] GetMock()
         {
             var patients = PatientMockData.GetMock();

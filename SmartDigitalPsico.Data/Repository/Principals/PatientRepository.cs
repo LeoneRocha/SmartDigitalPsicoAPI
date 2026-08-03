@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.DTO.Patient;
@@ -8,8 +8,16 @@ using System.Linq;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class PatientRepository : GenericRepositoryEntityBase<Patient>, IPatientRepository
     {
+        /// <summary>
+        /// Método PatientRepository: executa a operação PatientRepository.
+        /// </summary>
         public PatientRepository(IEntityDataContext context) : base(context) { }
 
         /// <summary>
@@ -17,6 +25,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         /// </summary>
         /// <param name="patient"></param>
         /// <returns></returns>
+        /// <summary>
+        /// Método FindByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<Patient> FindByPatient(Patient patient)
         {
             return await _dataset
@@ -28,6 +39,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             );
         }
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async override Task<Patient> FindByID(long id)
         {
 #pragma warning disable CS8602
@@ -40,6 +54,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
         }
+        /// <summary>
+        /// Método FindByEmail: consulta e retorna dados.
+        /// </summary>
         public async Task<Patient?> FindByEmail(string email)
         {
             Patient? entityResult = await _dataset
@@ -49,6 +66,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return entityResult;
         }
 
+        /// <summary>
+        /// Método FindAllByMedicalId: consulta e retorna dados.
+        /// </summary>
         public async Task<List<Patient>> FindAllByMedicalId(long medicalId)
         {
 #pragma warning disable CS8602
@@ -62,10 +82,14 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                .ToListAsync();
 #pragma warning restore CS8602
         }
+        /// <summary>
+        /// Método GetPatientDetailsByIdAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<Patient> GetPatientDetailsByIdAsync(long id)
         {
             Patient entityResponse = await _dataset
                 .AsNoTracking()
+                .AsSplitQuery()
                 .Include(p => p.Medical)
                 .ThenInclude(e => e!.User)
                 .Include(p => p.CreatedUser)
@@ -80,6 +104,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
             return entityResponse;
         }
 
+        /// <summary>
+        /// Método PatientSearch: executa a operação PatientSearch.
+        /// </summary>
         public async Task<List<Patient>> PatientSearch(PatientSearchCriteriaDto patientSearchCriteriaDto)
         {
 #pragma warning disable CS8602

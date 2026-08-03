@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SmartDigitalPsico.Domain.DTO.Security;
@@ -6,8 +6,16 @@ using System.Text;
 
 namespace SmartDigitalPsico.Service.Configure
 {
+    /// <summary>
+    /// Classe responsável por ServiceCollectionConfigureSecurity.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
+    /// </summary>
     public static class ServiceCollectionConfigureSecurity
     {
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public static void Configure(IServiceCollection services, TokenConfigurationDto tokenConfigurations)
         {
             addSecurity(services, tokenConfigurations);

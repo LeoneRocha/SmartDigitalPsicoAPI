@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
@@ -8,9 +8,20 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
 {
+    /// <summary>
+    /// Classe responsável por NotificationTemplateConfiguration.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class NotificationTemplateConfiguration : EntityBaseConfiguration<NotificationTemplate>
     {
+        /// <summary>
+        /// Método NotificationTemplateConfiguration: executa a operação NotificationTemplateConfiguration.
+        /// </summary>
         public NotificationTemplateConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public override void Configure(EntityTypeBuilder<NotificationTemplate> builder)
         {
             builder.ToTable("NotificationTemplate", "dbo");
@@ -22,7 +33,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(c => c.Enable);
             builder.Property(c => c.Description).HasMaxLength(255);
             builder.Property(c => c.Language).HasMaxLength(10);
-            builder.Property(c => c.TagApi).HasMaxLength(255);
+            builder.Property(c => c.TemplateKey).HasMaxLength(255);
             builder.Property(e => e.Subject)
                 .IsRequired()
                 .HasMaxLength(200);
@@ -35,13 +46,13 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
 
             // Indexes (using Fluent API)
             builder.HasIndex(c => c.Language).HasDatabaseName("IX_NotificationTemplate_Language");
-            builder.HasIndex(c => c.TagApi).HasDatabaseName("IX_NotificationTemplate_TagApi");
+            builder.HasIndex(c => c.TemplateKey).HasDatabaseName("IX_NotificationTemplate_TemplateKey");
 
-            builder.HasIndex(c => new { c.Language, c.TagApi })
-                .IsUnique() 
-                .HasDatabaseName("IX_NotificationTemplate_Language_TagApi_Unique");
+            builder.HasIndex(c => new { c.Language, c.TemplateKey })
+                .IsUnique()
+                .HasDatabaseName("IX_NotificationTemplate_Language_TemplateKey_Unique");
 
-            builder.HasIndex(c => new { c.Language, c.TagApi, c.Enable }).HasDatabaseName("IX_NotificationTemplate_Language_TagApi_Enable");
+            builder.HasIndex(c => new { c.Language, c.TemplateKey, c.Enable }).HasDatabaseName("IX_NotificationTemplate_Language_TemplateKey_Enable");
 
             // Seed data
             builder.HasData(NotificationTemplateMockData.GetMocks());

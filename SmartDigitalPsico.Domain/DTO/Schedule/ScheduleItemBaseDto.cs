@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Schedule
 {
+    /// <summary>
+    /// Classe responsável por ScheduleItemBaseDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class ScheduleItemBaseDto
     {
         public string Title { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-﻿using Azure.Data.Tables;
+using Azure.Data.Tables;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
@@ -6,9 +6,17 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 {
+    /// <summary>
+    /// Classe responsável por AzureStorageTableAdapter.
+    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
+    /// Relação: suporta Services e jobs de background.
+    /// </summary>
     public class AzureStorageTableAdapter<T> : IStorageTableContract<T> where T : BaseEntityTable, new()
     {
         private readonly TableClient? _tableClient;
+        /// <summary>
+        /// Método AzureStorageTableAdapter: executa a operação AzureStorageTableAdapter.
+        /// </summary>
         public AzureStorageTableAdapter(IConfiguration configuration, string tableName)
         {
             string storageConnectionString = ConfigurationAppSettingsHelper.GetStorageServicesAzureStorageConnectionString(configuration);
@@ -21,6 +29,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             }
         }
 
+        /// <summary>
+        /// Método GetAllAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var entities = new List<T>();
@@ -37,6 +48,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             return entities;
         }
 
+        /// <summary>
+        /// Método GetByIdAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<T> GetByIdAsync(string partitionKey, string rowKey)
         {
             if (_tableClient == null)
@@ -54,6 +68,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             }
         }
 
+        /// <summary>
+        /// Método InsertAsync: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task InsertAsync(T entity)
         {
             if (_tableClient == null)
@@ -63,6 +80,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             await _tableClient.AddEntityAsync(entity);
         }
 
+        /// <summary>
+        /// Método UpdateAsync: atualiza um registro/recurso existente.
+        /// </summary>
         public async Task UpdateAsync(T entity)
         {
             if (_tableClient == null)
@@ -72,6 +92,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             await _tableClient.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Replace);
         }
 
+        /// <summary>
+        /// Método DeleteAsync: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task DeleteAsync(string partitionKey, string rowKey)
         {
             if (_tableClient == null)

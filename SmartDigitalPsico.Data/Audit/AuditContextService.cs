@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Caching.Memory;
 using SmartDigitalPsico.Data.Audit.Interface;
@@ -8,13 +8,24 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit
 {
+    /// <summary>
+    /// Classe responsável por AuditContextService.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class AuditContextService : IAuditContextService
     {
         private readonly IMemoryCacheRepository _memoryCacheRepository;
+        /// <summary>
+        /// Método AuditContextService: executa a operação AuditContextService.
+        /// </summary>
         public AuditContextService(IMemoryCacheRepository memoryCacheRepository)
         {
             _memoryCacheRepository = memoryCacheRepository;
         }
+        /// <summary>
+        /// Método OnBeforeSaveChanges: executa a operação OnBeforeSaveChanges.
+        /// </summary>
         public List<AuditDataEntityLog> OnBeforeSaveChanges(DbContext context)
         {
             var auditEntries = new List<AuditDataEntityLog>();
@@ -28,6 +39,9 @@ namespace SmartDigitalPsico.Data.Audit
             }
             return auditEntries;
         }
+        /// <summary>
+        /// Método GetExistingEntries: consulta e retorna dados.
+        /// </summary>
         public List<AuditDataEntityLog> GetExistingEntries(DbContext context, List<AuditDataEntityLog> auditEntriesInput)
         {
             var dtUtcNow = DateHelper.GetDateTimeNowFromUtc();
@@ -44,6 +58,9 @@ namespace SmartDigitalPsico.Data.Audit
                 .ToList();
             return existingEntries;
         }
+        /// <summary>
+        /// Método GetNewEntries: consulta e retorna dados.
+        /// </summary>
         public List<AuditDataEntityLog> GetNewEntries(DbContext context, List<AuditDataEntityLog> auditEntriesInput)
         {
             var existingEntries = handleMemoryIfNotExists(auditEntriesInput);
@@ -124,19 +141,39 @@ namespace SmartDigitalPsico.Data.Audit
 
             return PrimaryKeyValues[0].CurrentValue?.ToString() ?? string.Empty;
         }
+        private const int AuditValuesMaxLength = 8000;
+        private static readonly HashSet<string> LargeJsonProperties = new(StringComparer.Ordinal)
+        {
+            "ScheduleData"
+        };
+
         private static string SerializeOriginalValues(EntityEntry entry)
         {
             var originalValues = entry.OriginalValues.Properties
-                .ToDictionary(p => p.Name, p => entry.OriginalValues[p]);
+                .ToDictionary(p => p.Name, p => SanitizeAuditValue(p.Name, entry.OriginalValues[p]));
 
-            return AuditLogHelper.SerializeObject(originalValues);
+            return TruncateAuditJson(AuditLogHelper.SerializeObject(originalValues));
         }
         private static string SerializeCurrentValues(EntityEntry entry)
         {
             var currentValues = entry.CurrentValues.Properties
-                .ToDictionary(p => p.Name, p => entry.CurrentValues[p]);
+                .ToDictionary(p => p.Name, p => SanitizeAuditValue(p.Name, entry.CurrentValues[p]));
 
-            return AuditLogHelper.SerializeObject(currentValues);
+            return TruncateAuditJson(AuditLogHelper.SerializeObject(currentValues));
+        }
+
+        private static object? SanitizeAuditValue(string propertyName, object? value)
+        {
+            if (LargeJsonProperties.Contains(propertyName) && value != null)
+                return "[omitted]";
+            return value;
+        }
+
+        private static string TruncateAuditJson(string json)
+        {
+            if (string.IsNullOrEmpty(json) || json.Length <= AuditValuesMaxLength)
+                return json;
+            return json[..(AuditValuesMaxLength - 3)] + "...";
         }
         private static (long?, string) GetCurrentUserId(EntityEntry entry)
         {

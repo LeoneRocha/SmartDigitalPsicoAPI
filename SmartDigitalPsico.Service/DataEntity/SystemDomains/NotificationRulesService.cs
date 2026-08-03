@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
@@ -11,9 +11,17 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por NotificationRulesService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class NotificationRulesService
-      : EntityBaseService<NotificationRule, AddNotificationRulesDto, UpdateNotificationRulesDto, GetNotificationRulesDto, INotificationRulesRepository>, INotificationRulesService
+      : EntityBaseService<NotificationRule, GetNotificationRulesDto>, INotificationRulesService
     {
+        /// <summary>
+        /// Método NotificationRulesService: executa a operação NotificationRulesService.
+        /// </summary>
         public NotificationRulesService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -25,9 +33,12 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         { 
         } 
+        /// <summary>
+        /// Método GetNotificationRulesAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<NotificationRule[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId)
         { 
-            return await _entityRepository.GetNotificationRulesAsync(notificationType, isEnabled, medicalId);
+            return await ((INotificationRulesRepository)_entityRepository).GetNotificationRulesAsync(notificationType, isEnabled, medicalId);
         }
     }
 }

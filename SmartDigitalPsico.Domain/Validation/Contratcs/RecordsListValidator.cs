@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -6,19 +6,31 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Validation.Contratcs
 {
+    /// <summary>
+    /// Classe responsável por RecordsListValidator.
+    /// Responsabilidade: validador FluentValidation de regras de negócio.
+    /// Relação: invocado pelos Services antes da persistência.
+    /// </summary>
     public abstract class RecordsListValidator<T> : AbstractValidator<RecordsList<T>> where T : IEntityBaseLogUser
     {
         protected readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método RecordsListValidator: executa a operação RecordsListValidator.
+        /// </summary>
         protected RecordsListValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
 
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
+                .WithErrorCode("SmartDigitalPsico.RecordsListValidator.Entity.UserIdLogged.Must")
                 .WithMessage("ErrorValidator_User_Not_Permission|User does not have permission.");
         }
 
+        /// <summary>
+        /// Método HasPermissionAsync: executa a operação HasPermissionAsync.
+        /// </summary>
         protected virtual async Task<bool> HasPermissionAsync(RecordsList<T> recordsList, long userIdLogged, CancellationToken cancellationToken)
         {
             try

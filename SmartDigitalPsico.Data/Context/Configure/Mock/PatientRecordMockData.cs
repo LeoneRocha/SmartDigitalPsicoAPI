@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por PatientRecordMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class PatientRecordMockData
     {
         private static readonly DateTime SeedDate = new(2025, 3, 4, 12, 0, 0, DateTimeKind.Utc);
@@ -13,6 +18,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             ("Avaliação diagnóstica", "Sinais compatíveis com TDAH adulto. Encaminhado para avaliação complementar.", new DateTime(2025, 1, 18, 11, 0, 0, DateTimeKind.Utc))
         ];
 
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
         public static PatientRecord[] GetMock()
         {
             var patients = PatientMockData.GetMock();

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
@@ -18,8 +18,13 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.Report.Entity
 {
+    /// <summary>
+    /// Classe responsável por PatientReportService.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class PatientReportService
-       : EntityBaseService<PatientRecord, AddPatientRecordDto, UpdatePatientRecordDto, GetPatientRecordDto, IPatientRecordRepository>, IPatientReportService
+       : EntityBaseService<PatientRecord, GetPatientRecordDto>, IPatientReportService
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;
@@ -27,6 +32,9 @@ namespace SmartDigitalPsico.Service.Report.Entity
         private readonly IReportServiceConfig _reportServiceConfig;
         private readonly IPatientRecordServiceConfig _config;
 
+        /// <summary>
+        /// Método PatientReportService: executa a operação PatientReportService.
+        /// </summary>
         public PatientReportService(IPatientRepositories repositories, IPatientRecordServiceConfig config, IReportServiceConfig reportServiceConfig)
         : base(
               config.SharedServices,
@@ -41,6 +49,9 @@ namespace SmartDigitalPsico.Service.Report.Entity
             _reportServiceConfig = reportServiceConfig;
             _config = config;
         }
+        /// <summary>
+        /// Método GetPatientDetailsByIdAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<PatientDetailReportDto>> GetPatientDetailsByIdAsync(long id)
         {
             ServiceResponse<PatientDetailReportDto> response = new ServiceResponse<PatientDetailReportDto>();
@@ -155,6 +166,9 @@ namespace SmartDigitalPsico.Service.Report.Entity
             return (result, reportExcel.FileName);
         }
 
+        /// <summary>
+        /// Método DownloadReportPatientDetailsById: executa a operação DownloadReportPatientDetailsById.
+        /// </summary>
         public async Task<FileContentResult> DownloadReportPatientDetailsById(long id, EReportOutputType eReportOutputType)
         {
             ServiceResponse<PatientDetailReportDto> responseData = await GetPatientDetailsByIdAsync(id);

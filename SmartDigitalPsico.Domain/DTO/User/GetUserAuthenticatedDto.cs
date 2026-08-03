@@ -4,8 +4,16 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.DTO.User
 {
+    /// <summary>
+    /// Classe responsável por GetUserAuthenticatedDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class GetUserAuthenticatedDto : EntityDtoBase
     {
+        /// <summary>
+        /// Método GetUserAuthenticatedDto: consulta e retorna dados.
+        /// </summary>
         public GetUserAuthenticatedDto()
         {
             TokenAuth = new TokenVO();

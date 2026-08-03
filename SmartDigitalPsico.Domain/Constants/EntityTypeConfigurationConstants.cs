@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.Constants
 {
+    /// <summary>
+    /// Classe responsável por EntityTypeConfigurationConstants.
+    /// Responsabilidade: constantes compartilhadas do sistema.
+    /// Relação: referenciado por Domain, Service e WebAPI.
+    /// </summary>
     public static class EntityTypeConfigurationConstants
     { 
         public const string Type_Varchar_255 = "varchar(255)";
@@ -15,6 +20,9 @@ namespace SmartDigitalPsico.Domain.Constants
 
         public const string ApplicationLanguage_ResourceKey_Default = "SharedResource";
 
+        /// <summary>
+        /// Método GetTypeTextByTypeDataBase: consulta e retorna dados.
+        /// </summary>
         public static string GetTypeTextByTypeDataBase(ETypeDataBase eTypeDataBase)
         {
             switch (eTypeDataBase)
@@ -32,6 +40,9 @@ namespace SmartDigitalPsico.Domain.Constants
             }
         }
 
+        /// <summary>
+        /// Método GetMaxLengthByTypeDataBase: consulta e retorna dados.
+        /// </summary>
         public static int GetMaxLengthByTypeDataBase(ETypeDataBase eTypeDataBase)
         {
             switch (eTypeDataBase)

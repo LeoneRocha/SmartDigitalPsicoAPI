@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
@@ -8,15 +8,26 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
+    /// <summary>
+    /// Classe responsável por TokenSessionPersistenceFactory.
+    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
+    /// Relação: suporta Services e jobs de background.
+    /// </summary>
     public class TokenSessionPersistenceFactory : ITokenSessionPersistenceFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
+        /// <summary>
+        /// Método TokenSessionPersistenceFactory: mapeia ou transforma dados entre modelos.
+        /// </summary>
         public TokenSessionPersistenceFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public ITokenSessionPersistenceAdapter Create(ETokenSessionPersistenceType tokenSessionPersistenceType)
         {
             switch (tokenSessionPersistenceType)

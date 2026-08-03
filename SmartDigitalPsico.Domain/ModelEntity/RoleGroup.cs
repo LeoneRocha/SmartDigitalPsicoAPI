@@ -1,10 +1,18 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por RoleGroup.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class RoleGroup : EntityBase, IEntityBaseDomains
     {
+        /// <summary>
+        /// Método RoleGroup: executa a operação RoleGroup.
+        /// </summary>
         public RoleGroup()
         {
             UserRoleGroups = new List<RoleGroupUser>(); 

@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.ModelEntity
+namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por AuditDataEntityLog.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class AuditDataEntityLog : AuditDataEntityLogBase
     { 
     }

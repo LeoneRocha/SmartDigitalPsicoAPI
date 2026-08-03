@@ -2,8 +2,16 @@ using SmartDigitalPsico.Domain.Contracts;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por User.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class User : EntityBaseWithNameEmail
     {
+        /// <summary>
+        /// Método User: executa a operação User.
+        /// </summary>
         public User()
         {
             MedicalsCreateds = new List<Medical>();

@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
@@ -10,9 +10,17 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por LeavesService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class LeavesService
-      : EntityBaseService<Leaves, AddLeavesDto, UpdateLeavesDto, GetLeavesDto, ILeavesRepository>, ILeavesService
+      : EntityBaseService<Leaves, GetLeavesDto>, ILeavesService
     {
+        /// <summary>
+        /// Método LeavesService: executa a operação LeavesService.
+        /// </summary>
         public LeavesService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,

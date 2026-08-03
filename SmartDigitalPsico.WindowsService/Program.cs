@@ -4,14 +4,25 @@ using SmartDigitalPsico.WindowsService.Configure;
 
 namespace SmartDigitalPsico.WindowsService
 {
+    /// <summary>
+    /// Classe responsÃ¡vel por Program.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// RelaÃ§Ã£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class Program
     {
-        // Nome do serviço sem espaços extras
+        // Nome do serviï¿½o sem espaï¿½os extras
         private const string AppServiceName = "SmartDigitalPsicoWindowsService";
+        /// <summary>
+        /// MÃ©todo Main: executa a operaÃ§Ã£o Main.
+        /// </summary>
         public static void Main()
         {
             CreateHostBuilder().Build().Run();
         }
+        /// <summary>
+        /// MÃ©todo CreateHostBuilder: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public static IHostBuilder CreateHostBuilder()
         {
             return Host.CreateDefaultBuilder()
@@ -19,28 +30,28 @@ namespace SmartDigitalPsico.WindowsService
                 {
                     var env = hostingContext.HostingEnvironment;
 
-                    // Seta o ambiente para o LogAppHelper, se necessário (implementação customizada)
+                    // Seta o ambiente para o LogAppHelper, se necessï¿½rio (implementaï¿½ï¿½o customizada)
                     LogAppHelper.Set_ASPNETCORE_ENVIRONMENT(hostingContext.Configuration);
 
-                    // Carrega o arquivo de configuração conforme o Ambiente
+                    // Carrega o arquivo de configuraï¿½ï¿½o conforme o Ambiente
                     string configFile = env.IsProduction() ? "appsettings.json" : $"appsettings.{env.EnvironmentName}.json";
                     config.AddJsonFile(configFile, optional: !env.IsProduction(), reloadOnChange: true)
                           .AddEnvironmentVariables();
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    // Cria a instância do logger a partir da configuração e registra no container
+                    // Cria a instï¿½ncia do logger a partir da configuraï¿½ï¿½o e registra no container
                     var logger = LogAppHelper.CreateLogger(hostContext.Configuration);
                     services.AddLogging();
                     logger.Information("Config Environment: {EnvironmentName}", hostContext.HostingEnvironment.EnvironmentName);
 
-                    // Configura o serviço do Windows
+                    // Configura o serviï¿½o do Windows
                     services.AddWindowsService(options => options.ServiceName = AppServiceName);
 
                     // Registra o Worker como HostedService
                     services.AddHostedService<Worker>();
 
-                    // Registra os serviços específicos do domínio e do background job
+                    // Registra os serviï¿½os especï¿½ficos do domï¿½nio e do background job
                     WindowsServiceConfigureServiceCollections.Configure(services, hostContext.Configuration, logger);
                 })
                 .UseWindowsService()

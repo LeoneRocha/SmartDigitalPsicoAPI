@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.DTO.Schedule
+namespace SmartDigitalPsico.Domain.DTO.Schedule
 {
+    /// <summary>
+    /// Classe responsável por ScheduleItemExportDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class ScheduleItemExportDto
     {
         public string Title { get; set; } = string.Empty;

@@ -1,13 +1,24 @@
-﻿using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.VO;
 
 namespace SmartDigitalPsico.Domain.VO
 {
+    /// <summary>
+    /// Classe responsável por ServiceResponseCacheVO.
+    /// Responsabilidade: value object / objeto de valor de resposta.
+    /// Relação: retornado pelos Services para Controllers.
+    /// </summary>
     public class ServiceResponseCacheVO<T> : ServiceResponse<T>, IDataCacheDto<T>
     {
+        /// <summary>
+        /// Método ServiceResponseCacheVO: executa a operação ServiceResponseCacheVO.
+        /// </summary>
         public ServiceResponseCacheVO()
         { 
         }
+        /// <summary>
+        /// Método ServiceResponseCacheVO: executa a operação ServiceResponseCacheVO.
+        /// </summary>
         public ServiceResponseCacheVO(IServiceResponse<T> serviceResponse
             , string cacheKey, DateTime dateTimeSlidingExpiration)
         {
@@ -18,6 +29,9 @@ namespace SmartDigitalPsico.Domain.VO
             Success = serviceResponse.Success;
             Message = serviceResponse.Message;
         }
+        /// <summary>
+        /// Método ServiceResponseCacheVO: executa a operação ServiceResponseCacheVO.
+        /// </summary>
         public ServiceResponseCacheVO(T dataToCache
            , string cacheKey, DateTime dateTimeSlidingExpiration)
         {

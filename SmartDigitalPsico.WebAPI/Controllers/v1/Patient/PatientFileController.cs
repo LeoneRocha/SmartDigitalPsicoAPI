@@ -16,11 +16,19 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
     [Authorize("Bearer")]
     [Route("api/patient/v1/[controller]")]
 
+    /// <summary>
+    /// Classe responsável por PatientFileController.
+    /// Responsabilidade: controller HTTP da WebAPI.
+    /// Relação: expõe endpoints REST e delega para Services/Facades.
+    /// </summary>
     public class PatientFileController : ApiBaseController
     {
         private readonly IPatientFileService _entityService;
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Método PatientFileController: executa a operação PatientFileController.
+        /// </summary>
         public PatientFileController(IPatientFileService entityService
             , IOptions<AuthConfigurationDto> configurationAuth
             , IConfiguration configuration) 
@@ -35,6 +43,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<List<GetPatientFileDto>>>> FindAll(long patientId)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -43,6 +54,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetPatientFileDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -51,6 +65,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpDelete("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -64,6 +81,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
 
         [HttpGet("Download/{id}")]        
+        /// <summary>
+        /// Método DownloadFileById: executa a operação DownloadFileById.
+        /// </summary>
         public async Task<ActionResult> DownloadFileById(long id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -74,6 +94,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 
         [HttpPost("Upload")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<ActionResult<GetPatientFileDto>> Create([FromForm] AddPatientFileDtoservice newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();

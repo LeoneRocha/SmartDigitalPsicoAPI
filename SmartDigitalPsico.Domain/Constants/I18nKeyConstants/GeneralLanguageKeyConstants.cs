@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.Constants.I18nKeyConstants
+namespace SmartDigitalPsico.Domain.Constants.I18nKeyConstants
 {
+    /// <summary>
+    /// Classe responsável por GeneralLanguageKeyConstants.
+    /// Responsabilidade: constantes compartilhadas do sistema.
+    /// Relação: referenciado por Domain, Service e WebAPI.
+    /// </summary>
     public static class GeneralLanguageKeyConstants
     {
         public const string RegisterCreated = "Register_Created";

@@ -8,6 +8,11 @@ using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.API
 {
+    /// <summary>
+    /// Classe responsável por ApiBaseController.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public abstract class ApiBaseController : ControllerBase
     {
         protected AuthConfigurationDto _configurationAuth;
@@ -20,11 +25,17 @@ namespace SmartDigitalPsico.Domain.API
             }
         }
 
+        /// <summary>
+        /// Método ApiBaseController: executa a operação ApiBaseController.
+        /// </summary>
         protected ApiBaseController(IOptions<AuthConfigurationDto> configurationAuth)
         {
             _configurationAuth = configurationAuth.Value;
         }
 
+        /// <summary>
+        /// Método SetCurrentCulture: configura estado ou dependencias.
+        /// </summary>
         protected async Task SetCurrentCulture()
         {
             long userId = GetUserIdCurrent();
@@ -40,6 +51,9 @@ namespace SmartDigitalPsico.Domain.API
             }
         }
 
+        /// <summary>
+        /// Método GetUserIdCurrent: consulta e retorna dados.
+        /// </summary>
         protected long GetUserIdCurrent()
         {
             long idUser = SecurityHelperApi.GetUserIdApi(User, _configurationAuth.TypeApiCredential);

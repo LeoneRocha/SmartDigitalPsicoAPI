@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.Hypermedia.Constants
+namespace SmartDigitalPsico.Domain.Hypermedia.Constants
 {
+    /// <summary>
+    /// Classe responsável por HttpActionVerb.
+    /// Responsabilidade: constantes compartilhadas do sistema.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class HttpActionVerb
     {  
         public const string GET = "GET";

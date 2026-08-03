@@ -1,12 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 using SmartDigitalPsico.Domain.Helpers;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace SmartDigitalPsico.Service.Configure
 {
+    /// <summary>
+    /// Classe responsável por ServiceCollectionConfigureDocumentation.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
+    /// </summary>
     public static class ServiceCollectionConfigureDocumentation
     {
+        /// <summary>
+        /// Método Configure: configura estado ou dependencias.
+        /// </summary>
         public static void Configure(IServiceCollection services)
         {
             addDoc(services);

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -6,10 +6,21 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientFileRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class PatientFileRepository : GenericRepositoryEntityBase<PatientFile>, IPatientFileRepository
     {
+        /// <summary>
+        /// Método PatientFileRepository: executa a operação PatientFileRepository.
+        /// </summary>
         public PatientFileRepository(IEntityDataContext context) : base(context) { }
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async override Task<PatientFile> FindByID(long id)
         {
 #pragma warning disable CS8602
@@ -22,6 +33,9 @@ namespace SmartDigitalPsico.Data.Repository.Principals
 #pragma warning restore CS8602
         }
 
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<List<PatientFile>> FindAllByPatient(long patientId)
         {
             return await _dataset

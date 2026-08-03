@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.PatientMedicationInformation
 {
+    /// <summary>
+    /// Classe responsável por AddPatientMedicationInformationDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class AddPatientMedicationInformationDto : IEntityDtoAdd
     {
         #region Relationship  

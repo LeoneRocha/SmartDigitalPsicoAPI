@@ -6,6 +6,11 @@ using SmartDigitalPsico.Domain.DTO.Medical;
 
 namespace SmartDigitalPsico.Domain.DTO.User
 {
+    /// <summary>
+    /// Classe responsável por GetUserDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class GetUserDto : EntityDtoBaseName, ISupportsHyperMedia
     {
         #region Relationship

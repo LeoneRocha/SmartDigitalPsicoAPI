@@ -2,6 +2,11 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por PatientNotificationMessageMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class PatientNotificationMessageMockData
     {
         private static readonly DateTime SeedDate = new(2025, 3, 4, 12, 0, 0, DateTimeKind.Utc);
@@ -13,6 +18,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             ("Nova mensagem do seu profissional de saúde disponível.", false, false)
         ];
 
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
         public static PatientNotificationMessage[] GetMock()
         {
             var patients = PatientMockData.GetMock();

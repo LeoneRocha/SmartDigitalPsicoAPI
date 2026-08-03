@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.Hypermedia.Constants
+namespace SmartDigitalPsico.Domain.Hypermedia.Constants
 {
+    /// <summary>
+    /// Classe responsável por RelationType.
+    /// Responsabilidade: constantes compartilhadas do sistema.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class RelationType
     {
         public const string self = "self";

@@ -1,13 +1,24 @@
-﻿using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Data.Repository.FileManager
 {
+    /// <summary>
+    /// Classe responsável por FileDiskRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class FileDiskRepository : IFileDiskRepository
     {
+        /// <summary>
+        /// Método FileDiskRepository: executa a operação FileDiskRepository.
+        /// </summary>
         public FileDiskRepository()
         {
         }
+        /// <summary>
+        /// Método Save: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task<bool> Save(FileData item)
         {
             bool result = false;
@@ -61,6 +72,9 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             return true;
         }
 
+        /// <summary>
+        /// Método Get: consulta e retorna dados.
+        /// </summary>
         public async Task<byte[]?> Get(FileData fileCriteria)
         {
             ArgumentNullException.ThrowIfNull(fileCriteria);
@@ -94,6 +108,9 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             return result;
         }
 
+        /// <summary>
+        /// Método Delete: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task Delete(FileData fileCriteria)
         {
             string pathFile = String.IsNullOrEmpty(fileCriteria.FilePath) ? string.Empty : fileCriteria.FilePath;
@@ -109,6 +126,9 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             }
         }
 
+        /// <summary>
+        /// Método Exists: valida regras ou verifica existência.
+        /// </summary>
         public bool Exists(FileData fileCriteria)
         {
             string pathFile = String.IsNullOrEmpty(fileCriteria.FilePath) ? string.Empty : fileCriteria.FilePath;

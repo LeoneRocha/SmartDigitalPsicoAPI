@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
+namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 {
+    /// <summary>
+    /// Classe responsável por DeleteMedicalCalendarDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class DeleteMedicalCalendarDto
     {
         public long Id { get; set; }

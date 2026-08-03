@@ -13,12 +13,22 @@ using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
-    public class PatientService : EntityBaseService<Patient, AddPatientDto, UpdatePatientDto, GetPatientDto, IPatientRepository>, IPatientService
+    /// <summary>
+    /// Classe responsável por PatientService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
+    public class PatientService : EntityBaseService<Patient, GetPatientDto>, IPatientService
 
     {
         private readonly IUserRepository _userRepository;
+        /// <summary>
+        /// Método PatientService: executa a operação PatientService.
+        /// </summary>
         public PatientService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -30,9 +40,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             _userRepository = sharedRepositories.UserRepository;
         }
-        public override async Task<ServiceResponse<GetPatientDto>> Create(AddPatientDto item)
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
+        public override async Task<ServiceResponse<GetPatientDto>> Create(IEntityDtoAdd item)
         {
-            Patient entityAdd = _mapper.Map<Patient>(item);
+            var dto = (AddPatientDto)item;
+            Patient entityAdd = _mapper.Map<Patient>(dto);
 
             #region Set default fields for bussines
 
@@ -53,21 +67,25 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 #region Relationship 
 
-                entityAdd.MedicalId = item.MedicalId;
-                entityAdd.GenderId = item.GenderId;
+                entityAdd.MedicalId = dto.MedicalId;
+                entityAdd.GenderId = dto.GenderId;
                 #endregion Relationship
 
-                Patient entityResponse = await _entityRepository.Create(entityAdd);
+                Patient entityResponse = await ((IPatientRepository)_entityRepository).Create(entityAdd);
                 response.Data = _mapper.Map<GetPatientDto>(entityResponse);
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
             }
             return response;
         }
 
-        public override async Task<ServiceResponse<GetPatientDto>> Update(UpdatePatientDto item)
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
+        public override async Task<ServiceResponse<GetPatientDto>> Update(IEntityDto item)
         {
+            var dto = (UpdatePatientDto)item;
             ServiceResponse<GetPatientDto> response = new ServiceResponse<GetPatientDto>();
-            Patient? entityUpdate = await _entityRepository.FindByID(item.Id);
+            Patient? entityUpdate = await ((IPatientRepository)_entityRepository).FindByID(dto.Id);
             if (entityUpdate != null)
             {
                 #region Set default fields for bussines
@@ -85,36 +103,36 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 #region Relationship
 
-                entityUpdate.GenderId = item.GenderId;
+                entityUpdate.GenderId = dto.GenderId;
 
                 #endregion Relationship
 
                 #region Columns
-                entityUpdate.Enable = item.Enable;
-                entityUpdate.Name = item.Name;
-                entityUpdate.Email = item.Email;
-                entityUpdate.Cpf = item.Cpf;
-                entityUpdate.Rg = item.Rg;
-                entityUpdate.Education = item.Education;
-                entityUpdate.DateOfBirth = item.DateOfBirth;
-                entityUpdate.PhoneNumber = item.PhoneNumber;
-                entityUpdate.Profession = item.Profession;
+                entityUpdate.Enable = dto.Enable;
+                entityUpdate.Name = dto.Name;
+                entityUpdate.Email = dto.Email;
+                entityUpdate.Cpf = dto.Cpf;
+                entityUpdate.Rg = dto.Rg;
+                entityUpdate.Education = dto.Education;
+                entityUpdate.DateOfBirth = dto.DateOfBirth;
+                entityUpdate.PhoneNumber = dto.PhoneNumber;
+                entityUpdate.Profession = dto.Profession;
 
-                entityUpdate.EmergencyContactName = item.EmergencyContactName;
-                entityUpdate.EmergencyContactPhoneNumber = item.EmergencyContactPhoneNumber;
+                entityUpdate.EmergencyContactName = dto.EmergencyContactName;
+                entityUpdate.EmergencyContactPhoneNumber = dto.EmergencyContactPhoneNumber;
 
-                entityUpdate.AddressCep = item.AddressCep;
-                entityUpdate.AddressCity = item.AddressCity;
-                entityUpdate.AddressStreet = item.AddressStreet;
-                entityUpdate.AddressState = item.AddressState;
-                entityUpdate.AddressNeighborhood = item.AddressNeighborhood;
+                entityUpdate.AddressCep = dto.AddressCep;
+                entityUpdate.AddressCity = dto.AddressCity;
+                entityUpdate.AddressStreet = dto.AddressStreet;
+                entityUpdate.AddressState = dto.AddressState;
+                entityUpdate.AddressNeighborhood = dto.AddressNeighborhood;
 
                 #endregion Columns
 
                 response = await base.Validate(entityUpdate);
                 if (response.Success)
                 {
-                    Patient entityResponse = await _entityRepository.Update(entityUpdate);
+                    Patient entityResponse = await ((IPatientRepository)_entityRepository).Update(entityUpdate);
                     response.Data = _mapper.Map<GetPatientDto>(entityResponse);
                     response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);                     
                 }
@@ -122,13 +140,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<GetPatientDto>> FindByPatient(GetPatientDto info)
         {
             ServiceResponse<GetPatientDto> response = new ServiceResponse<GetPatientDto>();
 
             var patientFind = _mapper.Map<Patient>(info);
 
-            var patientFinded = await _entityRepository.FindByPatient(patientFind);
+            var patientFinded = await ((IPatientRepository)_entityRepository).FindByPatient(patientFind);
 
             if (patientFinded == null)
             {
@@ -142,17 +163,23 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
 
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<List<GetPatientDto>>> FindAll()
         {
             await Task.Yield();
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Método PatientSearch: executa a operação PatientSearch.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientDto>>> PatientSearch(PatientSearchCriteriaDto patientSearchCriteriaDto)
         {
             ServiceResponse<List<GetPatientDto>> response = new ServiceResponse<List<GetPatientDto>>();
 
-            List<Patient> listResult = await _entityRepository.PatientSearch(patientSearchCriteriaDto);
+            List<Patient> listResult = await ((IPatientRepository)_entityRepository).PatientSearch(patientSearchCriteriaDto);
             var recordsList = new RecordsList<Patient>
             {
                 UserIdLogged = UserId,
@@ -183,11 +210,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientDto>>> FindAll(long medicalId)
         {
             ServiceResponse<List<GetPatientDto>> response = new ServiceResponse<List<GetPatientDto>>();
 
-            List<Patient> listResult = await _entityRepository.FindAllByMedicalId(medicalId);
+            List<Patient> listResult = await ((IPatientRepository)_entityRepository).FindAllByMedicalId(medicalId);
             var recordsList = new RecordsList<Patient>
             {
                 UserIdLogged = UserId,
@@ -217,12 +247,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             return response;
         }
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientDto>> FindByID(long id)
         {
             ServiceResponse<GetPatientDto> response = new ServiceResponse<GetPatientDto>();
             try
             {
-                Patient entityResponse = await _entityRepository.FindByID(id);
+                Patient entityResponse = await ((IPatientRepository)_entityRepository).FindByID(id);
 
                 var recordData = new Record<Patient>
                 {

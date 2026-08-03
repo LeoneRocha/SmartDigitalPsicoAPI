@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
@@ -14,10 +14,18 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     [ApiController]
     [Authorize("Bearer")]
     [Route("api/[controller]/v1")]
+    /// <summary>
+    /// Classe responsável por NotificationRecordsController.
+    /// Responsabilidade: controller HTTP da WebAPI.
+    /// Relação: expõe endpoints REST e delega para Services/Facades.
+    /// </summary>
     public class NotificationRecordsController : ApiBaseController
     {
         private readonly INotificationRecordsService _entityService;
         private readonly INotificationDispatchJobService _notificationDispatchJobService;
+        /// <summary>
+        /// Método NotificationRecordsController: executa a operação NotificationRecordsController.
+        /// </summary>
         public NotificationRecordsController(
               INotificationRecordsService entityService
              , IOptions<AuthConfigurationDto> configurationAuth
@@ -33,6 +41,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método Get: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<List<GetNotificationRecordsDto>>>> Get()
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -46,6 +57,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public async Task<ActionResult<ServiceResponse<GetNotificationRecordsDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
@@ -61,6 +75,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [AllowAnonymous] // Permite acesso sem autenticação / Allow access without authentication
         [HttpGet("NotificationDispatch")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método NotificationDispatch: executa a operação NotificationDispatch.
+        /// </summary>
         public async Task<ActionResult> NotificationDispatch()
         {
             try

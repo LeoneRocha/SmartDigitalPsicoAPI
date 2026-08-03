@@ -11,10 +11,20 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class GenderService : EntityBaseService<Gender, AddGenderDto, UpdateGenderDto, GetGenderDto, IGenderRepository>, IGenderService
+    /// <summary>
+    /// Classe responsável por GenderService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
+    public class GenderService : EntityBaseService<Gender, GetGenderDto>, IGenderService
     {
+        /// <summary>
+        /// Método GenderService: executa a operação GenderService.
+        /// </summary>
         public GenderService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -26,6 +36,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
         }
 
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<List<GetGenderDto>>> FindAll()
         {
             string keyCache = "FindAll_GetGenderVO";
@@ -54,11 +67,14 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             return result;
         }
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetGenderDto>> FindByID(long id)
         {
             ServiceResponse<GetGenderDto> response = new ServiceResponse<GetGenderDto>();
 
-            Gender entityResponse = await _entityRepository.FindByID(id);
+            Gender entityResponse = await ((IGenderRepository)_entityRepository).FindByID(id);
 
             if (entityResponse != null)
             {
@@ -74,11 +90,15 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return response;
         }
 
-        public override async Task<ServiceResponse<GetGenderDto>> Update(UpdateGenderDto item)
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
+        public override async Task<ServiceResponse<GetGenderDto>> Update(IEntityDto item)
         {
+            var dto = (UpdateGenderDto)item;
             ServiceResponse<GetGenderDto> response = new ServiceResponse<GetGenderDto>();
 
-            bool entityExists = await _entityRepository.Exists(item.Id);
+            bool entityExists = await ((IGenderRepository)_entityRepository).Exists(dto.Id);
 
             if (!entityExists)
             {
@@ -87,16 +107,16 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                  
                 return response;
             }
-            Gender entityUpdate = await _entityRepository.FindByID(item.Id);
-            entityUpdate.Description = item.Description;
-            entityUpdate.Enable = item.Enable;
-            entityUpdate.Language = item.Language;
+            Gender entityUpdate = await ((IGenderRepository)_entityRepository).FindByID(dto.Id);
+            entityUpdate.Description = dto.Description;
+            entityUpdate.Enable = dto.Enable;
+            entityUpdate.Language = dto.Language;
 
             response = await Validate(entityUpdate);
             entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
             if (response.Success)
             {
-                Gender entityResponse = await _entityRepository.Update(entityUpdate);
+                Gender entityResponse = await ((IGenderRepository)_entityRepository).Update(entityUpdate);
 
                 response.Data = _mapper.Map<GetGenderDto>(entityResponse);
                 response.Success = true;

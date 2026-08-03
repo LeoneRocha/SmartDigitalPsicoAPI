@@ -11,6 +11,11 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
 {
+    /// <summary>
+    /// Classe responsável por CacheService.
+    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
+    /// Relação: suporta Services e jobs de background.
+    /// </summary>
     public class CacheService : ICacheService
     {
         private readonly IMemoryCacheRepository _memoryCacheRepository;
@@ -19,6 +24,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
         private readonly ETypeLocationCache _eTypeLocationCache;
         private readonly IApplicationCacheLogRepository _applicationCacheLogRepository;
 
+        /// <summary>
+        /// Método CacheService: executa a operação CacheService.
+        /// </summary>
         public CacheService(IMemoryCacheRepository memoryCacheRepository
             , IDiskCacheRepository diskCacheRepository
             , IApplicationCacheLogRepository applicationCacheLogRepository
@@ -98,7 +106,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
                         result = checkCacheIsValid(resultDisk, cacheKey);
                         break;
                     case ETypeLocationCache.Memory:
-                        result = _memoryCacheRepository.TryGet(cacheKey, out T? _valueResult);
+                        result = _memoryCacheRepository.TryGet(cacheKey, out T? _);
                         break;
                     case ETypeLocationCache.MongoDB:
                         break;
@@ -158,6 +166,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
             return result;
         }
 
+        /// <summary>
+        /// Método IsEnable: executa a operação IsEnable.
+        /// </summary>
         public bool IsEnable()
         {
             bool isEnable = _cacheConfig.IsEnable;
@@ -165,6 +176,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
             return isEnable;
         }
 
+        /// <summary>
+        /// Método GetSlidingExpiration: consulta e retorna dados.
+        /// </summary>
         public DateTime GetSlidingExpiration()
         {
             return DateTime.Now.AddHours(_cacheConfig.AbsoluteExpirationInHours).AddMinutes(_cacheConfig.SlidingExpirationInMinutes);

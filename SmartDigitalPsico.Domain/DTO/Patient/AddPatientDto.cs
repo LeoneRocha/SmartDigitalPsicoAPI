@@ -4,6 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient
 {
+    /// <summary>
+    /// Classe responsável por AddPatientDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class AddPatientDto : EntityDtoBaseAdd
     {
         #region Relationship 

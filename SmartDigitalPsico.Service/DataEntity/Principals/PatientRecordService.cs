@@ -18,8 +18,13 @@ using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
+    /// <summary>
+    /// Classe responsável por PatientRecordService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class PatientRecordService
-        : EntityBaseService<PatientRecord, AddPatientRecordDto, UpdatePatientRecordDto, GetPatientRecordDto, IPatientRecordRepository>, IPatientRecordService
+        : EntityBaseService<PatientRecord, GetPatientRecordDto>, IPatientRecordService
 
     {
         private readonly IUserRepository _userRepository;
@@ -27,6 +32,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IPatientRepository _patientRepository;
         private readonly IPatientRecordServiceConfig _config;
         private readonly IAuditDataSelectiveEntityLogService _auditDataSelectiveEntityLogService;
+        /// <summary>
+        /// Método PatientRecordService: executa a operação PatientRecordService.
+        /// </summary>
         public PatientRecordService(IPatientRepositories repositories, IPatientRecordServiceConfig config, IAuditDataSelectiveEntityLogService auditDataSelectiveEntityLogService)
         : base(
               config.SharedServices,
@@ -42,14 +50,18 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _auditDataSelectiveEntityLogService = auditDataSelectiveEntityLogService;
 
         }
-        public override async Task<ServiceResponse<GetPatientRecordDto>> Create(AddPatientRecordDto item)
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
+        public override async Task<ServiceResponse<GetPatientRecordDto>> Create(IEntityDtoAdd item)
         {
-            PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
+            var dto = (AddPatientRecordDto)item;
+            PatientRecord entityAdd = _mapper.Map<PatientRecord>(dto);
 
             #region Relationship
 
             entityAdd.CreatedUserId = UserId;
-            entityAdd.PatientId = item.PatientId;
+            entityAdd.PatientId = dto.PatientId;
 
             #endregion Relationship
 
@@ -63,7 +75,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 var patient = await _patientRepository.FindByID(entityAdd.PatientId);
                 var medical = await _medicalRepository.FindByID(patient.MedicalId);
-                entityAdd.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, item.Annotation);
+                entityAdd.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, dto.Annotation);
 
                 entityAdd.TableStorageRowKey = Guid.NewGuid().ToString();
 
@@ -74,15 +86,19 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 entityAdd.TableStorageRowKey = addTableEntity.RowKey;
 
-                PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
+                PatientRecord entityResponse = await ((IPatientRecordRepository)_entityRepository).Create(entityAdd);
                 response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
             }
             return response;
         }
-        public override async Task<ServiceResponse<GetPatientRecordDto>> Update(UpdatePatientRecordDto item)
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
+        public override async Task<ServiceResponse<GetPatientRecordDto>> Update(IEntityDto item)
         {
-            PatientRecord entityUpdate = await _entityRepository.FindByID(item.Id);
+            var dto = (UpdatePatientRecordDto)item;
+            PatientRecord entityUpdate = await ((IPatientRecordRepository)_entityRepository).FindByID(dto.Id);
             string[] propertiesToIgnore = ["Patient", "Patient", "CreatedUser", "ModifyUser"];
 
             PatientRecord entityOld = AuditLogHelper.DeepClone(entityUpdate, propertiesToIgnore);
@@ -105,10 +121,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             #endregion User Action
 
             #region Columns
-            entityUpdate.Enable = item.Enable;
-            entityUpdate.Annotation = item.Annotation;
-            entityUpdate.Description = item.Description;
-            entityUpdate.AnnotationDate = item.AnnotationDate;
+            entityUpdate.Enable = dto.Enable;
+            entityUpdate.Annotation = dto.Annotation;
+            entityUpdate.Description = dto.Description;
+            entityUpdate.AnnotationDate = dto.AnnotationDate;
             entityUpdate.TableStorageRowKey = string.IsNullOrEmpty(entityUpdate.TableStorageRowKey) ? Guid.NewGuid().ToString()
                 : entityUpdate.TableStorageRowKey;
             #endregion Columns
@@ -117,7 +133,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (response.Success)
             {
                 var medical = await _medicalRepository.FindByID(entityUpdate.Patient?.MedicalId ?? 0);
-                entityUpdate.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, item.Annotation);
+                entityUpdate.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, dto.Annotation);
 
                 var updateTableEntity = CreateTableEntity(entityUpdate);
 
@@ -126,7 +142,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 entityUpdate.TableStorageRowKey = updateTableEntity.RowKey;
 
-                PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
+                PatientRecord entityResponse = await ((IPatientRecordRepository)_entityRepository).Update(entityUpdate);
                 response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
 
@@ -149,11 +165,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             };
         }
 
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientRecordDto>>> FindAllByPatient(long patientId)
         {
             ServiceResponse<List<GetPatientRecordDto>> response = new ServiceResponse<List<GetPatientRecordDto>>();
 
-            var listResult = await _entityRepository.FindAllByPatient(patientId);
+            var listResult = await ((IPatientRecordRepository)_entityRepository).FindAllByPatient(patientId);
 
             var recordsList = new RecordsList<PatientRecord>
             {
@@ -184,6 +203,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             return response;
         }
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async override Task<ServiceResponse<List<GetPatientRecordDto>>> FindAll()
         {
             var result = new ServiceResponse<List<GetPatientRecordDto>>();
@@ -192,12 +214,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return result;
         }
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientRecordDto>> FindByID(long id)
         {
             ServiceResponse<GetPatientRecordDto> response = new ServiceResponse<GetPatientRecordDto>();
             try
             {
-                PatientRecord entityResponse = await _entityRepository.FindByID(id);
+                PatientRecord entityResponse = await ((IPatientRecordRepository)_entityRepository).FindByID(id);
 
                 var recordData = new Record<PatientRecord>
                 {

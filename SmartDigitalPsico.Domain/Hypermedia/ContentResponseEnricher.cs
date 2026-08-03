@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Routing;
 using SmartDigitalPsico.Domain.AppException;
@@ -10,8 +10,16 @@ using System.Text;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {
+    /// <summary>
+    /// Classe responsável por ContentResponseEnricher.
+    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
+    /// Relação: usado pelos Controllers na serialização.
+    /// </summary>
     public abstract class ContentResponseEnricher<T> : IResponseEnricher where T : ISupportsHyperMedia
     { 
+        /// <summary>
+        /// Método CanEnrich: executa a operação CanEnrich.
+        /// </summary>
         public virtual bool CanEnrich(Type contentType)
         {
             bool isCanEnrich = contentType == typeof(T) || contentType == typeof(List<T>) || contentType == typeof(PagedSearchVO<T>)
@@ -35,6 +43,9 @@ namespace SmartDigitalPsico.Domain.Hypermedia
             }
             return false;
         }
+        /// <summary>
+        /// Método Enrich: executa a operação Enrich.
+        /// </summary>
         public async Task Enrich(ResultExecutingContext context)
         {
             var urlHelper = new UrlHelperFactory().GetUrlHelper(context);
@@ -94,6 +105,9 @@ namespace SmartDigitalPsico.Domain.Hypermedia
         }
          
         protected readonly object _lock = new object();
+        /// <summary>
+        /// Método GetLink: consulta e retorna dados.
+        /// </summary>
         protected string GetLink(long id, IUrlHelper urlHelper, string path)
         {
             lock (_lock)

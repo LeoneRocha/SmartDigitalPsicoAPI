@@ -1,10 +1,18 @@
-﻿using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por PatientMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class PatientMockData
     {
         private const string AddressCitySP = "São Paulo";
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
         public static Patient[] GetMock()
         {
             var newAddPatient = new Patient

@@ -1,20 +1,31 @@
-﻿using SmartDigitalPsico.Domain.DTO.Report;
+using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Report
 {
+    /// <summary>
+    /// Classe responsável por PdfReportService.
+    /// Responsabilidade: geração de relatórios.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class PdfReportService : IPdfReportService
     {
         private readonly IPdfReportAdapterFactory _pdfReportAdapterFactory;
         private readonly ISharedDependenciesConfig _sharedDependenciesConfig;
 
+        /// <summary>
+        /// Método PdfReportService: executa a operação PdfReportService.
+        /// </summary>
         public PdfReportService(ISharedDependenciesConfig sharedDependenciesConfig, IPdfReportAdapterFactory pdfReportAdapterFactory)
         {
             _sharedDependenciesConfig = sharedDependenciesConfig;
             _pdfReportAdapterFactory = pdfReportAdapterFactory;
         }
+        /// <summary>
+        /// Método Generate: executa a operação Generate.
+        /// </summary>
         public async Task<string> Generate(ReportPageContentDto content)
         {
             try

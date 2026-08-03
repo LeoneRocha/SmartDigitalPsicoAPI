@@ -4,6 +4,11 @@ using SmartDigitalPsico.Domain.DTO.Contracts;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.PatientAdditionalInformation
 {
+    /// <summary>
+    /// Classe responsável por GetPatientAdditionalInformationDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class GetPatientAdditionalInformationDto : EntityDtoBase, ISupportsHyperMedia
     { 
         #region Relationship  

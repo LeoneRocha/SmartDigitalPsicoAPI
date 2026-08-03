@@ -3,6 +3,11 @@ using SmartDigitalPsico.Domain.Hypermedia.Abstract;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalFile
 {
+    /// <summary>
+    /// Classe responsável por GetMedicalFileDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class GetMedicalFileDto : FileBaseIdDto, ISupportsHyperMedia
     {
         #region Relationship  

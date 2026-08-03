@@ -10,9 +10,17 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class OfficeService : EntityBaseService<Office, AddOfficeDto, UpdateOfficeDto, GetOfficeDto, IOfficeRepository>, IOfficeService
+    /// <summary>
+    /// Classe responsável por OfficeService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
+    public class OfficeService : EntityBaseService<Office, GetOfficeDto>, IOfficeService
 
     {
+        /// <summary>
+        /// Método OfficeService: executa a operação OfficeService.
+        /// </summary>
         public OfficeService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,

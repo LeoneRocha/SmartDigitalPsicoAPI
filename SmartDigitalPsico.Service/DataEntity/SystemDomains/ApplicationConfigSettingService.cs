@@ -10,9 +10,17 @@ using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por ApplicationConfigSettingService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class ApplicationConfigSettingService
-      : EntityBaseService<ApplicationConfigSetting, AddApplicationConfigSettingDto, UpdateApplicationConfigSettingDto, GetApplicationConfigSettingDto, IApplicationConfigSettingRepository>, IApplicationConfigSettingService
+      : EntityBaseService<ApplicationConfigSetting, GetApplicationConfigSettingDto>, IApplicationConfigSettingService
     {
+        /// <summary>
+        /// Método ApplicationConfigSettingService: executa a operação ApplicationConfigSettingService.
+        /// </summary>
         public ApplicationConfigSettingService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,

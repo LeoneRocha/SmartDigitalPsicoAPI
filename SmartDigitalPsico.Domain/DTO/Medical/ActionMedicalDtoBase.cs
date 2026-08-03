@@ -1,8 +1,13 @@
-﻿using SmartDigitalPsico.Domain.DTO.Contracts;
+using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical
 {
+    /// <summary>
+    /// Classe responsável por ActionMedicalDtoBase.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public abstract class ActionMedicalDtoBase  
     {
         public long Id { get; set; }

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -7,6 +7,11 @@ using SmartDigitalPsico.Domain.Interfaces.Service;
 
 namespace SmartDigitalPsico.Service.DataEntity.Generic
 {
+    /// <summary>
+    /// Classe responsável por ReportBaseService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
     public class ReportBaseService<TEntity, Repo>
         where TEntity : IEntityBase, IEntityBaseLog
         where Repo : IEntityBaseRepository<TEntity>
@@ -21,6 +26,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         protected readonly Serilog.ILogger _logger;
         protected readonly IResiliencePolicyConfig _policyConfig;
          
+        /// <summary>
+        /// Método ReportBaseService: executa a operação ReportBaseService.
+        /// </summary>
         public ReportBaseService(
               ISharedServices sharedServices,
               ISharedDependenciesConfig sharedDependenciesConfig,
@@ -37,6 +45,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
             _entityRepository = entityRepository;
             _entityValidator = entityValidator;
         }
+        /// <summary>
+        /// Método SetUserId: configura estado ou dependencias.
+        /// </summary>
         public void SetUserId(long id)
         {
             UserId = id;

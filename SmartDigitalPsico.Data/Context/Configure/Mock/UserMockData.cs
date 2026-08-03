@@ -1,8 +1,13 @@
-﻿using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
 {
+    /// <summary>
+    /// Classe responsável por UserMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public static class UserMockData
     {
         // Hashes estáticos (não use SecurityHelper.CreatePasswordHash em HasData — salt aleatório a cada build).
@@ -27,6 +32,9 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
             246, 238, 15, 28, 37, 91, 12, 134, 68, 76, 211, 137, 236, 155, 62, 170, 53, 25, 7, 48, 14, 21, 29, 241, 231, 17, 16, 205, 194, 82, 161, 166, 63, 222, 65, 90, 70, 23, 148, 17, 51, 220, 65, 87, 110, 251, 11, 146, 227, 107, 44, 102, 172, 244, 159, 66, 216, 255, 223, 38, 59, 139, 143, 56, 137, 25, 80, 162, 104, 226, 45, 220, 38, 170, 149, 140, 8, 228, 199, 37, 45, 199, 34, 6, 122, 203, 112, 242, 206, 124, 61, 61, 147, 158, 68, 101, 241, 100, 165, 226, 41, 134, 36, 2, 41, 86, 230, 75, 18, 152, 8, 61, 121, 148, 211, 89, 232, 248, 185, 5, 204, 225, 203, 119, 123, 86, 40, 201
         ];
 
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
         public static User[] GetMock()
         {
             return

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Helpers;
@@ -7,36 +7,44 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por NotificationRecordsRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class NotificationRecordsRepository : GenericRepositoryEntityBase<NotificationRecord>, INotificationRecordsRepository
     {
+        /// <summary>
+        /// Método NotificationRecordsRepository: executa a operação NotificationRecordsRepository.
+        /// </summary>
         public NotificationRecordsRepository(IEntityDataContext context) : base(context) { }
 
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
         public override async Task<NotificationRecord> Update(NotificationRecord item)
         {
             var existingEntity = await _dataset.SingleAsync(p => p.Id == item.Id);
-            // Marca a entidade como modificada e anexa-a ao contexto
             _context.Entry(existingEntity).State = EntityState.Detached;
             _context.Entry(item).State = EntityState.Modified;
 
-            // Marca a propriedade NotificationRules como modificada
             _context.Entry(item).Property(i => i.NotificationRules).IsModified = true;
 
-            // Atualiza o restante das propriedades da entidade
             _context.Entry(item).CurrentValues.SetValues(item);
 
             await _context.SaveChangesAsync();
             return item;
         }
 
+        /// <summary>
+        /// Método GetPendingNotificationsAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
             var currentDateUtc = DateHelper.GetDateTimeNowFromUtc().Date;
             var currentDateUtcDay1Plus = DateHelper.GetDateTimeNowFromUtc().Date.AddDays(1);
 
             return await _dataset
-                .Include(x => x.MedicalCalendar)
-                .ThenInclude(x => x!.Patient)
-                .ThenInclude(x => x!.Medical)
                 .Where(nr => !nr.IsCompleted
                              && nr.NextScheduledSendTime.HasValue
                              && nr.NextScheduledSendTime.Value >= currentDateUtc
@@ -45,31 +53,40 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
                 .ToArrayAsync();
         }
 
-        public async Task<bool> DeleteAll(long medicalCalendarId)
+        /// <summary>
+        /// Método DeleteAllByTokenAsync: remove ou cancela um registro/recurso.
+        /// </summary>
+        public async Task<bool> DeleteAllByTokenAsync(Guid tokenId)
         {
-            var result = await _dataset.Where(p => p.MedicalCalendarId == medicalCalendarId).ToArrayAsync();
+            var result = await _dataset.Where(p => p.TokenId == tokenId).ToArrayAsync();
             foreach (var item in result)
-            {
-                if (item != null)
-                {
-                    _dataset.Remove(item);
-                }
-            }
+                _dataset.Remove(item);
             await _context.SaveChangesAsync();
             return true;
         }
          
-        public async Task<bool> DeleteAll(long[] medicalCalendarIds)
+        /// <summary>
+        /// Método DeleteAllByTokenAsync: remove ou cancela um registro/recurso.
+        /// </summary>
+        public async Task<bool> DeleteAllByTokenAsync(Guid[] tokenIds)
         {
-            var result = await _dataset.Where(p => medicalCalendarIds.Contains(p.MedicalCalendarId ?? 0 )).ToArrayAsync();
-
+            var result = await _dataset.Where(p => tokenIds.Contains(p.TokenId)).ToArrayAsync();
             foreach (var item in result)
-            {
-                if (item != null)
-                {
-                    _dataset.Remove(item);
-                }
-            }
+                _dataset.Remove(item);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        /// <summary>
+        /// Método DeleteByTokenAndEventAsync: remove ou cancela um registro/recurso.
+        /// </summary>
+        public async Task<bool> DeleteByTokenAndEventAsync(Guid tokenId, DateTime eventDate)
+        {
+            var result = await _dataset
+                .Where(p => p.TokenId == tokenId && p.EventDate == eventDate)
+                .ToArrayAsync();
+            foreach (var item in result)
+                _dataset.Remove(item);
             await _context.SaveChangesAsync();
             return true;
         }

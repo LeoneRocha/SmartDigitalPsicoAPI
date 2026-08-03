@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -7,10 +7,21 @@ using System.Data;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por SpecialtyRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class SpecialtyRepository : GenericRepositoryEntityBase<Specialty>, ISpecialtyRepository 
     {
+        /// <summary>
+        /// Método SpecialtyRepository: executa a operação SpecialtyRepository.
+        /// </summary>
         public SpecialtyRepository(IEntityDataContext context) : base(context) { }
           
+        /// <summary>
+        /// Método FindByIDs: consulta e retorna dados.
+        /// </summary>
         public async Task<List<Specialty>> FindByIDs(List<long> idsSpecialties)
         {
             return await _dataset

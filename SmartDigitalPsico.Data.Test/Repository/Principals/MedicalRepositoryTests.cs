@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Data.Context.Configure.Mock;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
@@ -60,13 +60,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var listCount = listResult.Count;
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<Medical>>());
                 Assert.That(listResult, Has.Count.EqualTo(4));
                 Assert.That(listCount, Is.EqualTo(4));
-            });
+            }
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Medical>());
@@ -110,7 +110,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result.Office, Is.Not.Null);
                 Assert.That(result.MedicalSpecialties, Is.Not.Null);
                 Assert.That(result.MedicalSpecialties, Has.Count.EqualTo(1));
-            });
+            }
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByAccreditation(mockData.Accreditation);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Medical>());
@@ -136,7 +136,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result?.Office, Is.Not.Null);
                 Assert.That(result?.MedicalSpecialties, Is.Not.Null);
                 Assert.That(result?.MedicalSpecialties, Has.Count.EqualTo(1));
-            });
+            }
         }
 
 
@@ -153,13 +153,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByEmail(mockData.Email);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Medical>());
                 Assert.That(result?.Id, Is.EqualTo(mockData.Id));
                 Assert.That(result?.Email, Is.EqualTo(mockData.Email)); 
-            });
+            }
         }
 
 

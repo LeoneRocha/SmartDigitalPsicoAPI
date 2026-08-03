@@ -1,8 +1,13 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.ModelEntity.Schedule
 {
     // Classe auxiliar para representar cada item do calendário no JSON
+    /// <summary>
+    /// Classe responsável por ScheduleItem.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class ScheduleItem
     {
         public string TokenRecurrence { get; set; } = string.Empty;

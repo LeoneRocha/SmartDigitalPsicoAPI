@@ -13,13 +13,23 @@ using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
-    public class PatientMedicationInformationService : EntityBaseService<PatientMedicationInformation, AddPatientMedicationInformationDto, UpdatePatientMedicationInformationDto, GetPatientMedicationInformationDto, IPatientMedicationInformationRepository>, IPatientMedicationInformationService
+    /// <summary>
+    /// Classe responsável por PatientMedicationInformationService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
+    public class PatientMedicationInformationService : EntityBaseService<PatientMedicationInformation, GetPatientMedicationInformationDto>, IPatientMedicationInformationService
 
     {
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Método PatientMedicationInformationService: executa a operação PatientMedicationInformationService.
+        /// </summary>
         public PatientMedicationInformationService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -31,15 +41,19 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             _userRepository = sharedRepositories.UserRepository;
         }
-        public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Create(AddPatientMedicationInformationDto item)
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
+        public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Create(IEntityDtoAdd item)
         {
+            var dto = (AddPatientMedicationInformationDto)item;
 
-            PatientMedicationInformation entityAdd = _mapper.Map<PatientMedicationInformation>(item);
+            PatientMedicationInformation entityAdd = _mapper.Map<PatientMedicationInformation>(dto);
 
             #region Relationship
 
             entityAdd.CreatedUserId = UserId;
-            entityAdd.PatientId = item.PatientId;
+            entityAdd.PatientId = dto.PatientId;
 
             #endregion
 
@@ -51,7 +65,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (response.Success)
             {
-                PatientMedicationInformation entityResponse = await _entityRepository.Create(entityAdd);
+                PatientMedicationInformation entityResponse = await ((IPatientMedicationInformationRepository)_entityRepository).Create(entityAdd);
 
                 response.Data = _mapper.Map<GetPatientMedicationInformationDto>(entityResponse);
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
@@ -59,9 +73,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
-        public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Update(UpdatePatientMedicationInformationDto item)
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
+        public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Update(IEntityDto item)
         {
-            PatientMedicationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
+            var dto = (UpdatePatientMedicationInformationDto)item;
+            PatientMedicationInformation entityUpdate = await ((IPatientMedicationInformationRepository)_entityRepository).FindByID(dto.Id);
 
             entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
             entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
@@ -69,20 +87,20 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.ModifyUserId = UserId;
 
             #region Columns
-            entityUpdate.Enable = item.Enable;
-            entityUpdate.StartDate = item.StartDate;
-            entityUpdate.EndDate = item.EndDate;
-            entityUpdate.MainDrug = item.MainDrug;
-            entityUpdate.Description = item.Description;
-            entityUpdate.Dosage = item.Dosage;
-            entityUpdate.Posology = item.Posology;
+            entityUpdate.Enable = dto.Enable;
+            entityUpdate.StartDate = dto.StartDate;
+            entityUpdate.EndDate = dto.EndDate;
+            entityUpdate.MainDrug = dto.MainDrug;
+            entityUpdate.Description = dto.Description;
+            entityUpdate.Dosage = dto.Dosage;
+            entityUpdate.Posology = dto.Posology;
             #endregion Columns
 
             ServiceResponse<GetPatientMedicationInformationDto> response = await base.Validate(entityUpdate);
 
             if (response.Success)
             {
-                PatientMedicationInformation entityResponse = await _entityRepository.Update(entityUpdate);
+                PatientMedicationInformation entityResponse = await ((IPatientMedicationInformationRepository)_entityRepository).Update(entityUpdate);
 
                 response.Data = _mapper.Map<GetPatientMedicationInformationDto>(entityResponse);
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
@@ -90,11 +108,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         public async Task<ServiceResponse<List<GetPatientMedicationInformationDto>>> FindAllByPatient(long patientId)
         {
             ServiceResponse<List<GetPatientMedicationInformationDto>> response = new ServiceResponse<List<GetPatientMedicationInformationDto>>();
 
-            var listResult = await _entityRepository.FindAllByPatient(patientId);
+            var listResult = await ((IPatientMedicationInformationRepository)_entityRepository).FindAllByPatient(patientId);
 
             var recordsList = new RecordsList<PatientMedicationInformation>
             {
@@ -124,6 +145,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
 
+        /// <summary>
+        /// Método FindAll: consulta e retorna dados.
+        /// </summary>
         public async override Task<ServiceResponse<List<GetPatientMedicationInformationDto>>> FindAll()
         {
             var result = new ServiceResponse<List<GetPatientMedicationInformationDto>>();
@@ -132,12 +156,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return result;
         }
 
+        /// <summary>
+        /// Método FindByID: consulta e retorna dados.
+        /// </summary>
         public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> FindByID(long id)
         {
             ServiceResponse<GetPatientMedicationInformationDto> response = new ServiceResponse<GetPatientMedicationInformationDto>();
             try
             {
-                PatientMedicationInformation entityResponse = await _entityRepository.FindByID(id);
+                PatientMedicationInformation entityResponse = await ((IPatientMedicationInformationRepository)_entityRepository).FindByID(id);
 
                 var recordData = new Record<PatientMedicationInformation>
                 {

@@ -1,5 +1,10 @@
-﻿namespace SmartDigitalPsico.Domain.Constants.I18nKeyConstants
+namespace SmartDigitalPsico.Domain.Constants.I18nKeyConstants
 {
+    /// <summary>
+    /// Classe responsável por ErrorValidatorKeyConstants.
+    /// Responsabilidade: constantes compartilhadas do sistema.
+    /// Relação: referenciado por Domain, Service e WebAPI.
+    /// </summary>
     public static class ErrorValidatorKeyConstants
     { 
         public const string AccreditationNull = "ErrorValidator_Accreditation_Null";

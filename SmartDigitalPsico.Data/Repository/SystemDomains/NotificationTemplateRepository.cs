@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -6,17 +6,33 @@ using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
+    /// <summary>
+    /// Classe responsável por NotificationTemplateRepository.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class NotificationTemplateRepository : GenericRepositoryEntityBase<NotificationTemplate>, INotificationTemplateRepository
     {
+        /// <summary>
+        /// Método NotificationTemplateRepository: executa a operação NotificationTemplateRepository.
+        /// </summary>
         public NotificationTemplateRepository(IEntityDataContext context) : base(context) { }
 
-        public async Task<NotificationTemplate> GetNotificationTemplateAsync(string tagApi, string language)
+        /// <summary>
+        /// Método GetNotificationTemplateAsync: consulta e retorna dados.
+        /// </summary>
+        public async Task<NotificationTemplate?> GetNotificationTemplateAsync(string templateKey, string language)
         {
-            var template = await _context.NotificationTemplates
-                .AsNoTracking()
-                .SingleAsync(t => t.TagApi == tagApi && t.Language == language && t.Enable);
+            var templates = _context.NotificationTemplates.AsNoTracking()
+                .Where(t => t.TemplateKey == templateKey && t.Enable);
 
-            return template;
+            var template = await templates.FirstOrDefaultAsync(t => t.Language == language);
+            if (template != null)
+                return template;
+
+            // Fallback when CurrentCulture does not match seed language (pt-BR).
+            return await templates.FirstOrDefaultAsync(t => t.Language == "pt-BR")
+                ?? await templates.FirstOrDefaultAsync();
         }
     }
 }

@@ -1,7 +1,12 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 
 namespace SmartDigitalPsico.Domain.DTO.Security
 {
+    /// <summary>
+    /// Classe responsável por RsaCryptoDto.
+    /// Responsabilidade: segurança e autenticação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class RsaCryptoDto
     {
         public RSAParameters PublicKey { get; set; }

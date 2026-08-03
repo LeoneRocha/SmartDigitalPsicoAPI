@@ -3,8 +3,16 @@ using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por InfoTag.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class InfoTag : EntityBase, IEntityBaseLogUser
     {
+        /// <summary>
+        /// Método InfoTag: executa a operação InfoTag.
+        /// </summary>
         public InfoTag()
         { 
             PatientInfoTags = new List<PatientInfoTag>();

@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
@@ -14,12 +14,22 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
-    public class NotificationRecordsService : EntityBaseService<NotificationRecord, AddNotificationRecordsDto, UpdateNotificationRecordsDto, GetNotificationRecordsDto, INotificationRecordsRepository>, INotificationRecordsService
+    /// <summary>
+    /// Classe responsável por NotificationRecordsService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// </summary>
+    public class NotificationRecordsService : EntityBaseService<NotificationRecord, GetNotificationRecordsDto>, INotificationRecordsService
     {
         private readonly INotificationRulesService _notificationRulesService;
 
+        /// <summary>
+        /// Método NotificationRecordsService: executa a operação NotificationRecordsService.
+        /// </summary>
         public NotificationRecordsService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
@@ -33,27 +43,36 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _notificationRulesService = notificationRulesService;
         }
 
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(AddNotificationRecordsDto item)
+        /// <summary>
+        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// </summary>
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(IEntityDtoAdd item)
         {
-            item.NextScheduledSendTime = GetNextScheduledSendTime(item);
-            item.CreatedDate = DateTime.UtcNow;
-            item.ModifyDate = DateTime.UtcNow;
-            return await base.Create(item);
+            var dto = (AddNotificationRecordsDto)item;
+            dto.NextScheduledSendTime = GetNextScheduledSendTime(dto);
+            dto.CreatedDate = DateTime.UtcNow;
+            dto.ModifyDate = DateTime.UtcNow;
+            return await base.Create(dto);
         }
 
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(UpdateNotificationRecordsDto item)
+        /// <summary>
+        /// Método Update: atualiza um registro/recurso existente.
+        /// </summary>
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(IEntityDto item)
         {
+            var dto = (UpdateNotificationRecordsDto)item;
             ServiceResponse<GetNotificationRecordsDto> response = new ServiceResponse<GetNotificationRecordsDto>();
 
-            NotificationRecord? entityUpdate = await _entityRepository.FindByID(item.Id);
+            NotificationRecord? entityUpdate = await ((INotificationRecordsRepository)_entityRepository).FindByID(dto.Id);
             if (entityUpdate != null)
             {   
-                entityUpdate.NotificationRules = item.NotificationRules;
-                entityUpdate.NextScheduledSendTime = item.NextScheduledSendTime;
-                entityUpdate.FinalSendDate = item.FinalSendDate;
-                entityUpdate.EventDate = item.EventDate;
-                entityUpdate.Enable = item.Enable;
-                entityUpdate.IsCompleted = item.IsCompleted;               
+                entityUpdate.NotificationRules = dto.NotificationRules;
+                entityUpdate.NextScheduledSendTime = dto.NextScheduledSendTime;
+                entityUpdate.FinalSendDate = dto.FinalSendDate;
+                entityUpdate.EventDate = dto.EventDate;
+                entityUpdate.TokenId = dto.TokenId;
+                entityUpdate.Enable = dto.Enable;
+                entityUpdate.IsCompleted = dto.IsCompleted;               
                
                 // Atualiza as datas e o usuário modificador
                 entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
@@ -62,7 +81,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
                 if (response.Success)
                 {  
-                    NotificationRecord entityResponse = await _entityRepository.Update(entityUpdate);
+                    NotificationRecord entityResponse = await ((INotificationRecordsRepository)_entityRepository).Update(entityUpdate);
 
                     response.Data = _mapper.Map<GetNotificationRecordsDto>(entityResponse);
                     response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
@@ -82,6 +101,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// </summary>
         /// <param name="dto">DTO contendo os MedicalCalendars e o tipo de notificação.</param>
         /// <returns>Task representando a operação assíncrona.</returns>
+        /// <summary>
+        /// Método CreateOrUpdateNotificationRecordsAsync: cria ou persiste um novo registro/recurso.
+        /// </summary>
         public async Task CreateOrUpdateNotificationRecordsAsync(GenerateNotificationRecordsDto dto)
         {
             try
@@ -145,7 +167,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 EventDate = medicalCalendar.StartDateTime,
                 Language = "en",
                 Description = medicalCalendar.Description,
-                MedicalCalendarId = medicalCalendar.Id,
+                TokenId = ParseTokenId(medicalCalendar.TokenRecurrence),
                 NotificationRules = notificationRulesDtos,
                 IsCompleted = isCompleted,
                 FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
@@ -156,7 +178,16 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             try
             {
-                var existingRecord = (await _entityRepository.FindByCustomWhere(nr => nr.MedicalCalendarId == medicalCalendar.Id)).FirstOrDefault();
+                var tokenId = notificationRecordDto.TokenId;
+                if (tokenId == Guid.Empty)
+                {
+                    _logger.Warning("SaveNotificationRecordAsync skipped: empty TokenId for EventDate {EventDate}", medicalCalendar.StartDateTime);
+                    return;
+                }
+
+                var existingRecord = (await ((INotificationRecordsRepository)_entityRepository).FindByCustomWhere(nr =>
+                    nr.TokenId == tokenId
+                    && nr.EventDate == medicalCalendar.StartDateTime)).FirstOrDefault();
 
                 if (existingRecord != null)
                 {
@@ -164,7 +195,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     {
                         Id = existingRecord.Id,
                         EventDate = medicalCalendar.StartDateTime,
-                        MedicalCalendarId = existingRecord.MedicalCalendarId,
+                        TokenId = tokenId,
                         NotificationRules = notificationRecordDto.NotificationRules,
                         IsCompleted = isCompleted,
                         FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
@@ -183,6 +214,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
 
         }
+
+        private static Guid ParseTokenId(string? token)
+            => Guid.TryParse(token, out var id) ? id : Guid.Empty;
 
         private static DateTime CalculateScheduledSendTime(NotificationRule notificationRule, DateTime startDateTime, string timeZone)
         {
@@ -229,9 +263,12 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return minScheduledLocal;
         } 
 
+        /// <summary>
+        /// Método GetPendingNotificationsAsync: consulta e retorna dados.
+        /// </summary>
         public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
-            return await _entityRepository.GetPendingNotificationsAsync();
+            return await ((INotificationRecordsRepository)_entityRepository).GetPendingNotificationsAsync();
         }
 
         #endregion private

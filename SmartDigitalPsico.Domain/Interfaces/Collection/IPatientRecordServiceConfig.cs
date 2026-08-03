@@ -1,10 +1,15 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Collection
 {
+    /// <summary>
+    /// Interface (contrato) responsável por IPatientRecordServiceConfig.
+    /// Responsabilidade: contrato de abstração do domínio.
+    /// Relação: implementado nas camadas Data/Service.
+    /// </summary>
     public interface IPatientRecordServiceConfig
     {  
         IValidator<PatientRecord> EntityValidator { get; } 

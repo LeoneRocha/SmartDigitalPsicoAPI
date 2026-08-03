@@ -4,6 +4,11 @@ using SmartDigitalPsico.Domain.DTO.Contracts;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.PatientFile
 {
+    /// <summary>
+    /// Classe responsável por GetPatientFileDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class GetPatientFileDto : EntityDtoBase, ISupportsHyperMedia
     {
         #region Relationship  

@@ -1,8 +1,13 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.DTO.Notification
 {
+    /// <summary>
+    /// Classe responsável por GenerateNotificationRecordsDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class GenerateNotificationRecordsDto
     {
         public required MedicalCalendar[] MedicalCalendars { get; set; }

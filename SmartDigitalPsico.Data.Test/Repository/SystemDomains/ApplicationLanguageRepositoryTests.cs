@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Data.Context.Configure.Mock;
+using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
@@ -44,13 +44,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var listCount = listResult.Count;
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<ApplicationLanguage>>());
                 Assert.That(listResult, Has.Count.EqualTo(38));
                 Assert.That(listCount, Is.EqualTo(38));
-            });
+            }
         }
 
 
@@ -72,11 +72,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var result = await _entityRepository.Find(language, languageKey, resourceKey);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<ApplicationLanguage>());
-            });
+            }
         }
     }
 }

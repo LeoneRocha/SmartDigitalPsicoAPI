@@ -1,4 +1,4 @@
-﻿using QuestPDF.Fluent;
+using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SmartDigitalPsico.Domain.Helpers;
@@ -9,12 +9,23 @@ using System.Reflection;
 namespace SmartDigitalPsico.Domain.Report
 {
     //https://www.questpdf.com/api-reference/line.html
+    /// <summary>
+    /// Classe responsável por QuestPdfReportAdapter.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class QuestPdfReportAdapter : IPdfReportAdapter
     {
+        /// <summary>
+        /// Método QuestPdfReportAdapter: executa a operação QuestPdfReportAdapter.
+        /// </summary>
         public QuestPdfReportAdapter()
         {
             QuestPDF.Settings.License = LicenseType.Community;//Commercial not free
         }
+        /// <summary>
+        /// Método Generate: executa a operação Generate.
+        /// </summary>
         public byte[] Generate(ReportPageContentDto content)
         {
             var document = Document.Create(container =>
@@ -23,6 +34,9 @@ namespace SmartDigitalPsico.Domain.Report
             });
             return document.GeneratePdf();
         }
+        /// <summary>
+        /// Método Generate: executa a operação Generate.
+        /// </summary>
         public async Task Generate(ReportPageContentDto content, string filePath)
         {
             await Task.Run(() => GeneratePDF(content, filePath));

@@ -22,9 +22,17 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Domain.Mapper
 {
+    /// <summary>
+    /// Classe responsável por AutoMapperProfile.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class AutoMapperProfile : Profile
     {
         
+        /// <summary>
+        /// Método AutoMapperProfile: executa a operação AutoMapperProfile.
+        /// </summary>
         public AutoMapperProfile()
         {
             #region EntityBase

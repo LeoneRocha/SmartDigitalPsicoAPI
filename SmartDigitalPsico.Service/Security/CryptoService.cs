@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
@@ -6,6 +6,11 @@ using SmartDigitalPsico.Domain.Interfaces.Security;
 
 namespace SmartDigitalPsico.Service.Security
 {
+    /// <summary>
+    /// Classe responsável por CryptoService.
+    /// Responsabilidade: componente do backend SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
     public class CryptoService : ICryptoService
     {
         private readonly ECryptoServiceType _cryptoServiceType;
@@ -13,6 +18,9 @@ namespace SmartDigitalPsico.Service.Security
         private readonly string _ivOrPublicKey;
         private readonly ICryptoAdapterFactory _cryptoAdapterFactory;
 
+        /// <summary>
+        /// Método CryptoService: executa a operação CryptoService.
+        /// </summary>
         public CryptoService(IConfiguration configuration, ICryptoAdapterFactory cryptoAdapterFactory)
         {
             _key = ConfigurationAppSettingsHelper.GetSecuritySettingsAesSettingAesKey(configuration);
@@ -21,18 +29,30 @@ namespace SmartDigitalPsico.Service.Security
             _cryptoAdapterFactory = cryptoAdapterFactory;
         }
 
+        /// <summary>
+        /// Método Encrypt: executa a operação Encrypt.
+        /// </summary>
         public string Encrypt(string plainText)
         {
             return executeEncrypt(_key, plainText);
         }
+        /// <summary>
+        /// Método Encrypt: executa a operação Encrypt.
+        /// </summary>
         public string Encrypt(string keyBase64, string plainText)
         {
             return executeEncrypt(keyBase64, plainText);
         } 
+        /// <summary>
+        /// Método Decrypt: executa a operação Decrypt.
+        /// </summary>
         public string Decrypt(string cipherTextBase64)
         {
             return executeDecrypt(_key, cipherTextBase64);
         }
+        /// <summary>
+        /// Método Decrypt: executa a operação Decrypt.
+        /// </summary>
         public string Decrypt(string keyBase64, string cipherTextBase64)
         {
             return executeDecrypt(keyBase64, cipherTextBase64);

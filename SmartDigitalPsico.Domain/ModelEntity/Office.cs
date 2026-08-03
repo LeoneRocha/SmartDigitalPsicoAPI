@@ -1,10 +1,18 @@
-﻿using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
+    /// <summary>
+    /// Classe responsável por Office.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
     public class Office : EntityBase, IEntityBaseDomains
     {
+        /// <summary>
+        /// Método Office: executa a operação Office.
+        /// </summary>
         public Office()
         {
             Medicals = new List<Medical>();

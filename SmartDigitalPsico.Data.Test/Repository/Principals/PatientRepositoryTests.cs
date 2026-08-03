@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Data.Repository.Principals;
+using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
@@ -54,13 +54,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var listCount = listResult.Count;
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<Patient>>());
                 Assert.That(listResult, Has.Count.EqualTo(4));
                 Assert.That(listCount, Is.EqualTo(4));
-            });
+            }
         }
 
         [Test]
@@ -82,12 +82,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.FindByPatient(patientFind);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Patient>());
                 Assert.That(result.Cpf, Is.EqualTo(mockData.Cpf));
-            });
+            }
         }
         [Test]
         public async Task FindByPatient_By_Rg_Success_ReturnsPatient()
@@ -108,12 +108,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.FindByPatient(patientFind);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Patient>());
                 Assert.That(result.Cpf, Is.EqualTo(mockData.Cpf));
-            });
+            }
         }
         [Test]
         public async Task FindByPatient_By_Email_Success_ReturnsPatient()
@@ -134,12 +134,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             var result = await _entityRepository.FindByPatient(patientFind);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Patient>());
                 Assert.That(result.Cpf, Is.EqualTo(mockData.Cpf));
-            });
+            }
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Patient>());
@@ -163,7 +163,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result.Medical, Is.Not.Null);
                 Assert.That(result.Gender, Is.Not.Null);
                 Assert.That(result.CreatedUser, Is.Not.Null);
-            });
+            }
         }
         [Test]
         public async Task FindByEmail_Success_ReturnsPatient()
@@ -178,12 +178,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByEmail(mockData.Email);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Patient>());
                 Assert.That(result?.Email, Is.EqualTo(mockData.Email));
-            });
+            }
         }
         [Test]
         public async Task FindAllByMedicalId_Success_ReturnsPatient()
@@ -198,7 +198,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var listResult = await _entityRepository.FindAllByMedicalId(mockData.MedicalId);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<Patient>>()); 
@@ -207,7 +207,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(listResult[0].Medical, Is.Not.Null);
                 Assert.That(listResult[0].Gender, Is.Not.Null);
                 Assert.That(listResult[0].CreatedUser, Is.Not.Null);
-            });
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
@@ -10,6 +10,11 @@ using SmartDigitalPsico.Domain.Security;
 
 namespace SmartDigitalPsico.Data.Repository.FileManager
 {
+    /// <summary>
+    /// Classe responsável por FileManager.
+    /// Responsabilidade: repositório de persistência.
+    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// </summary>
     public class FileManager : IFileManager
     {
         private readonly IConfiguration _configuration;
@@ -17,6 +22,9 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         private readonly IFileDiskRepository _repositoryFileDisk;
         private readonly IStorageBlobAdapter _storageClientAdapter;
 
+        /// <summary>
+        /// Método FileManager: executa a operação FileManager.
+        /// </summary>
         public FileManager(IConfiguration configuration
             , ILocationSaveFileConfigurationDto locationSaveFileConfigurationVO
             , IFileDiskRepository repositoryFileDisk, IStorageBlobAdapter storageClientAdapter)
@@ -27,6 +35,9 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             _storageClientAdapter = storageClientAdapter;
         }
 
+        /// <summary>
+        /// Método PersistFile: executa a operação PersistFile.
+        /// </summary>
         public async Task<string> PersistFile(IFormFile? fileData, FileBase entityAdd, string folderContainer, string folderIdentity)
         {
             string folderDest = string.Empty;
@@ -60,6 +71,9 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             return folderDest ?? string.Empty;
         }
 
+        /// <summary>
+        /// Método DownloadFileById: executa a operação DownloadFileById.
+        /// </summary>
         public async Task<FileBase?> DownloadFileById(FileBase fileEntity, string folderIdentity)
         {
             if (fileEntity != null)
@@ -81,6 +95,9 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             return fileEntity;
         }
 
+        /// <summary>
+        /// Método DeleteFile: remove ou cancela um registro/recurso.
+        /// </summary>
         public async Task<bool> DeleteFile(FileBase fileEntity, string folderIdentity)
         {
             if (fileEntity != null)

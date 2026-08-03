@@ -1,7 +1,12 @@
-﻿using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Domains
 {
+    /// <summary>
+    /// Classe responsável por CacheConfigurationDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class CacheConfigurationDto
     {
         public int AbsoluteExpirationInHours { get; set; }

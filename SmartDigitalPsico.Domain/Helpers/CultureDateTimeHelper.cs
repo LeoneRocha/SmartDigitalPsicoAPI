@@ -1,10 +1,15 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
 using SmartDigitalPsico.Domain.DTO;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
+    /// <summary>
+    /// Classe responsável por CultureDateTimeHelper.
+    /// Responsabilidade: utilitário auxiliar do domínio.
+    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// </summary>
     public static class CultureDateTimeHelper
     {   
         private static List<CultureInfo> getCulturesEnable()
@@ -18,6 +23,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return list;
         }
 
+        /// <summary>
+        /// Método GetTimeZonesIds: consulta e retorna dados.
+        /// </summary>
         public static List<TimeZoneDisplayDto> GetTimeZonesIds()
         {
             List<TimeZoneDisplayDto> result = new List<TimeZoneDisplayDto>();
@@ -29,6 +37,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
             return result;
         }
+        /// <summary>
+        /// Método GetCultures: consulta e retorna dados.
+        /// </summary>
         public static List<CultureDisplayDto> GetCultures()
         {
             List<CultureDisplayDto> result = new List<CultureDisplayDto>();
@@ -44,15 +55,24 @@ namespace SmartDigitalPsico.Domain.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Método TranslateCulture: executa a operação TranslateCulture.
+        /// </summary>
         public static List<CultureInfo> TranslateCulture(List<CultureDisplayDto> cultureDisplays)
         {
             return cultureDisplays.Select(cd => new CultureInfo(cd.Id)).ToList();
         }
 
+        /// <summary>
+        /// Método GetNameAndCulture: consulta e retorna dados.
+        /// </summary>
         public static string GetNameAndCulture(string localizedStringKeyName)
         {  
             return $"{localizedStringKeyName}"; 
         }
+        /// <summary>
+        /// Método GetKeyLocalizationRecordFormat: consulta e retorna dados.
+        /// </summary>
         public static string GetKeyLocalizationRecordFormat(string LanguageKey, string Language)
         {
             return $"{LanguageKey}";
@@ -75,6 +95,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Método GetTimeZoneBrazil: consulta e retorna dados.
+        /// </summary>
         public static string GetTimeZoneBrazil()
         {
             var zt = CultureDateTimeHelper.GetTimeZonesIds().Find(c =>
@@ -92,6 +115,9 @@ namespace SmartDigitalPsico.Domain.Helpers
             return idZT;
         }
 
+        /// <summary>
+        /// Método GetCultureBrazil: consulta e retorna dados.
+        /// </summary>
         public static string GetCultureBrazil()
         {
             return CultureDateTimeHelper.GetCultures().First(c => c.Id.Contains("pt-br", StringComparison.OrdinalIgnoreCase)).Id;

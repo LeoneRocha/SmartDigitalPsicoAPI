@@ -1,4 +1,4 @@
-﻿using Bogus;
+using Bogus;
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
@@ -51,11 +51,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var target = await _mockContext.Genders.FirstAsync(e => e.Description.Equals(data.Description, StringComparison.OrdinalIgnoreCase));
 
             //Assert  
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.EqualTo(data));
                 Assert.That(target, Is.Not.Null);
-            });
+            }
         }
 
         [Test]
@@ -100,11 +100,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var target = await _mockContext.Genders.FirstAsync(e => e.Id == data.Id);
 
             //Assert  
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.EqualTo(data));
                 Assert.That(target, Is.Not.Null);
-            });
+            }
         }
 
         [Test]
@@ -122,13 +122,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var listCount = listResult.Count;
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<Gender>>());
                 Assert.That(listResult, Has.Count.EqualTo(2));
                 Assert.That(listCount, Is.EqualTo(2));
-            });
+            }
         }
 
         [Test]
@@ -147,11 +147,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var result = await _entityRepository.FindByID(idToFind);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result.Id, Is.EqualTo(idToFind));
-            });
+            }
         }
 
         [Test]
@@ -176,12 +176,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var target = await _mockContext.Genders.FirstOrDefaultAsync(e => e.Id == result.Id);
 
             //Assert  
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(target, Is.Not.Null);
                 Assert.That(target?.Id, Is.EqualTo(mockDataUpdate.Id));
                 Assert.That(mockDataUpdate.Description, Is.EqualTo(target?.Description));
-            });
+            }
         }
 
         [Test]
@@ -220,11 +220,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var target = await _mockContext.Genders.FirstOrDefaultAsync(e => e.Id == mockData.Id);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.True);
                 Assert.That(target, Is.Null);
-            });
+            }
         }
 
 
@@ -246,12 +246,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var target = await _mockContext.Genders.FirstOrDefaultAsync(e => e.Id == mockData.Id);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.True);
                 Assert.That(mockData.Enable, Is.True);
                 Assert.That(target?.Enable, Is.False);
-            });
+            }
         }
 
         [Test]
@@ -315,12 +315,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var listResult = await _entityRepository.FindByCustomWhere(predicate);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<Gender>>());
                 Assert.That(listResult, Has.Count.EqualTo(1));
-            });
+            }
         }
 
         [Test]
@@ -346,7 +346,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var listResult = await _entityRepository.FindByCustomWhereWithIncludes(predicate, includeProperties);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<Gender>>());
@@ -356,7 +356,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
                 Assert.That(listResult.First().Patients.ToList(), Is.InstanceOf<List<Patient>>());
                 Assert.That(listResult.First().Patients, Has.Count.EqualTo(1));
 
-            });
+            }
         }
         [Test]
         public async Task GetCount_Success()
@@ -376,11 +376,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var result = await _entityRepository.GetCount(predicate);
 
             // Assert
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.GreaterThanOrEqualTo(0));
                 Assert.That(result, Is.EqualTo(1));
-            });
+            }
         }
 
         private static Gender createNewEntity(Gender mockData)

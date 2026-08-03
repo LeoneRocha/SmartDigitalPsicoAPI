@@ -1,9 +1,14 @@
-﻿using AutoMapper.Configuration.Annotations;
+using AutoMapper.Configuration.Annotations;
 using SmartDigitalPsico.Domain.Enuns;
 using System.Text.Json.Serialization;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {
+    /// <summary>
+    /// Classe responsável por ScheduleCriteriaDto.
+    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
+    /// Relação: usado por Controllers, Services e Validators.
+    /// </summary>
     public class ScheduleCriteriaDto
     {
         public DateTime AppointmentDateTime { get; set; }

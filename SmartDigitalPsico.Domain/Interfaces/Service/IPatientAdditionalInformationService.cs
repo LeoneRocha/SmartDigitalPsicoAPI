@@ -4,9 +4,16 @@ using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    public interface IPatientAdditionalInformationService : IEntityBaseService<PatientAdditionalInformation, 
-        AddPatientAdditionalInformationDto,UpdatePatientAdditionalInformationDto, GetPatientAdditionalInformationDto>
+    /// <summary>
+    /// Interface (contrato) responsável por IPatientAdditionalInformationService.
+    /// Responsabilidade: contrato de serviço de negócio.
+    /// Relação: implementado na camada Service e consumido pelos Controllers.
+    /// </summary>
+    public interface IPatientAdditionalInformationService : IEntityBaseService<PatientAdditionalInformation, GetPatientAdditionalInformationDto>
     { 
+        /// <summary>
+        /// Método FindAllByPatient: consulta e retorna dados.
+        /// </summary>
         Task<ServiceResponse<List<GetPatientAdditionalInformationDto>>> FindAllByPatient(long patientId);
     }
 }
