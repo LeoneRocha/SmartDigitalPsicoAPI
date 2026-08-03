@@ -126,9 +126,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetUserDto>> Update(IEntityDto updateUserDto)
+        public override async Task<ServiceResponse<GetUserDto>> Update(IEntityDto item)
         {
-            var updateUser = (UpdateUserDto)updateUserDto;
+            var updateUser = (UpdateUserDto)item;
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
             try
@@ -193,9 +193,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetUserDto>> Create(IEntityDtoAdd userRegisterVODto)
+        public override async Task<ServiceResponse<GetUserDto>> Create(IEntityDtoAdd item)
         {
-            var userRegisterVO = (AddUserDto)userRegisterVODto;
+            var userRegisterVO = (AddUserDto)item;
             SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User entityAdd = _mapper.Map<User>(userRegisterVO);

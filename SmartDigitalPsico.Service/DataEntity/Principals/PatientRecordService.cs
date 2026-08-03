@@ -53,15 +53,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientRecordDto>> Create(IEntityDtoAdd itemDto)
+        public override async Task<ServiceResponse<GetPatientRecordDto>> Create(IEntityDtoAdd item)
         {
-            var item = (AddPatientRecordDto)itemDto;
-            PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
+            var dto = (AddPatientRecordDto)item;
+            PatientRecord entityAdd = _mapper.Map<PatientRecord>(dto);
 
             #region Relationship
 
             entityAdd.CreatedUserId = UserId;
-            entityAdd.PatientId = item.PatientId;
+            entityAdd.PatientId = dto.PatientId;
 
             #endregion Relationship
 
@@ -75,7 +75,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 var patient = await _patientRepository.FindByID(entityAdd.PatientId);
                 var medical = await _medicalRepository.FindByID(patient.MedicalId);
-                entityAdd.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, item.Annotation);
+                entityAdd.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, dto.Annotation);
 
                 entityAdd.TableStorageRowKey = Guid.NewGuid().ToString();
 
@@ -95,10 +95,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientRecordDto>> Update(IEntityDto itemDto)
+        public override async Task<ServiceResponse<GetPatientRecordDto>> Update(IEntityDto item)
         {
-            var item = (UpdatePatientRecordDto)itemDto;
-            PatientRecord entityUpdate = await ((IPatientRecordRepository)_entityRepository).FindByID(item.Id);
+            var dto = (UpdatePatientRecordDto)item;
+            PatientRecord entityUpdate = await ((IPatientRecordRepository)_entityRepository).FindByID(dto.Id);
             string[] propertiesToIgnore = ["Patient", "Patient", "CreatedUser", "ModifyUser"];
 
             PatientRecord entityOld = AuditLogHelper.DeepClone(entityUpdate, propertiesToIgnore);
@@ -121,10 +121,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             #endregion User Action
 
             #region Columns
-            entityUpdate.Enable = item.Enable;
-            entityUpdate.Annotation = item.Annotation;
-            entityUpdate.Description = item.Description;
-            entityUpdate.AnnotationDate = item.AnnotationDate;
+            entityUpdate.Enable = dto.Enable;
+            entityUpdate.Annotation = dto.Annotation;
+            entityUpdate.Description = dto.Description;
+            entityUpdate.AnnotationDate = dto.AnnotationDate;
             entityUpdate.TableStorageRowKey = string.IsNullOrEmpty(entityUpdate.TableStorageRowKey) ? Guid.NewGuid().ToString()
                 : entityUpdate.TableStorageRowKey;
             #endregion Columns
@@ -133,7 +133,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (response.Success)
             {
                 var medical = await _medicalRepository.FindByID(entityUpdate.Patient?.MedicalId ?? 0);
-                entityUpdate.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, item.Annotation);
+                entityUpdate.Annotation = _config.SharedServices.CryptoService.Encrypt(medical.SecurityKey, dto.Annotation);
 
                 var updateTableEntity = CreateTableEntity(entityUpdate);
 

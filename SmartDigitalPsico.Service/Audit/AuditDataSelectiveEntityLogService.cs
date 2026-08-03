@@ -42,9 +42,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(IEntityDtoAdd itemDto)
+        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(IEntityDtoAdd item)
         {
-            var item = (AddAuditDataSelectiveEntityLogDto)itemDto;
             throw new NotImplementedException();
         }
 

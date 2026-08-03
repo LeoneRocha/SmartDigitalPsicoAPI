@@ -93,12 +93,12 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetGenderDto>> Update(IEntityDto itemDto)
+        public override async Task<ServiceResponse<GetGenderDto>> Update(IEntityDto item)
         {
-            var item = (UpdateGenderDto)itemDto;
+            var dto = (UpdateGenderDto)item;
             ServiceResponse<GetGenderDto> response = new ServiceResponse<GetGenderDto>();
 
-            bool entityExists = await ((IGenderRepository)_entityRepository).Exists(item.Id);
+            bool entityExists = await ((IGenderRepository)_entityRepository).Exists(dto.Id);
 
             if (!entityExists)
             {
@@ -107,10 +107,10 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                  
                 return response;
             }
-            Gender entityUpdate = await ((IGenderRepository)_entityRepository).FindByID(item.Id);
-            entityUpdate.Description = item.Description;
-            entityUpdate.Enable = item.Enable;
-            entityUpdate.Language = item.Language;
+            Gender entityUpdate = await ((IGenderRepository)_entityRepository).FindByID(dto.Id);
+            entityUpdate.Description = dto.Description;
+            entityUpdate.Enable = dto.Enable;
+            entityUpdate.Language = dto.Language;
 
             response = await Validate(entityUpdate);
             entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();

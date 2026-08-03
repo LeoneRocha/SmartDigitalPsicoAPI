@@ -116,9 +116,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override Task<ServiceResponse<GetMedicalFileDto>> Update(IEntityDto itemDto)
+        public override Task<ServiceResponse<GetMedicalFileDto>> Update(IEntityDto item)
         {
-            var item = (UpdateMedicalFileDto)itemDto;
             throw new NotImplementedException("Not Permission");
         }
 

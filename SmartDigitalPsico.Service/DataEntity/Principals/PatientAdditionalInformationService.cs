@@ -56,15 +56,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Create(IEntityDtoAdd itemDto)
+        public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Create(IEntityDtoAdd item)
         {
-            var item = (AddPatientAdditionalInformationDto)itemDto;
-            PatientAdditionalInformation entityAdd = _mapper.Map<PatientAdditionalInformation>(item);
+            var dto = (AddPatientAdditionalInformationDto)item;
+            PatientAdditionalInformation entityAdd = _mapper.Map<PatientAdditionalInformation>(dto);
 
             #region Relationship
 
             entityAdd.CreatedUserId = UserId;
-            entityAdd.PatientId = item.PatientId;
+            entityAdd.PatientId = dto.PatientId;
 
             #endregion
 
@@ -87,11 +87,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Update(IEntityDto itemDto)
+        public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Update(IEntityDto item)
         {
-            var item = (UpdatePatientAdditionalInformationDto)itemDto;
+            var dto = (UpdatePatientAdditionalInformationDto)item;
 
-            PatientAdditionalInformation entityUpdate = await ((IPatientAdditionalInformationRepository)_entityRepository).FindByID(item.Id);
+            PatientAdditionalInformation entityUpdate = await ((IPatientAdditionalInformationRepository)_entityRepository).FindByID(dto.Id);
 
             #region Relationship 
             entityUpdate.ModifyUserId = UserId;
@@ -102,9 +102,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
             #region Columns
-            entityUpdate.Enable = item.Enable;
-            entityUpdate.FollowUp_Neurological = item.FollowUp_Neurological;
-            entityUpdate.FollowUp_Psychiatric = item.FollowUp_Psychiatric;
+            entityUpdate.Enable = dto.Enable;
+            entityUpdate.FollowUp_Neurological = dto.FollowUp_Neurological;
+            entityUpdate.FollowUp_Psychiatric = dto.FollowUp_Psychiatric;
             #endregion Columns
 
             ServiceResponse<GetPatientAdditionalInformationDto> response = await base.Validate(entityUpdate);

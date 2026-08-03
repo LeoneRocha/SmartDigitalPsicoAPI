@@ -44,16 +44,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Create(IEntityDtoAdd itemDto)
+        public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Create(IEntityDtoAdd item)
         {
-            var item = (AddPatientMedicationInformationDto)itemDto;
+            var dto = (AddPatientMedicationInformationDto)item;
 
-            PatientMedicationInformation entityAdd = _mapper.Map<PatientMedicationInformation>(item);
+            PatientMedicationInformation entityAdd = _mapper.Map<PatientMedicationInformation>(dto);
 
             #region Relationship
 
             entityAdd.CreatedUserId = UserId;
-            entityAdd.PatientId = item.PatientId;
+            entityAdd.PatientId = dto.PatientId;
 
             #endregion
 
@@ -76,10 +76,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Update(IEntityDto itemDto)
+        public override async Task<ServiceResponse<GetPatientMedicationInformationDto>> Update(IEntityDto item)
         {
-            var item = (UpdatePatientMedicationInformationDto)itemDto;
-            PatientMedicationInformation entityUpdate = await ((IPatientMedicationInformationRepository)_entityRepository).FindByID(item.Id);
+            var dto = (UpdatePatientMedicationInformationDto)item;
+            PatientMedicationInformation entityUpdate = await ((IPatientMedicationInformationRepository)_entityRepository).FindByID(dto.Id);
 
             entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
             entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
@@ -87,13 +87,13 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.ModifyUserId = UserId;
 
             #region Columns
-            entityUpdate.Enable = item.Enable;
-            entityUpdate.StartDate = item.StartDate;
-            entityUpdate.EndDate = item.EndDate;
-            entityUpdate.MainDrug = item.MainDrug;
-            entityUpdate.Description = item.Description;
-            entityUpdate.Dosage = item.Dosage;
-            entityUpdate.Posology = item.Posology;
+            entityUpdate.Enable = dto.Enable;
+            entityUpdate.StartDate = dto.StartDate;
+            entityUpdate.EndDate = dto.EndDate;
+            entityUpdate.MainDrug = dto.MainDrug;
+            entityUpdate.Description = dto.Description;
+            entityUpdate.Dosage = dto.Dosage;
+            entityUpdate.Posology = dto.Posology;
             #endregion Columns
 
             ServiceResponse<GetPatientMedicationInformationDto> response = await base.Validate(entityUpdate);

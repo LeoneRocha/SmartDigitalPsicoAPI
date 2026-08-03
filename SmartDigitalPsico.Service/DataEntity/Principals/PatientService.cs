@@ -43,10 +43,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientDto>> Create(IEntityDtoAdd itemDto)
+        public override async Task<ServiceResponse<GetPatientDto>> Create(IEntityDtoAdd item)
         {
-            var item = (AddPatientDto)itemDto;
-            Patient entityAdd = _mapper.Map<Patient>(item);
+            var dto = (AddPatientDto)item;
+            Patient entityAdd = _mapper.Map<Patient>(dto);
 
             #region Set default fields for bussines
 
@@ -67,8 +67,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
                 #region Relationship 
 
-                entityAdd.MedicalId = item.MedicalId;
-                entityAdd.GenderId = item.GenderId;
+                entityAdd.MedicalId = dto.MedicalId;
+                entityAdd.GenderId = dto.GenderId;
                 #endregion Relationship
 
                 Patient entityResponse = await ((IPatientRepository)_entityRepository).Create(entityAdd);
@@ -81,11 +81,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientDto>> Update(IEntityDto itemDto)
+        public override async Task<ServiceResponse<GetPatientDto>> Update(IEntityDto item)
         {
-            var item = (UpdatePatientDto)itemDto;
+            var dto = (UpdatePatientDto)item;
             ServiceResponse<GetPatientDto> response = new ServiceResponse<GetPatientDto>();
-            Patient? entityUpdate = await ((IPatientRepository)_entityRepository).FindByID(item.Id);
+            Patient? entityUpdate = await ((IPatientRepository)_entityRepository).FindByID(dto.Id);
             if (entityUpdate != null)
             {
                 #region Set default fields for bussines
@@ -103,29 +103,29 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 #region Relationship
 
-                entityUpdate.GenderId = item.GenderId;
+                entityUpdate.GenderId = dto.GenderId;
 
                 #endregion Relationship
 
                 #region Columns
-                entityUpdate.Enable = item.Enable;
-                entityUpdate.Name = item.Name;
-                entityUpdate.Email = item.Email;
-                entityUpdate.Cpf = item.Cpf;
-                entityUpdate.Rg = item.Rg;
-                entityUpdate.Education = item.Education;
-                entityUpdate.DateOfBirth = item.DateOfBirth;
-                entityUpdate.PhoneNumber = item.PhoneNumber;
-                entityUpdate.Profession = item.Profession;
+                entityUpdate.Enable = dto.Enable;
+                entityUpdate.Name = dto.Name;
+                entityUpdate.Email = dto.Email;
+                entityUpdate.Cpf = dto.Cpf;
+                entityUpdate.Rg = dto.Rg;
+                entityUpdate.Education = dto.Education;
+                entityUpdate.DateOfBirth = dto.DateOfBirth;
+                entityUpdate.PhoneNumber = dto.PhoneNumber;
+                entityUpdate.Profession = dto.Profession;
 
-                entityUpdate.EmergencyContactName = item.EmergencyContactName;
-                entityUpdate.EmergencyContactPhoneNumber = item.EmergencyContactPhoneNumber;
+                entityUpdate.EmergencyContactName = dto.EmergencyContactName;
+                entityUpdate.EmergencyContactPhoneNumber = dto.EmergencyContactPhoneNumber;
 
-                entityUpdate.AddressCep = item.AddressCep;
-                entityUpdate.AddressCity = item.AddressCity;
-                entityUpdate.AddressStreet = item.AddressStreet;
-                entityUpdate.AddressState = item.AddressState;
-                entityUpdate.AddressNeighborhood = item.AddressNeighborhood;
+                entityUpdate.AddressCep = dto.AddressCep;
+                entityUpdate.AddressCity = dto.AddressCity;
+                entityUpdate.AddressStreet = dto.AddressStreet;
+                entityUpdate.AddressState = dto.AddressState;
+                entityUpdate.AddressNeighborhood = dto.AddressNeighborhood;
 
                 #endregion Columns
 

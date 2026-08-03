@@ -47,16 +47,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Create(IEntityDtoAdd itemDto)
+        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Create(IEntityDtoAdd item)
         {
-            var item = (AddPatientNotificationMessageDto)itemDto;
-            PatientNotificationMessage entityAdd = _mapper.Map<PatientNotificationMessage>(item);
+            var dto = (AddPatientNotificationMessageDto)item;
+            PatientNotificationMessage entityAdd = _mapper.Map<PatientNotificationMessage>(dto);
 
             #region Relationship
 
             entityAdd.CreatedUserId = UserId;
 
-            Patient patientAdd = await _patientRepository.FindByPatient(new Patient() { Cpf = item.CPF, Rg = item.RG, Email = item.Email }) ?? new Patient();
+            Patient patientAdd = await _patientRepository.FindByPatient(new Patient() { Cpf = dto.CPF, Rg = dto.RG, Email = dto.Email }) ?? new Patient();
             entityAdd.PatientId = patientAdd.Id;
 
             #endregion
@@ -82,10 +82,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Update(IEntityDto itemDto)
+        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Update(IEntityDto item)
         {
-            var item = (UpdatePatientNotificationMessageDto)itemDto;
-            PatientNotificationMessage entityUpdate = await ((IPatientNotificationMessageRepository)_entityRepository).FindByID(item.Id);
+            var dto = (UpdatePatientNotificationMessageDto)item;
+            PatientNotificationMessage entityUpdate = await ((IPatientNotificationMessageRepository)_entityRepository).FindByID(dto.Id);
 
             entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
             entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
@@ -93,14 +93,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.ModifyUserId = UserId;
 
             #region Columns
-            entityUpdate.Enable = item.Enable;
-            entityUpdate.MessagePatient = item.Message;
+            entityUpdate.Enable = dto.Enable;
+            entityUpdate.MessagePatient = dto.Message;
 
-            entityUpdate.IsReaded = item.IsReaded;
-            entityUpdate.ReadingDate = item.IsReaded ? DateHelper.GetDateTimeNowFromUtc() : null;
+            entityUpdate.IsReaded = dto.IsReaded;
+            entityUpdate.ReadingDate = dto.IsReaded ? DateHelper.GetDateTimeNowFromUtc() : null;
 
-            entityUpdate.Notified = item.Notified;
-            entityUpdate.NotifiedDate = item.Notified ? DateHelper.GetDateTimeNowFromUtc() : null;
+            entityUpdate.Notified = dto.Notified;
+            entityUpdate.NotifiedDate = dto.Notified ? DateHelper.GetDateTimeNowFromUtc() : null;
 
             #endregion Columns
 

@@ -46,33 +46,33 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(IEntityDtoAdd itemDto)
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(IEntityDtoAdd item)
         {
-            var item = (AddNotificationRecordsDto)itemDto;
-            item.NextScheduledSendTime = GetNextScheduledSendTime(item);
-            item.CreatedDate = DateTime.UtcNow;
-            item.ModifyDate = DateTime.UtcNow;
-            return await base.Create(item);
+            var dto = (AddNotificationRecordsDto)item;
+            dto.NextScheduledSendTime = GetNextScheduledSendTime(dto);
+            dto.CreatedDate = DateTime.UtcNow;
+            dto.ModifyDate = DateTime.UtcNow;
+            return await base.Create(dto);
         }
 
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(IEntityDto itemDto)
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(IEntityDto item)
         {
-            var item = (UpdateNotificationRecordsDto)itemDto;
+            var dto = (UpdateNotificationRecordsDto)item;
             ServiceResponse<GetNotificationRecordsDto> response = new ServiceResponse<GetNotificationRecordsDto>();
 
-            NotificationRecord? entityUpdate = await ((INotificationRecordsRepository)_entityRepository).FindByID(item.Id);
+            NotificationRecord? entityUpdate = await ((INotificationRecordsRepository)_entityRepository).FindByID(dto.Id);
             if (entityUpdate != null)
             {   
-                entityUpdate.NotificationRules = item.NotificationRules;
-                entityUpdate.NextScheduledSendTime = item.NextScheduledSendTime;
-                entityUpdate.FinalSendDate = item.FinalSendDate;
-                entityUpdate.EventDate = item.EventDate;
-                entityUpdate.TokenId = item.TokenId;
-                entityUpdate.Enable = item.Enable;
-                entityUpdate.IsCompleted = item.IsCompleted;               
+                entityUpdate.NotificationRules = dto.NotificationRules;
+                entityUpdate.NextScheduledSendTime = dto.NextScheduledSendTime;
+                entityUpdate.FinalSendDate = dto.FinalSendDate;
+                entityUpdate.EventDate = dto.EventDate;
+                entityUpdate.TokenId = dto.TokenId;
+                entityUpdate.Enable = dto.Enable;
+                entityUpdate.IsCompleted = dto.IsCompleted;               
                
                 // Atualiza as datas e o usuário modificador
                 entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();

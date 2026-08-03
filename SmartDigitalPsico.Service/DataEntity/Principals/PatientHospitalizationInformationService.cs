@@ -46,16 +46,16 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Create(IEntityDtoAdd itemDto)
+        public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Create(IEntityDtoAdd item)
         {
-            var item = (AddPatientHospitalizationInformationDto)itemDto;
+            var dto = (AddPatientHospitalizationInformationDto)item;
 
-            PatientHospitalizationInformation entityAdd = _mapper.Map<PatientHospitalizationInformation>(item);
+            PatientHospitalizationInformation entityAdd = _mapper.Map<PatientHospitalizationInformation>(dto);
 
             #region Relationship
 
             entityAdd.CreatedUserId = UserId;
-            entityAdd.PatientId = item.PatientId;
+            entityAdd.PatientId = dto.PatientId;
 
             #endregion
 
@@ -79,11 +79,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Update(IEntityDto itemDto)
+        public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Update(IEntityDto item)
         {
-            var item = (UpdatePatientHospitalizationInformationDto)itemDto;
+            var dto = (UpdatePatientHospitalizationInformationDto)item;
 
-            PatientHospitalizationInformation entityUpdate = await ((IPatientHospitalizationInformationRepository)_entityRepository).FindByID(item.Id);
+            PatientHospitalizationInformation entityUpdate = await ((IPatientHospitalizationInformationRepository)_entityRepository).FindByID(dto.Id);
 
             #region Relationship                 
             entityUpdate.ModifyUserId = UserId;
@@ -93,12 +93,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
             #region Columns
-            entityUpdate.Enable = item.Enable;
-            entityUpdate.CID = item.CID;
-            entityUpdate.Description = item.Description;
-            entityUpdate.StartDate = item.StartDate;
-            entityUpdate.EndDate = item.EndDate;
-            entityUpdate.Observation = item.Observation;
+            entityUpdate.Enable = dto.Enable;
+            entityUpdate.CID = dto.CID;
+            entityUpdate.Description = dto.Description;
+            entityUpdate.StartDate = dto.StartDate;
+            entityUpdate.EndDate = dto.EndDate;
+            entityUpdate.Observation = dto.Observation;
             #endregion Columns
 
             ServiceResponse<GetPatientHospitalizationInformationDto> response = await base.Validate(entityUpdate);

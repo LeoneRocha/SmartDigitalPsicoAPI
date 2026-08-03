@@ -41,21 +41,21 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(IEntityDto itemDto)
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(IEntityDto item)
         {
-            var item = (UpdateNotificationTemplateDto)itemDto;
-            item.Body = HtmlSanitizerHelper.Sanitize(item.Body);
+            var dto = (UpdateNotificationTemplateDto)item;
+            dto.Body = HtmlSanitizerHelper.Sanitize(dto.Body);
 
-            return await base.Update(item);
+            return await base.Update(dto);
         }
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(IEntityDtoAdd itemDto)
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(IEntityDtoAdd item)
         {
-            var item = (AddNotificationTemplateDto)itemDto;
-            item.Body = HtmlSanitizerHelper.Sanitize(item.Body);
-            return await base.Create(item);
+            var dto = (AddNotificationTemplateDto)item;
+            dto.Body = HtmlSanitizerHelper.Sanitize(dto.Body);
+            return await base.Create(dto);
         }
 
         /// <summary>
