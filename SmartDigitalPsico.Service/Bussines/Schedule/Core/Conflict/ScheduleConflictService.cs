@@ -51,9 +51,12 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict
         }
 
         /// <summary>
-        /// Batch de conflito: DB uma vez (GetOverlappingByOwnerAsync), depois Parallel.For checks CPU.
-        /// Ganho esperado: Create/Update com recorrência (N itens) deixa de fazer N queries.
-        /// Não usa Parallel em repositório — DbContext não é thread-safe.
+        /// Batch de conflito: DB uma vez (GetOverlappingByOwnerAsync), depois checks CPU.
+        /// Onde Parallel: Parallel.ForEach item do request vs existentes em memória (MaxAvailableThreads).
+        /// Ganho esperado: Create/Update com recorrência (N itens) deixa de fazer N queries; overlap CPU em paralelo.
+        /// Por que self-overlap i×j sequencial: N típico moderado + early return; Parallel complicaria sem ganho claro.
+        /// Por que não Parallel no repositório: DbContext não é thread-safe.
+        /// Sem ConcurrentBag: Interlocked.Exchange + ParallelLoopState.Stop basta para flag de conflito.
         /// </summary>
         public async Task<ServiceResponse<bool>> HasNoConflictBatchAsync(
             string tenantKey,
@@ -103,10 +106,17 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict
                     }
                 }
 
-                // CPU paralelo: cada item vs existentes em memória (todas as threads lógicas).
+                // CPU paralelo: Parallel.For item vs existentes (flag via Interlocked — sem ConcurrentDictionary).
                 var conflictFound = 0;
-                Parallel.ForEach(items, ScheduleParallel.MaxAvailableThreads, (item, state) =>
+                Parallel.For(0, items.Length, ScheduleParallel.MaxAvailableThreads, (i, state) =>
                 {
+                    if (Volatile.Read(ref conflictFound) != 0)
+                    {
+                        state.Stop();
+                        return;
+                    }
+
+                    var item = items[i];
                     var end = item.EndDateTime ?? item.StartDateTime;
                     foreach (var other in existing)
                     {

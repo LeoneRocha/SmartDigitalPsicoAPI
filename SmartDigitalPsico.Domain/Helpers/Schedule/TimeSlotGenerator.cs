@@ -34,14 +34,17 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
     public static class TimeSlotGenerator
     {
         /// <summary>
-        /// Legacy-parity: emit slots for the full calendar day (00:00 → +1 day).
-        /// Availability is gated by working hours and busy intervals.
-        /// Com slotCount &gt;= ScheduleParallel.SlotParallelThreshold (dinâmico = CpuCount), usa Parallel.For.
+        /// Gera slots do dia (00:00 → +1 day). CPU-only; busy já filtrado em memória.
+        /// Onde Parallel: Parallel.For por índice de slot quando allowParallel e slotCount &gt;= SlotParallelThreshold (CpuCount).
+        /// Ganho esperado: dia único com muitos slots (ex.: intervalo 5–15 min).
+        /// Por que allowParallel=false no grade mensal: GenerateDays já paraleliza por dia — Parallel aninhado oversubscreve o thread pool.
+        /// Array indexado (não ConcurrentBag): cada índice i escreve só em result[i], ordem preservada.
         /// </summary>
         public static List<GeneratedTimeSlot> Generate(
             TimeSlotWindow window,
             IReadOnlyList<(DateTime Start, DateTime End)> busyIntervals,
-            DateTime nowUtc)
+            DateTime nowUtc,
+            bool allowParallel = true)
         {
             if (window.Interval <= TimeSpan.Zero)
                 return [];
@@ -77,8 +80,7 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
                 };
             }
 
-            // Limiar dinâmico: nº de CPUs do host (ex.: 8 cores → paraleliza a partir de 8 slots).
-            if (slotCount >= ScheduleParallel.SlotParallelThreshold)
+            if (allowParallel && slotCount >= ScheduleParallel.SlotParallelThreshold)
             {
                 Parallel.For(0, slotCount, ScheduleParallel.MaxAvailableThreads, FillSlot);
             }

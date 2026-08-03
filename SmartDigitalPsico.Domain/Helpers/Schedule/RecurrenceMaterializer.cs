@@ -38,8 +38,10 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
     {
         /// <summary>
         /// Materializa ocorrências. Sem DB.
-        /// Weekly com semanas enumeráveis: sempre Parallel.For (MaxAvailableThreads) + merge ordenado.
-        /// while sequencial só quando o bound não é previsível (early-break / sem EndDate nem Count).
+        /// Onde Parallel: Daily/Weekly com EndDate ou Count — Parallel.For + bags indexados + merge ordenado.
+        /// Ganho esperado: séries longas (dezenas/centenas de ocorrências).
+        /// Por que Monthly/Yearly sequenciais: N típico baixo; predicado depende de items.Count no while.
+        /// Por que unbounded sequencial: early-break de 1 ocorrência; Parallel no while compartilhado não é seguro.
         /// </summary>
         public static List<RecurrenceInterval> Materialize(RecurrenceMaterializeRequest request)
         {
@@ -87,9 +89,21 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
             return true;
         }
 
+        /// <summary>
+        /// Daily: se os dias são enumeráveis (EndDate/Count), Parallel.For + merge ordenado.
+        /// Ganho esperado: séries diárias longas (ex.: Count=90 / EndDate meses à frente).
+        /// Sem bound → while sequencial (early-break de 1 dia).
+        /// </summary>
         private static void MaterializeDaily(RecurrenceMaterializeRequest request, TimeSpan duration, List<RecurrenceInterval> items)
         {
-            // while sequencial: early-break quando não há EndDate/Count; items.Count participa do predicado.
+            var dayStarts = TryEnumerateDayStarts(request);
+            if (dayStarts is { Length: > 0 })
+            {
+                MaterializeDailyParallel(request, duration, items, dayStarts);
+                return;
+            }
+
+            // Fallback sequencial: sem EndDate/Count — early-break; Parallel no while não é seguro.
             var current = request.StartDateTime;
             while (ShouldContinue(current, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
             {
@@ -101,6 +115,84 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
                 if (!request.RecurrenceCount.HasValue && !request.RecurrenceEndDate.HasValue)
                     break;
             }
+        }
+
+        /// <summary>
+        /// Onde Parallel: um índice por dia civil; bag opcional por índice (null = dia filtrado).
+        /// Merge sequencial aplica Count/MaxOccurrences — fora do Parallel.
+        /// Array indexado (não ConcurrentBag): preserva ordem cronológica no merge.
+        /// </summary>
+        private static void MaterializeDailyParallel(
+            RecurrenceMaterializeRequest request,
+            TimeSpan duration,
+            List<RecurrenceInterval> items,
+            DateTime[] dayStarts)
+        {
+            var perDay = new RecurrenceInterval?[dayStarts.Length];
+            Parallel.For(0, dayStarts.Length, ScheduleParallel.MaxAvailableThreads, i =>
+            {
+                var current = dayStarts[i];
+                if (request.RecurrenceEndDate.HasValue && current.Date > request.RecurrenceEndDate.Value.Date)
+                    return;
+                if (request.RecurrenceDays.Length > 0 && !request.RecurrenceDays.Contains(current.DayOfWeek))
+                    return;
+
+                perDay[i] = new RecurrenceInterval
+                {
+                    StartDateTime = current,
+                    EndDateTime = current + duration
+                };
+            });
+
+            foreach (var interval in perDay)
+            {
+                if (interval == null)
+                    continue;
+                if (HasReachedOccurrenceLimit(request, items))
+                    return;
+                items.Add(interval);
+            }
+        }
+
+        /// <summary>
+        /// Enumera dias civis quando EndDate ou Count permite bound previsível.
+        /// Retorna null se Parallel não é seguro (sem limite → early-break de 1 dia).
+        /// </summary>
+        private static DateTime[]? TryEnumerateDayStarts(RecurrenceMaterializeRequest request)
+        {
+            if (!request.RecurrenceCount.HasValue && !request.RecurrenceEndDate.HasValue)
+                return null;
+
+            var starts = new List<DateTime>();
+            var current = request.StartDateTime;
+            var maxIterations = request.MaxOccurrences;
+
+            if (request.RecurrenceCount is > 0)
+            {
+                // Com filtro de dias da semana, pior caso: ~7/matching dias civis por ocorrência.
+                var matchingPerWeek = request.RecurrenceDays.Length == 0
+                    ? 7
+                    : Math.Max(1, request.RecurrenceDays.Length);
+                maxIterations = Math.Min(
+                    request.MaxOccurrences * 7,
+                    ((request.RecurrenceCount.Value + matchingPerWeek - 1) / matchingPerWeek) * 7 + 7);
+            }
+            else if (request.RecurrenceEndDate.HasValue)
+            {
+                maxIterations = Math.Min(
+                    request.MaxOccurrences * 7,
+                    Math.Max(1, (int)(request.RecurrenceEndDate.Value.Date - request.StartDateTime.Date).TotalDays + 1));
+            }
+
+            for (var i = 0; i < maxIterations; i++)
+            {
+                if (request.RecurrenceEndDate.HasValue && current.Date > request.RecurrenceEndDate.Value.Date)
+                    break;
+                starts.Add(current);
+                current = current.AddDays(1);
+            }
+
+            return starts.Count > 0 ? starts.ToArray() : null;
         }
 
         /// <summary>
@@ -130,6 +222,11 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
             }
         }
 
+        /// <summary>
+        /// Onde Parallel: Parallel.For por semana; bags em perWeek[i]; merge ordenado fora.
+        /// Ganho esperado: séries semanais com EndDate/Count.
+        /// Array indexado (não ConcurrentBag): merge cronológico sem sort extra.
+        /// </summary>
         private static void MaterializeWeeklyParallel(
             RecurrenceMaterializeRequest request,
             TimeSpan duration,
@@ -246,9 +343,11 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
             items.Add(new RecurrenceInterval { StartDateTime = start, EndDateTime = start + duration });
         }
 
+        /// <summary>
+        /// Monthly sequencial. Sem Parallel: N típico pequeno (meses); while usa items.Count no predicado.
+        /// </summary>
         private static void MaterializeMonthly(RecurrenceMaterializeRequest request, TimeSpan duration, List<RecurrenceInterval> items)
         {
-            // while sequencial: AddMonthsClamped + items.Count no predicado — Parallel no while não é seguro.
             var current = request.StartDateTime;
             var day = request.StartDateTime.Day;
             while (ShouldContinue(current, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
@@ -263,9 +362,11 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
             }
         }
 
+        /// <summary>
+        /// Yearly sequencial. Sem Parallel: N típico muito pequeno (anos); predicado usa items.Count.
+        /// </summary>
         private static void MaterializeYearly(RecurrenceMaterializeRequest request, TimeSpan duration, List<RecurrenceInterval> items)
         {
-            // while sequencial: N típico pequeno (anos); predicado usa items.Count.
             var current = request.StartDateTime;
             while (ShouldContinue(current, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
             {

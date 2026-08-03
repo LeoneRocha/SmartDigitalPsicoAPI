@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Helpers;
@@ -19,6 +20,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
         private readonly IScheduleCalendarRepository _repository;
         private readonly ILogger _logger;
 
+        private static readonly ConcurrentBag<(DateTime StartDateTime, DateTime EndDateTime, ScheduleCalendarItem Item)> EmptyBusyBag = [];
+
         /// <summary>
         /// Método ScheduleAvailabilityService: operação de agendamento.
         /// </summary>
@@ -29,8 +32,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
         }
 
         /// <summary>
-        /// Monta a grade: carrega itens do banco (ou usa PreloadedItems) e depois processa CPU em paralelo.
-        /// Persistência ocorre apenas nesta etapa inicial — GenerateDays/ApplyFilters não acessam DB.
+        /// Monta a grade: DB (ou PreloadedItems) sequencial → CPU paralelo em GenerateDays → filtros sequenciais.
+        /// Persistência/leitura ocorre apenas nesta etapa inicial — GenerateDays/ApplyFilters não acessam DB.
         /// </summary>
         public async Task<ServiceResponse<ScheduleGradeResult>> BuildGradeAsync(ScheduleGradeRequest request)
         {
@@ -78,9 +81,11 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
         }
 
         /// <summary>
-        /// Gera a grade diária em paralelo (CPU). Itens busy já carregados do banco antes desta etapa.
-        /// Parallel.For com ScheduleParallel.MaxAvailableThreads (ProcessorCount).
-        /// Slots do dia: paralelizados em TimeSlotGenerator quando N &gt;= 32.
+        /// Onde Parallel: (1) BuildBusyByDay com Parallel.For + ConcurrentDictionary quando N busy &gt;= limiar;
+        /// (2) Parallel.For por dia gerando slots/match (array result[i]).
+        /// Ganho esperado: grade mensal densa — índice thread-safe + dias em paralelo.
+        /// Por que slots sequenciais no dia: TimeSlotGenerator(allowParallel:false) evita Parallel aninhado.
+        /// Por que dias usam array e não ConcurrentDictionary: ordem por índice sem sort.
         /// </summary>
         private static ScheduleDayDto[] GenerateDays(
             ScheduleGradeRequest request,
@@ -90,20 +95,18 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             var nowLocal = DateHelper.GetDateTimeNowWithTimeZone(request.TimeZone);
             var dateActual = nowLocal.Date;
 
-            // Pré-computado uma vez — evita realloc por dia (antes: busy.Select(...).ToList() a cada iteração).
             var busy = items
                 .Where(a => a.EndDateTime.HasValue)
                 .Select(a => (StartDateTime: a.StartDateTime, EndDateTime: a.EndDateTime!.Value, Item: a))
                 .ToArray();
-            var busyRanges = busy
-                .Select(b => (b.StartDateTime, b.EndDateTime))
-                .ToList();
 
             var start = request.StartDate.Date;
             var end = request.EndDate.Date;
             var dayCount = (int)(end - start).TotalDays + 1;
             if (dayCount <= 0)
                 return [];
+
+            var busyByDay = BuildBusyByDay(busy, start, end);
 
             var result = new ScheduleDayDto[dayCount];
             var startWorking = request.Constraints.StartWorkingTime;
@@ -112,6 +115,13 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             Parallel.For(0, dayCount, ScheduleParallel.MaxAvailableThreads, i =>
             {
                 var date = start.AddDays(i);
+                var dayBusy = busyByDay.TryGetValue(date, out var bag) ? bag : EmptyBusyBag;
+
+                var busyRanges = dayBusy
+                    .Select(b => (b.StartDateTime, b.EndDateTime))
+                    .ToList();
+
+                // allowParallel:false — Parallel já está no nível do dia.
                 var generated = TimeSlotGenerator.Generate(
                     new TimeSlotWindow
                     {
@@ -121,12 +131,13 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
                         Interval = interval
                     },
                     busyRanges,
-                    nowLocal);
+                    nowLocal,
+                    allowParallel: false);
 
                 var slots = generated
                     .Select(slot =>
                     {
-                        var matched = busy
+                        var matched = dayBusy
                             .Where(b => ScheduleOverlapHelper.Overlaps(b.StartDateTime, b.Item.EndDateTime, slot.StartTime, slot.EndTime))
                             .Select(b => b.Item)
                             .FirstOrDefault();
@@ -154,6 +165,49 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             return result;
         }
 
+        /// <summary>
+        /// Onde Parallel: Parallel.For sobre busy quando Length &gt;= MapParallelThreshold.
+        /// ConcurrentDictionary&lt;DateTime, ConcurrentBag&gt;: várias threads podem inserir no mesmo dia com segurança.
+        /// Ganho esperado: muitos bookings no período (calendários densos).
+        /// Abaixo do limiar: mesmo ConcurrentDictionary, preenchimento sequencial (overhead de Parallel não compensa).
+        /// </summary>
+        private static ConcurrentDictionary<DateTime, ConcurrentBag<(DateTime StartDateTime, DateTime EndDateTime, ScheduleCalendarItem Item)>> BuildBusyByDay(
+            (DateTime StartDateTime, DateTime EndDateTime, ScheduleCalendarItem Item)[] busy,
+            DateTime rangeStart,
+            DateTime rangeEnd)
+        {
+            var dict = new ConcurrentDictionary<DateTime, ConcurrentBag<(DateTime StartDateTime, DateTime EndDateTime, ScheduleCalendarItem Item)>>();
+
+            void AddBusy(int i)
+            {
+                var b = busy[i];
+                var first = b.StartDateTime.Date;
+                var last = b.EndDateTime.Date;
+                for (var d = first; d <= last; d = d.AddDays(1))
+                {
+                    if (d < rangeStart || d > rangeEnd)
+                        continue;
+                    var bag = dict.GetOrAdd(d, static _ => []);
+                    bag.Add(b);
+                }
+            }
+
+            if (busy.Length >= ScheduleParallel.MapParallelThreshold)
+            {
+                Parallel.For(0, busy.Length, ScheduleParallel.MaxAvailableThreads, AddBusy);
+            }
+            else
+            {
+                for (var i = 0; i < busy.Length; i++)
+                    AddBusy(i);
+            }
+
+            return dict;
+        }
+
+        /// <summary>
+        /// Filtros LINQ sequenciais. Sem Parallel: N típico &lt;= 31 dias; projeção barata; overhead não compensa.
+        /// </summary>
         private static ScheduleDayDto[] ApplyFilters(ScheduleGradeRequest request, ScheduleDayDto[] days)
         {
             var result = days;

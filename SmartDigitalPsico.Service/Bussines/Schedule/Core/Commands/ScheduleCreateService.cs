@@ -54,7 +54,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
         }
 
         /// <summary>
-        /// Método CreateAsync: cria ou persiste um novo registro/recurso.
+        /// Create: conflito batch (CPU Parallel interno) → 1× Create no repositório.
+        /// Sem Parallel neste serviço: não há loop CPU próprio; persistência é sequencial por design.
         /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar>> CreateAsync(ScheduleCalendarWriteRequest request)
         {

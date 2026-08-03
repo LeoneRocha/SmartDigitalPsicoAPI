@@ -81,7 +81,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                     return response;
                 }
 
-                // DB: itens do owner. CPU paralelo: GenerateDays / ToCalendarDto (após nomes).
+                // DB: itens do owner (antes do CPU). CPU paralelo: GenerateDays. Nomes batch antes de ToCalendarDto.
+                // Sem Parallel em FindByID de paciente — ResolvePatientNamesAsync usa uma query Contains.
                 var gradeRequest = MedicalScheduleMapper.ToGradeRequest(criteria, constraints, user.TimeZone ?? string.Empty, mode);
                 var items = await _query.GetItemsForOwnerAsync(
                     gradeRequest.TenantKey, gradeRequest.OwnerKey, gradeRequest.StartDate, gradeRequest.EndDate);

@@ -26,7 +26,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
         }
 
         /// <summary>
-        /// Exclusão por token — apenas I/O de repositório. Sem paralelismo CPU (não há transformação em lote).
+        /// Exclusão por token — apenas I/O de repositório.
+        /// Sem Parallel: não há transformação CPU em lote; DB permanece sequencial.
         /// </summary>
         public async Task<ServiceResponse<bool>> DeleteByTokenAsync(string uniqueToken)
         {

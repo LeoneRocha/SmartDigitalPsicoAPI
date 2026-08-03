@@ -35,7 +35,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
         }
 
         /// <summary>
-        /// Método UpdateAsync: atualiza um registro/recurso existente.
+        /// Update: conflito batch (CPU Parallel interno) → merge/replace → 1× Update.
+        /// Sem Parallel neste serviço: MergeByStartDateTime é sequencial (estado compartilhado; Dictionary O(1)).
         /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar>> UpdateAsync(ScheduleCalendarWriteRequest request)
         {
@@ -202,30 +203,50 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
         }
 
         /// <summary>
-        /// Merge sequencial: List compartilhado + N pequeno. Parallel traria race conditions sem ganho.
+        /// Merge por StartDateTime (exato) ou mesmo dia. Sequencial de propósito:
+        /// cada incoming depende do estado atual da lista (replace/add) — Parallel geraria race.
+        /// Lookup O(1) via dicionários em vez de FindIndex O(n) por item.
         /// </summary>
         private static ScheduleCalendarItem[] MergeByStartDateTime(
             ScheduleCalendarItem[]? existing,
             ScheduleCalendarItem[] incoming)
         {
-            var result = (existing ?? []).ToList();
+            var source = existing ?? [];
+            var result = new List<ScheduleCalendarItem>(source.Length + incoming.Length);
+            var byExact = new Dictionary<DateTime, int>(source.Length + incoming.Length);
+            var byDay = new Dictionary<DateTime, int>(source.Length + incoming.Length);
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                var e = source[i];
+                result.Add(e);
+                byExact[e.StartDateTime] = i;
+                // First-wins (equivalente a FindIndex).
+                byDay.TryAdd(e.StartDateTime.Date, i);
+            }
+
             foreach (var item in incoming)
             {
-                var exact = result.FindIndex(e => e.StartDateTime == item.StartDateTime);
-                if (exact >= 0)
+                if (byExact.TryGetValue(item.StartDateTime, out var exact))
                 {
                     result[exact] = item;
+                    byDay[item.StartDateTime.Date] = exact;
                     continue;
                 }
 
-                var sameDay = result.FindIndex(e => e.StartDateTime.Date == item.StartDateTime.Date);
-                if (sameDay >= 0)
+                if (byDay.TryGetValue(item.StartDateTime.Date, out var sameDay))
                 {
+                    byExact.Remove(result[sameDay].StartDateTime);
                     result[sameDay] = item;
+                    byExact[item.StartDateTime] = sameDay;
+                    byDay[item.StartDateTime.Date] = sameDay;
                     continue;
                 }
 
+                var idx = result.Count;
                 result.Add(item);
+                byExact[item.StartDateTime] = idx;
+                byDay[item.StartDateTime.Date] = idx;
             }
 
             return result.OrderBy(i => i.StartDateTime).ToArray();
