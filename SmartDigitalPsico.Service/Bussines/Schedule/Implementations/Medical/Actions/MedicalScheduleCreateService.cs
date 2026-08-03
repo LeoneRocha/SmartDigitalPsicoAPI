@@ -50,7 +50,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                 var write = MedicalScheduleMapper.ToWriteRequest(entity);
                 var persist = await _create.CreateAsync(write);
                 if (!persist.Success || persist.Data == null)
-                    return MedicalScheduleHostSupport.FailDto(persist.Message);
+                    return MedicalScheduleHostSupport.FailDto(persist.Message, persist.Errors);
 
                 entity.Id = persist.Data.Id;
                 await _notifications.CreateOrUpdateNotificationRecordsAsync([entity]);

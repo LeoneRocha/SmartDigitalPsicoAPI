@@ -178,10 +178,13 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
 
         /// <summary>
         /// Conflito em batch: 1 query de janela + checks CPU (via ConflictService). Sem N× Find no loop.
+        /// Propaga Errors detalhados (PatientId, datas, horários) para o FE.
         /// </summary>
         private async Task<ServiceResponse<ScheduleCalendar>?> EnsureNoConflictAsync(
             ScheduleCalendarWriteRequest request, string excludeToken)
         {
+            StampSubjectKey(request);
+
             var check = await _conflictService.HasNoConflictBatchAsync(
                 request.TenantKey, request.OwnerKey, request.Items, excludeToken);
             if (!check.Success || !check.Data)
@@ -189,10 +192,19 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
                 return new ServiceResponse<ScheduleCalendar>
                 {
                     Success = false,
-                    Message = check.Message ?? "There is a scheduling conflict for the specified time."
+                    Message = check.Message ?? "There is a scheduling conflict for the specified time.",
+                    Errors = check.Errors ?? []
                 };
             }
             return null;
+        }
+
+        private static void StampSubjectKey(ScheduleCalendarWriteRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.SubjectKey) || request.Items == null)
+                return;
+            foreach (var item in request.Items)
+                item.SubjectKey ??= request.SubjectKey;
         }
 
         private static (DateTime start, DateTime end) ComputePeriod(ScheduleCalendarItem[] items)

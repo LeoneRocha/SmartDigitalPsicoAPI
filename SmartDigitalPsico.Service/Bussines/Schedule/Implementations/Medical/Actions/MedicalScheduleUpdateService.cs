@@ -79,7 +79,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                 write.PackageId = package.Id;
                 var persist = await _update.UpdateAsync(write);
                 if (!persist.Success || persist.Data == null)
-                    return MedicalScheduleHostSupport.FailDto(persist.Message);
+                    return MedicalScheduleHostSupport.FailDto(persist.Message, persist.Errors);
 
                 entity.Id = persist.Data.Id;
                 await _notifications.CreateOrUpdateNotificationRecordsAsync([entity]);

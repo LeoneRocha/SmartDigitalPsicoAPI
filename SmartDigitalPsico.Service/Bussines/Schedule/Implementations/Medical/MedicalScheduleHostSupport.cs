@@ -122,8 +122,13 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         /// <summary>
         /// Método FailDto: executa a operação FailDto.
         /// </summary>
-        public static ServiceResponse<GetMedicalCalendarDto> FailDto(string? message)
-            => new() { Success = false, Message = message ?? string.Empty };
+        public static ServiceResponse<GetMedicalCalendarDto> FailDto(string? message, List<ErrorResponse>? errors = null)
+            => new()
+            {
+                Success = false,
+                Message = message ?? string.Empty,
+                Errors = errors ?? []
+            };
 
         /// <summary>
         /// Método OkBool: executa a operação OkBool.
