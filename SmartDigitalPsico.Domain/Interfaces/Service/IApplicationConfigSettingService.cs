@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface IApplicationConfigSettingService : IEntityBaseService<ApplicationConfigSetting, AddApplicationConfigSettingDto, UpdateApplicationConfigSettingDto, GetApplicationConfigSettingDto>
+    public interface IApplicationConfigSettingService : IEntityBaseService<ApplicationConfigSetting, GetApplicationConfigSettingDto>
     {
 
     }

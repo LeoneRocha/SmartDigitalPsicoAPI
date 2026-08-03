@@ -10,8 +10,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface IAuditDataSelectiveEntityLogService : IEntityBaseService<AuditDataSelectiveEntityLog
-        , AddAuditDataSelectiveEntityLogDto, UpdateAuditDataSelectiveEntityLogDto, GetAuditDataSelectiveEntityLogDto>
+    public interface IAuditDataSelectiveEntityLogService : IEntityBaseService<AuditDataSelectiveEntityLog, GetAuditDataSelectiveEntityLogDto>
     {
 
         /// <summary>

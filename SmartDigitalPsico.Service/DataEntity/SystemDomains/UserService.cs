@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class UserService : EntityBaseService<User, AddUserDto, UpdateUserDto, GetUserDto, IUserRepository>, IUserService
+    public class UserService : EntityBaseService<User, GetUserDto>, IUserService
     {
         private readonly IRoleGroupRepository _roleGroupRepository;
         private readonly ITokenConfigurationDto _configurationToken;
@@ -71,7 +71,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             var response = new ServiceResponse<GetUserAuthenticatedDto>();
 
-            var user = await _entityRepository.FindByLogin(login);
+            var user = await ((IUserRepository)_entityRepository).FindByLogin(login);
             if (user == null)
             {
                 response.Success = false;
@@ -115,7 +115,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             if (response.Success)
             {
-                User entityResponse = await _entityRepository.Create(entityAdd);
+                User entityResponse = await ((IUserRepository)_entityRepository).Create(entityAdd);
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
             }
@@ -126,13 +126,14 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetUserDto>> Update(UpdateUserDto updateUser)
+        public override async Task<ServiceResponse<GetUserDto>> Update(IEntityDto updateUserDto)
         {
+            var updateUser = (UpdateUserDto)updateUserDto;
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
             try
             {
-                User entityUpdate = await _entityRepository.FindByID(updateUser.Id);
+                User entityUpdate = await ((IUserRepository)_entityRepository).FindByID(updateUser.Id);
 
                 if (entityUpdate == null || entityUpdate.Id == 0)
                 {
@@ -172,7 +173,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 if (response.Success)
                 {
 
-                    User entityResponse = await _entityRepository.Update(entityUpdate);
+                    User entityResponse = await ((IUserRepository)_entityRepository).Update(entityUpdate);
                     response.Success = true;
                     response.Data = _mapper.Map<GetUserDto>(entityResponse);
 
@@ -192,8 +193,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetUserDto>> Create(AddUserDto userRegisterVO)
+        public override async Task<ServiceResponse<GetUserDto>> Create(IEntityDtoAdd userRegisterVODto)
         {
+            var userRegisterVO = (AddUserDto)userRegisterVODto;
             SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User entityAdd = _mapper.Map<User>(userRegisterVO);
@@ -211,7 +213,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             if (response.Success)
             {
-                User entityResponse = await _entityRepository.Create(entityAdd);
+                User entityResponse = await ((IUserRepository)_entityRepository).Create(entityAdd);
                 entityResponse.UserRoleGroups = new List<RoleGroupUser>();
                 if (roleGroups.Count > 0)
                 {
@@ -222,8 +224,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     response = await base.Validate(entityResponse);
                     if (response.Success)
                     {
-                        entityResponse = await _entityRepository.Update(entityResponse);
-                        entityResponse = await _entityRepository.FindByID(entityResponse.Id);
+                        entityResponse = await ((IUserRepository)_entityRepository).Update(entityResponse);
+                        entityResponse = await ((IUserRepository)_entityRepository).FindByID(entityResponse.Id);
                     }
                 }
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
@@ -241,7 +243,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// </summary>
         public async Task<bool> UserExists(string login)
         {
-            bool response = await _entityRepository.UserExists(login);
+            bool response = await ((IUserRepository)_entityRepository).UserExists(login);
 
             return response;
         }
@@ -252,7 +254,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         public async Task<ServiceResponse<bool>> Logout(string login)
         {
             var response = new ServiceResponse<bool>();
-            bool user = await _entityRepository.UserExists(login);
+            bool user = await ((IUserRepository)_entityRepository).UserExists(login);
             if (!user)
             {
                 response.Success = false;
@@ -297,7 +299,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             user.RefreshTokenExpiryTime = refreshTokenExpiryTime;
 
-            await _entityRepository.RefreshUserInfo(user);
+            await ((IUserRepository)_entityRepository).RefreshUserInfo(user);
 
             DateTime createDate = DateHelper.GetDateTimeNowFromUtc();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
@@ -357,7 +359,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 long idUser;
                 if (long.TryParse(username, out idUser))
                 {
-                    var user = await _entityRepository.FindByID(idUser);
+                    var user = await ((IUserRepository)_entityRepository).FindByID(idUser);
 
                     if (user.RefreshToken != refreshToken ||
                         user.RefreshTokenExpiryTime <= DateHelper.GetDateTimeNowFromUtc()) return new TokenVO();
@@ -366,7 +368,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     refreshToken = _tokenService.GenerateRefreshToken();
 
                     user.RefreshToken = refreshToken;
-                    await _entityRepository.RefreshUserInfo(user);
+                    await ((IUserRepository)_entityRepository).RefreshUserInfo(user);
                 }
             }
 
@@ -389,7 +391,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
-            User entityUpdate = await _entityRepository.FindByID(userUpdateProfileVO.Id);
+            User entityUpdate = await ((IUserRepository)_entityRepository).FindByID(userUpdateProfileVO.Id);
 
             if (entityUpdate == null || entityUpdate.Id == 0)
             {
@@ -415,7 +417,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             if (response.Success)
             {
-                User entityResponse = await _entityRepository.Update(entityUpdate);
+                User entityResponse = await ((IUserRepository)_entityRepository).Update(entityUpdate);
                 response.Success = true;
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
 
@@ -434,7 +436,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
 
-            User? entityResponse = await _entityRepository.FindByID(id);
+            User? entityResponse = await ((IUserRepository)_entityRepository).FindByID(id);
             if (entityResponse != null)
             {
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);

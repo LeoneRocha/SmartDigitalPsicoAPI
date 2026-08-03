@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface ISpecialtyService : IEntityBaseService<Specialty, AddSpecialtyDto, UpdateSpecialtyDto, GetSpecialtyDto>
+    public interface ISpecialtyService : IEntityBaseService<Specialty, GetSpecialtyDto>
     {
 
     }

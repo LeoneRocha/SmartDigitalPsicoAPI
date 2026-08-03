@@ -29,7 +29,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
         }
 
         /// <summary>
-        /// Método BuildGradeAsync: mapeia ou transforma dados entre modelos.
+        /// Monta a grade: carrega itens do banco (ou usa PreloadedItems) e depois processa CPU em paralelo.
+        /// Persistência ocorre apenas nesta etapa inicial — GenerateDays/ApplyFilters não acessam DB.
         /// </summary>
         public async Task<ServiceResponse<ScheduleGradeResult>> BuildGradeAsync(ScheduleGradeRequest request)
         {
@@ -45,11 +46,14 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
 
                 var tenant = ScheduleKeyHelper.RequireTenant(request.TenantKey);
                 var interval = TimeSpan.FromMinutes(Math.Max(1, request.Constraints.IntervalMinutes));
+
+                // DB antes do paralelismo
                 var items = request.PreloadedItems
                     ?? await _repository.GetItemsForOwnerAsync(tenant, request.OwnerKey, request.StartDate, request.EndDate);
 
                 var days = GenerateDays(request, items, interval);
                 days = ApplyFilters(request, days);
+                // Sequencial: N pequeno e mutação in-place dos slots; paralelismo traria overhead sem ganho.
                 FillMarkNonWorkingDays(days, request.Constraints.WorkingDays ?? []);
                 days = days.OrderBy(d => d.Date).ToArray();
 
@@ -73,30 +77,50 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             }
         }
 
+        /// <summary>
+        /// Gera a grade diária em paralelo (CPU). Itens busy já carregados do banco antes desta etapa.
+        /// Parallel.For com ScheduleParallel.MaxAvailableThreads (ProcessorCount).
+        /// Slots do dia: paralelizados em TimeSlotGenerator quando N &gt;= 32.
+        /// </summary>
         private static ScheduleDayDto[] GenerateDays(
             ScheduleGradeRequest request,
             ScheduleCalendarItem[] items,
             TimeSpan interval)
         {
-            var days = new List<ScheduleDayDto>();
             var nowLocal = DateHelper.GetDateTimeNowWithTimeZone(request.TimeZone);
             var dateActual = nowLocal.Date;
+
+            // Pré-computado uma vez — evita realloc por dia (antes: busy.Select(...).ToList() a cada iteração).
             var busy = items
                 .Where(a => a.EndDateTime.HasValue)
-                .Select(a => (a.StartDateTime, a.EndDateTime!.Value, Item: a))
+                .Select(a => (StartDateTime: a.StartDateTime, EndDateTime: a.EndDateTime!.Value, Item: a))
+                .ToArray();
+            var busyRanges = busy
+                .Select(b => (b.StartDateTime, b.EndDateTime))
                 .ToList();
 
-            for (var date = request.StartDate.Date; date <= request.EndDate.Date; date = date.AddDays(1))
+            var start = request.StartDate.Date;
+            var end = request.EndDate.Date;
+            var dayCount = (int)(end - start).TotalDays + 1;
+            if (dayCount <= 0)
+                return [];
+
+            var result = new ScheduleDayDto[dayCount];
+            var startWorking = request.Constraints.StartWorkingTime;
+            var endWorking = request.Constraints.EndWorkingTime;
+
+            Parallel.For(0, dayCount, ScheduleParallel.MaxAvailableThreads, i =>
             {
+                var date = start.AddDays(i);
                 var generated = TimeSlotGenerator.Generate(
                     new TimeSlotWindow
                     {
                         Date = date,
-                        StartWorkingTime = request.Constraints.StartWorkingTime,
-                        EndWorkingTime = request.Constraints.EndWorkingTime,
+                        StartWorkingTime = startWorking,
+                        EndWorkingTime = endWorking,
                         Interval = interval
                     },
-                    busy.Select(b => (b.StartDateTime, b.Item.EndDateTime!.Value)).ToList(),
+                    busyRanges,
                     nowLocal);
 
                 var slots = generated
@@ -119,15 +143,15 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
                     .OrderBy(s => s.StartTime)
                     .ToArray();
 
-                days.Add(new ScheduleDayDto
+                result[i] = new ScheduleDayDto
                 {
                     Date = date,
                     IsPast = date < dateActual,
                     TimeSlots = slots
-                });
-            }
+                };
+            });
 
-            return days.ToArray();
+            return result;
         }
 
         private static ScheduleDayDto[] ApplyFilters(ScheduleGradeRequest request, ScheduleDayDto[] days)
@@ -183,6 +207,10 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             return result;
         }
 
+        /// <summary>
+        /// Marca dias não úteis como indisponíveis de forma sequencial.
+        /// Sem Parallel: N típico &lt;= 31 e mutação in-place; overhead de sync supera o ganho.
+        /// </summary>
         private static void FillMarkNonWorkingDays(ScheduleDayDto[] days, IEnumerable<DayOfWeek> workingDays)
         {
             var working = workingDays as DayOfWeek[] ?? workingDays.ToArray();

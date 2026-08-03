@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class SpecialtyService
-        : EntityBaseService<Specialty, AddSpecialtyDto, UpdateSpecialtyDto, GetSpecialtyDto, ISpecialtyRepository>, ISpecialtyService
+        : EntityBaseService<Specialty, GetSpecialtyDto>, ISpecialtyService
     {
         /// <summary>
         /// Método SpecialtyService: executa a operação SpecialtyService.

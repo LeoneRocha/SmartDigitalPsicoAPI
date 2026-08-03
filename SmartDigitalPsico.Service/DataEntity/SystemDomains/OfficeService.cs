@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class OfficeService : EntityBaseService<Office, AddOfficeDto, UpdateOfficeDto, GetOfficeDto, IOfficeRepository>, IOfficeService
+    public class OfficeService : EntityBaseService<Office, GetOfficeDto>, IOfficeService
 
     {
         /// <summary>

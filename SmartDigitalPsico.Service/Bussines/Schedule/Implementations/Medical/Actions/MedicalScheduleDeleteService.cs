@@ -3,6 +3,8 @@ using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
+using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions
@@ -50,51 +52,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                     ?? throw new AppWarningException(
                         await _support.Loc(UserKeyConstants.User_Not_Found, UserMenssageConstants.User_Not_Found));
 
-                if (request.DeleteSeries)
-                {
-                    var packagesPreview = await _query.GetByTokenAsync(request.TokenRecurrence);
-                    if (packagesPreview.Data != null)
-                    {
-                        if (!MedicalScheduleKeys.TryParseMedicalId(packagesPreview.Data.OwnerKey, out var seriesMedicalId)
-                            || user.MedicalId != seriesMedicalId
-                            || user.MedicalId != request.MedicalId)
-                            return MedicalScheduleHostSupport.FailBool(
-                                await _support.Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
-                    }
-                    else if (user.MedicalId != request.MedicalId)
-                    {
-                        return MedicalScheduleHostSupport.FailBool(
-                            await _support.Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
-                    }
-
-                    if (packagesPreview.Data != null)
-                        await _notifications.DeleteNotificationRecordsAsync(packagesPreview.Data.UniqueToken);
-
-                    var deleted = await _delete.DeleteByTokenFilteredAsync(MedicalScheduleMapper.ToDeleteTokenRequest(request));
-
-                    return deleted.Success
-                        ? MedicalScheduleHostSupport.OkBool(true,
-                            await _support.Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
-                        : MedicalScheduleHostSupport.FailBool(deleted.Message);
-                }
-
-                var package = await _query.GetByIdAsync(request.Id);
-                if (!package.Success || package.Data == null)
-                    return MedicalScheduleHostSupport.FailBool(
-                        await _support.Loc(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound));
-
-                if (!MedicalScheduleKeys.TryParseMedicalId(package.Data.OwnerKey, out var medicalId)
-                    || user.MedicalId != medicalId
-                    || user.MedicalId != request.MedicalId)
-                    return MedicalScheduleHostSupport.FailBool(
-                        await _support.Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
-
-                await _notifications.DeleteNotificationRecordsAsync(package.Data.UniqueToken);
-                var result = await _delete.DeleteByIdAsync(package.Data.Id);
-                return result.Success
-                    ? MedicalScheduleHostSupport.OkBool(true,
-                        await _support.Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
-                    : MedicalScheduleHostSupport.FailBool(result.Message);
+                return request.DeleteSeries
+                    ? await DeleteSeriesAsync(request, user)
+                    : await DeleteSingleAsync(request, user);
             }
             catch (Exception ex)
             {
@@ -103,5 +63,65 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                     await _support.Loc(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message));
             }
         }
+
+        private async Task<ServiceResponse<bool>> DeleteSeriesAsync(DeleteMedicalCalendarDto request, User user)
+        {
+            var packagesPreview = await _query.GetByTokenAsync(request.TokenRecurrence);
+            var permissionError = await ValidateSeriesPermissionAsync(request, user, packagesPreview.Data);
+            if (permissionError != null)
+                return permissionError;
+
+            if (packagesPreview.Data != null)
+                await _notifications.DeleteNotificationRecordsAsync(packagesPreview.Data.UniqueToken);
+
+            var deleted = await _delete.DeleteByTokenFilteredAsync(MedicalScheduleMapper.ToDeleteTokenRequest(request));
+            return deleted.Success
+                ? MedicalScheduleHostSupport.OkBool(true,
+                    await _support.Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
+                : MedicalScheduleHostSupport.FailBool(deleted.Message);
+        }
+
+        private async Task<ServiceResponse<bool>> DeleteSingleAsync(DeleteMedicalCalendarDto request, User user)
+        {
+            var package = await _query.GetByIdAsync(request.Id);
+            if (!package.Success || package.Data == null)
+                return MedicalScheduleHostSupport.FailBool(
+                    await _support.Loc(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound));
+
+            if (!IsOwnerMedical(user, request.MedicalId, package.Data.OwnerKey))
+                return await FailPermissionAsync();
+
+            await _notifications.DeleteNotificationRecordsAsync(package.Data.UniqueToken);
+            var result = await _delete.DeleteByIdAsync(package.Data.Id);
+            return result.Success
+                ? MedicalScheduleHostSupport.OkBool(true,
+                    await _support.Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
+                : MedicalScheduleHostSupport.FailBool(result.Message);
+        }
+
+        private async Task<ServiceResponse<bool>?> ValidateSeriesPermissionAsync(
+            DeleteMedicalCalendarDto request, User user, ScheduleCalendar? package)
+        {
+            if (package != null)
+            {
+                if (!IsOwnerMedical(user, request.MedicalId, package.OwnerKey))
+                    return await FailPermissionAsync();
+                return null;
+            }
+
+            if (user.MedicalId != request.MedicalId)
+                return await FailPermissionAsync();
+
+            return null;
+        }
+
+        private static bool IsOwnerMedical(User user, long requestMedicalId, string ownerKey)
+            => MedicalScheduleKeys.TryParseMedicalId(ownerKey, out var medicalId)
+               && user.MedicalId == medicalId
+               && user.MedicalId == requestMedicalId;
+
+        private async Task<ServiceResponse<bool>> FailPermissionAsync()
+            => MedicalScheduleHostSupport.FailBool(
+                await _support.Loc(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission));
     }
 }

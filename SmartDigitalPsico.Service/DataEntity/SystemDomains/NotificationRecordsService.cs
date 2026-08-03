@@ -14,6 +14,8 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
@@ -21,7 +23,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class NotificationRecordsService : EntityBaseService<NotificationRecord, AddNotificationRecordsDto, UpdateNotificationRecordsDto, GetNotificationRecordsDto, INotificationRecordsRepository>, INotificationRecordsService
+    public class NotificationRecordsService : EntityBaseService<NotificationRecord, GetNotificationRecordsDto>, INotificationRecordsService
     {
         private readonly INotificationRulesService _notificationRulesService;
 
@@ -44,8 +46,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(AddNotificationRecordsDto item)
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(IEntityDtoAdd itemDto)
         {
+            var item = (AddNotificationRecordsDto)itemDto;
             item.NextScheduledSendTime = GetNextScheduledSendTime(item);
             item.CreatedDate = DateTime.UtcNow;
             item.ModifyDate = DateTime.UtcNow;
@@ -55,11 +58,12 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(UpdateNotificationRecordsDto item)
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(IEntityDto itemDto)
         {
+            var item = (UpdateNotificationRecordsDto)itemDto;
             ServiceResponse<GetNotificationRecordsDto> response = new ServiceResponse<GetNotificationRecordsDto>();
 
-            NotificationRecord? entityUpdate = await _entityRepository.FindByID(item.Id);
+            NotificationRecord? entityUpdate = await ((INotificationRecordsRepository)_entityRepository).FindByID(item.Id);
             if (entityUpdate != null)
             {   
                 entityUpdate.NotificationRules = item.NotificationRules;
@@ -77,7 +81,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
                 if (response.Success)
                 {  
-                    NotificationRecord entityResponse = await _entityRepository.Update(entityUpdate);
+                    NotificationRecord entityResponse = await ((INotificationRecordsRepository)_entityRepository).Update(entityUpdate);
 
                     response.Data = _mapper.Map<GetNotificationRecordsDto>(entityResponse);
                     response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
@@ -181,7 +185,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     return;
                 }
 
-                var existingRecord = (await _entityRepository.FindByCustomWhere(nr =>
+                var existingRecord = (await ((INotificationRecordsRepository)_entityRepository).FindByCustomWhere(nr =>
                     nr.TokenId == tokenId
                     && nr.EventDate == medicalCalendar.StartDateTime)).FirstOrDefault();
 
@@ -264,7 +268,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// </summary>
         public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
-            return await _entityRepository.GetPendingNotificationsAsync();
+            return await ((INotificationRecordsRepository)_entityRepository).GetPendingNotificationsAsync();
         }
 
         #endregion private

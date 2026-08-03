@@ -19,20 +19,16 @@ using System.Linq.Expressions;
 namespace SmartDigitalPsico.Service.DataEntity.Generic
 {
     /// <summary>
-    /// Classe responsável por EntityBaseService.
-    /// Responsabilidade: serviço de entidade de negócio.
-    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// Classe responsável por EntityBaseService (máx. 2 genéricos — Sonar S2436).
+    /// DTOs Add/Update via IEntityDtoAdd/IEntityDto; repositório tipado como IEntityBaseRepository&lt;TEntity&gt;.
     /// </summary>
-    public class EntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult, Repo>
-        : IEntityBaseService<TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
+    public class EntityBaseService<TEntity, TEntityResult>
+        : IEntityBaseService<TEntity, TEntityResult>
         where TEntity : IEntityBase, IEntityBaseLog
-        where TEntityAdd : IEntityDtoAdd
-        where TEntityUpdate : IEntityDto
         where TEntityResult : class
-        where Repo : IEntityBaseRepository<TEntity>
     {
         protected readonly IMapper _mapper;
-        protected readonly Repo _entityRepository;
+        protected readonly IEntityBaseRepository<TEntity> _entityRepository;
         protected readonly IValidator<TEntity> _entityValidator;
         protected long UserId { get; private set; }
         protected readonly ICacheService _cacheService;
@@ -47,7 +43,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
               ISharedServices sharedServices,
               ISharedDependenciesConfig sharedDependenciesConfig,
               ISharedRepositories sharedRepositories,
-              Repo entityRepository,
+              IEntityBaseRepository<TEntity> entityRepository,
               IValidator<TEntity> entityValidator
             )
         {
@@ -77,7 +73,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public virtual async Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item)
+        public virtual async Task<ServiceResponse<TEntityResult>> Create(IEntityDtoAdd item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
             try
@@ -148,7 +144,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public virtual async Task<ServiceResponse<TEntityResult>> Update(TEntityUpdate item)
+        public virtual async Task<ServiceResponse<TEntityResult>> Update(IEntityDto item)
         {
             ServiceResponse<TEntityResult> response = new ServiceResponse<TEntityResult>();
             try

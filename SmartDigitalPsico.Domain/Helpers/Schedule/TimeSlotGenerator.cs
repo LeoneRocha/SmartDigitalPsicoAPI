@@ -36,14 +36,15 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
         /// <summary>
         /// Legacy-parity: emit slots for the full calendar day (00:00 → +1 day).
         /// Availability is gated by working hours and busy intervals.
+        /// Com slotCount &gt;= ScheduleParallel.SlotParallelThreshold (dinâmico = CpuCount), usa Parallel.For.
         /// </summary>
         public static List<GeneratedTimeSlot> Generate(
             TimeSlotWindow window,
             IReadOnlyList<(DateTime Start, DateTime End)> busyIntervals,
             DateTime nowUtc)
         {
-            var result = new List<GeneratedTimeSlot>();
-            if (window.Interval <= TimeSpan.Zero) return result;
+            if (window.Interval <= TimeSpan.Zero)
+                return [];
 
             var dayStart = window.Date.Date;
             var dayEnd = dayStart.AddDays(1);
@@ -55,21 +56,39 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
                 .OrderBy(b => b.Start)
                 .ToList();
 
-            for (var cursor = dayStart; cursor < dayEnd; cursor += window.Interval)
+            var slotCount = (int)((dayEnd - dayStart).Ticks / window.Interval.Ticks);
+            if (slotCount <= 0)
+                return [];
+
+            var result = new GeneratedTimeSlot[slotCount];
+
+            void FillSlot(int i)
             {
+                var cursor = dayStart + TimeSpan.FromTicks(window.Interval.Ticks * i);
                 var slotEnd = cursor + window.Interval;
                 var isBusy = sortedBusy.Any(b => ScheduleOverlapHelper.Overlaps(cursor, slotEnd, b.Start, b.End));
                 var isWithinWorkingHours = cursor >= workingStart && slotEnd <= workingEnd;
-                result.Add(new GeneratedTimeSlot
+                result[i] = new GeneratedTimeSlot
                 {
                     StartTime = cursor,
                     EndTime = slotEnd,
                     IsAvailable = !isBusy && isWithinWorkingHours,
                     IsPast = cursor <= nowUtc
-                });
+                };
             }
 
-            return result;
+            // Limiar dinâmico: nº de CPUs do host (ex.: 8 cores → paraleliza a partir de 8 slots).
+            if (slotCount >= ScheduleParallel.SlotParallelThreshold)
+            {
+                Parallel.For(0, slotCount, ScheduleParallel.MaxAvailableThreads, FillSlot);
+            }
+            else
+            {
+                for (var i = 0; i < slotCount; i++)
+                    FillSlot(i);
+            }
+
+            return result.ToList();
         }
     }
 }

@@ -5,7 +5,6 @@ using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
@@ -88,6 +87,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
                 if (conflict != null)
                     return conflict;
 
+                // DB depois do processamento de conflito (CPU)
                 var now = DateHelper.GetDateTimeNowFromUtc();
                 var (startPeriod, endPeriod) = ComputePeriod(request.Items);
                 var entity = new ScheduleCalendar
@@ -120,27 +120,21 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
             }
         }
 
+        /// <summary>
+        /// Conflito em batch: 1 query de janela + checks CPU (via ConflictService). Sem N× Find no loop.
+        /// </summary>
         private async Task<ServiceResponse<ScheduleCalendar>?> EnsureNoConflictAsync(
             ScheduleCalendarWriteRequest request, string token)
         {
-            foreach (var item in request.Items)
+            var check = await _conflictService.HasNoConflictBatchAsync(
+                request.TenantKey, request.OwnerKey, request.Items, token);
+            if (!check.Success || !check.Data)
             {
-                var check = await _conflictService.HasNoConflictAsync(new ScheduleCalendarConflictRequest
+                return new ServiceResponse<ScheduleCalendar>
                 {
-                    TenantKey = request.TenantKey,
-                    OwnerKey = request.OwnerKey,
-                    StartDateTime = item.StartDateTime,
-                    EndDateTime = item.EndDateTime,
-                    ExcludeToken = token
-                });
-                if (!check.Success || !check.Data)
-                {
-                    return new ServiceResponse<ScheduleCalendar>
-                    {
-                        Success = false,
-                        Message = check.Message ?? "There is a scheduling conflict for the specified time."
-                    };
-                }
+                    Success = false,
+                    Message = check.Message ?? "There is a scheduling conflict for the specified time."
+                };
             }
             return null;
         }

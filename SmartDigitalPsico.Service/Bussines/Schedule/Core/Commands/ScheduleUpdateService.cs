@@ -6,7 +6,6 @@ using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
@@ -139,6 +138,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
                 }
 
                 var newStatus = item.Status;
+                // Sequencial: mutação in-place do mesmo ScheduleData — Parallel não é seguro/útil aqui.
                 for (var i = 0; i < package.ScheduleData.Length; i++)
                 {
                     var entry = package.ScheduleData[i];
@@ -175,27 +175,21 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
             }
         }
 
+        /// <summary>
+        /// Conflito em batch: 1 query de janela + checks CPU (via ConflictService). Sem N× Find no loop.
+        /// </summary>
         private async Task<ServiceResponse<ScheduleCalendar>?> EnsureNoConflictAsync(
             ScheduleCalendarWriteRequest request, string excludeToken)
         {
-            foreach (var item in request.Items)
+            var check = await _conflictService.HasNoConflictBatchAsync(
+                request.TenantKey, request.OwnerKey, request.Items, excludeToken);
+            if (!check.Success || !check.Data)
             {
-                var check = await _conflictService.HasNoConflictAsync(new ScheduleCalendarConflictRequest
+                return new ServiceResponse<ScheduleCalendar>
                 {
-                    TenantKey = request.TenantKey,
-                    OwnerKey = request.OwnerKey,
-                    StartDateTime = item.StartDateTime,
-                    EndDateTime = item.EndDateTime,
-                    ExcludeToken = excludeToken
-                });
-                if (!check.Success || !check.Data)
-                {
-                    return new ServiceResponse<ScheduleCalendar>
-                    {
-                        Success = false,
-                        Message = check.Message ?? "There is a scheduling conflict for the specified time."
-                    };
-                }
+                    Success = false,
+                    Message = check.Message ?? "There is a scheduling conflict for the specified time."
+                };
             }
             return null;
         }
@@ -207,6 +201,9 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
             return (start, end);
         }
 
+        /// <summary>
+        /// Merge sequencial: List compartilhado + N pequeno. Parallel traria race conditions sem ganho.
+        /// </summary>
         private static ScheduleCalendarItem[] MergeByStartDateTime(
             ScheduleCalendarItem[]? existing,
             ScheduleCalendarItem[] incoming)

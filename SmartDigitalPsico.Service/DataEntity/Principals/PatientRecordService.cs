@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class PatientRecordService
-        : EntityBaseService<PatientRecord, AddPatientRecordDto, UpdatePatientRecordDto, GetPatientRecordDto, IPatientRecordRepository>, IPatientRecordService
+        : EntityBaseService<PatientRecord, GetPatientRecordDto>, IPatientRecordService
 
     {
         private readonly IUserRepository _userRepository;
@@ -53,8 +53,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientRecordDto>> Create(AddPatientRecordDto item)
+        public override async Task<ServiceResponse<GetPatientRecordDto>> Create(IEntityDtoAdd itemDto)
         {
+            var item = (AddPatientRecordDto)itemDto;
             PatientRecord entityAdd = _mapper.Map<PatientRecord>(item);
 
             #region Relationship
@@ -85,7 +86,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 entityAdd.TableStorageRowKey = addTableEntity.RowKey;
 
-                PatientRecord entityResponse = await _entityRepository.Create(entityAdd);
+                PatientRecord entityResponse = await ((IPatientRecordRepository)_entityRepository).Create(entityAdd);
                 response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
             }
@@ -94,9 +95,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientRecordDto>> Update(UpdatePatientRecordDto item)
+        public override async Task<ServiceResponse<GetPatientRecordDto>> Update(IEntityDto itemDto)
         {
-            PatientRecord entityUpdate = await _entityRepository.FindByID(item.Id);
+            var item = (UpdatePatientRecordDto)itemDto;
+            PatientRecord entityUpdate = await ((IPatientRecordRepository)_entityRepository).FindByID(item.Id);
             string[] propertiesToIgnore = ["Patient", "Patient", "CreatedUser", "ModifyUser"];
 
             PatientRecord entityOld = AuditLogHelper.DeepClone(entityUpdate, propertiesToIgnore);
@@ -140,7 +142,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 entityUpdate.TableStorageRowKey = updateTableEntity.RowKey;
 
-                PatientRecord entityResponse = await _entityRepository.Update(entityUpdate);
+                PatientRecord entityResponse = await ((IPatientRecordRepository)_entityRepository).Update(entityUpdate);
                 response.Data = _mapper.Map<GetPatientRecordDto>(entityResponse);
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
 
@@ -170,7 +172,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             ServiceResponse<List<GetPatientRecordDto>> response = new ServiceResponse<List<GetPatientRecordDto>>();
 
-            var listResult = await _entityRepository.FindAllByPatient(patientId);
+            var listResult = await ((IPatientRecordRepository)_entityRepository).FindAllByPatient(patientId);
 
             var recordsList = new RecordsList<PatientRecord>
             {
@@ -220,7 +222,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ServiceResponse<GetPatientRecordDto> response = new ServiceResponse<GetPatientRecordDto>();
             try
             {
-                PatientRecord entityResponse = await _entityRepository.FindByID(id);
+                PatientRecord entityResponse = await ((IPatientRecordRepository)_entityRepository).FindByID(id);
 
                 var recordData = new Record<PatientRecord>
                 {

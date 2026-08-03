@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface IUserService : IEntityBaseService<User, AddUserDto, UpdateUserDto, GetUserDto>
+    public interface IUserService : IEntityBaseService<User, GetUserDto>
     {
         /// <summary>
         /// Método Login: executa a operação Login.

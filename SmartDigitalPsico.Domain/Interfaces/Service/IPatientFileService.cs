@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface IPatientFileService : IEntityBaseService<PatientFile, AddPatientFileDto, UpdatePatientFileDto, GetPatientFileDto>
+    public interface IPatientFileService : IEntityBaseService<PatientFile, GetPatientFileDto>
     {
         /// <summary>
         /// Método DownloadFileById: executa a operação DownloadFileById.

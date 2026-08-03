@@ -12,6 +12,8 @@ using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>
@@ -20,7 +22,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class PatientNotificationMessageService
-        : EntityBaseService<PatientNotificationMessage, AddPatientNotificationMessageDto, UpdatePatientNotificationMessageDto, GetPatientNotificationMessageVO, IPatientNotificationMessageRepository>, IPatientNotificationMessageService
+        : EntityBaseService<PatientNotificationMessage, GetPatientNotificationMessageVO>, IPatientNotificationMessageService
 
     {
         private readonly IPatientRepository _patientRepository;
@@ -45,8 +47,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Create(AddPatientNotificationMessageDto item)
+        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Create(IEntityDtoAdd itemDto)
         {
+            var item = (AddPatientNotificationMessageDto)itemDto;
             PatientNotificationMessage entityAdd = _mapper.Map<PatientNotificationMessage>(item);
 
             #region Relationship
@@ -66,7 +69,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (response.Success)
             {
-                PatientNotificationMessage entityResponse = await _entityRepository.Create(entityAdd);
+                PatientNotificationMessage entityResponse = await ((IPatientNotificationMessageRepository)_entityRepository).Create(entityAdd);
 
                 response.Data = _mapper.Map<GetPatientNotificationMessageVO>(entityResponse);
                 response.Success = true;
@@ -79,9 +82,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Update(UpdatePatientNotificationMessageDto item)
+        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Update(IEntityDto itemDto)
         {
-            PatientNotificationMessage entityUpdate = await _entityRepository.FindByID(item.Id);
+            var item = (UpdatePatientNotificationMessageDto)itemDto;
+            PatientNotificationMessage entityUpdate = await ((IPatientNotificationMessageRepository)_entityRepository).FindByID(item.Id);
 
             entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
             entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
@@ -104,7 +108,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (response.Success)
             {
-                PatientNotificationMessage entityResponse = await _entityRepository.Update(entityUpdate);
+                PatientNotificationMessage entityResponse = await ((IPatientNotificationMessageRepository)_entityRepository).Update(entityUpdate);
 
                 response.Data = _mapper.Map<GetPatientNotificationMessageVO>(entityResponse);
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
@@ -119,7 +123,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             ServiceResponse<List<GetPatientNotificationMessageVO>> response = new ServiceResponse<List<GetPatientNotificationMessageVO>>();
 
-            var listResult = await _entityRepository.FindAllByPatient(patientId);
+            var listResult = await ((IPatientNotificationMessageRepository)_entityRepository).FindAllByPatient(patientId);
 
             if (listResult == null || listResult.Count == 0)
             {
@@ -154,7 +158,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ServiceResponse<GetPatientNotificationMessageVO> response = new ServiceResponse<GetPatientNotificationMessageVO>();
             try
             {
-                PatientNotificationMessage entityResponse = await _entityRepository.FindByID(id);
+                PatientNotificationMessage entityResponse = await ((IPatientNotificationMessageRepository)_entityRepository).FindByID(id);
 
                 var recordData = new Record<PatientNotificationMessage>
                 {

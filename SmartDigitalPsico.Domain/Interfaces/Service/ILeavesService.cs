@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface ILeavesService : IEntityBaseService<Leaves, AddLeavesDto, UpdateLeavesDto, GetLeavesDto>
+    public interface ILeavesService : IEntityBaseService<Leaves, GetLeavesDto>
     { 
     }
 }

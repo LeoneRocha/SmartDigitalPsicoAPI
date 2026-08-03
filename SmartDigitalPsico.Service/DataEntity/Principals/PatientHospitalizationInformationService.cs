@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class PatientHospitalizationInformationService : EntityBaseService<PatientHospitalizationInformation, AddPatientHospitalizationInformationDto, UpdatePatientHospitalizationInformationDto, GetPatientHospitalizationInformationDto, IPatientHospitalizationInformationRepository>, IPatientHospitalizationInformationService
+    public class PatientHospitalizationInformationService : EntityBaseService<PatientHospitalizationInformation, GetPatientHospitalizationInformationDto>, IPatientHospitalizationInformationService
 
     {
         private readonly IUserRepository _userRepository;
@@ -46,8 +46,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Create(AddPatientHospitalizationInformationDto item)
+        public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Create(IEntityDtoAdd itemDto)
         {
+            var item = (AddPatientHospitalizationInformationDto)itemDto;
 
             PatientHospitalizationInformation entityAdd = _mapper.Map<PatientHospitalizationInformation>(item);
 
@@ -66,7 +67,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (response.Success)
             {
-                PatientHospitalizationInformation entityResponse = await _entityRepository.Create(entityAdd);
+                PatientHospitalizationInformation entityResponse = await ((IPatientHospitalizationInformationRepository)_entityRepository).Create(entityAdd);
 
                 response.Data = _mapper.Map<GetPatientHospitalizationInformationDto>(entityResponse); 
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterCreated, GeneralLanguageMenssageConstants.RegisterCreated);
@@ -78,10 +79,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Update(UpdatePatientHospitalizationInformationDto item)
+        public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Update(IEntityDto itemDto)
         {
+            var item = (UpdatePatientHospitalizationInformationDto)itemDto;
 
-            PatientHospitalizationInformation entityUpdate = await _entityRepository.FindByID(item.Id);
+            PatientHospitalizationInformation entityUpdate = await ((IPatientHospitalizationInformationRepository)_entityRepository).FindByID(item.Id);
 
             #region Relationship                 
             entityUpdate.ModifyUserId = UserId;
@@ -103,7 +105,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (response.Success)
             {
-                PatientHospitalizationInformation entityResponse = await _entityRepository.Update(entityUpdate);
+                PatientHospitalizationInformation entityResponse = await ((IPatientHospitalizationInformationRepository)_entityRepository).Update(entityUpdate);
 
                 response.Data = _mapper.Map<GetPatientHospitalizationInformationDto>(entityResponse);                
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
@@ -118,7 +120,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             ServiceResponse<List<GetPatientHospitalizationInformationDto>> response = new ServiceResponse<List<GetPatientHospitalizationInformationDto>>();
 
-            var listResult = await _entityRepository.FindAllByPatient(patientId);
+            var listResult = await ((IPatientHospitalizationInformationRepository)_entityRepository).FindAllByPatient(patientId);
 
             var recordsList = new RecordsList<PatientHospitalizationInformation>
             {
@@ -166,7 +168,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ServiceResponse<GetPatientHospitalizationInformationDto> response = new ServiceResponse<GetPatientHospitalizationInformationDto>();
             try
             {
-                PatientHospitalizationInformation entityResponse = await _entityRepository.FindByID(id);
+                PatientHospitalizationInformation entityResponse = await ((IPatientHospitalizationInformationRepository)_entityRepository).FindByID(id);
 
                 var recordData = new Record<PatientHospitalizationInformation>
                 {

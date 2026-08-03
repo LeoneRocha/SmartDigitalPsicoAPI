@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class PatientReportService
-       : EntityBaseService<PatientRecord, AddPatientRecordDto, UpdatePatientRecordDto, GetPatientRecordDto, IPatientRecordRepository>, IPatientReportService
+       : EntityBaseService<PatientRecord, GetPatientRecordDto>, IPatientReportService
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;

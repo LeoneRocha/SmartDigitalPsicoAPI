@@ -1,19 +1,18 @@
+using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
     /// <summary>
-    /// Interface (contrato) responsável por IEntityBaseService.
-    /// Responsabilidade: contrato de serviço de negócio.
-    /// Relação: implementado na camada Service e consumido pelos Controllers.
+    /// Contrato CRUD genérico (máx. 2 parâmetros de tipo — Sonar S2436).
+    /// Add/Update usam IEntityDtoAdd / IEntityDto para não multiplicar genéricos.
     /// </summary>
-    public interface IEntityBaseService<
-        TEntity, TEntityAdd, TEntityUpdate, TEntityResult>
+    public interface IEntityBaseService<TEntity, TEntityResult>
     {
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        Task<ServiceResponse<TEntityResult>> Create(TEntityAdd item);
+        Task<ServiceResponse<TEntityResult>> Create(IEntityDtoAdd item);
         /// <summary>
         /// Método FindByID: consulta e retorna dados.
         /// </summary>
@@ -25,7 +24,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        Task<ServiceResponse<TEntityResult>> Update(TEntityUpdate item);
+        Task<ServiceResponse<TEntityResult>> Update(IEntityDto item);
         /// <summary>
         /// Método Delete: remove ou cancela um registro/recurso.
         /// </summary>
@@ -37,7 +36,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
         /// <summary>
         /// Método Exists: valida regras ou verifica existência.
         /// </summary>
-        Task<ServiceResponse<bool>> Exists(long id); 
+        Task<ServiceResponse<bool>> Exists(long id);
         /// <summary>
         /// Método GetCount: consulta e retorna dados.
         /// </summary>
@@ -51,6 +50,5 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
         /// Método Validate: valida regras ou verifica existência.
         /// </summary>
         Task<ServiceResponse<TEntityResult>> Validate(TEntity item);
-
     }
 }

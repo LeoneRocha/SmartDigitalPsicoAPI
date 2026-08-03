@@ -81,6 +81,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                     return response;
                 }
 
+                // DB: itens do owner. CPU paralelo: GenerateDays / ToCalendarDto (após nomes).
                 var gradeRequest = MedicalScheduleMapper.ToGradeRequest(criteria, constraints, user.TimeZone ?? string.Empty, mode);
                 var items = await _query.GetItemsForOwnerAsync(
                     gradeRequest.TenantKey, gradeRequest.OwnerKey, gradeRequest.StartDate, gradeRequest.EndDate);
@@ -96,6 +97,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                     return response;
                 }
 
+                // DB batch de nomes ANTES do map paralelo ToCalendarDto
                 response.Success = true;
                 var patientNames = await ResolvePatientNamesAsync(grade.Data);
                 response.Data = MedicalScheduleMapper.ToCalendarDto(grade.Data, medical.Id, patientNames);
@@ -123,6 +125,11 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             return false;
         }
 
+        /// <summary>
+        /// Resolve nomes de pacientes com UMA query batch (FindByCustomWhere + Contains).
+        /// Sem Parallel.ForEach + FindByID: DbContext/EF não é thread-safe.
+        /// Ganho esperado: evita N round-trips ao montar a grade mensal com bookings.
+        /// </summary>
         private async Task<IReadOnlyDictionary<long, string>> ResolvePatientNamesAsync(ScheduleGradeResult grade)
         {
             var patientIds = grade.Days
@@ -139,21 +146,22 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                 .Distinct()
                 .ToArray();
 
-            var names = new Dictionary<long, string>();
-            foreach (var patientId in patientIds)
+            if (patientIds.Length == 0)
+                return new Dictionary<long, string>();
+
+            try
             {
-                try
-                {
-                    var patient = await _support.PatientRepository.FindByID(patientId);
-                    if (patient != null && !string.IsNullOrWhiteSpace(patient.Name))
-                        names[patientId] = patient.Name;
-                }
-                catch (Exception ex)
-                {
-                    _support.Logger.Warning(ex, "Failed to resolve patient name for PatientId={PatientId}", patientId);
-                }
+                // Uma única ida ao banco — sem paralelismo de I/O no mesmo contexto.
+                var patients = await _support.PatientRepository.FindByCustomWhere(p => patientIds.Contains(p.Id));
+                return patients
+                    .Where(p => !string.IsNullOrWhiteSpace(p.Name))
+                    .ToDictionary(p => p.Id, p => p.Name);
             }
-            return names;
+            catch (Exception ex)
+            {
+                _support.Logger.Warning(ex, "Failed to batch-resolve patient names for {Count} ids", patientIds.Length);
+                return new Dictionary<long, string>();
+            }
         }
     }
 }

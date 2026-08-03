@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class ApplicationConfigSettingService
-      : EntityBaseService<ApplicationConfigSetting, AddApplicationConfigSettingDto, UpdateApplicationConfigSettingDto, GetApplicationConfigSettingDto, IApplicationConfigSettingRepository>, IApplicationConfigSettingService
+      : EntityBaseService<ApplicationConfigSetting, GetApplicationConfigSettingDto>, IApplicationConfigSettingService
     {
         /// <summary>
         /// Método ApplicationConfigSettingService: executa a operação ApplicationConfigSettingService.

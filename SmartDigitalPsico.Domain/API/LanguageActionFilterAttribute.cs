@@ -28,7 +28,10 @@ namespace SmartDigitalPsico.Domain.API
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             string culture = context.RouteData.Values["culture"]?.ToString() ?? string.Empty;
-            _logger.LogInformation("Setting the culture from the URL: {Culture}", culture);
+
+            // Evita custo de formatação/avaliação quando Information está desabilitado (Sonar/CA logging).
+            if (_logger.IsEnabled(LogLevel.Information))
+                _logger.LogInformation("Setting the culture from the URL: {Culture}", culture);
 
 #if NET451
         System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);

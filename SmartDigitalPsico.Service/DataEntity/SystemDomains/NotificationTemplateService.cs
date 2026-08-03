@@ -11,6 +11,8 @@ using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.Globalization;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
@@ -19,7 +21,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class NotificationTemplateService
-      : EntityBaseService<Domain.ModelEntity.NotificationTemplate, AddNotificationTemplateDto, UpdateNotificationTemplateDto, GetNotificationTemplateDto, INotificationTemplateRepository>, INotificationTemplateService
+      : EntityBaseService<Domain.ModelEntity.NotificationTemplate, GetNotificationTemplateDto>, INotificationTemplateService
     {
         /// <summary>
         /// Método NotificationTemplateService: executa a operação NotificationTemplateService.
@@ -39,8 +41,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(UpdateNotificationTemplateDto item)
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(IEntityDto itemDto)
         {
+            var item = (UpdateNotificationTemplateDto)itemDto;
             item.Body = HtmlSanitizerHelper.Sanitize(item.Body);
 
             return await base.Update(item);
@@ -48,8 +51,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(AddNotificationTemplateDto item)
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(IEntityDtoAdd itemDto)
         {
+            var item = (AddNotificationTemplateDto)itemDto;
             item.Body = HtmlSanitizerHelper.Sanitize(item.Body);
             return await base.Create(item);
         }
@@ -64,7 +68,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             var culturenameCurrent = CultureInfo.CurrentCulture;
             string language = culturenameCurrent.Name;
 
-            Domain.ModelEntity.NotificationTemplate? entityResponse = await _entityRepository.GetNotificationTemplateAsync(templateKey, language);
+            Domain.ModelEntity.NotificationTemplate? entityResponse = await ((INotificationTemplateRepository)_entityRepository).GetNotificationTemplateAsync(templateKey, language);
 
             if (entityResponse != null)
             {

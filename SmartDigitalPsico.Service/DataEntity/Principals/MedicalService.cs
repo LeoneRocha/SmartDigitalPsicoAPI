@@ -14,6 +14,8 @@ using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>
@@ -22,7 +24,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class MedicalService
-        : EntityBaseService<Medical, AddMedicalDto, UpdateMedicalDto, GetMedicalDto, IMedicalRepository>, IMedicalService
+        : EntityBaseService<Medical, GetMedicalDto>, IMedicalService
 
     {
         private readonly IUserRepository _userRepository;
@@ -48,8 +50,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetMedicalDto>> Create(AddMedicalDto item)
+        public override async Task<ServiceResponse<GetMedicalDto>> Create(IEntityDtoAdd itemDto)
         {
+            var item = (AddMedicalDto)itemDto;
             Medical entityAdd = _mapper.Map<Medical>(item);
 
             #region Relationship
@@ -75,15 +78,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             {
 
                 entityAdd.SecurityKey = AesKeyGeneratorHelper.GenerateKey();
-                Medical entityResponse = await _entityRepository.Create(entityAdd);
+                Medical entityResponse = await ((IMedicalRepository)_entityRepository).Create(entityAdd);
 
                 entityResponse.MedicalSpecialties = new List<MedicalSpecialty>();
                 foreach (var specialty in specialtiesAdd)
                 {
                     entityResponse.MedicalSpecialties.Add(new MedicalSpecialty { Medical = entityAdd, Specialty = specialty });
                 }
-                entityResponse = await _entityRepository.Update(entityResponse);
-                entityResponse = await _entityRepository.FindByID(entityResponse.Id);
+                entityResponse = await ((IMedicalRepository)_entityRepository).Update(entityResponse);
+                entityResponse = await ((IMedicalRepository)_entityRepository).FindByID(entityResponse.Id);
 
                 response.Data = _mapper.Map<GetMedicalDto>(entityResponse);
 
@@ -95,11 +98,12 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetMedicalDto>> Update(UpdateMedicalDto item)
+        public override async Task<ServiceResponse<GetMedicalDto>> Update(IEntityDto itemDto)
         {
+            var item = (UpdateMedicalDto)itemDto;
             ServiceResponse<GetMedicalDto> response = new ServiceResponse<GetMedicalDto>();
 
-            Medical? entityUpdate = await _entityRepository.FindByID(item.Id);
+            Medical? entityUpdate = await ((IMedicalRepository)_entityRepository).FindByID(item.Id);
             if (entityUpdate != null)
             {
                 #region Relationship
@@ -141,7 +145,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     if (string.IsNullOrEmpty(entityUpdate.SecurityKey))
                         entityUpdate.SecurityKey = AesKeyGeneratorHelper.GenerateKey();
 
-                    Medical entityResponse = await _entityRepository.Update(entityUpdate);
+                    Medical entityResponse = await ((IMedicalRepository)_entityRepository).Update(entityUpdate);
 
                     response.Data = _mapper.Map<GetMedicalDto>(entityResponse);
 
@@ -189,7 +193,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (!response.Success)
                 return response;
 
-            Medical? entityResponse = await _entityRepository.FindByID(id);
+            Medical? entityResponse = await ((IMedicalRepository)_entityRepository).FindByID(id);
             if (entityResponse != null)
             {
                 response.Data = _mapper.Map<GetMedicalDto>(entityResponse);

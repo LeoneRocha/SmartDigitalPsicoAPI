@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class LeavesService
-      : EntityBaseService<Leaves, AddLeavesDto, UpdateLeavesDto, GetLeavesDto, ILeavesRepository>, ILeavesService
+      : EntityBaseService<Leaves, GetLeavesDto>, ILeavesService
     {
         /// <summary>
         /// Método LeavesService: executa a operação LeavesService.

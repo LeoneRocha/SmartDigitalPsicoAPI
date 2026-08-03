@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class PatientFileService : EntityBaseService<PatientFile, AddPatientFileDto, UpdatePatientFileDto, GetPatientFileDto, IPatientFileRepository>, IPatientFileService
+    public class PatientFileService : EntityBaseService<PatientFile, GetPatientFileDto>, IPatientFileService
 
     {
         private readonly IFileManager _filePersistor;
@@ -96,7 +96,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 if (response.Success)
                 {
                     entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, "patientfiles", $"{patient.MedicalId}_{entity.PatientId}");
-                    PatientFile entityResponse = await _entityRepository.Create(entityAdd);
+                    PatientFile entityResponse = await ((IPatientFileRepository)_entityRepository).Create(entityAdd);
                     if (response.Data != null)
                         response.Data.Id = entityResponse.Id;
                 }
@@ -110,7 +110,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// </summary>
         public async Task<GetPatientFileDto> DownloadFileById(long fileId)
         {
-            var fileEntity = await _entityRepository.FindByID(fileId);
+            var fileEntity = await ((IPatientFileRepository)_entityRepository).FindByID(fileId);
 
             #region Relationship
               
@@ -135,7 +135,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         {
             ServiceResponse<List<GetPatientFileDto>> response = new ServiceResponse<List<GetPatientFileDto>>();
 
-            var listResult = await _entityRepository.FindAllByPatient(patientId);
+            var listResult = await ((IPatientFileRepository)_entityRepository).FindAllByPatient(patientId);
 
             var recordsList = new RecordsList<PatientFile>
             {
@@ -176,7 +176,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ServiceResponse<GetPatientFileDto> response = new ServiceResponse<GetPatientFileDto>();
             try
             {
-                PatientFile entityResponse = await _entityRepository.FindByID(id);
+                PatientFile entityResponse = await ((IPatientFileRepository)_entityRepository).FindByID(id);
 
                 var recordData = new Record<PatientFile>
                 {

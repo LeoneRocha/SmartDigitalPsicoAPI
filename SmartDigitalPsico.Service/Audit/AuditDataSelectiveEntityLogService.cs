@@ -10,6 +10,8 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
+using SmartDigitalPsico.Domain.Interfaces;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class AuditDataSelectiveEntityLogService
-        : EntityBaseService<AuditDataSelectiveEntityLog, AddAuditDataSelectiveEntityLogDto, UpdateAuditDataSelectiveEntityLogDto, GetAuditDataSelectiveEntityLogDto, IAuditDataSelectiveEntityLogRepository>, IAuditDataSelectiveEntityLogService
+        : EntityBaseService<AuditDataSelectiveEntityLog, GetAuditDataSelectiveEntityLogDto>, IAuditDataSelectiveEntityLogService
     {
         private readonly ISharedDependenciesConfig _sharedDependenciesConfig;
 
@@ -40,8 +42,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(AddAuditDataSelectiveEntityLogDto item)
+        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(IEntityDtoAdd itemDto)
         {
+            var item = (AddAuditDataSelectiveEntityLogDto)itemDto;
             throw new NotImplementedException();
         }
 

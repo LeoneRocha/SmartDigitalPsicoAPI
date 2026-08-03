@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class RoleGroupService : EntityBaseService<RoleGroup, AddRoleGroupDto, UpdateRoleGroupDto, GetRoleGroupDto, IRoleGroupRepository>, IRoleGroupService
+    public class RoleGroupService : EntityBaseService<RoleGroup, GetRoleGroupDto>, IRoleGroupService
 
     {
         /// <summary>

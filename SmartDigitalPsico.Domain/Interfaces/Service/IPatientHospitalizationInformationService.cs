@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface IPatientHospitalizationInformationService : IEntityBaseService<PatientHospitalizationInformation, AddPatientHospitalizationInformationDto ,UpdatePatientHospitalizationInformationDto , GetPatientHospitalizationInformationDto>
+    public interface IPatientHospitalizationInformationService : IEntityBaseService<PatientHospitalizationInformation, GetPatientHospitalizationInformationDto>
     {  
         /// <summary>
         /// Método FindAllByPatient: consulta e retorna dados.

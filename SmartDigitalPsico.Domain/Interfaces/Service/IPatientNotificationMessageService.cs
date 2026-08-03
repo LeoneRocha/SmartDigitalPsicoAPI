@@ -9,8 +9,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface IPatientNotificationMessageService : IEntityBaseService<PatientNotificationMessage
-        ,AddPatientNotificationMessageDto,UpdatePatientNotificationMessageDto, GetPatientNotificationMessageVO>
+    public interface IPatientNotificationMessageService : IEntityBaseService<PatientNotificationMessage, GetPatientNotificationMessageVO>
     {
         
         /// <summary>

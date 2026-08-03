@@ -196,18 +196,27 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             => items.Select(i => ToMedicalCalendarReadModel(i, medicalId, patientId)).ToArray();
 
         /// <summary>
-        /// Método ToCalendarDto: mapeia ou transforma dados entre modelos.
+        /// Mapeia a grade Core → CalendarDto FE. Dias mapeados em paralelo (CPU, sem DB).
+        /// Ganho esperado: meses com muitos slots/bookings; DB e resolução de nomes ocorrem antes desta chamada.
         /// </summary>
         public static CalendarDto ToCalendarDto(
             ScheduleGradeResult grade,
             long medicalId,
             IReadOnlyDictionary<long, string>? patientNames = null)
         {
+            var source = grade.Days ?? [];
+            var days = new DayCalendarDto[source.Length];
+            // Paralelismo só na transformação DTO — MaxDegreeOfParallelism = ProcessorCount.
+            Parallel.For(0, source.Length, ScheduleParallel.MaxAvailableThreads, i =>
+            {
+                days[i] = ToDayCalendarDto(source[i], medicalId, patientNames);
+            });
+
             return new CalendarDto
             {
                 MedicalId = medicalId,
                 MedicalName = grade.DisplayName,
-                Days = grade.Days.Select(day => ToDayCalendarDto(day, medicalId, patientNames)).ToArray()
+                Days = days
             };
         }
 
@@ -284,10 +293,13 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         }
 
         /// <summary>
-        /// Método BuildItems: mapeia ou transforma dados entre modelos.
+        /// Materializa recorrência (sequencial — ordem temporal) e mapeia intervals → items em paralelo quando N &gt;= 8.
+        /// Sem DB: Materialize + map CPU. Persistência ocorre depois em ScheduleCreate/Update.
+        /// Ganho esperado: séries longas (semanas/meses); limiar 8 evita overhead em eventos únicos.
         /// </summary>
         public static ScheduleCalendarItem[] BuildItems(MedicalCalendar entity, string token)
         {
+            // Materialize permanece sequencial: ordem + lista compartilhada (sem Parallel).
             var intervals = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
             {
                 StartDateTime = entity.StartDateTime,
@@ -298,7 +310,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 RecurrenceCount = entity.RecurrenceCount
             });
 
-            return intervals.Select(interval => new ScheduleCalendarItem
+            ScheduleCalendarItem MapInterval(RecurrenceInterval interval) => new()
             {
                 Title = entity.Title,
                 Description = entity.Description,
@@ -316,7 +328,17 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                 RecurrenceCount = entity.RecurrenceCount,
                 ReasonCancellation = entity.ReasonCancellation ?? string.Empty,
                 TokenRecurrence = token
-            }).ToArray();
+            };
+
+            if (intervals.Count < 8)
+                return intervals.Select(MapInterval).ToArray();
+
+            var result = new ScheduleCalendarItem[intervals.Count];
+            Parallel.For(0, intervals.Count, ScheduleParallel.MaxAvailableThreads, i =>
+            {
+                result[i] = MapInterval(intervals[i]);
+            });
+            return result;
         }
 
         /// <summary>

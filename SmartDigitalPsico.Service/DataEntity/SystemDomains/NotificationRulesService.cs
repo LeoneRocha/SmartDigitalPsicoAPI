@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class NotificationRulesService
-      : EntityBaseService<NotificationRule, AddNotificationRulesDto, UpdateNotificationRulesDto, GetNotificationRulesDto, INotificationRulesRepository>, INotificationRulesService
+      : EntityBaseService<NotificationRule, GetNotificationRulesDto>, INotificationRulesService
     {
         /// <summary>
         /// Método NotificationRulesService: executa a operação NotificationRulesService.
@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// </summary>
         public async Task<NotificationRule[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId)
         { 
-            return await _entityRepository.GetNotificationRulesAsync(notificationType, isEnabled, medicalId);
+            return await ((INotificationRulesRepository)_entityRepository).GetNotificationRulesAsync(notificationType, isEnabled, medicalId);
         }
     }
 }

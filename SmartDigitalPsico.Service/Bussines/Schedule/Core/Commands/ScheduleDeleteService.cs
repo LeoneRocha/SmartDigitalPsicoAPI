@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
         }
 
         /// <summary>
-        /// Método DeleteByTokenAsync: remove ou cancela um registro/recurso.
+        /// Exclusão por token — apenas I/O de repositório. Sem paralelismo CPU (não há transformação em lote).
         /// </summary>
         public async Task<ServiceResponse<bool>> DeleteByTokenAsync(string uniqueToken)
         {

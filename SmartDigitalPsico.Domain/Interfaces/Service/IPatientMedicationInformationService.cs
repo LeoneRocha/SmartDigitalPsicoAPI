@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
     public interface IPatientMedicationInformationService 
-        : IEntityBaseService<PatientMedicationInformation, AddPatientMedicationInformationDto, UpdatePatientMedicationInformationDto, GetPatientMedicationInformationDto>
+        : IEntityBaseService<PatientMedicationInformation, GetPatientMedicationInformationDto>
     { 
         /// <summary>
         /// Método FindAllByPatient: consulta e retorna dados.

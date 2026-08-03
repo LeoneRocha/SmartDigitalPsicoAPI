@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
     public interface IGenderService 
-        : IEntityBaseService<Gender, AddGenderDto, UpdateGenderDto, GetGenderDto>
+        : IEntityBaseService<Gender, GetGenderDto>
     {
 
     }
