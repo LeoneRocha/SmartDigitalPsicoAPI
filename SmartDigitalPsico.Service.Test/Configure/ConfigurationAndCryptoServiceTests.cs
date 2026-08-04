@@ -1,0 +1,454 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Moq;
+using Serilog;
+using SmartDigitalPsico.Data.Audit;
+using SmartDigitalPsico.Data.Context.Interface;
+using SmartDigitalPsico.Domain.DTO.Security;
+using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
+using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Domain.Interfaces.Security;
+using SmartDigitalPsico.Domain.Interfaces.Service;
+using SmartDigitalPsico.Domain.Interfaces.TableEntity;
+using SmartDigitalPsico.Domain.Resiliency;
+using SmartDigitalPsico.Domain.Security;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
+using SmartDigitalPsico.Service.Configure;
+using SmartDigitalPsico.Service.Configure.Domain;
+using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
+using SmartDigitalPsico.Service.Security;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Swagger;
+namespace SmartDigitalPsico.Service.Test.Configure;
+
+[TestFixture]
+public class ConfigurationAndCryptoServiceTests
+{
+    [Test]
+    public void Configure_StandardServiceCollectionExtensions_RegistersExpectedServices()
+    {
+        var services = new ServiceCollection();
+
+        ServiceCollectionConfigureAutoMapper.Configure(services);
+        ServiceCollectionConfigureCaching.Configure(services);
+        ServiceCollectionConfigureCors.Configure(services);
+        ServiceCollectionConfigureDocumentation.Configure(services);
+        ServiceCollectionConfigureEndpointsApiExplorer.Configure(services);
+        ServiceCollectionConfigureHeader.Configure(services);
+        ServiceCollectionConfigureLocalization.Configure(services);
+        ServiceCollectionConfigureLog.Configure(services, new LoggerConfiguration().CreateLogger());
+        ServiceCollectionConfigureSecurity.Configure(services, new TokenConfigurationDto
+        {
+            Issuer = "issuer",
+            Audience = "audience",
+            Secret = "a sufficiently long signing secret for tests"
+        });
+
+        using var provider = services.BuildServiceProvider();
+
+        provider.GetRequiredService<IMapper>().Should().NotBeNull();
+        provider.GetRequiredService<IMemoryCache>().Should().NotBeNull();
+        services.Should().Contain(x => x.ServiceType == typeof(Serilog.ILogger));
+        services.Should().Contain(x => x.ServiceType == typeof(IConfigureOptions<RequestLocalizationOptions>));
+    }
+
+    [Test]
+    public void Configure_AppSettings_BindsAndRegistersConfigurationObjects()
+    {
+        var configuration = BuildConfiguration();
+        var services = new ServiceCollection();
+
+        ServiceCollectionConfigureAppSettings.Configure(services, configuration);
+        var token = ServiceCollectionConfigureAppSettings.AddAndReturnTokenConfiguration(services, configuration);
+
+        using var provider = services.BuildServiceProvider();
+
+        using (Assert.EnterMultipleScope())
+        {
+            token.Issuer.Should().Be("issuer");
+            token.Audience.Should().Be("audience");
+            provider.GetRequiredService<ITokenConfigurationDto>().Issuer.Should().Be("issuer");
+            provider.GetRequiredService<IResiliencePolicyConfig>().Should().NotBeNull();
+            provider.GetRequiredService<ILocationSaveFileConfigurationDto>().Should().NotBeNull();
+        }
+    }
+
+    [TestCase("MSsqlServer", ETypeDataBase.MSsqlServer)]
+    [TestCase("Mysql", ETypeDataBase.Mysql)]
+    public void AddAndReturnTypeDataBase_ValidValue_ReturnsConfiguredDatabase(string configuredValue, ETypeDataBase expected)
+    {
+        var configuration = BuildConfiguration(new Dictionary<string, string?>
+        {
+            ["DataBaseConfigurations:TypeDataBase"] = configuredValue
+        });
+
+        ServiceCollectionConfigureAppSettings.AddAndReturnTypeDataBase(configuration).Should().Be(expected);
+    }
+
+    [Test]
+    public void ServicesDomainService_ManualAndAutomaticRegistrations_AddServiceDescriptors()
+    {
+        var services = new ServiceCollection();
+
+        ServicesDomainService.AddDependenciesManually(services);
+        ServicesDomainService.AddDependenciesAuto(services);
+
+        services.Should().Contain(x => x.ServiceType == typeof(ICacheService));
+        services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleUpdateService));
+        services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Service.IUserService));
+    }
+
+    [Test]
+    public void CryptoService_EncryptDecryptAndInvalidCipher_DelegatesToAdapter()
+    {
+        var encryptedBytes = new byte[] { 1, 2, 3 };
+        var adapter = new Mock<ICryptoAdpter>();
+        adapter.Setup(x => x.Encrypt("plain")).Returns(encryptedBytes);
+        adapter.Setup(x => x.Decrypt(encryptedBytes)).Returns("plain");
+        var factory = new Mock<ICryptoAdapterFactory>();
+        factory.Setup(x => x.Create(ECryptoServiceType.Aes, It.IsAny<string>(), "iv")).Returns(adapter.Object);
+        var service = new CryptoService(BuildConfiguration(), factory.Object);
+
+        var encryptedFromConfiguredKey = service.Encrypt("plain");
+        var encryptedFromProvidedKey = service.Encrypt("override-key", "plain");
+        var decrypted = service.Decrypt(encryptedFromConfiguredKey);
+        var decryptedWithKey = service.Decrypt("override-key", encryptedFromConfiguredKey);
+        var invalid = service.Decrypt("not base64!");
+        var blank = service.Decrypt("   ");
+
+        using (Assert.EnterMultipleScope())
+        {
+            encryptedFromConfiguredKey.Should().Be(Convert.ToBase64String(encryptedBytes));
+            encryptedFromProvidedKey.Should().Be(Convert.ToBase64String(encryptedBytes));
+            decrypted.Should().Be("plain");
+            decryptedWithKey.Should().Be("plain");
+            invalid.Should().BeEmpty();
+            blank.Should().BeEmpty();
+        }
+        factory.Verify(x => x.Create(ECryptoServiceType.Aes, "key", "iv"), Times.Exactly(2));
+        factory.Verify(x => x.Create(ECryptoServiceType.Aes, "override-key", "iv"), Times.Exactly(2));
+    }
+
+    [Test]
+    public async Task AzureStorageBlobAdapter_WithoutConnection_UsesSafeNoClientBehavior()
+    {
+        var adapter = new AzureStorageBlobAdapter(new ConfigurationBuilder().AddInMemoryCollection().Build());
+
+        var upload = await adapter.UploadFileReturnUrl(new BlobFileDto { ContainerName = "files", FilePath = "unused" });
+        var url = await adapter.GetFileStorageUrlPublic("files", "test.txt");
+        await adapter.CreateContainerIfNotExists("files");
+        await adapter.DownloadFile("files", "test.txt", Path.GetTempFileName());
+
+        using (Assert.EnterMultipleScope())
+        {
+            upload.Should().BeEmpty();
+            url.Should().BeEmpty();
+        }
+        Assert.ThrowsAsync<InvalidOperationException>(async () => await adapter.DeleteBlobAsync("files", "test.txt"));
+    }
+
+    // Cenário: JWT e Swagger são resolvidos após Configure.
+    // Objetivo: executar lambdas internas de Security e Documentation.
+    [Test]
+    public void Configure_SecurityAndDocumentation_ResolvesOptionsAndSwagger()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddLogging();
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        var environment = new Mock<Microsoft.AspNetCore.Hosting.IWebHostEnvironment>();
+        environment.SetupGet(x => x.ApplicationName).Returns("SmartDigitalPsico.Service.Test");
+        environment.SetupGet(x => x.ContentRootPath).Returns(Directory.GetCurrentDirectory());
+        environment.SetupGet(x => x.EnvironmentName).Returns("Development");
+        services.AddSingleton(environment.Object);
+        services.AddSingleton<Microsoft.Extensions.Hosting.IHostEnvironment>(environment.Object);
+        ServiceCollectionConfigureDocumentation.Configure(services);
+        ServiceCollectionConfigureSecurity.Configure(services, new TokenConfigurationDto
+        {
+            Issuer = "issuer",
+            Audience = "audience",
+            Secret = "a sufficiently long signing secret for tests"
+        });
+
+        // Act
+        using var provider = services.BuildServiceProvider();
+        var jwt = provider.GetRequiredService<IOptionsMonitor<JwtBearerOptions>>()
+            .Get(JwtBearerDefaults.AuthenticationScheme);
+        var swaggerOptions = provider.GetRequiredService<IOptions<Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions>>().Value;
+        var auth = provider.GetRequiredService<IAuthorizationPolicyProvider>()
+            .GetPolicyAsync("Bearer").GetAwaiter().GetResult();
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            jwt.TokenValidationParameters.ValidIssuer.Should().Be("issuer");
+            swaggerOptions.SwaggerGeneratorOptions.SwaggerDocs.Should().ContainKey("v1");
+            auth.Should().NotBeNull();
+        }
+    }
+
+    // Cenário: lambdas de ORM, CORS, Localization, NoSql e Queue são executadas.
+    // Objetivo: resolver serviços registrados e cobrir options/factory delegates.
+    [Test]
+    public void Configure_OrmMysqlCorsLocalizationNoSqlQueue_ResolvesRegisteredOptionsAndServices()
+    {
+        // Arrange
+        var tempDir = Path.Combine(Path.GetTempPath(), "sdp-config-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDir);
+        var configuration = BuildConfiguration(new Dictionary<string, string?>
+        {
+            ["DataBaseConfigurations:TypeDataBase"] = "Mysql",
+            ["ConnectionStrings:SmartDigitalPsicoDBConnectionMySQL"] = "Server=invalid-host;Database=test;User=root;Password=x;",
+            ["AppSettings:ResourcesTemp"] = tempDir
+        });
+        var services = new ServiceCollection();
+        services.AddSingleton<IConfiguration>(configuration);
+        services.AddLogging();
+        services.AddSingleton(Mock.Of<SmartDigitalPsico.Domain.Interfaces.Repository.IMemoryCacheRepository>());
+        services.AddSingleton(Mock.Of<Serilog.ILogger>());
+        ServiceCollectionConfigureCors.Configure(services);
+        ServiceCollectionConfigureLocalization.Configure(services);
+        ServicesDomainAudit.AddDependencies(services);
+        RegisterAuditSupportServices(services);
+        ServicesDomainNoSql.AddDependencies(services);
+        ServicesDomainQueue.AddDependencies(services);
+        ServiceCollectionConfigureOrm.Configure(services, configuration);
+
+        // Act
+        using var provider = services.BuildServiceProvider();
+        var httpContext = new DefaultHttpContext { RequestServices = provider };
+        var corsPolicy = provider.GetRequiredService<ICorsPolicyProvider>()
+            .GetPolicyAsync(httpContext, null).GetAwaiter().GetResult();
+        var localization = provider.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
+        var mysqlContext = provider.GetRequiredService<IEntityDataContext>();
+        var patientRecordTable = provider.GetRequiredService<IStorageTableContract<PatientRecordTableEntity>>();
+        var userTokenTable = provider.GetRequiredService<IStorageTableContract<UserTokenSessionTableEntity>>();
+        var queue = provider.GetRequiredService<IStorageQueueContract>();
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            corsPolicy.Should().NotBeNull();
+            corsPolicy!.AllowAnyOrigin.Should().BeTrue();
+            corsPolicy.ExposedHeaders.Should().Contain("Content-Disposition");
+            localization.DefaultRequestCulture.Culture.Name.Should().Be("pt-BR");
+            localization.SupportedCultures.Should().NotBeEmpty();
+            mysqlContext.Should().NotBeNull();
+            patientRecordTable.Should().NotBeNull();
+            userTokenTable.Should().NotBeNull();
+            queue.Should().NotBeNull();
+        }
+    }
+
+    // Cenário: DbContext SQL Server e opções MVC/Authentication são resolvidos.
+    // Objetivo: executar lambdas de ORM SQL Server, Header e Security.
+    [Test]
+    public void Configure_OrmSqlServerHeaderSecurity_ResolvesDbContextAndMvcOptions()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddLogging();
+        services.AddSingleton(Mock.Of<SmartDigitalPsico.Domain.Interfaces.Repository.IMemoryCacheRepository>());
+        services.AddSingleton(Mock.Of<Serilog.ILogger>());
+        var configuration = BuildConfiguration(new Dictionary<string, string?>
+        {
+            ["DataBaseConfigurations:TypeDataBase"] = "MSsqlServer",
+            ["ConnectionStrings:SmartDigitalPsicoDBConnectionSQLServer"] = "Server=localhost;Database=test;Trusted_Connection=True;"
+        });
+        ServicesDomainAudit.AddDependencies(services);
+        RegisterAuditSupportServices(services);
+        ServiceCollectionConfigureOrm.Configure(services, configuration);
+        ServiceCollectionConfigureHeader.Configure(services);
+        ServiceCollectionConfigureSecurity.Configure(services, new TokenConfigurationDto
+        {
+            Issuer = "issuer",
+            Audience = "audience",
+            Secret = "a sufficiently long signing secret for tests"
+        });
+
+        // Act
+        using var provider = services.BuildServiceProvider();
+        var sqlContext = provider.GetRequiredService<IEntityDataContext>();
+        var mvcOptions = provider.GetRequiredService<IOptions<MvcOptions>>().Value;
+        var authSchemes = provider.GetRequiredService<IAuthenticationSchemeProvider>();
+        var defaultScheme = authSchemes.GetDefaultAuthenticateSchemeAsync().GetAwaiter().GetResult();
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            sqlContext.Should().NotBeNull();
+            mvcOptions.RespectBrowserAcceptHeader.Should().BeTrue();
+            defaultScheme!.Name.Should().Be(JwtBearerDefaults.AuthenticationScheme);
+        }
+    }
+
+    // Cenário: ORM e módulos de domínio são registrados.
+    // Objetivo: cobrir Configure ORM default e AddDependencies dos ServicesDomain*.
+    [Test]
+    public void Configure_OrmAndDomainModules_RegisterServiceDescriptors()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        var unsupported = BuildConfiguration(new Dictionary<string, string?>
+        {
+            ["DataBaseConfigurations:TypeDataBase"] = "Postgree"
+        });
+        var mysql = BuildConfiguration(new Dictionary<string, string?>
+        {
+            ["DataBaseConfigurations:TypeDataBase"] = "Mysql",
+            ["ConnectionStrings:SmartDigitalPsicoDBConnectionMySQL"] = "Server=localhost;Database=test;User=root;Password=x;"
+        });
+        var sql = BuildConfiguration(new Dictionary<string, string?>
+        {
+            ["DataBaseConfigurations:TypeDataBase"] = "MSsqlServer",
+            ["ConnectionStrings:SmartDigitalPsicoDBConnectionSQLServer"] = "Server=localhost;Database=test;Trusted_Connection=True;"
+        });
+
+        // Act
+        ServiceCollectionConfigureOrm.Configure(services, unsupported);
+        var mysqlServices = new ServiceCollection();
+        ServiceCollectionConfigureOrm.Configure(mysqlServices, mysql);
+        var sqlServices = new ServiceCollection();
+        ServiceCollectionConfigureOrm.Configure(sqlServices, sql);
+
+        ServicesDomainRepository.AddDependencies(services);
+        ServicesDomainValidation.AddDependencies(services);
+        ServicesDomainSecurity.AddDependencies(services);
+        ServicesDomainNoSql.AddDependencies(services);
+        ServicesDomainSmtp.AddDependencies(services);
+        ServicesDomainQueue.AddDependencies(services);
+        ServicesDomainReport.AddDependencies(services);
+        ServicesDomainAudit.AddDependencies(services);
+        ServicesDomainAuthentication.AddDependencies(services);
+        ServiceCollectionConfigureServicesDomain.Configure(new ServiceCollection(), BuildConfiguration());
+
+        // Resolve NoSql factory lambdas (cobre corpos dos AddScoped).
+        var noSqlServices = new ServiceCollection();
+        noSqlServices.AddSingleton(BuildConfiguration());
+        ServicesDomainNoSql.AddDependencies(noSqlServices);
+        using var noSqlProvider = noSqlServices.BuildServiceProvider();
+        var patientTable = noSqlProvider.GetRequiredService<SmartDigitalPsico.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.PatientRecordTableEntity>>();
+        var tokenTable = noSqlProvider.GetRequiredService<SmartDigitalPsico.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>>();
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            mysqlServices.Should().Contain(x => x.ServiceType.Name.Contains("DataContext", StringComparison.Ordinal));
+            sqlServices.Should().Contain(x => x.ServiceType.Name.Contains("DataContext", StringComparison.Ordinal));
+            services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Infrastructure.IStorageBlobAdapter));
+            services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Repository.IMemoryCacheRepository));
+            patientTable.Should().NotBeNull();
+            tokenTable.Should().NotBeNull();
+        }
+    }
+
+    // Cenário: políticas CORS/Header/Log/Localization são materializadas.
+    // Objetivo: executar lambdas internas dos Configure*.
+    [Test]
+    public async Task Configure_CorsHeaderLogLocalization_ExecuteInternalCallbacks()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        var serilogLogger = new LoggerConfiguration().CreateLogger();
+        ServiceCollectionConfigureCors.Configure(services);
+        ServiceCollectionConfigureHeader.Configure(services);
+        ServiceCollectionConfigureLog.Configure(services, serilogLogger);
+        ServiceCollectionConfigureLocalization.Configure(services);
+
+        // Act
+        using var provider = services.BuildServiceProvider();
+        var cors = provider.GetRequiredService<Microsoft.AspNetCore.Cors.Infrastructure.ICorsPolicyProvider>();
+        var policy = await cors.GetPolicyAsync(new Microsoft.AspNetCore.Http.DefaultHttpContext(), null);
+        var localization = provider.GetRequiredService<IConfigureOptions<Microsoft.AspNetCore.Builder.RequestLocalizationOptions>>();
+        var options = new Microsoft.AspNetCore.Builder.RequestLocalizationOptions();
+        localization.Configure(options);
+        var mvc = provider.GetRequiredService<IOptions<Microsoft.AspNetCore.Mvc.MvcOptions>>().Value;
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            policy.Should().NotBeNull();
+            options.SupportedCultures.Should().NotBeEmpty();
+            mvc.RespectBrowserAcceptHeader.Should().BeTrue();
+            provider.GetRequiredService<Serilog.ILogger>().Should().BeSameAs(serilogLogger);
+        }
+    }
+
+    // Cenário: factory de tabela e persistência de auditoria em log.
+    // Objetivo: cobrir Create da factory e SaveAuditEntries com UserAuditedId nulo.
+    [Test]
+    public void StorageTableFactory_AndAuditLogService_CoverRemainingLines()
+    {
+        // Arrange
+        var factory = new SmartDigitalPsico.Service.Infrastructure.StorageTableRepositoryFactory(BuildConfiguration());
+        var logger = new Mock<Serilog.ILogger>();
+        var audit = new SmartDigitalPsico.Service.Audit.AuditPersistenceLogService(logger.Object);
+
+        // Act
+        var table = factory.Create<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>(
+            SmartDigitalPsico.Domain.Enuns.EStorageAdapterType.Azure, $"t{Guid.NewGuid():N}"[..10]);
+        audit.SaveAuditEntries(
+        [
+            new SmartDigitalPsico.Domain.ModelEntity.AuditDataEntityLog
+            {
+                TableName = "T",
+                Operation = "U",
+                KeyValue = "1",
+                UserAuditedId = null,
+                AuditDate = DateTime.UtcNow
+            }
+        ]);
+        audit.SaveAuditEntry(new SmartDigitalPsico.Domain.ModelEntity.AuditDataSelectiveEntityLog
+        {
+            TableName = "T",
+            Operation = "I",
+            KeyValue = "2",
+            UserAuditedId = 9,
+            AuditDate = DateTime.UtcNow
+        }).GetAwaiter().GetResult();
+
+        // Assert
+        table.Should().NotBeNull();
+        logger.Invocations.Should().NotBeEmpty();
+    }
+
+    private static void RegisterAuditSupportServices(IServiceCollection services)
+    {
+        services.AddSingleton(Mock.Of<IMemoryCacheRepository>());
+        services.AddSingleton<Serilog.ILogger>(_ => Mock.Of<Serilog.ILogger>());
+    }
+
+    private static IConfiguration BuildConfiguration(IReadOnlyDictionary<string, string?>? overrides = null)
+    {
+        var values = new Dictionary<string, string?>
+        {
+            ["SecuritySettings:AesSettings:AesKey"] = "key",
+            ["SecuritySettings:AesSettings:AesIv"] = "iv",
+            ["TokenConfigurations:Issuer"] = "issuer",
+            ["TokenConfigurations:Audience"] = "audience",
+            ["TokenConfigurations:Secret"] = "a sufficiently long signing secret for tests",
+            ["DataBaseConfigurations:TypeDataBase"] = "MSsqlServer"
+        };
+
+        if (overrides is not null)
+        {
+            foreach (var item in overrides)
+                values[item.Key] = item.Value;
+        }
+
+        return new ConfigurationBuilder().AddInMemoryCollection(values).Build();
+    }
+}

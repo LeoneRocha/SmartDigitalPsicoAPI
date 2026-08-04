@@ -74,5 +74,20 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
                 Assert.That(result, Has.Count.EqualTo(3));
             }
         }
+
+        // Cenário: lista de IDs nula.
+        // Objetivo: cobrir retorno antecipado de FindByIDs.
+        [Test]
+        public async Task FindByIDs_NullIds_ReturnsEmptyList()
+        {
+            // Arrange
+            _entityRepository = new RoleGroupRepository(_mockContext!);
+
+            // Act
+            var result = await _entityRepository.FindByIDs(null);
+
+            // Assert
+            result.Should().BeEmpty();
+        }
     }
 }

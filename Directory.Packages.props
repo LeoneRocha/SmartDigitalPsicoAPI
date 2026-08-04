@@ -13,12 +13,14 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.10" />
 
     <!-- Bloco B — Persistência EF 9 + Pomelo 9 (não subir para EF 10) -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.18" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.18" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.18" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.18" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.18" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.18" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.18" />
     <PackageVersion Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
@@ -73,5 +75,7 @@
     <!-- Moq.EF 10.x exige EF Core 10 — permanece em 9.x alinhado ao Bloco B -->
     <PackageVersion Include="Moq.EntityFrameworkCore" Version="9.0.0.10" />
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
+    <PackageVersion Include="AwesomeAssertions" Version="9.3.0" />
   </ItemGroup>
 </Project>
