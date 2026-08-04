@@ -16,9 +16,14 @@ public class RequestCultureMiddlewareTests
         var context = new DefaultHttpContext();
         context.Request.Headers["X-Culture"] = "pt-BR";
         var invoked = false;
+        string? cultureDuringNext = null;
+        string? uiCultureDuringNext = null;
         var middleware = new RequestCultureMiddleware(_ =>
         {
+            // Captura dentro do pipeline: após o await o AsyncLocal pode voltar ao default da thread.
             invoked = true;
+            cultureDuringNext = CultureInfo.CurrentCulture.Name;
+            uiCultureDuringNext = CultureInfo.CurrentUICulture.Name;
             return Task.CompletedTask;
         });
 
@@ -26,9 +31,12 @@ public class RequestCultureMiddlewareTests
         await middleware.Invoke(context);
 
         // Assert
-        invoked.Should().BeTrue();
-        CultureInfo.CurrentCulture.Name.Should().Be("pt-BR");
-        CultureInfo.CurrentUICulture.Name.Should().Be("pt-BR");
+        using (Assert.EnterMultipleScope())
+        {
+            invoked.Should().BeTrue();
+            cultureDuringNext.Should().Be("pt-BR");
+            uiCultureDuringNext.Should().Be("pt-BR");
+        }
     }
 
     [Test]
