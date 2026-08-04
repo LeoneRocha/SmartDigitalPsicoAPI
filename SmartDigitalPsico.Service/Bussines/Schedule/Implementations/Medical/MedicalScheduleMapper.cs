@@ -269,7 +269,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                     ColorCategoryHexa = mc.ColorCategoryHexa,
                     TimeZone = mc.TimeZone,
                     IsPushedCalendar = mc.IsPushedCalendar,
-                    RecurrenceDays = mc.RecurrenceDays ?? [],
+                    RecurrenceDays = mc.RecurrenceDays,
                     RecurrenceType = mc.RecurrenceType,
                     RecurrenceEndDate = mc.RecurrenceEndDate,
                     RecurrenceCount = mc.RecurrenceCount ?? 0,

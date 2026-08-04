@@ -195,7 +195,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                 return response;
             }
-            if (listResult == null || listResult.Count == 0)
+            if (listResult.Count == 0)
             {
                 response.Success = false;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
@@ -233,7 +233,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                 return response;
             }
-            if (listResult == null || listResult.Count == 0)
+            if (listResult.Count == 0)
             {
                 response.Success = false;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);   

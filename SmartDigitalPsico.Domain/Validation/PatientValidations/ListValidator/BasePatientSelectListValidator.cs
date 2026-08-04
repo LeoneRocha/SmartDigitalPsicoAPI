@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
             {
                 User userLogged = await _userRepository.FindByID(userIdLogged);
 
-                if (recordsList.Records.Count == 0) { return false; }
+                if (recordsList.Records.Count == 0) { return true; }
 
                 bool userHasPermission = recordsList.Records.TrueForAll(rg =>
                 rg.Patient != null &&

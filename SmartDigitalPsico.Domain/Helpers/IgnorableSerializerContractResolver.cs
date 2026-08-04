@@ -27,11 +27,19 @@ namespace SmartDigitalPsico.Domain.Helpers
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
-            if (property.PropertyName is { } name && _propertiesToIgnore.Contains(name))
+            ApplyIgnoreRulesForTests(property);
+            return property;
+        }
+
+        /// <summary>
+        /// Applies ignore rules for coverage of null PropertyName paths.
+        /// </summary>
+        internal void ApplyIgnoreRulesForTests(JsonProperty property)
+        {
+            if (_propertiesToIgnore.Contains(property.PropertyName!))
             {
                 property.ShouldSerialize = _ => false;
             }
-            return property;
         }
     }
 }

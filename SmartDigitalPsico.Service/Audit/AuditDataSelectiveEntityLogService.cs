@@ -56,7 +56,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             try
             {
                 auditEntry = AuditLogHelper.CreateAuditEntry(entryOld, entryNew, operation, propertiesToIgnore);
-                await base.Create(auditEntry);
+                await Create(auditEntry);
             }
             catch (Exception ex)
             {

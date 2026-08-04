@@ -50,7 +50,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
                 .Must(BeValidDate)
                 .WithErrorCode("SmartDigitalPsico.CalendarCriteriaValidator.CalendarCriteriaDto.StartDate.Must")
                 .WithMessage("StartDate_Validator_ValidDate_Key|{0} must be a valid date.|StartDate")
-                .Must((criteria, startDate) => !criteria.EndDate.HasValue || (criteria.EndDate.Value - startDate!.Value).TotalDays <= maxDayRange)
+                .Must((criteria, startDate) => !startDate.HasValue || !criteria.EndDate.HasValue || (criteria.EndDate.Value - startDate.Value).TotalDays <= maxDayRange)
                 .WithErrorCode("SmartDigitalPsico.CalendarCriteriaValidator.CalendarCriteriaDto.StartDate.Must")
                 .WithMessage("StartDateEndDate_Validator_DateRange_Key|{0} and EndDate cannot be more than {1} days apart.|StartDate|" + maxDayRange.ToString());
 
@@ -58,7 +58,7 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
                 .Must(BeValidDate)
                 .WithErrorCode("SmartDigitalPsico.CalendarCriteriaValidator.CalendarCriteriaDto.EndDate.Must")
                 .WithMessage("EndDate_Validator_ValidDate_Key|{0} must be a valid date.|EndDate")
-                .Must((criteria, endDate) => !criteria.StartDate.HasValue || (endDate!.Value - criteria.StartDate.Value).TotalDays <= maxDayRange)
+                .Must((criteria, endDate) => !endDate.HasValue || !criteria.StartDate.HasValue || (endDate.Value - criteria.StartDate.Value).TotalDays <= maxDayRange)
                 .WithErrorCode("SmartDigitalPsico.CalendarCriteriaValidator.CalendarCriteriaDto.EndDate.Must")
                 .WithMessage("StartDateEndDate_Validator_DateRange_Key|{0} and StartDate cannot be more than {1} days apart.|EndDate|" + maxDayRange.ToString());
 

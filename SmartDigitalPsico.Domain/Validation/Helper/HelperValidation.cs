@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
                 {
                     errorAdd.ErrorCode = parts[0];
                 }
-                errorAdd.DefaultMessage = parts.Length > 1 ? parts[1] : errorItem.ErrorMessage;
+                errorAdd.DefaultMessage = parts[1];
             }
             else if (!IsStructuredErrorCode(errorAdd.ErrorCode) && !errorAdd.Message.Contains('_'))
             {
@@ -68,7 +68,7 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
                 {
                     errorItem.ErrorCode = parts[0];
                 }
-                errorItem.Message = parts.Length > 1 ? parts[1] : errorItem.FullMessage;
+                errorItem.Message = parts[1];
             }
 
             return errorItem;

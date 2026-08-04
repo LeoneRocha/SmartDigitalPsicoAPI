@@ -362,7 +362,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                     var user = await ((IUserRepository)_entityRepository).FindByID(idUser);
 
                     if (user.RefreshToken != refreshToken ||
-                        user.RefreshTokenExpiryTime <= DateHelper.GetDateTimeNowFromUtc()) return new TokenVO();
+                        !user.RefreshTokenExpiryTime.HasValue ||
+                        user.RefreshTokenExpiryTime.Value <= DateHelper.GetDateTimeNowFromUtc())
+                        return new TokenVO();
 
                     accessToken = _tokenService.GenerateAccessToken(principal.Claims);
                     refreshToken = _tokenService.GenerateRefreshToken();

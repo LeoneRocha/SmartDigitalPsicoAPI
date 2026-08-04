@@ -44,9 +44,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Smtp
             {
                 client.UseDefaultCredentials = false;
                 client.Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password);
-                client.EnableSsl = true;
+                client.EnableSsl = _smtpSettings.EnableSsl;
                 await client.SendMailAsync(mailMessage);
-            } 
+            }
         }
     }
 }

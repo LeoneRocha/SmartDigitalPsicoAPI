@@ -26,7 +26,13 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
                 _queueClient = new QueueClient(conBSC, queueName);
                 _queueClient.CreateIfNotExists();
             }
-        } 
+        }
+
+        public AzureStorageQueueAdapter(QueueClient queueClient)
+        {
+            _queueClient = queueClient;
+        }
+
         /// <summary>
         /// Método EnqueueMessageAsync: executa a operação EnqueueMessageAsync.
         /// </summary>

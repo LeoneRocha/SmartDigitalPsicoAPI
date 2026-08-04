@@ -16,16 +16,39 @@ namespace SmartDigitalPsico.WindowsService
         /// <summary>
         /// Método Main: executa a operação Main.
         /// </summary>
-        public static void Main()
+        public static void Main(string[] args)
         {
-            CreateHostBuilder().Build().Run();
+            Run(args);
         }
+
+        public static void Run(string[] args, Action<IHost>? hostRunner = null)
+        {
+            var host = CreateHostBuilder().Build();
+            if (args.Contains("--validate-startup", StringComparer.OrdinalIgnoreCase))
+            {
+                host.Dispose();
+                return;
+            }
+
+            (hostRunner ?? (currentHost => currentHost.Run()))(host);
+        }
+        /// <summary>
+        /// Optional test hook applied after DI registration so default Run can stop without hanging.
+        /// </summary>
+        internal static Action<IServiceCollection, HostBuilderContext>? ConfigureServicesForTests { get; set; }
+
         /// <summary>
         /// Método CreateHostBuilder: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public static IHostBuilder CreateHostBuilder()
+        public static IHostBuilder CreateHostBuilder(string? environmentName = null)
         {
-            return Host.CreateDefaultBuilder()
+            var builder = Host.CreateDefaultBuilder();
+            if (!string.IsNullOrWhiteSpace(environmentName))
+            {
+                builder.UseEnvironment(environmentName);
+            }
+
+            return builder
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     var env = hostingContext.HostingEnvironment;
@@ -53,6 +76,8 @@ namespace SmartDigitalPsico.WindowsService
 
                     // Registra os servi�os espec�ficos do dom�nio e do background job
                     WindowsServiceConfigureServiceCollections.Configure(services, hostContext.Configuration, logger);
+
+                    ConfigureServicesForTests?.Invoke(services, hostContext);
                 })
                 .UseWindowsService()
                 .UseSerilog();

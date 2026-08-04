@@ -38,7 +38,8 @@ namespace SmartDigitalPsico.Service.Configure
                     connection = ConfigurationAppSettingsHelper.GetConnectionStringMySQL(_configuration);
                     services.AddDbContext<IEntityDataContext, SmartDigitalPsicoDataContextMySql>((serviceProvider, optionsBuilder) =>
                     {
-                        optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection),
+                        // Fixed server version avoids AutoDetect (requires a live DB at DI resolve time).
+                        optionsBuilder.UseMySql(connection, new MySqlServerVersion(new Version(8, 0, 36)),
                         optionsMySQL =>
                         {
                             optionsMySQL.MigrationsAssembly("SmartDigitalPsico.Data");

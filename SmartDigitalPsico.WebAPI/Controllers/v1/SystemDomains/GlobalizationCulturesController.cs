@@ -15,6 +15,11 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     /// </summary>
     public class GlobalizationCulturesController : ControllerBase
     {
+        protected virtual List<CultureDisplayDto> GetCultures()
+        {
+            return CultureDateTimeHelper.GetCultures();
+        }
+
         /// <summary>
         /// Método GlobalizationCulturesController: executa a operação GlobalizationCulturesController.
         /// </summary>
@@ -29,7 +34,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         public async Task<ActionResult<List<CultureDisplayDto>>> Get()
         { 
             await Task.FromResult(0);
-            var response = CultureDateTimeHelper.GetCultures();
+            var response = GetCultures();
             if (response.Count <= 0)
             {
                 return NotFound(response);

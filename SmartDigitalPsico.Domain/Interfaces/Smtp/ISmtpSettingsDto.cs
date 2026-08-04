@@ -13,5 +13,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Smtp
         string SenderName { get; set; }
         string Server { get; set; }
         string Username { get; set; }
+        bool EnableSsl { get; set; }
     }
 }

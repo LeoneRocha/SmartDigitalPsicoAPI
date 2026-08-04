@@ -45,13 +45,18 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             AddAzureMonitorOpenTelemetry(builder);
 
+            ConfigureBuilderForTests?.Invoke(builder);
+
             return (builder, _logger);
         }
 
         /// <summary>
         /// Método BuildAndRunAPP: mapeia ou transforma dados entre modelos.
         /// </summary>
-        public static void BuildAndRunAPP(WebApplicationBuilder builder, Serilog.Core.Logger? _logger)
+        public static void BuildAndRunAPP(
+            WebApplicationBuilder builder,
+            Serilog.Core.Logger? _logger,
+            Action<WebApplication>? applicationRunner = null)
         {
             if (_logger == null)
             {
@@ -60,20 +65,25 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             try
             {
-                var app = builder.Build();
-
-                Configure(app, builder.Environment, builder.Configuration);
+                var app = BuildAndConfigure(builder);
 
                 LogAppHelper.PrintLogInformationVersionProduct(_logger);
 
                 _logger.Information("Web API Loading at: {Time}", DateHelper.GetDateTimeNowToLog());
-                app.Run();
+                (applicationRunner ?? (currentApplication => currentApplication.Run()))(app);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "Web API Error Loading at: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
                 throw new InvalidOperationException("Web API failed during startup or configuration.", ex);
             }
+        }
+
+        public static WebApplication BuildAndConfigure(WebApplicationBuilder builder)
+        {
+            var app = builder.Build();
+            Configure(app, builder.Environment, builder.Configuration);
+            return app;
         }
 
         /// <summary>
@@ -101,15 +111,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             app.UseRouting();
 
             // Correlation TraceId/SpanId em cada request (logs + Azure traces)
-            app.Use(async (context, next) =>
-            {
-                var activity = Activity.Current;
-                using (LogContext.PushProperty("TraceId", activity?.TraceId.ToString() ?? context.TraceIdentifier))
-                using (LogContext.PushProperty("SpanId", activity?.SpanId.ToString() ?? string.Empty))
-                {
-                    await next();
-                }
-            });
+            app.Use(PushCorrelationLogPropertiesAsync);
 
             app.UseSerilogRequestLogging(options =>
             {
@@ -178,15 +180,49 @@ namespace SmartDigitalPsico.WebAPI.Configure
             app.UseMiddleware<RequestCultureMiddleware>();
         }
 
+        internal static async Task PushCorrelationLogPropertiesAsync(HttpContext context, Func<Task> next)
+        {
+            var activity = Activity.Current;
+            using (LogContext.PushProperty("TraceId", activity?.TraceId.ToString() ?? context.TraceIdentifier))
+            using (LogContext.PushProperty("SpanId", activity?.SpanId.ToString() ?? string.Empty))
+            {
+                await next();
+            }
+        }
+
+        internal static IEntityDataContext? EntityDataContextOverrideForTests { get; set; }
+
+        /// <summary>
+        /// Optional test hook applied after DI registration so hosts can stop without hanging.
+        /// </summary>
+        internal static Action<WebApplicationBuilder>? ConfigureBuilderForTests { get; set; }
+
         private static void addAutoMigrate(IApplicationBuilder app)
         {
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            var ownsContext = EntityDataContextOverrideForTests == null;
+            var context = EntityDataContextOverrideForTests
+                ?? serviceScope.ServiceProvider.GetService<IEntityDataContext>();
+
+            try
             {
-                using (var context = serviceScope.ServiceProvider.GetService<IEntityDataContext>())
+                if (context == null || !context.Database.IsRelational())
                 {
-                    context?.Database.Migrate();
+                    return;
+                }
+
+                ApplyPendingMigrations(context);
+            }
+            finally
+            {
+                if (ownsContext)
+                {
+                    context?.Dispose();
                 }
             }
         }
+
+        private static void ApplyPendingMigrations(IEntityDataContext context)
+            => context.Database.Migrate();
     }
 }

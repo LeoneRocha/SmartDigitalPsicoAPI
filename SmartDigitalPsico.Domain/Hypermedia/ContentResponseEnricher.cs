@@ -80,14 +80,11 @@ namespace SmartDigitalPsico.Domain.Hypermedia
 
         private async Task HandleServiceResponse(ServiceResponse<T> serviceResponse, IUrlHelper urlHelper)
         {
+            // List<T> responses are handled by ServiceResponse<List<T>> in HandleOkObjectResult.
             if (serviceResponse.Data is T model)
             {
                 await EnrichModel(model, urlHelper);
             }
-            else if (serviceResponse.Data is List<T> collection)
-            {
-                HandleCollection(collection, urlHelper);
-            } 
         }
 
         private void HandleServiceResponseList(ServiceResponse<List<T>> serviceResponseList, IUrlHelper urlHelper)

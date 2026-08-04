@@ -5,13 +5,27 @@ using SmartDigitalPsico.WebJob.Configure;
 
 namespace SmartDigitalPsico.WebJob
 {
-    static class Program
+    public static class Program
     {
         private static Serilog.Core.Logger? _logger;
 
-        static async Task Main()
+        /// <summary>
+        /// Optional test hook applied before Build so hosts can relax DI validation.
+        /// </summary>
+        internal static Action<IHostBuilder>? ConfigureHostForTests { get; set; }
+
+        public static Task Main(string[] args)
+        {
+            return RunAsync(args);
+        }
+
+        public static async Task RunAsync(string[] args, Func<IHost, Task>? hostRunner = null, string? environmentName = null)
         {
             var builder = new HostBuilder()
+                .ConfigureHostConfiguration(config =>
+                {
+                    config.AddEnvironmentVariables();
+                })
                 .ConfigureWebJobs(webJobsBuilder =>
                 {
                     // Adiciona extensoes especificas para WebJobs, se necessario
@@ -45,34 +59,56 @@ namespace SmartDigitalPsico.WebJob
                     logging.AddConsole();
                 });
 
+            // Apply after host configuration so env vars cannot override the explicit test/runtime value.
+            if (!string.IsNullOrWhiteSpace(environmentName))
+            {
+                builder.UseEnvironment(environmentName);
+            }
+
+            ConfigureHostForTests?.Invoke(builder);
             var host = builder.UseSerilog().Build();
 
             using (host)
             {
-                var configuration = host.Services.GetRequiredService<IConfiguration>();
-                var executionMode = configuration.GetValue<string>("JobSettings:ExecutionMode", "OneTime");
-
-                if (executionMode.Equals("Continuous", StringComparison.OrdinalIgnoreCase))
+                if (args.Contains("--validate-startup", StringComparer.OrdinalIgnoreCase))
                 {
-                    // Modo cont�nuo: o host manter� os servi�os rodando.
-                    LogAppHelper.LogInfo(_logger!, "Modo cont�nuo ativado. / Continuous mode activated. Host ser� mantido em execu��o.");
-                    await host.RunAsync();
+                    return;
+                }
+
+                await (hostRunner ?? (currentHost => RunHostAsync(currentHost)))(host);
+            }
+        }
+
+        public static async Task RunHostAsync(
+            IHost host,
+            Func<IHost, Task>? continuousHostRunner = null,
+            Serilog.Core.Logger? loggerOverride = null)
+        {
+            var logger = loggerOverride ?? _logger
+                ?? throw new InvalidOperationException("WebJob logger was not configured.");
+            var configuration = host.Services.GetRequiredService<IConfiguration>();
+            var executionMode = configuration.GetValue<string>("JobSettings:ExecutionMode", "OneTime");
+
+            if (executionMode.Equals("Continuous", StringComparison.OrdinalIgnoreCase))
+            {
+                // Modo contínuo: o host manterá os serviços rodando.
+                LogAppHelper.LogInfo(logger, "Modo contínuo ativado. / Continuous mode activated. Host será mantido em execução.");
+                await (continuousHostRunner ?? (currentHost => currentHost.RunAsync()))(host);
+            }
+            else
+            {
+                // Modo de execução única: executa o job e finaliza.
+                LogAppHelper.PrintLogInformationVersionProduct(logger);
+                var jobService = host.Services.GetService<IBackgroundJobService>();
+                if (jobService != null)
+                {
+                    LogAppHelper.LogInfo(logger, "Execução única iniciada. / Single execution started. Chamando ExecuteNotificationProcessAsync...");
+                    await jobService.ExecuteNotificationProcessAsync();
+                    LogAppHelper.LogInfo(logger, "Execução única concluída. / Single execution completed.");
                 }
                 else
                 {
-                    // Modo de execu��o �nica: executa o job e finaliza.
-                    LogAppHelper.PrintLogInformationVersionProduct(_logger!);
-                    var jobService = host.Services.GetRequiredService<IBackgroundJobService>();
-                    if (jobService != null)
-                    {
-                        LogAppHelper.LogInfo(_logger!, "Execu��o �nica iniciada. / Single execution started. Chamando ExecuteNotificationProcessAsync...");
-                        await jobService.ExecuteNotificationProcessAsync();
-                        LogAppHelper.LogInfo(_logger!, "Execu��o �nica conclu�da. / Single execution completed.");
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Erro na configura��o: IBackgroundJobService n�o foi registrado. / Configuration error: IBackgroundJobService was not registered.");
-                    }
+                    throw new InvalidOperationException("Erro na configuração: IBackgroundJobService não foi registrado. / Configuration error: IBackgroundJobService was not registered.");
                 }
             }
         }

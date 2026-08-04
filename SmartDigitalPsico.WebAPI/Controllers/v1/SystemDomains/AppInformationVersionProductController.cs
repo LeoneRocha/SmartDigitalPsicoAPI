@@ -14,6 +14,11 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     /// </summary>
     public class AppInformationVersionProductController : ControllerBase
     {
+        protected virtual AppInformationVersionProductDto? GetInformationVersionProduct()
+        {
+            return LogAppHelper.GetInformationVersionProduct();
+        }
+
         /// <summary>
         /// Método AppInformationVersionProductController: executa a operação AppInformationVersionProductController.
         /// </summary>
@@ -37,7 +42,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         public async Task<ActionResult<List<AppInformationVersionProductDto>>> Get()
         {
             await Task.FromResult(0);
-            var responseVO = LogAppHelper.GetInformationVersionProduct();
+            var responseVO = GetInformationVersionProduct();
             if (responseVO != null)
             {
                 List<AppInformationVersionProductDto> response = new List<AppInformationVersionProductDto> { responseVO };

@@ -333,7 +333,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
                 response.Success = validationResult.IsValid;
                 response.Errors = HelperValidation.GetErrorsMap(validationResult).ToList();
                 //Translate Message  
-                if (response.Errors != null && response.Errors.Count > 0)
+                if (response.Errors.Count > 0)
                 {
                     List<ErrorResponse> errosTranslated = new List<ErrorResponse>();
                     foreach (var errosItem in response.Errors)

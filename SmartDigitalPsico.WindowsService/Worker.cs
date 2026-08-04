@@ -67,8 +67,13 @@ namespace SmartDigitalPsico.WindowsService
                     LogAppHelper.LogError(_logger, ex, "ExecuteAsync Error: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(minutesDelay), stoppingToken);
+                await DelayAsync(TimeSpan.FromMinutes(minutesDelay), stoppingToken);
             }
+        }
+
+        protected virtual Task DelayAsync(TimeSpan delay, CancellationToken stoppingToken)
+        {
+            return Task.Delay(delay, stoppingToken);
         }
     }
 }

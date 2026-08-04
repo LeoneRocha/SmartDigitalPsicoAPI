@@ -17,6 +17,8 @@ namespace SmartDigitalPsico.Domain.Security
     {
         private readonly TokenConfigurationDto _configuration;
 
+        internal static Func<JwtSecurityTokenHandler>? TokenHandlerFactoryForTests { get; set; }
+
         /// <summary>
         /// Método TokenService: mapeia ou transforma dados entre modelos.
         /// </summary>
@@ -71,12 +73,11 @@ namespace SmartDigitalPsico.Domain.Security
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.Secret)),
                 ValidateLifetime = false
             };
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenHandler = TokenHandlerFactoryForTests?.Invoke() ?? new JwtSecurityTokenHandler();
             SecurityToken securityToken;
 
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null ||
+            if (securityToken is not JwtSecurityToken jwtSecurityToken ||
                 !jwtSecurityToken.Header.Alg.Equals(
                     SecurityAlgorithms.HmacSha512,
                     StringComparison.InvariantCulture))
