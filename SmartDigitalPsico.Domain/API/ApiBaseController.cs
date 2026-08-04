@@ -44,11 +44,18 @@ namespace SmartDigitalPsico.Domain.API
                 User userCurrent = await _userRepository.FindByID(userId);
                 if (!string.IsNullOrWhiteSpace(userCurrent.Language))
                 {
-                    var cultureInfo = new CultureInfo(userCurrent.Language);
-                    CultureInfo.CurrentCulture = cultureInfo;
-                    CultureInfo.CurrentUICulture = cultureInfo;
+                    ApplyCulture(new CultureInfo(userCurrent.Language));
                 }
             }
+        }
+
+        /// <summary>
+        /// Aplica a cultura corrente da requisição. Extensível para testes (AsyncLocal não flui ao caller).
+        /// </summary>
+        protected virtual void ApplyCulture(CultureInfo cultureInfo)
+        {
+            CultureInfo.CurrentCulture = cultureInfo;
+            CultureInfo.CurrentUICulture = cultureInfo;
         }
 
         /// <summary>

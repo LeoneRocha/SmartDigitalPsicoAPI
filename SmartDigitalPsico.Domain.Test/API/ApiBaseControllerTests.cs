@@ -44,8 +44,12 @@ public class ApiBaseControllerTests
         // Act
         await controller.ApplyCurrentCulture();
 
-        // Assert
-        CultureInfo.CurrentCulture.Name.Should().Be("pt-BR");
+        // Assert — captura via ApplyCulture (AsyncLocal não flui ao caller após await no agent CI)
+        using (Assert.EnterMultipleScope())
+        {
+            controller.AppliedCultureName.Should().Be("pt-BR");
+            controller.AppliedUiCultureName.Should().Be("pt-BR");
+        }
         repository.Verify(x => x.FindByID(9), Times.Once);
     }
 
@@ -53,9 +57,8 @@ public class ApiBaseControllerTests
     public async Task SetCurrentCulture_MissingRepositoryOrLanguage_DoesNotChangeCulture()
     {
         // Cenário: não há repositório ou o idioma do usuário é vazio.
-        // Objetivo: concluir sem alterar a cultura atual.
+        // Objetivo: concluir sem aplicar cultura.
         // Arrange
-        var previous = CultureInfo.CurrentCulture;
         var withoutRepository = CreateController(new ServiceCollection().BuildServiceProvider(), new ClaimsPrincipal());
         var repository = new Mock<IUserRepository>();
         repository.Setup(x => x.FindByID(0)).ReturnsAsync(new User { Language = " " });
@@ -66,7 +69,11 @@ public class ApiBaseControllerTests
         await withEmptyLanguage.ApplyCurrentCulture();
 
         // Assert
-        CultureInfo.CurrentCulture.Should().Be(previous);
+        using (Assert.EnterMultipleScope())
+        {
+            withoutRepository.AppliedCultureName.Should().BeNull();
+            withEmptyLanguage.AppliedCultureName.Should().BeNull();
+        }
         repository.Verify(x => x.FindByID(0), Times.Once);
     }
 
@@ -82,7 +89,17 @@ public class ApiBaseControllerTests
 
     private sealed class TestApiBaseController(IOptions<AuthConfigurationDto> options) : ApiBaseController(options)
     {
+        public string? AppliedCultureName { get; private set; }
+        public string? AppliedUiCultureName { get; private set; }
+
         public long GetCurrentUserId() => GetUserIdCurrent();
         public Task ApplyCurrentCulture() => SetCurrentCulture();
+
+        protected override void ApplyCulture(CultureInfo cultureInfo)
+        {
+            base.ApplyCulture(cultureInfo);
+            AppliedCultureName = CultureInfo.CurrentCulture.Name;
+            AppliedUiCultureName = CultureInfo.CurrentUICulture.Name;
+        }
     }
 }
