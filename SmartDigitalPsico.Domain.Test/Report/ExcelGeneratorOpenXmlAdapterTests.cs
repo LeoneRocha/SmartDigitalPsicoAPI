@@ -41,15 +41,24 @@ public class ExcelGeneratorOpenXmlAdapterTests
         // Act
         await adapter.Generate(workbook, output);
         using var document = SpreadsheetDocument.Open(output, false);
-        var sheets = document.WorkbookPart!.Workbook.Sheets!.Elements<Sheet>().ToList();
-        var firstSheet = document.WorkbookPart.GetPartById(sheets[0].Id!) as WorksheetPart;
+        var workbookPart = document.WorkbookPart;
+        workbookPart.Should().NotBeNull();
+        var openXmlWorkbook = workbookPart!.Workbook;
+        openXmlWorkbook.Should().NotBeNull();
+        openXmlWorkbook!.Sheets.Should().NotBeNull();
+        var sheets = openXmlWorkbook.Sheets!.Elements<Sheet>().ToList();
+        sheets[0].Id.Should().NotBeNull();
+        var firstSheet = workbookPart.GetPartById(sheets[0].Id!) as WorksheetPart;
+        firstSheet.Should().NotBeNull();
+        firstSheet!.Worksheet.Should().NotBeNull();
+        var worksheet = firstSheet.Worksheet!;
 
         // Assert
         File.Exists(output).Should().BeTrue();
         sheets.Select(x => x.Name!.Value).Should().ContainInOrder("First", "Second");
-        firstSheet!.Worksheet.Descendants<MergeCell>().Should().ContainSingle(x => x.Reference == "A1:B1");
-        firstSheet.Worksheet.Descendants<AutoFilter>().Should().ContainSingle(x => x.Reference == "A1:D1");
-        firstSheet.Worksheet.Descendants<Row>().Should().HaveCount(2);
+        worksheet!.Descendants<MergeCell>().Should().ContainSingle(x => x.Reference == "A1:B1");
+        worksheet.Descendants<AutoFilter>().Should().ContainSingle(x => x.Reference == "A1:D1");
+        worksheet.Descendants<Row>().Should().HaveCount(2);
         ExcelGeneratorOpenXmlAdapter.GetStylesheet().Elements<CellFormats>().Should().ContainSingle().Which.ChildElements.Should().HaveCount(5);
     }
 

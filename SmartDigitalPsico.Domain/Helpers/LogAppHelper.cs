@@ -128,10 +128,9 @@ namespace SmartDigitalPsico.Domain.Helpers
         /// </summary>
         public static void PrintLogInformationVersionProduct(Serilog.ILogger logger)
         {
-            logger.Information("******* PRODUCT INFORMATION *******");
             var assemblyApp = GetInformationVersionProduct();
-            logger.Information("Name: {Name} | Version: {Version} | Environment: {EnvironmentName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
             logger.Information("******* PRODUCT INFORMATION *******");
+            logger.Information("Name: {Name} | Version: {Version} | Environment: {EnvironmentName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
         }
 
         /// <summary>

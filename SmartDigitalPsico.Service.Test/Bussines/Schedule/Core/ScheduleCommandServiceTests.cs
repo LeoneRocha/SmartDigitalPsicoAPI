@@ -58,7 +58,7 @@ public class ScheduleCommandServiceTests
             Enable = true,
             Items = [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddMinutes(30) }]
         };
-        repository.Setup(x => x.GetByUniqueTokenAsync("schedule-token")).ReturnsAsync((ScheduleCalendar?)null);
+        repository.Setup(x => x.GetByUniqueTokenAsync("schedule-token")).Returns(Task.FromResult<ScheduleCalendar?>(null));
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:7", request.Items, "schedule-token"))
             .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>()))
@@ -90,7 +90,7 @@ public class ScheduleCommandServiceTests
     {
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>();
-        repository.Setup(x => x.GetByUniqueTokenAsync("missing")).ReturnsAsync((ScheduleCalendar?)null);
+        repository.Setup(x => x.GetByUniqueTokenAsync("missing")).Returns(Task.FromResult<ScheduleCalendar?>(null));
         var service = new ScheduleDeleteService(repository.Object, Mock.Of<ILogger>());
 
         // Act
@@ -165,7 +165,7 @@ public class ScheduleCommandServiceTests
         var repository = new Mock<IScheduleCalendarRepository>();
         var request = new ScheduleDeleteTokenRequest { UniqueToken = "missing", OwnerKey = "medical:1" };
         repository.Setup(x => x.GetByTokenAsync("missing", "medical:1", null)).ReturnsAsync(Array.Empty<ScheduleCalendar>());
-        repository.Setup(x => x.GetByUniqueTokenAsync("missing")).ReturnsAsync((ScheduleCalendar?)null);
+        repository.Setup(x => x.GetByUniqueTokenAsync("missing")).Returns(Task.FromResult<ScheduleCalendar?>(null));
         var service = new ScheduleDeleteService(repository.Object, Mock.Of<ILogger>());
 
         // Act
@@ -236,7 +236,7 @@ public class ScheduleCommandServiceTests
         var repository = new Mock<IScheduleCalendarRepository>();
         var conflicts = new Mock<IScheduleConflictService>();
         var start = new DateTime(2026, 9, 1, 10, 0, 0, DateTimeKind.Utc);
-        repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).ReturnsAsync((ScheduleCalendar?)null);
+        repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null));
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:3", It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string>()))
             .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => { e.Id = 77; return e; });
@@ -290,7 +290,7 @@ public class ScheduleCommandServiceTests
         var repository = new Mock<IScheduleCalendarRepository>();
         var conflicts = new Mock<IScheduleConflictService>();
         var request = ValidCreateRequest();
-        repository.Setup(x => x.GetByUniqueTokenAsync(request.UniqueToken)).ReturnsAsync((ScheduleCalendar?)null);
+        repository.Setup(x => x.GetByUniqueTokenAsync(request.UniqueToken)).Returns(Task.FromResult<ScheduleCalendar?>(null));
         conflicts.Setup(x => x.HasNoConflictBatchAsync(request.TenantKey, request.OwnerKey, request.Items, request.UniqueToken))
             .ReturnsAsync(new ServiceResponse<bool>
             {
@@ -408,7 +408,7 @@ public class ScheduleCommandServiceTests
             UniqueToken = " ",
             Items = [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddMinutes(30) }]
         };
-        repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).ReturnsAsync((ScheduleCalendar?)null);
+        repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null));
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:7", request.Items, It.IsAny<string>()))
             .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => { e.Id = 50; return e; });
@@ -442,7 +442,7 @@ public class ScheduleCommandServiceTests
             UniqueToken = "no-subject",
             Items = [item]
         };
-        repository.Setup(x => x.GetByUniqueTokenAsync("no-subject")).ReturnsAsync((ScheduleCalendar?)null);
+        repository.Setup(x => x.GetByUniqueTokenAsync("no-subject")).Returns(Task.FromResult<ScheduleCalendar?>(null));
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:7", request.Items, "no-subject"))
             .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => { e.Id = 51; return e; });

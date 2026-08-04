@@ -111,7 +111,7 @@ public class MedicalScheduleGradeServiceTests
             .ThrowsAsync(new InvalidOperationException("patients"));
         var patientFail = await sut.GetMonthlyCalendar(ValidCriteria(day));
 
-        ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync((User?)null);
+        ctx.Context.UserRepository.Setup(x => x.FindByID(1)).Returns(Task.FromResult<User>(null!));
 
         var missingUser = await sut.GetMonthlyCalendar(ValidCriteria(day));
         var available = await sut.GetAvailableMedicalCalendar(ValidCriteria(day));

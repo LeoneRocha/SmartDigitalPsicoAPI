@@ -21,7 +21,7 @@ public class DomainPocoReflectionCoverageTests
 {
     private static readonly Assembly DomainAssembly = Assembly.Load("SmartDigitalPsico.Domain");
 
-    public static IEnumerable<TestCaseData> TiposPocoPublicos()
+    private static IEnumerable<TestCaseData> TiposPocoPublicos()
     {
         foreach (var type in DomainAssembly.GetExportedTypes()
                      .Where(EhAlvoDeCobertura)
@@ -32,7 +32,7 @@ public class DomainPocoReflectionCoverageTests
         }
     }
 
-    public static IEnumerable<TestCaseData> EnunsPublicos()
+    private static IEnumerable<TestCaseData> EnunsPublicos()
     {
         foreach (var type in DomainAssembly.GetExportedTypes()
                      .Where(type => type.IsEnum)
@@ -324,6 +324,9 @@ public class DomainPocoReflectionCoverageTests
         }
     }
 
+    private static readonly string[] NamespaceCoverageSegments =
+        ["DTO", "VO", "ModelEntity", "TableEntity", "Hypermedia", "Enuns", "Contracts", "DependeciesCollection"];
+
     private static bool EhAlvoDeCobertura(Type type)
     {
         if (!type.IsPublic || type.IsAbstract || type.IsInterface || typeof(Delegate).IsAssignableFrom(type))
@@ -332,7 +335,7 @@ public class DomainPocoReflectionCoverageTests
         }
 
         var namespaceName = type.Namespace ?? string.Empty;
-        return new[] { "DTO", "VO", "ModelEntity", "TableEntity", "Hypermedia", "Enuns", "Contracts", "DependeciesCollection" }
+        return NamespaceCoverageSegments
             .Any(segment => namespaceName.Contains(segment, StringComparison.Ordinal));
     }
 

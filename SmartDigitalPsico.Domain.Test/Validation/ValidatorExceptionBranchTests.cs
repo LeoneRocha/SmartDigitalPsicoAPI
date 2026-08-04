@@ -19,8 +19,8 @@ public sealed class ValidatorExceptionBranchTests
         // Arrange
         var repository = new Mock<IUserRepository>();
         repository.Setup(value => value.Exists(It.IsAny<long>())).ReturnsAsync(false);
-        repository.Setup(value => value.FindByEmail(It.IsAny<string>())).ReturnsAsync((User?)null);
-        repository.Setup(value => value.FindByLogin(It.IsAny<string>())).ReturnsAsync((User?)null);
+        repository.Setup(value => value.FindByEmail(It.IsAny<string>())).Returns(Task.FromResult<User?>(null));
+        repository.Setup(value => value.FindByLogin(It.IsAny<string>())).Returns(Task.FromResult<User?>(null));
         var validator = new UserValidator(repository.Object);
         var existingRepository = new Mock<IUserRepository>();
         existingRepository.Setup(value => value.Exists(1)).ReturnsAsync(true);
@@ -61,8 +61,8 @@ public sealed class ValidatorExceptionBranchTests
         // Arrange
         var repository = new Mock<IMedicalRepository>();
         repository.Setup(value => value.Exists(It.IsAny<long>())).ReturnsAsync(false);
-        repository.Setup(value => value.FindByAccreditation(It.IsAny<string>())).ReturnsAsync((Medical?)null);
-        repository.Setup(value => value.FindByEmail(It.IsAny<string>())).ReturnsAsync((Medical?)null);
+        repository.Setup(value => value.FindByAccreditation(It.IsAny<string>())).Returns(Task.FromResult<Medical?>(null));
+        repository.Setup(value => value.FindByEmail(It.IsAny<string>())).Returns(Task.FromResult<Medical?>(null));
         var validator = new MedicalValidator(repository.Object);
         var existingRepository = new Mock<IMedicalRepository>();
         existingRepository.Setup(value => value.Exists(1)).ReturnsAsync(true);
@@ -103,7 +103,7 @@ public sealed class ValidatorExceptionBranchTests
         // Arrange
         var repository = new Mock<IPatientRepository>();
         repository.Setup(value => value.Exists(It.IsAny<long>())).ReturnsAsync(false);
-        repository.Setup(value => value.FindByEmail(It.IsAny<string>())).ReturnsAsync((Patient?)null);
+        repository.Setup(value => value.FindByEmail(It.IsAny<string>())).Returns(Task.FromResult<Patient?>(null));
         var validator = new PatientValidator(repository.Object, Mock.Of<IMedicalRepository>(), Mock.Of<IUserRepository>());
         var existingRepository = new Mock<IPatientRepository>();
         existingRepository.Setup(value => value.Exists(1)).ReturnsAsync(true);

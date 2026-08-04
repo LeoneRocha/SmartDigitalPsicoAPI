@@ -613,7 +613,7 @@ public class GenderServiceTests
     {
         // Arrange
         var context = new GenderServiceContext(cacheEnabled: false);
-        context.Repository.Setup(x => x.FindByID(404)).ReturnsAsync((Gender?)null);
+        context.Repository.Setup(x => x.FindByID(404)).Returns(Task.FromResult<Gender>(null!));
 
         // Act
         var result = await context.Service.FindByID(404);

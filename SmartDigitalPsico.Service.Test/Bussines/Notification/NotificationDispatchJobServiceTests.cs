@@ -80,7 +80,7 @@ public class NotificationDispatchJobServiceTests
         var dueRule = new NotificationRuleStatus { IsSent = false, ScheduledSendTime = DateTime.UtcNow.AddMinutes(-5) };
         var record = new NotificationRecord { Id = 3, TokenId = token, NotificationRules = [dueRule] };
         context.NotificationRecordsService.Setup(x => x.GetPendingNotificationsAsync()).ReturnsAsync([record]);
-        context.ScheduleCalendarRepository.Setup(x => x.GetByUniqueTokenAsync(token.ToString())).ReturnsAsync((ScheduleCalendar?)null);
+        context.ScheduleCalendarRepository.Setup(x => x.GetByUniqueTokenAsync(token.ToString())).Returns(Task.FromResult<ScheduleCalendar?>(null));
 
         // Act
         await context.Service.ProcessPendingNotificationsAsync();

@@ -247,7 +247,7 @@ public sealed class TargetedValidatorCoverageTests
     {
         // Arrange
         var medicalRepository = new Mock<IMedicalRepository>();
-        medicalRepository.Setup(repository => repository.FindByID(1)).ReturnsAsync((Medical?)null);
+        medicalRepository.Setup(repository => repository.FindByID(1)).Returns(Task.FromResult<Medical>(null!));
         var itemValidator = new ScheduleItemValidator(medicalRepository.Object);
         var item = new ScheduleItem
         {

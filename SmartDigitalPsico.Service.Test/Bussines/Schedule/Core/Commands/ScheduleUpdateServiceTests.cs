@@ -40,7 +40,7 @@ public class ScheduleUpdateServiceTests
         // Arrange
         var context = new ScheduleUpdateContext();
         var request = ValidRequest();
-        context.Repository.Setup(x => x.GetByUniqueTokenAsync(request.UniqueToken)).ReturnsAsync((ScheduleCalendar?)null);
+        context.Repository.Setup(x => x.GetByUniqueTokenAsync(request.UniqueToken)).Returns(Task.FromResult<ScheduleCalendar?>(null));
 
         // Act
         var result = await context.Service.UpdateAsync(request);
@@ -190,7 +190,7 @@ public class ScheduleUpdateServiceTests
         var context = new ScheduleUpdateContext();
         var request = new ScheduleCancelRequest { TenantKey = "tenant", OwnerKey = "medical:1", AppointmentDateTime = DateTime.UtcNow };
         context.Repository.Setup(x => x.GetItemAsync("tenant", "medical:1", null, request.AppointmentDateTime))
-            .ReturnsAsync((ScheduleCalendarItem?)null);
+            .Returns(Task.FromResult<ScheduleCalendarItem?>(null));
 
         // Act
         var result = await context.Service.CancelOccurrenceAsync(request);

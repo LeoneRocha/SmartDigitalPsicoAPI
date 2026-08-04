@@ -146,7 +146,7 @@ public class RemainingValidatorBranchCoverageTests
     {
         // Arrange
         var repository = new Mock<IUserRepository>();
-        repository.Setup(x => x.FindByID(1)).ReturnsAsync((User?)null);
+        repository.Setup(x => x.FindByID(1)).Returns(Task.FromResult<User>(null!));
         var validator = new RecordsListValidatorForBranchCoverage(repository.Object);
 
         // Act

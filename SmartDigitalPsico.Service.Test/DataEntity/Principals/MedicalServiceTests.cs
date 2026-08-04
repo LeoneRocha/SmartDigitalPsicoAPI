@@ -54,7 +54,7 @@ public class MedicalServiceTests
     {
         // Arrange
         var context = new MedicalServiceContext();
-        context.Repository.Setup(x => x.FindByID(404)).ReturnsAsync((Medical?)null);
+        context.Repository.Setup(x => x.FindByID(404)).Returns(Task.FromResult<Medical>(null!));
 
         // Act
         var result = await context.Service.Update(new UpdateMedicalDto { Id = 404 });
@@ -268,7 +268,7 @@ public class MedicalServiceTests
 
         // Act
         context.Service.SetUserId(999);
-        context.UserRepository.Setup(x => x.FindByID(999)).ReturnsAsync((User?)null);
+        context.UserRepository.Setup(x => x.FindByID(999)).Returns(Task.FromResult<User>(null!));
 
         var result = await context.Service.FindAll();
 

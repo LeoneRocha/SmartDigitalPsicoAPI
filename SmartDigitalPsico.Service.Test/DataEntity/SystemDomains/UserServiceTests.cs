@@ -29,7 +29,7 @@ public class UserServiceTests
     {
         // Arrange
         var context = new UserServiceContext();
-        context.Context.UserRepository.Setup(x => x.FindByLogin("john")).ReturnsAsync((User?)null);
+        context.Context.UserRepository.Setup(x => x.FindByLogin("john")).Returns(Task.FromResult<User?>(null));
 
         // Act
         var result = await context.Service.Login("john", "secret");
@@ -77,7 +77,7 @@ public class UserServiceTests
         context.TokenService.Setup(x => x.GenerateAccessToken(It.IsAny<IEnumerable<Claim>>())).Returns("access-token");
         context.TokenService.Setup(x => x.GenerateRefreshToken()).Returns("refresh-token");
         context.Context.UserRepository.Setup(x => x.RefreshUserInfo(user)).ReturnsAsync(user);
-        context.TokenSessionService.Setup(x => x.GetSessionAsync(10)).ReturnsAsync((UserTokenSession?)null);
+        context.TokenSessionService.Setup(x => x.GetSessionAsync(10)).Returns(Task.FromResult<UserTokenSession?>(null));
         context.TokenSessionService.Setup(x => x.SaveSessionAsync(It.IsAny<UserTokenSession>())).Returns(Task.CompletedTask);
         context.TokenConfiguration.SetupGet(x => x.Minutes).Returns(30);
         context.TokenConfiguration.SetupGet(x => x.DaysToExpiry).Returns(7);
@@ -90,7 +90,8 @@ public class UserServiceTests
         {
             result.Success.Should().BeTrue();
             result.Data.Should().NotBeNull();
-            result.Data!.TokenAuth.Authenticated.Should().BeTrue();
+            result.Data!.TokenAuth.Should().NotBeNull();
+            result.Data.TokenAuth!.Authenticated.Should().BeTrue();
         }
     }
 
@@ -270,7 +271,7 @@ public class UserServiceTests
     {
         // Arrange
         var context = new UserServiceContext();
-        context.Context.UserRepository.Setup(x => x.FindByID(999)).ReturnsAsync((User?)null);
+        context.Context.UserRepository.Setup(x => x.FindByID(999)).Returns(Task.FromResult<User>(null!));
 
         // Act
         var result = await context.Service.Update(new UpdateUserDto { Id = 999 });
@@ -410,7 +411,7 @@ public class UserServiceTests
     {
         // Arrange
         var context = new UserServiceContext();
-        context.Context.UserRepository.Setup(x => x.FindByID(123)).ReturnsAsync((User?)null);
+        context.Context.UserRepository.Setup(x => x.FindByID(123)).Returns(Task.FromResult<User>(null!));
 
         // Act
         var result = await context.Service.UpdateProfile(new UpdateUserProfileDto { Id = 123 });
@@ -508,7 +509,7 @@ public class UserServiceTests
     {
         // Arrange
         var context = new UserServiceContext();
-        context.Context.UserRepository.Setup(x => x.FindByID(404)).ReturnsAsync((User?)null);
+        context.Context.UserRepository.Setup(x => x.FindByID(404)).Returns(Task.FromResult<User>(null!));
 
         // Act
         var result = await context.Service.FindByID(404);

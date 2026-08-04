@@ -55,7 +55,7 @@ public sealed class ValidatorCoverageTests
         "SmartDigitalPsico.Domain.Validation.DTO.ScheduleCriteriaDtoValidator"
     ];
 
-    public static IEnumerable<TestCaseData> Validators() =>
+    private static IEnumerable<TestCaseData> Validators() =>
         ValidatorTypes.Select(type => new TestCaseData(type).SetName($"{type.Split('.').Last()}_Contract"));
 
     [TestCaseSource(nameof(Validators))]

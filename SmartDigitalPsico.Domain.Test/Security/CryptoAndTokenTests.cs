@@ -54,8 +54,10 @@ public class CryptoAndTokenTests
         using (Assert.EnterMultipleScope())
         {
             base64Adapter.Decrypt(base64Adapter.Encrypt("base64")).Should().Be("base64");
-            ((Action)(() => new AesCryptoAdpter(null!, binaryIv))).Should().Throw<ArgumentNullException>();
-            ((Action)(() => new AesCryptoAdpter(binaryKey, null!))).Should().Throw<ArgumentNullException>();
+            Action nullKey = () => _ = new AesCryptoAdpter(null!, binaryIv);
+            Action nullIv = () => _ = new AesCryptoAdpter(binaryKey, null!);
+            nullKey.Should().Throw<ArgumentNullException>();
+            nullIv.Should().Throw<ArgumentNullException>();
         }
     }
 

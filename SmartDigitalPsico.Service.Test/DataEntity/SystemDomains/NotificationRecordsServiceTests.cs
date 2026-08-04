@@ -44,7 +44,7 @@ public class NotificationRecordsServiceTests
     {
         // Arrange
         var context = new NotificationRecordsServiceContext();
-        context.Repository.Setup(x => x.FindByID(50)).ReturnsAsync((NotificationRecord?)null);
+        context.Repository.Setup(x => x.FindByID(50)).Returns(Task.FromResult<NotificationRecord>(null!));
 
         // Act
         var result = await context.Service.Update(new UpdateNotificationRecordsDto { Id = 50 });

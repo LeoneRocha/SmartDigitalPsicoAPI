@@ -201,7 +201,7 @@ public sealed class BranchCoverageHundredPercentTests
                 {
                     Name = "Plain",
                     Rows = [new HundredRow { Label = "b", Secret = "hide" }],
-                    MergeCellReferences = null
+                    MergeCellReferences = null!
                 }
             ]
         }, mergeOut);
@@ -264,7 +264,7 @@ public sealed class BranchCoverageHundredPercentTests
         var users = new Mock<IUserRepository>();
         users.Setup(r => r.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 9, Admin = false, TimeZone = "UTC" });
         users.Setup(r => r.FindByID(2)).ReturnsAsync(new User { Id = 2, MedicalId = 9, Medical = new Medical { Id = 9 }, TimeZone = "UTC" });
-        users.Setup(r => r.FindByID(3)).ReturnsAsync((User?)null);
+        users.Setup(r => r.FindByID(3)).Returns(Task.FromResult<User>(null!));
 
         var medicalRepo = new Mock<IMedicalRepository>();
         medicalRepo.Setup(r => r.FindByID(5)).ReturnsAsync(new Medical

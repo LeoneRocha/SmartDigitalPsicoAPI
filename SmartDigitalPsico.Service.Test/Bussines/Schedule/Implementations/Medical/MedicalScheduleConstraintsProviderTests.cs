@@ -45,7 +45,7 @@ public class MedicalScheduleConstraintsProviderTests
     {
         // Arrange
         var ctx = new MedicalScheduleTestContext();
-        ctx.MedicalRepository.Setup(x => x.FindByID(999)).ReturnsAsync((MedicalEntity?)null);
+        ctx.MedicalRepository.Setup(x => x.FindByID(999)).Returns(Task.FromResult<MedicalEntity>(null!));
 
         var action = () => ctx.ConstraintsProvider.GetMedicalAsync(999);
 

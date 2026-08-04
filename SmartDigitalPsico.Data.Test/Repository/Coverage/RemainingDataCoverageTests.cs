@@ -66,7 +66,7 @@ public class RemainingDataCoverageTests : BaseTests
         await File.WriteAllBytesAsync(path, [1, 2]);
 
         // Act
-        var saveResult = await repository.Save(new FileData { FileData = null });
+        var saveResult = await repository.Save(new FileData { FileData = null! });
         var byCombined = await repository.Get(new FileData { FilePath = _temporaryDirectory, FileName = "missing.bin" });
         var exists = repository.Exists(new FileData { FilePath = _temporaryDirectory, FileName = "missing.bin" });
 
@@ -948,7 +948,7 @@ public class RemainingDataCoverageTests : BaseTests
         var stamp = typeof(ScheduleCalendarRepository).GetMethod("StampPackageMetadata", BindingFlags.NonPublic | BindingFlags.Static)!;
         var nullScheduleItems = (ScheduleCalendarItem[])expand.Invoke(null,
         [
-            new ScheduleCalendar[] { new() { UniqueToken = "pkg", ScheduleData = null } },
+            new ScheduleCalendar[] { new() { UniqueToken = "pkg", ScheduleData = null! } },
             now,
             now.AddHours(1)
         ])!;
@@ -1125,10 +1125,12 @@ public class RemainingDataCoverageTests : BaseTests
         var repository = new PatientRepository(_mockContext);
 
         // Act
-        var byId = await repository.FindByID(patient.Id, item => item.Gender);
-        var asyncFind = await repository.FindAsync(patient.Id, item => item.Gender);
+        var byId = await repository.FindByID(patient.Id, item => item.Gender!);
+        var asyncFind = await repository.FindAsync(patient.Id, item => item.Gender!);
 
         // Assert
+        byId.Should().NotBeNull();
+        asyncFind.Should().NotBeNull();
         byId.Id.Should().Be(patient.Id);
         asyncFind!.Id.Should().Be(patient.Id);
     }

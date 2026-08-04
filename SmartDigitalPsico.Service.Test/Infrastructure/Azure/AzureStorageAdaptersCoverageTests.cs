@@ -1,8 +1,13 @@
-using System.Net.Sockets;
+using Azure;
 using Azure.Data.Tables;
+using Azure.Storage;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Azure.Storage.Queues;
+using Azure.Storage.Queues.Models;
+using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
+using Moq;
 using SmartDigitalPsico.Domain.AppException;
 using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
@@ -13,12 +18,6 @@ namespace SmartDigitalPsico.Service.Test.Infrastructure.Azure;
 [TestFixture]
 public class AzureStorageAdaptersCoverageTests
 {
-    private const string AzuriteConnectionString =
-        "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;";
-
-    private const string AzuriteExplicitReason =
-        "Requires Azurite on 127.0.0.1:10000-10002. Run explicitly with the emulator started.";
-
     // Cenário: adaptadores sem connection string.
     // Objetivo: cobrir ramos de cliente nulo.
     [Test]
@@ -56,37 +55,68 @@ public class AzureStorageAdaptersCoverageTests
         Assert.ThrowsAsync<InvalidOperationException>(async () => await blob.DeleteBlobAsync("c", "b"));
     }
 
-    // Cenário: Table Adapter com Azurite.
+    // Cenário: Table Adapter com TableClient injetado (sem Azurite).
     // Objetivo: cobrir CRUD completo do TableClient.
     [Test]
-    [Explicit(AzuriteExplicitReason)]
-    public async Task TableAdapter_WithAzurite_PerformsCrud()
+    public async Task TableAdapter_WithInjectedClient_PerformsCrud()
     {
         // Arrange
-        AssumeAzuriteAvailable();
-        var tableName = $"tok{Guid.NewGuid():N}"[..12];
-        var sut = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(BuildAzuriteConfig(), tableName);
-        var now = DateTime.UtcNow;
         var entity = new UserTokenSessionTableEntity
         {
             PartitionKey = "p1",
             RowKey = Guid.NewGuid().ToString("N"),
             RefreshToken = "rt",
-            RefreshTokenExpiryTime = now.AddDays(1),
-            ExpiresAt = now.AddHours(1),
-            CreatedDate = now,
-            ModifyDate = now
+            RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(1),
+            ExpiresAt = DateTime.UtcNow.AddHours(1),
+            CreatedDate = DateTime.UtcNow,
+            ModifyDate = DateTime.UtcNow,
+            ETag = ETag.All
         };
+
+        var tableClient = new Mock<TableClient>();
+        var found = new Mock<NullableResponse<UserTokenSessionTableEntity>>();
+        found.SetupGet(x => x.HasValue).Returns(true);
+        found.SetupGet(x => x.Value).Returns(entity);
+
+        var missing = new Mock<NullableResponse<UserTokenSessionTableEntity>>();
+        missing.SetupGet(x => x.HasValue).Returns(false);
+
+        tableClient
+            .Setup(x => x.GetEntityIfExistsAsync<UserTokenSessionTableEntity>(
+                entity.PartitionKey, entity.RowKey, It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(found.Object);
+        tableClient
+            .Setup(x => x.GetEntityIfExistsAsync<UserTokenSessionTableEntity>(
+                "missing", "missing", It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(missing.Object);
+        tableClient
+            .Setup(x => x.QueryAsync<UserTokenSessionTableEntity>(
+                It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
+            .Returns(AsyncPageable<UserTokenSessionTableEntity>.FromPages(
+            [
+                Page<UserTokenSessionTableEntity>.FromValues([entity], null, Mock.Of<Response>())
+            ]));
+        tableClient
+            .Setup(x => x.AddEntityAsync(It.IsAny<UserTokenSessionTableEntity>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<Response>());
+        tableClient
+            .Setup(x => x.UpdateEntityAsync(
+                It.IsAny<UserTokenSessionTableEntity>(), It.IsAny<ETag>(), It.IsAny<TableUpdateMode>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<Response>());
+        tableClient
+            .Setup(x => x.DeleteEntityAsync(
+                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ETag>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<Response>());
+
+        var sut = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(tableClient.Object);
 
         // Act
         await sut.InsertAsync(entity);
         var byId = await sut.GetByIdAsync(entity.PartitionKey, entity.RowKey);
         var all = (await sut.GetAllAsync()).ToList();
         byId.RefreshToken = "updated";
-        byId.ModifyDate = DateTime.UtcNow;
-        byId.ETag = global::Azure.ETag.All;
         await sut.UpdateAsync(byId);
-        var missing = await sut.GetByIdAsync("missing", "missing");
+        var notFound = await sut.GetByIdAsync("missing", "missing");
         await sut.DeleteAsync(entity.PartitionKey, entity.RowKey);
 
         // Assert
@@ -94,74 +124,128 @@ public class AzureStorageAdaptersCoverageTests
         {
             byId.RowKey.Should().Be(entity.RowKey);
             all.Should().Contain(x => x.RowKey == entity.RowKey);
-            missing.PartitionKey.Should().BeEmpty();
+            notFound.PartitionKey.Should().BeEmpty();
         }
+        tableClient.Verify(x => x.AddEntityAsync(entity, It.IsAny<CancellationToken>()), Times.Once);
+        tableClient.Verify(x => x.DeleteEntityAsync(entity.PartitionKey, entity.RowKey, It.IsAny<ETag>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
-    // Cenário: Queue Adapter com Azurite.
+    // Cenário: Queue Adapter com QueueClient injetado (sem Azurite).
     // Objetivo: cobrir enqueue/dequeue/delete e fila vazia.
     [Test]
-    [Explicit(AzuriteExplicitReason)]
-    public async Task QueueAdapter_WithAzurite_EnqueuesDequeuesAndDeletes()
+    public async Task QueueAdapter_WithInjectedClient_EnqueuesDequeuesAndDeletes()
     {
         // Arrange
-        AssumeAzuriteAvailable();
-        var queueName = $"q{Guid.NewGuid():N}"[..12];
-        var queueClient = CreateQueueClient(queueName);
-        var sut = new AzureStorageQueueAdapter(BuildAzuriteConfig(), queueName);
+        var queueClient = new Mock<QueueClient>();
+        queueClient
+            .Setup(x => x.SendMessageAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<Response<SendReceipt>>());
+        queueClient
+            .Setup(x => x.SendMessageAsync(It.IsAny<string>()))
+            .ReturnsAsync(Mock.Of<Response<SendReceipt>>());
+        queueClient
+            .SetupSequence(x => x.ReceiveMessagesAsync(1, It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Response.FromValue(Array.Empty<QueueMessage>(), Mock.Of<Response>()))
+            .ReturnsAsync(Response.FromValue(
+                new[] { QueuesModelFactory.QueueMessage("id1", "pop1", "hello-queue", dequeueCount: 1) },
+                Mock.Of<Response>()));
+        queueClient
+            .Setup(x => x.DeleteMessageAsync("id1", "pop1", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<Response>());
+
+        var sut = new AzureStorageQueueAdapter(queueClient.Object);
 
         // Act
         var empty = await sut.DequeueMessageAsync();
         await sut.EnqueueMessageAsync("hello-queue");
         var message = await sut.DequeueMessageAsync();
-        await sut.EnqueueMessageAsync("to-delete");
-        var pending = (await queueClient.ReceiveMessagesAsync(1)).Value;
-        await sut.DeleteMessageAsync(pending[0].MessageId, pending[0].PopReceipt);
+        await sut.DeleteMessageAsync("id1", "pop1");
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             empty.Should().BeEmpty();
             message.Should().Be("hello-queue");
-            pending.Should().ContainSingle();
         }
+        queueClient.Verify(x => x.SendMessageAsync("hello-queue"), Times.Once);
+        queueClient.Verify(x => x.DeleteMessageAsync("id1", "pop1", It.IsAny<CancellationToken>()), Times.Once);
     }
 
-    // Cenário: Blob Adapter com Azurite e cenários de validação.
+    // Cenário: Blob Adapter com BlobServiceClient injetado (sem Azurite).
     // Objetivo: cobrir upload/download/SAS/delete e ramos de erro.
     [Test]
-    [Explicit(AzuriteExplicitReason)]
-    public async Task BlobAdapter_WithAzurite_CoversHappyPathAndValidationBranches()
+    public async Task BlobAdapter_WithInjectedClient_CoversHappyPathAndValidationBranches()
     {
         // Arrange
-        AssumeAzuriteAvailable();
-        var cfg = BuildAzuriteConfig(includeDaysExpire: false);
-        var blobService = new BlobServiceClient(AzuriteConnectionString, new BlobClientOptions(BlobClientOptions.ServiceVersion.V2020_12_06));
-        var sut = new AzureStorageBlobAdapter(cfg, blobService);
-        var container = $"c{Guid.NewGuid():N}"[..12];
-        var tempFile = Path.GetTempFileName();
+        var cfg = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["StorageServices:AzureStorage:DaysExpiresBlobSas"] = "7"
+            })
+            .Build();
 
-        // Act
+        var tempFile = Path.GetTempFileName();
+        var downloadPath = Path.Combine(Path.GetTempPath(), $"dl-{Guid.NewGuid():N}.txt");
         await File.WriteAllTextAsync(tempFile, "blob-content");
 
-        // Assert
-        var downloadPath = Path.Combine(Path.GetTempPath(), $"dl-{Guid.NewGuid():N}.txt");
+        var blobClient = new Mock<BlobClient>();
+        blobClient.SetupGet(x => x.Uri).Returns(new Uri("http://localhost/c/file.txt"));
+        blobClient.SetupGet(x => x.CanGenerateSasUri).Returns(true);
+        blobClient
+            .Setup(x => x.GenerateSasUri(It.IsAny<BlobSasBuilder>()))
+            .Returns(new Uri("http://localhost/c/file.txt?sas=1"));
+        blobClient
+            .Setup(x => x.UploadAsync(
+                It.IsAny<string>(),
+                It.IsAny<BlobHttpHeaders>(),
+                It.IsAny<IDictionary<string, string>>(),
+                It.IsAny<BlobRequestConditions>(),
+                It.IsAny<IProgress<long>>(),
+                It.IsAny<AccessTier?>(),
+                It.IsAny<StorageTransferOptions>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<Response<BlobContentInfo>>());
+        blobClient
+            .Setup(x => x.DownloadToAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
+            .Returns<Stream, CancellationToken>(async (stream, _) =>
+            {
+                var bytes = await File.ReadAllBytesAsync(tempFile);
+                await stream.WriteAsync(bytes);
+                return Mock.Of<Response>(r => r.Status == 200);
+            });
+        blobClient
+            .Setup(x => x.DeleteIfExistsAsync(It.IsAny<DeleteSnapshotsOption>(), It.IsAny<BlobRequestConditions>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Response.FromValue(true, Mock.Of<Response>()));
+
+        var containerClient = new Mock<BlobContainerClient>();
+        containerClient
+            .Setup(x => x.CreateIfNotExistsAsync(It.IsAny<PublicAccessType>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<BlobContainerEncryptionScopeOptions>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<Response<BlobContainerInfo>>());
+        containerClient.Setup(x => x.GetBlobClient(It.IsAny<string>())).Returns(blobClient.Object);
+
+        var blobService = new Mock<BlobServiceClient>();
+        blobService.Setup(x => x.GetBlobContainerClient(It.IsAny<string>())).Returns(containerClient.Object);
+
+        var sut = new AzureStorageBlobAdapter(cfg, blobService.Object);
 
         try
         {
+            // Act
             var url = await sut.UploadFileReturnUrl(new BlobFileDto
             {
-                ContainerName = container,
+                ContainerName = "container1",
                 FilePath = tempFile,
                 BlobName = "file.txt"
             });
-            var sas = await sut.GetFileStorageUrlPublic(container, "file.txt");
-            await sut.DownloadFile(container, "file.txt", downloadPath);
-            await sut.DeleteBlobAsync(container, "file.txt");
+            var sas = await sut.GetFileStorageUrlPublic("container1", "file.txt");
+            await sut.DownloadFile("container1", "file.txt", downloadPath);
+            await sut.DeleteBlobAsync("container1", "file.txt");
 
+            // Assert
             using (Assert.EnterMultipleScope())
             {
-                url.Should().NotBeNullOrWhiteSpace();
+                url.Should().Be("http://localhost/c/file.txt");
+                sas.Should().Contain("sas=1");
                 File.Exists(downloadPath).Should().BeTrue();
             }
 
@@ -177,29 +261,49 @@ public class AzureStorageAdaptersCoverageTests
         }
     }
 
-    // Cenário: Table/Queue via configuração Azurite (sem ctor de cliente injetado).
+    // Cenário: Table/Queue via clientes injetados (sem Azurite).
     // Objetivo: cobrir operações CRUD/enqueue com clientes criados pelo adapter.
     [Test]
-    [Explicit(AzuriteExplicitReason)]
-    public async Task ConfigClients_WithAzurite_CoverTableAndQueueOperations()
+    public async Task InjectedClients_CoverTableAndQueueOperations()
     {
         // Arrange
-        AssumeAzuriteAvailable();
-        var tableName = $"inj{Guid.NewGuid():N}"[..12];
-        var queueName = $"injq{Guid.NewGuid():N}"[..12];
-        var cfg = BuildAzuriteConfig();
-        var table = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(cfg, tableName);
-        var queue = new AzureStorageQueueAdapter(cfg, queueName);
-        var now = DateTime.UtcNow;
         var entity = new UserTokenSessionTableEntity
         {
             PartitionKey = "p",
             RowKey = "r1",
-            RefreshTokenExpiryTime = now.AddDays(1),
-            ExpiresAt = now.AddHours(1),
-            CreatedDate = now,
-            ModifyDate = now
+            RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(1),
+            ExpiresAt = DateTime.UtcNow.AddHours(1),
+            CreatedDate = DateTime.UtcNow,
+            ModifyDate = DateTime.UtcNow
         };
+
+        var tableClient = new Mock<TableClient>();
+        var found = new Mock<NullableResponse<UserTokenSessionTableEntity>>();
+        found.SetupGet(x => x.HasValue).Returns(true);
+        found.SetupGet(x => x.Value).Returns(entity);
+        tableClient
+            .Setup(x => x.AddEntityAsync(It.IsAny<UserTokenSessionTableEntity>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<Response>());
+        tableClient
+            .Setup(x => x.GetEntityIfExistsAsync<UserTokenSessionTableEntity>(
+                "p", "r1", It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(found.Object);
+
+        var queueClient = new Mock<QueueClient>();
+        queueClient
+            .Setup(x => x.SendMessageAsync("injected", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Mock.Of<Response<SendReceipt>>());
+        queueClient
+            .Setup(x => x.SendMessageAsync("injected"))
+            .ReturnsAsync(Mock.Of<Response<SendReceipt>>());
+        queueClient
+            .Setup(x => x.ReceiveMessagesAsync(1, It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Response.FromValue(
+                new[] { QueuesModelFactory.QueueMessage("id", "pop", "injected", dequeueCount: 1) },
+                Mock.Of<Response>()));
+
+        var table = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(tableClient.Object);
+        var queue = new AzureStorageQueueAdapter(queueClient.Object);
 
         // Act
         await table.InsertAsync(entity);
@@ -209,22 +313,19 @@ public class AzureStorageAdaptersCoverageTests
         // Assert
         dequeued.Should().Be("injected");
         (await table.GetByIdAsync("p", "r1")).RowKey.Should().Be("r1");
-
     }
 
-    // Cenário: ctors com connection string apontando para Azurite.
-    // Objetivo: cobrir CreateIfNotExists e criação de clientes no ctor.
+    // Cenário: ctors com clientes injetados.
+    // Objetivo: cobrir criação dos adapters sem depender de Azurite.
     [Test]
-    [Explicit(AzuriteExplicitReason)]
-    public void ConfigConstructors_WithAzurite_CreateClients()
+    public void InjectedConstructors_CreateAdapters()
     {
         // Arrange
-        AssumeAzuriteAvailable();
-        var cfg = BuildAzuriteConfig();
-
-        var table = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(cfg, $"cfg{Guid.NewGuid():N}"[..12]);
-        var queue = new AzureStorageQueueAdapter(cfg, $"cfgq{Guid.NewGuid():N}"[..12]);
-        var blob = new AzureStorageBlobAdapter(cfg);
+        var table = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(new Mock<TableClient>().Object);
+        var queue = new AzureStorageQueueAdapter(new Mock<QueueClient>().Object);
+        var blob = new AzureStorageBlobAdapter(
+            new ConfigurationBuilder().AddInMemoryCollection().Build(),
+            new Mock<BlobServiceClient>().Object);
 
         // Act
 
@@ -235,64 +336,5 @@ public class AzureStorageAdaptersCoverageTests
             queue.Should().NotBeNull();
             blob.Should().NotBeNull();
         }
-    }
-
-    private static void AssumeAzuriteAvailable()
-    {
-        // TCP first: ConnectionRefused is instant; avoids SDK timeout noise in Test Explorer.
-        if (!IsPortOpen("127.0.0.1", 10002))
-        {
-            Assert.Ignore(AzuriteExplicitReason);
-        }
-
-        try
-        {
-            var options = new TableClientOptions(TableClientOptions.ServiceVersion.V2020_12_06)
-            {
-                Retry =
-                {
-                    MaxRetries = 0,
-                    NetworkTimeout = TimeSpan.FromSeconds(2)
-                }
-            };
-            new TableClient(AzuriteConnectionString, "healthcheck", options).CreateIfNotExists();
-        }
-        catch (Exception ex)
-        {
-            Assert.Ignore($"Azurite unavailable or incompatible: {ex.Message}");
-        }
-    }
-
-    private static bool IsPortOpen(string host, int port)
-    {
-        try
-        {
-            using var client = new TcpClient();
-            var connect = client.ConnectAsync(host, port);
-            return connect.Wait(TimeSpan.FromMilliseconds(200)) && client.Connected;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    private static TableClient CreateTableClient(string tableName)
-        => new(AzuriteConnectionString, tableName, new TableClientOptions(TableClientOptions.ServiceVersion.V2020_12_06));
-
-    private static QueueClient CreateQueueClient(string queueName)
-        => new(AzuriteConnectionString, queueName, new QueueClientOptions(QueueClientOptions.ServiceVersion.V2020_12_06));
-
-    private static IConfiguration BuildAzuriteConfig(bool includeDaysExpire = true)
-    {
-        var values = new Dictionary<string, string?>
-        {
-            ["StorageServices:AzureStorage:ConnectionString"] = AzuriteConnectionString
-        };
-        if (includeDaysExpire)
-        {
-            values["StorageServices:AzureStorage:DaysExpiresBlobSas"] = "7";
-        }
-        return new ConfigurationBuilder().AddInMemoryCollection(values).Build();
     }
 }

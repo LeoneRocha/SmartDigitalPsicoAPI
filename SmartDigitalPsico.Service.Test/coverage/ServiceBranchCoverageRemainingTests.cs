@@ -76,8 +76,8 @@ public class ServiceBranchCoverageRemainingTests
             Name = "NoMed",
             PasswordHash = hash,
             PasswordSalt = salt,
-            Medical = null,
-            UserRoleGroups = null,
+            Medical = null!,
+            UserRoleGroups = null!,
             Role = "Manager",
             Language = "pt-BR",
             Admin = true
@@ -86,7 +86,7 @@ public class ServiceBranchCoverageRemainingTests
         ctx.TokenService.Setup(x => x.GenerateAccessToken(It.IsAny<IEnumerable<Claim>>())).Returns("access");
         ctx.TokenService.Setup(x => x.GenerateRefreshToken()).Returns("refresh");
         ctx.Context.UserRepository.Setup(x => x.RefreshUserInfo(userNoMedical)).ReturnsAsync(userNoMedical);
-        ctx.TokenSessionService.Setup(x => x.GetSessionAsync(20)).ReturnsAsync((UserTokenSession?)null);
+        ctx.TokenSessionService.Setup(x => x.GetSessionAsync(20)).Returns(Task.FromResult<UserTokenSession?>(null!));
         ctx.TokenSessionService.Setup(x => x.SaveSessionAsync(It.IsAny<UserTokenSession>())).Returns(Task.CompletedTask);
         ctx.TokenConfiguration.SetupGet(x => x.Minutes).Returns(30);
         ctx.TokenConfiguration.SetupGet(x => x.DaysToExpiry).Returns(7);
@@ -101,11 +101,11 @@ public class ServiceBranchCoverageRemainingTests
                 new RoleGroupUser { RoleGroup = new RoleGroup { Id = 2, RolePolicyClaimCode = "Staff", Description = "Staff", Enable = true, Language = "en" } }
             ],
             Admin = false,
-            Role = null
+            Role = null!
         };
         ctx.Context.UserRepository.Setup(x => x.FindByID(21)).ReturnsAsync(userWithNullRoleGroup);
 
-        var userRoleFallback = new User { Id = 22, Name = "FB", Role = "FallbackRole", Language = null, Admin = false, UserRoleGroups = [] };
+        var userRoleFallback = new User { Id = 22, Name = "FB", Role = "FallbackRole", Language = null!, Admin = false, UserRoleGroups = [] };
         ctx.Context.UserRepository.Setup(x => x.FindByID(22)).ReturnsAsync(userRoleFallback);
 
         var identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "23")], "TestAuth");
@@ -143,7 +143,7 @@ public class ServiceBranchCoverageRemainingTests
         }
     }
 
-    // Cenário: Create/Delete com InnerException e GetLocalizationErros(null).
+    // Cenário: Create/Delete com InnerException e GetLocalizationErros(null!).
     // Objetivo: fechar InnerException?.Message e errorResponses null.
     [Test]
     public async Task EntityBaseService_NullErrorsLocalization_CoverBranch()
@@ -178,8 +178,8 @@ public class ServiceBranchCoverageRemainingTests
             ctx.Repository.Setup(x => x.ExistLanguage("pt-BR", "Prefilled", "SharedResource"))
                 .ThrowsAsync(new InvalidOperationException("db"));
             var prefilled = typeof(ApplicationLanguageService)
-                .GetMethod("GetLocalization", BindingFlags.Instance | BindingFlags.Public, null,
-                    [typeof(string), typeof(string), typeof(ICacheService)], null)!;
+                .GetMethod("GetLocalization", BindingFlags.Instance | BindingFlags.Public, null!,
+                    [typeof(string), typeof(string), typeof(ICacheService)], null!)!;
 
             // Force catch with non-empty resultLocalization via reflection on private flow:
             // ExistLanguage throws after we can't pre-set; instead test InsertLanguageNotFound with non-empty.
@@ -214,7 +214,12 @@ public class ServiceBranchCoverageRemainingTests
             var cacheCtx = new ApplicationLanguageServiceContext();
             cacheCtx.Cache.Setup(x => x.IsEnable()).Returns(true);
             cacheCtx.Cache.Setup(x => x.Exists<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO")).Returns(true);
-            cacheCtx.Cache.Setup(x => x.TryGet("FindAll_GetApplicationLanguageVO", out cached)).Returns(true);
+            cacheCtx.Cache.Setup(x => x.TryGet("FindAll_GetApplicationLanguageVO", out It.Ref<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
+                .Returns((string _, out ServiceResponseCacheVO<List<GetApplicationLanguageDto>> value) =>
+                {
+                    value = cached;
+                    return true;
+                });
 
             // Act
             var thrown = await ctx.Service.GetLocalization<ISharedResource>("Prefilled", "DefaultMsg", ctx.Cache.Object);
@@ -260,12 +265,12 @@ public class ServiceBranchCoverageRemainingTests
         foreach (EIntervalNotificationType interval in Enum.GetValues<EIntervalNotificationType>())
         {
             var rule = new NotificationRule { IntervalType = interval, IntervalValue = 1, IsBefore = true };
-            var scheduled = (DateTime)calculate.Invoke(null, [rule, start, "UTC"])!;
+            var scheduled = (DateTime)calculate.Invoke(null!, [rule, start, "UTC"])!;
             scheduled.Should().BeOnOrBefore(start.AddHours(1));
         }
-        var incomplete = (bool)validate.Invoke(null, [false, new[] { new NotificationRuleStatus { IsSent = true } }])!;
-        var dtoOpen = (AddNotificationRecordsDto)createDto.Invoke(null, [calendar, new[] { new NotificationRuleStatus { IsSent = false } }, false])!;
-        var dtoDone = (AddNotificationRecordsDto)createDto.Invoke(null, [calendar, new[] { new NotificationRuleStatus { IsSent = true } }, true])!;
+        var incomplete = (bool)validate.Invoke(null!, [false, new[] { new NotificationRuleStatus { IsSent = true } }])!;
+        var dtoOpen = (AddNotificationRecordsDto)createDto.Invoke(null!, [calendar, new[] { new NotificationRuleStatus { IsSent = false } }, false])!;
+        var dtoDone = (AddNotificationRecordsDto)createDto.Invoke(null!, [calendar, new[] { new NotificationRuleStatus { IsSent = true } }, true])!;
 
         // Act
 
@@ -292,7 +297,7 @@ public class ServiceBranchCoverageRemainingTests
             Title = "t"
         };
         var bookEmptyToken = new ScheduleCreateContext();
-        bookEmptyToken.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).ReturnsAsync((ScheduleCalendar?)null);
+        bookEmptyToken.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         bookEmptyToken.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
             .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
@@ -300,13 +305,13 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync((ScheduleCalendar e) => e);
 
         var createConflictDataFalse = new ScheduleCreateContext();
-        createConflictDataFalse.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).ReturnsAsync((ScheduleCalendar?)null);
+        createConflictDataFalse.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         createConflictDataFalse.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = false, Message = null, Errors = null });
+            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = false, Message = null!, Errors = null! });
 
         var createNoInner = new ScheduleCreateContext();
-        createNoInner.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).ReturnsAsync((ScheduleCalendar?)null);
+        createNoInner.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         createNoInner.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
             .ThrowsAsync(new Exception("only-outer"));
@@ -321,7 +326,7 @@ public class ServiceBranchCoverageRemainingTests
 
         var updateNoInner = new ScheduleUpdateContext();
         updateNoInner.Repository.Setup(x => x.GetByUniqueTokenAsync(token))
-            .ReturnsAsync(new ScheduleCalendar { Id = 2, UniqueToken = token, ScheduleData = null });
+            .ReturnsAsync(new ScheduleCalendar { Id = 2, UniqueToken = token, ScheduleData = null! });
         updateNoInner.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
             .ThrowsAsync(new Exception("update-outer-only"));
@@ -337,7 +342,7 @@ public class ServiceBranchCoverageRemainingTests
                 {
                     Id = 9,
                     UniqueToken = "c1",
-                    SubjectKey = null,
+                    SubjectKey = null!,
                     ScheduleData = [new ScheduleCalendarItem { StartDateTime = appt, Status = EStatusCalendar.Confirmed }]
                 }
             ]);
@@ -434,12 +439,12 @@ public class ServiceBranchCoverageRemainingTests
         var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
 
         // Act
-        var empty = await service.HasNoConflictBatchAsync("medical", "medical:1", [], null);
+        var empty = await service.HasNoConflictBatchAsync("medical", "medical:1", [], null!);
         var conflict = await service.HasNoConflictBatchAsync(
             "medical",
             "medical:1",
             [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddMinutes(30), SubjectKey = "patient:2" }],
-            null);
+            null!);
         var okConflict = await service.HasNoConflictAsync(new ScheduleCalendarConflictRequest
         {
             TenantKey = "medical",
@@ -504,8 +509,8 @@ public class ServiceBranchCoverageRemainingTests
         var result = await service.BuildGradeAsync(request);
 
         // Assert
-        fill.Invoke(null, [days, workingList]);
-        fill.Invoke(null, [days, new[] { day.DayOfWeek }]);
+        fill.Invoke(null!, [days, workingList]);
+        fill.Invoke(null!, [days, new[] { day.DayOfWeek }]);
 
         result.Success.Should().BeTrue();
         result.Data!.DisplayName.Should().Be("Dr Explicit");
@@ -524,7 +529,7 @@ public class ServiceBranchCoverageRemainingTests
         var patientRepo = new Mock<IPatientRepository>();
         patientRepos.SetupGet(x => x.PatientRepository).Returns(patientRepo.Object);
         patientRepo.Setup(x => x.FindAsync(7, It.IsAny<System.Linq.Expressions.Expression<Func<Patient, object>>[]>()))
-            .ReturnsAsync((Patient?)null);
+            .Returns(Task.FromResult<Patient?>(null!));
         var sut = new NotificationDispatchJobService(
             notificationRecords.Object,
             medicalNotify.Object,
@@ -557,12 +562,12 @@ public class ServiceBranchCoverageRemainingTests
             }
         };
 
-        var filtered = (NotificationRecord[])filter.Invoke(null, [records, now])!;
-        var calendarNullId = new MedicalCalendar { PatientId = null, Patient = null, Medical = null };
+        var filtered = (NotificationRecord[])filter.Invoke(null!, [records, now])!;
+        var calendarNullId = new MedicalCalendar { PatientId = null!, Patient = null!, Medical = null! };
 
         // Act
         await (Task)hydrate.Invoke(sut, [calendarNullId])!;
-        var calendarMissingPatient = new MedicalCalendar { PatientId = 7, Patient = null, Medical = null };
+        var calendarMissingPatient = new MedicalCalendar { PatientId = 7, Patient = null!, Medical = null! };
         await (Task)hydrate.Invoke(sut, [calendarMissingPatient])!;
         var processed = await (Task<bool>)process.Invoke(sut,
         [
@@ -638,7 +643,7 @@ public class ServiceBranchCoverageRemainingTests
             "UTC",
             ScheduleGradeMode.Monthly);
         var gradeNullOptional = MedicalScheduleMapper.ToGradeRequest(
-            new CalendarCriteriaDto { MedicalId = 3, Year = 2026, Month = 9, StartDate = null, EndDate = null },
+            new CalendarCriteriaDto { MedicalId = 3, Year = 2026, Month = 9, StartDate = null!, EndDate = null },
             new ScheduleOwnerConstraints { DisplayName = "Dr" },
             "UTC",
             ScheduleGradeMode.Monthly);
@@ -671,8 +676,8 @@ public class ServiceBranchCoverageRemainingTests
                 StartDateTime = start,
                 SubjectKey = MedicalScheduleKeys.ForPatient(9),
                 OwnerKey = MedicalScheduleKeys.ForMedical(4),
-                ReasonCancellation = null,
-                RecurrenceDays = null
+                ReasonCancellation = null!,
+                RecurrenceDays = null!
             },
             0);
 
@@ -708,17 +713,17 @@ public class ServiceBranchCoverageRemainingTests
         context.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>()))
             .ReturnsAsync(new ServiceResponse<ScheduleCalendar> { Success = false, Message = "book-fail" });
         context.UpdateService.Setup(x => x.CancelOccurrenceAsync(It.IsAny<ScheduleCancelRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCancelResult> { Success = false, Message = null, Data = null });
+            .ReturnsAsync(new ServiceResponse<ScheduleCancelResult> { Success = false, Message = null!, Data = null! });
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         context.AppointmentQuery.Setup(x => x.GetItemsForOwnerSubjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null });
+            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null! });
 
         var cancelSuccessNullData = new AppointmentServiceContext();
         cancelSuccessNullData.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         cancelSuccessNullData.UpdateService.Setup(x => x.CancelOccurrenceAsync(It.IsAny<ScheduleCancelRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCancelResult> { Success = true, Data = null });
+            .ReturnsAsync(new ServiceResponse<ScheduleCancelResult> { Success = true, Data = null! });
 
         // Act
         var bookFail = await context.Service.RequestAppointment(new ScheduleCriteriaDto
@@ -778,10 +783,10 @@ public class ServiceBranchCoverageRemainingTests
             EndWorkingTime = TimeSpan.FromHours(18),
             PatientIntervalTimeMinutes = 30
         });
-        ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 3, TimeZone = null });
+        ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 3, TimeZone = null! });
         var query = new Mock<IScheduleQueryService>();
         query.Setup(x => x.GetItemsForOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null });
+            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null! });
         var availability = new Mock<IScheduleAvailabilityService>();
         availability.Setup(x => x.BuildGradeAsync(It.IsAny<ScheduleGradeRequest>()))
             .ReturnsAsync(new ServiceResponse<ScheduleGradeResult>
@@ -846,7 +851,7 @@ public class ServiceBranchCoverageRemainingTests
         query.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?>
         {
             Success = true,
-            Data = new ScheduleCalendar { Id = 1, UniqueToken = "t", ScheduleData = null }
+            Data = new ScheduleCalendar { Id = 1, UniqueToken = "t", ScheduleData = null! }
         });
 
         // Act
@@ -896,7 +901,7 @@ public class ServiceBranchCoverageRemainingTests
 
         var find = typeof(MedicalScheduleUpdateService)
             .GetMethod("FindTargetOccurrence", BindingFlags.Static | BindingFlags.NonPublic)!;
-        var byDay = find.Invoke(null, [new[] { new ScheduleCalendarItem { StartDateTime = start.Date.AddHours(8) } }, start.Date.AddHours(15)]);
+        var byDay = find.Invoke(null!, [new[] { new ScheduleCalendarItem { StartDateTime = start.Date.AddHours(8) } }, start.Date.AddHours(15)]);
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -918,14 +923,14 @@ public class ServiceBranchCoverageRemainingTests
         ctx.MedicalCalenderNotification.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), It.IsAny<EMedicalCalendarActionType>()))
             .Returns(Task.CompletedTask);
         ctx.PatientRepository.Setup(x => x.FindAsync(9, It.IsAny<System.Linq.Expressions.Expression<Func<Patient, object>>[]>()))
-            .ReturnsAsync((Patient?)null);
+            .Returns(Task.FromResult<Patient?>(null!));
         var alreadyFilled = new MedicalCalendar
         {
             PatientId = 1,
             Patient = new Patient { Id = 1 },
             Medical = new MedicalEntity { Id = 2 }
         };
-        var needsHydrate = new MedicalCalendar { PatientId = 9, Patient = null, Medical = null };
+        var needsHydrate = new MedicalCalendar { PatientId = 9, Patient = null!, Medical = null! };
 
         // Act
         await ctx.NotificationAdapter.SendNotifyRegisterAsync(alreadyFilled, EMedicalCalendarActionType.Add);
@@ -1060,7 +1065,7 @@ public class ServiceBranchCoverageRemainingTests
         {
             Id = 30,
             PatientId = 5,
-            Patient = null,
+            Patient = null!,
             TableStorageRowKey = "existing-row"
         };
         context.Repository.Setup(x => x.FindByID(30)).ReturnsAsync(entity);
@@ -1079,7 +1084,7 @@ public class ServiceBranchCoverageRemainingTests
         context.Repository.Setup(x => x.FindByID(40)).ReturnsAsync(new PatientRecord { Id = 40, PatientId = 5, Annotation = "c" });
         context.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
         context.PatientRepository.Setup(x => x.FindByID(5, It.IsAny<System.Linq.Expressions.Expression<Func<Patient, object>>[]>()))
-            .ReturnsAsync(new Patient { Id = 5, Medical = null });
+            .ReturnsAsync(new Patient { Id = 5, Medical = null! });
         context.Context.Crypto.Setup(x => x.Decrypt(string.Empty, "c")).Returns("plain");
 
         var update = await context.Service.Update(new UpdatePatientRecordDto
@@ -1153,7 +1158,7 @@ public class ServiceBranchCoverageRemainingTests
         {
             Id = 10,
             CreatedUser = new User { Id = 2 },
-            Medical = null,
+            Medical = null!,
             PatientRecords = [new PatientRecord { Annotation = "cipher", Description = "n" }],
             PatientAdditionalInformations = [],
             PatientHospitalizationInformations = [],
@@ -1232,7 +1237,7 @@ public class ServiceBranchCoverageRemainingTests
     }
 
     // Cenário: Azure Table/Blob sem connection string.
-    // Objetivo: cobrir early-return seguro (_tableClient/_blobServiceClient null).
+    // Objetivo: cobrir early-return seguro (_tableClient/_blobServiceClient null!).
     [Test]
     public async Task AzureAdapters_WithoutConnection_SafeNoClientBranches()
     {
@@ -1281,15 +1286,15 @@ public class ServiceBranchCoverageRemainingTests
                 Email = "dr@test.com"
             },
             Admin = true,
-            Language = null,
-            Role = null,
+            Language = null!,
+            Role = null!,
             UserRoleGroups = []
         };
         ctx.Context.UserRepository.Setup(x => x.FindByLogin("withmed")).ReturnsAsync(user);
         ctx.TokenService.Setup(x => x.GenerateAccessToken(It.IsAny<IEnumerable<Claim>>())).Returns("a");
         ctx.TokenService.Setup(x => x.GenerateRefreshToken()).Returns("r");
         ctx.Context.UserRepository.Setup(x => x.RefreshUserInfo(It.IsAny<User>())).ReturnsAsync(user);
-        ctx.TokenSessionService.Setup(x => x.GetSessionAsync(30)).ReturnsAsync((UserTokenSession?)null);
+        ctx.TokenSessionService.Setup(x => x.GetSessionAsync(30)).Returns(Task.FromResult<UserTokenSession?>(null!));
         ctx.TokenSessionService.Setup(x => x.SaveSessionAsync(It.IsAny<UserTokenSession>())).Returns(Task.CompletedTask);
         ctx.TokenConfiguration.SetupGet(x => x.Minutes).Returns(30);
         ctx.TokenConfiguration.SetupGet(x => x.DaysToExpiry).Returns(7);
@@ -1379,7 +1384,7 @@ public class ServiceBranchCoverageRemainingTests
         var updateCtx = new ScheduleUpdateContext();
         var token = "merge-null";
         updateCtx.Repository.Setup(x => x.GetByUniqueTokenAsync(token))
-            .ReturnsAsync(new ScheduleCalendar { Id = 4, UniqueToken = token, ScheduleData = null });
+            .ReturnsAsync(new ScheduleCalendar { Id = 4, UniqueToken = token, ScheduleData = null! });
         updateCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
             .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
@@ -1537,14 +1542,14 @@ public class ServiceBranchCoverageRemainingTests
             .Returns(Task.CompletedTask);
         ctx.PatientRepository.Setup(x => x.FindAsync(4, It.IsAny<System.Linq.Expressions.Expression<Func<Patient, object>>[]>()))
             .ReturnsAsync(new Patient { Id = 4, Medical = new MedicalEntity { Id = 8, Name = "Dr" } });
-        var calendar = new MedicalCalendar { PatientId = 4, Patient = null, Medical = null };
+        var calendar = new MedicalCalendar { PatientId = 4, Patient = null!, Medical = null! };
 
         var appt = new AppointmentServiceContext();
         appt.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         appt.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, PatientIntervalTimeMinutes = 30 });
         appt.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendar> { Success = true, Data = null, Message = "ok" });
+            .ReturnsAsync(new ServiceResponse<ScheduleCalendar> { Success = true, Data = null!, Message = "ok" });
 
         // Act
         await ctx.NotificationAdapter.SendNotifyRegisterAsync(calendar, EMedicalCalendarActionType.Add);
@@ -1586,7 +1591,7 @@ public class ServiceBranchCoverageRemainingTests
             {
                 Id = 2,
                 OwnerKey = MedicalScheduleKeys.ForMedical(1),
-                ScheduleData = null
+                ScheduleData = null!
             },
             preferEventDate: DateTime.UtcNow);
         var noBooking = MedicalScheduleMapper.ToTimeSlotDto(
@@ -1594,7 +1599,7 @@ public class ServiceBranchCoverageRemainingTests
             {
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddMinutes(30),
-                Booking = null,
+                Booking = null!,
                 IsAvailable = true
             },
 
@@ -1664,9 +1669,9 @@ public class ServiceBranchCoverageRemainingTests
 
     private static CacheService CreateCache(
         ETypeLocationCache type,
-        Mock<IMemoryCacheRepository>? memory = null,
-        Mock<IDiskCacheRepository>? disk = null,
-        Mock<IApplicationCacheLogRepository>? logs = null)
+        Mock<IMemoryCacheRepository>? memory = null!,
+        Mock<IDiskCacheRepository>? disk = null!,
+        Mock<IApplicationCacheLogRepository>? logs = null!)
         => new(
             (memory ?? new Mock<IMemoryCacheRepository>()).Object,
             (disk ?? new Mock<IDiskCacheRepository>()).Object,

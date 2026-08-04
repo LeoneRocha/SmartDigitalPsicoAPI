@@ -58,7 +58,7 @@ public class PatientServiceTests
     {
         // Arrange
         var context = new PatientServiceContext();
-        context.Repository.Setup(x => x.FindByID(500)).ReturnsAsync((Patient?)null);
+        context.Repository.Setup(x => x.FindByID(500)).Returns(Task.FromResult<Patient>(null!));
 
         // Act
         var result = await context.Service.Update(new UpdatePatientDto { Id = 500 });

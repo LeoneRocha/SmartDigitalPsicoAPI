@@ -178,7 +178,7 @@ public class ApplicationLanguageServiceTests
             "FindAll_GetApplicationLanguageVO",
             DateTime.UtcNow.AddMinutes(30));
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
-        context.Cache.Setup(x => x.TryGet("FindAll_GetApplicationLanguageVO", out cached)).Returns(true);
+        SetupTryGetCacheHit(context.Cache, "FindAll_GetApplicationLanguageVO", cached);
 
         // Act
         var result = await context.Service.FindAll();
@@ -210,7 +210,7 @@ public class ApplicationLanguageServiceTests
             DateTime.UtcNow.AddMinutes(30));
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
         context.Cache.Setup(x => x.Exists<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO")).Returns(true);
-        context.Cache.Setup(x => x.TryGet("FindAll_GetApplicationLanguageVO", out cached)).Returns(true);
+        SetupTryGetCacheHit(context.Cache, "FindAll_GetApplicationLanguageVO", cached);
 
         // Act
         var result = await context.Service.GetLocalization<ISharedResource>("Welcome", "Default", context.Cache.Object);
@@ -241,7 +241,7 @@ public class ApplicationLanguageServiceTests
             DateTime.UtcNow.AddMinutes(30));
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
         context.Cache.Setup(x => x.Exists<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO")).Returns(true);
-        context.Cache.Setup(x => x.TryGet("FindAll_GetApplicationLanguageVO", out cached)).Returns(true);
+        SetupTryGetCacheHit(context.Cache, "FindAll_GetApplicationLanguageVO", cached);
         context.Repository.Setup(x => x.ExistLanguage(It.IsAny<string>(), "Greeting", "SharedResource")).ReturnsAsync(false);
         context.Repository.Setup(x => x.ExistLanguage("en-US", "Greeting", "SharedResource")).ReturnsAsync(false);
         context.Repository.Setup(x => x.Create(It.IsAny<ApplicationLanguage>())).ReturnsAsync((ApplicationLanguage a) => { a.Id = 1; return a; });
@@ -386,6 +386,19 @@ public class ApplicationLanguageServiceTests
 
         // Assert
         result.Should().Be("Bem-vindo");
+    }
+
+    private static void SetupTryGetCacheHit(
+        Mock<ICacheService> cache,
+        string key,
+        ServiceResponseCacheVO<List<GetApplicationLanguageDto>> cached)
+    {
+        cache.Setup(x => x.TryGet(key, out It.Ref<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
+            .Returns((string _, out ServiceResponseCacheVO<List<GetApplicationLanguageDto>> value) =>
+            {
+                value = cached;
+                return true;
+            });
     }
 
     private sealed class ApplicationLanguageServiceContext

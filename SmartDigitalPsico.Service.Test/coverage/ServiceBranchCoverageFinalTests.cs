@@ -53,7 +53,7 @@ public class ServiceBranchCoverageFinalTests
             {
                 Id = 1,
                 MedicalId = 2,
-                TokenRecurrence = null,
+                TokenRecurrence = null!,
                 Title = "u",
                 StartDateTime = new DateTime(2026, 9, 1, 8, 0, 0, DateTimeKind.Utc)
             },
@@ -65,8 +65,8 @@ public class ServiceBranchCoverageFinalTests
             {
                 Title = "s",
                 StartDateTime = DateTime.UtcNow,
-                RecurrenceDays = null,
-                ReasonCancellation = null
+                RecurrenceDays = null!,
+                ReasonCancellation = null!
             },
             "tok");
 
@@ -74,9 +74,9 @@ public class ServiceBranchCoverageFinalTests
         {
             Id = 3,
             OwnerKey = MedicalScheduleKeys.ForMedical(9),
-            SubjectKey = null,
+            SubjectKey = null!,
             UniqueToken = "pkg",
-            ScheduleData = null
+            ScheduleData = null!
         });
 
         var getDtoNullFields = MedicalScheduleMapper.ToGetDto(new ScheduleCalendar
@@ -91,9 +91,9 @@ public class ServiceBranchCoverageFinalTests
                 {
                     Title = "n",
                     StartDateTime = DateTime.UtcNow,
-                    RecurrenceDays = null,
-                    RecurrenceCount = null,
-                    TokenRecurrence = null
+                    RecurrenceDays = null!,
+                    RecurrenceCount = null!,
+                    TokenRecurrence = null!
                 }
             ]
         });
@@ -113,16 +113,16 @@ public class ServiceBranchCoverageFinalTests
             {
                 Id = 6,
                 OwnerKey = MedicalScheduleKeys.ForMedical(1),
-                SubjectKey = null,
-                ScheduleData = null
+                SubjectKey = null!,
+                ScheduleData = null!
             });
 
         var readNullPackageId = MedicalScheduleMapper.ToMedicalCalendarReadModel(
-            new ScheduleCalendarItem { PackageId = null, Title = "r", StartDateTime = DateTime.UtcNow },
+            new ScheduleCalendarItem { PackageId = null!, Title = "r", StartDateTime = DateTime.UtcNow },
             7);
 
         var calendarNullDays = MedicalScheduleMapper.ToCalendarDto(
-            new ScheduleGradeResult { DisplayName = "Dr", Days = null },
+            new ScheduleGradeResult { DisplayName = "Dr", Days = null! },
             8);
 
         var unknownPatient = MedicalScheduleMapper.ToTimeSlotDto(
@@ -145,9 +145,9 @@ public class ServiceBranchCoverageFinalTests
             {
                 Title = "b",
                 StartDateTime = new DateTime(2026, 9, 1, 9, 0, 0, DateTimeKind.Utc),
-                EndDateTime = null,
-                RecurrenceDays = null,
-                ReasonCancellation = null,
+                EndDateTime = null!,
+                RecurrenceDays = null!,
+                ReasonCancellation = null!,
                 RecurrenceType = ERecurrenceCalendarType.None
             },
             "t");
@@ -171,7 +171,7 @@ public class ServiceBranchCoverageFinalTests
             new ScheduleCalendarItem
             {
                 StartDateTime = new DateTime(2026, 9, 1, 10, 0, 0, DateTimeKind.Utc),
-                EndDateTime = null,
+                EndDateTime = null!,
                 TimeZone = "UTC"
             }
 
@@ -311,7 +311,7 @@ public class ServiceBranchCoverageFinalTests
         await context.Service.CreateOrUpdateNotificationRecordsAsync(dto);
         var calculate = typeof(NotificationRecordsService)
             .GetMethod("CalculateScheduledSendTime", BindingFlags.Static | BindingFlags.NonPublic)!;
-        var scheduled = (DateTime)calculate.Invoke(null, [rule, DateTime.UtcNow.AddDays(1), "BRT"])!;
+        var scheduled = (DateTime)calculate.Invoke(null!, [rule, DateTime.UtcNow.AddDays(1), "BRT"])!;
 
         // Assert
         scheduled.Should().BeAfter(DateTime.UtcNow.AddHours(-12));
@@ -339,10 +339,10 @@ public class ServiceBranchCoverageFinalTests
         var allSent = new[] { new NotificationRuleStatus { IsSent = true } };
         var pending = new[] { new NotificationRuleStatus { IsSent = false } };
 
-        var completed = (bool)validate.Invoke(null, [true, allSent])!;
-        var notCompleted = (bool)validate.Invoke(null, [true, pending])!;
-        var dtoCompleted = (AddNotificationRecordsDto)createDto.Invoke(null, [calendar, allSent, true])!;
-        var dtoOpen = (AddNotificationRecordsDto)createDto.Invoke(null, [calendar, pending, false])!;
+        var completed = (bool)validate.Invoke(null!, [true, allSent])!;
+        var notCompleted = (bool)validate.Invoke(null!, [true, pending])!;
+        var dtoCompleted = (AddNotificationRecordsDto)createDto.Invoke(null!, [calendar, allSent, true])!;
+        var dtoOpen = (AddNotificationRecordsDto)createDto.Invoke(null!, [calendar, pending, false])!;
 
         // Act
 
@@ -368,15 +368,15 @@ public class ServiceBranchCoverageFinalTests
         var item = new ScheduleCalendarItem
         {
             StartDateTime = DateTime.UtcNow.Date.AddDays(2).AddHours(10),
-            EndDateTime = null,
+            EndDateTime = null!,
             Title = "a"
         };
 
         var conflictCtx = new ScheduleCreateContext();
-        conflictCtx.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).ReturnsAsync((ScheduleCalendar?)null);
+        conflictCtx.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         conflictCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = false, Data = true, Message = null, Errors = null });
+            .ReturnsAsync(new ServiceResponse<bool> { Success = false, Data = true, Message = null!, Errors = null! });
 
         // Act
         var conflictCreate = await conflictCtx.Service.CreateAsync(new ScheduleCalendarWriteRequest
@@ -388,7 +388,7 @@ public class ServiceBranchCoverageFinalTests
         });
 
         var bookCtx = new ScheduleCreateContext();
-        bookCtx.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).ReturnsAsync((ScheduleCalendar?)null);
+        bookCtx.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         bookCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
             .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
@@ -403,10 +403,10 @@ public class ServiceBranchCoverageFinalTests
         });
 
         updateCtx.Repository.Setup(x => x.GetByUniqueTokenAsync(token))
-            .ReturnsAsync(new ScheduleCalendar { Id = 1, UniqueToken = token, ScheduleData = null });
+            .ReturnsAsync(new ScheduleCalendar { Id = 1, UniqueToken = token, ScheduleData = null! });
         updateCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync("t", "o", It.IsAny<ScheduleCalendarItem[]>(), token))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = false, Data = false, Message = null, Errors = null });
+            .ReturnsAsync(new ServiceResponse<bool> { Success = false, Data = false, Message = null!, Errors = null! });
         var conflictUpdate = await updateCtx.Service.UpdateAsync(new ScheduleCalendarWriteRequest
         {
             TenantKey = "t",
@@ -418,7 +418,7 @@ public class ServiceBranchCoverageFinalTests
         });
 
         var createThrow = new ScheduleCreateContext();
-        createThrow.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).ReturnsAsync((ScheduleCalendar?)null);
+        createThrow.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         createThrow.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
             .ThrowsAsync(new Exception("outer", new Exception("inner-create")));
@@ -474,7 +474,7 @@ public class ServiceBranchCoverageFinalTests
                 new ScheduleCalendar
                 {
                     UniqueToken = "other",
-                    ScheduleData = null
+                    ScheduleData = null!
                 },
                 new ScheduleCalendar
                 {
@@ -484,7 +484,7 @@ public class ServiceBranchCoverageFinalTests
                         new ScheduleCalendarItem
                         {
                             StartDateTime = start,
-                            EndDateTime = null,
+                            EndDateTime = null!,
                             SubjectKey = "patient:1"
                         }
                     ]
@@ -493,12 +493,12 @@ public class ServiceBranchCoverageFinalTests
         var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
 
         // Act
-        var nullItems = await service.HasNoConflictBatchAsync("medical", "medical:1", null!, null);
+        var nullItems = await service.HasNoConflictBatchAsync("medical", "medical:1", null!, null!);
         var nullEnd = await service.HasNoConflictBatchAsync(
             "medical",
             "medical:1",
-            [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = null, SubjectKey = "patient:2" }],
-            null);
+            [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = null!, SubjectKey = "patient:2" }],
+            null!);
         var ok = await service.HasNoConflictAsync(new ScheduleCalendarConflictRequest
         {
             TenantKey = "medical",
@@ -542,14 +542,14 @@ public class ServiceBranchCoverageFinalTests
                 new ScheduleCalendarItem
                 {
                     StartDateTime = day.AddHours(9),
-                    EndDateTime = null,
+                    EndDateTime = null!,
                     SubjectKey = "patient:1"
                 }
             ],
             Constraints = new ScheduleOwnerConstraints
             {
                 DisplayName = null!,
-                WorkingDays = null,
+                WorkingDays = null!,
                 StartWorkingTime = TimeSpan.FromHours(8),
                 EndWorkingTime = TimeSpan.FromHours(18),
                 IntervalMinutes = 30
@@ -584,7 +584,7 @@ public class ServiceBranchCoverageFinalTests
         patientRepos.SetupGet(x => x.PatientRepository).Returns(patientRepo.Object);
         patientRepo
             .Setup(x => x.FindAsync(5, It.IsAny<System.Linq.Expressions.Expression<Func<Patient, object>>[]>()))
-            .ReturnsAsync(new Patient { Id = 5, Medical = null });
+            .ReturnsAsync(new Patient { Id = 5, Medical = null! });
         var sut = new NotificationDispatchJobService(
             notificationRecords.Object,
             medicalNotify.Object,
@@ -595,10 +595,10 @@ public class ServiceBranchCoverageFinalTests
             .GetMethod("ProcessRecordAsync", BindingFlags.Instance | BindingFlags.NonPublic)!;
         var hydrate = typeof(NotificationDispatchJobService)
             .GetMethod("HydratePatientAndMedicalAsync", BindingFlags.Instance | BindingFlags.NonPublic)!;
-        var calendar = new MedicalCalendar { PatientId = 5, Patient = null, Medical = null };
+        var calendar = new MedicalCalendar { PatientId = 5, Patient = null!, Medical = null! };
 
         // Act
-        var nullRules = await (Task<bool>)process.Invoke(sut, [new NotificationRecord { NotificationRules = null }, DateTime.UtcNow])!;
+        var nullRules = await (Task<bool>)process.Invoke(sut, [new NotificationRecord { NotificationRules = null! }, DateTime.UtcNow])!;
         await (Task)hydrate.Invoke(sut, [calendar])!;
 
         // Assert
@@ -643,9 +643,9 @@ public class ServiceBranchCoverageFinalTests
 
     private static CacheService CreateCache(
         ETypeLocationCache type,
-        Mock<IMemoryCacheRepository>? memory = null,
-        Mock<IDiskCacheRepository>? disk = null,
-        Mock<IApplicationCacheLogRepository>? logs = null)
+        Mock<IMemoryCacheRepository>? memory = null!,
+        Mock<IDiskCacheRepository>? disk = null!,
+        Mock<IApplicationCacheLogRepository>? logs = null!)
         => new(
             (memory ?? new Mock<IMemoryCacheRepository>()).Object,
             (disk ?? new Mock<IDiskCacheRepository>()).Object,
@@ -733,7 +733,7 @@ public class ServiceBranchCoverageFinalTests
             return Task.FromResult(new ServiceResponse<Domain.DTO.Domains.GetDTOs.GetAuditDataSelectiveEntityLogDto>
             {
                 Success = true,
-                Message = CreateMessage
+                Message = CreateMessage!
             });
         }
     }

@@ -53,7 +53,7 @@ public sealed class MigrationModelCoverageTests
         }
     }
 
-    private static IEnumerable<Type> GetDataAssemblyTypes() =>
+    private static Type[] GetDataAssemblyTypes() =>
         typeof(SmartDigitalPsico.Data.Context.SmartDigitalPsicoDataContextMySql)
             .Assembly
             .GetTypes();

@@ -246,7 +246,7 @@ public class MedicalFileServiceTests
         context.Repository.Verify(x => x.Delete(It.IsAny<long>()), Times.Never);
     }
 
-    private static Microsoft.AspNetCore.Http.IFormFile CreateFormFile()
+    private static Microsoft.AspNetCore.Http.FormFile CreateFormFile()
     {
         var content = new byte[] { 1, 2, 3 };
         var stream = new MemoryStream(content);

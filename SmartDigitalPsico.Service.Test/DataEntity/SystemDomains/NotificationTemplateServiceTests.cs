@@ -43,7 +43,7 @@ public class NotificationTemplateServiceTests
         // Arrange
         var context = new TemplateServiceContext();
         context.Repository.Setup(x => x.GetNotificationTemplateAsync("missing", It.IsAny<string>()))
-            .ReturnsAsync((NotificationTemplate?)null);
+            .Returns(Task.FromResult<NotificationTemplate?>(null));
 
         // Act
         var result = await context.Service.GetNotificationTemplatesAsync("missing");

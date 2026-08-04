@@ -126,7 +126,7 @@ public class ServiceBranchCoverageLastPushTests
         var item = new ScheduleCalendarItem
         {
             StartDateTime = start,
-            EndDateTime = null,
+            EndDateTime = null!,
             Status = EStatusCalendar.PendingConfirmation,
             Title = "c"
         };
@@ -134,7 +134,7 @@ public class ServiceBranchCoverageLastPushTests
         {
             Id = 9,
             UniqueToken = "pkg-9",
-            SubjectKey = null,
+            SubjectKey = null!,
             ScheduleData = [item]
         };
         var repository = new Mock<IScheduleCalendarRepository>();
@@ -145,7 +145,7 @@ public class ServiceBranchCoverageLastPushTests
             .ReturnsAsync([package]);
         repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
         repository.Setup(x => x.GetByUniqueTokenAsync("upd-null-end"))
-            .ReturnsAsync(new ScheduleCalendar { Id = 10, UniqueToken = "upd-null-end", ScheduleData = null });
+            .ReturnsAsync(new ScheduleCalendar { Id = 10, UniqueToken = "upd-null-end", ScheduleData = null! });
         conflict.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:1", It.IsAny<ScheduleCalendarItem[]>(), "upd-null-end"))
             .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
         var service = new ScheduleUpdateService(repository.Object, conflict.Object, Mock.Of<ILogger>());
@@ -219,7 +219,7 @@ public class ServiceBranchCoverageLastPushTests
             {
                 Id = 1,
                 OwnerKey = MedicalScheduleKeys.ForMedical(1),
-                ScheduleData = null
+                ScheduleData = null!
             },
             preferEventDate: DateTime.UtcNow);
         var calendarEmpty = MedicalScheduleMapper.ToMedicalCalendarFromPackage(
@@ -241,7 +241,7 @@ public class ServiceBranchCoverageLastPushTests
                     {
                         StartDateTime = DateTime.UtcNow,
                         Title = "x",
-                        RecurrenceDays = null
+                        RecurrenceDays = null!
                     }
                 ]
             });
@@ -255,12 +255,12 @@ public class ServiceBranchCoverageLastPushTests
                     Title = "T",
                     StartDateTime = DateTime.UtcNow,
                     SubjectKey = MedicalScheduleKeys.ForPatient(3),
-                    RecurrenceDays = null
+                    RecurrenceDays = null!
                 }
             },
             1,
 
-            patientNames: null);
+            patientNames: null!);
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -336,15 +336,15 @@ public class ServiceBranchCoverageLastPushTests
             PasswordSalt = salt,
             Medical = new MedicalEntity { Id = 88, Name = "Dr", Email = "d@t.com" },
             Admin = true,
-            Language = null,
-            Role = null,
+            Language = null!,
+            Role = null!,
             UserRoleGroups = []
         };
         ctx.Context.UserRepository.Setup(x => x.FindByLogin("adminlang2")).ReturnsAsync(adminNoLang);
         ctx.Context.UserRepository.Setup(x => x.RefreshUserInfo(It.IsAny<User>())).ReturnsAsync(adminNoLang);
         ctx.TokenService.Setup(x => x.GenerateAccessToken(It.IsAny<IEnumerable<Claim>>())).Returns("access");
         ctx.TokenService.Setup(x => x.GenerateRefreshToken()).Returns("refresh");
-        ctx.TokenSessionService.Setup(x => x.GetSessionAsync(40)).ReturnsAsync((UserTokenSession?)null);
+        ctx.TokenSessionService.Setup(x => x.GetSessionAsync(40)).Returns(Task.FromResult<UserTokenSession?>(null!));
         ctx.TokenSessionService.Setup(x => x.SaveSessionAsync(It.IsAny<UserTokenSession>())).Returns(Task.CompletedTask);
         ctx.TokenConfiguration.SetupGet(x => x.Minutes).Returns(30);
         ctx.TokenConfiguration.SetupGet(x => x.DaysToExpiry).Returns(7);
@@ -413,7 +413,7 @@ public class ServiceBranchCoverageLastPushTests
                     Id = 2,
                     UniqueToken = "null-data",
                     SubjectKey = "patient:9",
-                    ScheduleData = null
+                    ScheduleData = null!
                 }
             ]);
         repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
@@ -539,7 +539,7 @@ public class ServiceBranchCoverageLastPushTests
                     new ScheduleTimeSlotDto
                     {
                         StartTime = start,
-                        EndTime = null,
+                        EndTime = null!,
                         IsAvailable = true,
                         IsPast = false,
                         Booking = null
@@ -548,7 +548,7 @@ public class ServiceBranchCoverageLastPushTests
             }
         };
 
-        var filtered = (ScheduleDayDto[])apply.Invoke(null, [request, days])!;
+        var filtered = (ScheduleDayDto[])apply.Invoke(null!, [request, days])!;
 
         // Assert
         filtered.Should().ContainSingle();
@@ -606,7 +606,7 @@ public class ServiceBranchCoverageLastPushTests
                     new ScheduleTimeSlotDto
                     {
                         StartTime = start.AddHours(1),
-                        EndTime = null,
+                        EndTime = null!,
                         IsAvailable = true,
                         IsPast = false,
                         Booking = null
@@ -615,7 +615,7 @@ public class ServiceBranchCoverageLastPushTests
             }
         };
 
-        var filtered = (ScheduleDayDto[])apply.Invoke(null, [request, days])!;
+        var filtered = (ScheduleDayDto[])apply.Invoke(null!, [request, days])!;
 
         // Assert
         filtered.Should().ContainSingle();
@@ -654,7 +654,7 @@ public class ServiceBranchCoverageLastPushTests
                     Id = 2,
                     UniqueToken = "null-data",
                     SubjectKey = "patient:1",
-                    ScheduleData = null
+                    ScheduleData = null!
                 },
                 new ScheduleCalendar
                 {
@@ -726,7 +726,7 @@ public class ServiceBranchCoverageLastPushTests
                     Title = "NoPatient",
                     StartDateTime = start,
                     SubjectKey = "   ",
-                    RecurrenceDays = null,
+                    RecurrenceDays = null!,
                     RecurrenceCount = null
                 }
             },
@@ -824,7 +824,7 @@ public class ServiceBranchCoverageLastPushTests
         }
 
         // Act
-        var nullName = await RunAsync(null);
+        var nullName = await RunAsync(null!);
         var withName = await RunAsync("doc.pdf");
 
         // Assert
@@ -943,7 +943,7 @@ public class ServiceBranchCoverageLastPushTests
     }
 
     // Cenário: InsertLanguageNotFound com localization vazia/prévia; refresh válido e expiry nulo; Cancel SubjectKey nulo.
-    // Objetivo: fechar L137, UserService L364 (incl. DateTime? null) e predicado SubjectKey nulo.
+    // Objetivo: fechar L137, UserService L364 (incl. DateTime? null!) e predicado SubjectKey nulo.
     [Test]
     public async Task LocalizationUserAndCancel_FinalBranchSides_Covered()
     {
@@ -1000,7 +1000,7 @@ public class ServiceBranchCoverageLastPushTests
             Title = "n"
         };
         var repository = new Mock<IScheduleCalendarRepository>();
-        repository.Setup(x => x.GetItemAsync("medical", "medical:1", It.Is<string?>(s => s == null), start))
+        repository.Setup(x => x.GetItemAsync("medical", "medical:1", It.Is<string?>(s => s == null!), start))
             .ReturnsAsync(item);
         repository.Setup(x => x.GetOverlappingByOwnerAsync("medical", "medical:1", start, It.IsAny<DateTime>()))
             .ReturnsAsync(
@@ -1028,7 +1028,7 @@ public class ServiceBranchCoverageLastPushTests
         {
             TenantKey = "medical",
             OwnerKey = "medical:1",
-            SubjectKey = null,
+            SubjectKey = null!,
             AppointmentDateTime = start,
             Reason = "n"
         });
@@ -1052,7 +1052,7 @@ public class ServiceBranchCoverageLastPushTests
     public void AzureBlobAdapter_ResolveBlobName_BothSides()
     {
         // Arrange
-        var fromPath = AzureStorageBlobAdapter.ResolveBlobName(null, @"C:\temp\file.pdf");
+        var fromPath = AzureStorageBlobAdapter.ResolveBlobName(null!, @"C:\temp\file.pdf");
         var fromPathEmpty = AzureStorageBlobAdapter.ResolveBlobName("", @"C:\temp\file.pdf");
         var fromName = AzureStorageBlobAdapter.ResolveBlobName("explicit.bin", @"C:\temp\file.pdf");
 
@@ -1095,9 +1095,9 @@ public class ServiceBranchCoverageLastPushTests
 
     private static CacheService CreateCache(
         ETypeLocationCache type,
-        Mock<IMemoryCacheRepository>? memory = null,
-        Mock<IDiskCacheRepository>? disk = null,
-        Mock<IApplicationCacheLogRepository>? logs = null)
+        Mock<IMemoryCacheRepository>? memory = null!,
+        Mock<IDiskCacheRepository>? disk = null!,
+        Mock<IApplicationCacheLogRepository>? logs = null!)
         => new(
             (memory ?? new Mock<IMemoryCacheRepository>()).Object,
             (disk ?? new Mock<IDiskCacheRepository>()).Object,

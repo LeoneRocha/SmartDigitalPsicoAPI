@@ -39,7 +39,7 @@ public class TableStorageTokenSessionAdapterTests
     {
         // Arrange
         var storage = new Mock<IStorageTableContract<UserTokenSessionTableEntity>>();
-        storage.Setup(x => x.GetByIdAsync("UserTokenSession", "7")).ReturnsAsync((UserTokenSessionTableEntity?)null);
+        storage.Setup(x => x.GetByIdAsync("UserTokenSession", "7")).Returns(Task.FromResult<UserTokenSessionTableEntity>(null!));
         storage.Setup(x => x.UpdateAsync(It.IsAny<UserTokenSessionTableEntity>())).Returns(Task.CompletedTask);
         var mapper = new Mock<IMapper>();
         mapper.Setup(x => x.Map<UserTokenSessionTableEntity>(It.IsAny<UserTokenSession>()))

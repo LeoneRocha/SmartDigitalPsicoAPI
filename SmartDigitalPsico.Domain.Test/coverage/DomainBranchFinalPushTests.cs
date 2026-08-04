@@ -143,7 +143,7 @@ public class DomainBranchFinalPushTests
         });
         var itemTimed = await scheduleItemValidator.ValidateAsync(scheduleItem);
         var itemAllDay = await scheduleItemValidator.ValidateAsync(scheduleItemAllDay);
-        medicalRepo.Setup(x => x.FindByID(1)).ReturnsAsync((Medical?)null);
+        medicalRepo.Setup(x => x.FindByID(1)).Returns(Task.FromResult<Medical>(null!));
         var itemMissingMedical = await scheduleItemValidator.ValidateAsync(scheduleItem);
 
         // Assert
@@ -217,7 +217,7 @@ public class DomainBranchFinalPushTests
             Records = [new PatientFile { Id = 1, Patient = null, CreatedUser = new User { Id = 1 } }]
         });
         var emptyBase = await baseList.ValidateAsync(new RecordsList<Patient> { UserIdLogged = 1, Records = [] });
-        repository.Setup(x => x.FindByID(2)).ReturnsAsync((User?)null);
+        repository.Setup(x => x.FindByID(2)).Returns(Task.FromResult<User>(null!));
         var nullUser = await baseList.ValidateAsync(new RecordsList<Patient>
         {
             UserIdLogged = 2,

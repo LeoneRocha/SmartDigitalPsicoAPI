@@ -192,7 +192,7 @@ public class FileManagerCoverageTests
         return new FileManager(configuration, settings, disk.Object, azure.Object);
     }
 
-    private static IFormFile CreateFormFile(string name, byte[] bytes)
+    private static FormFile CreateFormFile(string name, byte[] bytes)
     {
         var stream = new MemoryStream(bytes);
         return new FormFile(stream, 0, bytes.Length, "file", name);

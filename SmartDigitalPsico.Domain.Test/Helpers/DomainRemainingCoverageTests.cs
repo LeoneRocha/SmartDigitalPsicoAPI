@@ -48,6 +48,14 @@ namespace SmartDigitalPsico.Domain.Test.Helpers;
 [TestFixture]
 public class DomainRemainingCoverageTests
 {
+    private static readonly JsonSerializerOptions DescribedEnumJsonOptions = CreateDescribedEnumJsonOptions();
+
+    private static JsonSerializerOptions CreateDescribedEnumJsonOptions()
+    {
+        var options = new JsonSerializerOptions();
+        options.Converters.Add(new EnumDescriptionConverter<DescribedEnum>());
+        return options;
+    }
     // Cenário: recorrências paralelas e sequenciais atingem filtros, limites e datas expiradas.
     // Objetivo: cobrir retornos antecipados restantes do RecurrenceMaterializer.
     [Test]
@@ -609,8 +617,6 @@ public class DomainRemainingCoverageTests
     public void EnumDescriptionConverter_UnmatchedDescriptionAndName_ReturnsFalsePaths()
     {
         // Arrange
-        var options = new JsonSerializerOptions();
-        options.Converters.Add(new EnumDescriptionConverter<DescribedEnum>());
         var converter = new EnumDescriptionConverter<DescribedEnum>();
         var fromDescription = typeof(EnumDescriptionConverter<DescribedEnum>)
             .GetMethod("TryGetEnumValueFromDescription", BindingFlags.NonPublic | BindingFlags.Static)!;
@@ -619,7 +625,7 @@ public class DomainRemainingCoverageTests
         var field = typeof(DescribedEnum).GetField(nameof(DescribedEnum.Plain))!;
 
         // Act
-        var byName = TextJson.Deserialize<DescribedEnum>("\"Plain\"", options);
+        var byName = TextJson.Deserialize<DescribedEnum>("\"Plain\"", DescribedEnumJsonOptions);
         var argsDescription = new object?[] { field, "nope", null };
         var argsName = new object?[] { field, "Other", null };
         var descriptionMiss = (bool)fromDescription.Invoke(converter, argsDescription)!;
@@ -1010,11 +1016,13 @@ public class DomainRemainingCoverageTests
     {
         using var document = SpreadsheetDocument.Open(filePath, true);
         var worksheetPart = document.WorkbookPart!.WorksheetParts.First();
-        worksheetPart.Worksheet.InsertAt(new Columns(new Column { Min = 1, Max = 1, Width = 10 }), 0);
+        var worksheet = worksheetPart.Worksheet;
+        worksheet.Should().NotBeNull();
+        worksheet!.InsertAt(new Columns(new Column { Min = 1, Max = 1, Width = 10 }), 0);
         var method = typeof(ExcelGeneratorOpenXmlAdapter).GetMethod("AddBestFit", BindingFlags.NonPublic | BindingFlags.Static)!;
         method.Invoke(null, [worksheetPart]);
-        worksheetPart.Worksheet.Descendants<Column>().Should().OnlyContain(column => column.BestFit!.Value);
-        worksheetPart.Worksheet.Save();
+        worksheet.Descendants<Column>().Should().OnlyContain(column => column.BestFit!.Value);
+        worksheet.Save();
     }
 
     private static ResultExecutingContext CreateResultContext(object value)
@@ -1056,7 +1064,15 @@ public class DomainRemainingCoverageTests
 
     private sealed class ThrowingJsonModel
     {
-        public string Broken => throw new InvalidOperationException("serialize-error");
+        private readonly byte _instanceMarker = 1;
+        public string Broken
+        {
+            get
+            {
+                _ = _instanceMarker;
+                throw new InvalidOperationException("serialize-error");
+            }
+        }
     }
 
     private sealed class TestEnricher : ContentResponseEnricher<GetUserDto>

@@ -204,7 +204,7 @@ public class PatientFileServiceTests
         result.Success.Should().BeFalse();
     }
 
-    private static Microsoft.AspNetCore.Http.IFormFile CreateFormFile()
+    private static Microsoft.AspNetCore.Http.FormFile CreateFormFile()
     {
         var content = new byte[] { 1, 2, 3 };
         var stream = new MemoryStream(content);

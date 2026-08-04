@@ -116,7 +116,7 @@ public class MedicalScheduleMapperTests
             StartDateTime = new DateTime(2026, 9, 1, 8, 0, 0, DateTimeKind.Utc),
             EndDateTime = new DateTime(2026, 9, 1, 9, 0, 0, DateTimeKind.Utc),
             TokenRecurrence = " ",
-            RecurrenceDays = null
+            RecurrenceDays = null!,
         };
 
         // Act
@@ -142,7 +142,7 @@ public class MedicalScheduleMapperTests
         var calendar = new MedicalCalendar
         {
             Id = 11, MedicalId = 4, TokenRecurrence = "fixed", Title = "Follow-up",
-            StartDateTime = start, EndDateTime = start.AddMinutes(45), ReasonCancellation = null
+            StartDateTime = start, EndDateTime = start.AddMinutes(45), ReasonCancellation = null!
         };
 
         // Act
