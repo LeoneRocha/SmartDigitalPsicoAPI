@@ -23,7 +23,6 @@ public class ServiceAssemblyMethodSmokeTests
         var constructed = 0;
         var invoked = 0;
 
-        // Act
         foreach (var type in concreteTypes)
         {
             if (!TryCreate(type, out var instance) || instance is null)
@@ -55,6 +54,8 @@ public class ServiceAssemblyMethodSmokeTests
                 }
             }
         }
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())

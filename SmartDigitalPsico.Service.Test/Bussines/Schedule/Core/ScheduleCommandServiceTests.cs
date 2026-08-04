@@ -331,6 +331,7 @@ public class ScheduleCommandServiceTests
 
         // Assert
         result.Success.Should().BeFalse();
+
         logger.Verify(x => x.Error<string?>(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<string?>()), Times.Once);
     }
 
@@ -350,6 +351,7 @@ public class ScheduleCommandServiceTests
 
         // Assert
         result.Success.Should().BeFalse();
+
         logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
     }
 

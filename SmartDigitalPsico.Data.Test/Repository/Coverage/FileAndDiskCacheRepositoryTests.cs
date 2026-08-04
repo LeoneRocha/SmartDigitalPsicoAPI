@@ -24,9 +24,12 @@ public class FileAndDiskCacheRepositoryTests
             Directory.Delete(_temporaryDirectory, recursive: true);
     }
 
+    // Cenário: salvar, ler, substituir e excluir arquivo em disco.
+    // Objetivo: cobrir Save, Exists, Get e Delete do FileDiskRepository.
     [Test]
     public async Task FileDiskRepository_PersistsReadsReplacesAndDeletesFiles()
     {
+        // Arrange
         var repository = new FileDiskRepository();
         var criteria = new FileData
         {
@@ -36,6 +39,7 @@ public class FileAndDiskCacheRepositoryTests
             FileData = [1, 2, 3]
         };
 
+        // Act
         (await repository.Save(new FileData { FileData = null! })).Should().BeFalse();
         (await repository.Save(criteria)).Should().BeTrue();
         repository.Exists(criteria).Should().BeTrue();
@@ -47,13 +51,18 @@ public class FileAndDiskCacheRepositoryTests
         (await repository.Get(new FileData { FilePath = Path.Combine(_temporaryDirectory, "missing.bin"), FileName = "missing.bin" })).Should().BeEmpty();
 
         await repository.Delete(criteria);
+
+        // Assert
         repository.Exists(criteria).Should().BeFalse();
         await repository.Delete(new FileData { FilePath = Path.Combine(_temporaryDirectory, "missing.bin"), FileName = "missing.bin" });
     }
 
+    // Cenário: cache em disco com valores JSON serializados.
+    // Objetivo: cobrir Set, TryGet e Remove do DiskCacheRepository.
     [Test]
     public async Task DiskCacheRepository_StoresRetrievesAndRemovesJsonValues()
     {
+        // Arrange
         var repository = new FileDiskRepository();
         var cache = new DiskCacheRepository(repository, Options.Create(new CacheConfigurationDto
         {
@@ -61,9 +70,12 @@ public class FileAndDiskCacheRepositoryTests
             ExtensionCache = ".cache"
         }));
 
+        // Act
         (await cache.TryGetAsync<CacheValue>("missing")).Key.Should().BeFalse();
         (await cache.SetAsync("entry", new CacheValue { Name = "first" })).Should().BeTrue();
         var cached = await cache.TryGetAsync<CacheValue>("entry");
+
+        // Assert
         cached.Key.Should().BeTrue();
         cached.Value.Name.Should().Be("first");
 

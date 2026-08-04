@@ -17,6 +17,8 @@ public class ReportBaseServiceTests
     public void ReportBaseService_SetUserId_StoresIdentifier()
     {
         // Arrange
+
+        // Act
         var ctx = new ServiceTestContext();
         var probe = new ProbeReport(
             ctx.SharedServices,
@@ -25,7 +27,6 @@ public class ReportBaseServiceTests
             Mock.Of<IGenderRepository>(),
             Mock.Of<IValidator<Gender>>());
 
-        // Act
         probe.SetUserId(5);
 
         // Assert

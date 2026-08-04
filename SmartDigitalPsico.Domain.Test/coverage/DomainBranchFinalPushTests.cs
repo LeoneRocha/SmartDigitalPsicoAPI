@@ -282,6 +282,7 @@ public class DomainBranchFinalPushTests
         resolver.ApplyIgnoreRulesForTests(new Newtonsoft.Json.Serialization.JsonProperty { PropertyName = "Public" });
 
         // Assert
+        // Act
         json.Should().Contain("Label").And.NotContain("Secret");
     }
 
@@ -310,7 +311,8 @@ public class DomainBranchFinalPushTests
             LogAppHelper.ForceNullHostEnvironmentForTests = true;
             var info = LogAppHelper.GetInformationVersionProduct();
 
-            // Assert
+        // Assert
+            // Act
             using (Assert.EnterMultipleScope())
             {
                 withOverride.Should().NotBeNullOrEmpty();
@@ -361,9 +363,12 @@ public class DomainBranchFinalPushTests
         act.Should().Throw<SecurityTokenException>();
     }
 
+    // Cenário: LogAppHelper, EnumDescriptionConverter e RecurrenceMaterializer com ramos finais.
+    // Objetivo: fechar branches restantes de assembly, enum e recorrência.
     [Test]
     public void DomainBranchFinalGaps_LogAppValidatorsRecurrenceEnum_CloseRemainingBranches()
     {
+        // Arrange
         var previousEntry = LogAppHelper.EntryAssemblyProviderForTests;
         var previousFallback = LogAppHelper.EntryAssemblyFallbackForTests;
         var previousForceHost = LogAppHelper.ForceNullHostEnvironmentForTests;
@@ -372,6 +377,8 @@ public class DomainBranchFinalPushTests
             LogAppHelper.ProductAssemblyOverrideForTests = null;
             LogAppHelper.EntryAssemblyProviderForTests = () => null;
             LogAppHelper.EntryAssemblyFallbackForTests = () => typeof(DomainBranchFinalPushTests).Assembly;
+        // Act
+            // Assert
             LogAppHelper.GetAssemblyVersion().Should().NotBeNullOrEmpty();
 
             LogAppHelper.ForceNullHostEnvironmentForTests = true;
@@ -429,9 +436,12 @@ public class DomainBranchFinalPushTests
         }
     }
 
+    // Cenário: validadores de agenda com LessThan e horário de trabalho.
+    // Objetivo: cobrir ramos When restantes de data e WorkingHours.
     [Test]
     public async Task DomainBranchFinalGaps_WhenLessThanAndWorkingHours_CloseRemainingBranches()
     {
+        // Arrange
         var start = DateTime.UtcNow.Date.AddHours(10);
         var badTimed = new ScheduleCalendarItem
         {
@@ -447,6 +457,8 @@ public class DomainBranchFinalPushTests
             Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceCount = 0
         };
 
+        // Act
+        // Assert
         (await new ScheduleCalendarItemValidator().ValidateAsync(badTimed)).IsValid.Should().BeFalse();
         (await new ScheduleCalendarItemValidator().ValidateAsync(noEnd)).IsValid.Should().BeFalse();
         (await new MedicalCalendarScheduleFieldsValidator().ValidateAsync(badMedical)).IsValid.Should().BeFalse();
@@ -470,14 +482,19 @@ public class DomainBranchFinalPushTests
         })).Errors.Should().NotContain(e => e.ErrorCode.Contains("StartDateTime.LessThan"));
     }
 
+    // Cenário: MedicalBaseValidator e PatientFileSelectListValidator em limites.
+    // Objetivo: cobrir create/modify e listas de paciente com usuário/médico.
     [Test]
     public async Task DomainBranchFinalGaps_MedicalBaseAndPatientList_CloseRemainingBranches()
     {
+        // Arrange
         var medicalRepo = new Mock<IMedicalRepository>();
         var entityRepo = new Mock<IEntityBaseRepository<MedicalCalendar>>();
         var userRepo = new Mock<IUserRepository>();
         userRepo.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Medical = new Medical { Id = 5 } });
         var validator = new TestMedicalBaseValidator(medicalRepo.Object, entityRepo.Object, userRepo.Object);
+        // Act
+        // Assert
         (await validator.MedicalCreated(new MedicalCalendar { Id = 9, MedicalId = 5 }, 0, 1)).Should().BeTrue();
 
         var repository = new Mock<IUserRepository>();
@@ -500,9 +517,12 @@ public class DomainBranchFinalPushTests
         })).IsValid.Should().BeTrue();
     }
 
+    // Cenário: LogAppHelper sem entry assembly e Excel AddHeaderRow nulo.
+    // Objetivo: cobrir fallbacks de versão e caminho nulo do cabeçalho.
     [Test]
     public void DomainBranchFinalGaps_LogAppExcelNullPaths_CloseRemainingBranches()
     {
+        // Arrange
         var previousForceEntry = LogAppHelper.ForceNullEntryAssemblyForTests;
         var previousOverride = LogAppHelper.ProductAssemblyOverrideForTests;
         var previousEntry = LogAppHelper.EntryAssemblyProviderForTests;
@@ -513,6 +533,8 @@ public class DomainBranchFinalPushTests
             LogAppHelper.EntryAssemblyProviderForTests = null;
             LogAppHelper.EntryAssemblyFallbackForTests = null;
             LogAppHelper.ForceNullEntryAssemblyForTests = true;
+        // Act
+            // Assert
             LogAppHelper.GetAssemblyVersion().Should().NotBeNullOrEmpty();
         }
         finally
@@ -531,12 +553,17 @@ public class DomainBranchFinalPushTests
         sheet.ChildElements.Should().NotBeEmpty();
     }
 
+    // Cenário: TokenService com HMAC-SHA512 e factory padrão/override.
+    // Objetivo: obter principal de token expirado com algoritmo válido.
     [Test]
     public void TokenService_GetPrincipalFromExpiredToken_ValidHmac512_Succeeds()
     {
+        // Arrange
         const string secret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
         var service = new TokenService(new TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
         var token = service.GenerateAccessToken([new Claim("sub", "1")]);
+        // Act
+        // Assert
         service.GetPrincipalFromExpiredToken(token).Identity.Should().NotBeNull();
         TokenService.TokenHandlerFactoryForTests = () => new JwtSecurityTokenHandler();
         try
@@ -549,9 +576,12 @@ public class DomainBranchFinalPushTests
         }
     }
 
+    // Cenário: TokenService recebe token que não é JwtSecurityToken.
+    // Objetivo: lançar SecurityTokenException no ramo de validação.
     [Test]
     public void TokenService_GetPrincipalFromExpiredToken_NonJwtSecurityToken_Throws()
     {
+        // Arrange
         var previous = TokenService.TokenHandlerFactoryForTests;
         try
         {
@@ -564,6 +594,9 @@ public class DomainBranchFinalPushTests
                 Minutes = 1
             });
             var act = () => service.GetPrincipalFromExpiredToken("any");
+
+            // Act
+            // Assert
             act.Should().Throw<SecurityTokenException>();
         }
         finally
@@ -572,9 +605,12 @@ public class DomainBranchFinalPushTests
         }
     }
 
+    // Cenário: MedicalBaseValidator em create e modify com entidades nulas/divergentes.
+    // Objetivo: cobrir todos os retornos booleanos dos helpers de permissão.
     [Test]
     public async Task MedicalBaseValidator_CreateAndModifyBranches_AreCovered()
     {
+        // Arrange
         var medicalRepo = new Mock<IMedicalRepository>();
         medicalRepo.Setup(x => x.Exists(It.IsAny<long>())).ReturnsAsync(true);
         var entityRepo = new Mock<IEntityBaseRepository<MedicalCalendar>>();
@@ -583,6 +619,8 @@ public class DomainBranchFinalPushTests
         userRepo.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Medical = new Medical { Id = 5 } });
         var validator = new TestMedicalBaseValidator(medicalRepo.Object, entityRepo.Object, userRepo.Object);
 
+        // Act
+        // Assert
         (await validator.MedicalCreated(new MedicalCalendar { Id = 0, MedicalId = 5 }, 0, 1)).Should().BeTrue();
         (await validator.MedicalCreated(new MedicalCalendar { Id = 0, MedicalId = 9 }, 0, 1)).Should().BeFalse();
         (await validator.MedicalCreated(null!, 0, 1)).Should().BeTrue();
@@ -591,9 +629,12 @@ public class DomainBranchFinalPushTests
         (await validator.MedicalModify(null!, 0, 1)).Should().BeTrue();
     }
 
+    // Cenário: ScheduleItemValidator com horários dentro e fora do expediente.
+    // Objetivo: cobrir retornos de WorkingHours nos ramos MustAsync.
     [Test]
     public async Task ScheduleItemValidator_WorkingHoursReturnBranches_AreCovered()
     {
+        // Arrange
         var medicalRepo = new Mock<IMedicalRepository>();
         medicalRepo.Setup(x => x.FindByID(5)).ReturnsAsync(new Medical
         {
@@ -619,14 +660,19 @@ public class DomainBranchFinalPushTests
             MedicalId = 5, PatientId = 1, Title = "Long", StartDateTime = start, EndDateTime = start.Date.AddHours(20),
             IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
         });
+        // Act
+        // Assert
         inHours.Errors.Should().NotContain(e => e.ErrorMessage.Contains("WorkingHours"));
         outOfHours.Errors.Should().Contain(e => e.ErrorMessage.Contains("WorkingHours"));
         endPastWorking.Errors.Should().Contain(e => e.ErrorMessage.Contains("WorkingHours"));
     }
 
+    // Cenário: ScheduleItemValidationContextValidator com overlap, sem overlap e nulos.
+    // Objetivo: cobrir todos os ramos de conflito de agenda.
     [Test]
     public async Task ScheduleItemValidationContextValidator_AllOverlapBranches_AreCovered()
     {
+        // Arrange
         var monday = DateTime.UtcNow.Date.AddDays(45).AddHours(10);
         var validator = new ScheduleItemValidationContextValidator();
         var overlap = await validator.ValidateAsync(new ScheduleItemValidationContext
@@ -649,18 +695,25 @@ public class DomainBranchFinalPushTests
             NewItem = new ScheduleItem { MedicalId = 1, PatientId = 1, StartDateTime = monday, EndDateTime = monday.AddHours(2) },
             ExistingItems = [new ScheduleItem { MedicalId = 1, PatientId = 1, StartDateTime = monday.AddHours(1), EndDateTime = null }]
         });
+        // Act
+        // Assert
         overlap.IsValid.Should().BeFalse();
         noOverlap.IsValid.Should().BeTrue();
         nullExisting.IsValid.Should().BeTrue();
         existingNullEnd.IsValid.Should().BeTrue();
     }
 
+    // Cenário: EnumDescriptionConverter, RecurrenceMaterializer e LogAppHelper finais.
+    // Objetivo: fechar branches restantes de descrição, recorrência e assembly.
     [Test]
     public void EnumConverter_RecurrenceAndLogApp_FinalBranches()
     {
+        // Arrange
         LogAppHelper.EntryAssemblyProviderForTests = () => typeof(DomainBranchFinalPushTests).Assembly;
         try
         {
+        // Act
+            // Assert
             LogAppHelper.GetAssemblyVersion().Should().NotBeNullOrEmpty();
         }
         finally

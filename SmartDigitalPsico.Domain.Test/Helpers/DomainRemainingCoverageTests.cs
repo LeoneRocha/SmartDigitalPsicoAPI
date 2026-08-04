@@ -195,6 +195,8 @@ public class DomainRemainingCoverageTests
             InvokeAddBestFitWithColumns(output);
 
             var adapter = new ExcelGeneratorOpenXmlAdapter();
+
+            // Act
             await adapter.Generate(new ReportWorkbookDataDto
             {
                 Sheets = [new ReportSheetDataDto { Name = "A", Rows = [new { Value = 1 }] }]

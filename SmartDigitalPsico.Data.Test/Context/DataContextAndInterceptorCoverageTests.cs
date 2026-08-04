@@ -12,9 +12,12 @@ namespace SmartDigitalPsico.Data.Test.Context;
 [TestFixture]
 public class DataContextAndInterceptorCoverageTests
 {
+    // Cenário: contextos SqlServer e MySql com interceptor de auditoria.
+    // Objetivo: construir modelos e aplicar OnBeforeSaveChanges no SaveChangesAsync.
     [Test]
     public async Task SqlServerAndMySqlContexts_ConstructModelsAndApplyAuditInterceptor()
     {
+        // Arrange
         var auditService = new Mock<IAuditContextService>();
         auditService.Setup(service => service.OnBeforeSaveChanges(It.IsAny<DbContext>()))
             .Returns([]);
@@ -35,6 +38,7 @@ public class DataContextAndInterceptorCoverageTests
         await using var sql = new SmartDigitalPsicoDataContextSqlServer(sqlOptions, interceptor);
         await using var mysql = new SmartDigitalPsicoDataContextMySql(mysqlOptions, interceptor);
 
+        // Act
         sql.Model.GetEntityTypes().Should().NotBeEmpty();
         mysql.Model.GetEntityTypes().Should().NotBeEmpty();
         sql.ApplicationCacheLogs.Add(new ApplicationCacheLog { CacheId = "sql", CacheKey = "key" });
@@ -43,6 +47,7 @@ public class DataContextAndInterceptorCoverageTests
         await sql.SaveChangesAsync();
         await mysql.SaveChangesAsync();
 
+        // Assert
         auditService.Verify(service => service.OnBeforeSaveChanges(It.IsAny<DbContext>()), Times.AtLeast(2));
         sqlDefault.Should().NotBeNull();
         mysqlDefault.Should().NotBeNull();

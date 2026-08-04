@@ -22,11 +22,14 @@ public class NotificationDispatchJobServiceTests
     [Test]
     public async Task ProcessPendingNotificationsAsync_NoPendingRecords_CompletesWithoutUpdates()
     {
+        // Arrange
         var context = new DispatchJobContext();
         context.NotificationRecordsService.Setup(x => x.GetPendingNotificationsAsync()).ReturnsAsync([]);
 
+        // Act
         await context.Service.ProcessPendingNotificationsAsync();
 
+        // Assert
         context.NotificationRecordsService.Verify(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()), Times.Never);
     }
 
@@ -35,13 +38,16 @@ public class NotificationDispatchJobServiceTests
     [Test]
     public async Task ProcessPendingNotificationsAsync_RulesNotDue_SkipsProcessing()
     {
+        // Arrange
         var context = new DispatchJobContext();
         var futureRule = new NotificationRuleStatus { IsSent = false, ScheduledSendTime = DateTime.UtcNow.AddDays(5) };
         var record = new NotificationRecord { Id = 1, TokenId = Guid.NewGuid(), NotificationRules = [futureRule] };
         context.NotificationRecordsService.Setup(x => x.GetPendingNotificationsAsync()).ReturnsAsync([record]);
 
+        // Act
         await context.Service.ProcessPendingNotificationsAsync();
 
+        // Assert
         context.NotificationRecordsService.Verify(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()), Times.Never);
     }
 
@@ -50,13 +56,16 @@ public class NotificationDispatchJobServiceTests
     [Test]
     public async Task ProcessPendingNotificationsAsync_EmptyTokenId_SkipsRecord()
     {
+        // Arrange
         var context = new DispatchJobContext();
         var dueRule = new NotificationRuleStatus { IsSent = false, ScheduledSendTime = DateTime.UtcNow.AddMinutes(-5) };
         var record = new NotificationRecord { Id = 2, TokenId = Guid.Empty, NotificationRules = [dueRule] };
         context.NotificationRecordsService.Setup(x => x.GetPendingNotificationsAsync()).ReturnsAsync([record]);
 
+        // Act
         await context.Service.ProcessPendingNotificationsAsync();
 
+        // Assert
         context.NotificationRecordsService.Verify(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()), Times.Never);
     }
 
@@ -65,6 +74,7 @@ public class NotificationDispatchJobServiceTests
     [Test]
     public async Task ProcessPendingNotificationsAsync_MissingPackage_SkipsRecord()
     {
+        // Arrange
         var context = new DispatchJobContext();
         var token = Guid.NewGuid();
         var dueRule = new NotificationRuleStatus { IsSent = false, ScheduledSendTime = DateTime.UtcNow.AddMinutes(-5) };
@@ -72,8 +82,10 @@ public class NotificationDispatchJobServiceTests
         context.NotificationRecordsService.Setup(x => x.GetPendingNotificationsAsync()).ReturnsAsync([record]);
         context.ScheduleCalendarRepository.Setup(x => x.GetByUniqueTokenAsync(token.ToString())).ReturnsAsync((ScheduleCalendar?)null);
 
+        // Act
         await context.Service.ProcessPendingNotificationsAsync();
 
+        // Assert
         context.NotificationRecordsService.Verify(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()), Times.Never);
     }
 
@@ -82,6 +94,7 @@ public class NotificationDispatchJobServiceTests
     [Test]
     public async Task ProcessPendingNotificationsAsync_ValidPendingRecord_NotifiesAndUpdatesRecord()
     {
+        // Arrange
         var context = new DispatchJobContext();
         var token = Guid.NewGuid();
         var dueRule = new NotificationRuleStatus { NotificationRuleId = 1, IsSent = false, ScheduledSendTime = DateTime.UtcNow.AddMinutes(-5) };
@@ -108,10 +121,13 @@ public class NotificationDispatchJobServiceTests
             .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
 
         int? lastProcessed = null;
+
+        // Act
         context.Service.ProgressChanged += (_, args) => lastProcessed = args.Processed;
 
         await context.Service.ProcessPendingNotificationsAsync();
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             dueRule.IsSent.Should().BeTrue();
@@ -126,12 +142,15 @@ public class NotificationDispatchJobServiceTests
     [Test]
     public async Task ProcessPendingNotificationsAsync_NullRules_SkipsRecord()
     {
+        // Arrange
         var context = new DispatchJobContext();
         var record = new NotificationRecord { Id = 5, TokenId = Guid.NewGuid(), NotificationRules = null! };
         context.NotificationRecordsService.Setup(x => x.GetPendingNotificationsAsync()).ReturnsAsync([record]);
 
+        // Act
         await context.Service.ProcessPendingNotificationsAsync();
 
+        // Assert
         context.NotificationRecordsService.Verify(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()), Times.Never);
     }
 
@@ -140,6 +159,7 @@ public class NotificationDispatchJobServiceTests
     [Test]
     public async Task ProcessPendingNotificationsAsync_PartialRulesSent_KeepsNextScheduledTime()
     {
+        // Arrange
         var context = new DispatchJobContext();
         var token = Guid.NewGuid();
         var dueRule = new NotificationRuleStatus { NotificationRuleId = 1, IsSent = false, ScheduledSendTime = DateTime.UtcNow.AddMinutes(-10) };
@@ -162,8 +182,10 @@ public class NotificationDispatchJobServiceTests
         context.NotificationRecordsService.Setup(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()))
             .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
 
+        // Act
         await context.Service.ProcessPendingNotificationsAsync();
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             dueRule.IsSent.Should().BeTrue();

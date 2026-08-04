@@ -42,10 +42,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
+        // Cenário: pacientes persistidos no contexto de teste.
+        // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingPatients_ReturnsAllRecords()
         {
-            // Inicialize  Repository
+            // Arrange
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientRepository(_mockContext);
 
@@ -63,10 +65,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: busca de paciente por CPF existente.
+        // Objetivo: garantir que FindByPatient retorne o paciente correspondente.
         [Test]
-        public async Task FindByPatient_By_CPF_Success_ReturnsPatient()
+        public async Task FindByPatient_ByCpf_ReturnsPatient()
         {
-            // Arrange 
+            // Arrange
             var mockData = PatientMockHelper.GetMock().Take(totalRegister).AsQueryable().First();
 
             // Inicialize  Repository
@@ -89,10 +93,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result.Cpf, Is.EqualTo(mockData.Cpf));
             }
         }
+
+        // Cenário: busca de paciente por RG existente.
+        // Objetivo: garantir que FindByPatient retorne o paciente correspondente.
         [Test]
-        public async Task FindByPatient_By_Rg_Success_ReturnsPatient()
+        public async Task FindByPatient_ByRg_ReturnsPatient()
         {
-            // Arrange 
+            // Arrange
             var mockData = PatientMockHelper.GetMock().Take(totalRegister).AsQueryable().First();
 
             // Inicialize  Repository
@@ -115,10 +122,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result.Cpf, Is.EqualTo(mockData.Cpf));
             }
         }
+
+        // Cenário: busca de paciente por e-mail existente via FindByPatient.
+        // Objetivo: garantir que FindByPatient retorne o paciente correspondente.
         [Test]
-        public async Task FindByPatient_By_Email_Success_ReturnsPatient()
+        public async Task FindByPatient_ByEmail_ReturnsPatient()
         {
-            // Arrange 
+            // Arrange
             var mockData = PatientMockHelper.GetMock().Take(totalRegister).AsQueryable().First();
 
             // Inicialize  Repository
@@ -142,10 +152,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: busca por Id de paciente existente.
+        // Objetivo: garantir que FindByID retorne o paciente com navegações.
         [Test]
-        public async Task FindByID_Success_ReturnsPatient()
+        public async Task FindByID_ExistingId_ReturnsPatient()
         {
-            // Arrange 
+            // Arrange
             var mockData = PatientMockHelper.GetMock().Take(totalRegister).AsQueryable().First();
 
             // Inicialize  Repository
@@ -155,6 +167,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
 
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
@@ -165,10 +178,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result.CreatedUser, Is.Not.Null);
             }
         }
+
+        // Cenário: busca por e-mail de paciente existente.
+        // Objetivo: garantir que FindByEmail retorne o paciente correspondente.
         [Test]
-        public async Task FindByEmail_Success_ReturnsPatient()
+        public async Task FindByEmail_ExistingEmail_ReturnsPatient()
         {
-            // Arrange 
+            // Arrange
             var mockData = PatientMockHelper.GetMock().Take(totalRegister).AsQueryable().First();
 
             // Inicialize  Repository
@@ -178,6 +194,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByEmail(mockData.Email);
 
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
@@ -185,10 +202,13 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result?.Email, Is.EqualTo(mockData.Email));
             }
         }
+
+        // Cenário: listagem de pacientes por MedicalId existente.
+        // Objetivo: garantir que FindAllByMedicalId retorne a lista com navegações.
         [Test]
-        public async Task FindAllByMedicalId_Success_ReturnsPatient()
+        public async Task FindAllByMedicalId_ExistingMedicalId_ReturnsPatients()
         {
-            // Arrange 
+            // Arrange
             var mockData = PatientMockHelper.GetMock().Take(totalRegister).AsQueryable().First();
 
             // Inicialize  Repository
@@ -198,6 +218,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var listResult = await _entityRepository.FindAllByMedicalId(mockData.MedicalId);
 
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);

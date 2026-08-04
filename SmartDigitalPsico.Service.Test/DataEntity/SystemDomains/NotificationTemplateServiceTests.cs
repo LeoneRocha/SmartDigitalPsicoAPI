@@ -75,6 +75,7 @@ public class NotificationTemplateServiceTests
 
         // Assert
         result.Success.Should().BeTrue();
+
         context.Repository.Verify(x => x.Create(It.Is<NotificationTemplate>(t => !t.Body.Contains("<script>", StringComparison.OrdinalIgnoreCase))), Times.Once);
     }
 
@@ -104,6 +105,7 @@ public class NotificationTemplateServiceTests
 
         // Assert
         result.Success.Should().BeTrue();
+
         context.Repository.Verify(x => x.Update(It.Is<NotificationTemplate>(t => !t.Body.Contains("onerror", StringComparison.OrdinalIgnoreCase))), Times.Once);
     }
 

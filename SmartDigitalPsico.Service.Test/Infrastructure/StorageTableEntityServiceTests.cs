@@ -13,7 +13,7 @@ public class StorageTableEntityServiceTests
     // Cenário: fábrica cria contrato interno e operações são delegadas.
     // Objetivo: cobrir ctor e todos os métodos públicos do StorageTableEntityService.
     [Test]
-    public async Task StorageTableEntityService_DelegatesAllOperationsToFactoryCreatedRepository()
+    public async Task StorageTableEntityService_AllOperations_DelegateToFactoryRepository()
     {
         // Arrange
         var inner = new Mock<IStorageTableContract<ProbeTableEntity>>();

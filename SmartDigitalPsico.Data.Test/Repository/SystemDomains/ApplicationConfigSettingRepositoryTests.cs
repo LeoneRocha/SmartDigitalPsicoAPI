@@ -29,8 +29,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
+        // Cenário: configuração de aplicação persistida no contexto de teste.
+        // Objetivo: garantir que FindAll retorne o registro cadastrado.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingSettings_ReturnsAllRecords()
         {
             // Arrange
             var mockDataList = OfficeMockData.GetMock().Take(1).AsQueryable();

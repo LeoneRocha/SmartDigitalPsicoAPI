@@ -214,15 +214,23 @@ public class GeneralHelpersTests
         // Arrange
         var empty = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>()).Build();
 
-        // Act / Assert
+        // Act
+        var connection = ConfigurationAppSettingsHelper.GetConnectionStringApp(empty, "missing");
+        var value = ConfigurationAppSettingsHelper.GetValueStringConfiguration(empty, "missing");
+        var storage = ConfigurationAppSettingsHelper.GetStorageServicesAzureStorageConnectionString(empty);
+        var days = ConfigurationAppSettingsHelper.GetStorageServicesAzureStorageDaysExpiresBlobSas(empty);
+        var aesKey = ConfigurationAppSettingsHelper.GetSecuritySettingsAesSettingAesKey(empty);
+        var aesIv = ConfigurationAppSettingsHelper.GetSecuritySettingsAesSettingAesIv(empty);
+
+        // Assert
         using (Assert.EnterMultipleScope())
         {
-            ConfigurationAppSettingsHelper.GetConnectionStringApp(empty, "missing").Should().BeEmpty();
-            ConfigurationAppSettingsHelper.GetValueStringConfiguration(empty, "missing").Should().BeEmpty();
-            ConfigurationAppSettingsHelper.GetStorageServicesAzureStorageConnectionString(empty).Should().BeEmpty();
-            ConfigurationAppSettingsHelper.GetStorageServicesAzureStorageDaysExpiresBlobSas(empty).Should().BeEmpty();
-            ConfigurationAppSettingsHelper.GetSecuritySettingsAesSettingAesKey(empty).Should().BeEmpty();
-            ConfigurationAppSettingsHelper.GetSecuritySettingsAesSettingAesIv(empty).Should().BeEmpty();
+            connection.Should().BeEmpty();
+            value.Should().BeEmpty();
+            storage.Should().BeEmpty();
+            days.Should().BeEmpty();
+            aesKey.Should().BeEmpty();
+            aesIv.Should().BeEmpty();
         }
     }
 

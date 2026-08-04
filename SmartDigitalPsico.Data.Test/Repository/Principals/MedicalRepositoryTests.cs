@@ -48,9 +48,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
+        // Cenário: existem médicos persistidos no contexto.
+        // Objetivo: retornar todos os Medical cadastrados.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingRecords_ReturnsAllRecords()
         {
+            // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new MedicalRepository(_mockContext);
@@ -69,14 +72,16 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: existe um médico com accreditation conhecida.
+        // Objetivo: retornar true quando a accreditation já estiver cadastrada.
         [Test]
         public async Task Exists_WithExistingAccreditation_ReturnsTrue()
         {
+            // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new MedicalRepository(_mockContext);
 
-            // Arrange
             var mockData  = MedicalMockHelper.GetMock().AsQueryable().First();
              
             var accreditation = mockData.Accreditation; 
@@ -88,8 +93,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             Assert.That(result, Is.True);  
         }
 
+        // Cenário: existe um médico com office e especialidades associadas.
+        // Objetivo: retornar o Medical pelo ID com navegação carregada.
         [Test]
-        public async Task FindByID_Success_ReturnsMedical()
+        public async Task FindByID_ExistingId_ReturnsMedical()
         {
             // Arrange 
             var mockData = MedicalMockHelper.GetMock().AsQueryable().First();
@@ -101,6 +108,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
 
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
@@ -113,8 +121,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: existe um médico com accreditation conhecida.
+        // Objetivo: retornar o Medical correspondente à accreditation informada.
         [Test]
-        public async Task FindByAccreditation_Success_ReturnsMedical()
+        public async Task FindByAccreditation_ExistingAccreditation_ReturnsMedical()
         {
             // Arrange 
             var mockData = MedicalMockHelper.GetMock().AsQueryable().First();
@@ -126,6 +136,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByAccreditation(mockData.Accreditation);
 
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);
@@ -140,8 +151,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         }
 
 
+        // Cenário: existe um médico com e-mail conhecido.
+        // Objetivo: retornar o Medical correspondente ao e-mail informado.
         [Test]
-        public async Task FindByEmail_Success_ReturnsMedical()
+        public async Task FindByEmail_ExistingEmail_ReturnsMedical()
         {
             // Arrange 
             var mockData = MedicalMockHelper.GetMock().AsQueryable().First();
@@ -153,6 +166,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByEmail(mockData.Email);
 
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);

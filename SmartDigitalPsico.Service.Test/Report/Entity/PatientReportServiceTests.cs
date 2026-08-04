@@ -20,11 +20,14 @@ public class PatientReportServiceTests
     [Test]
     public async Task GetPatientDetailsByIdAsync_PatientNotFound_ReturnsFailure()
     {
+        // Arrange
         var context = new PatientReportServiceContext();
         context.PatientRepository.Setup(x => x.GetPatientDetailsByIdAsync(10)).ReturnsAsync((Patient)null!);
 
+        // Act
         var result = await context.Service.GetPatientDetailsByIdAsync(10);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -33,7 +36,10 @@ public class PatientReportServiceTests
     [Test]
     public async Task GetPatientDetailsByIdAsync_UserWithoutPermission_ReturnsPermissionFailure()
     {
+        // Arrange
         var context = new PatientReportServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         var patient = new Patient { Id = 10, CreatedUser = new User { Id = 2 } };
         context.PatientRepository.Setup(x => x.GetPatientDetailsByIdAsync(10)).ReturnsAsync(patient);
@@ -41,6 +47,7 @@ public class PatientReportServiceTests
 
         var result = await context.Service.GetPatientDetailsByIdAsync(10);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -49,7 +56,10 @@ public class PatientReportServiceTests
     [Test]
     public async Task GetPatientDetailsByIdAsync_AdminUser_ReturnsMappedDataWithDecryptedAnnotations()
     {
+        // Arrange
         var context = new PatientReportServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         var medical = new Medical { Id = 3, SecurityKey = "key123" };
         var patient = new Patient
@@ -65,6 +75,7 @@ public class PatientReportServiceTests
 
         var result = await context.Service.GetPatientDetailsByIdAsync(10);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -77,11 +88,14 @@ public class PatientReportServiceTests
     [Test]
     public async Task GetPatientDetailsByIdAsync_RepositoryThrows_ReturnsControlledFailure()
     {
+        // Arrange
         var context = new PatientReportServiceContext();
         context.PatientRepository.Setup(x => x.GetPatientDetailsByIdAsync(It.IsAny<long>())).ThrowsAsync(new InvalidOperationException("boom"));
 
+        // Act
         var result = await context.Service.GetPatientDetailsByIdAsync(11);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -90,11 +104,14 @@ public class PatientReportServiceTests
     [Test]
     public async Task DownloadReportPatientDetailsById_PatientNotFound_ReturnsEmptyFileResult()
     {
+        // Arrange
         var context = new PatientReportServiceContext();
         context.PatientRepository.Setup(x => x.GetPatientDetailsByIdAsync(99)).ReturnsAsync((Patient)null!);
 
+        // Act
         var result = await context.Service.DownloadReportPatientDetailsById(99, EReportOutputType.Pdf);
 
+        // Assert
         result.Should().NotBeNull();
         result.ContentType.Should().Be("application/octet-stream");
     }
@@ -104,8 +121,12 @@ public class PatientReportServiceTests
     [Test]
     public async Task DownloadReportPatientDetailsById_ValidPatientPdf_ReturnsFileContent()
     {
+        // Arrange
         var context = new PatientReportServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
+
         var patient = new Patient
         {
             Id = 30,
@@ -120,6 +141,8 @@ public class PatientReportServiceTests
         context.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
         var tempFile = Path.GetTempFileName();
         await File.WriteAllTextAsync(tempFile, "pdf-content");
+
+        // Assert
         context.PdfReportService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Domain.DTO.Report.ReportPageContentDto>()))
             .ReturnsAsync(tempFile);
         var configuration = new Mock<IConfiguration>();
@@ -144,8 +167,12 @@ public class PatientReportServiceTests
     [Test]
     public async Task DownloadReportPatientDetailsById_ValidPatientExcel_ReturnsFileContent()
     {
+        // Arrange
         var context = new PatientReportServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
+
         var patient = new Patient
         {
             Id = 31,
@@ -160,6 +187,8 @@ public class PatientReportServiceTests
         context.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
         var tempFile = Path.GetTempFileName();
         await File.WriteAllTextAsync(tempFile, "excel-content");
+
+        // Assert
         context.ExcelGeneratorService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Domain.DTO.Report.ReportWorkbookDataDto>()))
             .ReturnsAsync(tempFile);
         var configuration = new Mock<IConfiguration>();
@@ -184,7 +213,10 @@ public class PatientReportServiceTests
     [Test]
     public async Task DownloadReportPatientDetailsById_UnknownOutputType_ReturnsEmptyFile()
     {
+        // Arrange
         var context = new PatientReportServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         var patient = new Patient { Id = 32, CreatedUser = new User { Id = 1 }, Medical = new Medical { SecurityKey = "key" } };
         context.PatientRepository.Setup(x => x.GetPatientDetailsByIdAsync(32)).ReturnsAsync(patient);
@@ -192,6 +224,7 @@ public class PatientReportServiceTests
 
         var result = await context.Service.DownloadReportPatientDetailsById(32, (EReportOutputType)999);
 
+        // Assert
         result.ContentType.Should().Be("application/octet-stream");
     }
 
@@ -200,7 +233,10 @@ public class PatientReportServiceTests
     [Test]
     public async Task DownloadReportPatientDetailsById_ValidPatient_HandlesFileGenerationGracefully()
     {
+        // Arrange
         var context = new PatientReportServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         var patient = new Patient { Id = 20, CreatedUser = new User { Id = 1 }, Medical = new Medical { SecurityKey = "key" } };
         context.PatientRepository.Setup(x => x.GetPatientDetailsByIdAsync(20)).ReturnsAsync(patient);
@@ -210,6 +246,7 @@ public class PatientReportServiceTests
 
         var result = await context.Service.DownloadReportPatientDetailsById(20, EReportOutputType.Excel);
 
+        // Assert
         result.Should().NotBeNull();
     }
 

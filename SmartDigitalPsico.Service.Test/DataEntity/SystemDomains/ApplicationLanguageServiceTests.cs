@@ -24,6 +24,7 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task FindAll_CacheDisabled_ReturnsMappedList()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(false);
         context.Repository.Setup(x => x.FindAll()).ReturnsAsync(new List<ApplicationLanguage>
@@ -31,8 +32,10 @@ public class ApplicationLanguageServiceTests
             new() { Id = 1, Language = "en-US", LanguageKey = "key", LanguageValue = "value" }
         });
 
+        // Act
         var result = await context.Service.FindAll();
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -45,13 +48,16 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task GetLocalization_KeyExistsInDatabase_ReturnsStoredValue()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(false);
         context.Repository.Setup(x => x.ExistLanguage(It.IsAny<string>(), "SomeKey", "SharedResource")).ReturnsAsync(true);
         context.Repository.Setup(x => x.Find(It.IsAny<string>(), "SomeKey", "SharedResource")).ReturnsAsync(new ApplicationLanguage { LanguageValue = "Valor Armazenado" });
 
+        // Act
         var result = await context.Service.GetLocalization<ISharedResource>("SomeKey", "Default", context.Cache.Object);
 
+        // Assert
         result.Should().Be("Valor Armazenado");
     }
 
@@ -60,14 +66,17 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task GetLocalization_KeyNotFound_InsertsDefaultLanguageAndReturnsFallback()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(false);
         context.Repository.Setup(x => x.ExistLanguage(It.IsAny<string>(), "MissingKey", "SharedResource")).ReturnsAsync(false);
         context.Repository.Setup(x => x.ExistLanguage("en-US", "MissingKey", "SharedResource")).ReturnsAsync(false);
         context.Repository.Setup(x => x.Create(It.IsAny<ApplicationLanguage>())).ReturnsAsync((ApplicationLanguage a) => { a.Id = 5; return a; });
 
+        // Act
         var result = await context.Service.GetLocalization<ISharedResource>("MissingKey", "Default Message", context.Cache.Object);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Should().Contain("MissingKey");
@@ -81,12 +90,15 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task GetLocalization_RepositoryThrows_ReturnsControlledFallback()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(false);
         context.Repository.Setup(x => x.ExistLanguage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).ThrowsAsync(new InvalidOperationException("boom"));
 
+        // Act
         var result = await context.Service.GetLocalization<ISharedResource>("BrokenKey", "Default", context.Cache.Object);
 
+        // Assert
         result.Should().Contain("BrokenKey");
     }
 
@@ -95,9 +107,11 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task Save_ValidItem_CreatesEntity()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Repository.Setup(x => x.Create(It.IsAny<ApplicationLanguage>())).ReturnsAsync((ApplicationLanguage a) => { a.Id = 9; return a; });
 
+        // Act
         await context.Service.Save(new SmartDigitalPsico.Domain.DTO.Domains.AddDTOs.AddApplicationLanguageDto
         {
             Language = "en-US",
@@ -106,6 +120,7 @@ public class ApplicationLanguageServiceTests
             ResourceKey = "SharedResource"
         });
 
+        // Assert
         context.Repository.Verify(x => x.Create(It.IsAny<ApplicationLanguage>()), Times.Once);
     }
 
@@ -114,11 +129,14 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task RemoveCache_CacheDisabled_DoesNothing()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(false);
 
+        // Act
         await context.Service.RemoveCache("SomeKey");
 
+        // Assert
         context.Cache.Verify(x => x.Remove<object>(It.IsAny<string>()), Times.Never);
     }
 
@@ -127,6 +145,7 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task FindAll_CacheEnabledMiss_LoadsFromRepositoryAndCaches()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
         context.Cache.Setup(x => x.GetSlidingExpiration()).Returns(DateTime.UtcNow.AddMinutes(30));
@@ -135,8 +154,10 @@ public class ApplicationLanguageServiceTests
         context.Cache.Setup(x => x.Set(It.IsAny<string>(), It.IsAny<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>())).Returns(true);
         context.Repository.Setup(x => x.FindAll()).ReturnsAsync([new ApplicationLanguage { Id = 1, Language = "pt-BR", LanguageKey = "k", LanguageValue = "v", ResourceKey = "SharedResource" }]);
 
+        // Act
         var result = await context.Service.FindAll();
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -150,6 +171,7 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task FindAll_CacheEnabledHit_ReturnsCachedData()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         var cached = new ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
             new ServiceResponse<List<GetApplicationLanguageDto>> { Data = [new GetApplicationLanguageDto { Id = 99 }], Success = true },
@@ -158,9 +180,12 @@ public class ApplicationLanguageServiceTests
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
         context.Cache.Setup(x => x.TryGet("FindAll_GetApplicationLanguageVO", out cached)).Returns(true);
 
+        // Act
         var result = await context.Service.FindAll();
 
+        // Assert
         result.Data.Should().ContainSingle(x => x.Id == 99);
+
         context.Repository.Verify(x => x.FindAll(), Times.Never);
     }
 
@@ -169,6 +194,7 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task GetLocalization_KeyFoundInCache_ReturnsCachedValue()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         var culture = CultureInfo.CurrentCulture.Name;
         var cached = new ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
@@ -186,9 +212,12 @@ public class ApplicationLanguageServiceTests
         context.Cache.Setup(x => x.Exists<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO")).Returns(true);
         context.Cache.Setup(x => x.TryGet("FindAll_GetApplicationLanguageVO", out cached)).Returns(true);
 
+        // Act
         var result = await context.Service.GetLocalization<ISharedResource>("Welcome", "Default", context.Cache.Object);
 
+        // Assert
         result.Should().Be("Olá");
+
         context.Repository.Verify(x => x.ExistLanguage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 
@@ -197,6 +226,7 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task GetLocalization_FallbackToEnUsInCache_ReturnsDefaultCultureValue()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         var cached = new ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
             new ServiceResponse<List<GetApplicationLanguageDto>>
@@ -216,8 +246,10 @@ public class ApplicationLanguageServiceTests
         context.Repository.Setup(x => x.ExistLanguage("en-US", "Greeting", "SharedResource")).ReturnsAsync(false);
         context.Repository.Setup(x => x.Create(It.IsAny<ApplicationLanguage>())).ReturnsAsync((ApplicationLanguage a) => { a.Id = 1; return a; });
 
+        // Act
         var result = await context.Service.GetLocalization<ISharedResource>("Greeting", "Fallback", context.Cache.Object);
 
+        // Assert
         result.Should().Be("Hello");
     }
 
@@ -226,14 +258,18 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task GetLocalization_DefaultLanguageAlreadyExists_SkipsInsert()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(false);
         context.Repository.Setup(x => x.ExistLanguage(It.IsAny<string>(), "ExistingDefault", "SharedResource")).ReturnsAsync(false);
         context.Repository.Setup(x => x.ExistLanguage("en-US", "ExistingDefault", "SharedResource")).ReturnsAsync(true);
 
+        // Act
         var result = await context.Service.GetLocalization<ISharedResource>("ExistingDefault", "Default Msg", context.Cache.Object);
 
+        // Assert
         result.Should().BeEmpty();
+
         context.Repository.Verify(x => x.Create(It.IsAny<ApplicationLanguage>()), Times.Never);
     }
 
@@ -242,6 +278,7 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task GetLocalization_InsertDefaultThrows_LogsAndReturnsFallback()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(false);
         context.Repository.Setup(x => x.ExistLanguage(It.IsAny<string>(), "BrokenInsert", "SharedResource")).ReturnsAsync(false);
@@ -249,8 +286,10 @@ public class ApplicationLanguageServiceTests
         // Save() engole a exceção do Create e registra Error; o fluxo segue com mensagem default.
         context.Repository.Setup(x => x.Create(It.IsAny<ApplicationLanguage>())).ThrowsAsync(new InvalidOperationException("db error"));
 
+        // Act
         var result = await context.Service.GetLocalization<ISharedResource>("BrokenInsert", "Default", context.Cache.Object);
 
+        // Assert
         result.Should().Be("NotFoundLocalizationButInsertedDefault|BrokenInsert|Default");
         context.Context.Logger.Verify(
             x => x.Error(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()),
@@ -293,12 +332,15 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task RemoveCache_CacheEnabled_RemovesEntry()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
         context.Cache.Setup(x => x.Remove<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO")).Returns(true);
 
+        // Act
         await context.Service.RemoveCache("FindAll_GetApplicationLanguageVO");
 
+        // Assert
         context.Cache.Verify(x => x.Remove<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO"), Times.Once);
     }
 
@@ -307,6 +349,7 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task GetLocalization_NewKeyWithCacheEnabled_RefreshesCacheAfterInsert()
     {
+        // Arrange
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
         context.Cache.Setup(x => x.Exists<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO")).Returns(false);
@@ -320,9 +363,12 @@ public class ApplicationLanguageServiceTests
         context.Repository.Setup(x => x.Create(It.IsAny<ApplicationLanguage>())).ReturnsAsync((ApplicationLanguage a) => { a.Id = 8; return a; });
         context.Repository.Setup(x => x.FindAll()).ReturnsAsync([]);
 
+        // Act
         var result = await context.Service.GetLocalization<ISharedResource>("CacheRefresh", "Default", context.Cache.Object);
 
+        // Assert
         result.Should().Contain("CacheRefresh");
+
         context.Repository.Verify(x => x.FindAll(), Times.AtLeast(2));
     }
 
@@ -331,11 +377,14 @@ public class ApplicationLanguageServiceTests
     [Test]
     public async Task GetLocalizationStatic_WithLocalizer_ReturnsLocalizedString()
     {
+        // Arrange
         var localizer = new Mock<IStringLocalizer<ISharedResource>>();
         localizer.Setup(x => x["Welcome"]).Returns(new LocalizedString("Welcome", "Bem-vindo"));
 
+        // Act
         var result = await ApplicationLanguageService.GetLocalization<ISharedResource>("Welcome", localizer.Object);
 
+        // Assert
         result.Should().Be("Bem-vindo");
     }
 

@@ -26,21 +26,29 @@ public class AzureStorageAdaptersCoverageTests
         var queue = new AzureStorageQueueAdapter(empty, "q");
         var blob = new AzureStorageBlobAdapter(empty);
 
-        // Act / Assert
-        (await table.GetAllAsync()).Should().BeEmpty();
-        (await table.GetByIdAsync("p", "r")).Should().NotBeNull();
+        // Act
+        var all = await table.GetAllAsync();
+        var byId = await table.GetByIdAsync("p", "r");
         await table.InsertAsync(new UserTokenSessionTableEntity());
         await table.UpdateAsync(new UserTokenSessionTableEntity());
         await table.DeleteAsync("p", "r");
-
         await queue.EnqueueMessageAsync("m");
-        (await queue.DequeueMessageAsync()).Should().BeEmpty();
+        var dequeued = await queue.DequeueMessageAsync();
         await queue.DeleteMessageAsync("id", "pop");
-
-        (await blob.UploadFileReturnUrl(new BlobFileDto { ContainerName = "c", FilePath = "x" })).Should().BeEmpty();
-        (await blob.GetFileStorageUrlPublic("c", "b")).Should().BeEmpty();
+        var uploadUrl = await blob.UploadFileReturnUrl(new BlobFileDto { ContainerName = "c", FilePath = "x" });
+        var publicUrl = await blob.GetFileStorageUrlPublic("c", "b");
         await blob.CreateContainerIfNotExists("c");
         await blob.DownloadFile("c", "b", Path.GetTempFileName());
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            all.Should().BeEmpty();
+            byId.Should().NotBeNull();
+            dequeued.Should().BeEmpty();
+            uploadUrl.Should().BeEmpty();
+            publicUrl.Should().BeEmpty();
+        }
         Assert.ThrowsAsync<InvalidOperationException>(async () => await blob.DeleteBlobAsync("c", "b"));
     }
 
@@ -125,12 +133,15 @@ public class AzureStorageAdaptersCoverageTests
         var sut = new AzureStorageBlobAdapter(cfg, blobService);
         var container = $"c{Guid.NewGuid():N}"[..12];
         var tempFile = Path.GetTempFileName();
+
+        // Act
         await File.WriteAllTextAsync(tempFile, "blob-content");
+
+        // Assert
         var downloadPath = Path.Combine(Path.GetTempPath(), $"dl-{Guid.NewGuid():N}.txt");
 
         try
         {
-            // Act
             var url = await sut.UploadFileReturnUrl(new BlobFileDto
             {
                 ContainerName = container,
@@ -141,7 +152,6 @@ public class AzureStorageAdaptersCoverageTests
             await sut.DownloadFile(container, "file.txt", downloadPath);
             await sut.DeleteBlobAsync(container, "file.txt");
 
-            // Assert
             using (Assert.EnterMultipleScope())
             {
                 url.Should().NotBeNullOrWhiteSpace();
@@ -191,6 +201,7 @@ public class AzureStorageAdaptersCoverageTests
         // Assert
         dequeued.Should().Be("injected");
         (await table.GetByIdAsync("p", "r1")).RowKey.Should().Be("r1");
+
     }
 
     // Cenário: ctors com connection string apontando para Azurite.
@@ -202,10 +213,11 @@ public class AzureStorageAdaptersCoverageTests
         AssumeAzuriteAvailable();
         var cfg = BuildAzuriteConfig();
 
-        // Act
         var table = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(cfg, $"cfg{Guid.NewGuid():N}"[..12]);
         var queue = new AzureStorageQueueAdapter(cfg, $"cfgq{Guid.NewGuid():N}"[..12]);
         var blob = new AzureStorageBlobAdapter(cfg);
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())

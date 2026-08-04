@@ -49,6 +49,8 @@ public class MedicalScheduleDeleteServiceTests
         });
         delete.Setup(x => x.DeleteByTokenFilteredAsync(It.IsAny<ScheduleDeleteTokenRequest>()))
             .ReturnsAsync(new ServiceResponse<bool> { Success = true });
+
+        // Act
         var ok = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto
         {
             MedicalId = 3,
@@ -86,6 +88,7 @@ public class MedicalScheduleDeleteServiceTests
             DeleteSeries = true,
             TokenRecurrence = "missing"
         });
+
         var packageNullDenied = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto
         {
             MedicalId = 99,
@@ -113,6 +116,8 @@ public class MedicalScheduleDeleteServiceTests
         // Arrange
         var ctx = CreateContext(out var query, out var delete, out var sut);
         query.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(new ServiceResponse<ScheduleCalendar> { Success = false });
+
+        // Act
         var missing = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto { Id = 1, MedicalId = 3 });
 
         query.Setup(x => x.GetByIdAsync(2)).ReturnsAsync(new ServiceResponse<ScheduleCalendar>
@@ -131,6 +136,7 @@ public class MedicalScheduleDeleteServiceTests
         var failDelete = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto { Id = 3, MedicalId = 3 });
 
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync((User?)null);
+
         var missingUser = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto { Id = 3, MedicalId = 3 });
 
         // Assert

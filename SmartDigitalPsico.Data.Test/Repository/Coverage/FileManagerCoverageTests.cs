@@ -26,9 +26,12 @@ public class FileManagerCoverageTests
             Directory.Delete(_temporaryDirectory, recursive: true);
     }
 
+    // Cenário: persistência configurada para banco, disco e Azure.
+    // Objetivo: gravar o arquivo no destino correto conforme TypeLocationSaveFiles.
     [Test]
     public async Task PersistFile_UsesConfiguredStorageDestination()
     {
+        // Arrange
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(value => value.Save(It.IsAny<SmartDigitalPsico.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync(true);
         var azure = new Mock<IStorageBlobAdapter>();
@@ -37,7 +40,11 @@ public class FileManagerCoverageTests
 
         var databaseEntity = new MedicalFile();
         var database = CreateManager(ETypeLocationSaveFiles.DataBase, disk, azure);
+
+        // Act
         (await database.PersistFile(file, databaseEntity, "medical", "42")).Should().NotBeEmpty();
+
+        // Assert
         databaseEntity.FileData.Should().Equal(1, 2, 3);
         databaseEntity.TypeLocationSaveFile.Should().Be(ETypeLocationSaveFiles.DataBase);
 
@@ -57,17 +64,23 @@ public class FileManagerCoverageTests
         disk.Verify(value => value.Delete(It.IsAny<SmartDigitalPsico.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
     }
 
+    // Cenário: download e exclusão em disco e Azure, inclusive entidade nula.
+    // Objetivo: exercitar DownloadFileById e DeleteFile nos caminhos de localização.
     [Test]
     public async Task DownloadAndDeleteFile_UseDiskAndAzureWhenLocationsMatch()
     {
+        // Arrange
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(value => value.Get(It.IsAny<SmartDigitalPsico.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync([7, 8]);
         var azure = new Mock<IStorageBlobAdapter>();
         var diskManager = CreateManager(ETypeLocationSaveFiles.Disk, disk, azure);
         var diskEntity = new MedicalFile { FileName = "disk.txt", Description = "disk.txt", FilePath = Path.Combine(_temporaryDirectory, "disk.txt"), TypeLocationSaveFile = ETypeLocationSaveFiles.Disk };
 
+        // Act
         (await diskManager.DownloadFileById(diskEntity, "42"))!.FileData.Should().Equal(7, 8);
         (await diskManager.DeleteFile(diskEntity, "42")).Should().BeTrue();
+
+        // Assert
         disk.Verify(value => value.Delete(It.IsAny<SmartDigitalPsico.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
 
         var azureManager = CreateManager(ETypeLocationSaveFiles.CloudStorageAzure, disk, azure);
@@ -109,9 +122,12 @@ public class FileManagerCoverageTests
         }
     }
 
+    // Cenário: diretório temporário inexistente no download Azure.
+    // Objetivo: criar o caminho e baixar o arquivo do blob.
     [Test]
     public async Task CloudDownload_NonExistentDirectory_CreatesPathAndDownloads()
     {
+        // Arrange
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(d => d.Get(It.IsAny<SmartDigitalPsico.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync([9, 8, 7]);
         var azure = new Mock<IStorageBlobAdapter>();
@@ -131,12 +147,14 @@ public class FileManagerCoverageTests
             TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure
         };
 
+        // Act
         var downloaded = await manager.DownloadFileById(entity, "42");
         var tempDir = Path.Combine(nestedRoot, "ResourcesFileSave", "medical", "42", "temp");
         Directory.Exists(tempDir).Should().BeTrue();
         await File.WriteAllBytesAsync(Path.Combine(tempDir, "cloud-dl.txt"), [0]);
         var downloadedAgain = await manager.DownloadFileById(entity, "42");
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             downloaded!.FileData.Should().Equal(9, 8, 7);
@@ -150,11 +168,18 @@ public class FileManagerCoverageTests
     [Test]
     public void ResolveDirectoryPath_RootAndNested_CoversNullCoalesce()
     {
-        // Act / Assert
+        // Arrange
+        var nestedPath = Path.Combine(_temporaryDirectory, "a", "b.txt");
+
+        // Act
+        var rootResult = FileManager.ResolveDirectoryPath(@"C:\");
+        var nestedResult = FileManager.ResolveDirectoryPath(nestedPath);
+
+        // Assert
         using (Assert.EnterMultipleScope())
         {
-            FileManager.ResolveDirectoryPath(@"C:\").Should().BeEmpty();
-            FileManager.ResolveDirectoryPath(Path.Combine(_temporaryDirectory, "a", "b.txt")).Should().NotBeEmpty();
+            rootResult.Should().BeEmpty();
+            nestedResult.Should().NotBeEmpty();
         }
     }
 

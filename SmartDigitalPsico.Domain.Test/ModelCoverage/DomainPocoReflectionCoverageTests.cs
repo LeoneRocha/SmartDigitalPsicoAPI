@@ -42,8 +42,10 @@ public class DomainPocoReflectionCoverageTests
         }
     }
 
+    // Cenário: tipos públicos de DTO/VO/entidade do Domain são instanciáveis.
+    // Objetivo: ler e atribuir propriedades públicas via reflexão para cobertura literal.
     [TestCaseSource(nameof(TiposPocoPublicos))]
-    public void PropriedadesPublicas_CenarioPocoDoDominio_SaoLidasEAtribuidas(Type type)
+    public void PublicProperties_DomainPocoTypes_AreReadAndAssigned(Type type)
     {
         // Arrange
         var instance = CriarInstancia(type);
@@ -52,9 +54,13 @@ public class DomainPocoReflectionCoverageTests
             Assert.Ignore($"Não foi possível instanciar {type.FullName} com argumentos seguros.");
         }
 
-        // Act / Assert
-        foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                     .Where(property => property.GetIndexParameters().Length == 0))
+        // Act
+        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(property => property.GetIndexParameters().Length == 0)
+            .ToList();
+
+        // Assert
+        foreach (var property in properties)
         {
             if (property.CanRead && property.CanWrite)
             {
@@ -92,20 +98,29 @@ public class DomainPocoReflectionCoverageTests
         }
     }
 
+    // Cenário: enums públicos exportados pelo Domain.
+    // Objetivo: garantir valores conversíveis e contagem maior que zero.
     [TestCaseSource(nameof(EnunsPublicos))]
-    public void Valores_CenarioEnumPublico_ContemValoresConversiveis(Type enumType)
+    public void Values_PublicEnums_ContainConvertibleMembers(Type enumType)
     {
         // Arrange
         var values = Enum.GetValues(enumType);
 
-        // Act / Assert
+        // Act
+        var converted = values.Cast<object>()
+            .Select(value => Enum.ToObject(enumType, Convert.ToInt64(value)))
+            .ToList();
+
+        // Assert
         values.Length.Should().BeGreaterThan(0);
-        foreach (var value in values)
+        for (var index = 0; index < values.Length; index++)
         {
-            Enum.ToObject(enumType, Convert.ToInt64(value)).Should().Be(value);
+            converted[index].Should().Be(values.GetValue(index));
         }
     }
 
+    // Cenário: HyperMediaConfigure registra os enriquecedores de conteúdo.
+    // Objetivo: garantir que todos os enriquecedores sejam adicionados às opções.
     [Test]
     public void AddHyperMedia_CenarioRegistroDeServicos_RegistraTodosEnriquecedores()
     {
@@ -132,8 +147,9 @@ public class DomainPocoReflectionCoverageTests
         HyperMediaConfigure.AddHyperMedia(services);
         using var provider = services.BuildServiceProvider();
         var enrichers = provider.GetRequiredService<HyperMediaFilterOptions>().ContentResponseEnricherList;
+        var linkCounts = new List<(string Name, int Count)>();
 
-        // Act / Assert
+        // Act
         foreach (var enricher in enrichers)
         {
             var contentType = enricher.GetType().BaseType!.GetGenericArguments()[0];
@@ -143,26 +159,46 @@ public class DomainPocoReflectionCoverageTests
             await enricher.Enrich(CriarContextoDeResultado(content));
 
             var links = contentType.GetProperty("Links")!.GetValue(content) as ICollection;
-            links.Should().NotBeNull();
-            links!.Count.Should().Be(4, enricher.GetType().Name);
+            linkCounts.Add((enricher.GetType().Name, links?.Count ?? 0));
+        }
+
+        // Assert
+        foreach (var (name, count) in linkCounts)
+        {
+            count.Should().Be(4, name);
         }
     }
 
+    // Cenário: o enriquecedor avalia tipos genéricos e não genéricos.
+    // Objetivo: identificar apenas conteúdos suportados pelo contrato.
     [Test]
     public void ContentResponseEnricher_CenarioTiposCompativeis_IdentificaConteudosSuportados()
     {
         // Arrange
         var enricher = new EnriquecedorDeTeste();
 
-        // Act / Assert
-        enricher.CanEnrich(typeof(GetUserDto)).Should().BeTrue();
-        enricher.CanEnrich(typeof(List<GetUserDto>)).Should().BeTrue();
-        enricher.CanEnrich(typeof(ServiceResponse<GetUserDto>)).Should().BeTrue();
-        enricher.CanEnrich(typeof(ServiceResponse<List<GetUserDto>>)).Should().BeTrue();
-        enricher.CanEnrich(typeof(PagedSearchVO<GetUserDto>)).Should().BeTrue();
-        enricher.CanEnrich(typeof(string)).Should().BeFalse();
+        // Act
+        var user = enricher.CanEnrich(typeof(GetUserDto));
+        var list = enricher.CanEnrich(typeof(List<GetUserDto>));
+        var response = enricher.CanEnrich(typeof(ServiceResponse<GetUserDto>));
+        var responseList = enricher.CanEnrich(typeof(ServiceResponse<List<GetUserDto>>));
+        var paged = enricher.CanEnrich(typeof(PagedSearchVO<GetUserDto>));
+        var unsupported = enricher.CanEnrich(typeof(string));
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            user.Should().BeTrue();
+            list.Should().BeTrue();
+            response.Should().BeTrue();
+            responseList.Should().BeTrue();
+            paged.Should().BeTrue();
+            unsupported.Should().BeFalse();
+        }
     }
 
+    // Cenário: o enriquecedor processa modelo, listas e wrappers de resposta.
+    // Objetivo: enriquecer todos os formatos de conteúdo OK suportados.
     [Test]
     public async Task ContentResponseEnricher_CenarioRespostaOk_EnriqueceModeloEColecoes()
     {
@@ -212,6 +248,8 @@ public class DomainPocoReflectionCoverageTests
         }
     }
 
+    // Cenário: o filtro hypermedia não encontra enriquecedor compatível.
+    // Objetivo: executar OnResultExecuting sem falhar para OK e NotFound.
     [Test]
     public void HyperMediaFilterrAttribute_CenarioResultadosSemEnriquecedor_ExecutaSemFalhar()
     {
@@ -226,6 +264,8 @@ public class DomainPocoReflectionCoverageTests
         Assert.Pass();
     }
 
+    // Cenário: PagedSearchVO é criado com padrões e valores explícitos.
+    // Objetivo: resolver página atual e tamanho conforme construtores.
     [Test]
     public void PagedSearchVO_CenarioPaginacaoPadraoEResolvida_RetornaValoresEsperados()
     {
@@ -234,12 +274,22 @@ public class DomainPocoReflectionCoverageTests
         var configuredPaged = new PagedSearchVO<GetUserDto>(3, 25, "Name", "asc", new Dictionary<string, object>());
         var shortConstructorPaged = new PagedSearchVO<GetUserDto>(4, "Name", "desc");
 
-        // Act / Assert
-        defaultPaged.GetCurrentPage().Should().Be(2);
-        defaultPaged.GetPageSize().Should().Be(10);
-        configuredPaged.GetCurrentPage().Should().Be(3);
-        configuredPaged.GetPageSize().Should().Be(25);
-        shortConstructorPaged.GetPageSize().Should().Be(10);
+        // Act
+        var defaultPage = defaultPaged.GetCurrentPage();
+        var defaultSize = defaultPaged.GetPageSize();
+        var configuredPage = configuredPaged.GetCurrentPage();
+        var configuredSize = configuredPaged.GetPageSize();
+        var shortSize = shortConstructorPaged.GetPageSize();
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            defaultPage.Should().Be(2);
+            defaultSize.Should().Be(10);
+            configuredPage.Should().Be(3);
+            configuredSize.Should().Be(25);
+            shortSize.Should().Be(10);
+        }
     }
 
     // Cenário: respostas em cache e tokens são construídos com dados explícitos.

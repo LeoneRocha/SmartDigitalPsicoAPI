@@ -36,11 +36,15 @@ namespace SmartDigitalPsico.Service.Test.Configure;
 [TestFixture]
 public class ConfigurationAndCryptoServiceTests
 {
+    // Cenário: extensões padrão de ServiceCollection são configuradas.
+    // Objetivo: registrar AutoMapper, cache, CORS, documentação, segurança e logging.
     [Test]
     public void Configure_StandardServiceCollectionExtensions_RegistersExpectedServices()
     {
+        // Arrange
         var services = new ServiceCollection();
 
+        // Act
         ServiceCollectionConfigureAutoMapper.Configure(services);
         ServiceCollectionConfigureCaching.Configure(services);
         ServiceCollectionConfigureCors.Configure(services);
@@ -55,26 +59,29 @@ public class ConfigurationAndCryptoServiceTests
             Audience = "audience",
             Secret = "a sufficiently long signing secret for tests"
         });
-
         using var provider = services.BuildServiceProvider();
 
+        // Assert
         provider.GetRequiredService<IMapper>().Should().NotBeNull();
         provider.GetRequiredService<IMemoryCache>().Should().NotBeNull();
         services.Should().Contain(x => x.ServiceType == typeof(Serilog.ILogger));
         services.Should().Contain(x => x.ServiceType == typeof(IConfigureOptions<RequestLocalizationOptions>));
     }
-
+    // Cenário: appsettings são vinculados na coleção de serviços.
+    // Objetivo: expor Token, Resilience e LocationSaveFile a partir da configuração.
     [Test]
     public void Configure_AppSettings_BindsAndRegistersConfigurationObjects()
     {
+        // Arrange
         var configuration = BuildConfiguration();
         var services = new ServiceCollection();
 
+        // Act
         ServiceCollectionConfigureAppSettings.Configure(services, configuration);
         var token = ServiceCollectionConfigureAppSettings.AddAndReturnTokenConfiguration(services, configuration);
-
         using var provider = services.BuildServiceProvider();
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             token.Issuer.Should().Be("issuer");
@@ -84,35 +91,47 @@ public class ConfigurationAndCryptoServiceTests
             provider.GetRequiredService<ILocationSaveFileConfigurationDto>().Should().NotBeNull();
         }
     }
-
+    // Cenário: TypeDataBase válido é lido da configuração.
+    // Objetivo: retornar o enum ETypeDataBase correspondente.
     [TestCase("MSsqlServer", ETypeDataBase.MSsqlServer)]
     [TestCase("Mysql", ETypeDataBase.Mysql)]
     public void AddAndReturnTypeDataBase_ValidValue_ReturnsConfiguredDatabase(string configuredValue, ETypeDataBase expected)
     {
+        // Arrange
         var configuration = BuildConfiguration(new Dictionary<string, string?>
         {
             ["DataBaseConfigurations:TypeDataBase"] = configuredValue
         });
 
-        ServiceCollectionConfigureAppSettings.AddAndReturnTypeDataBase(configuration).Should().Be(expected);
-    }
+        // Act
+        var result = ServiceCollectionConfigureAppSettings.AddAndReturnTypeDataBase(configuration);
 
+        // Assert
+        result.Should().Be(expected);
+    }
+    // Cenário: registros manuais e automáticos de domínio são aplicados.
+    // Objetivo: adicionar descritores de serviços esperados na DI.
     [Test]
     public void ServicesDomainService_ManualAndAutomaticRegistrations_AddServiceDescriptors()
     {
+        // Arrange
         var services = new ServiceCollection();
 
+        // Act
         ServicesDomainService.AddDependenciesManually(services);
         ServicesDomainService.AddDependenciesAuto(services);
 
+        // Assert
         services.Should().Contain(x => x.ServiceType == typeof(ICacheService));
         services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleUpdateService));
         services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Service.IUserService));
     }
-
+    // Cenário: criptografia com chave configurada/fornecida e cifra inválida.
+    // Objetivo: delegar ao adapter e tratar cipher inválido com string vazia.
     [Test]
     public void CryptoService_EncryptDecryptAndInvalidCipher_DelegatesToAdapter()
     {
+        // Arrange
         var encryptedBytes = new byte[] { 1, 2, 3 };
         var adapter = new Mock<ICryptoAdpter>();
         adapter.Setup(x => x.Encrypt("plain")).Returns(encryptedBytes);
@@ -121,6 +140,7 @@ public class ConfigurationAndCryptoServiceTests
         factory.Setup(x => x.Create(ECryptoServiceType.Aes, It.IsAny<string>(), "iv")).Returns(adapter.Object);
         var service = new CryptoService(BuildConfiguration(), factory.Object);
 
+        // Act
         var encryptedFromConfiguredKey = service.Encrypt("plain");
         var encryptedFromProvidedKey = service.Encrypt("override-key", "plain");
         var decrypted = service.Decrypt(encryptedFromConfiguredKey);
@@ -128,6 +148,7 @@ public class ConfigurationAndCryptoServiceTests
         var invalid = service.Decrypt("not base64!");
         var blank = service.Decrypt("   ");
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             encryptedFromConfiguredKey.Should().Be(Convert.ToBase64String(encryptedBytes));
@@ -140,17 +161,21 @@ public class ConfigurationAndCryptoServiceTests
         factory.Verify(x => x.Create(ECryptoServiceType.Aes, "key", "iv"), Times.Exactly(2));
         factory.Verify(x => x.Create(ECryptoServiceType.Aes, "override-key", "iv"), Times.Exactly(2));
     }
-
+    // Cenário: adapter de blob sem connection string.
+    // Objetivo: executar caminhos seguros sem cliente Azure real.
     [Test]
     public async Task AzureStorageBlobAdapter_WithoutConnection_UsesSafeNoClientBehavior()
     {
+        // Arrange
         var adapter = new AzureStorageBlobAdapter(new ConfigurationBuilder().AddInMemoryCollection().Build());
 
+        // Act
         var upload = await adapter.UploadFileReturnUrl(new BlobFileDto { ContainerName = "files", FilePath = "unused" });
         var url = await adapter.GetFileStorageUrlPublic("files", "test.txt");
         await adapter.CreateContainerIfNotExists("files");
         await adapter.DownloadFile("files", "test.txt", Path.GetTempFileName());
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             upload.Should().BeEmpty();
@@ -183,8 +208,9 @@ public class ConfigurationAndCryptoServiceTests
             Secret = "a sufficiently long signing secret for tests"
         });
 
-        // Act
         using var provider = services.BuildServiceProvider();
+
+        // Act
         var jwt = provider.GetRequiredService<IOptionsMonitor<JwtBearerOptions>>()
             .Get(JwtBearerDefaults.AuthenticationScheme);
         var swaggerOptions = provider.GetRequiredService<IOptions<Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions>>().Value;
@@ -227,9 +253,10 @@ public class ConfigurationAndCryptoServiceTests
         ServicesDomainQueue.AddDependencies(services);
         ServiceCollectionConfigureOrm.Configure(services, configuration);
 
-        // Act
         using var provider = services.BuildServiceProvider();
         var httpContext = new DefaultHttpContext { RequestServices = provider };
+
+        // Act
         var corsPolicy = provider.GetRequiredService<ICorsPolicyProvider>()
             .GetPolicyAsync(httpContext, null).GetAwaiter().GetResult();
         var localization = provider.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
@@ -279,8 +306,9 @@ public class ConfigurationAndCryptoServiceTests
             Secret = "a sufficiently long signing secret for tests"
         });
 
-        // Act
         using var provider = services.BuildServiceProvider();
+
+        // Act
         var sqlContext = provider.GetRequiredService<IEntityDataContext>();
         var mvcOptions = provider.GetRequiredService<IOptions<MvcOptions>>().Value;
         var authSchemes = provider.GetRequiredService<IAuthenticationSchemeProvider>();
@@ -368,8 +396,9 @@ public class ConfigurationAndCryptoServiceTests
         ServiceCollectionConfigureLog.Configure(services, serilogLogger);
         ServiceCollectionConfigureLocalization.Configure(services);
 
-        // Act
         using var provider = services.BuildServiceProvider();
+
+        // Act
         var cors = provider.GetRequiredService<Microsoft.AspNetCore.Cors.Infrastructure.ICorsPolicyProvider>();
         var policy = await cors.GetPolicyAsync(new Microsoft.AspNetCore.Http.DefaultHttpContext(), null);
         var localization = provider.GetRequiredService<IConfigureOptions<Microsoft.AspNetCore.Builder.RequestLocalizationOptions>>();
@@ -393,11 +422,12 @@ public class ConfigurationAndCryptoServiceTests
     public void StorageTableFactory_AndAuditLogService_CoverRemainingLines()
     {
         // Arrange
+
+        // Act
         var factory = new SmartDigitalPsico.Service.Infrastructure.StorageTableRepositoryFactory(BuildConfiguration());
         var logger = new Mock<Serilog.ILogger>();
         var audit = new SmartDigitalPsico.Service.Audit.AuditPersistenceLogService(logger.Object);
 
-        // Act
         var table = factory.Create<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>(
             SmartDigitalPsico.Domain.Enuns.EStorageAdapterType.Azure, $"t{Guid.NewGuid():N}"[..10]);
         audit.SaveAuditEntries(
@@ -422,6 +452,7 @@ public class ConfigurationAndCryptoServiceTests
 
         // Assert
         table.Should().NotBeNull();
+
         logger.Invocations.Should().NotBeEmpty();
     }
 

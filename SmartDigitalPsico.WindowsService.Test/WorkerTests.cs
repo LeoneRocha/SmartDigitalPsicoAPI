@@ -76,11 +76,12 @@ public class WorkerTests
         jobService.Verify(item => item.ExecuteNotificationProcessAsync(), Times.Never);
     }
 
+    // Cenário: o worker recebe cancelamento depois do primeiro processamento.
+    // Objetivo: confirmar que o job resolvido pelo escopo é executado.
     [Test]
     public async Task ExecuteAsync_CanceladoAposPrimeiroCiclo_ExecutaJobUmaVez()
     {
-        // Cenário: o worker recebe cancelamento depois do primeiro processamento.
-        // Objetivo: confirmar que o job resolvido pelo escopo é executado.
+        // Arrange
         using var cancellation = new CancellationTokenSource();
         var jobService = new Mock<IBackgroundJobService>();
         jobService
@@ -95,28 +96,31 @@ public class WorkerTests
             .Build();
         var worker = new TestableWorker(Mock.Of<Serilog.ILogger>(), configuration, provider);
 
-        // Ação
+        // Act
         var action = () => worker.ExecutePublicAsync(cancellation.Token);
 
-        // Asserção
+        // Assert
         await action.Should().ThrowAsync<TaskCanceledException>();
         jobService.Verify(service => service.ExecuteNotificationProcessAsync(), Times.Once);
     }
 
+    // Cenário: ciclo de vida padrão do worker.
+    // Objetivo: validar os ganchos de início e parada.
     [Test]
     public async Task StartStopAsync_Cancelado_CompletamSemErro()
     {
-        // Cenário: ciclo de vida padrão do worker.
-        // Objetivo: validar os ganchos de início e parada.
+        // Arrange
         await using var provider = new ServiceCollection().BuildServiceProvider();
         var worker = new TestableWorker(
             Mock.Of<Serilog.ILogger>(),
             new ConfigurationBuilder().Build(),
             provider);
 
+        // Act
         await worker.StartAsync(CancellationToken.None);
         await worker.StopAsync(CancellationToken.None);
 
+        // Assert
         true.Should().BeTrue();
     }
 

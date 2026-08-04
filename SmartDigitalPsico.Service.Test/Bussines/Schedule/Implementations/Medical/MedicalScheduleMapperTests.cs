@@ -90,6 +90,7 @@ public class MedicalScheduleMapperTests
     [Test]
     public void GetMonthRange_LeapYearFebruary_ReturnsEntireMonth()
     {
+
         // Arrange
 
         // Act
@@ -102,10 +103,12 @@ public class MedicalScheduleMapperTests
             end.Should().Be(new DateTime(2028, 2, 29, 0, 0, 0, DateTimeKind.Utc));
         }
     }
-
+    // Cenário: criação de write request sem token informado.
+    // Objetivo: gerar token e mapear paciente opcional.
     [Test]
     public void ToWriteRequest_CreateWithoutToken_GeneratesTokenAndMapsOptionalPatient()
     {
+        // Arrange
         var calendar = new MedicalCalendar
         {
             MedicalId = 4,
@@ -116,8 +119,10 @@ public class MedicalScheduleMapperTests
             RecurrenceDays = null
         };
 
+        // Act
         var result = MedicalScheduleMapper.ToWriteRequest(calendar);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.PackageId.Should().BeNull();
@@ -127,10 +132,12 @@ public class MedicalScheduleMapperTests
             result.Items[0].RecurrenceDays.Should().BeEmpty();
         }
     }
-
+    // Cenário: atualização parcial de agenda.
+    // Objetivo: mapear apenas a ocorrência seed.
     [Test]
     public void ToWriteRequest_PartialUpdate_MapsOnlySeedOccurrence()
     {
+        // Arrange
         var start = new DateTime(2026, 9, 2, 10, 0, 0, DateTimeKind.Utc);
         var calendar = new MedicalCalendar
         {
@@ -138,8 +145,10 @@ public class MedicalScheduleMapperTests
             StartDateTime = start, EndDateTime = start.AddMinutes(45), ReasonCancellation = null
         };
 
+        // Act
         var result = MedicalScheduleMapper.ToWriteRequest(calendar, isUpdate: true, updateSeries: false);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.IsUpdate.Should().BeTrue();
@@ -149,10 +158,12 @@ public class MedicalScheduleMapperTests
             result.Items[0].TokenRecurrence.Should().Be("fixed");
         }
     }
-
+    // Cenário: mapeamentos de pacote/item com chaves inválidas e fallbacks.
+    // Objetivo: aplicar fallbacks e datas preferenciais corretamente.
     [Test]
-    public void PackageAndItemMappings_HandleInvalidKeysFallbacksAndPreferredDates()
+    public void PackageAndItemMappings_InvalidKeysAndFallbacks_MapCorrectly()
     {
+        // Arrange
         var early = new ScheduleCalendarItem { Title = "early", StartDateTime = new DateTime(2026, 9, 3, 8, 0, 0), TokenRecurrence = "" };
         var late = new ScheduleCalendarItem
         {
@@ -165,11 +176,13 @@ public class MedicalScheduleMapperTests
             UniqueToken = "package-token", ScheduleData = [late, early]
         };
 
+        // Act
         var dto = MedicalScheduleMapper.ToGetDto(package);
         var calendar = MedicalScheduleMapper.ToMedicalCalendarFromPackage(package, late.StartDateTime.AddMinutes(1));
         var read = MedicalScheduleMapper.ToMedicalCalendarReadModel(late, 0);
         var reads = MedicalScheduleMapper.ToMedicalCalendarReadModels([late], 8, 15);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             dto.Title.Should().Be("early");
@@ -184,10 +197,12 @@ public class MedicalScheduleMapperTests
             reads[0].MedicalId.Should().Be(8);
         }
     }
-
+    // Cenário: mapeamentos de grade/slots com bookings e dias vazios.
+    // Objetivo: mapear nomes de pacientes e dias sem horários.
     [Test]
-    public void GradeAndSlotMappings_MapBookingsPatientNamesAndEmptyDays()
+    public void GradeAndSlotMappings_BookingsAndEmptyDays_MapCorrectly()
     {
+        // Arrange
         var booking = new ScheduleCalendarItem
         {
             PackageId = 30, Title = "Fallback", StartDateTime = new DateTime(2026, 9, 4, 9, 0, 0),
@@ -204,10 +219,12 @@ public class MedicalScheduleMapperTests
         };
         var grade = new ScheduleGradeResult { DisplayName = "Dr. Test", Days = [day] };
 
+        // Act
         var slot = MedicalScheduleMapper.ToTimeSlotDto(day.TimeSlots[0], 8, new Dictionary<long, string> { [71] = "Patient name" });
         var calendar = MedicalScheduleMapper.ToCalendarDto(grade, 8, new Dictionary<long, string> { [71] = "Patient name" });
         var noBooking = MedicalScheduleMapper.ToTimeSlotDto(day.TimeSlots[1], 8);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             slot.MedicalCalendar!.Patient!.Name.Should().Be("Patient name");
@@ -216,10 +233,12 @@ public class MedicalScheduleMapperTests
             noBooking.MedicalCalendar.Should().BeNull();
         }
     }
-
+    // Cenário: mapeamentos de request e appointment.
+    // Objetivo: mapear entradas e preservar ordenação.
     [Test]
-    public void RequestAndAppointmentMappings_MapInputsAndOrdering()
+    public void RequestAndAppointmentMappings_InputsAndOrdering_MapCorrectly()
     {
+        // Arrange
         var criteria = new CalendarCriteriaDto
         {
             MedicalId = 8, Year = 2026, Month = 9, FilterDaysAndTimesWithAppointments = true,
@@ -232,6 +251,7 @@ public class MedicalScheduleMapperTests
             AppointmentDateTime = new DateTime(2026, 9, 5, 10, 0, 0, DateTimeKind.Utc)
         };
 
+        // Act
         var grade = MedicalScheduleMapper.ToGradeRequest(criteria, constraints, "UTC", ScheduleGradeMode.Monthly);
         var available = MedicalScheduleMapper.ToGradeRequest(criteria, constraints, "UTC", ScheduleGradeMode.AvailableOnly);
         var book = MedicalScheduleMapper.ToBookRequest(bookingCriteria, 30);
@@ -241,8 +261,10 @@ public class MedicalScheduleMapperTests
         [
             new ScheduleCalendarItem { StartDateTime = bookingCriteria.AppointmentDateTime.AddHours(1), TimeZone = "UTC" },
             new ScheduleCalendarItem { StartDateTime = bookingCriteria.AppointmentDateTime, TimeZone = "UTC" }
+
         ], 8, "Doctor");
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             grade.StartDate.Should().Be(criteria.StartDate!.Value.Date);
@@ -260,6 +282,7 @@ public class MedicalScheduleMapperTests
     [Test]
     public void BuildItems_DailySeriesAboveParallelThreshold_MapsAllOccurrences()
     {
+        // Arrange
         var threshold = Math.Max(ScheduleParallel.MapParallelThreshold, Environment.ProcessorCount);
         var start = new DateTime(2026, 1, 1, 8, 0, 0, DateTimeKind.Utc);
         var entity = new MedicalCalendar
@@ -271,8 +294,10 @@ public class MedicalScheduleMapperTests
             RecurrenceCount = (short)threshold
         };
 
+        // Act
         var result = MedicalScheduleMapper.BuildItems(entity, "series-token");
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Should().HaveCount(threshold);

@@ -14,7 +14,7 @@ public class MedicalScheduleHostSupportTests
     // Cenário: helpers de host com usuário, tradução e validação.
     // Objetivo: cobrir SetUserId, TranslateErrors, ValidateEntityAsync, MapNewEntity e DTOs estáticos.
     [Test]
-    public async Task HostSupportHelpers_CoverUserValidationMappingAndStaticResponses()
+    public async Task HostSupportHelpers_UserValidationMapping_CoverStaticResponses()
     {
         // Arrange
         var ctx = new MedicalScheduleTestContext();
@@ -74,6 +74,8 @@ public class MedicalScheduleHostSupportTests
     public void MapNewEntity_ExistingToken_KeepsToken()
     {
         // Arrange
+
+        // Act
         var ctx = new MedicalScheduleTestContext();
         ctx.HostSupport.SetUserId(1);
         var dto = new AddMedicalCalendarDto
@@ -85,7 +87,6 @@ public class MedicalScheduleHostSupportTests
             TokenRecurrence = "keep-me"
         };
 
-        // Act
         var entity = ctx.HostSupport.MapNewEntity(dto);
 
         // Assert

@@ -32,6 +32,7 @@ Relatórios por projeto: `*/coverage/coverage.cobertura.xml`.
 | 10 | WebAPI | Controllers + Configure | Concluída | 100% | 100% | 2026-08-03 |
 | 11 | WebJob + WindowsService | Hosts | Concluída | 100% | 100% | 2026-08-03 |
 | 12 | Global | Merge 100% | Concluída | 100% | 100% | 2026-08-03 |
+| 13 | Todos `*.Test` | Padronização AAA + Cenário/Objetivo | Concluída | — | — | 2026-08-04 |
 
 ## Resultado final por assembly (Coverlet)
 
@@ -87,6 +88,12 @@ Relatórios por projeto: `*/coverage/coverage.cobertura.xml`.
 - [x] Coverlet 100% line + branch por assembly
 - [x] Build e testes verdes
 
+### Fase 13 — Padronização AAA e documentação
+- [x] Todo `[Test]`/`[TestCase]` com `// Cenário:` e `// Objetivo:`
+- [x] Corpo com `// Arrange`, `// Act`, `// Assert`
+- [x] Audit automatizado: 0 gaps nos 6 projetos (815 métodos)
+- [x] `dotnet test SmartDigitalPsicoAPI.sln -c Release` verde (1281 passed, 5 skipped Azurite)
+
 ## Gaps Coverlet (última medição)
 
 Nenhum — 100% line e branch em todos os assemblies de produção.
@@ -98,3 +105,4 @@ Nenhum — 100% line e branch em todos os assemblies de produção.
 | 2026-08-03 | Baseline pós-Fase 0 (4 Domain + 69 Data tests) | 0.38% | 3.19% | — | — | — |
 | 2026-08-03 | Domain/Data em progresso | 97.4% | 99.21% | 17% | 86% | parcial |
 | 2026-08-03 | **Meta atingida — 100% literal line+branch** | 100% | 100% | 100% | 100% | 100% |
+| 2026-08-04 | Padronização AAA/docs em todos os `*.Test` | 100% | 100% | 100% | 100% | 100% |

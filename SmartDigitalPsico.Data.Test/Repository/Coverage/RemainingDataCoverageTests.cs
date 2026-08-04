@@ -54,6 +54,8 @@ public class RemainingDataCoverageTests : BaseTests
             Directory.Delete(_temporaryDirectory, recursive: true);
     }
 
+    // Cenário: Save com FileData nulo e Exists/Get para arquivo inexistente.
+    // Objetivo: retornar false/vazio nos caminhos de miss e save inválido.
     [Test]
     public async Task FileDiskRepository_SaveNullDataAndExistsMiss_ReturnExpectedResults()
     {
@@ -77,6 +79,8 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: arquivo de cache existe mas desserializa para valor default (null).
+    // Objetivo: tratar como miss no TryGetAsync.
     [Test]
     public async Task DiskCacheRepository_DefaultDeserializedValue_ReturnsMiss()
     {
@@ -97,18 +101,23 @@ public class RemainingDataCoverageTests : BaseTests
         result.Key.Should().BeFalse();
     }
 
+    // Cenário: linguagem solicitada ausente e template inexistente.
+    // Objetivo: fazer fallback para pt-BR ou retornar null quando não houver match.
     [Test]
     public async Task NotificationTemplate_FallbackLanguage_ReturnsPtBrOrFirst()
     {
+        // Arrange
         _mockContext!.NotificationTemplates.AddRange(
             new NotificationTemplate { TemplateKey = "welcome", Language = "pt-BR", Enable = true },
             new NotificationTemplate { TemplateKey = "welcome", Language = "es-ES", Enable = true });
         await _mockContext.SaveChangesAsync();
         var repository = new NotificationTemplateRepository(_mockContext);
 
+        // Act
         var ptFallback = await repository.GetNotificationTemplateAsync("welcome", "en-US");
         var first = await repository.GetNotificationTemplateAsync("missing", "en-US");
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             ptFallback!.Language.Should().Be("pt-BR");
@@ -116,13 +125,23 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: FindByIDs recebe lista nula.
+    // Objetivo: retornar lista vazia sem consultar o contexto.
     [Test]
     public async Task RoleGroupRepository_NullIds_ReturnsEmptyList()
     {
+        // Arrange
         var repository = new RoleGroupRepository(_mockContext!);
-        (await repository.FindByIDs(null)).Should().BeEmpty();
+
+        // Act
+        var result = await repository.FindByIDs(null);
+
+        // Assert
+        result.Should().BeEmpty();
     }
 
+    // Cenário: arquivo em pasta combinada e caminho direto.
+    // Objetivo: cobrir Exists, Get e Delete pelos ramos de caminho.
     [Test]
     public async Task FileDiskRepository_ExistsAndGetPathBranches_AreCovered()
     {
@@ -150,6 +169,8 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: download Azure com Get do disco retornando null.
+    // Objetivo: cobrir ramo restante de DownloadFileById com FileData vazio.
     [Test]
     public async Task FileManager_GetFromDiskNullAndExistingDirectory_CoversRemainingBranches()
     {
@@ -179,6 +200,8 @@ public class RemainingDataCoverageTests : BaseTests
         downloaded!.FileData.Should().BeEmpty();
     }
 
+    // Cenário: JSON curto e propriedade não relacionada a Schedule.
+    // Objetivo: cobrir TruncateAuditJson, SanitizeAuditValue e GetExistingEntries.
     [Test]
     public void AuditContextService_ShortJsonAndNonScheduleProperty_CoversSanitizeBranches()
     {
@@ -218,6 +241,8 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: JSON longo e propriedades de usuário existentes/ausentes.
+    // Objetivo: cobrir TruncateAuditJson, OnBeforeSaveChanges e GetUserId.
     [Test]
     public void AuditContextService_UserIdPropertyBranches_CoversGetUserIdPaths()
     {
@@ -252,6 +277,8 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: PersistFile em Azure e DownloadFileById com disco preenchido.
+    // Objetivo: cobrir coalescência nula nos ramos de save e download cloud.
     [Test]
     public async Task FileManager_SaveAndCloudDownloadBranches_CoverNullCoalescing()
     {
@@ -289,6 +316,8 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: Get por caminho combinado/direto e Delete de arquivo direto.
+    // Objetivo: cobrir todos os ramos de combinação de path e exclusão.
     [Test]
     public async Task FileDiskRepository_PathCombinationAndDeleteBranches_CoverAllPaths()
     {
@@ -317,6 +346,8 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: cache em disco com payload JSON válido.
+    // Objetivo: retornar hit com valor desserializado.
     [Test]
     public async Task DiskCacheRepository_ValidDeserializedPayload_ReturnsHit()
     {
@@ -341,67 +372,104 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: operações de fila com adapter mockado.
+    // Objetivo: delegar Enqueue, Dequeue e Delete ao contrato de storage.
     [Test]
     public async Task GenericStorageQueueRepository_DelegatesQueueOperations()
     {
+        // Arrange
         var adapter = new Mock<IStorageQueueContract>();
         adapter.Setup(value => value.DequeueMessageAsync()).ReturnsAsync("payload");
         var repository = new GenericStorageQueueRepository(adapter.Object, "queue");
 
+        // Act
         await repository.EnqueueMessageAsync("hello");
         (await repository.DequeueMessageAsync()).Should().Be("payload");
         await repository.DeleteMessageAsync("id", "receipt");
 
+        // Assert
         adapter.Verify(value => value.EnqueueMessageAsync("hello"), Times.Once);
         adapter.Verify(value => value.DeleteMessageAsync("id", "receipt"), Times.Once);
     }
 
+    // Cenário: construção do repositório com contexto válido.
+    // Objetivo: garantir instanciação de MedicalSettingsRepository.
     [Test]
     public void MedicalSettingsRepository_ContextProvided_CreatesInstance()
     {
-        new MedicalSettingsRepository(_mockContext!).Should().NotBeNull();
+        // Arrange
+        var context = _mockContext!;
+
+        // Act
+        var repository = new MedicalSettingsRepository(context);
+
+        // Assert
+        repository.Should().NotBeNull();
     }
 
+    // Cenário: Configure da EntityBaseConfiguration abstrata de teste.
+    // Objetivo: lançar NotImplementedException.
     [Test]
     public void EntityBaseConfiguration_Configure_ThrowsNotImplemented()
     {
+        // Arrange
         var builder = new ModelBuilder(new ConventionSet()).Entity<ApplicationCacheLog>();
         var configuration = new TestEntityBaseConfiguration(ETypeDataBase.Mysql);
-
         Action act = () => configuration.Configure(builder);
 
+        // Act
+        // Assert
         act.Should().Throw<NotImplementedException>();
     }
 
+    // Cenário: construtores apenas com DbContextOptions para SqlServer e MySql.
+    // Objetivo: construir modelos de entidade sem interceptor.
     [Test]
     public async Task ContextOptionsOnlyConstructors_BuildModels()
     {
+        // Arrange
         var sql = new SmartDigitalPsicoDataContextSqlServer(new DbContextOptionsBuilder<SmartDigitalPsicoDataContextSqlServer>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options);
         var mysql = new SmartDigitalPsicoDataContextMySql(new DbContextOptionsBuilder<SmartDigitalPsicoDataContextMySql>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options);
 
-        sql.Model.GetEntityTypes().Should().NotBeEmpty();
-        mysql.Model.GetEntityTypes().Should().NotBeEmpty();
+        // Act
+        var sqlTypes = sql.Model.GetEntityTypes();
+        var mysqlTypes = mysql.Model.GetEntityTypes();
+
+        // Assert
+        sqlTypes.Should().NotBeEmpty();
+        mysqlTypes.Should().NotBeEmpty();
         await sql.DisposeAsync();
         await mysql.DisposeAsync();
     }
 
+    // Cenário: idioma existente e idioma ausente no repositório.
+    // Objetivo: retornar true/false conforme ExistLanguage.
     [Test]
     public async Task ApplicationLanguage_ExistLanguage_ReturnsMatchingFlag()
     {
+        // Arrange
         var language = new ApplicationLanguage { Language = "pt-BR", LanguageKey = "Welcome", ResourceKey = "SharedResource", Description = "Oi" };
         _mockContext!.ApplicationLanguages.Add(language);
         await _mockContext.SaveChangesAsync();
         var repository = new ApplicationLanguageRepository(_mockContext);
 
-        (await repository.ExistLanguage("pt-BR", "Welcome")).Should().BeTrue();
-        (await repository.ExistLanguage("en-US", "Welcome")).Should().BeFalse();
+        // Act
+        var exists = await repository.ExistLanguage("pt-BR", "Welcome");
+        var missing = await repository.ExistLanguage("en-US", "Welcome");
+
+        // Assert
+        exists.Should().BeTrue();
+        missing.Should().BeFalse();
     }
 
+    // Cenário: template habilitado na linguagem solicitada.
+    // Objetivo: retornar o template exato sem fallback.
     [Test]
     public async Task NotificationTemplate_MatchingLanguage_ReturnsExactTemplate()
     {
+        // Arrange
         _mockContext!.NotificationTemplates.Add(new NotificationTemplate
         {
             TemplateKey = "appointment",
@@ -411,15 +479,20 @@ public class RemainingDataCoverageTests : BaseTests
         await _mockContext.SaveChangesAsync();
         var repository = new NotificationTemplateRepository(_mockContext);
 
+        // Act
         var result = await repository.GetNotificationTemplateAsync("appointment", "en-US");
 
+        // Assert
         result.Should().NotBeNull();
         result!.Language.Should().Be("en-US");
     }
 
+    // Cenário: agenda com SubjectKey específico a partir de uma data.
+    // Objetivo: filtrar GetByTokenFromStartAsync pelo subject correto.
     [Test]
     public async Task ScheduleCalendar_GetByTokenFromStart_FiltersSubjectKey()
     {
+        // Arrange
         var now = DateTime.UtcNow.Date.AddHours(8);
         _mockContext!.ScheduleCalendars.Add(new ScheduleCalendar
         {
@@ -435,17 +508,26 @@ public class RemainingDataCoverageTests : BaseTests
         await _mockContext.SaveChangesAsync();
         var repository = new ScheduleCalendarRepository(_mockContext);
 
-        (await repository.GetByTokenFromStartAsync("token", "owner", "subject", now)).Should().ContainSingle();
-        (await repository.GetByTokenFromStartAsync("token", "owner", "other", now)).Should().BeEmpty();
+        // Act
+        var matching = await repository.GetByTokenFromStartAsync("token", "owner", "subject", now);
+        var other = await repository.GetByTokenFromStartAsync("token", "owner", "other", now);
+
+        // Assert
+        matching.Should().ContainSingle();
+        other.Should().BeEmpty();
     }
 
+    // Cenário: paciente com grafo de medical/gender e critério de busca.
+    // Objetivo: retornar detalhes projetados e resultados de PatientSearch.
     [Test]
     public async Task PatientRepository_DetailsAndSearch_ReturnProjectedResults()
     {
+        // Arrange
         SeedPatientGraph();
         var patient = _mockContext!.Patients.First();
         var repository = new PatientRepository(_mockContext);
 
+        // Act
         var details = await repository.GetPatientDetailsByIdAsync(patient.Id);
         var search = await repository.PatientSearch(new PatientSearchCriteriaDto
         {
@@ -453,32 +535,50 @@ public class RemainingDataCoverageTests : BaseTests
             Name = patient.Name[..Math.Min(3, patient.Name.Length)]
         });
 
+        // Assert
         details.Id.Should().Be(patient.Id);
         details.Medical.Should().NotBeNull();
         search.Should().NotBeEmpty();
         search.Should().OnlyContain(item => item.MedicalId == 0 || item.Id > 0);
     }
 
+    // Cenário: login inexistente, refresh miss e deletes válidos/inválidos.
+    // Objetivo: cobrir caminhos negativos de UserRepository.
     [Test]
     public async Task UserRepository_DeleteAndNegativePaths_AreCovered()
     {
+        // Arrange
         SeedUserGraph();
         var repository = new UserRepository(_mockContext!);
         var user = _mockContext!.Users.OrderBy(item => item.Id).First();
 
-        (await repository.UserExists("missing-login")).Should().BeFalse();
-        (await repository.RefreshUserInfo(new User { Id = 999999 })).Id.Should().Be(0);
-        (await repository.Delete(user.Id)).Should().BeTrue();
-        (await repository.Delete(999999)).Should().BeTrue();
+        // Act
+        var missingLogin = await repository.UserExists("missing-login");
+        var refreshMiss = await repository.RefreshUserInfo(new User { Id = 999999 });
+        var deleted = await repository.Delete(user.Id);
+        var deleteMissing = await repository.Delete(999999);
+
+        // Assert
+        missingLogin.Should().BeFalse();
+        refreshMiss.Id.Should().Be(0);
+        deleted.Should().BeTrue();
+        deleteMissing.Should().BeTrue();
     }
 
+    // Cenário: exclusão por path direto e misses de cache (bytes nulos/json null).
+    // Objetivo: cobrir Delete de arquivo direto e TryGetAsync em falha.
     [Test]
     public async Task FileDiskRepository_DeletesDirectFilePathAndCacheMissBranches()
     {
+        // Arrange
         var repository = new FileDiskRepository();
         var directFile = Path.Combine(_temporaryDirectory, "direct.bin");
         await File.WriteAllBytesAsync(directFile, [9, 9]);
+
+        // Act
         await repository.Delete(new FileData { FilePath = directFile, FileName = "ignored.bin" });
+
+        // Assert
         File.Exists(directFile).Should().BeFalse();
 
         var cache = new DiskCacheRepository(repository, Options.Create(new CacheConfigurationDto
@@ -501,11 +601,16 @@ public class RemainingDataCoverageTests : BaseTests
         (await cache.TryGetAsync<CachePayload>("missing")).Key.Should().BeFalse();
     }
 
+    // Cenário: mutação concorrente do buffer durante Save/verificação.
+    // Objetivo: detectar escrita corrompida via InvalidOperationException.
     [Test]
     public async Task FileDiskRepository_DetectsCorruptedWriteDuringVerification()
     {
+        // Arrange
         var repository = new FileDiskRepository();
         Exception? failure = null;
+
+        // Act
         for (var attempt = 0; attempt < 30 && failure is null; attempt++)
         {
             var payload = new byte[512 * 1024];
@@ -540,14 +645,20 @@ public class RemainingDataCoverageTests : BaseTests
             }
         }
 
+        // Assert
         failure.Should().BeOfType<InvalidOperationException>();
     }
 
+    // Cenário: truncamento concorrente durante leitura do arquivo.
+    // Objetivo: sinalizar IOException de leitura incompleta.
     [Test]
     public async Task FileDiskRepository_DetectsIncompleteRead()
     {
+        // Arrange
         var repository = new FileDiskRepository();
         Exception? failure = null;
+
+        // Act
         for (var attempt = 0; attempt < 80 && failure is null; attempt++)
         {
             var path = Path.Combine(_temporaryDirectory, $"partial-{attempt}.bin");
@@ -580,13 +691,17 @@ public class RemainingDataCoverageTests : BaseTests
             }
         }
 
+        // Assert
         failure.Should().NotBeNull();
         failure!.Message.Should().Be("Could not read the entire file.");
     }
 
+    // Cenário: Exists indica true mas o lookup posterior não encontra o usuário.
+    // Objetivo: RefreshUserInfo retornar usuário vazio (Id 0).
     [Test]
     public async Task UserRepository_RefreshUserInfo_WhenLookupMissesAfterExists_ReturnsEmptyUser()
     {
+        // Arrange
         var context = new Mock<SmartDigitalPsico.Data.Context.Interface.IEntityDataContext>();
         var provider = new FlipAsyncQueryProvider();
         var users = new FlipAsyncQueryable<User>(provider);
@@ -604,14 +719,19 @@ public class RemainingDataCoverageTests : BaseTests
             .GetField("_dataset", BindingFlags.Instance | BindingFlags.NonPublic);
         field!.SetValue(repository, dbSet.Object);
 
+        // Act
         var result = await repository.RefreshUserInfo(new User { Id = 1, Name = "ghost" });
 
+        // Assert
         result.Id.Should().Be(0);
     }
 
+    // Cenário: download de arquivo em banco e Azure (temp existente e novo).
+    // Objetivo: cobrir DownloadFileById nos destinos DataBase e CloudStorageAzure.
     [Test]
     public async Task FileManager_DownloadsDatabaseAndAzureFiles()
     {
+        // Arrange
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(value => value.Get(It.IsAny<FileData>())).ReturnsAsync([1, 2, 3]);
         var azure = new Mock<IStorageBlobAdapter>();
@@ -634,6 +754,8 @@ public class RemainingDataCoverageTests : BaseTests
             FileData = [4, 5],
             TypeLocationSaveFile = ETypeLocationSaveFiles.DataBase
         };
+
+        // Act
         (await databaseManager.DownloadFileById(databaseEntity, "42"))!.FileName.Should().Be("db.txt");
 
         var existingDownloadPath = Path.Combine(_temporaryDirectory, "ResourcesFileSave", "medical", "42", "temp", "cloud.txt");
@@ -661,12 +783,17 @@ public class RemainingDataCoverageTests : BaseTests
             TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure
         };
         (await azureManager.DownloadFileById(freshCloud, "99"))!.FileData.Should().Equal(1, 2, 3);
+
+        // Assert
         azure.Verify(value => value.DownloadFile("medical", It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
     }
 
+    // Cenário: interceptor com entradas novas, vazias e caminho Log alternativo.
+    // Objetivo: persistir auditoria e cobrir SaveChanges síncrono/assíncrono.
     [Test]
     public async Task AuditInterceptor_PersistsNewEntriesAndAlternateServicePath()
     {
+        // Arrange
         var persistence = new Mock<IAuditPersistenceService>();
         var factory = new Mock<IAuditPersistenceServiceFactory>();
         factory.Setup(value => value.CreateService(EAuditServiceType.Database)).Returns(persistence.Object);
@@ -693,6 +820,8 @@ public class RemainingDataCoverageTests : BaseTests
             .AddInterceptors(interceptor)
             .Options;
         await using var context = new SmartDigitalPsicoDataContextMySql(options, interceptor);
+
+        // Act
         context.ApplicationCacheLogs.Add(new ApplicationCacheLog { CacheId = "audit", CacheKey = "key" });
         await context.SaveChangesAsync();
         context.ApplicationCacheLogs.First().CacheKey = "changed";
@@ -712,12 +841,17 @@ public class RemainingDataCoverageTests : BaseTests
         context.ApplicationCacheLogs.First().CacheKey = "log-path";
         context.SaveChanges();
         await context.SaveChangesAsync();
+
+        // Assert
         persistence.Verify(service => service.SaveAuditEntries(It.IsAny<IEnumerable<AuditDataEntityLog>>()), Times.AtLeastOnce);
     }
 
+    // Cenário: alterações em Patient, Schedule e JSON longo com omit/truncate.
+    // Objetivo: cobrir sanitize, truncate, user audit e GetNewEntries.
     [Test]
     public void AuditContextService_CoversUserSanitizeAndTruncateBranches()
     {
+        // Arrange
         var patient = PatientMockHelper.GetMock().First();
         patient.CreatedUserId = 10;
         patient.ModifyUserId = null;
@@ -766,8 +900,11 @@ public class RemainingDataCoverageTests : BaseTests
             AbsoluteExpirationInHours = 1,
             SlidingExpirationInMinutes = 1
         })));
+
+        // Act
         var entries = service.OnBeforeSaveChanges(_mockContext);
 
+        // Assert
         entries.Should().NotBeEmpty();
         entries.Should().Contain(entry => entry.UserAuditedId == 10);
         entries.Should().Contain(entry => entry.TableName == nameof(Patient) && entry.UserAuditedLogin == "admin");
@@ -796,6 +933,8 @@ public class RemainingDataCoverageTests : BaseTests
         service.GetNewEntries(_mockContext, [current]).Should().ContainSingle();
     }
 
+    // Cenário: lacunas finais em FileDisk, Audit e Schedule (null/blank/open-end).
+    // Objetivo: cobrir ramos restantes de truncate, sanitize, Get e agenda.
     [Test]
     public async Task FinalDataBranchGaps_FileAuditSchedulePaths_AreCovered()
     {
@@ -902,21 +1041,29 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: caminho combinado inexistente e FilePath apontando ao arquivo real.
+    // Objetivo: cobrir o ramo else de Get por path direto.
     [Test]
     public async Task FileDiskRepository_GetDirectPathWhenCombinedMissing_CoversElseBranch()
     {
+        // Arrange
         var repository = new FileDiskRepository();
         var direct = Path.Combine(_temporaryDirectory, "direct-only.bin");
         await File.WriteAllBytesAsync(direct, [3, 4, 5]);
 
+        // Act
         var fromDirect = await repository.Get(new FileData { FilePath = direct, FileName = "unused.bin" });
 
+        // Assert
         fromDirect.Should().Equal(3, 4, 5);
     }
 
+    // Cenário: payload JSON válido e não-default no cache em disco.
+    // Objetivo: retornar hit com o valor desserializado.
     [Test]
     public async Task DiskCacheRepository_ValidNonDefaultPayload_ReturnsHitWithValue()
     {
+        // Arrange
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(d => d.Exists(It.IsAny<FileData>())).Returns(true);
         disk.Setup(d => d.Get(It.IsAny<FileData>())).ReturnsAsync(System.Text.Encoding.UTF8.GetBytes("{\"Name\":\"hit\"}"));
@@ -926,8 +1073,10 @@ public class RemainingDataCoverageTests : BaseTests
             ExtensionCache = ".cache"
         }));
 
+        // Act
         var result = await cache.TryGetAsync<CachePayload>("hit-key");
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Key.Should().BeTrue();
@@ -935,9 +1084,12 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: itens com EndDateTime nulo e janelas fora/dentro do conflito.
+    // Objetivo: cobrir filtros de HasConflict/GetItems/GetItem com bordas nullable.
     [Test]
     public async Task ScheduleCalendarRepository_NullableEndDateTimeEdges_CoverConflictFilters()
     {
+        // Arrange
         var now = DateTime.UtcNow.Date.AddDays(40).AddHours(11);
         _mockContext!.ScheduleCalendars.AddRange(
             new ScheduleCalendar
@@ -986,6 +1138,7 @@ public class RemainingDataCoverageTests : BaseTests
         await _mockContext.SaveChangesAsync();
         var repository = new ScheduleCalendarRepository(_mockContext);
 
+        // Act
         var conflictOpenEnd = await repository.HasConflictAsync("tenant", "owner", now);
         var subjectItems = await repository.GetItemsForOwnerSubjectAsync("tenant", "owner", "subject-a", now, now.AddHours(2));
         var item = await repository.GetItemAsync("tenant", "owner", "subject-a", now);
@@ -995,6 +1148,7 @@ public class RemainingDataCoverageTests : BaseTests
         var outsideSubject = await repository.GetItemsForOwnerSubjectAsync("tenant", "owner", "subject-b", now, now.AddHours(2));
         var beforeWindow = await repository.GetItemsForOwnerSubjectAsync("tenant", "owner", "subject-a", now.AddHours(2), now.AddHours(4));
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             conflictOpenEnd.Should().BeTrue();
@@ -1007,15 +1161,23 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
+    // Cenário: FindByID/FindAsync com expressão de Include (Gender).
+    // Objetivo: retornar paciente com includes aplicados.
     [Test]
     public async Task GenericRepository_FindMethods_UseIncludeExpressions()
     {
+        // Arrange
         SeedPatientGraph();
         var patient = _mockContext!.Patients.First();
         var repository = new PatientRepository(_mockContext);
 
-        (await repository.FindByID(patient.Id, item => item.Gender)).Id.Should().Be(patient.Id);
-        (await repository.FindAsync(patient.Id, item => item.Gender))!.Id.Should().Be(patient.Id);
+        // Act
+        var byId = await repository.FindByID(patient.Id, item => item.Gender);
+        var asyncFind = await repository.FindAsync(patient.Id, item => item.Gender);
+
+        // Assert
+        byId.Id.Should().Be(patient.Id);
+        asyncFind!.Id.Should().Be(patient.Id);
     }
 
     private void SeedPatientGraph()

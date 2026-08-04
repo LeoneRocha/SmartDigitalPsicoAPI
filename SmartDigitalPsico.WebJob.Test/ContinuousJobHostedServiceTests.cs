@@ -50,11 +50,12 @@ public class ContinuousJobHostedServiceTests
         jobService.Verify(item => item.ExecuteNotificationProcessAsync(), Times.Never);
     }
 
+    // Cenário: o host solicita o encerramento após a primeira execução.
+    // Objetivo: garantir que o job contínuo delega o processamento ao serviço.
     [Test]
     public async Task ExecuteAsync_CanceladoAposPrimeiroCiclo_ExecutaJobUmaVez()
     {
-        // Cenário: o host solicita o encerramento após a primeira execução.
-        // Objetivo: garantir que o job contínuo delega o processamento ao serviço.
+        // Arrange
         using var cancellation = new CancellationTokenSource();
         var jobService = new Mock<IBackgroundJobService>();
         jobService
@@ -67,27 +68,30 @@ public class ContinuousJobHostedServiceTests
             .Build();
         var service = new TestableContinuousJobHostedService(jobService.Object, logger.Object, configuration);
 
-        // Ação
+        // Act
         var action = () => service.ExecutePublicAsync(cancellation.Token);
 
-        // Asserção
+        // Assert
         await action.Should().ThrowAsync<TaskCanceledException>();
         jobService.Verify(service => service.ExecuteNotificationProcessAsync(), Times.Once);
     }
 
+    // Cenário: ciclo de vida do hosted service.
+    // Objetivo: cobrir os ganchos de inicialização e encerramento.
     [Test]
     public async Task StartStopAsync_Cancelado_CompletamSemErro()
     {
-        // Cenário: ciclo de vida do hosted service.
-        // Objetivo: cobrir os ganchos de inicialização e encerramento.
+        // Arrange
         var service = new TestableContinuousJobHostedService(
             Mock.Of<IBackgroundJobService>(),
             Mock.Of<Serilog.ILogger>(),
             new ConfigurationBuilder().Build());
 
+        // Act
         await service.StartAsync(CancellationToken.None);
         await service.StopAsync(CancellationToken.None);
 
+        // Assert
         true.Should().BeTrue();
     }
 

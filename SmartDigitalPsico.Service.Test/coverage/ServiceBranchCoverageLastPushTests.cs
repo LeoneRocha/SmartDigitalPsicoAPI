@@ -92,7 +92,6 @@ public class ServiceBranchCoverageLastPushTests
         var memoryKeepService = CreateCache(ETypeLocationCache.Memory, memory: memoryKeep);
         var diskService = CreateCache(ETypeLocationCache.Disk, disk: disk, logs: logs);
 
-        // Act
         var tryGetNull = memoryNullService.TryGet("k", out CacheValue valueNull);
         var tryGetKeep = memoryKeepService.TryGet("k2", out CacheValue valueKeep);
         var set = diskService.Set("with-null-tostring", new CachePropsNullToString
@@ -101,6 +100,8 @@ public class ServiceBranchCoverageLastPushTests
             DateTimeSlidingExpiration = DateTime.Now.AddMinutes(5).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
         });
         var existsNoExp = diskService.Exists<ExpirableCacheEntry>("no-exp");
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -210,6 +211,9 @@ public class ServiceBranchCoverageLastPushTests
     public void MedicalScheduleMapper_PreferDateNullScheduleAndNullNames_CoverRemaining()
     {
         // Arrange / Act
+        // Arrange
+
+        // Act
         var calendarNull = MedicalScheduleMapper.ToMedicalCalendarFromPackage(
             new ScheduleCalendar
             {
@@ -255,6 +259,7 @@ public class ServiceBranchCoverageLastPushTests
                 }
             },
             1,
+
             patientNames: null);
 
         // Assert
@@ -443,7 +448,7 @@ public class ServiceBranchCoverageLastPushTests
     // Cenário: Create/Delete sem InnerException; InsertLanguageNotFound com localization prévia; Table GetById lança.
     // Objetivo: fechar InnerException?. nulo, L137 e catch do TableAdapter.
     [Test]
-    public async Task EntityLanguageAndTable_CoverFinalBranches()
+    public async Task EntityLanguageAndTable_FinalBranches_Covered()
     {
         // Arrange
         var createCtx = new EntityBaseProbeContext();
@@ -498,6 +503,8 @@ public class ServiceBranchCoverageLastPushTests
     public void ScheduleAvailability_NullEndTime_CoverBranch()
     {
         // Arrange
+
+        // Act
         var apply = typeof(ScheduleAvailabilityService)
             .GetMethod("ApplyFilters", BindingFlags.Static | BindingFlags.NonPublic)!;
         var day = DateTime.UtcNow.Date.AddDays(2);
@@ -541,11 +548,11 @@ public class ServiceBranchCoverageLastPushTests
             }
         };
 
-        // Act
         var filtered = (ScheduleDayDto[])apply.Invoke(null, [request, days])!;
 
         // Assert
         filtered.Should().ContainSingle();
+
         filtered[0].TimeSlots.Should().ContainSingle();
     }
 
@@ -555,6 +562,8 @@ public class ServiceBranchCoverageLastPushTests
     public void ScheduleAvailability_EndTimeBothSides_CoverRemainingBranch()
     {
         // Arrange
+
+        // Act
         var apply = typeof(ScheduleAvailabilityService)
             .GetMethod("ApplyFilters", BindingFlags.Static | BindingFlags.NonPublic)!;
         var day = DateTime.UtcNow.Date.AddDays(3);
@@ -606,11 +615,11 @@ public class ServiceBranchCoverageLastPushTests
             }
         };
 
-        // Act
         var filtered = (ScheduleDayDto[])apply.Invoke(null, [request, days])!;
 
         // Assert
         filtered.Should().ContainSingle();
+
         filtered[0].TimeSlots.Length.Should().Be(2);
     }
 
@@ -677,6 +686,7 @@ public class ServiceBranchCoverageLastPushTests
 
         // Assert
         result.Success.Should().BeTrue();
+
         repository.Verify(x => x.Update(It.Is<ScheduleCalendar>(p => p.UniqueToken == "match")), Times.Once);
     }
 
@@ -686,7 +696,10 @@ public class ServiceBranchCoverageLastPushTests
     public void MedicalScheduleMapper_BookingRecurrenceAndPatient_CoverRemainingBranches()
     {
         // Arrange / Act
+        // Arrange
         var start = DateTime.UtcNow;
+
+        // Act
         var withRecurrence = MedicalScheduleMapper.ToTimeSlotDto(
             new ScheduleTimeSlotDto
             {
@@ -718,6 +731,7 @@ public class ServiceBranchCoverageLastPushTests
                 }
             },
             2,
+
             new Dictionary<long, string>());
 
         // Assert
@@ -899,7 +913,6 @@ public class ServiceBranchCoverageLastPushTests
             }));
         var diskService = CreateCache(ETypeLocationCache.Disk, disk: disk, logs: logs);
 
-        // Act
         var tryGetNull = memoryNullService.TryGet("k", out CacheValue valueNull);
         var tryGetKeep = memoryKeepService.TryGet("k2", out CacheValue valueKeep);
         var setOk = diskService.Set("id-ok", new CachePropsNullToString
@@ -912,6 +925,8 @@ public class ServiceBranchCoverageLastPushTests
             CacheId = new NullToString(),
             DateTimeSlidingExpiration = DateTime.Now.AddMinutes(5).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
         });
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -930,7 +945,7 @@ public class ServiceBranchCoverageLastPushTests
     // Cenário: InsertLanguageNotFound com localization vazia/prévia; refresh válido e expiry nulo; Cancel SubjectKey nulo.
     // Objetivo: fechar L137, UserService L364 (incl. DateTime? null) e predicado SubjectKey nulo.
     [Test]
-    public async Task LocalizationUserAndCancel_CoverFinalBranchSides()
+    public async Task LocalizationUserAndCancel_FinalBranchSides_Covered()
     {
         // Arrange — InsertLanguageNotFound both sides of IsNullOrEmpty ternary
         var langCtx = new ApplicationLanguageProbeContext();
@@ -1036,10 +1051,12 @@ public class ServiceBranchCoverageLastPushTests
     [Test]
     public void AzureBlobAdapter_ResolveBlobName_BothSides()
     {
-        // Act
+        // Arrange
         var fromPath = AzureStorageBlobAdapter.ResolveBlobName(null, @"C:\temp\file.pdf");
         var fromPathEmpty = AzureStorageBlobAdapter.ResolveBlobName("", @"C:\temp\file.pdf");
         var fromName = AzureStorageBlobAdapter.ResolveBlobName("explicit.bin", @"C:\temp\file.pdf");
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())

@@ -27,11 +27,14 @@ public class UserServiceTests
     [Test]
     public async Task Login_UserNotFound_ReturnsFailure()
     {
+        // Arrange
         var context = new UserServiceContext();
         context.Context.UserRepository.Setup(x => x.FindByLogin("john")).ReturnsAsync((User?)null);
 
+        // Act
         var result = await context.Service.Login("john", "secret");
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -40,13 +43,16 @@ public class UserServiceTests
     [Test]
     public async Task Login_WrongPassword_ReturnsFailure()
     {
+        // Arrange
         var context = new UserServiceContext();
         SecurityHelper.CreatePasswordHash("correct-password", out var hash, out var salt);
         var user = new User { Id = 1, Login = "john", PasswordHash = hash, PasswordSalt = salt };
         context.Context.UserRepository.Setup(x => x.FindByLogin("john")).ReturnsAsync(user);
 
+        // Act
         var result = await context.Service.Login("john", "wrong-password");
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -55,6 +61,7 @@ public class UserServiceTests
     [Test]
     public async Task Login_ValidCredentialsWithJwt_ReturnsAuthenticatedData()
     {
+        // Arrange
         var context = new UserServiceContext(typeApiCredential: ETypeApiCredential.Jwt);
         SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
         var user = new User
@@ -75,8 +82,10 @@ public class UserServiceTests
         context.TokenConfiguration.SetupGet(x => x.Minutes).Returns(30);
         context.TokenConfiguration.SetupGet(x => x.DaysToExpiry).Returns(7);
 
+        // Act
         var result = await context.Service.Login("john", "secret");
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -90,6 +99,7 @@ public class UserServiceTests
     [Test]
     public async Task Login_ValidCredentialsWithActiveSession_UpdatesExistingSession()
     {
+        // Arrange
         var context = new UserServiceContext(typeApiCredential: ETypeApiCredential.Jwt);
         SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
         var user = new User { Id = 11, Login = "mary", Name = "Mary", PasswordHash = hash, PasswordSalt = salt };
@@ -105,9 +115,12 @@ public class UserServiceTests
         context.TokenConfiguration.SetupGet(x => x.Minutes).Returns(30);
         context.TokenConfiguration.SetupGet(x => x.DaysToExpiry).Returns(7);
 
+        // Act
         var result = await context.Service.Login("mary", "secret");
 
+        // Assert
         result.Success.Should().BeTrue();
+
         context.TokenSessionService.Verify(x => x.SaveSessionAsync(It.IsAny<UserTokenSession>()), Times.Never);
     }
 
@@ -116,6 +129,7 @@ public class UserServiceTests
     [Test]
     public async Task Register_ValidData_CreatesUserAndReturnsSuccess()
     {
+        // Arrange
         var context = new UserServiceContext();
         var registerDto = new UserRegisterDto { Name = "New User", Email = "new@user.com", Login = "newuser", Password = "Secret123" };
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
@@ -123,8 +137,10 @@ public class UserServiceTests
         context.Context.UserRepository.Setup(x => x.Create(It.IsAny<User>()))
             .ReturnsAsync((User u) => { u.Id = 55; return u; });
 
+        // Act
         var result = await context.Service.Register(registerDto);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -137,14 +153,18 @@ public class UserServiceTests
     [Test]
     public async Task Register_InvalidData_ReturnsValidationFailure()
     {
+        // Arrange
         var context = new UserServiceContext();
         var registerDto = new UserRegisterDto { Name = "", Email = "invalid", Login = "x", Password = "123" };
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([new ValidationFailure("Email", "Email inválido") { ErrorCode = "EmailInvalid" }]));
 
+        // Act
         var result = await context.Service.Register(registerDto);
 
+        // Assert
         result.Success.Should().BeFalse();
+
         context.Context.UserRepository.Verify(x => x.Create(It.IsAny<User>()), Times.Never);
     }
 
@@ -153,6 +173,7 @@ public class UserServiceTests
     [Test]
     public async Task Create_ValidDataWithRoleGroups_CreatesUserAndSendsEmail()
     {
+        // Arrange
         var context = new UserServiceContext();
         var addDto = new UserRegisterDto { Name = "Admin User", Email = "admin@user.com", Login = "adminuser", Password = "Secret123", RoleGroupsIds = [1, 2] };
         var roleGroups = new List<RoleGroup> { new() { Id = 1, Description = "Manager" } };
@@ -168,8 +189,10 @@ public class UserServiceTests
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
             .ReturnsAsync(new ServiceResponse<GetNotificationTemplateDto> { Success = false });
 
+        // Act
         var result = await context.Service.Create(addDto);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -183,6 +206,7 @@ public class UserServiceTests
     [Test]
     public async Task Create_ValidDataWithoutRoleGroups_CreatesUserWithoutLinkingRoles()
     {
+        // Arrange
         var context = new UserServiceContext();
         var addDto = new UserRegisterDto { Name = "Basic User", Email = "basic@user.com", Login = "basicuser", Password = "Secret123" };
         context.RoleGroupRepository.Setup(x => x.FindByIDs(It.IsAny<List<long>>())).ReturnsAsync([]);
@@ -195,9 +219,12 @@ public class UserServiceTests
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
             .ReturnsAsync(new ServiceResponse<GetNotificationTemplateDto> { Success = false });
 
+        // Act
         var result = await context.Service.Create(addDto);
 
+        // Assert
         result.Success.Should().BeTrue();
+
         context.Context.UserRepository.Verify(x => x.Update(It.IsAny<User>()), Times.Never);
     }
 
@@ -206,6 +233,7 @@ public class UserServiceTests
     [Test]
     public async Task Create_ValidTemplate_SendsAccessEmailNotification()
     {
+        // Arrange
         var context = new UserServiceContext();
         var addDto = new UserRegisterDto { Name = "Notify User", Email = "notify@user.com", Login = "notifyuser", Password = "Secret123" };
         context.RoleGroupRepository.Setup(x => x.FindByIDs(It.IsAny<List<long>>())).ReturnsAsync([]);
@@ -225,9 +253,12 @@ public class UserServiceTests
                 It.IsAny<DataNotificationTemplateVO>(), ENotificationServiceType.Email, It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);
 
+        // Act
         var result = await context.Service.Create(addDto);
 
+        // Assert
         result.Success.Should().BeTrue();
+
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
             It.IsAny<DataNotificationTemplateVO>(), ENotificationServiceType.Email, It.IsAny<Dictionary<string, string>>()), Times.Once);
     }
@@ -237,11 +268,14 @@ public class UserServiceTests
     [Test]
     public async Task Update_MissingUser_ReturnsFailure()
     {
+        // Arrange
         var context = new UserServiceContext();
         context.Context.UserRepository.Setup(x => x.FindByID(999)).ReturnsAsync((User?)null);
 
+        // Act
         var result = await context.Service.Update(new UpdateUserDto { Id = 999 });
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -250,6 +284,7 @@ public class UserServiceTests
     [Test]
     public async Task Update_ExistingUserWithPasswordAndRoleGroups_UpdatesSuccessfully()
     {
+        // Arrange
         var context = new UserServiceContext();
         var entity = new User { Id = 5, Name = "Old", Email = "old@x.com" };
         context.Context.UserRepository.Setup(x => x.FindByID(5)).ReturnsAsync(entity);
@@ -269,8 +304,10 @@ public class UserServiceTests
             RoleGroupsIds = [3]
         };
 
+        // Act
         var result = await context.Service.Update(updateDto);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -285,6 +322,7 @@ public class UserServiceTests
     [Test]
     public async Task Update_ExistingUserWithoutRoleGroupMatches_KeepsExistingLinks()
     {
+        // Arrange
         var context = new UserServiceContext();
         var entity = new User { Id = 6, Name = "Old" };
         context.Context.UserRepository.Setup(x => x.FindByID(6)).ReturnsAsync(entity);
@@ -293,8 +331,10 @@ public class UserServiceTests
             .ReturnsAsync(new ValidationResult());
         context.Context.UserRepository.Setup(x => x.Update(entity)).ReturnsAsync(entity);
 
+        // Act
         var result = await context.Service.Update(new UpdateUserDto { Id = 6, Name = "Updated" });
 
+        // Assert
         result.Success.Should().BeTrue();
     }
 
@@ -303,11 +343,14 @@ public class UserServiceTests
     [Test]
     public async Task Update_RepositoryThrows_ReturnsControlledFailure()
     {
+        // Arrange
         var context = new UserServiceContext();
         context.Context.UserRepository.Setup(x => x.FindByID(It.IsAny<long>())).ThrowsAsync(new InvalidOperationException("boom"));
 
+        // Act
         var result = await context.Service.Update(new UpdateUserDto { Id = 7 });
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -316,11 +359,14 @@ public class UserServiceTests
     [Test]
     public async Task UserExists_ExistingLogin_ReturnsTrue()
     {
+        // Arrange
         var context = new UserServiceContext();
         context.Context.UserRepository.Setup(x => x.UserExists("john")).ReturnsAsync(true);
 
+        // Act
         var exists = await context.Service.UserExists("john");
 
+        // Assert
         exists.Should().BeTrue();
     }
 
@@ -329,11 +375,14 @@ public class UserServiceTests
     [Test]
     public async Task Logout_MissingUser_ReturnsUserNotFound()
     {
+        // Arrange
         var context = new UserServiceContext();
         context.Context.UserRepository.Setup(x => x.UserExists("ghost")).ReturnsAsync(false);
 
+        // Act
         var result = await context.Service.Logout("ghost");
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -342,11 +391,14 @@ public class UserServiceTests
     [Test]
     public async Task Logout_ExistingUser_ReturnsLogoutMessage()
     {
+        // Arrange
         var context = new UserServiceContext();
         context.Context.UserRepository.Setup(x => x.UserExists("john")).ReturnsAsync(true);
 
+        // Act
         var result = await context.Service.Logout("john");
 
+        // Assert
         result.Success.Should().BeFalse();
         result.Message.Should().NotBeNullOrWhiteSpace();
     }
@@ -356,11 +408,14 @@ public class UserServiceTests
     [Test]
     public async Task UpdateProfile_MissingUser_ReturnsFailure()
     {
+        // Arrange
         var context = new UserServiceContext();
         context.Context.UserRepository.Setup(x => x.FindByID(123)).ReturnsAsync((User?)null);
 
+        // Act
         var result = await context.Service.UpdateProfile(new UpdateUserProfileDto { Id = 123 });
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -369,6 +424,7 @@ public class UserServiceTests
     [Test]
     public async Task UpdateProfile_ValidData_UpdatesProfileSuccessfully()
     {
+        // Arrange
         var context = new UserServiceContext();
         var entity = new User { Id = 8, Name = "Old Profile" };
         context.Context.UserRepository.Setup(x => x.FindByID(8)).ReturnsAsync(entity);
@@ -376,6 +432,7 @@ public class UserServiceTests
             .ReturnsAsync(new ValidationResult());
         context.Context.UserRepository.Setup(x => x.Update(entity)).ReturnsAsync(entity);
 
+        // Act
         var result = await context.Service.UpdateProfile(new UpdateUserProfileDto
         {
             Id = 8,
@@ -386,6 +443,7 @@ public class UserServiceTests
             TimeZone = "America/Sao_Paulo"
         });
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -398,6 +456,7 @@ public class UserServiceTests
     [Test]
     public async Task FindByID_ExistingUserWithRoleGroups_ReturnsMappedDtoWithRoleGroups()
     {
+        // Arrange
         var context = new UserServiceContext();
         var roleGroup = new RoleGroup { Id = 1, Description = "Manager", RolePolicyClaimCode = "Manager" };
         var entity = new User
@@ -408,8 +467,10 @@ public class UserServiceTests
         };
         context.Context.UserRepository.Setup(x => x.FindByID(9)).ReturnsAsync(entity);
 
+        // Act
         var result = await context.Service.FindByID(9);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -423,12 +484,15 @@ public class UserServiceTests
     [Test]
     public async Task FindByID_ExistingAdminWithoutRoleLinks_AppliesFallbackAndAdminGroup()
     {
+        // Arrange
         var context = new UserServiceContext();
         var entity = new User { Id = 12, Name = "Admin", Role = "Manager", Admin = true, UserRoleGroups = new List<RoleGroupUser>() };
         context.Context.UserRepository.Setup(x => x.FindByID(12)).ReturnsAsync(entity);
 
+        // Act
         var result = await context.Service.FindByID(12);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -442,11 +506,14 @@ public class UserServiceTests
     [Test]
     public async Task FindByID_MissingUser_ReturnsSuccessWithoutData()
     {
+        // Arrange
         var context = new UserServiceContext();
         context.Context.UserRepository.Setup(x => x.FindByID(404)).ReturnsAsync((User?)null);
 
+        // Act
         var result = await context.Service.FindByID(404);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -459,12 +526,15 @@ public class UserServiceTests
     [Test]
     public async Task ValidateCredentialsToken_InvalidPrincipal_ReturnsUnauthenticatedToken()
     {
+        // Arrange
         var context = new UserServiceContext();
         context.TokenService.Setup(x => x.GetPrincipalFromExpiredToken(It.IsAny<string>())).Returns((ClaimsPrincipal)null!);
         context.TokenConfiguration.SetupGet(x => x.Minutes).Returns(10);
 
+        // Act
         var result = await context.Service.validateCredentials(new TokenVO(true, "c", "e", "access", "refresh"));
 
+        // Assert
         result.Should().NotBeNull();
     }
 
@@ -473,14 +543,17 @@ public class UserServiceTests
     [Test]
     public async Task ValidateCredentialsToken_NonNumericIdentity_ReturnsRefreshedTimestampToken()
     {
+        // Arrange
         var context = new UserServiceContext();
         var identity = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "not-a-number") }, "TestAuth");
         var principal = new ClaimsPrincipal(identity);
         context.TokenService.Setup(x => x.GetPrincipalFromExpiredToken(It.IsAny<string>())).Returns(principal);
         context.TokenConfiguration.SetupGet(x => x.Minutes).Returns(15);
 
+        // Act
         var result = await context.Service.validateCredentials(new TokenVO(true, "c", "e", "access", "refresh"));
 
+        // Assert
         result.Authenticated.Should().BeTrue();
     }
 
@@ -489,6 +562,7 @@ public class UserServiceTests
     [Test]
     public async Task ValidateCredentialsToken_ValidRefreshToken_RenewsTokens()
     {
+        // Arrange
         var context = new UserServiceContext();
         var identity = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "15") }, "TestAuth");
         var principal = new ClaimsPrincipal(identity);
@@ -505,8 +579,10 @@ public class UserServiceTests
         context.Context.UserRepository.Setup(x => x.RefreshUserInfo(user)).ReturnsAsync(user);
         context.TokenConfiguration.SetupGet(x => x.Minutes).Returns(20);
 
+        // Act
         var result = await context.Service.validateCredentials(new TokenVO(true, "c", "e", "access", "valid-refresh"));
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Authenticated.Should().BeTrue();
@@ -521,6 +597,7 @@ public class UserServiceTests
     [Test]
     public async Task ValidateCredentialsToken_ExpiredRefreshToken_ReturnsUnauthenticated()
     {
+        // Arrange
         var context = new UserServiceContext();
         var identity = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "16") }, "TestAuth");
         var principal = new ClaimsPrincipal(identity);
@@ -534,8 +611,10 @@ public class UserServiceTests
         context.Context.UserRepository.Setup(x => x.FindByID(16)).ReturnsAsync(user);
         context.TokenConfiguration.SetupGet(x => x.Minutes).Returns(10);
 
+        // Act
         var result = await context.Service.validateCredentials(new TokenVO(true, "c", "e", "access", "stale-refresh"));
 
+        // Assert
         result.Authenticated.Should().BeFalse();
     }
 

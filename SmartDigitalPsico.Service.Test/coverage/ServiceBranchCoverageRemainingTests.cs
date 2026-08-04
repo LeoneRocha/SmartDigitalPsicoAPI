@@ -257,7 +257,6 @@ public class ServiceBranchCoverageRemainingTests
         var start = new DateTime(2026, 6, 1, 12, 0, 0, DateTimeKind.Utc);
         var calendar = new MedicalCalendar { StartDateTime = start, Description = "d", TokenRecurrence = Guid.NewGuid().ToString() };
 
-        // Act
         foreach (EIntervalNotificationType interval in Enum.GetValues<EIntervalNotificationType>())
         {
             var rule = new NotificationRule { IntervalType = interval, IntervalValue = 1, IsBefore = true };
@@ -267,6 +266,8 @@ public class ServiceBranchCoverageRemainingTests
         var incomplete = (bool)validate.Invoke(null, [false, new[] { new NotificationRuleStatus { IsSent = true } }])!;
         var dtoOpen = (AddNotificationRecordsDto)createDto.Invoke(null, [calendar, new[] { new NotificationRuleStatus { IsSent = false } }, false])!;
         var dtoDone = (AddNotificationRecordsDto)createDto.Invoke(null, [calendar, new[] { new NotificationRuleStatus { IsSent = true } }, true])!;
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -281,7 +282,7 @@ public class ServiceBranchCoverageRemainingTests
     // Cenário: Schedule Create/Update com UniqueToken vazio, conflito Success/Data e sem InnerException.
     // Objetivo: fechar ternários e ?? restantes dos serviços core.
     [Test]
-    public async Task ScheduleCreateUpdate_RemainingConflictAndTokenBranches()
+    public async Task ScheduleCreateUpdate_RemainingConflictAndToken_CoverBranches()
     {
         // Arrange
         var item = new ScheduleCalendarItem
@@ -501,10 +502,11 @@ public class ServiceBranchCoverageRemainingTests
 
         // Act
         var result = await service.BuildGradeAsync(request);
+
+        // Assert
         fill.Invoke(null, [days, workingList]);
         fill.Invoke(null, [days, new[] { day.DayOfWeek }]);
 
-        // Assert
         result.Success.Should().BeTrue();
         result.Data!.DisplayName.Should().Be("Dr Explicit");
     }
@@ -555,9 +557,10 @@ public class ServiceBranchCoverageRemainingTests
             }
         };
 
-        // Act
         var filtered = (NotificationRecord[])filter.Invoke(null, [records, now])!;
         var calendarNullId = new MedicalCalendar { PatientId = null, Patient = null, Medical = null };
+
+        // Act
         await (Task)hydrate.Invoke(sut, [calendarNullId])!;
         var calendarMissingPatient = new MedicalCalendar { PatientId = 7, Patient = null, Medical = null };
         await (Task)hydrate.Invoke(sut, [calendarMissingPatient])!;
@@ -815,6 +818,8 @@ public class ServiceBranchCoverageRemainingTests
 
         // Act
         var result = await sut.GetMonthlyCalendar(new CalendarCriteriaDto
+
+        // Assert
         {
             MedicalId = 3,
             Month = 6,
@@ -823,7 +828,6 @@ public class ServiceBranchCoverageRemainingTests
             UserIdLogged = 1
         });
 
-        // Assert
         result.Success.Should().BeTrue();
     }
 
@@ -844,6 +848,8 @@ public class ServiceBranchCoverageRemainingTests
             Success = true,
             Data = new ScheduleCalendar { Id = 1, UniqueToken = "t", ScheduleData = null }
         });
+
+        // Act
         var refusedDto = await sut.Update(new UpdateMedicalCalendarDto
         {
             Id = 1,
@@ -940,6 +946,9 @@ public class ServiceBranchCoverageRemainingTests
     public void MedicalScheduleConstraints_NonNullWorkingDays_CoverBranch()
     {
         // Arrange / Act
+        // Arrange
+
+        // Act
         var result = MedicalScheduleConstraintsProvider.ToConstraints(new MedicalEntity
         {
             Name = "Dr",
@@ -981,6 +990,8 @@ public class ServiceBranchCoverageRemainingTests
 
         // Act
         await sut.NotifyAsync(new MedicalCalendar
+
+        // Assert
         {
             Title = "T",
             StartDateTime = DateTime.UtcNow,
@@ -990,7 +1001,6 @@ public class ServiceBranchCoverageRemainingTests
             Patient = new Patient { Name = "P" }
         }, EMedicalCalendarActionType.Add);
 
-        // Assert
         captured!.Body.Should().Be("<p>FallbackBody</p>");
     }
 
@@ -1064,6 +1074,7 @@ public class ServiceBranchCoverageRemainingTests
         context.AuditService.Setup(x => x.Save(It.IsAny<object>(), It.IsAny<object>(), "Update", It.IsAny<string[]>()))
             .Returns(Task.CompletedTask);
 
+        // Act
         context.Service.SetUserId(1);
         context.Repository.Setup(x => x.FindByID(40)).ReturnsAsync(new PatientRecord { Id = 40, PatientId = 5, Annotation = "c" });
         context.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
@@ -1071,7 +1082,6 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new Patient { Id = 5, Medical = null });
         context.Context.Crypto.Setup(x => x.Decrypt(string.Empty, "c")).Returns("plain");
 
-        // Act
         var update = await context.Service.Update(new UpdatePatientRecordDto
         {
             Id = 30,
@@ -1152,9 +1162,10 @@ public class ServiceBranchCoverageRemainingTests
         shared.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
         shared.Crypto.Setup(x => x.Decrypt(string.Empty, "cipher")).Returns("plain");
         var service = new PatientReportService(patientRepos.Object, config.Object, reportConfig.Object);
-        service.SetUserId(1);
 
         // Act
+        service.SetUserId(1);
+
         var result = await service.GetPatientDetailsByIdAsync(10);
 
         // Assert
@@ -1197,7 +1208,6 @@ public class ServiceBranchCoverageRemainingTests
         var diskService = CreateCache(ETypeLocationCache.Disk, disk: disk, logs: logs);
         var memoryService = CreateCache(ETypeLocationCache.Memory, memory: memory);
 
-        // Act
         var tryThrow = diskService.TryGet("throw", out ExpirableCacheEntry thrownValue);
         var badDateExists = diskService.Exists<ExpirableCacheEntry>("bad-date");
         var setProps = diskService.Set("props", new CachePropsWithValues
@@ -1206,6 +1216,8 @@ public class ServiceBranchCoverageRemainingTests
             DateTimeSlidingExpiration = DateTime.Now.AddHours(1).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
         });
         var memMiss = memoryService.TryGet("mem", out CacheValue memValue);
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -1558,6 +1570,9 @@ public class ServiceBranchCoverageRemainingTests
     public void MedicalScheduleMapper_PreferDateNullDataAndNoBooking_CoverBranches()
     {
         // Arrange / Act
+        // Arrange
+
+        // Act
         var withEmptyData = MedicalScheduleMapper.ToMedicalCalendarFromPackage(
             new ScheduleCalendar
             {
@@ -1582,6 +1597,7 @@ public class ServiceBranchCoverageRemainingTests
                 Booking = null,
                 IsAvailable = true
             },
+
             1);
 
         // Assert

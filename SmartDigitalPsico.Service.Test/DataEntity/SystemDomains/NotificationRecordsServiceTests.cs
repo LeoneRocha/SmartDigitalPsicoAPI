@@ -22,6 +22,7 @@ public class NotificationRecordsServiceTests
     [Test]
     public async Task Create_ValidRecordWithPendingRules_PersistsWithNextScheduledSendTime()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         var rule = new NotificationRuleStatus { IsSent = false, ScheduledSendTime = DateTime.UtcNow.AddDays(1) };
         var addDto = new AddNotificationRecordsDto { TokenId = Guid.NewGuid(), EventDate = DateTime.UtcNow, NotificationRules = [rule] };
@@ -29,8 +30,10 @@ public class NotificationRecordsServiceTests
             .ReturnsAsync(new ValidationResult());
         context.Repository.Setup(x => x.Create(It.IsAny<NotificationRecord>())).ReturnsAsync((NotificationRecord r) => { r.Id = 5; return r; });
 
+        // Act
         var result = await context.Service.Create(addDto);
 
+        // Assert
         result.Success.Should().BeTrue();
     }
 
@@ -39,11 +42,14 @@ public class NotificationRecordsServiceTests
     [Test]
     public async Task Update_MissingRecord_ReturnsNotFoundFailure()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         context.Repository.Setup(x => x.FindByID(50)).ReturnsAsync((NotificationRecord?)null);
 
+        // Act
         var result = await context.Service.Update(new UpdateNotificationRecordsDto { Id = 50 });
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -52,6 +58,7 @@ public class NotificationRecordsServiceTests
     [Test]
     public async Task Update_ExistingRecord_UpdatesSuccessfully()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         var entity = new NotificationRecord { Id = 51 };
         context.Repository.Setup(x => x.FindByID(51)).ReturnsAsync(entity);
@@ -59,7 +66,10 @@ public class NotificationRecordsServiceTests
             .ReturnsAsync(new ValidationResult());
         context.Repository.Setup(x => x.Update(entity)).ReturnsAsync(entity);
 
+        // Act
         var result = await context.Service.Update(new UpdateNotificationRecordsDto
+
+        // Assert
         {
             Id = 51,
             TokenId = Guid.NewGuid(),
@@ -75,6 +85,7 @@ public class NotificationRecordsServiceTests
     [Test]
     public async Task CreateOrUpdateNotificationRecordsAsync_NoRules_DoesNothing()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         context.NotificationRulesService.Setup(x => x.GetNotificationRulesAsync(It.IsAny<ENotificationType>(), It.IsAny<bool>(), It.IsAny<long>()))
             .ReturnsAsync([]);
@@ -84,8 +95,10 @@ public class NotificationRecordsServiceTests
             NotificationType = ENotificationType.BeforeAppointment
         };
 
+        // Act
         await context.Service.CreateOrUpdateNotificationRecordsAsync(dto);
 
+        // Assert
         context.Repository.Verify(x => x.Create(It.IsAny<NotificationRecord>()), Times.Never);
     }
 
@@ -94,6 +107,7 @@ public class NotificationRecordsServiceTests
     [Test]
     public async Task CreateOrUpdateNotificationRecordsAsync_EmptyToken_SkipsSaving()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         var rule = new NotificationRule { Id = 1, IntervalType = EIntervalNotificationType.Hours, IntervalValue = 1, IsBefore = true, ENotificationServiceType = [] };
         context.NotificationRulesService.Setup(x => x.GetNotificationRulesAsync(It.IsAny<ENotificationType>(), It.IsAny<bool>(), It.IsAny<long>()))
@@ -104,8 +118,10 @@ public class NotificationRecordsServiceTests
             NotificationType = ENotificationType.BeforeAppointment
         };
 
+        // Act
         await context.Service.CreateOrUpdateNotificationRecordsAsync(dto);
 
+        // Assert
         context.Repository.Verify(x => x.Create(It.IsAny<NotificationRecord>()), Times.Never);
     }
 
@@ -114,6 +130,7 @@ public class NotificationRecordsServiceTests
     [Test]
     public async Task CreateOrUpdateNotificationRecordsAsync_NewToken_CreatesRecord()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         var rule = new NotificationRule { Id = 2, IntervalType = EIntervalNotificationType.Hours, IntervalValue = 1, IsBefore = true, ENotificationServiceType = [] };
         context.NotificationRulesService.Setup(x => x.GetNotificationRulesAsync(It.IsAny<ENotificationType>(), It.IsAny<bool>(), It.IsAny<long>()))
@@ -131,8 +148,10 @@ public class NotificationRecordsServiceTests
             NotificationType = ENotificationType.BeforeAppointment
         };
 
+        // Act
         await context.Service.CreateOrUpdateNotificationRecordsAsync(dto);
 
+        // Assert
         context.Repository.Verify(x => x.Create(It.IsAny<NotificationRecord>()), Times.Once);
     }
 
@@ -141,6 +160,7 @@ public class NotificationRecordsServiceTests
     [Test]
     public async Task CreateOrUpdateNotificationRecordsAsync_ExistingToken_UpdatesRecord()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         var rule = new NotificationRule { Id = 3, IntervalType = EIntervalNotificationType.Hours, IntervalValue = 1, IsBefore = true, ENotificationServiceType = [] };
         context.NotificationRulesService.Setup(x => x.GetNotificationRulesAsync(It.IsAny<ENotificationType>(), It.IsAny<bool>(), It.IsAny<long>()))
@@ -160,8 +180,10 @@ public class NotificationRecordsServiceTests
             NotificationType = ENotificationType.BeforeAppointment
         };
 
+        // Act
         await context.Service.CreateOrUpdateNotificationRecordsAsync(dto);
 
+        // Assert
         context.Repository.Verify(x => x.Update(existing), Times.Once);
         context.Repository.Verify(x => x.Create(It.IsAny<NotificationRecord>()), Times.Never);
     }
@@ -171,6 +193,7 @@ public class NotificationRecordsServiceTests
     [Test]
     public async Task CreateOrUpdateNotificationRecordsAsync_ServiceThrows_LogsAndSwallowsException()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         context.NotificationRulesService.Setup(x => x.GetNotificationRulesAsync(It.IsAny<ENotificationType>(), It.IsAny<bool>(), It.IsAny<long>()))
             .ThrowsAsync(new InvalidOperationException("boom"));
@@ -181,22 +204,27 @@ public class NotificationRecordsServiceTests
             NotificationType = ENotificationType.BeforeAppointment
         };
 
+        // Act
         await context.Service.CreateOrUpdateNotificationRecordsAsync(dto);
 
+        // Assert
         context.Context.Logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
     }
 
     // Cenário: busca de notificações pendentes.
     // Objetivo: delegar a consulta ao repositório especializado.
     [Test]
-    public async Task GetPendingNotificationsAsync_DelegatesToRepository()
+    public async Task GetPendingNotificationsAsync_DelegatesToRepository_CoversPath()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         var records = new[] { new NotificationRecord { Id = 1 } };
         context.Repository.Setup(x => x.GetPendingNotificationsAsync()).ReturnsAsync(records);
 
+        // Act
         var result = await context.Service.GetPendingNotificationsAsync();
 
+        // Assert
         result.Should().HaveCount(1);
     }
 
@@ -208,6 +236,7 @@ public class NotificationRecordsServiceTests
     [TestCase(EIntervalNotificationType.Years)]
     public async Task CreateOrUpdateNotificationRecordsAsync_IntervalTypes_CreatesRecord(EIntervalNotificationType intervalType)
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         var rule = new NotificationRule
         {
@@ -242,8 +271,10 @@ public class NotificationRecordsServiceTests
             NotificationType = ENotificationType.BeforeAppointment
         };
 
+        // Act
         await context.Service.CreateOrUpdateNotificationRecordsAsync(dto);
 
+        // Assert
         context.Repository.Verify(x => x.Create(It.IsAny<NotificationRecord>()), Times.Once);
     }
 
@@ -252,6 +283,7 @@ public class NotificationRecordsServiceTests
     [Test]
     public async Task CreateOrUpdateNotificationRecordsAsync_SaveThrows_LogsError()
     {
+        // Arrange
         var context = new NotificationRecordsServiceContext();
         var rule = new NotificationRule
         {
@@ -288,8 +320,10 @@ public class NotificationRecordsServiceTests
             NotificationType = ENotificationType.BeforeAppointment
         };
 
+        // Act
         await context.Service.CreateOrUpdateNotificationRecordsAsync(dto);
 
+        // Assert
         context.Context.Logger.Verify(
             x => x.Error(It.IsAny<Exception>(), "Error at SaveNotificationRecordAsync"),
             Times.Once);

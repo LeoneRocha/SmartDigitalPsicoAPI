@@ -62,6 +62,7 @@ public sealed class BranchCoverageHundredPercentTests
     [Test]
     public void LogAppHelper_NoEnvAndHostFallback_CoversAssemblyBranches()
     {
+        // Arrange
         var previous = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", null);
         try
@@ -71,6 +72,8 @@ public sealed class BranchCoverageHundredPercentTests
             var info = LogAppHelper.GetInformationVersionProduct();
             var version = LogAppHelper.GetAssemblyVersion();
 
+        // Act
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 hostEnv.Should().NotBeNullOrEmpty();
@@ -90,6 +93,7 @@ public sealed class BranchCoverageHundredPercentTests
     [Test]
     public void EnumDescriptionConverter_PartialMatchesAndWritePlain_CoverAllBranches()
     {
+        // Arrange
         var options = new JsonSerializerOptions();
         options.Converters.Add(new EnumDescriptionConverter<HundredDescribedEnum>());
         var converter = new EnumDescriptionConverter<HundredDescribedEnum>();
@@ -105,6 +109,8 @@ public sealed class BranchCoverageHundredPercentTests
         var wrongDescArgs = new object?[] { valueField, "Wrong description", null };
         var wrongNameArgs = new object?[] { plainField, "NotPlain", null };
         var rightDescArgs = new object?[] { valueField, "Human value", null };
+        // Act
+        // Assert
         fromDescription.Invoke(converter, wrongDescArgs).Should().Be(false);
         fromName.Invoke(converter, wrongNameArgs).Should().Be(false);
         fromDescription.Invoke(converter, rightDescArgs).Should().Be(true);
@@ -124,6 +130,7 @@ public sealed class BranchCoverageHundredPercentTests
     [Test]
     public void RecurrenceMaterializer_SequentialDailyAndSingleWeek_StopAtExpectedPoints()
     {
+        // Arrange
         var monday = new DateTime(2026, 4, 6, 9, 0, 0);
         var dailySequential = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
@@ -159,6 +166,8 @@ public sealed class BranchCoverageHundredPercentTests
             MaxOccurrences = 1
         });
 
+        // Act
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             dailySequential.Should().ContainSingle();
@@ -173,6 +182,7 @@ public sealed class BranchCoverageHundredPercentTests
     [Test]
     public async Task ExcelAndSerializer_MergeAndKeepPaths_CoverRemainingBranches()
     {
+        // Arrange
         Directory.CreateDirectory(_tempPath);
         var mergeOut = Path.Combine(_tempPath, "merge.xlsx");
         var plainOut = Path.Combine(_tempPath, "plain.xlsx");
@@ -204,6 +214,8 @@ public sealed class BranchCoverageHundredPercentTests
         var kept = Newtonsoft.Json.JsonConvert.SerializeObject(new HundredRow { Label = "x", Public = "y", Secret = "z" },
             new Newtonsoft.Json.JsonSerializerSettings { ContractResolver = resolver });
 
+        // Act
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             File.Exists(mergeOut).Should().BeTrue();
@@ -218,6 +230,7 @@ public sealed class BranchCoverageHundredPercentTests
     [Test]
     public void HelperValidation_PipeAndTranslateEdges_CoverRemainingBranches()
     {
+        // Arrange
         var singlePart = HelperValidation.GetErrorsMap(new ValidationResult(
             [new ValidationFailure("F", "OnlyKey_|") { ErrorCode = "legacy" }]))[0];
         var noUnderscore = HelperValidation.GetErrorsMap(new ValidationResult(
@@ -228,6 +241,8 @@ public sealed class BranchCoverageHundredPercentTests
             ErrorCode = "legacy"
         });
 
+        // Act
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             singlePart.DefaultMessage.Should().BeEmpty();
@@ -241,6 +256,7 @@ public sealed class BranchCoverageHundredPercentTests
     [Test]
     public async Task ValidatorsAndToken_RemainingWhenOverlapAndAlgBranches()
     {
+        // Arrange
         var monday = DateTime.UtcNow.Date.AddDays(28).AddHours(9);
         while (monday.DayOfWeek != DayOfWeek.Monday)
             monday = monday.AddDays(1);
@@ -361,6 +377,8 @@ public sealed class BranchCoverageHundredPercentTests
             TimeZone = "UTC"
         }, CancellationToken.None);
 
+        // Act
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             beforeHours.Should().BeFalse();
@@ -406,10 +424,13 @@ public sealed class BranchCoverageHundredPercentTests
     [Test]
     public async Task FinalDomainBranchPush_LogAppOverlapAndToken_CoversRemainingPaths()
     {
+        // Arrange
         LogAppHelper.ProductAssemblyOverrideForTests = typeof(BranchCoverageHundredPercentTests).Assembly;
         try
         {
             var info = LogAppHelper.GetInformationVersionProduct();
+        // Act
+            // Assert
             info.Name.Should().Contain("SmartDigitalPsico.Domain.Test");
         }
         finally

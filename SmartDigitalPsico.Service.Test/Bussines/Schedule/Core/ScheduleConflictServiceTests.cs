@@ -178,12 +178,13 @@ public class ScheduleConflictServiceTests
 
         // Act
         var result = await service.HasNoConflictBatchAsync(
+
+        // Assert
             "medical",
             "medical:1",
             [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddHours(1) }],
             null);
 
-        // Assert
         result.Data.Should().BeTrue();
     }
 
@@ -208,12 +209,13 @@ public class ScheduleConflictServiceTests
 
         // Act
         var result = await service.HasNoConflictBatchAsync(
+
+        // Assert
             "medical",
             "medical:1",
             [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddHours(1) }],
             "self-token");
 
-        // Assert
         result.Data.Should().BeTrue();
     }
 

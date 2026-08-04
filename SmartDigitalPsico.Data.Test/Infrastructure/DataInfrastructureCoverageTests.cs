@@ -11,11 +11,12 @@ namespace SmartDigitalPsico.Data.Test.Infrastructure;
 [TestFixture]
 public class DataInfrastructureCoverageTests
 {
+    // Cenário: todas as configurações de entidades disponíveis.
+    // Objetivo: garantir que cada mapeamento possa compor um modelo EF Core.
     [Test]
     public void Configure_AllEntityConfigurations_AppliesToModelBuilder()
     {
-        // Cenário: todas as configurações de entidades disponíveis.
-        // Objetivo: garantir que cada mapeamento possa compor um modelo EF Core.
+        // Arrange
         var configurationTypes = typeof(RoleGroupConfiguration).Assembly
             .GetTypes()
             .Where(type => !type.IsAbstract && type.GetInterfaces()
@@ -44,11 +45,12 @@ public class DataInfrastructureCoverageTests
         configurationTypes.Should().NotBeEmpty();
     }
 
+    // Cenário: migrações MySql do assembly Data.
+    // Objetivo: garantir que operações Up e Down sejam construídas sem conexão externa.
     [Test]
     public void UpAndDown_AllMigrations_AddOperations()
     {
-        // Cenário: migrações MySql do assembly Data.
-        // Objetivo: garantir que operações Up e Down sejam construídas sem conexão externa.
+        // Arrange
         var migrationTypes = typeof(RoleGroupConfiguration).Assembly
             .GetTypes()
             .Where(type => !type.IsAbstract && typeof(Migration).IsAssignableFrom(type))

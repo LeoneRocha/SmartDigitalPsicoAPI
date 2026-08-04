@@ -13,11 +13,12 @@ public class MedicalScheduleKeyPolicyTests
         // Arrange
         var policy = new MedicalScheduleKeyPolicy();
 
-        // Act
         var owner = policy.BuildOwnerKey(18);
         var subject = policy.BuildSubjectKey(27);
         var hasOwner = policy.TryParseOwnerId(owner, out var ownerId);
         var hasSubject = policy.TryParseSubjectId(subject, out var subjectId);
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -38,8 +39,9 @@ public class MedicalScheduleKeyPolicyTests
         // Arrange
         var policy = new MedicalScheduleKeyPolicy();
 
-        // Act
         var parsed = policy.TryParseOwnerId("invalid-key", out var identifier);
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())

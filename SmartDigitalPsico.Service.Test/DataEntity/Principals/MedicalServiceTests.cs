@@ -19,6 +19,7 @@ public class MedicalServiceTests
     [Test]
     public async Task Create_ValidMedicalWithSpecialties_PersistsAndLinksSpecialties()
     {
+        // Arrange
         var context = new MedicalServiceContext();
         var addDto = new AddMedicalDto
         {
@@ -34,8 +35,10 @@ public class MedicalServiceTests
         context.Repository.Setup(x => x.Update(It.IsAny<Medical>())).ReturnsAsync((Medical m) => m);
         context.Repository.Setup(x => x.FindByID(20)).ReturnsAsync(new Medical { Id = 20, Name = "Dr. House", MedicalSpecialties = new List<MedicalSpecialty>() });
 
+        // Act
         var result = await context.Service.Create(addDto);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -49,12 +52,16 @@ public class MedicalServiceTests
     [Test]
     public async Task Update_MissingMedical_ReturnsDefaultResponseWithoutPersisting()
     {
+        // Arrange
         var context = new MedicalServiceContext();
         context.Repository.Setup(x => x.FindByID(404)).ReturnsAsync((Medical?)null);
 
+        // Act
         var result = await context.Service.Update(new UpdateMedicalDto { Id = 404 });
 
+        // Assert
         result.Data.Should().BeNull();
+
         context.Repository.Verify(x => x.Update(It.IsAny<Medical>()), Times.Never);
     }
 
@@ -63,6 +70,7 @@ public class MedicalServiceTests
     [Test]
     public async Task Update_ExistingMedical_UpdatesAndSendsFallbackNotification()
     {
+        // Arrange
         var context = new MedicalServiceContext();
         var entity = new Medical { Id = 21, Name = "Old", Email = "old@x.com", MedicalSpecialties = new List<MedicalSpecialty>() };
         context.Repository.Setup(x => x.FindByID(21)).ReturnsAsync(entity);
@@ -87,8 +95,10 @@ public class MedicalServiceTests
             SpecialtiesIds = [3]
         };
 
+        // Act
         var result = await context.Service.Update(updateDto);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -106,7 +116,10 @@ public class MedicalServiceTests
     [Test]
     public async Task Update_ExistingMedicalWithTemplate_SendsTemplateNotification()
     {
+        // Arrange
         var context = new MedicalServiceContext();
+
+        // Act
         context.Service.SetUserId(5);
         var entity = new Medical { Id = 22, Name = "Dr. Template", Email = "old@x.com", MedicalSpecialties = new List<MedicalSpecialty>() };
         context.Repository.Setup(x => x.FindByID(22)).ReturnsAsync(entity);
@@ -136,7 +149,9 @@ public class MedicalServiceTests
             SpecialtiesIds = []
         });
 
+        // Assert
         result.Success.Should().BeTrue();
+
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
             It.IsAny<SmartDigitalPsico.Domain.VO.DataNotificationTemplateVO>(),
             SmartDigitalPsico.Domain.Enuns.ENotificationServiceType.Email,
@@ -148,6 +163,7 @@ public class MedicalServiceTests
     [Test]
     public async Task Update_NotificationThrows_SendsFallbackEmail()
     {
+        // Arrange
         var context = new MedicalServiceContext();
         var entity = new Medical { Id = 23, Name = "Dr. Fail", Email = "a@b.com", MedicalSpecialties = new List<MedicalSpecialty>() };
         context.Repository.Setup(x => x.FindByID(23)).ReturnsAsync(entity);
@@ -162,6 +178,7 @@ public class MedicalServiceTests
                 It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);
 
+        // Act
         var result = await context.Service.Update(new UpdateMedicalDto
         {
             Id = 23,
@@ -172,7 +189,9 @@ public class MedicalServiceTests
             SpecialtiesIds = []
         });
 
+        // Assert
         result.Success.Should().BeTrue();
+
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
             It.IsAny<SmartDigitalPsico.Domain.VO.DataNotificationTemplateVO>(),
             SmartDigitalPsico.Domain.Enuns.ENotificationServiceType.Email,
@@ -184,13 +203,17 @@ public class MedicalServiceTests
     [Test]
     public async Task Delete_ExistingMedical_DelegatesToEnableOrDisable()
     {
+        // Arrange
         var context = new MedicalServiceContext();
         context.Repository.Setup(x => x.Exists(30)).ReturnsAsync(true);
         context.Repository.Setup(x => x.EnableOrDisable(30)).ReturnsAsync(true);
 
+        // Act
         var result = await context.Service.Delete(30);
 
+        // Assert
         result.Success.Should().BeTrue();
+
         context.Repository.Verify(x => x.EnableOrDisable(30), Times.Once);
     }
 
@@ -199,12 +222,16 @@ public class MedicalServiceTests
     [Test]
     public async Task FindAll_NonAdminUser_ReturnsPermissionDenied()
     {
+        // Arrange
         var context = new MedicalServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = false });
 
         var result = await context.Service.FindAll();
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -213,13 +240,17 @@ public class MedicalServiceTests
     [Test]
     public async Task FindAll_AdminUser_ReturnsMedicalsList()
     {
+        // Arrange
         var context = new MedicalServiceContext();
+
+        // Act
         context.Service.SetUserId(2);
         context.UserRepository.Setup(x => x.FindByID(2)).ReturnsAsync(new User { Id = 2, Admin = true });
         context.Repository.Setup(x => x.FindAll()).ReturnsAsync([new Medical { Id = 1, MedicalSpecialties = new List<MedicalSpecialty>() }]);
 
         var result = await context.Service.FindAll();
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -232,12 +263,16 @@ public class MedicalServiceTests
     [Test]
     public async Task FindAll_UnknownUser_ReturnsFailure()
     {
+        // Arrange
         var context = new MedicalServiceContext();
+
+        // Act
         context.Service.SetUserId(999);
         context.UserRepository.Setup(x => x.FindByID(999)).ReturnsAsync((User?)null);
 
         var result = await context.Service.FindAll();
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -246,12 +281,16 @@ public class MedicalServiceTests
     [Test]
     public async Task FindByID_NonAdminUser_ReturnsPermissionDenied()
     {
+        // Arrange
         var context = new MedicalServiceContext();
+
+        // Act
         context.Service.SetUserId(3);
         context.UserRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new User { Id = 3, Admin = false });
 
         var result = await context.Service.FindByID(50);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -260,7 +299,10 @@ public class MedicalServiceTests
     [Test]
     public async Task FindByID_AdminUserWithExistingMedical_ReturnsMappedSpecialties()
     {
+        // Arrange
         var context = new MedicalServiceContext();
+
+        // Act
         context.Service.SetUserId(4);
         context.UserRepository.Setup(x => x.FindByID(4)).ReturnsAsync(new User { Id = 4, Admin = true });
         var specialty = new Specialty { Id = 8, Description = "Neuro", Enable = true };
@@ -273,6 +315,7 @@ public class MedicalServiceTests
 
         var result = await context.Service.FindByID(50);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();

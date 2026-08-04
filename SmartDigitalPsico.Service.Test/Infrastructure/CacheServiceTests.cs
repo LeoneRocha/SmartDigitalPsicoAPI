@@ -12,9 +12,12 @@ namespace SmartDigitalPsico.Service.Test.Infrastructure;
 [TestFixture]
 public class CacheServiceTests
 {
+    // Cenário: operações Set/Get/Exists/Remove no cache em memória.
+    // Objetivo: invocar o repositório e respeitar configuração de expiração.
     [Test]
-    public void MemoryCache_InvokesSetGetExistsRemoveAndConfigurationMethods()
+    public void MemoryCache_SetGetExistsRemove_Succeeds()
     {
+        // Arrange
         var memory = new Mock<IMemoryCacheRepository>();
         var expected = new CacheValue { Value = "value" };
         memory.Setup(x => x.Set("customer", expected)).Returns(true);
@@ -26,11 +29,13 @@ public class CacheServiceTests
         memory.Setup(x => x.Remove("customer")).Returns(true);
         var service = Create(ETypeLocationCache.Memory, memory: memory);
 
+        // Act
         var set = service.Set("customer", expected);
         var exists = service.Exists<CacheValue>("customer");
         var found = service.TryGet("customer", out CacheValue value);
         var removed = service.Remove<CacheValue>("customer");
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             set.Should().BeTrue();
@@ -44,10 +49,12 @@ public class CacheServiceTests
         memory.Verify(x => x.Set("customer", expected), Times.Once);
         memory.Verify(x => x.Remove("customer"), Times.Once);
     }
-
+    // Cenário: gravação de payload no cache em disco.
+    // Objetivo: persistir valor e criar log de cache.
     [Test]
-    public void DiskCache_SavesPayloadAndWritesCacheLog()
+    public void DiskCache_SavePayload_WritesCacheLog()
     {
+        // Arrange
         var disk = new Mock<IDiskCacheRepository>();
         var logs = new Mock<IApplicationCacheLogRepository>();
         disk.Setup(x => x.SetAsync("payload", It.IsAny<ServiceResponseCacheVO<string>>())).ReturnsAsync(true);
@@ -56,16 +63,21 @@ public class CacheServiceTests
         var service = Create(ETypeLocationCache.Disk, disk: disk, logs: logs);
         var payload = new ServiceResponseCacheVO<string>("data", "payload", DateTime.Now.AddMinutes(10));
 
+        // Act
         var result = service.Set("payload", payload);
 
+        // Assert
         result.Should().BeTrue();
+
         disk.Verify(x => x.SetAsync("payload", payload), Times.Once);
         logs.Verify(x => x.Create(It.IsAny<SmartDigitalPsico.Domain.ModelEntity.ApplicationCacheLog>()), Times.Once);
     }
-
+    // Cenário: helpers estáticos com cache habilitado.
+    // Objetivo: salvar e ler ServiceResponseCacheVO com sucesso.
     [Test]
-    public async Task StaticCacheHelpers_SaveAndReadEnabledCache()
+    public async Task StaticCacheHelpers_EnabledCache_SavesAndReads()
     {
+        // Arrange
         var cache = new Mock<ICacheService>();
         cache.Setup(x => x.GetSlidingExpiration()).Returns(DateTime.Now.AddMinutes(5));
         cache.Setup(x => x.Set("result", It.IsAny<ServiceResponseCacheVO<int>>())).Returns(true);
@@ -77,24 +89,31 @@ public class CacheServiceTests
                 return true;
             });
 
+        // Act
         await CacheService.SaveDataToCache("result", 42, cache.Object);
         var result = await CacheService.GetDataFromCache<int>(cache.Object, "result");
 
+        // Assert
         result.Data.Should().Be(42);
+
         cache.Verify(x => x.Set("result", It.IsAny<ServiceResponseCacheVO<int>>()), Times.Once);
     }
-
+    // Cenário: backend sem suporte ou falha no repositório de disco.
+    // Objetivo: retornar false sem lançar exceção.
     [Test]
-    public void UnsupportedCacheAndRepositoryFailures_ReturnFalseWithoutThrowing()
+    public void UnsupportedCacheAndRepositoryFailures_Failures_ReturnFalseWithoutThrowing()
     {
+        // Arrange
         var disk = new Mock<IDiskCacheRepository>();
         disk.Setup(x => x.TryGetAsync<CacheValue>(It.IsAny<string>())).ThrowsAsync(new InvalidOperationException());
         var service = Create(ETypeLocationCache.Disk, disk: disk);
         var unsupported = Create(ETypeLocationCache.AzureRedis);
 
+        // Act
         var exists = service.Exists<CacheValue>(null);
         var found = service.TryGet<CacheValue>(null, out var value);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             exists.Should().BeFalse();
@@ -117,13 +136,19 @@ public class CacheServiceTests
         // Arrange
         var service = Create(type);
 
-        // Act / Assert
+        // Act
+        var set = service.Set("k", new CacheValue { Value = "v" });
+        var exists = service.Exists<CacheValue>("k");
+        var tryGet = service.TryGet<CacheValue>("k", out _);
+        var removed = service.Remove<CacheValue>("k");
+
+        // Assert
         using (Assert.EnterMultipleScope())
         {
-            service.Set("k", new CacheValue { Value = "v" }).Should().BeFalse();
-            service.Exists<CacheValue>("k").Should().BeFalse();
-            service.TryGet<CacheValue>("k", out _).Should().BeFalse();
-            service.Remove<CacheValue>("k").Should().BeFalse();
+            set.Should().BeFalse();
+            exists.Should().BeFalse();
+            tryGet.Should().BeFalse();
+            removed.Should().BeFalse();
         }
     }
 

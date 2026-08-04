@@ -71,6 +71,7 @@ public class InfrastructureMethodCoverageGapTests
 
         // Assert
         loaded!.UserId.Should().Be(9);
+
         adapter.Verify(x => x.SaveSessionAsync(session), Times.Once);
     }
 
@@ -182,12 +183,17 @@ public class InfrastructureMethodCoverageGapTests
                 SlidingExpirationInMinutes = 5
             }));
 
-        // Act / Assert
+        // Act
+        var removed = service.Remove<CacheValue>("any");
+        var missing = service.Exists<CacheValue>("missing");
+        var nullValue = service.Exists<CacheValue>("null-value");
+
+        // Assert
         using (Assert.EnterMultipleScope())
         {
-            service.Remove<CacheValue>("any").Should().BeFalse();
-            service.Exists<CacheValue>("missing").Should().BeFalse();
-            service.Exists<CacheValue>("null-value").Should().BeFalse();
+            removed.Should().BeFalse();
+            missing.Should().BeFalse();
+            nullValue.Should().BeFalse();
         }
     }
 

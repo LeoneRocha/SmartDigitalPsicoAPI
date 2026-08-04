@@ -18,13 +18,16 @@ public class PatientServiceTests
     [Test]
     public async Task Create_ValidPatient_PersistsAndReturnsSuccess()
     {
+        // Arrange
         var context = new PatientServiceContext();
         var addDto = new AddPatientDto { Name = "Alice", Email = "alice@x.com", MedicalId = 1, GenderId = 2 };
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<Patient>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.Repository.Setup(x => x.Create(It.IsAny<Patient>())).ReturnsAsync((Patient p) => { p.Id = 30; return p; });
 
+        // Act
         var result = await context.Service.Create(addDto);
 
+        // Assert
         result.Success.Should().BeTrue();
     }
 
@@ -33,14 +36,18 @@ public class PatientServiceTests
     [Test]
     public async Task Create_InvalidPatient_ReturnsValidationFailure()
     {
+        // Arrange
         var context = new PatientServiceContext();
         var addDto = new AddPatientDto { Name = string.Empty };
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<Patient>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([new ValidationFailure("Name", "Nome obrigatório") { ErrorCode = "NameRequired" }]));
 
+        // Act
         var result = await context.Service.Create(addDto);
 
+        // Assert
         result.Success.Should().BeFalse();
+
         context.Repository.Verify(x => x.Create(It.IsAny<Patient>()), Times.Never);
     }
 
@@ -49,12 +56,16 @@ public class PatientServiceTests
     [Test]
     public async Task Update_MissingPatient_DoesNotPersist()
     {
+        // Arrange
         var context = new PatientServiceContext();
         context.Repository.Setup(x => x.FindByID(500)).ReturnsAsync((Patient?)null);
 
+        // Act
         var result = await context.Service.Update(new UpdatePatientDto { Id = 500 });
 
+        // Assert
         result.Data.Should().BeNull();
+
         context.Repository.Verify(x => x.Update(It.IsAny<Patient>()), Times.Never);
     }
 
@@ -63,14 +74,17 @@ public class PatientServiceTests
     [Test]
     public async Task Update_ExistingValidPatient_UpdatesSuccessfully()
     {
+        // Arrange
         var context = new PatientServiceContext();
         var entity = new Patient { Id = 31, Name = "Old" };
         context.Repository.Setup(x => x.FindByID(31)).ReturnsAsync(entity);
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<Patient>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.Repository.Setup(x => x.Update(entity)).ReturnsAsync(entity);
 
+        // Act
         var result = await context.Service.Update(new UpdatePatientDto { Id = 31, Name = "New Name", Email = "new@x.com" });
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -83,11 +97,14 @@ public class PatientServiceTests
     [Test]
     public async Task FindByPatient_ExistingPatient_ReturnsSuccess()
     {
+        // Arrange
         var context = new PatientServiceContext();
         context.Repository.Setup(x => x.FindByPatient(It.IsAny<Patient>())).ReturnsAsync(new Patient { Id = 40, Name = "Bob" });
 
+        // Act
         var result = await context.Service.FindByPatient(new SmartDigitalPsico.Domain.DTO.Patient.GetPatientDto { Id = 40 });
 
+        // Assert
         result.Success.Should().BeTrue();
     }
 
@@ -96,11 +113,14 @@ public class PatientServiceTests
     [Test]
     public async Task FindByPatient_MissingPatient_ReturnsFailure()
     {
+        // Arrange
         var context = new PatientServiceContext();
         context.Repository.Setup(x => x.FindByPatient(It.IsAny<Patient>())).ReturnsAsync((Patient)null!);
 
+        // Act
         var result = await context.Service.FindByPatient(new SmartDigitalPsico.Domain.DTO.Patient.GetPatientDto { Id = 999 });
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -109,10 +129,13 @@ public class PatientServiceTests
     [Test]
     public void FindAll_WithoutParameters_ThrowsNotImplemented()
     {
+        // Arrange
         var context = new PatientServiceContext();
 
+        // Act
         Func<Task> act = async () => await context.Service.FindAll();
 
+        // Assert
         act.Should().ThrowAsync<NotImplementedException>();
     }
 
@@ -121,7 +144,10 @@ public class PatientServiceTests
     [Test]
     public async Task PatientSearch_UserWithoutPermission_ReturnsPermissionFailure()
     {
+        // Arrange
         var context = new PatientServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         var patients = new List<Patient> { new() { Id = 1, MedicalId = 5, CreatedUser = new User { Id = 2 } } };
         context.Repository.Setup(x => x.PatientSearch(It.IsAny<PatientSearchCriteriaDto>())).ReturnsAsync(patients);
@@ -129,6 +155,7 @@ public class PatientServiceTests
 
         var result = await context.Service.PatientSearch(new PatientSearchCriteriaDto { MedicalId = 5, Name = "Bob" });
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -137,13 +164,17 @@ public class PatientServiceTests
     [Test]
     public async Task PatientSearch_NoResults_ReturnsNotFoundFailure()
     {
+        // Arrange
         var context = new PatientServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         context.Repository.Setup(x => x.PatientSearch(It.IsAny<PatientSearchCriteriaDto>())).ReturnsAsync([]);
         context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
 
         var result = await context.Service.PatientSearch(new PatientSearchCriteriaDto { MedicalId = 5, Name = "" });
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -152,7 +183,10 @@ public class PatientServiceTests
     [Test]
     public async Task PatientSearch_UserWithPermission_ReturnsOrderedList()
     {
+        // Arrange
         var context = new PatientServiceContext();
+
+        // Act
         context.Service.SetUserId(7);
         var createdUser = new User { Id = 7 };
         var patients = new List<Patient>
@@ -165,6 +199,7 @@ public class PatientServiceTests
 
         var result = await context.Service.PatientSearch(new PatientSearchCriteriaDto { MedicalId = 5, Name = "" });
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -177,13 +212,17 @@ public class PatientServiceTests
     [Test]
     public async Task FindAllByMedicalId_NoResults_ReturnsNotFoundFailure()
     {
+        // Arrange
         var context = new PatientServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         context.Repository.Setup(x => x.FindAllByMedicalId(5)).ReturnsAsync([]);
         context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
 
         var result = await context.Service.FindAll(5);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -192,7 +231,10 @@ public class PatientServiceTests
     [Test]
     public async Task FindAllByMedicalId_UserWithoutPermission_ReturnsPermissionFailure()
     {
+        // Arrange
         var context = new PatientServiceContext();
+
+        // Act
         context.Service.SetUserId(2);
         context.Repository.Setup(x => x.FindAllByMedicalId(5)).ReturnsAsync(
         [
@@ -202,6 +244,7 @@ public class PatientServiceTests
 
         var result = await context.Service.FindAll(5);
 
+        // Assert
         result.Success.Should().BeFalse();
         result.Errors.Should().NotBeEmpty();
     }
@@ -211,7 +254,10 @@ public class PatientServiceTests
     [Test]
     public async Task FindAllByMedicalId_UserWithPermission_ReturnsMappedList()
     {
+        // Arrange
         var context = new PatientServiceContext();
+
+        // Act
         context.Service.SetUserId(8);
         var createdUser = new User { Id = 8 };
         var patients = new List<Patient>
@@ -224,6 +270,7 @@ public class PatientServiceTests
 
         var result = await context.Service.FindAll(9);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -237,13 +284,17 @@ public class PatientServiceTests
     [Test]
     public async Task FindByID_UserWithoutPermission_ReturnsPermissionFailure()
     {
+        // Arrange
         var context = new PatientServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         context.Repository.Setup(x => x.FindByID(20)).ReturnsAsync(new Patient { Id = 20, CreatedUser = new User { Id = 2 } });
         context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = false });
 
         var result = await context.Service.FindByID(20);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -252,13 +303,17 @@ public class PatientServiceTests
     [Test]
     public async Task FindByID_AdminUser_ReturnsMappedPatient()
     {
+        // Arrange
         var context = new PatientServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         context.Repository.Setup(x => x.FindByID(21)).ReturnsAsync(new Patient { Id = 21, Name = "Diana", CreatedUser = new User { Id = 2 } });
         context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
 
         var result = await context.Service.FindByID(21);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -271,11 +326,14 @@ public class PatientServiceTests
     [Test]
     public async Task FindByID_RepositoryThrows_ReturnsControlledFailure()
     {
+        // Arrange
         var context = new PatientServiceContext();
         context.Repository.Setup(x => x.FindByID(It.IsAny<long>())).ThrowsAsync(new InvalidOperationException("boom"));
 
+        // Act
         var result = await context.Service.FindByID(22);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 

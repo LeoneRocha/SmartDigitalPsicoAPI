@@ -12,16 +12,16 @@ namespace SmartDigitalPsico.Data.Test.Audit;
 [TestFixture]
 public class AuditContextServiceTests : BaseTests
 {
+    // Cenário: uma entidade persistida é alterada.
+    // Objetivo: registrar os valores anteriores e atuais para auditoria.
     [Test]
     public void OnBeforeSaveChanges_ModifiedEntity_CreatesAuditEntry()
     {
-        // Cenário: uma entidade persistida é alterada.
-        // Objetivo: registrar os valores anteriores e atuais para auditoria.
+        // Arrange
         var entity = new ApplicationCacheLog { CacheId = "before", CacheKey = "key" };
         _mockContext!.ApplicationCacheLogs.Add(entity);
         _mockContext.SaveChanges();
         entity.CacheId = "after";
-
         var service = CreateService();
 
         // Act
@@ -35,11 +35,12 @@ public class AuditContextServiceTests : BaseTests
         entries[0].NewValues.Should().Contain("after");
     }
 
+    // Cenário: a mesma alteração é recebida novamente em uma janela de auditoria.
+    // Objetivo: impedir a persistência duplicada do log.
     [Test]
     public void GetNewEntries_EntriesAlreadyCached_ReturnsOnlyUncachedEntries()
     {
-        // Cenário: a mesma alteração é recebida novamente em uma janela de auditoria.
-        // Objetivo: impedir a persistência duplicada do log.
+        // Arrange
         var service = CreateService();
         var entry = new AuditDataEntityLog
         {
@@ -94,16 +95,21 @@ public class AuditContextServiceTests : BaseTests
         filtered.Should().ContainSingle();
     }
 
+    // Cenário: entidade é removida sem usuário autenticado associado.
+    // Objetivo: gerar log Deleted com fallback de login admin e valores originais.
     [Test]
     public void OnBeforeSaveChanges_DeletedEntity_UsesAdminFallbackAndOriginalValues()
     {
+        // Arrange
         var entity = new ApplicationCacheLog { CacheId = "delete", CacheKey = "key" };
         _mockContext!.ApplicationCacheLogs.Add(entity);
         _mockContext.SaveChanges();
         _mockContext.ApplicationCacheLogs.Remove(entity);
 
+        // Act
         var entries = CreateService().OnBeforeSaveChanges(_mockContext);
 
+        // Assert
         entries.Should().ContainSingle();
         entries[0].Operation.Should().Be("Deleted");
         entries[0].UserAuditedId.Should().BeNull();
@@ -111,9 +117,12 @@ public class AuditContextServiceTests : BaseTests
         entries[0].OldValues.Should().Contain("delete");
     }
 
+    // Cenário: já existe registro de auditoria recente compatível no contexto.
+    // Objetivo: retornar as entradas existentes correspondentes.
     [Test]
     public void GetExistingEntries_RecentMatchingAudit_IsReturned()
     {
+        // Arrange
         var entry = new AuditDataEntityLog
         {
             AuditDate = DateTime.UtcNow,
@@ -126,14 +135,19 @@ public class AuditContextServiceTests : BaseTests
         _mockContext!.Set<AuditDataEntityLog>().Add(entry);
         _mockContext.SaveChanges();
 
+        // Act
         var existing = CreateService().GetExistingEntries(_mockContext, [entry]);
 
+        // Assert
         existing.Should().ContainSingle();
     }
 
+    // Cenário: Patient com CreatedUserId e propriedades de usuário ausentes/nulas.
+    // Objetivo: cobrir GetUserId, GetCurrentUserId e geração de audit entry.
     [Test]
     public async Task AuditContextService_UserCreatedUserIdAndNullKey_CoverRemainingBranches()
     {
+        // Arrange
         var service = CreateService();
         var patient = new Patient { Name = "Audit", MedicalId = 1, CreatedUserId = 42L };
         _mockContext!.Patients.Add(patient);
@@ -146,10 +160,12 @@ public class AuditContextServiceTests : BaseTests
         var getKeyValues = typeof(AuditContextService).GetMethod("GetKeyValues", BindingFlags.NonPublic | BindingFlags.Static)!;
         var getCurrentUserId = typeof(AuditContextService).GetMethod("GetCurrentUserId", BindingFlags.NonPublic | BindingFlags.Static)!;
 
+        // Act
         var userId = getUserId.Invoke(null, [patientEntry, "CreatedUserId"]);
         var currentUser = getCurrentUserId.Invoke(null, [patientEntry]);
         var entries = service.OnBeforeSaveChanges(_mockContext);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             userId.Should().Be(42L);

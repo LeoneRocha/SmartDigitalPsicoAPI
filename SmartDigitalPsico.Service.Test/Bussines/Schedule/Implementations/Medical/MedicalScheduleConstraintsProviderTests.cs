@@ -47,11 +47,13 @@ public class MedicalScheduleConstraintsProviderTests
         var ctx = new MedicalScheduleTestContext();
         ctx.MedicalRepository.Setup(x => x.FindByID(999)).ReturnsAsync((MedicalEntity?)null);
 
-        // Act
         var action = () => ctx.ConstraintsProvider.GetMedicalAsync(999);
+
+        // Act
 
         // Assert
         await action.Should().ThrowAsync<AppWarningException>();
+
     }
 
     // Cenário: conversão estática de entidade médica.
@@ -67,8 +69,9 @@ public class MedicalScheduleConstraintsProviderTests
             WorkingDays = null!
         };
 
-        // Act
         var result = MedicalScheduleConstraintsProvider.ToConstraints(medical);
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())

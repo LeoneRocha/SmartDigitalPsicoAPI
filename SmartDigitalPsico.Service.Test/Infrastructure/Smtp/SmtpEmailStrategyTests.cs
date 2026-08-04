@@ -12,6 +12,8 @@ public class SmtpEmailStrategyTests
     public void SendEmailAsync_InvalidServer_ThrowsAfterBuildingMessage()
     {
         // Arrange
+
+        // Act
         var strategy = new SmtpEmailStrategy(new SmtpSettingsDto
         {
             SenderEmail = "sender@test.com",
@@ -29,7 +31,6 @@ public class SmtpEmailStrategyTests
             ToEmails = ["recipient@test.com", "other@test.com"]
         };
 
-        // Act
         var action = () => strategy.SendEmailAsync(message).GetAwaiter().GetResult();
 
         // Assert

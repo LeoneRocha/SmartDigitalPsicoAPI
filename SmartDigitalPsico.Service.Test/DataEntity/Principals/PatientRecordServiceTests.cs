@@ -23,6 +23,7 @@ public class PatientRecordServiceTests
     [Test]
     public async Task Create_ValidRecord_EncryptsAnnotationAndPersists()
     {
+        // Arrange
         var context = new PatientRecordContext();
         var dto = new AddPatientRecordDto { PatientId = 5, Description = "Consulta", Annotation = "secreto", AnnotationDate = DateTime.UtcNow };
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<PatientRecord>(), It.IsAny<CancellationToken>()))
@@ -33,8 +34,10 @@ public class PatientRecordServiceTests
         context.StorageTableService.Setup(x => x.UpdateAsync(It.IsAny<PatientRecordTableEntity>())).Returns(Task.CompletedTask);
         context.Repository.Setup(x => x.Create(It.IsAny<PatientRecord>())).ReturnsAsync((PatientRecord r) => { r.Id = 100; return r; });
 
+        // Act
         var result = await context.Service.Create(dto);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -48,6 +51,7 @@ public class PatientRecordServiceTests
     [Test]
     public async Task Update_ExistingRecord_ReEncryptsAndSavesAudit()
     {
+        // Arrange
         var context = new PatientRecordContext();
         var entity = new PatientRecord { Id = 30, PatientId = 5, Patient = new Patient { Id = 5, MedicalId = 9 } };
         context.Repository.Setup(x => x.FindByID(30)).ReturnsAsync(entity);
@@ -61,9 +65,13 @@ public class PatientRecordServiceTests
         context.AuditService.Setup(x => x.Save(It.IsAny<object>(), It.IsAny<object>(), "Update", It.IsAny<string[]>())).Returns(Task.CompletedTask);
 
         var dto = new UpdatePatientRecordDto { Id = 30, PatientId = 5, Description = "Nova", Annotation = "novo-texto", AnnotationDate = DateTime.UtcNow };
+
+        // Act
         var result = await context.Service.Update(dto);
 
+        // Assert
         result.Success.Should().BeTrue();
+
         context.AuditService.Verify(x => x.Save(It.IsAny<object>(), It.IsAny<object>(), "Update", It.IsAny<string[]>()), Times.Once);
     }
 
@@ -72,13 +80,17 @@ public class PatientRecordServiceTests
     [Test]
     public async Task FindAllByPatient_NoRecords_ReturnsPermissionDenied()
     {
+        // Arrange
         var context = new PatientRecordContext();
+
+        // Act
         context.Service.SetUserId(1);
         context.Repository.Setup(x => x.FindAllByPatient(5)).ReturnsAsync([]);
         context.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 9, Admin = true });
 
         var result = await context.Service.FindAllByPatient(5);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -87,7 +99,10 @@ public class PatientRecordServiceTests
     [Test]
     public async Task FindAllByPatient_UserWithoutPermission_ReturnsPermissionFailure()
     {
+        // Arrange
         var context = new PatientRecordContext();
+
+        // Act
         context.Service.SetUserId(2);
         var patient = new Patient { Id = 5, MedicalId = 9 };
         context.Repository.Setup(x => x.FindAllByPatient(5)).ReturnsAsync(
@@ -98,6 +113,7 @@ public class PatientRecordServiceTests
 
         var result = await context.Service.FindAllByPatient(5);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeFalse();
@@ -110,7 +126,10 @@ public class PatientRecordServiceTests
     [Test]
     public async Task FindAllByPatient_AuthorizedRecords_ReturnsMappedList()
     {
+        // Arrange
         var context = new PatientRecordContext();
+
+        // Act
         context.Service.SetUserId(7);
         var patient = new Patient { Id = 5, MedicalId = 9 };
         var record = new PatientRecord { Id = 1, PatientId = 5, Patient = patient, CreatedUser = new User { Id = 7 } };
@@ -119,6 +138,7 @@ public class PatientRecordServiceTests
 
         var result = await context.Service.FindAllByPatient(5);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -131,7 +151,10 @@ public class PatientRecordServiceTests
     [Test]
     public async Task FindByID_AdminUser_ReturnsDecryptedResult()
     {
+        // Arrange
         var context = new PatientRecordContext();
+
+        // Act
         context.Service.SetUserId(1);
         var entity = new PatientRecord { Id = 40, PatientId = 5, Annotation = "cipher" };
         context.Repository.Setup(x => x.FindByID(40)).ReturnsAsync(entity);
@@ -142,6 +165,7 @@ public class PatientRecordServiceTests
 
         var result = await context.Service.FindByID(40);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -154,7 +178,10 @@ public class PatientRecordServiceTests
     [Test]
     public async Task FindByID_UserWithoutPermission_ReturnsPermissionFailure()
     {
+        // Arrange
         var context = new PatientRecordContext();
+
+        // Act
         context.Service.SetUserId(2);
         context.Repository.Setup(x => x.FindByID(40)).ReturnsAsync(new PatientRecord
         {
@@ -168,6 +195,7 @@ public class PatientRecordServiceTests
 
         var result = await context.Service.FindByID(40);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -176,23 +204,29 @@ public class PatientRecordServiceTests
     [Test]
     public async Task FindByID_RepositoryThrows_ReturnsControlledFailure()
     {
+        // Arrange
         var context = new PatientRecordContext();
         context.Repository.Setup(x => x.FindByID(It.IsAny<long>())).ThrowsAsync(new InvalidOperationException("boom"));
 
+        // Act
         var result = await context.Service.FindByID(41);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
     // Cenário: FindAll não é suportado por esse serviço especializado.
     // Objetivo: sempre retornar falha por design.
     [Test]
-    public async Task FindAll_AlwaysReturnsNotFoundByDesign()
+    public async Task FindAll_Always_ReturnsNotFoundByDesign()
     {
+        // Arrange
         var context = new PatientRecordContext();
 
+        // Act
         var result = await context.Service.FindAll();
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 

@@ -76,6 +76,7 @@ public class PdfReportServiceTests
 
         // Assert
         result.Should().BeEmpty();
+
         logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
     }
 
@@ -89,7 +90,11 @@ public class PdfReportServiceTests
         var outputDir = Path.Combine(tempRoot, "Reports_PDF");
         Directory.CreateDirectory(outputDir);
         var existingFile = Path.Combine(outputDir, "report.pdf");
+
+        // Act
         await File.WriteAllTextAsync(existingFile, "old");
+
+        // Assert
         var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
         {
             ["AppSettings:ResourcesTemp"] = tempRoot
@@ -105,10 +110,8 @@ public class PdfReportServiceTests
 
         try
         {
-            // Act
             var result = await service.Generate(new ReportPageContentDto { FileName = "report", FolderOutput = "Reports_PDF" });
 
-            // Assert
             result.Should().Be(existingFile);
             adapter.Verify(x => x.Generate(It.IsAny<ReportPageContentDto>(), existingFile), Times.Once);
         }

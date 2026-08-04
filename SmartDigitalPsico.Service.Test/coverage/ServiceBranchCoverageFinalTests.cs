@@ -45,6 +45,9 @@ public class ServiceBranchCoverageFinalTests
     public void MedicalScheduleMapper_NullAndFallbackBranches_CoverRemaining()
     {
         // Arrange / Act
+        // Arrange
+
+        // Act
         var updateNullToken = MedicalScheduleMapper.ToWriteRequest(
             new MedicalCalendar
             {
@@ -171,6 +174,7 @@ public class ServiceBranchCoverageFinalTests
                 EndDateTime = null,
                 TimeZone = "UTC"
             }
+
         ], 1, "Dr");
 
         // Assert
@@ -236,11 +240,12 @@ public class ServiceBranchCoverageFinalTests
         var diskService = CreateCache(ETypeLocationCache.Disk, disk: disk, logs: logs);
         var memoryService = CreateCache(ETypeLocationCache.Memory, memory: memory);
 
-        // Act
         var tryGetExpired = diskService.TryGet("expired", out ExpirableCacheEntry expiredValue);
         var existsMin = diskService.Exists<ExpirableCacheEntry>("min");
         var setNullProps = diskService.Set("null-props", new NullableCacheProps());
         var tryGetNullMem = memoryService.TryGet("mem-null", out CacheValue memValue);
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -310,6 +315,7 @@ public class ServiceBranchCoverageFinalTests
 
         // Assert
         scheduled.Should().BeAfter(DateTime.UtcNow.AddHours(-12));
+
         context.Repository.Verify(x => x.Create(It.IsAny<NotificationRecord>()), Times.AtMostOnce());
         _ = created;
     }
@@ -333,11 +339,12 @@ public class ServiceBranchCoverageFinalTests
         var allSent = new[] { new NotificationRuleStatus { IsSent = true } };
         var pending = new[] { new NotificationRuleStatus { IsSent = false } };
 
-        // Act
         var completed = (bool)validate.Invoke(null, [true, allSent])!;
         var notCompleted = (bool)validate.Invoke(null, [true, pending])!;
         var dtoCompleted = (AddNotificationRecordsDto)createDto.Invoke(null, [calendar, allSent, true])!;
         var dtoOpen = (AddNotificationRecordsDto)createDto.Invoke(null, [calendar, pending, false])!;
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -365,12 +372,13 @@ public class ServiceBranchCoverageFinalTests
             Title = "a"
         };
 
-        // Act
         var conflictCtx = new ScheduleCreateContext();
         conflictCtx.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).ReturnsAsync((ScheduleCalendar?)null);
         conflictCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
             .ReturnsAsync(new ServiceResponse<bool> { Success = false, Data = true, Message = null, Errors = null });
+
+        // Act
         var conflictCreate = await conflictCtx.Service.CreateAsync(new ScheduleCalendarWriteRequest
         {
             TenantKey = "t",
@@ -550,13 +558,14 @@ public class ServiceBranchCoverageFinalTests
 
         // Act
         var result = await service.BuildGradeAsync(request);
+
+        // Assert
         var fill = typeof(ScheduleAvailabilityService)
             .GetMethod("FillMarkNonWorkingDays", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static)
             ?? typeof(ScheduleAvailabilityService)
                 .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static)
                 .FirstOrDefault(m => m.Name.Contains("Working", StringComparison.OrdinalIgnoreCase));
 
-        // Assert
         result.Success.Should().BeTrue();
         _ = fill;
     }

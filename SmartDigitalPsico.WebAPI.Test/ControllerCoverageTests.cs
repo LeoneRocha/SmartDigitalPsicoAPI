@@ -28,15 +28,17 @@ namespace SmartDigitalPsico.WebAPI.Test;
 [TestFixture]
 public class ControllerCoverageTests
 {
+    // Cenário: controllers publicados na assembly WebAPI.
+    // Objetivo: impedir que uma action seja adicionada sem mapeamento HTTP.
     [Test]
     public void Controllers_AcoesPublicas_DeclaramVerboHttp()
     {
-        // Cenário: controllers publicados na assembly WebAPI.
-        // Objetivo: impedir que uma action seja adicionada sem mapeamento HTTP.
+        // Arrange
         var controllerTypes = typeof(AppInformationVersionProductController).Assembly
             .GetTypes()
             .Where(type => !type.IsAbstract && typeof(ControllerBase).IsAssignableFrom(type));
 
+        // Act
         var actionsWithoutHttpVerb = controllerTypes
             .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly))
             .Where(method => !method.IsSpecialName && method.ReturnType != typeof(void))
@@ -44,29 +46,34 @@ public class ControllerCoverageTests
             .Select(method => $"{method.DeclaringType!.Name}.{method.Name}")
             .ToList();
 
+        // Assert
         actionsWithoutHttpVerb.Should().BeEmpty();
     }
 
+    // Cenário: consulta pública da versão do produto.
+    // Objetivo: validar o resultado HTTP da action sem iniciar a aplicação.
     [Test]
     public async Task AppInformationVersionProduct_GetString_ContextoHttp_RetornaOk()
     {
-        // Cenário: consulta pública da versão do produto.
-        // Objetivo: validar o resultado HTTP da action sem iniciar a aplicação.
+        // Arrange
         var controller = new AppInformationVersionProductController
         {
             ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() }
         };
 
+        // Act
         var response = await controller.GetString();
 
+        // Assert
         response.Result.Should().BeOfType<OkObjectResult>();
     }
 
+    // Cenário: o serviço retorna especialidades cadastradas.
+    // Objetivo: garantir a delegação da action e o status 200.
     [Test]
     public async Task Specialty_GetServicoComDados_RetornaOk()
     {
-        // Cenário: o serviço retorna especialidades cadastradas.
-        // Objetivo: garantir a delegação da action e o status 200.
+        // Arrange
         var service = new Mock<ISpecialtyService>();
         service.Setup(item => item.FindAll())
             .ReturnsAsync(new ServiceResponse<List<GetSpecialtyDto>>
@@ -84,18 +91,21 @@ public class ControllerCoverageTests
             ControllerContext = new ControllerContext { HttpContext = httpContext }
         };
 
+        // Act
         var response = await controller.Get();
 
+        // Assert
         response.Result.Should().BeOfType<OkObjectResult>();
         service.Verify(item => item.SetUserId(It.IsAny<long>()), Times.Once);
     }
 
+    // Cenário: cada endpoint é executado com suas dependências isoladas por mocks.
+    // Objetivo: cobrir todos os fluxos públicos, inclusive respostas de erro ou vazias.
     [TestCase(false)]
     [TestCase(true)]
     public async Task Controllers_AcoesComDependenciasMockadas_RetornamResultado(bool respostaComErro)
     {
-        // Cenário: cada endpoint é executado com suas dependências isoladas por mocks.
-        // Objetivo: cobrir todos os fluxos públicos, inclusive respostas de erro ou vazias.
+        // Arrange
         var controllerTypes = typeof(AppInformationVersionProductController).Assembly
             .GetTypes()
             .Where(type => !type.IsAbstract && typeof(ControllerBase).IsAssignableFrom(type))
@@ -103,6 +113,7 @@ public class ControllerCoverageTests
 
         var failures = new List<string>();
 
+        // Act
         foreach (var controllerType in controllerTypes)
         {
             var controller = CreateController(controllerType, respostaComErro);
@@ -124,28 +135,34 @@ public class ControllerCoverageTests
             }
         }
 
+        // Assert
         failures.Should().BeEmpty("todas as actions públicas devem suportar os cenários mockados");
     }
 
+    // Cenário: o bootstrap recebeu um logger indisponível.
+    // Objetivo: garantir que o guard clause de inicialização seja seguro.
     [Test]
     public void Configure_BuildAndRunSemLogger_EncerraSemIniciarHost()
     {
-        // Cenário: o bootstrap recebeu um logger indisponível.
-        // Objetivo: garantir que o guard clause de inicialização seja seguro.
+        // Arrange
         var builder = WebApplication.CreateBuilder();
-
         var action = () => WebApplicationConfigureBuilder.BuildAndRunAPP(builder, null);
 
+        // Act
+        // Assert
         action.Should().NotThrow();
     }
 
+    // Cenário: a aplicação é inicializada para validar as configurações de startup.
+    // Objetivo: não iniciar o host de longa duração durante a validação.
     [Test]
     public void Program_ValidateStartupArgument_ConfiguresHostWithoutRunningIt()
     {
-        // Cenário: a aplicação é inicializada para validar as configurações de startup.
-        // Objetivo: não iniciar o host de longa duração durante a validação.
+        // Arrange
         var action = () => SmartDigitalPsico.WebAPI.Program.Main(["--validate-startup"]);
 
+        // Act
+        // Assert
         action.Should().NotThrow();
     }
 
@@ -164,16 +181,19 @@ public class ControllerCoverageTests
         runnerCalled.Should().BeTrue();
     }
 
+    // Cenário: o host possui todos os serviços de produção registrados.
+    // Objetivo: validar o pipeline sem efetuar migrações ou iniciar um listener HTTP.
     [Test]
     public void Configure_BuilderCompleto_ConfiguraPipelineSemExecutarHost()
     {
-        // Cenário: o host possui todos os serviços de produção registrados.
-        // Objetivo: validar o pipeline sem efetuar migrações ou iniciar um listener HTTP.
+        // Arrange
         var host = WebApplicationConfigureBuilder.CreateHostBuilder(["--environment", "Production"]);
         host.Item1.Services.AddScoped<IEntityDataContext>(_ => null!);
 
+        // Act
         using var app = WebApplicationConfigureBuilder.BuildAndConfigure(host.Item1);
 
+        // Assert
         app.Services.Should().NotBeNull();
     }
 
@@ -182,6 +202,7 @@ public class ControllerCoverageTests
     [Test]
     public void Configure_InMemoryEntityContext_SkipsMigrateForNonRelational()
     {
+        // Arrange
         var options = new DbContextOptionsBuilder<SmartDigitalPsicoDataContextMySql>()
             .UseInMemoryDatabase($"webapi-migrate-{Guid.NewGuid():N}")
             .Options;
@@ -191,7 +212,11 @@ public class ControllerCoverageTests
         {
             var host = WebApplicationConfigureBuilder.CreateHostBuilder(["--environment", "Production"]);
             host.Item1.Services.AddScoped<IEntityDataContext>(_ => null!);
+
+            // Act
             using var app = WebApplicationConfigureBuilder.BuildAndConfigure(host.Item1);
+
+            // Assert
             app.Services.Should().NotBeNull();
         }
         finally
@@ -205,6 +230,7 @@ public class ControllerCoverageTests
     [Test]
     public void Configure_SqliteEntityContext_ExecutesAutoMigratePath()
     {
+        // Arrange
         var options = new DbContextOptionsBuilder<EmptyMigrateDbContext>()
             .UseSqlite("DataSource=:memory:")
             .Options;
@@ -218,8 +244,10 @@ public class ControllerCoverageTests
             var host = WebApplicationConfigureBuilder.CreateHostBuilder(["--environment", "Production"]);
             host.Item1.Services.AddScoped<IEntityDataContext>(_ => null!);
 
+            // Act
             using var app = WebApplicationConfigureBuilder.BuildAndConfigure(host.Item1);
 
+            // Assert
             app.Services.Should().NotBeNull();
         }
         finally
@@ -248,16 +276,18 @@ public class ControllerCoverageTests
         action.Should().NotThrow();
     }
 
+    // Cenário: o bootstrap não recebeu o diretório temporário obrigatório.
+    // Objetivo: encapsular a falha de configuração sem iniciar o host.
     [Test]
     public void Configure_BuildAndRunComConfiguracaoInvalida_PropagaErroDeStartup()
     {
-        // Cenário: o bootstrap não recebeu o diretório temporário obrigatório.
-        // Objetivo: encapsular a falha de configuração sem iniciar o host.
+        // Arrange
         var builder = WebApplication.CreateBuilder();
         using var logger = new LoggerConfiguration().CreateLogger();
-
         var action = () => WebApplicationConfigureBuilder.BuildAndRunAPP(builder, logger);
 
+        // Act
+        // Assert
         action.Should().Throw<InvalidOperationException>()
             .WithMessage("Web API failed during startup or configuration.");
     }
@@ -346,11 +376,12 @@ public class ControllerCoverageTests
         response.Result.Should().BeOfType<UnauthorizedObjectResult>();
     }
 
+    // Cenário: a telemetria possui uma connection string configurada.
+    // Objetivo: registrar o pipeline do Azure Monitor sem iniciar o host.
     [Test]
     public void Program_ValidateStartupComApplicationInsights_ConfiguraTelemetria()
     {
-        // Cenário: a telemetria possui uma connection string configurada.
-        // Objetivo: registrar o pipeline do Azure Monitor sem iniciar o host.
+        // Arrange
         const string variable = "APPLICATIONINSIGHTS_CONNECTION_STRING";
         var previousValue = Environment.GetEnvironmentVariable(variable);
         Environment.SetEnvironmentVariable(variable, "InstrumentationKey=00000000-0000-0000-0000-000000000000");
@@ -358,6 +389,8 @@ public class ControllerCoverageTests
         {
             var action = () => SmartDigitalPsico.WebAPI.Program.Main(["--validate-startup"]);
 
+            // Act
+            // Assert
             action.Should().NotThrow();
         }
         finally
@@ -422,18 +455,21 @@ public class ControllerCoverageTests
     [TestCase("NotificationRecordsController", "NotificationDispatch")]
     [TestCase("MedicalFileController", "Create")]
     [TestCase("PatientFileController", "Create")]
+    // Cenário: uma operação assíncrona do serviço lança uma exceção inesperada.
+    // Objetivo: garantir que endpoints de processamento respondam com erro controlado.
     public async Task Controllers_AcaoComFalhaDeServico_RetornamBadRequest(string controllerName, string actionName)
     {
-        // Cenário: uma operação assíncrona do serviço lança uma exceção inesperada.
-        // Objetivo: garantir que endpoints de processamento respondam com erro controlado.
+        // Arrange
         var controllerType = typeof(AppInformationVersionProductController).Assembly
             .GetTypes()
             .Single(type => type.Name == controllerName);
         var controller = CreateThrowingController(controllerType);
         var action = controllerType.GetMethod(actionName)!;
 
+        // Act
         var response = await InvokeAction(controller, action);
 
+        // Assert
         response.Should().NotBeNull();
     }
 

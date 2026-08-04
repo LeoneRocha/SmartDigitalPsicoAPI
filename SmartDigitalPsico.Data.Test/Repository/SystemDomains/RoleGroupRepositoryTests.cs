@@ -29,8 +29,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
+        // Cenário: existem role groups persistidos no contexto.
+        // Objetivo: retornar a lista completa via FindAll.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_WhenDataExists_ReturnsAllRoleGroups()
         {
             // Arrange
             var mockDataList = RoleGroupMockData.GetMock().Take(6).AsQueryable();
@@ -53,8 +55,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: busca por um subconjunto de IDs existentes.
+        // Objetivo: retornar apenas os role groups correspondentes.
         [Test]
-        public async Task FindByIDs_Success()
+        public async Task FindByIDs_MatchingIds_ReturnsMatchingRoleGroups()
         {
             // Arrange
             var roleGroupIds = new List<long> { 1, 2, 3 };

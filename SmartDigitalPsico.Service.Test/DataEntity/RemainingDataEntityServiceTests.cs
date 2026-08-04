@@ -23,9 +23,10 @@ public class RemainingDataEntityServiceTests
     public void Constructors_BaseDomainServices_CreatesServices()
     {
         // Arrange
-        var dependencies = new Dependencies();
 
         // Act
+        var dependencies = new Dependencies();
+
         var services = new object[]
         {
             new SpecialtyService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<ISpecialtyRepository>(), Mock.Of<IValidator<Specialty>>()),
@@ -49,9 +50,10 @@ public class RemainingDataEntityServiceTests
     public void Constructors_PrincipalServices_CreatesServices()
     {
         // Arrange
-        var dependencies = new Dependencies();
 
         // Act
+        var dependencies = new Dependencies();
+
         var services = new object[]
         {
             new MedicalService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IMedicalRepository>(), Mock.Of<ISpecialtyRepository>(), Mock.Of<IValidator<Medical>>()),

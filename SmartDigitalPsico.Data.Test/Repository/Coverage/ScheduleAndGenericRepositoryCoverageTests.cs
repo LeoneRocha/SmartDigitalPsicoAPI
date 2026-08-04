@@ -11,9 +11,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 [TestFixture]
 public class ScheduleAndGenericRepositoryCoverageTests : BaseTests
 {
+    // Cenário: pacotes de agenda com sobreposição, subject distinto e pacote desabilitado.
+    // Objetivo: validar filtros de overlap, token, conflito e metadados dos itens.
     [Test]
     public async Task ScheduleQueries_FilterPackagesAndStampItemMetadata()
     {
+        // Arrange
         var now = DateTime.UtcNow.Date.AddHours(10);
         var selected = Package("tenant", "owner", "subject", "one", now, now.AddHours(2), now, now.AddHours(1));
         var otherSubject = Package("tenant", "owner", "other", "two", now, now.AddHours(2), now.AddMinutes(30), now.AddHours(1));
@@ -23,6 +26,7 @@ public class ScheduleAndGenericRepositoryCoverageTests : BaseTests
         await _mockContext.SaveChangesAsync();
         var repository = new ScheduleCalendarRepository(_mockContext);
 
+        // Act
         var overlapping = await repository.GetOverlappingByOwnerAsync("tenant", "owner", now.AddMinutes(15), now.AddHours(1));
         var byToken = await repository.GetByTokenAsync("one", "owner", "subject");
         var tokenWithoutSubject = await repository.GetByTokenFromStartAsync("one", "owner", null, now);
@@ -31,6 +35,7 @@ public class ScheduleAndGenericRepositoryCoverageTests : BaseTests
         var ownerItems = await repository.GetItemsForOwnerAsync("tenant", "owner", now.AddMinutes(15), now.AddHours(1));
         var subjectItems = await repository.GetItemsForOwnerSubjectAsync("tenant", "owner", "subject", now, now.AddHours(1));
 
+        // Assert
         overlapping.Should().HaveCount(2);
         byToken.Should().ContainSingle();
         tokenWithoutSubject.Should().ContainSingle();
@@ -46,14 +51,20 @@ public class ScheduleAndGenericRepositoryCoverageTests : BaseTests
         (await repository.GetByUniqueTokenAsync("one"))!.Id.Should().Be(selected.Id);
     }
 
+    // Cenário: inclusão e exclusão em lote de pacotes de agenda.
+    // Objetivo: garantir que AddRange e DeleteRange persistem e removem corretamente.
     [Test]
     public async Task ScheduleMutations_AddAndDeleteRanges()
     {
+        // Arrange
         var now = DateTime.UtcNow;
         var package = Package("tenant", "owner", null, "range", now, now.AddHours(1), now, now.AddMinutes(30));
         var repository = new ScheduleCalendarRepository(_mockContext!);
 
+        // Act
         await repository.AddRangeAsync([package]);
+
+        // Assert
         (await repository.GetByUniqueTokenAsync("range")).Should().NotBeNull();
 
         await repository.DeleteRangeAsync([package]);
@@ -169,12 +180,18 @@ public class ScheduleAndGenericRepositoryCoverageTests : BaseTests
         }
     }
 
+    // Cenário: operações CRUD e variantes de consulta do GenericRepository.
+    // Objetivo: cobrir Create, Exists, Find*, Update, EnableOrDisable e Delete.
     [Test]
     public async Task GenericRepository_CoversCrudAndQueryVariants()
     {
+        // Arrange
         var repository = new ApplicationCacheLogRepository(_mockContext!);
+
+        // Act
         var created = await repository.Create(new ApplicationCacheLog { CacheId = "cache-1", CacheKey = "key" });
 
+        // Assert
         (await repository.Exists(created.Id)).Should().BeTrue();
         (await repository.FindAll()).Should().ContainSingle();
         (await repository.FindByID(created.Id)).Id.Should().Be(created.Id);

@@ -47,9 +47,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
+        // Cenário: existem informações de internação persistidas no contexto.
+        // Objetivo: retornar todas as PatientHospitalizationInformation cadastradas.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingRecords_ReturnsAllRecords()
         {
+            // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientHospitalizationInformationRepository(_mockContext);
@@ -68,8 +71,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: existe um paciente com informações de internação associadas.
+        // Objetivo: retornar apenas as PatientHospitalizationInformation do paciente informado.
         [Test]
-        public async Task FindAllByPatient_Success()
+        public async Task FindAllByPatient_ExistingPatient_ReturnsMatchingRecords()
         {
             // Arrange 
             var mockDataPatient = PatientMockHelper.GetMock().Take(1).AsQueryable().First();
@@ -90,13 +95,15 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: existe uma PatientHospitalizationInformation com paciente, médico e usuário criador.
+        // Objetivo: retornar o registro pelo ID com navegação carregada.
         [Test]
-        public async Task FindByID_Success_ReturnsPatientHospitalizationInformation()
+        public async Task FindByID_ExistingId_ReturnsPatientHospitalizationInformation()
         {
+            // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientHospitalizationInformationRepository(_mockContext);
-            // Arrange 
             var mockData = _mockContext.PatientHospitalizationInformations
                 .Include(e => e.Patient)
                 .ThenInclude(e => e!.Medical)
@@ -107,6 +114,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
 
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);

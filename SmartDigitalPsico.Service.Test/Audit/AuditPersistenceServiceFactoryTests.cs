@@ -25,12 +25,13 @@ public class AuditPersistenceServiceFactoryTests
         services.AddSingleton<Serilog.ILogger>(_ => Mock.Of<Serilog.ILogger>());
         services.AddLogging();
         using var provider = services.BuildServiceProvider();
-        var factory = provider.GetRequiredService<IAuditPersistenceServiceFactory>();
 
         // Act
-        var result = factory.CreateService(type);
+        var factory = provider.GetRequiredService<IAuditPersistenceServiceFactory>();
 
         // Assert
+        var result = factory.CreateService(type);
+
         result.Should().BeOfType(expected);
     }
 
@@ -43,12 +44,13 @@ public class AuditPersistenceServiceFactoryTests
         var services = new ServiceCollection();
         ServicesDomainAudit.AddDependencies(services);
         using var provider = services.BuildServiceProvider();
-        var factory = provider.GetRequiredService<IAuditPersistenceServiceFactory>();
 
         // Act
-        var action = () => factory.CreateService((EAuditServiceType)999);
+        var factory = provider.GetRequiredService<IAuditPersistenceServiceFactory>();
 
         // Assert
+        var action = () => factory.CreateService((EAuditServiceType)999);
+
         action.Should().Throw<ArgumentException>();
     }
 }

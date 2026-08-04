@@ -94,6 +94,7 @@ public class EntityBaseServiceTests
         // Assert
         result.Success.Should().BeFalse();
         result.Errors.Should().ContainSingle(x => x.Name == "Create");
+
         context.Logger.Verify(x => x.Error<string, DateTime>(
             It.IsAny<Exception>(),
             It.IsAny<string>(),
@@ -120,6 +121,7 @@ public class EntityBaseServiceTests
 
         // Assert
         result.Success.Should().BeTrue("a implementação atual ainda valida e atualiza após o ramo de inexistência");
+
         context.Repository.Verify(x => x.Update(entity), Times.Once);
     }
 
@@ -187,6 +189,7 @@ public class EntityBaseServiceTests
 
         // Assert
         result.Success.Should().BeFalse();
+
         context.Repository.Verify(x => x.Delete(It.IsAny<long>()), Times.Never);
     }
 
@@ -311,6 +314,7 @@ public class EntityBaseServiceTests
 
         // Assert
         result.Success.Should().BeTrue();
+
         context.Repository.Verify(x => x.EnableOrDisable(11), Times.Once);
     }
 
@@ -323,9 +327,10 @@ public class EntityBaseServiceTests
         var context = new ServiceContext();
         context.Repository.Setup(x => x.GetCount(It.IsAny<System.Linq.Expressions.Expression<Func<Gender, bool>>>()))
             .ReturnsAsync(7);
-        context.Service.SetUserId(99);
 
         // Act
+        context.Service.SetUserId(99);
+
         var result = await context.Service.GetCount();
 
         // Assert
@@ -419,6 +424,7 @@ public class EntityBaseServiceTests
 
         // Assert
         result.Success.Should().BeFalse();
+
         context.Repository.Verify(x => x.EnableOrDisable(It.IsAny<long>()), Times.Never);
     }
 
@@ -574,6 +580,7 @@ public class GenderServiceTests
 
         // Assert
         result.Data.Should().ContainSingle(x => x.Id == 3);
+
         context.Repository.Verify(x => x.FindAll(), Times.Never);
     }
 
@@ -629,6 +636,7 @@ public class GenderServiceTests
 
         // Assert
         result.Success.Should().BeFalse();
+
         context.Repository.Verify(x => x.Update(It.IsAny<Gender>()), Times.Never);
     }
 

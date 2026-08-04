@@ -140,6 +140,8 @@ public class RemainingServiceLineGapTests
     public void ScheduleConflict_FindConflictsAgainstExisting_MaxErrorsAndNonOverlap_CoverBranches()
     {
         // Arrange
+
+        // Act
         var method = typeof(ScheduleConflictService)
             .GetMethod("FindConflictsAgainstExisting", BindingFlags.Static | BindingFlags.NonPublic)!;
         var existingStart = new DateTime(2026, 9, 2, 10, 0, 0, DateTimeKind.Utc);
@@ -164,11 +166,11 @@ public class RemainingServiceLineGapTests
             })
             .ToArray();
 
-        // Act
         var result = method.Invoke(null, [items, existing]) as System.Collections.IList;
 
         // Assert
         result.Should().NotBeNull();
+
         result!.Count.Should().BeLessThanOrEqualTo(20);
     }
 
@@ -267,6 +269,8 @@ public class RemainingServiceLineGapTests
     public void NotificationRecordsService_CalculateScheduledSendTime_InvalidInterval_ReturnsAdjustedStart()
     {
         // Arrange
+
+        // Act
         var method = typeof(NotificationRecordsService)
             .GetMethod("CalculateScheduledSendTime", BindingFlags.Static | BindingFlags.NonPublic)!;
         var rule = new NotificationRule
@@ -277,7 +281,6 @@ public class RemainingServiceLineGapTests
         };
         var start = new DateTime(2026, 1, 1, 12, 0, 0, DateTimeKind.Utc);
 
-        // Act
         var result = (DateTime)method.Invoke(null, [rule, start, "UTC"])!;
 
         // Assert
@@ -306,6 +309,7 @@ public class RemainingServiceLineGapTests
             validator.Object,
             rulesService.Object);
 
+        // Act
         var nullRules = await service.Create(new AddNotificationRecordsDto
         {
             TokenId = Guid.NewGuid(),
@@ -345,6 +349,7 @@ public class RemainingServiceLineGapTests
 
         // Assert
         nullRules.Success.Should().BeTrue();
+
         repository.Verify(x => x.Create(It.IsAny<NotificationRecord>()), Times.AtLeastOnce);
     }
 

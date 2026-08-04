@@ -20,9 +20,10 @@ public class InfrastructureFactoryTests
     public void CreateStrategy_ValidStrategyType_ReturnsExpectedStrategy(EEmailStrategyType strategyType, Type expectedType)
     {
         // Arrange
-        var factory = new EmailStrategyFactory(new SmtpSettingsDto());
 
         // Act
+        var factory = new EmailStrategyFactory(new SmtpSettingsDto());
+
         var result = factory.CreateStrategy(strategyType);
 
         // Assert
@@ -35,9 +36,10 @@ public class InfrastructureFactoryTests
     public void CreateStrategy_InvalidStrategyType_ThrowsArgumentException()
     {
         // Arrange
-        var factory = new EmailStrategyFactory(new SmtpSettingsDto());
 
         // Act
+        var factory = new EmailStrategyFactory(new SmtpSettingsDto());
+
         var action = () => factory.CreateStrategy((EEmailStrategyType)999);
 
         // Assert
@@ -52,6 +54,8 @@ public class InfrastructureFactoryTests
     public void GetService_RegisteredPlatform_ReturnsRegisteredService(ENotificationServiceType serviceType)
     {
         // Arrange
+
+        // Act
         var services = new ServiceCollection();
         INotificationPlatformService expectedService;
         switch (serviceType)
@@ -77,7 +81,6 @@ public class InfrastructureFactoryTests
         using var provider = services.BuildServiceProvider();
         var factory = new NotificationPlatformServiceFactory(provider);
 
-        // Act
         var result = factory.GetService(serviceType);
 
         // Assert
@@ -90,9 +93,10 @@ public class InfrastructureFactoryTests
     public void GetService_InvalidPlatform_ThrowsArgumentException()
     {
         // Arrange
-        var factory = new NotificationPlatformServiceFactory(new ServiceCollection().BuildServiceProvider());
 
         // Act
+        var factory = new NotificationPlatformServiceFactory(new ServiceCollection().BuildServiceProvider());
+
         var action = () => factory.GetService((ENotificationServiceType)999);
 
         // Assert
@@ -106,9 +110,10 @@ public class InfrastructureFactoryTests
     public void Create_SupportedPdfComponent_ReturnsExpectedAdapter(EPdfReportComponentType componentType, Type expectedType)
     {
         // Arrange
-        var factory = new PdfReportAdapterFactory();
 
         // Act
+        var factory = new PdfReportAdapterFactory();
+
         var result = factory.Create(componentType);
 
         // Assert
@@ -121,9 +126,10 @@ public class InfrastructureFactoryTests
     public void Create_InvalidPdfComponent_ThrowsArgumentException()
     {
         // Arrange
-        var factory = new PdfReportAdapterFactory();
 
         // Act
+        var factory = new PdfReportAdapterFactory();
+
         var action = () => factory.Create((EPdfReportComponentType)999);
 
         // Assert
@@ -136,9 +142,10 @@ public class InfrastructureFactoryTests
     public void Create_ExcelGeneratorRequested_ReturnsOpenXmlAdapter()
     {
         // Arrange
-        var factory = new ExcelGeneratorFactory();
 
         // Act
+        var factory = new ExcelGeneratorFactory();
+
         var result = factory.Create();
 
         // Assert
@@ -151,9 +158,10 @@ public class InfrastructureFactoryTests
     public void StorageQueueRepositoryFactory_Create_ReturnsGenericRepository()
     {
         // Arrange
-        var factory = new SmartDigitalPsico.Domain.Interfaces.Infrastructure.StorageQueueRepositoryFactory(new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
 
         // Act
+        var factory = new SmartDigitalPsico.Domain.Interfaces.Infrastructure.StorageQueueRepositoryFactory(new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
+
         var result = factory.Create(EStorageAdapterType.Azure, "notifications");
 
         // Assert
@@ -166,10 +174,11 @@ public class InfrastructureFactoryTests
     public void StorageTableRepositoryFactory_Create_ReturnsGenericRepository()
     {
         // Arrange
+
+        // Act
         var factory = new SmartDigitalPsico.Service.Infrastructure.StorageTableRepositoryFactory(
             new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
 
-        // Act
         var result = factory.Create<SmartDigitalPsico.Domain.TableEntityNoSQL.PatientRecordTableEntity>(
             EStorageAdapterType.Azure,
             "patient-records");
@@ -192,9 +201,10 @@ public class InfrastructureFactoryTests
         using var provider = services.BuildServiceProvider();
         var factory = new SmartDigitalPsico.Service.Infrastructure.Authentication.TokenSessionPersistenceFactory(provider);
 
-        // Act
         var database = factory.Create(ETokenSessionPersistenceType.DataBase);
         var table = factory.Create(ETokenSessionPersistenceType.AzureStorageTable);
+
+        // Act
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -210,10 +220,11 @@ public class InfrastructureFactoryTests
     public void TokenSessionPersistenceFactory_InvalidType_ThrowsArgumentException()
     {
         // Arrange
+
+        // Act
         var factory = new SmartDigitalPsico.Service.Infrastructure.Authentication.TokenSessionPersistenceFactory(
             new ServiceCollection().BuildServiceProvider());
 
-        // Act
         var action = () => factory.Create((ETokenSessionPersistenceType)999);
 
         // Assert

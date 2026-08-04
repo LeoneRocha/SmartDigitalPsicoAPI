@@ -26,6 +26,8 @@ public class MedicalScheduleGradeServiceTests
 
         // Act
         var result = await sut.GetMonthlyCalendar(new CalendarCriteriaDto
+
+        // Assert
         {
             MedicalId = 0,
             Month = 1,
@@ -33,7 +35,6 @@ public class MedicalScheduleGradeServiceTests
             IntervalInMinutes = 30
         });
 
-        // Assert
         result.Success.Should().BeFalse();
         result.Errors.Should().NotBeEmpty();
     }
@@ -70,6 +71,8 @@ public class MedicalScheduleGradeServiceTests
         var day = new DateTime(2025, 6, 2);
         ctx.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(CreateMedical());
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 99, TimeZone = "UTC" });
+
+        // Act
         var denied = await sut.GetMonthlyCalendar(ValidCriteria(day));
 
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 3, TimeZone = "UTC" });
@@ -109,6 +112,7 @@ public class MedicalScheduleGradeServiceTests
         var patientFail = await sut.GetMonthlyCalendar(ValidCriteria(day));
 
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync((User?)null);
+
         var missingUser = await sut.GetMonthlyCalendar(ValidCriteria(day));
         var available = await sut.GetAvailableMedicalCalendar(ValidCriteria(day));
 

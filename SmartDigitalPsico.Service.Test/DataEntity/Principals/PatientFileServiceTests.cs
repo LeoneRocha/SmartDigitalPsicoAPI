@@ -18,6 +18,7 @@ public class PatientFileServiceTests
     [Test]
     public async Task PostFileAsync_ValidEntity_PersistsFileAndReturnsTrue()
     {
+        // Arrange
         var context = new PatientFileServiceContext();
         var dto = new AddPatientFileDto { PatientId = 5, Description = "Exame", FileDetails = CreateFormFile() };
         context.PatientRepository.Setup(x => x.FindByID(5)).ReturnsAsync(new Patient { Id = 5, MedicalId = 9 });
@@ -25,9 +26,12 @@ public class PatientFileServiceTests
             .ReturnsAsync("stored/path.pdf");
         context.Repository.Setup(x => x.Create(It.IsAny<PatientFile>())).ReturnsAsync((PatientFile f) => { f.Id = 12; return f; });
 
+        // Act
         var result = await context.Service.PostFileAsync(dto);
 
+        // Assert
         result.Should().BeTrue();
+
         context.Repository.Verify(x => x.Create(It.IsAny<PatientFile>()), Times.Once);
     }
 
@@ -36,6 +40,7 @@ public class PatientFileServiceTests
     [Test]
     public async Task DownloadFileById_ExistingFile_ReturnsMappedDtoWithData()
     {
+        // Arrange
         var context = new PatientFileServiceContext();
         var fileEntity = new PatientFile { Id = 15, PatientId = 5, FileName = "exam.pdf" };
         context.Repository.Setup(x => x.FindByID(15)).ReturnsAsync(fileEntity);
@@ -43,8 +48,10 @@ public class PatientFileServiceTests
         context.FilePersistor.Setup(x => x.DownloadFileById(It.IsAny<FileBase>(), "9_5"))
             .ReturnsAsync(new PatientFile { FileData = new byte[] { 1, 2, 3 } });
 
+        // Act
         var result = await context.Service.DownloadFileById(15);
 
+        // Assert
         result.Should().NotBeNull();
     }
 
@@ -53,12 +60,15 @@ public class PatientFileServiceTests
     [Test]
     public async Task Delete_ExistingFile_DelegatesToEnableOrDisable()
     {
+        // Arrange
         var context = new PatientFileServiceContext();
         context.Repository.Setup(x => x.Exists(20)).ReturnsAsync(true);
         context.Repository.Setup(x => x.EnableOrDisable(20)).ReturnsAsync(true);
 
+        // Act
         var result = await context.Service.Delete(20);
 
+        // Assert
         result.Success.Should().BeTrue();
     }
 
@@ -67,7 +77,10 @@ public class PatientFileServiceTests
     [Test]
     public async Task FindAllByPatient_UserWithoutPermission_ReturnsPermissionFailure()
     {
+        // Arrange
         var context = new PatientFileServiceContext();
+
+        // Act
         context.Service.SetUserId(2);
         var patient = new Patient { Id = 5, MedicalId = 9 };
         context.Repository.Setup(x => x.FindAllByPatient(5)).ReturnsAsync(
@@ -78,6 +91,7 @@ public class PatientFileServiceTests
 
         var result = await context.Service.FindAllByPatient(5);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeFalse();
@@ -90,13 +104,17 @@ public class PatientFileServiceTests
     [Test]
     public async Task FindAllByPatient_NoRecords_ReturnsNotFoundFailure()
     {
+        // Arrange
         var context = new PatientFileServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         context.Repository.Setup(x => x.FindAllByPatient(5)).ReturnsAsync([]);
         context.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 9, Admin = true });
 
         var result = await context.Service.FindAllByPatient(5);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -105,7 +123,10 @@ public class PatientFileServiceTests
     [Test]
     public async Task FindByID_UserWithoutPermission_ReturnsPermissionFailure()
     {
+        // Arrange
         var context = new PatientFileServiceContext();
+
+        // Act
         context.Service.SetUserId(2);
         context.Repository.Setup(x => x.FindByID(25)).ReturnsAsync(new PatientFile
         {
@@ -118,6 +139,7 @@ public class PatientFileServiceTests
 
         var result = await context.Service.FindByID(25);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -126,7 +148,10 @@ public class PatientFileServiceTests
     [Test]
     public async Task FindAllByPatient_AuthorizedRecords_ReturnsMappedList()
     {
+        // Arrange
         var context = new PatientFileServiceContext();
+
+        // Act
         context.Service.SetUserId(7);
         var patient = new Patient { Id = 5, MedicalId = 9 };
         var file = new PatientFile { Id = 1, PatientId = 5, Patient = patient, CreatedUser = new User { Id = 7 } };
@@ -135,6 +160,7 @@ public class PatientFileServiceTests
 
         var result = await context.Service.FindAllByPatient(5);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -147,7 +173,10 @@ public class PatientFileServiceTests
     [Test]
     public async Task FindByID_AdminUser_ReturnsMappedResult()
     {
+        // Arrange
         var context = new PatientFileServiceContext();
+
+        // Act
         context.Service.SetUserId(1);
         var entity = new PatientFile { Id = 25, PatientId = 5 };
         context.Repository.Setup(x => x.FindByID(25)).ReturnsAsync(entity);
@@ -155,6 +184,7 @@ public class PatientFileServiceTests
 
         var result = await context.Service.FindByID(25);
 
+        // Assert
         result.Success.Should().BeTrue();
     }
 
@@ -163,11 +193,14 @@ public class PatientFileServiceTests
     [Test]
     public async Task FindByID_RepositoryThrows_ReturnsControlledFailure()
     {
+        // Arrange
         var context = new PatientFileServiceContext();
         context.Repository.Setup(x => x.FindByID(It.IsAny<long>())).ThrowsAsync(new InvalidOperationException("boom"));
 
+        // Act
         var result = await context.Service.FindByID(26);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 

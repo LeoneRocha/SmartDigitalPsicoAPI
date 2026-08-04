@@ -23,12 +23,15 @@ public class MedicalScheduleAppointmentServiceTests
     [Test]
     public async Task RequestAppointment_InvalidCriteria_ReturnsValidationFailure()
     {
+        // Arrange
         var context = new AppointmentServiceContext();
         var invalidResult = new ValidationResult(new[] { new ValidationFailure("MedicalId", "Required") });
         context.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(invalidResult);
 
+        // Act
         var result = await context.Service.RequestAppointment(new ScheduleCriteriaDto());
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -37,14 +40,18 @@ public class MedicalScheduleAppointmentServiceTests
     [Test]
     public async Task RequestAppointment_ValidScheduleType_BooksSuccessfully()
     {
+        // Arrange
         var context = new AppointmentServiceContext();
         context.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, PatientIntervalTimeMinutes = 30 });
         context.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>())).ReturnsAsync(new ServiceResponse<ScheduleCalendar> { Success = true, Data = new ScheduleCalendar { Id = 55 } });
 
         var criteria = new ScheduleCriteriaDto { ScheduleType = EScheduleCalendarType.Schedule, MedicalId = 3, PatientId = 10, AppointmentDateTime = DateTime.UtcNow };
+
+        // Act
         var result = await context.Service.RequestAppointment(criteria);
 
+        // Assert
         result.Success.Should().BeTrue();
     }
 
@@ -53,6 +60,7 @@ public class MedicalScheduleAppointmentServiceTests
     [Test]
     public async Task RequestAppointment_ValidCancellationType_CancelsAndRemovesNotifications()
     {
+        // Arrange
         var context = new AppointmentServiceContext();
         context.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         var token = Guid.NewGuid();
@@ -61,8 +69,11 @@ public class MedicalScheduleAppointmentServiceTests
         context.NotificationRecordsRepository.Setup(x => x.DeleteByTokenAndEventAsync(token, It.IsAny<DateTime>())).ReturnsAsync(true);
 
         var criteria = new ScheduleCriteriaDto { ScheduleType = EScheduleCalendarType.Cancellation, MedicalId = 3, PatientId = 10, AppointmentDateTime = DateTime.UtcNow };
+
+        // Act
         var result = await context.Service.RequestAppointment(criteria);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -75,11 +86,14 @@ public class MedicalScheduleAppointmentServiceTests
     [Test]
     public async Task RequestAppointment_ValidatorThrows_ReturnsControlledFailure()
     {
+        // Arrange
         var context = new AppointmentServiceContext();
         context.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>())).ThrowsAsync(new InvalidOperationException("boom"));
 
+        // Act
         var result = await context.Service.RequestAppointment(new ScheduleCriteriaDto());
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -88,6 +102,7 @@ public class MedicalScheduleAppointmentServiceTests
     [Test]
     public async Task RequestAppointment_UnsupportedScheduleType_ReturnsGenericFailure()
     {
+        // Arrange
         var context = new AppointmentServiceContext();
         context.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
@@ -99,8 +114,10 @@ public class MedicalScheduleAppointmentServiceTests
             AppointmentDateTime = DateTime.UtcNow
         };
 
+        // Act
         var result = await context.Service.RequestAppointment(criteria);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -109,12 +126,15 @@ public class MedicalScheduleAppointmentServiceTests
     [Test]
     public async Task GetAppointments_InvalidCriteria_ReturnsValidationFailure()
     {
+        // Arrange
         var context = new AppointmentServiceContext();
         var invalidResult = new ValidationResult(new[] { new ValidationFailure("MedicalId", "Required") });
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(invalidResult);
 
+        // Act
         var result = await context.Service.GetAppointments(new AppointmentCriteriaDto());
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -123,14 +143,18 @@ public class MedicalScheduleAppointmentServiceTests
     [Test]
     public async Task GetAppointments_NoItemsFound_ReturnsNotFoundFailure()
     {
+        // Arrange
         var context = new AppointmentServiceContext();
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.AppointmentQuery.Setup(x => x.GetItemsForOwnerSubjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
             .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = [] });
 
         var criteria = new AppointmentCriteriaDto { MedicalId = 3, PatientId = 10, Year = 2026, Month = 1 };
+
+        // Act
         var result = await context.Service.GetAppointments(criteria);
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -139,6 +163,7 @@ public class MedicalScheduleAppointmentServiceTests
     [Test]
     public async Task GetAppointments_ValidItems_ReturnsMappedAppointments()
     {
+        // Arrange
         var context = new AppointmentServiceContext();
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         var items = new[] { new ScheduleCalendarItem { StartDateTime = DateTime.UtcNow, TimeZone = "UTC" } };
@@ -147,8 +172,11 @@ public class MedicalScheduleAppointmentServiceTests
         context.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, Name = "Dr. House" });
 
         var criteria = new AppointmentCriteriaDto { MedicalId = 3, PatientId = 10, Year = 2026, Month = 1 };
+
+        // Act
         var result = await context.Service.GetAppointments(criteria);
 
+        // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
@@ -161,11 +189,14 @@ public class MedicalScheduleAppointmentServiceTests
     [Test]
     public async Task GetAppointments_ValidatorThrows_ReturnsControlledFailure()
     {
+        // Arrange
         var context = new AppointmentServiceContext();
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>())).ThrowsAsync(new InvalidOperationException("boom"));
 
+        // Act
         var result = await context.Service.GetAppointments(new AppointmentCriteriaDto());
 
+        // Assert
         result.Success.Should().BeFalse();
     }
 

@@ -18,22 +18,29 @@ namespace SmartDigitalPsico.Data.Tests.Configure
             _roleGroupConfiguration = new RoleGroupConfiguration(ETypeDataBase.Mysql);
         }
 
+        // Cenário: o contexto de testes é inicializado com ModelBuilder.
+        // Objetivo: garantir que a criação do modelo não lança exceção.
         [Test]
-        public void Should_Initialize_Context()
+        public void InitializeContext_ValidSetup_DoesNotThrow()
         {
+            // Arrange
             try
             {
+                // Act
                 var context = new SmartDigitalPsicoDataContextTest();
                 context.TestModelCreation(new ModelBuilder());
             }
             catch (Exception ex)
             {
+                // Assert
                 Assert.Fail(ex.Message);
             }
         }
 
+        // Cenário: ModelBuilder válido obtido a partir do contexto de testes.
+        // Objetivo: configurar a entidade RoleGroup sem lançar exceção.
         [Test]
-        public void Configure_SuccessScenario()
+        public void Configure_ValidModelBuilder_DoesNotThrow()
         {
             // Arrange
             using (var context = new SmartDigitalPsicoDataContextTest())

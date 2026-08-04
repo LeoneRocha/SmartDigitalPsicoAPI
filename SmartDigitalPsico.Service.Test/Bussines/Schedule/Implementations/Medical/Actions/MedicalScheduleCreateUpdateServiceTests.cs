@@ -75,6 +75,7 @@ public class MedicalScheduleCreateUpdateServiceTests
 
         // Assert
         result.Success.Should().BeFalse();
+
         context.CreateService.Verify(x => x.CreateAsync(It.IsAny<ScheduleCalendarWriteRequest>()), Times.Never);
     }
 
@@ -152,13 +153,14 @@ public class MedicalScheduleCreateUpdateServiceTests
 
         // Act
         var result = await context.UpdateServiceImpl.Update(new UpdateMedicalCalendarDto
+
+        // Assert
         {
             Id = 5,
             StartDateTime = start,
             Status = EStatusCalendar.Active
         });
 
-        // Assert
         result.Success.Should().BeFalse();
     }
 
@@ -236,6 +238,8 @@ public class MedicalScheduleCreateUpdateServiceTests
 
         // Act
         var result = await context.UpdateServiceImpl.Update(new UpdateMedicalCalendarDto
+
+        // Assert
         {
             Id = 8,
             MedicalId = 1,
@@ -243,7 +247,6 @@ public class MedicalScheduleCreateUpdateServiceTests
             Status = EStatusCalendar.Active
         });
 
-        // Assert
         result.Success.Should().BeFalse();
         result.Message.Should().Be("Update failed");
     }
