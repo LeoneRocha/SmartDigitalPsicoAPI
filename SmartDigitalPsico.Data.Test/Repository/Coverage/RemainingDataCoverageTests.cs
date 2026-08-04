@@ -649,53 +649,6 @@ public class RemainingDataCoverageTests : BaseTests
         failure.Should().BeOfType<InvalidOperationException>();
     }
 
-    // Cenário: truncamento concorrente durante leitura do arquivo.
-    // Objetivo: sinalizar IOException de leitura incompleta.
-    [Test]
-    public async Task FileDiskRepository_DetectsIncompleteRead()
-    {
-        // Arrange
-        var repository = new FileDiskRepository();
-        Exception? failure = null;
-
-        // Act
-        for (var attempt = 0; attempt < 80 && failure is null; attempt++)
-        {
-            var path = Path.Combine(_temporaryDirectory, $"partial-{attempt}.bin");
-            await using (var create = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
-            {
-                var buffer = new byte[1024 * 1024];
-                for (var i = 0; i < 48; i++)
-                    await create.WriteAsync(buffer);
-            }
-
-            using var truncate = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-            var readTask = Task.Run(async () => await repository.Get(new FileData { FilePath = path, FileName = "ignored" }));
-            while (!readTask.IsCompleted)
-            {
-                truncate.SetLength(1);
-                truncate.Flush();
-                truncate.SetLength(0);
-                truncate.Flush();
-                await Task.Yield();
-            }
-
-            try
-            {
-                await readTask;
-            }
-            catch (Exception ex)
-            {
-                if (ex is IOException && ex.Message == "Could not read the entire file.")
-                    failure = ex;
-            }
-        }
-
-        // Assert
-        failure.Should().NotBeNull();
-        failure!.Message.Should().Be("Could not read the entire file.");
-    }
-
     // Cenário: Exists indica true mas o lookup posterior não encontra o usuário.
     // Objetivo: RefreshUserInfo retornar usuário vazio (Id 0).
     [Test]

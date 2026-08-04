@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Azure.Storage.Queues;
@@ -14,6 +15,9 @@ public class AzureStorageAdaptersCoverageTests
 {
     private const string AzuriteConnectionString =
         "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;";
+
+    private const string AzuriteExplicitReason =
+        "Requires Azurite on 127.0.0.1:10000-10002. Run explicitly with the emulator started.";
 
     // Cenário: adaptadores sem connection string.
     // Objetivo: cobrir ramos de cliente nulo.
@@ -55,6 +59,7 @@ public class AzureStorageAdaptersCoverageTests
     // Cenário: Table Adapter com Azurite.
     // Objetivo: cobrir CRUD completo do TableClient.
     [Test]
+    [Explicit(AzuriteExplicitReason)]
     public async Task TableAdapter_WithAzurite_PerformsCrud()
     {
         // Arrange
@@ -96,6 +101,7 @@ public class AzureStorageAdaptersCoverageTests
     // Cenário: Queue Adapter com Azurite.
     // Objetivo: cobrir enqueue/dequeue/delete e fila vazia.
     [Test]
+    [Explicit(AzuriteExplicitReason)]
     public async Task QueueAdapter_WithAzurite_EnqueuesDequeuesAndDeletes()
     {
         // Arrange
@@ -124,6 +130,7 @@ public class AzureStorageAdaptersCoverageTests
     // Cenário: Blob Adapter com Azurite e cenários de validação.
     // Objetivo: cobrir upload/download/SAS/delete e ramos de erro.
     [Test]
+    [Explicit(AzuriteExplicitReason)]
     public async Task BlobAdapter_WithAzurite_CoversHappyPathAndValidationBranches()
     {
         // Arrange
@@ -173,6 +180,7 @@ public class AzureStorageAdaptersCoverageTests
     // Cenário: Table/Queue via configuração Azurite (sem ctor de cliente injetado).
     // Objetivo: cobrir operações CRUD/enqueue com clientes criados pelo adapter.
     [Test]
+    [Explicit(AzuriteExplicitReason)]
     public async Task ConfigClients_WithAzurite_CoverTableAndQueueOperations()
     {
         // Arrange
@@ -207,6 +215,7 @@ public class AzureStorageAdaptersCoverageTests
     // Cenário: ctors com connection string apontando para Azurite.
     // Objetivo: cobrir CreateIfNotExists e criação de clientes no ctor.
     [Test]
+    [Explicit(AzuriteExplicitReason)]
     public void ConfigConstructors_WithAzurite_CreateClients()
     {
         // Arrange
@@ -230,13 +239,41 @@ public class AzureStorageAdaptersCoverageTests
 
     private static void AssumeAzuriteAvailable()
     {
+        // TCP first: ConnectionRefused is instant; avoids SDK timeout noise in Test Explorer.
+        if (!IsPortOpen("127.0.0.1", 10002))
+        {
+            Assert.Ignore(AzuriteExplicitReason);
+        }
+
         try
         {
-            CreateTableClient("healthcheck").CreateIfNotExists();
+            var options = new TableClientOptions(TableClientOptions.ServiceVersion.V2020_12_06)
+            {
+                Retry =
+                {
+                    MaxRetries = 0,
+                    NetworkTimeout = TimeSpan.FromSeconds(2)
+                }
+            };
+            new TableClient(AzuriteConnectionString, "healthcheck", options).CreateIfNotExists();
         }
         catch (Exception ex)
         {
             Assert.Ignore($"Azurite unavailable or incompatible: {ex.Message}");
+        }
+    }
+
+    private static bool IsPortOpen(string host, int port)
+    {
+        try
+        {
+            using var client = new TcpClient();
+            var connect = client.ConnectAsync(host, port);
+            return connect.Wait(TimeSpan.FromMilliseconds(200)) && client.Connected;
+        }
+        catch
+        {
+            return false;
         }
     }
 
