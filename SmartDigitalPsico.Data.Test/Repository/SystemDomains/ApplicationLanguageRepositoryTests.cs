@@ -29,8 +29,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
+        // Cenário: idiomas de aplicação persistidos no contexto de teste.
+        // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingLanguages_ReturnsAllRecords()
         {
             // Arrange
             var mockDataList = ApplicationLanguageMockData.GetMock().Take(38).AsQueryable();
@@ -54,8 +56,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
         }
 
 
+        // Cenário: busca por language, languageKey e resourceKey existentes.
+        // Objetivo: garantir que Find retorne o registro correspondente.
         [Test]
-        public async Task Find_Success()
+        public async Task Find_ValidKeys_ReturnsLanguage()
         {
             // Arrange
             var mockData = ApplicationLanguageMockData.GetMock().Take(38).AsQueryable().First();

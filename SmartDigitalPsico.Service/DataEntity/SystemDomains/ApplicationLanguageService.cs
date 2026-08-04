@@ -101,8 +101,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             catch (Exception)
             {
-                resultLocalization = string.IsNullOrEmpty(resultLocalization) ? $"NotFoundLocalization|{key}|{defaultMenssage}" : resultLocalization;
-                //Feature add default menssage. 
+                resultLocalization = $"NotFoundLocalization|{key}|{defaultMenssage}";
             }
             return resultLocalization;
         }
@@ -134,7 +133,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 if (!existLanguageDafault)
                 {
                     await Save(defaultLanguage);
-                    resultLocalization = string.IsNullOrEmpty(resultLocalization) ? $"NotFoundLocalizationButInsertedDefault|{key}|{defaultMenssage}" : resultLocalization;
+                    resultLocalization = CoalesceLocalization(resultLocalization, $"NotFoundLocalizationButInsertedDefault|{key}|{defaultMenssage}");
 
                     await RemoveCache(keyCache);
                     //Update
@@ -201,6 +200,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
         }
 
+
+        internal static string CoalesceLocalization(string resultLocalization, string fallback)
+            => string.IsNullOrEmpty(resultLocalization) ? fallback : resultLocalization;
         private static GetApplicationLanguageDto? FindLanguageFromCache(ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache, string resourceKey, string key, string language)
         {
             if (resultFromCache != null && resultFromCache.Data != null && resultFromCache.Data.Count > 0)

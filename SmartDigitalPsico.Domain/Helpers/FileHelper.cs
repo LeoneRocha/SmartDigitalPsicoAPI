@@ -204,12 +204,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             {
                 var contentType = GetContentType(filePath);
                 var fileBytes = new byte[fileStream.Length];
-                int bytesRead = fileStream.Read(fileBytes, 0, (int)fileStream.Length);
-
-                if (bytesRead != fileStream.Length)
-                {
-                    throw new IOException("Could not read the entire file.");
-                }
+                fileStream.ReadExactly(fileBytes);
                 var response = new FileContentResult(fileBytes, contentType)
                 {
                     LastModified = DateHelper.GetDateTimeNowFromUtc(),

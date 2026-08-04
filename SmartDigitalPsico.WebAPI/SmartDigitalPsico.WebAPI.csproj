@@ -56,6 +56,10 @@
     <ProjectReference Include="..\SmartDigitalPsico.Service\SmartDigitalPsico.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="SmartDigitalPsico.WebAPI.Test" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <Content Update="appsettings.Development.json">

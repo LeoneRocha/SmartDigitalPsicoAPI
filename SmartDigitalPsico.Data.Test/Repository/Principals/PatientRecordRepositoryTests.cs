@@ -46,9 +46,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
+        // Cenário: existem registros de prontuário persistidos no contexto.
+        // Objetivo: retornar todos os PatientRecord cadastrados.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingRecords_ReturnsAllRecords()
         {
+            // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientRecordRepository(_mockContext);
@@ -67,8 +70,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: existe um paciente com prontuários associados.
+        // Objetivo: retornar apenas os PatientRecord do paciente informado.
         [Test]
-        public async Task FindAllByPatient_Success()
+        public async Task FindAllByPatient_ExistingPatient_ReturnsMatchingRecords()
         {
             // Arrange 
             var mockDataPatient = PatientMockHelper.GetMock().Take(1).AsQueryable().First();
@@ -89,13 +94,15 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: existe um PatientRecord com paciente, médico e usuário criador.
+        // Objetivo: retornar o registro pelo ID com navegação carregada.
         [Test]
-        public async Task FindByID_Success_ReturnsPatientRecord()
+        public async Task FindByID_ExistingId_ReturnsPatientRecord()
         { 
+            // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientRecordRepository(_mockContext);
-            // Arrange 
             var mockData = _mockContext.PatientRecords
                 .Include(e => e.Patient)
                 .ThenInclude(e => e!.Medical)
@@ -106,6 +113,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Act
             var result = await _entityRepository.FindByID(mockData.Id);
 
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.Not.Null);

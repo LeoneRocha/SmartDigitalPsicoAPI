@@ -64,10 +64,15 @@ namespace SmartDigitalPsico.WebJob
                 {
                     LogAppHelper.LogError(_logger, ex, "Erro ao executar o trabalho em: {time} / Error executing job at: {time}", DateHelper.GetDateTimeNowToLog());
                 }
-                await Task.Delay(TimeSpan.FromMinutes(delayMinutes), stoppingToken);
+                await DelayAsync(TimeSpan.FromMinutes(delayMinutes), stoppingToken);
             }
 
             LogAppHelper.LogInfo(_logger, "ContinuousJobHostedService finalizado às: {time} / Stopping at: {time}", DateHelper.GetDateTimeNowToLog());
+        }
+
+        protected virtual Task DelayAsync(TimeSpan delay, CancellationToken stoppingToken)
+        {
+            return Task.Delay(delay, stoppingToken);
         }
     }
 }

@@ -23,10 +23,16 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 
         private static bool NoTimeSlotOverlap(ScheduleItemValidationContext context)
         {
-            if (context.ExistingItems == null || context.ExistingItems.Length > 0)
+            if (context.ExistingItems == null || context.ExistingItems.Length == 0)
                 return true;
 
-            return !context.ExistingItems.Any(item => item.StartDateTime < context.NewItem?.EndDateTime && context.NewItem.StartDateTime < item.EndDateTime);
+            var newItem = context.NewItem;
+            if (newItem == null)
+                return true;
+
+            return !context.ExistingItems.Any(item =>
+                item.StartDateTime < newItem.EndDateTime &&
+                newItem.StartDateTime < item.EndDateTime);
         }
     } 
 }

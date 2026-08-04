@@ -96,9 +96,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 if (response.Success)
                 {
                     entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, "patientfiles", $"{patient.MedicalId}_{entity.PatientId}");
-                    PatientFile entityResponse = await ((IPatientFileRepository)_entityRepository).Create(entityAdd);
-                    if (response.Data != null)
-                        response.Data.Id = entityResponse.Id;
+                    await ((IPatientFileRepository)_entityRepository).Create(entityAdd);
                 }
 
             }
@@ -155,7 +153,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 return response;
             }
 
-            if (listResult == null || listResult.Count == 0)
+            if (listResult.Count == 0)
             {
                 response.Success = false;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);               

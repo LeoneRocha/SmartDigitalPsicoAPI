@@ -103,17 +103,18 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
                 return;
             }
 
-            // Fallback sequencial: sem EndDate/Count — early-break; Parallel no while não é seguro.
+            // Fallback sequencial: sem EndDate/Count — uma passagem; Parallel no while não é seguro.
             var current = request.StartDateTime;
-            while (ShouldContinue(current, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
+            var continueSequential = true;
+            while (continueSequential
+                   && ShouldContinue(current, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
             {
                 if (request.RecurrenceDays.Length == 0 || request.RecurrenceDays.Contains(current.DayOfWeek))
                 {
                     items.Add(new RecurrenceInterval { StartDateTime = current, EndDateTime = current + duration });
                 }
                 current = current.AddDays(1);
-                if (!request.RecurrenceCount.HasValue && !request.RecurrenceEndDate.HasValue)
-                    break;
+                continueSequential = false;
             }
         }
 
@@ -211,14 +212,15 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
                 return;
             }
 
-            // Fallback sequencial: sem EndDate/Count — early-break de 1 semana; Parallel no while não é seguro.
+            // Fallback sequencial: sem EndDate/Count — early-stop de 1 semana; Parallel no while não é seguro.
             var currentWeek = request.StartDateTime.Date;
-            while (ShouldContinue(currentWeek, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
+            var continueSequential = true;
+            while (continueSequential
+                   && ShouldContinue(currentWeek, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
             {
                 MaterializeWeeklyOccurrences(request, duration, items, days, currentWeek);
                 currentWeek = currentWeek.AddDays(7);
-                if (ShouldStopAfterSingleWeek(request, items))
-                    break;
+                continueSequential = !ShouldStopAfterSingleWeek(request, items);
             }
         }
 
@@ -350,15 +352,16 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
         {
             var current = request.StartDateTime;
             var day = request.StartDateTime.Day;
-            while (ShouldContinue(current, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
+            var continueSequential = true;
+            while (continueSequential
+                   && ShouldContinue(current, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
             {
                 if (request.RecurrenceDays.Length == 0 || request.RecurrenceDays.Contains(current.DayOfWeek))
                 {
                     items.Add(new RecurrenceInterval { StartDateTime = current, EndDateTime = current + duration });
                 }
                 current = AddMonthsClamped(current, 1, day);
-                if (!request.RecurrenceCount.HasValue && !request.RecurrenceEndDate.HasValue)
-                    break;
+                continueSequential = request.RecurrenceCount.HasValue || request.RecurrenceEndDate.HasValue;
             }
         }
 
@@ -368,12 +371,13 @@ namespace SmartDigitalPsico.Domain.Helpers.Schedule
         private static void MaterializeYearly(RecurrenceMaterializeRequest request, TimeSpan duration, List<RecurrenceInterval> items)
         {
             var current = request.StartDateTime;
-            while (ShouldContinue(current, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
+            var continueSequential = true;
+            while (continueSequential
+                   && ShouldContinue(current, request.RecurrenceEndDate, request.RecurrenceCount, items.Count, request.MaxOccurrences))
             {
                 items.Add(new RecurrenceInterval { StartDateTime = current, EndDateTime = current + duration });
                 current = current.AddYears(1);
-                if (!request.RecurrenceCount.HasValue && !request.RecurrenceEndDate.HasValue)
-                    break;
+                continueSequential = request.RecurrenceCount.HasValue || request.RecurrenceEndDate.HasValue;
             }
         }
 

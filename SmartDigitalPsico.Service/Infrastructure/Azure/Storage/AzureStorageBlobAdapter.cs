@@ -53,7 +53,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             await CreateContainerIfNotExists(blobFileVO.ContainerName);
 
             var containerClient = _blobServiceClient.GetBlobContainerClient(blobFileVO.ContainerName);
-            var blobName = !string.IsNullOrEmpty(blobFileVO.BlobName) ? blobFileVO.BlobName : Path.GetFileName(blobFileVO.FilePath);
+            var blobName = ResolveBlobName(blobFileVO.BlobName, blobFileVO.FilePath);
             var blobClient = containerClient.GetBlobClient(blobName);
 
             await blobClient.UploadAsync(blobFileVO.FilePath, blobFileVO.BlobHeaders);
@@ -121,8 +121,11 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
 
             Uri sasUri = blobClient.GenerateSasUri(blobSasBuilder);
             await Task.Delay(1);
-            return sasUri?.ToString() ?? string.Empty;
+            return sasUri.ToString();
         }
+
+        public static string ResolveBlobName(string? blobName, string? filePath)
+            => !string.IsNullOrEmpty(blobName) ? blobName : Path.GetFileName(filePath) ?? string.Empty;
         /// <summary>
         /// Método DownloadFile: executa a operação DownloadFile.
         /// </summary>

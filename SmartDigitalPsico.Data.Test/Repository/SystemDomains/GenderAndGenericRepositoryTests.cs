@@ -33,8 +33,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
+        // Cenário: criação de um novo gênero com dados válidos.
+        // Objetivo: garantir que Create persista a entidade no contexto.
         [Test]
-        public async Task Create_Success()
+        public async Task Create_ValidGender_PersistsEntity()
         {
             // Arrange
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
@@ -50,7 +52,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             var result = await _entityRepository.Create(data);
             var target = await _mockContext.Genders.FirstAsync(e => e.Description.Equals(data.Description, StringComparison.OrdinalIgnoreCase));
 
-            //Assert  
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.EqualTo(data));
@@ -58,9 +60,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: tentativa de criar gênero com Id já existente.
+        // Objetivo: garantir que Create lance InvalidOperationException.
         [Test]
-        public void Create_Error()
+        public void Create_DuplicateId_ThrowsInvalidOperationException()
         {
+            // Arrange
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
             SetupContext(mockFull);
 
@@ -73,6 +78,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new GenderRepository(_mockContext);
 
+            // Act
+            // Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
             {
                 await _entityRepository.Create(data);
@@ -80,8 +87,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
         }
 
 
+        // Cenário: criação de gênero com dados gerados por Bogus.
+        // Objetivo: garantir que Create persista entidade gerada dinamicamente.
         [Test]
-        public async Task Create_Success_With_Bogus()
+        public async Task Create_BogusGeneratedGender_PersistsEntity()
         {
             // Arrange
             var faker = new Faker<Gender>("pt_BR")
@@ -99,7 +108,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             var target = await _mockContext.Genders.FirstAsync(e => e.Id == data.Id);
 
-            //Assert  
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result, Is.EqualTo(data));
@@ -107,8 +116,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: gêneros persistidos no contexto de teste.
+        // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingGenders_ReturnsAllRecords()
         {
             // Arrange
             var mockDataList = GenderMockHelper.GetMock();
@@ -131,8 +142,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: busca por Id de gênero existente.
+        // Objetivo: garantir que FindByID retorne a entidade correspondente.
         [Test]
-        public async Task FindByID_Success()
+        public async Task FindByID_ExistingId_ReturnsGender()
         {
             // Arrange
             var mockDataList = GenderMockHelper.GetMock();
@@ -154,8 +167,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: atualização de descrição de um gênero existente.
+        // Objetivo: garantir que Update persista as alterações corretamente.
         [Test]
-        public async Task Update_Success()
+        public async Task Update_ExistingGender_UpdatesDescription()
         {
             // Arrange
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
@@ -175,7 +190,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             var target = await _mockContext.Genders.FirstOrDefaultAsync(e => e.Id == result.Id);
 
-            //Assert  
+            // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(target, Is.Not.Null);
@@ -184,8 +199,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: atualização de gênero inexistente.
+        // Objetivo: garantir que Update lance InvalidOperationException.
         [Test]
-        public void Update_Failure_RegisterNotFound()
+        public void Update_NonExistingGender_ThrowsInvalidOperationException()
         {
             // Arrange
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
@@ -195,15 +212,17 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new GenderRepository(_mockContext);
 
-            // Arrange
             var nonExistingGender = new Gender { Id = 999, Description = "Non-Existing Gender" };
 
-            // Act & Assert
+            // Act
+            // Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () => await _entityRepository.Update(nonExistingGender));
         }
 
+        // Cenário: exclusão de um gênero existente por Id.
+        // Objetivo: garantir que Delete remova a entidade do contexto.
         [Test]
-        public async Task Delete_Success()
+        public async Task Delete_ExistingId_RemovesEntity()
         {
             // Arrange
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
@@ -228,6 +247,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
         }
 
 
+        // Cenário: alternância de Enable em um gênero existente.
+        // Objetivo: garantir que EnableOrDisable inverta o estado e retorne true.
         [Test]
         public async Task EnableOrDisable_UpdatesEntityAndReturnsTrue()
         {
@@ -254,10 +275,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: verificação de existência de gênero já cadastrado.
+        // Objetivo: garantir que Exists retorne true para Id válido.
         [Test]
         public async Task Exists_EntityExists_ReturnsTrue()
         {
-            // Arrange: Set up your test data and context
+            // Arrange
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
             SetupContext(mockFull);
             var mockData = GenderMockHelper.GetMock().Take(1).AsQueryable().First();
@@ -273,6 +296,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             Assert.That(result, Is.True);
         }
 
+        // Cenário: verificação de existência por Id de gênero cadastrado.
+        // Objetivo: garantir que FindExistsByID não lance exceção.
         [Test]
         public async Task FindExistsByID_EntityExists_ReturnsNoException()
         {
@@ -285,10 +310,9 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new GenderRepository(_mockContext);
 
-            // Act 
-            // Assert
+            // Act
             await _entityRepository.FindExistsByID(mockData.Id);
-            // Act 
+
             // Assert
             Assert.DoesNotThrowAsync(async () =>
             {
@@ -296,15 +320,16 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             });
         }
 
+        // Cenário: filtro customizado por predicado de Id.
+        // Objetivo: garantir que FindByCustomWhere retorne a lista filtrada.
         [Test]
-        public async Task FindByCustomWhere_Success()
+        public async Task FindByCustomWhere_MatchingPredicate_ReturnsFilteredList()
         {
-            // Arrange            
+            // Arrange
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
             SetupContext(mockFull);
             var mockData = GenderMockHelper.GetMock().Take(1).AsQueryable().First();
 
-            // Arrange
             Expression<Func<Gender, bool>> predicate = g => g.Id == 1;
 
             // Inicialize  Repository
@@ -323,10 +348,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: filtro customizado com includes de Patients.
+        // Objetivo: garantir que FindByCustomWhereWithIncludes carregue as navegações.
         [Test]
-        public async Task FindByCustomWhereWithIncludes_Success()
+        public async Task FindByCustomWhereWithIncludes_MatchingPredicate_ReturnsListWithIncludes()
         {
-            // Arrange            
+            // Arrange
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
 
             mockFull.First().Patients = new List<Patient>() { PatientMockData.GetMock()[0] };
@@ -334,7 +361,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             SetupContext(mockFull);
             var mockData = GenderMockHelper.GetMock().Take(1).AsQueryable().First();
 
-            // Arrange
             Expression<Func<Gender, bool>> predicate = g => g.Id == 1;
             Expression<Func<Gender, object>>[] includeProperties = { g => g.Patients };
 
@@ -358,14 +384,16 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 
             }
         }
+
+        // Cenário: contagem de gêneros que satisfazem um predicado.
+        // Objetivo: garantir que GetCount retorne a quantidade esperada.
         [Test]
-        public async Task GetCount_Success()
+        public async Task GetCount_MatchingPredicate_ReturnsExpectedCount()
         {
-            // Arrange            
+            // Arrange
             var mockFull = GenderMockHelper.GetMock().AsQueryable();
             SetupContext(mockFull);
 
-            // Arrange 
             Expression<Func<Gender, bool>> predicate = g => g.Id == 1;
 
             // Inicialize  Repository

@@ -76,5 +76,5 @@ Resultado esperado:
 - Testes revisados/criados com nomes corretos e comentários claros.  
 - Cobertura total validada pelo Sonar.  
 - Código limpo, consistente e otimizado.  
-- Build e suíte de testes rodando sem erros em C:\git\repos\SmartCoreHub\backend.    
+- Build e suíte de testes rodando sem erros em C:\git\SMARTDIGITALPSICO\SmartDigitalPsicoAPI    
 

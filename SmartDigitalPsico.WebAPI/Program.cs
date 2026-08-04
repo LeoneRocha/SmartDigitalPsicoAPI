@@ -15,10 +15,22 @@ namespace SmartDigitalPsico.WebAPI
         /// </summary>
         public static void Main(string[] args)
         {
+            Run(args);
+        }
+
+        public static void Run(
+            string[] args,
+            Action<WebApplicationBuilder, Serilog.Core.Logger?>? applicationRunner = null)
+        {
             try
             {
                 var hostBuilder = WebApplicationConfigureBuilder.CreateHostBuilder(args);
-                WebApplicationConfigureBuilder.BuildAndRunAPP(hostBuilder.Item1, hostBuilder.Item2);
+                if (args.Contains("--validate-startup", StringComparer.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+                (applicationRunner ?? ((builder, logger) =>
+                    WebApplicationConfigureBuilder.BuildAndRunAPP(builder, logger)))(hostBuilder.Item1, hostBuilder.Item2);
             }
             finally
             {

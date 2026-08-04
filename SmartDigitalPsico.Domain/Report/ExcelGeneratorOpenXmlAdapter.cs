@@ -115,8 +115,7 @@ namespace SmartDigitalPsico.Domain.Report
             ArgumentNullException.ThrowIfNull(rows);
             ArgumentNullException.ThrowIfNull(propertiesToIgnore);
 
-            var sheetDataElement = worksheetPart.Worksheet.GetFirstChild<SheetData>()
-                ?? throw new InvalidOperationException("SheetData not found.");
+            var sheetDataElement = worksheetPart.Worksheet.GetFirstChild<SheetData>()!;
 
             // Adiciona a linha de cabeçalho
             AddHeaderRow(rows[0], propertiesToIgnore, sheetDataElement);

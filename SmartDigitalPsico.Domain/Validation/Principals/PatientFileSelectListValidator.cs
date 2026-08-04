@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Domain.Validation.Contratcs
             {
                 User userLogged = await base._userRepository.FindByID(userIdLogged);
 
-                if (recordsList.Records.Count == 0) { return false; }
+                if (recordsList.Records.Count == 0) { return true; }
 
                 bool userHasPermission = recordsList.Records.TrueForAll(rg =>
                 (

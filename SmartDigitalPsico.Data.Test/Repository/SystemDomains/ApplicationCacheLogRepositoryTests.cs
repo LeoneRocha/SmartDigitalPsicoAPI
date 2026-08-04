@@ -30,8 +30,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
+        // Cenário: logs de cache persistidos no contexto de teste.
+        // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingLogs_ReturnsAllRecords()
         {
             // Arrange
             var mockDataList = ApplicationCacheLogMockHelper.GetMock().Take(1).AsQueryable().ToList();
@@ -55,8 +57,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: exclusão de um log de cache por CacheKey existente.
+        // Objetivo: garantir que Delete remova o registro correspondente.
         [Test]
-        public async Task Delete_Success()
+        public async Task Delete_ExistingCacheKey_RemovesEntity()
         {
             // Arrange
             var mockDataList = ApplicationCacheLogMockHelper.GetMock().Take(1).AsQueryable().ToList();

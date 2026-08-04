@@ -217,12 +217,11 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
 
                 if (result)
                 {
-                    var dateTimeObj = getPropValue(value ?? new object(), "DateTimeSlidingExpiration");
+                    var dateTimeObj = getPropValue(value!, "DateTimeSlidingExpiration");
+                    string dateTimeStr = dateTimeObj?.ToString() ?? string.Empty;
 
-                    string? dateTimeStr = dateTimeObj != null ? dateTimeObj.ToString() : string.Empty;
-
-                    var cacheIdObj = getPropValue(value ?? new object(), "CacheId");
-                    string? _cacheId = cacheIdObj != null ? cacheIdObj.ToString() : string.Empty;
+                    var cacheIdObj = getPropValue(value!, "CacheId");
+                    string cacheId = cacheIdObj?.ToString() ?? string.Empty;
 
                     DateTime dateTimeSlidingExpiration;
                     DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeSlidingExpiration);
@@ -230,7 +229,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
                     var addLogCache = new ApplicationCacheLog()
                     {
                         CacheKey = cacheKey,
-                        CacheId = _cacheId ?? string.Empty,
+                        CacheId = cacheId,
                         CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
                         ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
                         LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
@@ -255,7 +254,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
                     var valorExpiracao = getPropValue(resultDisk.Value, "DateTimeSlidingExpiration");
                     DateTime dataExpiracao;
 
-                    bool temData = DateTime.TryParseExact(valorExpiracao.ToString(), "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dataExpiracao);
+                    bool temData = DateTime.TryParseExact(valorExpiracao?.ToString(), "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dataExpiracao);
 
                     if (temData && dataExpiracao != DateTime.MinValue && DateTime.Now >= dataExpiracao)
                     {
@@ -271,10 +270,12 @@ namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
             return false;
         }
 
-        private static object getPropValue(object source, string propertyName)
+        private static object? getPropValue(object source, string propertyName)
         {
             var property = source.GetType().GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
-            return property?.GetValue(source) ?? new object();
+            if (property == null)
+                return new object();
+            return property.GetValue(source);
         }
 
         private static string getCacheKey<T>(string? cacheKey)

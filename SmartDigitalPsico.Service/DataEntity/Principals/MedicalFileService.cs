@@ -68,8 +68,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             if (response.Data != null && string.IsNullOrEmpty(response.Data.FilePath))
             {
-                await FileHelper.GetFromByteSaveTemp(response.Data.FileData, response.Data.FileName, _configuration);
-                response.Data.FileUrl = FileHelper.GetFilePath(DirectoryHelper.GetDiretoryTemp(_configuration), response.Data.FileName ?? string.Empty);
+                var fileName = response.Data.FileName ?? string.Empty;
+                await FileHelper.GetFromByteSaveTemp(response.Data.FileData, fileName, _configuration);
+                response.Data.FileUrl = FileHelper.GetFilePath(DirectoryHelper.GetDiretoryTemp(_configuration), fileName);
             }
             return response;
         }
@@ -100,7 +101,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 return response;
             }
 
-            if (listResult == null || listResult.Count == 0)
+            if (listResult.Count == 0)
             {
                 response.Success = false; 
                 response.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound); 
@@ -157,8 +158,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 {
                     entityAdd.FilePath = await _filePersistor.PersistFile(fileData, entityAdd, "medicalfiles", entity.MedicalId.ToString());
                     MedicalFile entityResponse = await ((IMedicalFileRepository)_entityRepository).Create(entityAdd);
-                    if (response.Data != null)
-                        response.Data.Id = entityResponse.Id;
+                    response.Data = _mapper.Map<GetMedicalFileDto>(entityResponse);
                 }
             }
 

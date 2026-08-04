@@ -68,7 +68,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                         break;
                 }
             }
-            return folderDest ?? string.Empty;
+            return folderDest;
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         {
             await _repositoryFileDisk.Save(new FileData()
             {
-                FolderDestination = folderDest ?? string.Empty,
+                FolderDestination = folderDest,
                 FileData = fileDataSave,
                 FileName = fileData.FileName,
                 FilePath = pathSave,
@@ -166,7 +166,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         {
             await _repositoryFileDisk.Delete(new FileData()
             {
-                FolderDestination = folderDest ?? string.Empty,
+                FolderDestination = folderDest,
                 FileName = fileName,
                 FilePath = pathSave,
                 CreatedDate = DateHelper.GetDateTimeNowFromUtc()
@@ -187,7 +187,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             fileEntity.FilePath = Path.Combine(pathSave, "temp", fileEntity.FileName);
 
             // Garantir que o diretório de destino exista
-            string directoryPath = Path.GetDirectoryName(fileEntity.FilePath) ?? string.Empty;
+            string directoryPath = ResolveDirectoryPath(fileEntity.FilePath);
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -228,6 +228,9 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
 
             await _storageClientAdapter.DeleteBlobAsync(blobFile.ContainerName, blobFile.BlobName);
         }
+
+        internal static string ResolveDirectoryPath(string filePath)
+            => Path.GetDirectoryName(filePath) ?? string.Empty;
 
         #endregion
     }

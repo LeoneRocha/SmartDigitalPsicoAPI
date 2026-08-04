@@ -34,4 +34,8 @@
     <Folder Include="Migrations\SqlServer\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="SmartDigitalPsico.Data.Test" />
+  </ItemGroup>
+
 </Project>

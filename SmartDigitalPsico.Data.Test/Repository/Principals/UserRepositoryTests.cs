@@ -54,10 +54,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
+        // Cenário: usuários persistidos no contexto de teste.
+        // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingUsers_ReturnsAllRecords()
         {
-            // Inicialize  Repository
+            // Arrange
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new UserRepository(_mockContext);
 
@@ -75,11 +77,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: busca por login de usuário administrador.
+        // Objetivo: garantir que FindByLogin retorne o usuário sem Medical.
         [Test]
-        public async Task FindByLogin_Success_Admin()
+        public async Task FindByLogin_AdminUser_ReturnsUserWithoutMedical()
         {
             // Arrange
-            // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new UserRepository(_mockContext);
 
@@ -98,11 +101,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: busca por login de usuário médico.
+        // Objetivo: garantir que FindByLogin retorne o usuário com Medical.
         [Test]
-        public async Task FindByLogin_Success_Medical()
+        public async Task FindByLogin_MedicalUser_ReturnsUserWithMedical()
         {
             // Arrange
-            // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new UserRepository(_mockContext);
 
@@ -121,11 +125,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: verificação de existência por login cadastrado.
+        // Objetivo: garantir que UserExists retorne true.
         [Test]
-        public async Task UserExists_Success_ReturnsTrue()
+        public async Task UserExists_ExistingLogin_ReturnsTrue()
         {
             // Arrange
-            // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new UserRepository(_mockContext);
 
@@ -138,11 +143,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             Assert.That(result, Is.True);
         }
 
+        // Cenário: busca por Id de usuário existente.
+        // Objetivo: garantir que FindByID retorne o usuário com RoleGroups.
         [Test]
-        public async Task FindByID_Success_ReturnsUser()
+        public async Task FindByID_ExistingId_ReturnsUser()
         {
             // Arrange
-            // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new UserRepository(_mockContext);
 
@@ -161,11 +167,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: busca por e-mail de usuário existente.
+        // Objetivo: garantir que FindByEmail retorne o usuário correspondente.
         [Test]
-        public async Task FindByEmail_Success_ReturnsUser()
+        public async Task FindByEmail_ExistingEmail_ReturnsUser()
         {
             // Arrange
-            // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new UserRepository(_mockContext);
 
@@ -184,11 +191,12 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: atualização de informações de usuário existente.
+        // Objetivo: garantir que RefreshUserInfo persista o nome atualizado.
         [Test]
         public async Task RefreshUserInfo_UserExists_ReturnsUpdatedUser()
         {
             // Arrange
-            // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new UserRepository(_mockContext);
 

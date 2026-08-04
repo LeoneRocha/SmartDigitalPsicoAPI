@@ -29,6 +29,11 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             }
         }
 
+        public AzureStorageTableAdapter(TableClient tableClient)
+        {
+            _tableClient = tableClient;
+        }
+
         /// <summary>
         /// Método GetAllAsync: consulta e retorna dados.
         /// </summary>
@@ -60,7 +65,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
             var response = await _tableClient.GetEntityIfExistsAsync<T>(partitionKey, rowKey);
             try
             {
-                return response.Value ?? new T();
+                return response.HasValue ? response.Value ?? new T() : new T();
             }
             catch (Exception)
             {

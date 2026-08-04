@@ -40,13 +40,13 @@ namespace SmartDigitalPsico.Service.Infrastructure.Smtp
                 mailMessage.To.Add(new MailAddress(toEmail));
             }
 
-            using (var client = new SmtpClient(_smtpSettings.Server, _smtpSettings.Port))
+            using var client = new SmtpClient(_smtpSettings.Server, _smtpSettings.Port)
             {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password);
-                client.EnableSsl = true;
-                await client.SendMailAsync(mailMessage);
-            } 
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password),
+                EnableSsl = true
+            };
+            await client.SendMailAsync(mailMessage);
         }
     }
 }

@@ -87,7 +87,7 @@ namespace SmartDigitalPsico.Data.Repository.CacheManager
                     if (!EqualityComparer<T>.Default.Equals(resultCache, default))
                     {
                         result = true;
-                        return new KeyValuePair<bool, T>(result, resultCache ?? new());
+                        return new KeyValuePair<bool, T>(result, resultCache!);
                     }
                 }
             }

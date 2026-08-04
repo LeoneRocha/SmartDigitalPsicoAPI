@@ -29,8 +29,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
+        // Cenário: especialidades persistidas no contexto de teste.
+        // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingSpecialties_ReturnsAllRecords()
         {
             // Arrange
             var mockDataList = SpecialtyMockData.GetMock().Take(totalRegister).AsQueryable();
@@ -53,8 +55,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
+        // Cenário: busca por uma lista conhecida de IDs de especialidade.
+        // Objetivo: garantir que FindByIDs retorne apenas os registros correspondentes.
         [Test]
-        public async Task FindByIDs_Success()
+        public async Task FindByIDs_ValidIds_ReturnsMatchingRecords()
         {
             // Arrange
             var SpecialtyIds = new List<long> { 1, 2, 3 };

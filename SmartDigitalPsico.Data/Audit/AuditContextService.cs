@@ -29,8 +29,9 @@ namespace SmartDigitalPsico.Data.Audit
         public List<AuditDataEntityLog> OnBeforeSaveChanges(DbContext context)
         {
             var auditEntries = new List<AuditDataEntityLog>();
-            var entriesChanged = context.ChangeTracker.Entries().Where(entry => entry != null
-            && (entry.State == EntityState.Modified || entry.State == EntityState.Deleted)).ToArray();
+            var entriesChanged = context.ChangeTracker.Entries()
+                .Where(entry => entry.State == EntityState.Modified || entry.State == EntityState.Deleted)
+                .ToArray();
 
             foreach (var entry in entriesChanged)
             {
@@ -139,7 +140,7 @@ namespace SmartDigitalPsico.Data.Audit
         {
             var PrimaryKeyValues = entry.Properties.Where(p => p.Metadata.IsPrimaryKey()).ToArray();
 
-            return PrimaryKeyValues[0].CurrentValue?.ToString() ?? string.Empty;
+            return PrimaryKeyValues[0].CurrentValue!.ToString()!;
         }
         private const int AuditValuesMaxLength = 8000;
         private static readonly HashSet<string> LargeJsonProperties = new(StringComparer.Ordinal)
@@ -198,7 +199,7 @@ namespace SmartDigitalPsico.Data.Audit
         private static long? GetUserId(EntityEntry entry, string propertyName)
         {
             var property = entry.Metadata.FindProperty(propertyName);
-            return property != null ? entry.Property(propertyName)?.CurrentValue as long? : null;
+            return property != null ? (entry.Property(propertyName).CurrentValue as long?) : null;
         }
     }
 }

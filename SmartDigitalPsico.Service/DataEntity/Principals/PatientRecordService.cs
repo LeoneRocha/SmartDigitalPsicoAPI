@@ -191,7 +191,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 return response;
             }
 
-            if (listResult == null || listResult.Count == 0)
+            if (listResult.Count == 0)
             {
                 response.Success = false;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);

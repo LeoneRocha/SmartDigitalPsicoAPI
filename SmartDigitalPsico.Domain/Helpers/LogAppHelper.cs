@@ -16,6 +16,22 @@ namespace SmartDigitalPsico.Domain.Helpers
     /// </summary>
     public static class LogAppHelper
     {
+        internal static Assembly? ProductAssemblyOverrideForTests { get; set; }
+
+        internal static Func<Assembly?>? EntryAssemblyProviderForTests { get; set; }
+
+        internal static Func<Assembly?>? EntryAssemblyFallbackForTests { get; set; }
+
+        internal static bool ForceNullHostEnvironmentForTests { get; set; }
+
+        internal static bool ForceNullEntryAssemblyForTests { get; set; }
+
+        private static Assembly ResolveProductAssembly()
+            => ProductAssemblyOverrideForTests
+               ?? EntryAssemblyProviderForTests?.Invoke()
+               ?? EntryAssemblyFallbackForTests?.Invoke()
+               ?? (ForceNullEntryAssemblyForTests ? null : Assembly.GetEntryAssembly())
+               ?? Assembly.GetExecutingAssembly();
         /// <summary>
         /// Método GetDurationStopwatch: consulta e retorna dados.
         /// </summary>
@@ -58,34 +74,24 @@ namespace SmartDigitalPsico.Domain.Helpers
         /// </summary>
         public static AppInformationVersionProductDto GetInformationVersionProduct()
         {
-            var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+            var assembly = ResolveProductAssembly();
             var appDto = new AppInformationVersionProductDto() { Name = "Unknown", Version = "Unknown", EnvironmentName = "Unknown" };
 
-            if (assembly != null)
-            {
-                var assemblyApp = assembly.GetName();
-                if (assemblyApp != null)
-                {
-                    var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? GetHostEnvironmentName();
-                    var nameApp = assemblyApp.Name ?? "Undefined";
-                    var version = GetAssemblyVersion();
+            var assemblyApp = assembly.GetName();
+            var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? GetHostEnvironmentName();
+            var nameApp = assemblyApp.Name!;
+            var version = GetAssemblyVersion();
 
-                    appDto.Name = nameApp;
-                    appDto.Version = version;
-                    appDto.EnvironmentName = envName;
+            appDto.Name = nameApp;
+            appDto.Version = version;
+            appDto.EnvironmentName = envName;
 
-                    StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
-                    sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
-                    sb.AppendFormat("Name: {0} | Version: {1} | Environment: {2} {3}", appDto.Name, appDto.Version, appDto.EnvironmentName, Environment.NewLine);
-                    sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
-                    appDto.Message = sb.ToString();
-                }
-            }
-            else
-            {
-                appDto.Message = string.Format("Assembly information could not be retrieved.{0}", Environment.NewLine);
-            }
+            sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
+            sb.AppendFormat("Name: {0} | Version: {1} | Environment: {2} {3}", appDto.Name, appDto.Version, appDto.EnvironmentName, Environment.NewLine);
+            sb.AppendFormat("******* PRODUCT INFORMATION ******* {0}", Environment.NewLine);
+            appDto.Message = sb.ToString();
             return appDto;
         }
 
@@ -94,16 +100,17 @@ namespace SmartDigitalPsico.Domain.Helpers
         /// </summary>
         public static string GetAssemblyVersion()
         {
-            var version = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly())?.GetName().Version;
-            return version?.ToString() ?? "0.0.0.0";
+            return ResolveProductAssembly().GetName().Version!.ToString();
         }
         private static string GetHostEnvironmentName()
         {
             // Obtém o nome do ambiente do host
-            var hostEnvironment = new HostBuilder().UseContentRoot(AppContext.BaseDirectory).ConfigureHostConfiguration(config =>
-            {
-                config.AddEnvironmentVariables();
-            }).Build().Services.GetService(typeof(IHostEnvironment)) as IHostEnvironment;
+            IHostEnvironment? hostEnvironment = ForceNullHostEnvironmentForTests
+                ? null
+                : new HostBuilder().UseContentRoot(AppContext.BaseDirectory).ConfigureHostConfiguration(config =>
+                {
+                    config.AddEnvironmentVariables();
+                }).Build().Services.GetService(typeof(IHostEnvironment)) as IHostEnvironment;
 
             return hostEnvironment?.EnvironmentName ?? "Undefined";
         }
@@ -113,13 +120,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         /// </summary>
         public static string ShowInformationVersionProductString()
         {
-            var assemblyApp = GetInformationVersionProduct();
-
-            if (assemblyApp != null)
-            {
-                return assemblyApp.Message;
-            }
-            return "Assembly information could not be retrieved.";
+            return GetInformationVersionProduct().Message;
         }
 
         /// <summary>
@@ -127,17 +128,9 @@ namespace SmartDigitalPsico.Domain.Helpers
         /// </summary>
         public static void PrintLogInformationVersionProduct(Serilog.ILogger logger)
         {
-            logger.Information("******* PRODUCT INFORMATION *******");
             var assemblyApp = GetInformationVersionProduct();
-            if (assemblyApp != null)
-            {
-                logger.Information("Name: {Name} | Version: {Version} | Environment: {EnvironmentName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
-            }
-            else
-            {
-                logger.Information("Assembly information could not be retrieved.");
-            }
             logger.Information("******* PRODUCT INFORMATION *******");
+            logger.Information("Name: {Name} | Version: {Version} | Environment: {EnvironmentName}", assemblyApp.Name, assemblyApp.Version, assemblyApp.EnvironmentName);
         }
 
         /// <summary>

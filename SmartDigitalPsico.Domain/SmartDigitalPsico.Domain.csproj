@@ -5,6 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SmartDigitalPsico.Domain.Test" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="AutoMapper" />

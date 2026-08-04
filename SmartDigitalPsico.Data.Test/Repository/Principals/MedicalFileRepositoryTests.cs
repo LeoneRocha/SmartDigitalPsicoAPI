@@ -42,8 +42,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
+        // Cenário: existem arquivos de médico persistidos no contexto.
+        // Objetivo: retornar os MedicalFile cadastrados.
         [Test]
-        public async Task FindAll_Success()
+        public async Task FindAll_ExistingRecords_ReturnsAllRecords()
         {
             // Arrange
             var mockDataList = MedicalFileMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable();
@@ -64,8 +66,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(listResult, Has.Count.GreaterThanOrEqualTo(1)); 
             }
         }
+
+        // Cenário: existe um médico com arquivos associados.
+        // Objetivo: retornar apenas os MedicalFile do médico informado.
         [Test]
-        public async Task FindAllByMedical_Success()
+        public async Task FindAllByMedical_ExistingMedical_ReturnsMatchingRecords()
         {
             // Arrange 
             var mockDataList = MedicalFileMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable().ToList();
@@ -88,8 +93,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
+        // Cenário: existe um MedicalFile com ID conhecido.
+        // Objetivo: retornar o arquivo correspondente ao ID informado.
         [Test]
-        public async Task FindByID_Success()
+        public async Task FindByID_ExistingId_ReturnsMedicalFile()
         {
             // Arrange 
             var mockDataList = MedicalFileMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable().ToList();

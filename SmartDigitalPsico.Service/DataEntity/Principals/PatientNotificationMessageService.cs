@@ -125,7 +125,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             var listResult = await ((IPatientNotificationMessageRepository)_entityRepository).FindAllByPatient(patientId);
 
-            if (listResult == null || listResult.Count == 0)
+            if (listResult.Count == 0)
             {
                 response.Success = false;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);

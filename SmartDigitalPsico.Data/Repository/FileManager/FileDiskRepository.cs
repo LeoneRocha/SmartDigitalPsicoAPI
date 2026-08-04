@@ -84,26 +84,30 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             byte[] result = [];
             if (File.Exists(fileInfo))
             {
-                result = await ReadFileAsync(fileInfo) ?? [];
+                result = await ReadFileAsync(fileInfo);
             }
             else if (File.Exists(fileCriteria.FilePath))
             {
-                result = await ReadFileAsync(pathFile) ?? [];
+                result = await ReadFileAsync(pathFile);
             }
             return result;
         }
 
+        /// <summary>
+        /// Permite testes substituírem a abertura do stream sem alterar o comportamento padrão em produção.
+        /// </summary>
+        internal static Func<string, Stream>? OpenReadForTests { get; set; }
+
         private static async Task<byte[]> ReadFileAsync(string filePath)
         {
             byte[] result;
-            using (FileStream sourceStream = File.Open(filePath, FileMode.Open))
+            await using Stream sourceStream = OpenReadForTests?.Invoke(filePath)
+                ?? File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            result = new byte[sourceStream.Length];
+            int bytesRead = await sourceStream.ReadAsync(result.AsMemory());
+            if (bytesRead != result.Length)
             {
-                result = new byte[sourceStream.Length];
-                int bytesRead = await sourceStream.ReadAsync(result.AsMemory());
-                if (bytesRead != result.Length)
-                {
-                    throw new IOException("Could not read the entire file.");
-                }
+                throw new IOException("Could not read the entire file.");
             }
             return result;
         }

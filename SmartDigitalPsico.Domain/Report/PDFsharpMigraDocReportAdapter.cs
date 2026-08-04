@@ -149,7 +149,7 @@ namespace SmartDigitalPsico.Domain.Report
                 var tableRow = table.AddRow();
                 for (int i = 0; i < properties.Length; i++)
                 {
-                    tableRow.Cells[i].AddParagraph(properties[i].GetValue(row)?.ToString()!);
+                    tableRow.Cells[i].AddParagraph(properties[i].GetValue(row)?.ToString() ?? string.Empty);
                 }
             }
         }

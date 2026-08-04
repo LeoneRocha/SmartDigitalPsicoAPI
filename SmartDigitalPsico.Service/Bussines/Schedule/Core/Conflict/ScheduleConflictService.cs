@@ -147,9 +147,6 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict
                 var end = item.EndDateTime ?? item.StartDateTime;
                 foreach (var other in existing)
                 {
-                    if (bag.Count >= ScheduleConflictDetailHelper.MaxErrors)
-                        return;
-
                     if (!ScheduleOverlapHelper.Overlaps(
                             item.StartDateTime, end,
                             other.Item.StartDateTime, other.Item.EndDateTime))

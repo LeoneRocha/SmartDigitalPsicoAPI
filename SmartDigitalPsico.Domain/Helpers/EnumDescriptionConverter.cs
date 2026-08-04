@@ -34,14 +34,11 @@ namespace SmartDigitalPsico.Domain.Helpers
         private static bool TryGetEnumValueFromDescription(FieldInfo field, string description, out T value)
         {
             if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute &&
-                attribute.Description == description)
+                attribute.Description == description &&
+                field.GetValue(null) is T enumValue)
             {
-                var objR = field.GetValue(null);
-                if (objR != null)
-                {
-                    value = (T)objR;
-                    return true;
-                }
+                value = enumValue;
+                return true;
             }
             value = default!;
             return false;
@@ -49,14 +46,10 @@ namespace SmartDigitalPsico.Domain.Helpers
 
         private static bool TryGetEnumValueFromName(FieldInfo field, string name, out T value)
         {
-            if (field.Name == name)
+            if (field.Name == name && field.GetValue(null) is T enumValue)
             {
-                var objR = field.GetValue(null);
-                if (objR != null)
-                {
-                    value = (T)objR;
-                    return true;
-                }
+                value = enumValue;
+                return true;
             }
             value = default!;
             return false;
@@ -67,8 +60,8 @@ namespace SmartDigitalPsico.Domain.Helpers
         /// </summary>
         public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
         {
-            var field = value.GetType().GetField(value.ToString());
-            if (field != null && Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+            var field = value.GetType().GetField(value.ToString())!;
+            if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
             {
                 writer.WriteStringValue(attribute.Description);
             }
