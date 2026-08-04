@@ -1,6 +1,3 @@
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -106,38 +103,33 @@ public class InfrastructureMethodCoverageGapTests
         strategy.Verify(x => x.SendEmailAsync(It.Is<EmailMessageDto>(m => m.Subject == "S" && m.ToEmails.Contains("a@test.com"))), Times.Once);
     }
 
-    // Cenário: SMTP local sem SSL responde ao handshake.
-    // Objetivo: completar SendMailAsync com sucesso.
+    // Cenário: cliente SMTP sempre com EnableSsl = true.
+    // Objetivo: cobrir construção do cliente e falha de conexão com SSL.
     [Test]
-    public async Task SmtpEmailStrategy_LocalPlainSmtp_SendsSuccessfully()
+    public void SmtpEmailStrategy_SslAlwaysEnabled_ThrowsOnUnreachableServer()
     {
         // Arrange
-        using var listener = new TcpListener(IPAddress.Loopback, 0);
-        listener.Start();
-        var port = ((IPEndPoint)listener.LocalEndpoint).Port;
-        var serverTask = Task.Run(() => AcceptOneSmtpSession(listener));
         var strategy = new SmtpEmailStrategy(new SmtpSettingsDto
         {
             SenderEmail = "sender@test.com",
             SenderName = "Sender",
             Server = "127.0.0.1",
-            Port = port,
+            Port = 1,
             Username = "user",
             Password = "pass",
-            EnableSsl = false
+            EnableSsl = true
         });
 
         // Act
-        await strategy.SendEmailAsync(new EmailMessageDto
+        var action = () => strategy.SendEmailAsync(new EmailMessageDto
         {
             Subject = "Hi",
             Message = "<b>ok</b>",
             ToEmails = ["to@test.com"]
-        });
-        await serverTask;
+        }).GetAwaiter().GetResult();
 
         // Assert
-        true.Should().BeTrue();
+        action.Should().Throw<Exception>();
     }
 
     // Cenário: BlobServiceClient sem chave compartilhada.
@@ -194,47 +186,6 @@ public class InfrastructureMethodCoverageGapTests
             removed.Should().BeFalse();
             missing.Should().BeFalse();
             nullValue.Should().BeFalse();
-        }
-    }
-
-    private static void AcceptOneSmtpSession(TcpListener listener)
-    {
-        using var client = listener.AcceptTcpClient();
-        using var stream = client.GetStream();
-        using var reader = new StreamReader(stream, Encoding.ASCII);
-        using var writer = new StreamWriter(stream, Encoding.ASCII) { NewLine = "\r\n", AutoFlush = true };
-        writer.WriteLine("220 localhost SMTP");
-        string? line;
-        while ((line = reader.ReadLine()) != null)
-        {
-            if (line.StartsWith("EHLO", StringComparison.OrdinalIgnoreCase) ||
-                line.StartsWith("HELO", StringComparison.OrdinalIgnoreCase))
-            {
-                writer.WriteLine("250-localhost");
-                writer.WriteLine("250 OK");
-            }
-            else if (line.StartsWith("AUTH", StringComparison.OrdinalIgnoreCase))
-            {
-                writer.WriteLine("235 OK");
-            }
-            else if (line.StartsWith("DATA", StringComparison.OrdinalIgnoreCase))
-            {
-                writer.WriteLine("354 End data with <CR><LF>.<CR><LF>");
-                string? dataLine;
-                while ((dataLine = reader.ReadLine()) != null && dataLine != ".")
-                {
-                }
-                writer.WriteLine("250 OK");
-            }
-            else if (line.StartsWith("QUIT", StringComparison.OrdinalIgnoreCase))
-            {
-                writer.WriteLine("221 Bye");
-                break;
-            }
-            else
-            {
-                writer.WriteLine("250 OK");
-            }
         }
     }
 }

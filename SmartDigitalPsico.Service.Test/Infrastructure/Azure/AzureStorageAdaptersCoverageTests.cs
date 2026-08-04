@@ -207,10 +207,10 @@ public class AzureStorageAdaptersCoverageTests
             .ReturnsAsync(Mock.Of<Response<BlobContentInfo>>());
         blobClient
             .Setup(x => x.DownloadToAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
-            .Returns<Stream, CancellationToken>(async (stream, _) =>
+            .Returns<Stream, CancellationToken>(async (stream, cancellationToken) =>
             {
-                var bytes = await File.ReadAllBytesAsync(tempFile);
-                await stream.WriteAsync(bytes);
+                var bytes = await File.ReadAllBytesAsync(tempFile, cancellationToken);
+                await stream.WriteAsync(bytes, cancellationToken);
                 return Mock.Of<Response>(r => r.Status == 200);
             });
         blobClient

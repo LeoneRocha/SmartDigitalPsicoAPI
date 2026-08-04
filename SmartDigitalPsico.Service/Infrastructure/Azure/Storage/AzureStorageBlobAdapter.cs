@@ -125,7 +125,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Azure.Storage
         }
 
         public static string ResolveBlobName(string? blobName, string? filePath)
-            => !string.IsNullOrEmpty(blobName) ? blobName : Path.GetFileName(filePath);
+            => !string.IsNullOrEmpty(blobName) ? blobName : Path.GetFileName(filePath) ?? string.Empty;
         /// <summary>
         /// Método DownloadFile: executa a operação DownloadFile.
         /// </summary>

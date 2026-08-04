@@ -22,7 +22,7 @@ public class SmtpEmailStrategyTests
             Port = 1,
             Username = "user",
             Password = "pass",
-            EnableSsl = false
+            EnableSsl = true
         });
         var message = new EmailMessageDto
         {
