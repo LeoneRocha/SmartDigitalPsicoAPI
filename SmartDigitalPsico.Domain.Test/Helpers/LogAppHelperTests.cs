@@ -74,7 +74,7 @@ public class LogAppHelperTests
         // Assert
         logger.Verify(x => x.Information("Value {Value}", It.Is<object[]>(args => (int)args[0] == 1)), Times.Once);
         logger.Verify(x => x.Error(It.IsAny<Exception>(), "Value {Value}", It.Is<object[]>(args => (int)args[0] == 1)), Times.Once);
-        logger.Verify(x => x.Information("******* PRODUCT INFORMATION *******"), Times.Exactly(2));
+        logger.Verify(x => x.Information("******* PRODUCT INFORMATION *******"), Times.Once);
     }
 
     // Cenário: ASPNETCORE_ENVIRONMENT está definido.

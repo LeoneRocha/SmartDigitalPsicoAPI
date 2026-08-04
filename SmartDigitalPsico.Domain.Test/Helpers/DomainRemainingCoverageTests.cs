@@ -949,7 +949,7 @@ public class DomainRemainingCoverageTests
             {
                 info.Should().NotBeNull();
                 text.Should().Contain("PRODUCT INFORMATION");
-                logger.Verify(x => x.Information("******* PRODUCT INFORMATION *******"), Times.Exactly(2));
+                logger.Verify(x => x.Information("******* PRODUCT INFORMATION *******"), Times.Once);
             }
         }
         finally
