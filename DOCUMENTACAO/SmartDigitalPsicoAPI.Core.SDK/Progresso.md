@@ -1,9 +1,9 @@
 # Progresso — SmartDigitalPsicoAPI.Core.SDK
 
-**Versão:** 1.2.1  
+**Versão:** 1.2.2  
 **Data:** 2026-08-04  
-**Status geral:** Documentação v1.2.1 (Core canônico + host `[Obsolete]`) — portabilidade de código **não iniciada**  
-**Documentos:** [Levantamento.md](./Levantamento.md) · [PlanoDeAcao.md](./PlanoDeAcao.md) · [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) *(backlog)*
+**Status geral:** Documentação v1.2.2 (análises por projeto) — portabilidade de código **não iniciada**  
+**Documentos:** [Levantamento.md](./Levantamento.md) · [PlanoDeAcao.md](./PlanoDeAcao.md) · [PlanoExecucao-PorProjeto.md](./PlanoExecucao-PorProjeto.md) · [Analise-Domain.md](./Analise-Domain.md) · [Analise-Data.md](./Analise-Data.md) · [Analise-Service.md](./Analise-Service.md) · [Analise-WebAPI.md](./Analise-WebAPI.md) · [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) *(backlog)*
 
 ---
 
@@ -40,7 +40,7 @@
 | 6 | Consolidar usings no Core (sem apagar host) | Pendente | 0 |
 | 7 | Cobertura, EF, Docker | Pendente | 0 |
 
-**Progresso global estimado:** 0% (código) · 100% (documentação de planejamento v1.2.1)
+**Progresso global estimado:** 0% (código) · 100% (documentação de planejamento v1.2.2)
 
 ### Backlog (fora das Fases 1–7)
 
@@ -48,6 +48,7 @@
 | ---- | ------ | --- |
 | Schedule Core + NotificationTemplate (levantamento) | Documentado | [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) |
 | Portar Schedule Core para Core.SDK | Pendente (não iniciado) | Priorizar após Fases 1–7 de infra |
+| Execução por projeto (ondas) | Documentado | [PlanoExecucao-PorProjeto.md](./PlanoExecucao-PorProjeto.md) |
 
 ---
 
@@ -71,6 +72,7 @@ Ao concluir cada fase do [PlanoDeAcao.md](./PlanoDeAcao.md):
 | 2026-08-04 | Documentação v1.1 — só mover, não criar | Relocação física; apagar da origem. |
 | 2026-08-04 | Documentação v1.2 — Core canônico + host Obsolete | **Não apagar** implementações atuais; portar canônico para Core; host fica `[Obsolete]` + comentário (consulta/shim); consumidores atualizam usings para o Core. Remoção física dos shims fora de escopo. Portabilidade de código **não iniciada**. |
 | 2026-08-04 | Documentação v1.2.1 — Adapters/Factories + Schedule fatia | Levantamento: §2.3 EF Entity = Manter; §2.4 Factories/Adapters explícitos. Novo [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) (Schedule/Core + NotificationTemplate). Cross-links no Plano/Progresso. |
+| 2026-08-04 | Documentação v1.2.2 — Análises por projeto | [PlanoExecucao-PorProjeto.md](./PlanoExecucao-PorProjeto.md) (sequencial Domain→Data→Service→WebAPI; paralelo interno). Análises: Domain, Data, Service, WebAPI. |
 
 ---
 

@@ -1,6 +1,6 @@
 # Levantamento — SmartDigitalPsicoAPI.Core.SDK
 
-**Versão:** 1.2.1  
+**Versão:** 1.2.2  
 **Data:** 2026-08-04  
 **Status:** Inventário completo — portabilidade para Core não iniciada  
 **PackageId alvo:** `SmartDigitalPsicoAPI.Core.SDK` (único NuGet)  
@@ -8,6 +8,8 @@
 **Escopo analisado:** `SmartDigitalPsico.Domain`, `SmartDigitalPsico.Data`, `SmartDigitalPsico.Service`, `SmartDigitalPsico.WebAPI` (+ projetos de teste)
 
 **Fatia futura (Schedule / Notification):** [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) — motor `Bussines/Schedule/Core` + o que de NotificationTemplate é genérico vs produto. **Não** entra nas Fases 1–7 do PlanoDeAcao genérico até priorização.
+
+**Execução por projeto:** [PlanoExecucao-PorProjeto.md](./PlanoExecucao-PorProjeto.md) · [Analise-Domain.md](./Analise-Domain.md) · [Analise-Data.md](./Analise-Data.md) · [Analise-Service.md](./Analise-Service.md) · [Analise-WebAPI.md](./Analise-WebAPI.md)
 
 Paths relativos à raiz `SmartDigitalPsicoAPI/`.
 
@@ -338,4 +340,6 @@ flowchart LR
 
 - Plano operacional (infra genérica): [PlanoDeAcao.md](./PlanoDeAcao.md)  
 - Acompanhamento: [Progresso.md](./Progresso.md)  
-- Fatia futura Schedule + NotificationTemplate: [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md)
+- Fatia futura Schedule + NotificationTemplate: [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md)  
+- Execução por projeto: [PlanoExecucao-PorProjeto.md](./PlanoExecucao-PorProjeto.md)  
+- Análises: [Analise-Domain.md](./Analise-Domain.md) · [Analise-Data.md](./Analise-Data.md) · [Analise-Service.md](./Analise-Service.md) · [Analise-WebAPI.md](./Analise-WebAPI.md)

@@ -5,6 +5,8 @@
 **Status:** Planejado — execução de código não iniciada  
 **Inventário base:** [Levantamento.md](./Levantamento.md)  
 **Fatia futura (Schedule / Notification):** [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) — backlog; **não** altera as Fases 1–7 abaixo  
+**Execução por projeto:** [PlanoExecucao-PorProjeto.md](./PlanoExecucao-PorProjeto.md) (ondas Domain→Data→Service→WebAPI)  
+**Análises:** [Analise-Domain.md](./Analise-Domain.md) · [Analise-Data.md](./Analise-Data.md) · [Analise-Service.md](./Analise-Service.md) · [Analise-WebAPI.md](./Analise-WebAPI.md)  
 **Acompanhamento:** [Progresso.md](./Progresso.md)
 
 ---
