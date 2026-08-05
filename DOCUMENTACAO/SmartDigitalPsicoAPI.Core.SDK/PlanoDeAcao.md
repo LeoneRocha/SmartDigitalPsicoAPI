@@ -1,24 +1,48 @@
-# Plano de Ação — Relocação para SmartDigitalPsicoAPI.Core.SDK
+# Plano de Ação — Core canônico + host [Obsolete]
 
-**Versão:** 1.1  
+**Versão:** 1.2  
 **Data:** 2026-08-04  
 **Status:** Planejado — execução de código não iniciada  
 **Inventário base:** [Levantamento.md](./Levantamento.md)  
+**Fatia futura (Schedule / Notification):** [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) — backlog; **não** altera as Fases 1–7 abaixo  
 **Acompanhamento:** [Progresso.md](./Progresso.md)
 
 ---
 
 ## Regras não negociáveis
 
-1. **Só mover, não criar:** relocação física de `.cs` existentes em Domain, Data, Service e WebAPI. Proibido inventar tipos, interfaces, helpers, providers, hooks, fachadas ou “generalizar” constantes.
-2. **Único criar permitido:** shell vazio `SmartDigitalPsicoAPI.Core.SDK.csproj` + `SmartDigitalPsicoAPI.Core.SDK.Tests.csproj` + entrada na solution (container do pacote). Zero classes de negócio no scaffolding.
-3. **Ajustes permitidos ao mover:** namespaces, `ProjectReference`, usings, registro DI; retarget `GenericRepositoryEntityBase` → parâmetro `DbContext` (tipo EF já existente). Sem mudar comportamento observável.
-4. **Um único NuGet:** `PackageId=SmartDigitalPsicoAPI.Core.SDK` — sem pacotes satélite.
-5. **Centralizar o genérico / manter o específico:** DbContext tipado, entidades, migrations, validators de negócio, enrichers Hypermedia de domínio, `EntityBaseService` / `ReportBaseService` ficam no host.
-6. **Zero regressão funcional:** endpoints, contratos públicos, schema EF e chaves de cache idênticos.
-7. **Testes movidos:** cada tipo movido leva seus testes para `SmartDigitalPsicoAPI.Core.SDK.Tests` (sem duplicar a suíte no host).
-8. **Build obrigatório após cada fase** e **cobertura ≥ 90%** nos módulos movidos (Coverlet no SDK.Tests).
-9. **Sem Dapper / UoW / Guard / Result / Redis provider novos:** inexistentes permanecem inexistentes.
+1. **Core = canônico:** portar para `SmartDigitalPsicoAPI.Core.SDK` o código dos tipos inventariados (mesmos tipos; sem inventar `Guard`/`Result`/Dapper/UoW/providers Redis novos).
+2. **Host = consulta:** **não apagar** os arquivos atuais em Domain/Data/Service/WebAPI. Marcar `[Obsolete]` + comentário `// Movido para SmartDigitalPsicoAPI.Core.SDK`. Preferir shim fino (herda/delega ao Core).
+3. **Consumidores:** atualizar `using`, referências de tipo e DI para o pacote Core.
+4. **Único shell a criar:** `SmartDigitalPsicoAPI.Core.SDK.csproj` + `SmartDigitalPsicoAPI.Core.SDK.Tests.csproj` + entrada na solution. Além disso, só a **cópia canônica** dos tipos já inventariados.
+5. **Um único NuGet:** `PackageId=SmartDigitalPsicoAPI.Core.SDK`.
+6. **Manter o específico:** DbContext tipado, entidades, migrations, validators de negócio, enrichers de domínio, `EntityBaseService` / `ReportBaseService`.
+7. **Zero regressão funcional.**
+8. **Testes:** suíte canônica em `Core.SDK.Tests`; testes no host **não apagar** de imediato — atualizar usings para o Core.
+9. **Build após cada fase**; cobertura ≥ 90% no SDK.Tests (tipos canônicos).
+10. **Remoção física** dos shims Obsolete no host = **fora de escopo** desta iniciativa.
+
+### Padrão Obsolete (host)
+
+```csharp
+// Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+[Obsolete(
+    "Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.",
+    error: false,
+    DiagnosticId = "SDP_CORE_SDK_GENERIC")]
+```
+
+| DiagnosticId | Família |
+| ------------ | ------- |
+| `SDP_CORE_SDK_REPO` | Repositórios genéricos / Table / Queue / FileDisk |
+| `SDP_CORE_SDK_CACHE` | Cache contratos + Memory/Disk + CacheService |
+| `SDP_CORE_SDK_AZURE` | Adapters Azure |
+| `SDP_CORE_SDK_HELPER` | Helpers, VOs, DTOs base, exceptions, ValidationErrorCodes |
+| `SDP_CORE_SDK_CRYPTO` | Crypto adapters/factories |
+| `SDP_CORE_SDK_REPORT` | Report engines/factories |
+| `SDP_CORE_SDK_HYPER` | Hypermedia framework |
+| `SDP_CORE_SDK_SMTP` | SMTP strategies |
+| `SDP_CORE_SDK_API` | ApiBaseController, RequestCultureMiddleware |
 
 ---
 
@@ -26,225 +50,160 @@
 
 ```text
 SmartDigitalPsicoAPI/
-├── SmartDigitalPsicoAPI.Core.SDK/          # ÚNICO pacote — só código movido
-│   ├── Repositories/                       # GenericRepositoryEntityBase, Table/Queue
-│   ├── Caching/                            # Memory/Disk + CacheService (arquivo inteiro)
-│   ├── Cloud/Azure/                        # Blob/Table/Queue adapters
-│   ├── Helpers/                            # Date, Security, Reflection, API base, ...
-│   ├── Contracts/                          # EntityBase, VOs, DTO bases
-│   ├── Security/                           # Crypto adapters
-│   ├── Report/                             # Excel/PDF engines
-│   ├── Hypermedia/                         # Framework (sem enrichers de domínio)
-│   └── Smtp/                               # Strategies existentes
-├── SmartDigitalPsicoAPI.Core.SDK.Tests/    # Testes movidos dos tipos acima
-├── SmartDigitalPsico.Domain/               # Só o específico remanescente
-├── SmartDigitalPsico.Data/
-├── SmartDigitalPsico.Service/
-└── SmartDigitalPsico.WebAPI/
+├── SmartDigitalPsicoAPI.Core.SDK/          # CANÔNICO (código portado)
+│   ├── Repositories/
+│   ├── Caching/
+│   ├── Cloud/Azure/
+│   ├── Helpers/
+│   ├── Contracts/
+│   ├── Security/
+│   ├── Report/
+│   ├── Hypermedia/
+│   └── Smtp/
+├── SmartDigitalPsicoAPI.Core.SDK.Tests/    # Suíte canônica
+├── SmartDigitalPsico.Domain/               # Específico + shims [Obsolete] (consulta)
+├── SmartDigitalPsico.Data/                 # Específico + shims [Obsolete]
+├── SmartDigitalPsico.Service/              # Específico + shims [Obsolete]
+└── SmartDigitalPsico.WebAPI/               # Consumidores com usings → Core
 ```
 
-**TFM:** `net10.0`. Dependências pesadas (EF, Azure SDKs) no mesmo `.csproj`.
-
-**Consumo:** Domain/Data/Service/WebAPI referenciam o Core.SDK via `ProjectReference`.
+**TFM:** `net10.0`. Host referencia Core via `ProjectReference`.
 
 ---
 
-## Critérios de aceite globais (todas as fases)
+## Critérios de aceite globais
 
 - [ ] `dotnet build SmartDigitalPsicoAPI.sln` verde
-- [ ] `dotnet test` nos projetos afetados verde
-- [ ] Contratos públicos observáveis inalterados (APIs WebAPI)
-- [ ] Nenhum tipo novo introduzido (diff = move + usings/refs)
-- [ ] Atualizar [Progresso.md](./Progresso.md) ao concluir a fase
+- [ ] `dotnet test` verde
+- [ ] Arquivos originais no host **ainda existem** com `[Obsolete]` + comentário
+- [ ] Consumidores dos tipos portados usam namespaces do Core
+- [ ] Nenhum tipo inventado fora do inventário
+- [ ] Atualizar [Progresso.md](./Progresso.md)
+
+### Ritual por tipo (Fases 2–5)
+
+1. Portar código canônico para o Core (ajuste mínimo: namespace; retarget `DbContext` só no Core quando aplicável)
+2. No host: marcar `[Obsolete]` + comentário; preferir shim fino
+3. Atualizar usings/DI dos consumidores para o Core
+4. Portar/copiar testes canônicos para `Core.SDK.Tests`; ajustar usings nos testes do host
+5. Build + test
 
 ---
 
-## Fase 1 — Scaffolding do container (único “criar”)
+## Fase 1 — Scaffolding do container
 
 ### Escopo
 
-- Criar **apenas** `SmartDigitalPsicoAPI.Core.SDK.csproj` (`PackageId=SmartDigitalPsicoAPI.Core.SDK`, `net10.0`) — projeto vazio
-- Criar **apenas** `SmartDigitalPsicoAPI.Core.SDK.Tests.csproj` (mesmas libs de teste do host: NUnit, Moq, Bogus, AwesomeAssertions, Coverlet)
-- Incluir ambos na `SmartDigitalPsicoAPI.sln`
-- Adicionar `ProjectReference` do Core.SDK onde necessário (Domain → SDK; Data/Service conforme moves)
-- Pastas vazias espelhando a arquitetura alvo
-- **Zero** classes, interfaces ou helpers de negócio nesta fase
+- Criar shell `SmartDigitalPsicoAPI.Core.SDK.csproj` + `SmartDigitalPsicoAPI.Core.SDK.Tests.csproj`
+- Incluir na solution; `ProjectReference` onde necessário
+- Pastas vazias; **zero** classes de negócio
 
 ### Checklist
 
-- [ ] Projeto SDK criado (shell) e compila isolado
-- [ ] Projeto Tests criado (shell) e compila
-- [ ] Solution inclui os dois projetos
-- [ ] Host referencia o SDK sem quebrar build
-- [ ] Nenhum `.cs` de produção no SDK ainda
+- [ ] Shells compilam
+- [ ] Solution inclui os projetos
+- [ ] Host referencia SDK sem quebrar build
 
 ### Critérios de aceite
 
-- [ ] Build verde da solution
-- [ ] Nenhum tipo de domínio/código de negócio no SDK
+- [ ] Build verde; nenhum tipo de negócio no SDK ainda
 
 ---
 
-## Fase 2 — Mover repositórios genéricos
+## Fase 2 — Portar repositórios genéricos + Obsoletar no host
 
-### Escopo (mover)
+### Escopo (portar → Core; Obsoletar no host)
 
-| Tipo | Origem atual |
-| ---- | ------------ |
-| `IEntityBaseRepository<T>` | Domain Interfaces |
-| `GenericRepositoryEntityBase<T>` | Data Repository Generic |
-| `IStorageTableContract<T>`, `GenericTableEntityRepository<T>` | Domain / Data |
-| `IStorageQueueContract`, `GenericStorageQueueRepository` | Domain / Data |
-| `IStorageTableRepositoryFactory`, `StorageTableRepositoryFactory`, `StorageTableEntityService<T>` | Domain / Service |
-| `IStorageQueueRepositoryFactory`, `StorageQueueRepositoryFactory`, `StorageQueueService` | Domain / Service |
-| `EStorageAdapterType`, `BaseEntityTable` | Domain |
-| `IFileDiskRepository`, `FileDiskRepository` | Domain / Data |
+`IEntityBaseRepository<T>`, `GenericRepositoryEntityBase<T>`, Table/Queue contracts/repos/factories/services, `EStorageAdapterType`, `BaseEntityTable`, `IFileDiskRepository`, `FileDiskRepository`.
 
-**Não mover:** repos Principals/SystemDomains/Schedule, `IEntityDataContext`, DbContext concreto, migrations.
+**Não portar:** repos Principals/SystemDomains/Schedule, `IEntityDataContext`, DbContext, migrations.
 
-### Ajuste de dependência EF (sem criar interface)
+### Ajuste EF (só no canônico)
 
-Ao mover `GenericRepositoryEntityBase`, alterar o parâmetro do construtor de `IEntityDataContext` para `Microsoft.EntityFrameworkCore.DbContext` (tipo já existente). A classe já usa só `Set<T>` / save. `IEntityDataContext` permanece no Data. Repos de domínio continuam passando a implementação existente do host.
+No Core, construtor de `GenericRepositoryEntityBase` usa `DbContext`. No host, shim Obsolete aponta ao tipo do Core.
 
 ### Checklist
 
-- [ ] Arquivos movidos para o SDK; removidos da origem
-- [ ] Usings / ProjectReferences atualizados
-- [ ] Repos de domínio herdam a base do SDK
-- [ ] Factories e DI registram tipos do SDK
-- [ ] Testes listados no Levantamento §13 (Data/Service) **movidos** para SDK.Tests
+- [ ] Tipos canônicos no Core
+- [ ] Originais no host com Obsolete + comentário (não apagados)
+- [ ] Usings/DI dos consumidores → Core
+- [ ] Testes canônicos em SDK.Tests; host tests com usings atualizados
 
 ### Critérios de aceite
 
-- [ ] Build + testes Data.Test remanescentes + SDK.Tests verdes
-- [ ] Cobertura dos tipos desta fase ≥ 90% no SDK.Tests
-- [ ] Smoke EF: app sobe / CRUD básico via repo de domínio intacto
-
-### Testes a mover
-
-`ScheduleAndGenericRepositoryCoverageTests`, `GenericTableEntityRepositoryTests`, partes aplicáveis de `RemainingDataCoverageTests`, `FileAndDiskCacheRepositoryTests` / `FileDiskRepositoryIncompleteReadTests` (file disk), `InfrastructureFactoryTests`, `StorageTableEntityServiceTests`
+- [ ] Build + testes verdes; cobertura dos tipos desta fase ≥ 90% no SDK.Tests
+- [ ] Smoke EF / CRUD básico intacto
 
 ---
 
-## Fase 3 — Mover providers de cache
+## Fase 3 — Portar cache + Obsoletar no host
 
-### Escopo (mover)
+### Escopo
 
-| Tipo | Origem |
-| ---- | ------ |
-| `ICacheRepository`, `IMemoryCacheRepository`, `IDiskCacheRepository` | Domain |
-| `ICacheService`, `IDataCacheDto<T>`, `ETypeLocationCache` | Domain |
-| `CacheConfigurationDto`, `ServiceResponseCacheVO<T>` | Domain |
-| `MemoryCacheRepository`, `DiskCacheRepository` | Data |
-| `CacheService` (**arquivo inteiro**, incluindo ramos stub Redis/Mongo/Cosmos/Azure como estão) | Service |
+Contratos cache, `MemoryCacheRepository`, `DiskCacheRepository`, `CacheConfigurationDto`, `ServiceResponseCacheVO<T>`, `CacheService` (**arquivo inteiro**, stubs inclusos).
 
-**Não mover:** `ApplicationCacheLog*`, `IApplicationCacheLogRepository` (permanecem no host; `CacheService` movido mantém a dependência tipada existente — sem hooks novos).
+**Manter (sem Obsolete desta iniciativa):** `ApplicationCacheLog*`, `IApplicationCacheLogRepository`.
 
 ### Checklist
 
-- [ ] Contratos + Memory/Disk + `CacheService` movidos
-- [ ] DI atualizado
-- [ ] Testes `MemoryCacheRepositoryTests`, `FileAndDiskCacheRepositoryTests` (cache), `CacheServiceTests` **movidos**
+- [ ] Canônico no Core; host Obsolete
+- [ ] Usings/DI → Core
+- [ ] Testes canônicos + host usings
 
 ### Critérios de aceite
 
-- [ ] Build + testes verdes
-- [ ] Comportamento de cache Memory/Disk idêntico (TTL/keys)
-- [ ] Cobertura ≥ 90% dos tipos de cache movidos
-- [ ] Nenhum provider Redis/Mongo/Cosmos **novo** criado
+- [ ] Build + testes verdes; comportamento Memory/Disk idêntico; cobertura ≥ 90%; nenhum provider Redis/Mongo novo
 
 ---
 
-## Fase 4 — Mover adapters cloud (Azure)
+## Fase 4 — Portar adapters Azure + Obsoletar no host
 
-### Escopo (mover)
+### Escopo
 
-| Tipo | Origem |
-| ---- | ------ |
-| `IStorageBlobAdapter`, `AzureStorageBlobAdapter` | Domain / Service |
-| `AzureStorageTableAdapter<T>`, `AzureStorageQueueAdapter` | Service |
-| `BlobFileDto`, `LocationSaveFileConfigurationDto` | Domain |
+`IStorageBlobAdapter`, `AzureStorageBlobAdapter`, `AzureStorageTableAdapter<T>`, `AzureStorageQueueAdapter`, `BlobFileDto`, `LocationSaveFileConfigurationDto`.
 
-**Não mover:** `PatientRecordTableEntity`, `UserTokenSessionTableEntity`, `TableStorageTokenSessionAdapter`, `DatabaseTokenSessionAdapter`, `FileManager`. Não criar adapters AWS/Google/Mongo.
+**Manter:** table entities de domínio, token session adapters, `FileManager`.
 
-### Checklist
+### Checklist / aceite
 
-- [ ] Adapters Azure movidos
-- [ ] Factories da Fase 2 usam adapters do SDK
-- [ ] Testes `AzureStorageAdaptersCoverageTests` **movidos**
-
-### Critérios de aceite
-
-- [ ] Build + testes verdes
-- [ ] Contratos de I/O Blob/Table/Queue inalterados
-- [ ] Cobertura ≥ 90% dos adapters movidos
+- [ ] Core canônico + host Obsolete + usings Core
+- [ ] Build/testes verdes; cobertura ≥ 90%; sem adapters AWS/Google/Mongo novos
 
 ---
 
-## Fase 5 — Mover helpers, VOs, DTOs base, crypto, hypermedia, report, SMTP, API base
+## Fase 5 — Portar helpers, VOs, DTOs, crypto, hypermedia, report, SMTP, API base + Obsoletar
 
-### Escopo — Mover
+### Escopo — Portar+Obsoletar
 
-**Helpers:** `DateHelper`, `CultureDateTimeHelper`, `DirectoryHelper`, `EmailHelper`, `ReflectionHelpers`, `OrderAttribute`, `EnumDescriptionConverter<T>`, `IgnorableSerializerContractResolver`, `HtmlSanitizerHelper`, `AesKeyGeneratorHelper`, `RsaCryptoServiceHelper`, `SecurityHelper`, `ServiceCollectionHelper`, `ExceptionHandler`, `AppWarningException`, `ValidationErrorCodes` (como está), `FileHelper`, `BlobFileHelper`, `HelperValidation`, `RequestCultureMiddleware`, `ApiBaseController`.
-
-**VOs / contracts / DTO bases:** `ServiceResponse<T>`, `IServiceResponse<T>`, `ErrorResponse`, `ServiceResponseCacheVO<T>`, `PagedSearchVO<T>`, `EntityBase`, `EntityBaseWithNameEmail`, `Record<T>`, `RecordsList<T>`, `EntityDtoBase*`, `FileBase`/`FileData`/`FileDetailDto`, `SmtpSettingsDto`, `EmailMessageDto`, DTOs de security genéricos listados no Levantamento.
-
-**Crypto:** `ICryptoAdpter`, `ICryptoAdapterFactory`, `ICryptoService`, `AesCryptoAdpter`, `RsaCryptoAdpter`, `CryptoAdapterFactory`.
-
-**Report engines:** `ExcelGeneratorOpenXmlAdapter`, `ExcelGeneratorFactory`, `PDFsharpMigraDocReportAdapter`, `QuestPdfReportAdapter`, `PdfReportAdapterFactory`.
-
-**Hypermedia framework:** `ContentResponseEnricher<T>`, abstrações, filtros, links, constants — **sem** enrichers de Patient/Medical/etc. (esses ficam).
-
-**SMTP:** `SmtpEmailStrategy`, `EmailStrategyFactory`, `EmailContext`, `ThirdPartyEmailStrategy` (arquivos existentes).
+Helpers listados no Levantamento §6.1; VOs/DTO bases §7.1; crypto §5.1; report engines; hypermedia framework; SMTP; `ApiBaseController`, `RequestCultureMiddleware`.
 
 ### Escopo — Manter
 
-- Schedule/*, Medical/*, `ApplicationLanguageHelper`, `LogAppHelper`, `AuditLogHelper`, `ConfigurationAppSettingsHelper`, `SecurityHelperApi`, `LanguageActionFilterAttribute`
-- Validators de negócio, enrichers de domínio
-- `EntityBaseService`, `ReportBaseService`, `IEntityBaseService`
-- Controllers WebAPI
+Schedule/Medical/i18n/config host helpers; validators; enrichers; `EntityBaseService`/`ReportBaseService`; controllers WebAPI.
 
-### Checklist
+### Checklist / aceite
 
-- [ ] Arquivos movidos; removidos da origem; usings do host atualizados
-- [ ] `ValidationErrorCodes` inalterado (mesmo prefixo)
-- [ ] Enrichers de domínio no Domain usam framework do SDK
-- [ ] Testes Domain.Test correspondentes **movidos** (incl. `ApiBaseControllerTests`, `RequestCultureMiddlewareTests`)
-
-### Critérios de aceite
-
-- [ ] Build + Domain.Test + Service.Test + SDK.Tests verdes
-- [ ] Cobertura ≥ 90% dos módulos desta fase no SDK
-- [ ] Zero mudança de contrato JSON das APIs
-
-### Testes a mover
-
-`GeneralHelpersTests`, `DirectoryHelperTests`, `FileHelperTests`, `ServiceCollectionHelperTests`, `RequestCultureMiddlewareTests`, `SerializationHelpersTests`, `SecurityHelpersTests`, `CryptoAndTokenTests`, Report adapter tests, `AppExceptionTests`, `ValidationHelperTests`, Smtp tests, `ApiBaseControllerTests`
+- [ ] Core + host Obsolete + usings Core
+- [ ] `ValidationErrorCodes` no Core como está (mesmo prefixo)
+- [ ] Build + Domain/Service/SDK tests verdes; cobertura ≥ 90%; contratos JSON inalterados
 
 ---
 
-## Fase 6 — Consolidação (sem duplicados)
+## Fase 6 — Consolidação de referências (sem apagar host)
 
 ### Escopo
 
-- Confirmar que os arquivos já **saíram** do host (não há cópia residual)
-- Preferir **sem shims**; se inevitável, `using`/alias temporário curto (máx. 1 PR)
-- Não “corrigir” anomalias de namespace/casing salvo se o arquivo movido já exigir ajuste mínimo de compile
-- DI (`ServicesDomainRepository`, `ServicesDomainNoSql`, `ServicesDomainQueue`, cache) aponta 100% ao SDK
-- Dockerfiles/restore incluem o `.csproj` do SDK no `dotnet restore` multi-stage
+- Confirmar usings/DI **100%** nos tipos canônicos do Core para os itens Portar+Obsoletar
+- Shims `[Obsolete]` **permanecem** no host como consulta
+- Warnings Obsolete: consumidores não devem mais referenciar shims (corrigir usings restantes)
+- `NoWarn` global dos `SDP_CORE_SDK_*` **não** deve mascarar uso indevido nos consumidores; shims internos podem usar `#pragma` pontual
+- Dockerfiles/restore incluem o `.csproj` do SDK
+- **Não** remover fisicamente os arquivos Obsolete nesta fase
 
-### Checklist
+### Checklist / aceite
 
-- [ ] Zero duplicata de tipos movidos no host
-- [ ] Grep pelos paths antigos dos arquivos movidos = 0 (exceto docs)
-- [ ] Solution build limpa
-- [ ] Levantamento/Progresso refletem tipos já no SDK
-
-### Critérios de aceite
-
-- [ ] Build + suite completa verde
-- [ ] `dotnet pack SmartDigitalPsicoAPI.Core.SDK` gera nupkg
-- [ ] Sem regressão funcional (smoke API / health)
+- [ ] Grep de usings antigos nos consumidores dos tipos portados = 0 (exceto shims e docs)
+- [ ] Build + suite verde; `dotnet pack` OK; smoke API
 
 ---
 
@@ -252,65 +211,51 @@ Ao mover `GenericRepositoryEntityBase`, alterar o parâmetro do construtor de `I
 
 ### Escopo
 
-- Confirmar que todos os testes do [Levantamento §13](./Levantamento.md) dos tipos movidos estão no SDK.Tests
-- Coverlet do **SDK** ≥ 90% (linhas dos tipos movidos)
-- Validação EF: seed mínimo + `dotnet ef migrations add` (smoke) + `database update` em ambiente de teste — **sem** alterar schema de produção
-- `docker compose build` / testes conforme pipeline existente
-- Atualizar [Progresso.md](./Progresso.md)
+- Coverlet SDK ≥ 90%
+- Smoke EF (migration) sem mudar schema de produção
+- Docker build/test conforme pipeline
+- Atualizar Progresso.md
 
-### Checklist
+### Checklist / aceite
 
-- [ ] SDK.Tests cobre todos os tipos **Mover** das Fases 2–5
-- [ ] Relatório Coverlet ≥ 90%
-- [ ] Smoke EF documentado no Progresso
-- [ ] Docker build/test OK
-- [ ] Suite host remanescente verde
-
-### Critérios de aceite
-
-- [ ] Cobertura ≥ 90% validada
-- [ ] Docker build/test OK
-- [ ] Zero regressão funcional confirmada
-- [ ] Progresso.md com changelog final da relocação
+- [ ] Cobertura ≥ 90%; Docker OK; zero regressão; changelog final
 
 ---
 
-## Ordem de execução e dependências
+## Ordem de execução
 
 ```mermaid
 flowchart TD
-  F1[Fase1 ScaffoldingShell] --> F2[Fase2 MoverRepositorios]
-  F2 --> F3[Fase3 MoverCache]
-  F2 --> F4[Fase4 MoverAzure]
-  F3 --> F5[Fase5 MoverHelpersVOs]
+  F1[Fase1 ScaffoldingShell] --> F2[Fase2 PortarRepos Obsoletar]
+  F2 --> F3[Fase3 PortarCache Obsoletar]
+  F2 --> F4[Fase4 PortarAzure Obsoletar]
+  F3 --> F5[Fase5 PortarHelpers Obsoletar]
   F4 --> F5
-  F5 --> F6[Fase6 Consolidacao]
+  F5 --> F6[Fase6 ConsolidarUsings]
   F6 --> F7[Fase7 CoberturaDocker]
 ```
 
-Fases 3 e 4 podem rodar em paralelo após a Fase 2.
-
 ---
 
-## Fora de escopo (não criar)
+## Fora de escopo
 
 | Item | Motivo |
 | ---- | ------ |
-| Providers Redis / Mongo / Cosmos novos | Stubs já vão dentro do `CacheService` movido; não inventar classes |
-| Dapper / Unit of Work | Inexistentes — não criar |
-| `Guard` / `Result<T>` | Inexistentes — usar `ServiceResponse<T>` movido |
-| Interface mínima nova de contexto EF | Proibido — retarget para `DbContext` existente |
-| Mover `EntityBaseService` | Fica no host |
+| Apagar arquivos `[Obsolete]` do host | Consulta mantida; remoção = iniciativa futura |
+| Providers Redis/Mongo/Cosmos novos | Stubs ficam no `CacheService` portado |
+| Dapper / UoW / Guard / Result | Inexistentes — não criar |
+| Interface mínima nova de contexto EF | Proibido — retarget `DbContext` no Core |
+| Portar `EntityBaseService` | Fica no host |
 | Pacotes NuGet satélite | Proibido |
+| `Data/Context/Configure/Entity/*` | EF Fluent do projeto — **Manter** (ver Levantamento §2.3) |
+| Schedule Core + NotificationTemplate stack | Fatia futura — [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md); fora das Fases 1–7 |
 
 ---
 
-## Comandos de verificação (por fase)
+## Comandos de verificação
 
 ```bash
 dotnet build SmartDigitalPsicoAPI.sln
 dotnet test SmartDigitalPsicoAPI.sln --collect:"XPlat Code Coverage"
 dotnet pack SmartDigitalPsicoAPI.Core.SDK/SmartDigitalPsicoAPI.Core.SDK.csproj -c Release
 ```
-
-(Ajustar paths relativos após o scaffolding da Fase 1.)
