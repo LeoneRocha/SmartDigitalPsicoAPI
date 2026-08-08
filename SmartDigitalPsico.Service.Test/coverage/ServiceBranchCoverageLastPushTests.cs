@@ -1162,7 +1162,7 @@ public class ServiceBranchCoverageLastPushTests
             Shared.ConfigMock.SetupGet(x => x.Mapper).Returns(Mapper.Object);
             // Retry imediato (delay 0) para não estourar o host em suítes longas.
             Shared.ConfigMock.SetupGet(x => x.PolicyConfig)
-                .Returns(new Domain.Resiliency.ResiliencePolicyConfig
+                .Returns(new SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicyConfig
                 {
                     PolicyName = "CustomRetryPolicy",
                     RetryCount = 1,

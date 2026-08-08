@@ -13,7 +13,7 @@ using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
+using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Generic;

@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -10,7 +10,7 @@ using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Mapper;
-using SmartDigitalPsico.Domain.Resiliency;
+using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Service.Test.TestSupport;
 

@@ -19,13 +19,13 @@ namespace SmartDigitalPsico.Domain.Helpers
         #endregion GENERIC
 
         public static IConfiguration GetCacheConfiguration(IConfiguration? configuration)
-            => GetSectionApp(configuration, "CacheConfiguration");
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetCacheConfiguration(configuration);
 
         public static IConfiguration GetAuthConfiguration(IConfiguration? configuration)
-            => GetSectionApp(configuration, "AuthConfiguration");
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetAuthConfiguration(configuration);
 
         public static IConfiguration GetTokenConfigurations(IConfiguration? configuration)
-            => GetSectionApp(configuration, "TokenConfigurations");
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetTokenConfigurations(configuration);
 
         public static string GetConnectionStringMySQL(IConfiguration? configuration)
             => GetConnectionStringApp(configuration, "SmartDigitalPsicoDBConnectionMySQL");
@@ -34,19 +34,19 @@ namespace SmartDigitalPsico.Domain.Helpers
             => GetConnectionStringApp(configuration, "SmartDigitalPsicoDBConnectionSQLServer");
 
         public static IConfiguration GetDataBaseConfigurations(IConfiguration? configuration)
-            => GetSectionApp(configuration, "DataBaseConfigurations");
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetDataBaseConfigurations(configuration);
 
         public static string GetAppSettingsResourcesTemp(IConfiguration? configuration)
             => GetValueStringConfiguration(configuration, "AppSettings:ResourcesTemp");
 
         public static IConfiguration GetIResiliencePolicyConfig(IConfiguration configuration)
-            => GetSectionApp(configuration, "ResiliencePolicyConfig");
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetResiliencePolicyConfig(configuration);
 
         public static IConfiguration GetLocationSaveFileConfigurationVO(IConfiguration configuration)
-            => GetSectionApp(configuration, "LocationSaveFileConfigurationVO");
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetLocationSaveFileConfiguration(configuration);
 
         public static IConfiguration GetSmtpSettings(IConfiguration configuration)
-            => GetSectionApp(configuration, "SmtpSettings");
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetSmtpSettings(configuration);
 
         public static string[] GetAllowedFileExtensions(IConfiguration configuration)
             => configuration.GetSection("AppSettings:AllowedFileExtensions").Get<string[]>() ?? [];

@@ -1100,7 +1100,7 @@ public class ServiceBranchCoverageRemainingTests
         // Arrange — invalid policy forces FindByID catch without Polly retry storm / host crash.
         var shared = new ServiceTestContext();
         shared.ConfigMock.SetupGet(x => x.PolicyConfig)
-            .Returns(new Domain.Resiliency.ResiliencePolicyConfig { PolicyName = "invalid" });
+            .Returns(new SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicyConfig { PolicyName = "invalid" });
         var repository = new Mock<IMedicalFileRepository>();
         var service = new MedicalFileService(
             shared.SharedServices,
@@ -1712,7 +1712,7 @@ public class ServiceBranchCoverageRemainingTests
         public EntityProbeContext(string policyName = "")
         {
             var shared = new ServiceTestContext();
-            shared.ConfigMock.SetupGet(x => x.PolicyConfig).Returns(new Domain.Resiliency.ResiliencePolicyConfig { PolicyName = policyName });
+            shared.ConfigMock.SetupGet(x => x.PolicyConfig).Returns(new SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicyConfig { PolicyName = policyName });
             shared.ConfigMock.SetupGet(x => x.Mapper).Returns(Mapper.Object);
             Service = new ProbeEntityBaseService(
                 shared.SharedServices,

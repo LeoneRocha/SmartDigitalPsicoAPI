@@ -29,7 +29,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Resiliency;
+using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Validation.Base;
 using SmartDigitalPsico.Domain.Validation.DTO;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
