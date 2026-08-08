@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
-using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;

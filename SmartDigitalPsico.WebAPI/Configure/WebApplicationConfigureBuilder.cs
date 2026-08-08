@@ -6,7 +6,7 @@ using Microsoft.Extensions.FileProviders;
 using Serilog;
 using Serilog.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.WebAPI.Configure

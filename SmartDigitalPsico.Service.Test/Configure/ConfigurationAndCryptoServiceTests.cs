@@ -14,7 +14,7 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.Queue;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Smtp;
 using SmartDigitalPsico.Core.SDK.API;
-using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Service.Configure;
 using SmartDigitalPsico.Service.Configure.Domain;

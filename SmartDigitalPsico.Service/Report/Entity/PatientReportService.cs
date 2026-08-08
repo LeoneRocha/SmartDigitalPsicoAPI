@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;

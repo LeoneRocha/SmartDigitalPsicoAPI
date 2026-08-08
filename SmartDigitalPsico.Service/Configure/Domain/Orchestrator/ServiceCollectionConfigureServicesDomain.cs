@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Queue;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Smtp;
-using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 

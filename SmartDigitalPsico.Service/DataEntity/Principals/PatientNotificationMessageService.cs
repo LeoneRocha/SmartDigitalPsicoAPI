@@ -1,5 +1,5 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
