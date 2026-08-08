@@ -12,7 +12,6 @@ using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
-
 using SmartDigitalPsico.Domain.DTO.Medical.Common;
 namespace SmartDigitalPsico.Domain.DTO.Medical.GET
 {

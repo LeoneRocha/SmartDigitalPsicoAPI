@@ -3,6 +3,8 @@ using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
@@ -39,7 +41,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
             _mockContext.Patients.AddRange(mockDataPatientList2);
             _mockContext.SaveChanges();
-
 
             var mockDataPatientRecordlist = PatientHospitalizationInformationMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable().ToList();
             _mockContext.PatientHospitalizationInformations.AddRange(mockDataPatientRecordlist);

@@ -25,7 +25,6 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
 using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.VO;
@@ -52,6 +51,8 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Test.Coverage;
 
 [TestFixture]

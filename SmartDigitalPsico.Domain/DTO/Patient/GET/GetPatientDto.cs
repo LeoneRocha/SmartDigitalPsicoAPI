@@ -13,7 +13,6 @@ using SmartDigitalPsico.Domain.DTO.Medical.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
-
 namespace SmartDigitalPsico.Domain.DTO.Patient.GET
 {
     /// <summary>

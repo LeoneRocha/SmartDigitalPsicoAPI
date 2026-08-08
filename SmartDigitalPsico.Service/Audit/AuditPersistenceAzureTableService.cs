@@ -1,6 +1,8 @@
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Audit
 {
     /// <summary>

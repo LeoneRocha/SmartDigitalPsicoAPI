@@ -44,7 +44,6 @@ namespace SmartDigitalPsico.Domain.ModelEntity
             public string TokenRecurrence { get; set; } = string.Empty;        
             public string ReasonCancellation { get; set; } = string.Empty;
 
-
         #endregion Columns  
     }
 }

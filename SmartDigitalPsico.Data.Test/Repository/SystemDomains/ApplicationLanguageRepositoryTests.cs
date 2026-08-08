@@ -2,6 +2,8 @@ using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
@@ -53,7 +55,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
                 Assert.That(listCount, Is.EqualTo(38));
             }
         }
-
 
         // Cenário: busca por language, languageKey e resourceKey existentes.
         // Objetivo: garantir que Find retorne o registro correspondente.

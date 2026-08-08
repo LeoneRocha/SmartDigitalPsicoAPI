@@ -1,9 +1,11 @@
 using FluentValidation.Results;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
+
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Test.Validation;
 

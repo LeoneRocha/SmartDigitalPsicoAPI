@@ -253,5 +253,3 @@ public sealed class NoDataPropertyCacheEntry
     public string DateTimeSlidingExpiration { get; set; } = DateTime.Now.AddMinutes(10).ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 }
 
-
-

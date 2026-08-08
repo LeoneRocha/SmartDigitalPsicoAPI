@@ -8,7 +8,7 @@ using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Gender.ADD;
 using SmartDigitalPsico.Domain.DTO.Office.ADD;
@@ -21,6 +21,8 @@ using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>

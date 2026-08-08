@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     /// <summary>
@@ -16,8 +18,6 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         /// Método ApplicationCacheLogRepository: executa a operação ApplicationCacheLogRepository.
         /// </summary>
         public ApplicationCacheLogRepository(IEntityDataContext context) : base(context) { }
-
-
 
         /// <summary>
         /// Método Delete: remove ou cancela um registro/recurso.

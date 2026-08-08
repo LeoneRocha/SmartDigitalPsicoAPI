@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Service.Infrastructure.FileManager;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.FileManager;

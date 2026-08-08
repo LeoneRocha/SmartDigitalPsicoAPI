@@ -1,10 +1,12 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
 {
     /// <summary>
@@ -49,7 +51,6 @@ namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
                 return false;
             }
         }
-
 
     }
 }

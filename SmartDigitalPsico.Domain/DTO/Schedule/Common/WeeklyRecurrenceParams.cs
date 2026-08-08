@@ -27,5 +27,4 @@ namespace SmartDigitalPsico.Domain.DTO.Schedule.Common
         public TimeSpan Duration { get; set; }
     }
 
-
 }

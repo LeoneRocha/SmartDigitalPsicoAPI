@@ -1,6 +1,8 @@
 using Bogus;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
+
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Test.Validation.PatientValidations.CustomValidator;
 

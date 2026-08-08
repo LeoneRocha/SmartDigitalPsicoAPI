@@ -3,6 +3,8 @@ using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
@@ -149,7 +151,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-
         // Cenário: existe um médico com e-mail conhecido.
         // Objetivo: retornar o Medical correspondente ao e-mail informado.
         [Test]
@@ -174,7 +175,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result?.Email, Is.EqualTo(mockData.Email)); 
             }
         }
-
 
     }
 }

@@ -115,7 +115,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
             return Ok(response);
         }
 
-
         [HttpDelete("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>

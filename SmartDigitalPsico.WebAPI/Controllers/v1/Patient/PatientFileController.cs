@@ -9,7 +9,6 @@ using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
-
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 {
@@ -79,7 +78,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             }
             return Ok(response);
         }
-
 
         [HttpGet("Download/{id}")]        
         /// <summary>

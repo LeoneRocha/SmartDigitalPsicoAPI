@@ -42,7 +42,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers.Security
             }
         }
 
-
         /// <summary>
         /// Método CreateToken: cria ou persiste um novo registro/recurso.
         /// </summary>

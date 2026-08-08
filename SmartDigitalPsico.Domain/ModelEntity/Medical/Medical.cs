@@ -1,6 +1,5 @@
 using SmartDigitalPsico.Domain.Enuns;
 
-
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {

@@ -8,7 +8,7 @@ using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using System.Globalization;
 using SmartDigitalPsico.Domain.DTO.Gender.ADD;
@@ -22,6 +22,8 @@ using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
@@ -137,7 +139,6 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 defaultLanguage.LanguageKey = key;
                 defaultLanguage.ResourceKey = resourceKey;
 
-
                 var existLanguageDafault = await ((IApplicationLanguageRepository)_entityRepository).ExistLanguage(defaultLanguage.Language, key, resourceKey);
                 if (!existLanguageDafault)
                 {
@@ -169,7 +170,6 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
         }
 
-
         /// <summary>
         /// Método RemoveCache: remove ou cancela um registro/recurso.
         /// </summary>
@@ -181,7 +181,6 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
         }
         #endregion GetLocalization
-
 
         /// <summary>
         /// Método Save: cria ou persiste um novo registro/recurso.
@@ -208,7 +207,6 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
             }
         }
-
 
         internal static string CoalesceLocalization(string resultLocalization, string fallback)
             => string.IsNullOrEmpty(resultLocalization) ? fallback : resultLocalization;

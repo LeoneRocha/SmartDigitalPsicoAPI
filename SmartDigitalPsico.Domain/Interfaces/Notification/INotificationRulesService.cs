@@ -7,6 +7,8 @@ using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Notification

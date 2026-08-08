@@ -46,9 +46,10 @@ using SmartDigitalPsico.Domain.DTO.User.ADD;
 using SmartDigitalPsico.Domain.DTO.User.GET;
 using SmartDigitalPsico.Domain.DTO.User.UPDATE;
 using SmartDigitalPsico.Domain.DTO.User.Common;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Mapper
 {
@@ -255,7 +256,6 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<UserTokenSession, UserTokenSessionTableEntity>();
             CreateMap<UserTokenSessionTableEntity, UserTokenSession>();
 
-
             #region Leaves
             CreateMap<Leaves, GetLeavesDto>();
             CreateMap<GetLeavesDto, Leaves>();
@@ -263,7 +263,6 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<AddLeavesDto, Leaves>();
             CreateMap<UpdateLeavesDto, Leaves>();
             #endregion Leaves 
-
 
             #region NotificationRules
             CreateMap<NotificationRule, GetNotificationRulesDto>();
@@ -280,7 +279,6 @@ namespace SmartDigitalPsico.Domain.Mapper
             CreateMap<AddNotificationRecordsDto, NotificationRecord>();
             CreateMap<UpdateNotificationRecordsDto, NotificationRecord>();
             #endregion NotificationRecords 
-
 
         }
     }

@@ -1,9 +1,11 @@
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
 {
     /// <summary>

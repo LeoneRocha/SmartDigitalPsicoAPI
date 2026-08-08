@@ -1,6 +1,8 @@
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
+
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Medical
 {

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Caching.Memory;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit
@@ -117,7 +119,6 @@ namespace SmartDigitalPsico.Data.Audit
             // Se não existirem registros correspondentes, salva os novos registros
             _memoryCacheRepository.Set(cacheKey, auditEntriesInput, _cacheOptions);
             return cachedEntriesOut;
-
 
         }
 

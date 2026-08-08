@@ -10,7 +10,6 @@ using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Service.Bussines.Notification;
 
@@ -19,6 +18,8 @@ using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Test.Bussines.Notification;
 
 [TestFixture]

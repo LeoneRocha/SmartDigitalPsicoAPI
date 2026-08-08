@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Notification;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     /// <summary>

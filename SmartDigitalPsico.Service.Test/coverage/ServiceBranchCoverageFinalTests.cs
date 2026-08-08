@@ -10,7 +10,6 @@ using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Validation.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Service.Bussines.Notification;
 using SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands;
@@ -38,6 +37,8 @@ using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Test.Coverage;
 
 [TestFixture]

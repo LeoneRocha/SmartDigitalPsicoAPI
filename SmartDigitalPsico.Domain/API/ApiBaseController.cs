@@ -1,10 +1,12 @@
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using System.Globalization;
 
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Domain.API
 {
     /// <summary>

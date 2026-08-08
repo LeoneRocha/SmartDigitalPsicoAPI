@@ -6,7 +6,7 @@ using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
@@ -17,6 +17,8 @@ using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>
@@ -242,7 +244,6 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                     return response;
                 }
                 var patient = await _patientRepository.FindByID(entityResponse.PatientId, p => p.Medical ?? new Medical());
-
 
                 entityResponse.Annotation = _config.SharedServices.CryptoService.Decrypt(patient.Medical?.SecurityKey ?? string.Empty, entityResponse.Annotation);
 

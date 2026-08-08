@@ -110,7 +110,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
             return Ok(response);
         }
 
-
         [HttpDelete("{id}")]
         /// <summary>
         /// Método Delete: remove ou cancela um registro/recurso.

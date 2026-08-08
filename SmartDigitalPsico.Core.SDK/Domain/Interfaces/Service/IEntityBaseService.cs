@@ -52,4 +52,3 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service
     }
 }
 
-

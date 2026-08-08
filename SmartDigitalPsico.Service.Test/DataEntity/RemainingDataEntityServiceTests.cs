@@ -4,7 +4,7 @@ using FluentValidation;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Service.DataEntity.General;
 using SmartDigitalPsico.Service.DataEntity.Principals;
@@ -21,6 +21,8 @@ using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.Interfaces.Specialty;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Test.DataEntity;
 
 [TestFixture]

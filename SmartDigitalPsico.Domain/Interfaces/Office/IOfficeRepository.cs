@@ -1,6 +1,8 @@
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 using OfficeEntity = SmartDigitalPsico.Domain.ModelEntity.Office;
+
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Office
 {

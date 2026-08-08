@@ -78,4 +78,3 @@ public class ServiceCollectionHelperTests
     public sealed class TestService : ITestService;
 }
 
-

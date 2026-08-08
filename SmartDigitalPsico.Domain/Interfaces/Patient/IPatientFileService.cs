@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
@@ -6,6 +6,8 @@ using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using PatientEntity = SmartDigitalPsico.Domain.ModelEntity.Patient;
+
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Patient
 {

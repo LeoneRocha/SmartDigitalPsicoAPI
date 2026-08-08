@@ -2,8 +2,10 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 using SmartDigitalPsico.Data.Audit;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Data.Test.Configure;
+
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.Audit;
 

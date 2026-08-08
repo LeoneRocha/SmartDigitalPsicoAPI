@@ -7,8 +7,9 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 {
     /// <summary>

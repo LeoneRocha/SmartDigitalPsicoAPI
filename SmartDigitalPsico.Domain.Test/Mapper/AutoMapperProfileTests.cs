@@ -9,6 +9,8 @@ using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
 using SmartDigitalPsico.Domain.Mapper;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Test.Mapper;

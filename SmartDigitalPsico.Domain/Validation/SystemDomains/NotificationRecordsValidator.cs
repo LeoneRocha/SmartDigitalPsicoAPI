@@ -1,5 +1,7 @@
 using FluentValidation;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     /// <summary>

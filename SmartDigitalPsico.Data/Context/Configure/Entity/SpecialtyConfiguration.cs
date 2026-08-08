@@ -4,6 +4,8 @@ using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity

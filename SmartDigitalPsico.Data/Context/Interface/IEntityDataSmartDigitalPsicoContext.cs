@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Interface
 { 

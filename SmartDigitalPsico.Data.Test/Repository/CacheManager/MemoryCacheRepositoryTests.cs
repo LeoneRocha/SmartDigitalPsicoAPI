@@ -2,6 +2,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Data.Test.DataMock;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.Repository.CacheManager

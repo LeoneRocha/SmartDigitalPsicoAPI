@@ -124,7 +124,6 @@ namespace MyCompany.MyProject.ServiceUpload
 }
 ------------------- WEB JOB 
 
-
 using MyCompany.MyProject.Domain.Contracts;
 using MyCompany.MyProject.WebJob.Services;
 using Microsoft.Extensions.Configuration;

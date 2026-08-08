@@ -1,7 +1,9 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Domain.Validation.Principals
 {
     /// <summary>
@@ -19,7 +21,6 @@ namespace SmartDigitalPsico.Domain.Validation.Principals
         public UserValidator(IUserRepository entityRepository)
         {
             _entityRepository = entityRepository;
-
 
             RuleFor(entity => entity.Name)
                 .NotNull()

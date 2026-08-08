@@ -1,4 +1,6 @@
 ﻿using Bogus;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.DataMock
@@ -23,7 +25,6 @@ namespace SmartDigitalPsico.Data.Test.DataMock
             data2.PatientId = 1;
             var data3 = faker.Generate();
             data3.PatientId = 2;
-
 
             return [data1, data2, data3];
         } 

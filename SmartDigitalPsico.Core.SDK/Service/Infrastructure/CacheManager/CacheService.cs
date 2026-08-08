@@ -21,7 +21,6 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager
         private readonly CacheConfigurationDto _cacheConfig;
         private readonly ETypeLocationCache _eTypeLocationCache;
 
-
         /// <summary>
         /// Método CacheService: executa a operação CacheService.
         /// </summary>

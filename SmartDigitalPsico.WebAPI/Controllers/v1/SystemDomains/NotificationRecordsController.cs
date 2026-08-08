@@ -76,7 +76,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
             return Ok(response);
         }
 
-
         [AllowAnonymous] // Permite acesso sem autenticação / Allow access without authentication
         [HttpGet("NotificationDispatch")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]

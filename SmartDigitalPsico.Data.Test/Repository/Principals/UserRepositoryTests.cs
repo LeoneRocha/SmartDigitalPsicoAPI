@@ -3,6 +3,8 @@ using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Principals

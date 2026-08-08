@@ -393,6 +393,3 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
     }
 }
 
-
-
-

@@ -73,7 +73,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Security
 
                 var cipherTextBytes = Convert.FromBase64String(cipherTextBase64);
 
-
                 var plainText = cryptoAdapter.Decrypt(cipherTextBytes);
                 return plainText;
             }

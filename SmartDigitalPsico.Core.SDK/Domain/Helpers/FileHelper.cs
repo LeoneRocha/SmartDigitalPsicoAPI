@@ -84,7 +84,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
             return string.Empty;
         }
 
-
         /// <summary>
         /// Método GetFileFromBase64String: consulta e retorna dados.
         /// </summary>

@@ -1,6 +1,5 @@
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
-
 namespace SmartDigitalPsico.Domain.DTO.Specialty.GET
 {
     /// <summary>

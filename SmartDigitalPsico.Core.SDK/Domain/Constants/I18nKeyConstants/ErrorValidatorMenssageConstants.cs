@@ -26,7 +26,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
         public const string RGNull = "RG cannot be empty.";
         public const string ErrorValidator_User_Not_Permission = "You do not have the necessary permissions to perform this action.";
 
-
         #region MEDICAL 
         public const string MedicalChanged = "The provided doctor must be the logged-in one. Doctors cannot create files for another doctor.";
         public const string MedicalCreatedInvalid = "The provided doctor must be the logged-in one. Doctors cannot create files for another doctor.";

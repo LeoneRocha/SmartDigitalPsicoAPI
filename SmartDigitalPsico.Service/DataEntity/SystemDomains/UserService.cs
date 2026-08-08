@@ -18,7 +18,7 @@ using SmartDigitalPsico.Domain.DTO.User.UPDATE;
 using SmartDigitalPsico.Domain.DTO.User.Common;
 using ENotificationServiceType = SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -28,6 +28,8 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
@@ -432,7 +434,6 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 if (response.Success)
                     response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
             }
-
 
             return response;
         }

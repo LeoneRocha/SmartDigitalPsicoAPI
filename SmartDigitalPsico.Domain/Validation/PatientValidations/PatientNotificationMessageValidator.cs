@@ -1,8 +1,10 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.Base;
 
 using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations
 {
     /// <summary>

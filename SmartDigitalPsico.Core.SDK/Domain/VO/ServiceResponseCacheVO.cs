@@ -43,7 +43,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.VO
             Message = string.Empty;
         }
 
-
         public DateTime DateTimeSlidingExpiration { get; private set; }
         public string CacheKey { get; private set; } = string.Empty;
         public string CacheId { get; private set; } = string.Empty;

@@ -1,6 +1,6 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
@@ -14,6 +14,8 @@ using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>

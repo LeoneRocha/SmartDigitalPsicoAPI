@@ -1,3 +1,5 @@
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
@@ -41,7 +43,6 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 Rg = "13.809.283-7",
                 GenderId = 1,
             };
-
 
             return [
                  newAddPatient,

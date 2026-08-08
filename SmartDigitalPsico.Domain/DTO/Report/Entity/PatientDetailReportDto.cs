@@ -37,7 +37,6 @@ namespace SmartDigitalPsico.Domain.DTO.Report.Entity
         [SmartDigitalPsico.Core.SDK.Domain.Helpers.Order(5)]
         public string Cpf { get; set; } = string.Empty;
 
-
         [SmartDigitalPsico.Core.SDK.Domain.Helpers.Order(6)]
         public string Rg { get; set; } = string.Empty;
 

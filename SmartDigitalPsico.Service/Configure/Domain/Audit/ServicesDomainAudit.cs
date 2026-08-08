@@ -3,12 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
 using SmartDigitalPsico.Service.Audit;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
     /// <summary>

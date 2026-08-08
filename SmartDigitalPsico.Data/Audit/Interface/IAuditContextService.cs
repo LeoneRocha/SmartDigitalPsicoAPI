@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit.Interface

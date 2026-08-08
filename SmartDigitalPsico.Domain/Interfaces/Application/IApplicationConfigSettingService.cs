@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
 using SmartDigitalPsico.Domain.DTO.Office.GET;
 using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
@@ -7,6 +7,8 @@ using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
+
+using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Application
 {

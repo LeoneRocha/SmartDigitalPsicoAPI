@@ -2,7 +2,6 @@ using Moq;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.Validation.DTO;
@@ -15,6 +14,8 @@ using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Domain.Test.Validation;
 
 [TestFixture]

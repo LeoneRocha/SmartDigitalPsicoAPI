@@ -158,7 +158,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Report
             return columnName.ToString();
         }
 
-
         private static void AddHeaderRow(object firstRow, List<string> propertiesToIgnore, SheetData sheetDataElement)
         {
             if (firstRow == null) return;
@@ -176,7 +175,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Report
 
             sheetDataElement.Append(headerRow);
         }
-
 
         private static void AddRowsData(List<object> rows, List<string> propertiesToIgnore, SheetData sheetDataElement)
         {

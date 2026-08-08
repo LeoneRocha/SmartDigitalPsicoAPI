@@ -1,6 +1,5 @@
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
-
 namespace SmartDigitalPsico.Domain.DTO.RoleGroup.GET
 {
     /// <summary>

@@ -1,6 +1,5 @@
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
-
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.Domain.ModelEntity

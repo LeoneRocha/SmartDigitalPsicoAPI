@@ -10,7 +10,7 @@ using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using System.Globalization;
@@ -18,6 +18,8 @@ using System.Globalization;
 using SmartDigitalPsico.Domain.DTO.Application.ADD;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
 
 [TestFixture]

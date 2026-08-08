@@ -58,6 +58,5 @@ namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Application
             return Task.Run(() => { });
         }
 
-
     }
 }

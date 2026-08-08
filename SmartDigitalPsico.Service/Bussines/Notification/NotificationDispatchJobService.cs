@@ -11,7 +11,7 @@ using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Events;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -20,6 +20,8 @@ using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Bussines.Notification
 {
     /// <summary>

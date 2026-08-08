@@ -1,26 +1,6 @@
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 VERSAO ANTIGO 
-
-
-
 
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
@@ -29,7 +9,6 @@ using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.UPDATE;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
@@ -42,6 +21,8 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     public class ScheduleBatchService : EntityBaseService<ScheduleBatch, AddScheduleBatchDto, UpdateScheduleBatchDto, GetScheduleBatchDto, IScheduleBatchRepository>, IScheduleBatchService

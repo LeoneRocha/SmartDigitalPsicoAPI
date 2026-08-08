@@ -1,7 +1,9 @@
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Office;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
 {
     /// <summary>

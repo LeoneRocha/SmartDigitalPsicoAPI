@@ -7,7 +7,7 @@ using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.DTO.Report.Entity;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -15,6 +15,8 @@ using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Report.Entity
 {
     /// <summary>

@@ -1,6 +1,5 @@
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
-
 using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET

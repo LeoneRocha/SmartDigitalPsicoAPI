@@ -4,13 +4,14 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.ModelEntity;
+
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical.Actions;
 
 [TestFixture]

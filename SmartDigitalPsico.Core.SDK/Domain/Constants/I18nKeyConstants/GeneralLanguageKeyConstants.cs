@@ -26,7 +26,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
         public const string UserLogout = "User_Logout";
         public const string UserLogged = "User_Logged";
 
-
     }
 }
 

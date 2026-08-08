@@ -8,7 +8,6 @@ using SmartDigitalPsico.Domain.DTO.User.UPDATE;
 using SmartDigitalPsico.Domain.DTO.User.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
-
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET
