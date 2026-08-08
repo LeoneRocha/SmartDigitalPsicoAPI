@@ -77,7 +77,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             var deleted = await _delete.DeleteByTokenFilteredAsync(MedicalScheduleMapper.ToDeleteTokenRequest(request));
             return deleted.Success
                 ? MedicalScheduleHostSupport.OkBool(true,
-                    await _support.Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
+                    await _support.Loc(CalendarKeyConstants.SchedulesDeletedSuccessfully, CalendarMenssageConstants.SchedulesDeletedSuccessfully))
                 : MedicalScheduleHostSupport.FailBool(deleted.Message);
         }
 
@@ -95,7 +95,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             var result = await _delete.DeleteByIdAsync(package.Data.Id);
             return result.Success
                 ? MedicalScheduleHostSupport.OkBool(true,
-                    await _support.Loc(MedicalCalendarKeyConstants.SchedulesDeletedSuccessfully, MedicalCalendarMenssageConstants.SchedulesDeletedSuccessfully))
+                    await _support.Loc(CalendarKeyConstants.SchedulesDeletedSuccessfully, CalendarMenssageConstants.SchedulesDeletedSuccessfully))
                 : MedicalScheduleHostSupport.FailBool(result.Message);
         }
 

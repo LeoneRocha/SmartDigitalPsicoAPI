@@ -1,4 +1,5 @@
 using AutoMapper;
+using SmartDigitalPsico.Domain.DTO;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;

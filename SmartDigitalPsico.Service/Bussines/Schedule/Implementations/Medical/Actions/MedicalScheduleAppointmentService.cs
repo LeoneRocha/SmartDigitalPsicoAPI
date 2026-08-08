@@ -75,7 +75,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                     var booked = await _create.BookAsync(MedicalScheduleMapper.ToBookRequest(criteria, medical.PatientIntervalTimeMinutes));
                     return booked.Success
                         ? MedicalScheduleHostSupport.OkBool(true,
-                            await _support.Loc(MedicalCalendarKeyConstants.Schedule_Appointment_Success, MedicalCalendarMenssageConstants.Schedule_Appointment_Success) + $". ({booked.Data?.Id})")
+                            await _support.Loc(CalendarKeyConstants.Schedule_Appointment_Success, CalendarMenssageConstants.Schedule_Appointment_Success) + $". ({booked.Data?.Id})")
                         : MedicalScheduleHostSupport.FailBool(booked.Message);
                 }
 
@@ -89,7 +89,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
 
                     return canceled.Success
                         ? MedicalScheduleHostSupport.OkBool(true,
-                            await _support.Loc(MedicalCalendarKeyConstants.Cancel_Appointment_Success, MedicalCalendarMenssageConstants.Cancel_Appointment_Success) + $". ({canceled.Data?.PackageId})")
+                            await _support.Loc(CalendarKeyConstants.Cancel_Appointment_Success, CalendarMenssageConstants.Cancel_Appointment_Success) + $". ({canceled.Data?.PackageId})")
                         : MedicalScheduleHostSupport.FailBool(
                             canceled.Message ?? await _support.Loc(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound));
                 }

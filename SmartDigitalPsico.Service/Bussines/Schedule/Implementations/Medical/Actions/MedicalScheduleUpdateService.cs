@@ -60,7 +60,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                     || targetOccurrence?.Status is EStatusCalendar.Canceled or EStatusCalendar.Refused)
                 {
                     return MedicalScheduleHostSupport.FailDto(
-                        await _support.Loc(MedicalCalendarKeyConstants.Calendar_Error, MedicalCalendarMenssageConstants.Calendar_Error));
+                        await _support.Loc(CalendarKeyConstants.Calendar_Error, CalendarMenssageConstants.Calendar_Error));
                 }
 
                 var entity = _support.Mapper.Map<MedicalCalendar>(item);
@@ -87,7 +87,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                 var preferred = FindTargetOccurrence(persist.Data.ScheduleData, item.StartDateTime);
                 return MedicalScheduleHostSupport.OkDto(
                     MedicalScheduleMapper.ToGetDto(persist.Data, preferred),
-                    await _support.Loc(MedicalCalendarKeyConstants.CalendarUpdated, MedicalCalendarMenssageConstants.CalendarUpdated));
+                    await _support.Loc(CalendarKeyConstants.CalendarUpdated, CalendarMenssageConstants.CalendarUpdated));
             }
             catch (Exception ex)
             {

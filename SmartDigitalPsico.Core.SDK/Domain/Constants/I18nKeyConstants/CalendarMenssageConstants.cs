@@ -2,11 +2,11 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
 {
 
     /// <summary>
-    /// Classe responsável por MedicalCalendarMenssageConstants.
+    /// Classe responsável por CalendarMenssageConstants.
     /// Responsabilidade: constantes compartilhadas do sistema.
     /// Relação: referenciado por Domain, Service e WebAPI.
     /// </summary>
-    public static class MedicalCalendarMenssageConstants
+    public static class CalendarMenssageConstants
     {
         public const string CalendarRegistred = "Calendar Registred";
         public const string CalendarUpdated = "Calendar Updated";

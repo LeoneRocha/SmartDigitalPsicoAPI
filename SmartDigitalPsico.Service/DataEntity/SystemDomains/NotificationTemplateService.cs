@@ -1,6 +1,5 @@
 using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -8,6 +7,7 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using System.Globalization;
+using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {

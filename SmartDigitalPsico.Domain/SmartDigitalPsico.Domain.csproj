@@ -37,6 +37,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Folder Include="DTO\Domains\AddDTOs\" />
     <Folder Include="Smtp\" />
   </ItemGroup>
   

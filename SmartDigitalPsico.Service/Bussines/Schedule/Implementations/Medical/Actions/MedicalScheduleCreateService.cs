@@ -58,7 +58,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
 
                 return MedicalScheduleHostSupport.OkDto(
                     MedicalScheduleMapper.ToGetDto(persist.Data),
-                    await _support.Loc(MedicalCalendarKeyConstants.CalendarRegistred, MedicalCalendarMenssageConstants.CalendarRegistred));
+                    await _support.Loc(CalendarKeyConstants.CalendarRegistred, CalendarMenssageConstants.CalendarRegistred));
             }
             catch (Exception ex)
             {

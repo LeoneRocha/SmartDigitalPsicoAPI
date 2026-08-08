@@ -77,7 +77,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                 {
                     response.Success = false;
                     response.Data = new CalendarDto { MedicalId = medical.Id, MedicalName = medical.Name, Days = [] };
-                    response.Message = await _support.Loc(MedicalCalendarKeyConstants.Calendar_Error, MedicalCalendarMenssageConstants.Calendar_Error);
+                    response.Message = await _support.Loc(CalendarKeyConstants.Calendar_Error, CalendarMenssageConstants.Calendar_Error);
                     return response;
                 }
 
@@ -102,7 +102,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                 response.Success = true;
                 var patientNames = await ResolvePatientNamesAsync(grade.Data);
                 response.Data = MedicalScheduleMapper.ToCalendarDto(grade.Data, medical.Id, patientNames);
-                response.Message = await _support.Loc(MedicalCalendarKeyConstants.CalendarSuccess, MedicalCalendarMenssageConstants.CalendarSuccess);
+                response.Message = await _support.Loc(CalendarKeyConstants.CalendarSuccess, CalendarMenssageConstants.CalendarSuccess);
                 return response;
             }
             catch (Exception ex)
@@ -120,7 +120,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
             if (result.IsValid) return true;
             response.Success = false;
             response.Data = new CalendarDto();
-            response.Message = await _support.Loc(MedicalCalendarKeyConstants.Calendar_Error, MedicalCalendarMenssageConstants.Calendar_Error);
+            response.Message = await _support.Loc(CalendarKeyConstants.Calendar_Error, CalendarMenssageConstants.Calendar_Error);
             response.Errors = await _support.TranslateErrors(
                 HelperValidation.ConvertValidationFailureListToErroResponse(result.Errors));
             return false;
