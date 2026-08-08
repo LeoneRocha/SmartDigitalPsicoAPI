@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Data.Repository.Schedule;
 using SmartDigitalPsico.Data.Test.Configure;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 

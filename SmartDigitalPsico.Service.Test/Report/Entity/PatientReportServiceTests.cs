@@ -2,14 +2,14 @@ using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Report.Entity;
 

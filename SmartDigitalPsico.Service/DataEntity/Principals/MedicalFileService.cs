@@ -2,7 +2,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
@@ -16,7 +16,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {

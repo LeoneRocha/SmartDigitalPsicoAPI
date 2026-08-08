@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Http;
-using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Common
 {

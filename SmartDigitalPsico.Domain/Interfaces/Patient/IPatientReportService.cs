@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.DTO.Report.Entity;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
-using PatientEntity = SmartDigitalPsico.Domain.ModelEntity.Patient;
+using PatientEntity = SmartDigitalPsico.Domain.EntityModels.Patient;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Patient
 {

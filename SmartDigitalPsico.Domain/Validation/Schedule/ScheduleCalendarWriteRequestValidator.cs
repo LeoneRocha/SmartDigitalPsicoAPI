@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Domain.Validation
         /// <summary>
         /// Método ScheduleCalendarWriteRequestValidator: operação de agendamento.
         /// </summary>
-        public ScheduleCalendarWriteRequestValidator(IValidator<SmartDigitalPsico.Domain.ModelEntity.Schedule.ScheduleCalendarItem> itemValidator)
+        public ScheduleCalendarWriteRequestValidator(IValidator<SmartDigitalPsico.Domain.EntityModels.Schedule.ScheduleCalendarItem> itemValidator)
         {
             RuleFor(x => x.UniqueToken)
                 .NotEmpty()

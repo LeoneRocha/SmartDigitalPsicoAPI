@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using System.Globalization;
 using System.Security.Claims;
 
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Test.API;
 

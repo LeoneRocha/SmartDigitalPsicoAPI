@@ -1,7 +1,7 @@
 using Moq;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 using SmartDigitalPsico.Service.Test.TestSupport;
-using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
+using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
 

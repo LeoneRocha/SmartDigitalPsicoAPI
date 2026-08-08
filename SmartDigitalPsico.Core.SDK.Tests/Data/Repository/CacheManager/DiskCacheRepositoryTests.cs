@@ -4,7 +4,7 @@ using SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager;
 using SmartDigitalPsico.Core.SDK.Data.Repository.FileManager;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Data.Repository.CacheManager;
 

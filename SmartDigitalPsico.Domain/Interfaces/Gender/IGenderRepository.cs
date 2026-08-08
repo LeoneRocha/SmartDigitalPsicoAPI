@@ -1,8 +1,8 @@
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
-using GenderEntity = SmartDigitalPsico.Domain.ModelEntity.Gender;
+using GenderEntity = SmartDigitalPsico.Domain.EntityModels.Gender;
 
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Gender
 {

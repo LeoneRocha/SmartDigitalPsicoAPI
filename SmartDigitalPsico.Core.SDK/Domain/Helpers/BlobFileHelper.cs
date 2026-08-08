@@ -1,5 +1,5 @@
 using Azure.Storage.Blobs.Models;
-using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
 {

@@ -97,7 +97,7 @@ flowchart LR
 
 | Camada | Caminho |
 | ------ | ------- |
-| Entity | `Domain/ModelEntity/MedicalCalendar.cs` |
+| Entity | `Domain/EntityModels/MedicalCalendar.cs` |
 | Service | `Service/DataEntity/Principals/MedicalCalendarService.cs` |
 | Interface | `Domain/Interfaces/Service/IMedicalCalendarService.cs` |
 | Repository | `Data/Repository/Principals/MedicalCalendarRepository.cs` |
@@ -111,7 +111,7 @@ flowchart LR
 
 | Camada | Caminho |
 | ------ | ------- |
-| Entity / Item | `Domain/ModelEntity/Schedule/ScheduleBatch.cs`, `ScheduleItem.cs` |
+| Entity / Item | `Domain/EntityModels/Schedule/ScheduleBatch.cs`, `ScheduleItem.cs` |
 | Service | `Service/Bussines/Schedule/ScheduleBatchService.cs` |
 | Repository | `Data/Repository/Schedule/ScheduleBatchRepository.cs` |
 | Controller | **Inexistente** |

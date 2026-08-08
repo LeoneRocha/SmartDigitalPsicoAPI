@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Data.Audit
 {

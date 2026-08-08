@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class NotificationTemplateService
-      : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Domain.ModelEntity.NotificationTemplate, GetNotificationTemplateDto>, INotificationTemplateService
+      : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Domain.EntityModels.NotificationTemplate, GetNotificationTemplateDto>, INotificationTemplateService
     {
         /// <summary>
         /// Método NotificationTemplateService: executa a operação NotificationTemplateService.
@@ -49,7 +49,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ISharedRepositories sharedRepositories,
             INotificationTemplateRepository entityRepository,
             IApplicationLanguageRepository applicationLanguageRepository,
-            IValidator<Domain.ModelEntity.NotificationTemplate> entityValidator
+            IValidator<Domain.EntityModels.NotificationTemplate> entityValidator
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
@@ -85,7 +85,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             var culturenameCurrent = CultureInfo.CurrentCulture;
             string language = culturenameCurrent.Name;
 
-            Domain.ModelEntity.NotificationTemplate? entityResponse = await ((INotificationTemplateRepository)_entityRepository).GetNotificationTemplateAsync(templateKey, language);
+            Domain.EntityModels.NotificationTemplate? entityResponse = await ((INotificationTemplateRepository)_entityRepository).GetNotificationTemplateAsync(templateKey, language);
 
             if (entityResponse != null)
             {

@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ApplicationCacheLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ApplicationCacheLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,7 +76,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ApplicationConfigSetting", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ApplicationConfigSetting", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -162,7 +162,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ApplicationLanguage", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ApplicationLanguage", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -734,7 +734,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.AuditDataEntityLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.AuditDataEntityLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -812,7 +812,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.AuditDataSelectiveEntityLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.AuditDataSelectiveEntityLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -898,7 +898,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Gender", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Gender", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -964,7 +964,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.InfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.InfoTag", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1053,7 +1053,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Leaves", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Leaves", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1249,7 +1249,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Medical", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Medical", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1365,7 +1365,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalCalendar", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalCalendar", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1489,7 +1489,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalFile", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalFile", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1593,7 +1593,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalSettings", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalSettings", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1650,7 +1650,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalSpecialty", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalSpecialty", b =>
                 {
                     b.Property<long>("MedicalId")
                         .HasColumnType("bigint");
@@ -1674,7 +1674,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRecord", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationRecord", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1737,7 +1737,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRule", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationRule", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1910,7 +1910,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationTemplate", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationTemplate", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2085,7 +2085,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Office", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Office", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2161,7 +2161,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Patient", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Patient", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2513,7 +2513,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientAdditionalInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientAdditionalInformation", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2862,7 +2862,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientFile", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientFile", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -3448,7 +3448,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientHospitalizationInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientHospitalizationInformation", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -3872,7 +3872,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientInfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientInfoTag", b =>
                 {
                     b.Property<long>("InfoTagId")
                         .HasColumnType("bigint");
@@ -4011,7 +4011,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientMedicationInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientMedicationInformation", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -4456,7 +4456,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientNotificationMessage", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientNotificationMessage", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -4860,7 +4860,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientRecord", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientRecord", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5264,7 +5264,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.RoleGroup", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.RoleGroup", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5381,7 +5381,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.RoleGroupUser", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.RoleGroupUser", b =>
                 {
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -5410,7 +5410,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Schedule.ScheduleCalendar", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Schedule.ScheduleCalendar", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5481,7 +5481,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ScheduleBatch", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ScheduleBatch", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5556,7 +5556,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Specialty", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Specialty", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5672,7 +5672,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.User", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5803,7 +5803,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.UserTokenSession", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.UserTokenSession", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5860,37 +5860,37 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.AuditDataEntityLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.AuditDataEntityLog", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "UserAudited")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "UserAudited")
                         .WithMany()
                         .HasForeignKey("UserAuditedId");
 
                     b.Navigation("UserAudited");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.AuditDataSelectiveEntityLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.AuditDataSelectiveEntityLog", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "UserAudited")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "UserAudited")
                         .WithMany()
                         .HasForeignKey("UserAuditedId");
 
                     b.Navigation("UserAudited");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.InfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.InfoTag", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
@@ -5901,34 +5901,34 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("ModifyUser");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Leaves", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Leaves", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId");
 
                     b.Navigation("Medical");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Medical", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Medical", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany("MedicalsCreateds")
                         .HasForeignKey("CreatedUserId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany("MedicalModifies")
                         .HasForeignKey("ModifyUserId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Office", "Office")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Office", "Office")
                         .WithMany("Medicals")
                         .HasForeignKey("OfficeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "User")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "User")
                         .WithMany("MedicalsUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -5942,23 +5942,23 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalCalendar", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalCalendar", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId");
 
@@ -5971,19 +5971,19 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalFile", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalFile", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
@@ -5994,9 +5994,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("ModifyUser");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalSettings", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalSettings", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany("MedicalSettings")
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6005,15 +6005,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Medical");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalSpecialty", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalSpecialty", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany("MedicalSpecialties")
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Specialty", "Specialty")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Specialty", "Specialty")
                         .WithMany("MedicalSpecialties")
                         .HasForeignKey("SpecialtyId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -6024,9 +6024,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Specialty");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRecord", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationRecord", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.MedicalCalendar", "MedicalCalendar")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.MedicalCalendar", "MedicalCalendar")
                         .WithMany()
                         .HasForeignKey("MedicalCalendarId")
                         .OnDelete(DeleteBehavior.ClientCascade);
@@ -6034,9 +6034,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("MedicalCalendar");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRule", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationRule", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6045,25 +6045,25 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Medical");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Patient", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Patient", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Gender", "Gender")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Gender", "Gender")
                         .WithMany("Patients")
                         .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany("Patienties")
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
@@ -6076,17 +6076,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("ModifyUser");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientAdditionalInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientAdditionalInformation", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientAdditionalInformations")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6099,17 +6099,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientFile", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientFile", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6122,17 +6122,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientHospitalizationInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientHospitalizationInformation", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientHospitalizationInformations")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6145,15 +6145,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientInfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientInfoTag", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.InfoTag", "InfoTag")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.InfoTag", "InfoTag")
                         .WithMany("PatientInfoTags")
                         .HasForeignKey("InfoTagId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientInfoTags")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -6164,17 +6164,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientMedicationInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientMedicationInformation", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientMedicationInformations")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6187,17 +6187,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientNotificationMessage", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientNotificationMessage", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6210,17 +6210,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientRecord", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientRecord", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientRecords")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6233,15 +6233,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.RoleGroupUser", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.RoleGroupUser", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.RoleGroup", "RoleGroup")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.RoleGroup", "RoleGroup")
                         .WithMany("UserRoleGroups")
                         .HasForeignKey("RoleGroupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "User")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "User")
                         .WithMany("UserRoleGroups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -6252,23 +6252,23 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ScheduleBatch", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ScheduleBatch", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId");
 
@@ -6281,37 +6281,37 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.User", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.User", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId");
 
                     b.Navigation("Medical");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.UserTokenSession", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.UserTokenSession", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "User")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "User")
                         .WithOne("TokenSession")
-                        .HasForeignKey("SmartDigitalPsico.Domain.ModelEntity.UserTokenSession", "UserId")
+                        .HasForeignKey("SmartDigitalPsico.Domain.EntityModels.UserTokenSession", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Gender", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Gender", b =>
                 {
                     b.Navigation("Patients");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.InfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.InfoTag", b =>
                 {
                     b.Navigation("PatientInfoTags");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Medical", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Medical", b =>
                 {
                     b.Navigation("MedicalSettings");
 
@@ -6320,12 +6320,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patienties");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Office", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Office", b =>
                 {
                     b.Navigation("Medicals");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Patient", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Patient", b =>
                 {
                     b.Navigation("PatientAdditionalInformations");
 
@@ -6338,17 +6338,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("PatientRecords");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.RoleGroup", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.RoleGroup", b =>
                 {
                     b.Navigation("UserRoleGroups");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Specialty", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Specialty", b =>
                 {
                     b.Navigation("MedicalSpecialties");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.User", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.User", b =>
                 {
                     b.Navigation("MedicalModifies");
 

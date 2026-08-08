@@ -25,7 +25,7 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
 using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands;
@@ -36,7 +36,7 @@ using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
+using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 using SmartDigitalPsico.Domain.DTO.Gender.ADD;
 using SmartDigitalPsico.Domain.DTO.Office.ADD;
 using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
@@ -51,7 +51,7 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
 

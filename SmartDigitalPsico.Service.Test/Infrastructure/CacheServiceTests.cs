@@ -53,8 +53,8 @@ public class CacheServiceTests
         var disk = new Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>();
         var logs = new Mock<IApplicationCacheLogRepository>();
         disk.Setup(x => x.SetAsync("payload", It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>>())).ReturnsAsync(true);
-        logs.Setup(x => x.Create(It.IsAny<SmartDigitalPsico.Domain.ModelEntity.ApplicationCacheLog>()))
-            .ReturnsAsync(new SmartDigitalPsico.Domain.ModelEntity.ApplicationCacheLog());
+        logs.Setup(x => x.Create(It.IsAny<SmartDigitalPsico.Domain.EntityModels.ApplicationCacheLog>()))
+            .ReturnsAsync(new SmartDigitalPsico.Domain.EntityModels.ApplicationCacheLog());
         var service = Create(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Disk, disk: disk, logs: logs);
         var payload = new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>("data", "payload", DateTime.Now.AddMinutes(10));
 
@@ -65,7 +65,7 @@ public class CacheServiceTests
         result.Should().BeTrue();
 
         disk.Verify(x => x.SetAsync("payload", payload), Times.Once);
-        logs.Verify(x => x.Create(It.IsAny<SmartDigitalPsico.Domain.ModelEntity.ApplicationCacheLog>()), Times.Once);
+        logs.Verify(x => x.Create(It.IsAny<SmartDigitalPsico.Domain.EntityModels.ApplicationCacheLog>()), Times.Once);
     }
     // Cenário: helpers estáticos com cache habilitado.
     // Objetivo: salvar e ler global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO com sucesso.

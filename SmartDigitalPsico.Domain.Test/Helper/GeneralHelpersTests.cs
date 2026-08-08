@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
@@ -32,7 +33,7 @@ public class GeneralHelpersTests
     {
         public SelfReferencingAuditModel? Next { get; set; }
     }
-    private sealed class TestFile : SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileBase { }
+    private sealed class TestFile : FileBase { }
 
     // Cenário: Uma mensagem possui tokens e uma mensagem simples não possui.
     // Objetivo: Substituir somente os tokens presentes.

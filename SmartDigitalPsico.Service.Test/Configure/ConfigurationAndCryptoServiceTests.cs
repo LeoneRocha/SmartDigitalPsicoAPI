@@ -202,7 +202,7 @@ public class ConfigurationAndCryptoServiceTests
             SmartDigitalPsico.Core.SDK.Domain.Enuns.EStorageAdapterType.Azure, $"t{Guid.NewGuid():N}"[..10]);
         audit.SaveAuditEntries(
         [
-            new SmartDigitalPsico.Domain.ModelEntity.AuditDataEntityLog
+            new SmartDigitalPsico.Domain.EntityModels.AuditDataEntityLog
             {
                 TableName = "T",
                 Operation = "U",
@@ -211,7 +211,7 @@ public class ConfigurationAndCryptoServiceTests
                 AuditDate = DateTime.UtcNow
             }
         ]);
-        audit.SaveAuditEntry(new SmartDigitalPsico.Domain.ModelEntity.AuditDataSelectiveEntityLog
+        audit.SaveAuditEntry(new SmartDigitalPsico.Domain.EntityModels.AuditDataSelectiveEntityLog
         {
             TableName = "T",
             Operation = "I",

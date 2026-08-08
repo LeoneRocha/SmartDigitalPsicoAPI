@@ -327,7 +327,7 @@ public class DomainPocoReflectionCoverageTests
     }
 
     private static readonly string[] NamespaceCoverageSegments =
-        ["DTO", "VO", "ModelEntity", "TableEntity", "Hypermedia", "Enuns", "Contracts", "DependeciesCollection"];
+        ["DTO", "VO", "EntityModels", "TableEntity", "Hypermedia", "Enuns", "Contracts", "DependeciesCollection"];
 
     private static bool EhAlvoDeCobertura(Type type)
     {

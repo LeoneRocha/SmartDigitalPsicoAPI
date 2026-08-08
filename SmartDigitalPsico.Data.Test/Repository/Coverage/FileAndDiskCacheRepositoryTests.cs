@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 using Microsoft.Extensions.Options;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;

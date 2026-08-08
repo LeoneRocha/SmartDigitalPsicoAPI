@@ -1,10 +1,10 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Azure;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {

@@ -1,4 +1,4 @@
-using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
+using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Medical
 {

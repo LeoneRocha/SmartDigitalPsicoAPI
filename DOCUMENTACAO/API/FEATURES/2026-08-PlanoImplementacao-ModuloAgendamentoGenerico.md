@@ -373,7 +373,7 @@ Arquivos futuros:
 ## 17. Estrutura de pastas alvo
 
 ```text
-Domain/ModelEntity/Schedule/ ...
+Domain/EntityModels/Schedule/ ...
 Domain/DTO/Schedule/Generic/ ...     # NÃO misturar com DTO/Medical
 Domain/DTO/Medical/...               # CONGELADO para FE
 Service/Bussines/Schedule/           # core + helpers + adapters

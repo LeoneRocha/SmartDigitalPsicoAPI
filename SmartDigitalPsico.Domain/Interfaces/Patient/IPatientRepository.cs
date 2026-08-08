@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 
-using PatientEntity = SmartDigitalPsico.Domain.ModelEntity.Patient;
+using PatientEntity = SmartDigitalPsico.Domain.EntityModels.Patient;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Patient
 {

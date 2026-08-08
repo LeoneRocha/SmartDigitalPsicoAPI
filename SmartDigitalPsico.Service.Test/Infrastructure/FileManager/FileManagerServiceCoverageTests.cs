@@ -1,13 +1,13 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Service.Infrastructure.FileManager;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.FileManager;
 
@@ -33,7 +33,7 @@ public class FileManagerServiceCoverageTests
     {
         // Arrange
         var disk = new Mock<IFileDiskRepository>();
-        disk.Setup(value => value.Save(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync(true);
+        disk.Setup(value => value.Save(It.IsAny<FileData>())).ReturnsAsync(true);
         var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
         azure.Setup(value => value.UploadFileReturnUrl(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.BlobFileDto>())).ReturnsAsync("https://files/item");
         var file = CreateFormFile("note.txt", [1, 2, 3]);
@@ -52,7 +52,7 @@ public class FileManagerServiceCoverageTests
         var diskManager = CreateManager(ETypeLocationSaveFiles.Disk, disk, azure);
         await diskManager.PersistFile(file, diskEntity, "medical", "42");
         diskEntity.TypeLocationSaveFile.Should().Be(ETypeLocationSaveFiles.Disk);
-        disk.Verify(value => value.Save(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
+        disk.Verify(value => value.Save(It.IsAny<FileData>()), Times.Once);
 
         var cloudEntity = new MedicalFile();
         var cloudManager = CreateManager(ETypeLocationSaveFiles.CloudStorageAzure, disk, azure);
@@ -61,7 +61,7 @@ public class FileManagerServiceCoverageTests
         cloudEntity.FilePath.Should().Be("https://files/item");
         cloudEntity.FileData.Should().BeEmpty();
         azure.Verify(value => value.UploadFileReturnUrl(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.BlobFileDto>()), Times.Once);
-        disk.Verify(value => value.Delete(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
+        disk.Verify(value => value.Delete(It.IsAny<FileData>()), Times.Once);
     }
 
     // Cenário: download e exclusão em disco e Azure, inclusive entidade nula.
@@ -71,7 +71,7 @@ public class FileManagerServiceCoverageTests
     {
         // Arrange
         var disk = new Mock<IFileDiskRepository>();
-        disk.Setup(value => value.Get(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync([7, 8]);
+        disk.Setup(value => value.Get(It.IsAny<FileData>())).ReturnsAsync([7, 8]);
         var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
         var diskManager = CreateManager(ETypeLocationSaveFiles.Disk, disk, azure);
         var diskEntity = new MedicalFile { FileName = "disk.txt", Description = "disk.txt", FilePath = Path.Combine(_temporaryDirectory, "disk.txt"), TypeLocationSaveFile = ETypeLocationSaveFiles.Disk };
@@ -81,7 +81,7 @@ public class FileManagerServiceCoverageTests
         (await diskManager.DeleteFile(diskEntity, "42")).Should().BeTrue();
 
         // Assert
-        disk.Verify(value => value.Delete(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
+        disk.Verify(value => value.Delete(It.IsAny<FileData>()), Times.Once);
 
         var azureManager = CreateManager(ETypeLocationSaveFiles.CloudStorageAzure, disk, azure);
         var cloudEntity = new MedicalFile { FileName = "cloud.txt", FileCloudContainer = "medical", FileBlobName = "42/cloud.txt", TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure };
@@ -118,7 +118,7 @@ public class FileManagerServiceCoverageTests
         {
             folder.Should().BeEmpty();
             downloaded.Should().BeSameAs(entity);
-            disk.Verify(value => value.Get(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Never);
+            disk.Verify(value => value.Get(It.IsAny<FileData>()), Times.Never);
         }
     }
 
@@ -129,7 +129,7 @@ public class FileManagerServiceCoverageTests
     {
         // Arrange
         var disk = new Mock<IFileDiskRepository>();
-        disk.Setup(d => d.Get(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync([9, 8, 7]);
+        disk.Setup(d => d.Get(It.IsAny<FileData>())).ReturnsAsync([9, 8, 7]);
         var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
         azure.Setup(a => a.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Returns(Task.CompletedTask);

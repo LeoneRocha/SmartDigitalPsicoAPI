@@ -1,7 +1,7 @@
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
+using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;

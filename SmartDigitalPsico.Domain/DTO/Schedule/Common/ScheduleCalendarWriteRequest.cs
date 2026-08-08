@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 namespace SmartDigitalPsico.Domain.DTO.Schedule.Common
 {

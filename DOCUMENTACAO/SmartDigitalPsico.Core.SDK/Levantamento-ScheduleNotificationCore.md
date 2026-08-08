@@ -115,7 +115,7 @@ Deps típicas: `IScheduleCalendarRepository`, helpers Schedule, DTOs Schedule, `
 
 | Camada | Path / tipo |
 | ------ | ----------- |
-| Entity | `Domain/ModelEntity/NotificationTemplate.cs` |
+| Entity | `Domain/EntityModels/NotificationTemplate.cs` |
 | EF | `Data/Context/Configure/Entity/NotificationTemplateConfiguration.cs` (+ seed mock) |
 | Repo / Service / Validator | `INotificationTemplateRepository`, `NotificationTemplateRepository`, `INotificationTemplateService`, `NotificationTemplateService`, `NotificationTemplateValidator` |
 | DTOs | `NotificationTemplateBaseDto`, Add/Get/Update |

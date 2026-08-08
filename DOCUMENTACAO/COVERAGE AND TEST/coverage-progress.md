@@ -22,7 +22,7 @@ Relatórios por projeto: `*/coverage/coverage.cobertura.xml`.
 | 0 | — | Fundação (tooling + este doc) | Concluída | — | — | 2026-08-03 |
 | 1 | Domain | Helpers, Security, Resiliency, AppException, Constants, Events, Mapper, Report, API | Concluída | 100% | 100% | 2026-08-03 |
 | 2 | Domain | Validation | Concluída | 100% | 100% | 2026-08-03 |
-| 3 | Domain | DTO, VO, Enums, ModelEntity, Hypermedia, DI, Contracts | Concluída | 100% | 100% | 2026-08-03 |
+| 3 | Domain | DTO, VO, Enums, EntityModels, Hypermedia, DI, Contracts | Concluída | 100% | 100% | 2026-08-03 |
 | 4 | Data | Repositories | Concluída | 100% | 100% | 2026-08-03 |
 | 5 | Data | Context / Configure / Audit | Concluída | 100% | 100% | 2026-08-03 |
 | 6 | Data | Migrations | Concluída | 100% | 100% | 2026-08-03 |
@@ -65,7 +65,7 @@ Relatórios por projeto: `*/coverage/coverage.cobertura.xml`.
 
 ### Fase 3 — Domain modelos
 - [x] DTO/, VO/, Enuns/
-- [x] ModelEntity/, TableEntityNoSQL/, Hypermedia/
+- [x] EntityModels/, TableEntityNoSQL/, Hypermedia/
 - [x] DependeciesCollection/, Contracts/
 - [x] Interfaces (N/A — sem IL)
 

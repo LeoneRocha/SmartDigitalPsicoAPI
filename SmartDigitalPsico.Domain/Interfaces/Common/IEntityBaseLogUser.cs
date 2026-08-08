@@ -1,8 +1,8 @@
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
-using UserEntity = SmartDigitalPsico.Domain.ModelEntity.User;
+using UserEntity = SmartDigitalPsico.Domain.EntityModels.User;
 
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Common
 {
