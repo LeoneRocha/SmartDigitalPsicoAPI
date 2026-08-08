@@ -13,7 +13,7 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.Mvc;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Queue;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Smtp;
-using SmartDigitalPsico.Domain.API;
+using SmartDigitalPsico.Core.SDK.API;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Service.Configure;
@@ -58,7 +58,6 @@ public class ConfigurationAndCryptoServiceTests
         services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
         services.AddSingleton(Mock.Of<IAppLogger>());
         services.AddCoreCors();
-        services.AddScoped<LanguageActionFilterAttribute>();
         services.AddCoreRequestLocalization();
         ServicesDomainAudit.AddDependencies(services);
         RegisterAuditSupportServices(services);

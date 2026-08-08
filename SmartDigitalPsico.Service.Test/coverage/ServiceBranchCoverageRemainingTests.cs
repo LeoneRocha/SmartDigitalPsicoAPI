@@ -1108,7 +1108,7 @@ public class ServiceBranchCoverageRemainingTests
             shared.SharedRepositories,
             repository.Object,
             Mock.Of<IValidator<MedicalFile>>(),
-            Mock.Of<IFileManager>());
+            Mock.Of<IFileManagerService>());
 
         // Act
         var result = await service.FindByID(8);

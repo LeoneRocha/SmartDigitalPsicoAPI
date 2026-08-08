@@ -2,7 +2,9 @@ using SmartDigitalPsico.Service.Infrastructure.Notification;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
+using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
+using SmartDigitalPsico.Service.Infrastructure.FileManager;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
@@ -35,6 +37,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             // Bridge host: Core CacheService + ApplicationCacheLog (auditoria de produto).
             services.AddScoped<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService, SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService>();
             services.AddScoped<INotificationPlatformServiceFactory, NotificationPlatformServiceFactory>();
+            services.AddScoped<IFileManagerService, FileManagerService>();
 
             // Schedule Core — write / read / conflict (CQRS-ready)
             services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleConflictService, SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict.ScheduleConflictService>();
@@ -74,7 +77,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
                 typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.ITokenService),
                 typeof(IAuditContextService),
                 typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService),
-                typeof(INotificationPlatformServiceFactory)
+                typeof(INotificationPlatformServiceFactory),
+                typeof(IFileManagerService)
             }; 
             ignoredInterfaces.AddRange(SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.GetRegisteredInterfaces(services));
 

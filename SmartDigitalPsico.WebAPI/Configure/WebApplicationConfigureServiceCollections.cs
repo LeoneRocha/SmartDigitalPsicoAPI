@@ -8,7 +8,6 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.Logging;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Mapping;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Mvc;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
-using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Mapper;
@@ -53,7 +52,6 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             services.AddCoreLogging(_logger);
 
-            services.AddScoped<LanguageActionFilterAttribute>();
             services.AddCoreRequestLocalization();
 
             services.AddCoreEndpointsApiExplorer();

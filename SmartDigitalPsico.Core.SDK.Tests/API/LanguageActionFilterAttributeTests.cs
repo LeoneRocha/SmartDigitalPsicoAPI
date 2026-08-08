@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using Moq;
+using SmartDigitalPsico.Core.SDK.API;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using SmartDigitalPsico.Domain.API;
 using System.Globalization;
 
-namespace SmartDigitalPsico.Domain.Test.API;
+namespace SmartDigitalPsico.Core.SDK.Tests.API;
 
 [TestFixture]
 public class LanguageActionFilterAttributeTests

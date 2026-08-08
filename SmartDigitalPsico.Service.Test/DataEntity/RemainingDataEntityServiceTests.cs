@@ -63,8 +63,8 @@ public class RemainingDataEntityServiceTests
             new PatientMedicationInformationService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientMedicationInformationRepository>(), Mock.Of<IValidator<PatientMedicationInformation>>()),
             new PatientHospitalizationInformationService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientHospitalizationInformationRepository>(), Mock.Of<IValidator<PatientHospitalizationInformation>>()),
             new PatientAdditionalInformationService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientAdditionalInformationRepository>(), Mock.Of<IUserRepository>(), Mock.Of<IValidator<PatientAdditionalInformation>>()),
-            new MedicalFileService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IMedicalFileRepository>(), Mock.Of<IValidator<MedicalFile>>(), Mock.Of<IFileManager>()),
-            new PatientFileService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientFileRepository>(), Mock.Of<IValidator<PatientFile>>(), Mock.Of<IFileManager>(), Mock.Of<IPatientRepository>())
+            new MedicalFileService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IMedicalFileRepository>(), Mock.Of<IValidator<MedicalFile>>(), Mock.Of<IFileManagerService>()),
+            new PatientFileService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientFileRepository>(), Mock.Of<IValidator<PatientFile>>(), Mock.Of<IFileManagerService>(), Mock.Of<IPatientRepository>())
         };
 
         // Assert

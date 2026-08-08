@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     public class PatientFileService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<PatientFile, GetPatientFileDto>, IPatientFileService
 
     {
-        private readonly IFileManager _filePersistor;
+        private readonly IFileManagerService _filePersistor;
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             ISharedRepositories sharedRepositories,
             IPatientFileRepository entityRepository,           
             IValidator<PatientFile> entityValidator,
-            IFileManager filePersistor,
+            IFileManagerService filePersistor,
             IPatientRepository patientRepository
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)

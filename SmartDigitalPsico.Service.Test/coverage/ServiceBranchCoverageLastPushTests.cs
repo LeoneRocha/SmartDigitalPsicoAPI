@@ -18,6 +18,7 @@ using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
@@ -295,7 +296,7 @@ public class ServiceBranchCoverageLastPushTests
             shared.SharedRepositories,
             repository.Object,
             Mock.Of<IValidator<MedicalFile>>(),
-            Mock.Of<IFileManager>());
+            Mock.Of<IFileManagerService>());
 
         // Act
         var result = await service.FindByID(8);
@@ -805,7 +806,7 @@ public class ServiceBranchCoverageLastPushTests
                 shared.SharedRepositories,
                 repository.Object,
                 Mock.Of<IValidator<MedicalFile>>(),
-                Mock.Of<IFileManager>());
+                Mock.Of<IFileManagerService>());
             return await service.FindByID(1);
         }
 

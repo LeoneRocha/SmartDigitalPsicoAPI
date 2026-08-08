@@ -2,6 +2,7 @@ using FluentValidation;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientFile;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.Test.TestSupport;
@@ -218,7 +219,7 @@ public class PatientFileServiceTests
         public ServiceTestContext Context { get; } = new();
         public Mock<IPatientFileRepository> Repository { get; } = new();
         public Mock<IValidator<PatientFile>> Validator { get; } = new();
-        public Mock<IFileManager> FilePersistor { get; } = new();
+        public Mock<IFileManagerService> FilePersistor { get; } = new();
         public Mock<IPatientRepository> PatientRepository { get; } = new();
         public PatientFileService Service { get; }
 

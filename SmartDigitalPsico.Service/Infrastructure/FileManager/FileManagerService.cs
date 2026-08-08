@@ -1,30 +1,27 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
+using SmartDigitalPsico.Domain.Interfaces.Service;
 using FileData = SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData;
 
-namespace SmartDigitalPsico.Data.Repository.FileManager
+namespace SmartDigitalPsico.Service.Infrastructure.FileManager
 {
     /// <summary>
-    /// Classe responsável por FileManager.
-    /// Responsabilidade: repositório de persistência.
-    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// Serviço de arquivos: orquestra disco, banco e Azure Blob.
     /// </summary>
-    public class FileManager : IFileManager
+    public class FileManagerService : IFileManagerService
     {
         private readonly IConfiguration _configuration;
         private readonly ILocationSaveFileConfigurationDto _locationSaveFileConfigurationVO;
         private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository _repositoryFileDisk;
         private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter _storageClientAdapter;
 
-        /// <summary>
-        /// Operação FileManager: executa a operação FileManager.
-        /// </summary>
-        public FileManager(IConfiguration configuration
-            , ILocationSaveFileConfigurationDto locationSaveFileConfigurationVO
-            , SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository repositoryFileDisk, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter storageClientAdapter)
+        public FileManagerService(
+            IConfiguration configuration,
+            ILocationSaveFileConfigurationDto locationSaveFileConfigurationVO,
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository repositoryFileDisk,
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter storageClientAdapter)
         {
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO;
             _repositoryFileDisk = repositoryFileDisk;

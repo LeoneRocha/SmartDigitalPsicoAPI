@@ -3,7 +3,6 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using System.Linq.Expressions;
 using System.Reflection;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Query;
@@ -15,7 +14,6 @@ using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure;
-using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Repository.Schedule;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
@@ -163,39 +161,6 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // Cenário: download Azure com Get do disco retornando null.
-    // Objetivo: cobrir ramo restante de DownloadFileById com FileData vazio.
-    [Test]
-    public async Task FileManager_GetFromDiskNullAndExistingDirectory_CoversRemainingBranches()
-    {
-        // Arrange
-        var disk = new Mock<IFileDiskRepository>();
-        disk.Setup(r => r.Get(It.IsAny<FileData>())).ReturnsAsync((byte[]?)null);
-        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
-        var configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = _temporaryDirectory })
-            .Build();
-        var manager = new FileManager(configuration, new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
-        azure.Setup(a => a.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .Returns(Task.CompletedTask);
-        var entity = new MedicalFile
-        {
-            FileName = "dl.txt",
-            Description = "dl.txt",
-            FileCloudContainer = "c",
-            FileBlobName = "b",
-            TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure
-        };
-
-        // Act
-        var downloaded = await manager.DownloadFileById(entity, "1");
-
-        // Assert
-        downloaded!.FileData.Should().BeEmpty();
-    }
-
-    // Cenário: JSON curto e propriedade não relacionada a Schedule.
-    // Objetivo: cobrir TruncateAuditJson, SanitizeAuditValue e GetExistingEntries.
     [Test]
     public void AuditContextService_ShortJsonAndNonScheduleProperty_CoversSanitizeBranches()
     {
@@ -271,47 +236,6 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // Cenário: PersistFile em Azure e DownloadFileById com disco preenchido.
-    // Objetivo: cobrir coalescência nula nos ramos de save e download cloud.
-    [Test]
-    public async Task FileManager_SaveAndCloudDownloadBranches_CoverNullCoalescing()
-    {
-        // Arrange
-        var disk = new Mock<IFileDiskRepository>();
-        disk.Setup(d => d.Save(It.IsAny<FileData>())).ReturnsAsync(true);
-        disk.Setup(d => d.Get(It.IsAny<FileData>())).ReturnsAsync([1, 2]);
-        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
-        azure.Setup(a => a.UploadFileReturnUrl(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.BlobFileDto>())).ReturnsAsync("https://blob/file");
-        azure.Setup(a => a.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
-        var configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = _temporaryDirectory })
-            .Build();
-        var cloudManager = new FileManager(configuration, new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
-        var file = new FormFile(new MemoryStream([1, 2, 3]), 0, 3, "file", "upload.txt");
-        var entity = new MedicalFile();
-
-        // Act
-        await cloudManager.PersistFile(file, entity, "medical", "42");
-        var downloaded = await cloudManager.DownloadFileById(new MedicalFile
-        {
-            FileName = "fresh.txt",
-            Description = "fresh.txt",
-            FileCloudContainer = "medical",
-            FileBlobName = "42/fresh.txt",
-            TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure
-        }, "42");
-
-        // Assert
-        using (Assert.EnterMultipleScope())
-        {
-            entity.TypeLocationSaveFile.Should().Be(ETypeLocationSaveFiles.CloudStorageAzure);
-            downloaded!.FileData.Should().Equal(1, 2);
-            disk.Verify(d => d.Save(It.IsAny<FileData>()), Times.Once);
-        }
-    }
-
-    // Cenário: Get por caminho combinado/direto e Delete de arquivo direto.
-    // Objetivo: cobrir todos os ramos de combinação de path e exclusão.
     [Test]
     public async Task FileDiskRepository_PathCombinationAndDeleteBranches_CoverAllPaths()
     {
@@ -673,70 +597,6 @@ public class RemainingDataCoverageTests : BaseTests
         result.Id.Should().Be(0);
     }
 
-    // Cenário: download de arquivo em banco e Azure (temp existente e novo).
-    // Objetivo: cobrir DownloadFileById nos destinos DataBase e CloudStorageAzure.
-    [Test]
-    public async Task FileManager_DownloadsDatabaseAndAzureFiles()
-    {
-        // Arrange
-        var disk = new Mock<IFileDiskRepository>();
-        disk.Setup(value => value.Get(It.IsAny<FileData>())).ReturnsAsync([1, 2, 3]);
-        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
-        azure.Setup(value => value.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .Returns(async (string _, string __, string path) =>
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-                await File.WriteAllBytesAsync(path, [1, 2, 3]);
-            });
-
-        var configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = _temporaryDirectory })
-            .Build();
-        var databaseManager = new FileManager(configuration, new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.DataBase }, disk.Object, azure.Object);
-        var azureManager = new FileManager(configuration, new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
-
-        var databaseEntity = new MedicalFile
-        {
-            FileName = "db.txt",
-            FileData = [4, 5],
-            TypeLocationSaveFile = ETypeLocationSaveFiles.DataBase
-        };
-
-        // Act
-        (await databaseManager.DownloadFileById(databaseEntity, "42"))!.FileName.Should().Be("db.txt");
-
-        var existingDownloadPath = Path.Combine(_temporaryDirectory, "ResourcesFileSave", "medical", "42", "temp", "cloud.txt");
-        Directory.CreateDirectory(Path.GetDirectoryName(existingDownloadPath)!);
-        await File.WriteAllBytesAsync(existingDownloadPath, [9]);
-        var existingTemp = Path.Combine(_temporaryDirectory, "cloud.txt");
-        await File.WriteAllBytesAsync(existingTemp, [8]);
-
-        var cloudEntity = new MedicalFile
-        {
-            FileName = "cloud.txt",
-            Description = "cloud.txt",
-            FileCloudContainer = "medical",
-            FileBlobName = "42/cloud.txt",
-            TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure
-        };
-        (await azureManager.DownloadFileById(cloudEntity, "42"))!.FileData.Should().Equal(1, 2, 3);
-
-        var freshCloud = new MedicalFile
-        {
-            FileName = "fresh-cloud.txt",
-            Description = "fresh-cloud.txt",
-            FileCloudContainer = "medical",
-            FileBlobName = "99/fresh-cloud.txt",
-            TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure
-        };
-        (await azureManager.DownloadFileById(freshCloud, "99"))!.FileData.Should().Equal(1, 2, 3);
-
-        // Assert
-        azure.Verify(value => value.DownloadFile("medical", It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
-    }
-
-    // Cenário: interceptor com entradas novas, vazias e caminho Log alternativo.
-    // Objetivo: persistir auditoria e cobrir SaveChanges síncrono/assíncrono.
     [Test]
     public async Task AuditInterceptor_PersistsNewEntriesAndAlternateServicePath()
     {

@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Repository;
-using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using System.Reflection;
 
@@ -16,7 +15,6 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         public static void AddDependencies(IServiceCollection services)
         {
             services.AddCoreCacheAndStorageRepositories();
-            services.AddScoped<IFileManager, FileManager>();
             RegisterRepositories(services);
         }
 
@@ -34,7 +32,6 @@ namespace SmartDigitalPsico.Service.Configure.Domain
                 typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository),
                 typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository),
                 typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository),
-                typeof(IFileManager),
                 typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter),
                 typeof(IUserTokenSessionRepository)
             };
