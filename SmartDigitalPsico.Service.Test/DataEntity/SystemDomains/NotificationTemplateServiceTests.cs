@@ -17,11 +17,11 @@ using SmartDigitalPsico.Domain.DTO.Specialty.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
 
 [TestFixture]

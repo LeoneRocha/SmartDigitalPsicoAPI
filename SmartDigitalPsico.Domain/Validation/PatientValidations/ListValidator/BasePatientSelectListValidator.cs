@@ -1,9 +1,10 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.User;
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator
 {
     /// <summary>

@@ -1,9 +1,9 @@
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.Schedule;
 
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Domain.Test.Validation;
 
 [TestFixture]

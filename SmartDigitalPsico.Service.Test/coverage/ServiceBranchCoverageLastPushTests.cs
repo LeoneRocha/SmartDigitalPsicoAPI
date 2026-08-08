@@ -25,11 +25,6 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
 using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
@@ -52,6 +47,11 @@ using SmartDigitalPsico.Domain.DTO.Notification.ADD;
 using SmartDigitalPsico.Domain.DTO.Application.ADD;
 using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Coverage;
 
 [TestFixture]

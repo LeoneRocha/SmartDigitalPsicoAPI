@@ -9,11 +9,6 @@ using SmartDigitalPsico.Domain.DTO.Notification.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.Validation.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
@@ -36,6 +31,13 @@ using SmartDigitalPsico.Domain.DTO.Application.ADD;
 using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Coverage;
 
 [TestFixture]
@@ -581,7 +583,7 @@ public class ServiceBranchCoverageFinalTests
         var notificationRecords = new Mock<INotificationRecordsService>();
         var medicalNotify = new Mock<IMedicalCalenderNotificationService>();
         var scheduleRepo = new Mock<IScheduleCalendarRepository>();
-        var patientRepos = new Mock<SmartDigitalPsico.Domain.Interfaces.Collection.IPatientRepositories>();
+        var patientRepos = new Mock<SmartDigitalPsico.Domain.Interfaces.Patient.IPatientRepositories>();
         var patientRepo = new Mock<IPatientRepository>();
         patientRepos.SetupGet(x => x.PatientRepository).Returns(patientRepo.Object);
         patientRepo
@@ -718,9 +720,9 @@ public class ServiceBranchCoverageFinalTests
         public string? CreateMessage { get; set; }
 
         public ControllableAuditService(
-            Domain.Interfaces.Collection.ISharedServices sharedServices,
-            Domain.Interfaces.Collection.ISharedDependenciesConfig sharedDependenciesConfig,
-            Domain.Interfaces.Collection.ISharedRepositories sharedRepositories,
+            Domain.Interfaces.Common.ISharedServices sharedServices,
+            Domain.Interfaces.Common.ISharedDependenciesConfig sharedDependenciesConfig,
+            Domain.Interfaces.Common.ISharedRepositories sharedRepositories,
             IAuditDataSelectiveEntityLogRepository entityRepository,
             IValidator<AuditDataSelectiveEntityLog> entityValidator)
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)

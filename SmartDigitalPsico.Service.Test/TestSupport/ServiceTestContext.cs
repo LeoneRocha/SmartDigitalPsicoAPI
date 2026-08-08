@@ -4,14 +4,13 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Infrastructure.Mapping;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Mapper;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
+using SmartDigitalPsico.Domain.Interfaces.User;
 namespace SmartDigitalPsico.Service.Test.TestSupport;
 
 /// <summary>

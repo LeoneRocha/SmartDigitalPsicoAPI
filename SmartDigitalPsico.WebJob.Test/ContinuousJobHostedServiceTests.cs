@@ -1,8 +1,8 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.WebJob.Test;
 
 [TestFixture]

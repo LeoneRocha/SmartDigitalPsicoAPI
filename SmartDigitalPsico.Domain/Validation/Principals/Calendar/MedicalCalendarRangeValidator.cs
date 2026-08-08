@@ -1,9 +1,9 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Helpers.Medical;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Schedule;
 
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
 {
     /// <summary>

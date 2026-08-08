@@ -1,6 +1,6 @@
-using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service.Infrastructure.Notification
 {
     /// <summary>

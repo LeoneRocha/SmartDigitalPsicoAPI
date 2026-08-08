@@ -20,12 +20,12 @@ using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Notification.Common;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
 
 [TestFixture]

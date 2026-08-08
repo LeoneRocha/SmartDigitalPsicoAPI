@@ -7,8 +7,10 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Smtp;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Domain.DependeciesCollection;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
     /// <summary>

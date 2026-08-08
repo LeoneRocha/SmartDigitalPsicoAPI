@@ -1,7 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.Hypermedia.Enricher.Domains;
-using SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals;
-using SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient;
+using SmartDigitalPsico.Domain.Hypermedia.Enricher.Application;
+using SmartDigitalPsico.Domain.Hypermedia.Enricher.Gender;
+using SmartDigitalPsico.Domain.Hypermedia.Enricher.Office;
+using SmartDigitalPsico.Domain.Hypermedia.Enricher.RoleGroup;
+using SmartDigitalPsico.Domain.Hypermedia.Enricher.Specialty;
+using SmartDigitalPsico.Domain.Hypermedia.Enricher.Medical;
+using SmartDigitalPsico.Domain.Hypermedia.Enricher.User;
+using SmartDigitalPsico.Domain.Hypermedia.Enricher.Patient;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {

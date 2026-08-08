@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service.Infrastructure.Report
 {
     /// <summary>

@@ -1,9 +1,9 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Azure;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service.Infrastructure.Authentication
 {
     /// <summary>

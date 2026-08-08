@@ -1,10 +1,10 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Domain.Validation.DTO
 {
     /// <summary>

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
 using SmartDigitalPsico.Domain.DTO.Office.GET;
@@ -30,6 +29,7 @@ using SmartDigitalPsico.Domain.DTO.Notification.ADD;
 using SmartDigitalPsico.Domain.DTO.Application.ADD;
 using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
+using SmartDigitalPsico.Domain.Interfaces.Leaves;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {
     [ApiController]

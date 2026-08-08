@@ -11,10 +11,9 @@ using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {
     [ApiController]

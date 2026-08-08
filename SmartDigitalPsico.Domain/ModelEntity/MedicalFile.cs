@@ -1,6 +1,7 @@
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
     /// <summary>

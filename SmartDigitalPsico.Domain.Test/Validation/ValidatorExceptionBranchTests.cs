@@ -1,11 +1,13 @@
 using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.Principals;
 using SmartDigitalPsico.Domain.Validation.SystemDomains;
 using System.Reflection;
 
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.User;
 namespace SmartDigitalPsico.Domain.Test.Validation;
 
 [TestFixture]

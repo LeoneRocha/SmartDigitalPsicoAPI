@@ -1,11 +1,11 @@
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 {
     /// <summary>

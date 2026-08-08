@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.Helpers.Medical;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 {
     /// <summary>

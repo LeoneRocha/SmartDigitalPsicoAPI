@@ -3,12 +3,14 @@ using Moq;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
 
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical.Actions;
 
 [TestFixture]
@@ -203,10 +205,10 @@ public class MedicalScheduleAppointmentServiceTests
         public Mock<IScheduleUpdateService> UpdateService { get; } = new();
         public Mock<IScheduleAppointmentQueryService> AppointmentQuery { get; } = new();
 
-        public Mock<Domain.Interfaces.Repository.IMedicalRepository> MedicalRepository => Shared.MedicalRepository;
+        public Mock<Domain.Interfaces.Medical.IMedicalRepository> MedicalRepository => Shared.MedicalRepository;
         public Mock<FluentValidation.IValidator<ScheduleCriteriaDto>> ScheduleCriteriaDtoValidator => Shared.ScheduleCriteriaDtoValidator;
         public Mock<FluentValidation.IValidator<AppointmentCriteriaDto>> AppointmentCriteriaDtoValidator => Shared.AppointmentCriteriaDtoValidator;
-        public Mock<Domain.Interfaces.Repository.INotificationRecordsRepository> NotificationRecordsRepository => Shared.NotificationRecordsRepository;
+        public Mock<Domain.Interfaces.Notification.INotificationRecordsRepository> NotificationRecordsRepository => Shared.NotificationRecordsRepository;
 
         public MedicalScheduleAppointmentService Service { get; }
 

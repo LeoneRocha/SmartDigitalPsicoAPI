@@ -1,8 +1,8 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service.DataEntity.Generic
 {
     /// <summary>
@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
 
         protected override async Task<string> GetLocalization(string key, string defaultMenssage)
         {
-            return await _applicationLanguageService.Value.GetLocalization<SmartDigitalPsico.Domain.Interfaces.ISharedResource>(key, defaultMenssage, _cacheService);
+            return await _applicationLanguageService.Value.GetLocalization<SmartDigitalPsico.Domain.Interfaces.Common.ISharedResource>(key, defaultMenssage, _cacheService);
         }
     }
 }

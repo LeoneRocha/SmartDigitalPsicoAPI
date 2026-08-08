@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.ModelEntity;
 
+using SmartDigitalPsico.Domain.Interfaces.Audit;
 namespace SmartDigitalPsico.Data.Audit
 {
     /// <summary>

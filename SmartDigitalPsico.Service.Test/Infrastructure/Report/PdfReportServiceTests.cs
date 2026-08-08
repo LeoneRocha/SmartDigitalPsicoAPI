@@ -2,9 +2,9 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Service.Infrastructure.Report;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Report;
 
 [TestFixture]

@@ -23,7 +23,6 @@ using SmartDigitalPsico.Domain.DTO.Medical.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.Common;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
@@ -31,6 +30,8 @@ using SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains;
 using SmartDigitalPsico.WebAPI.Configure;
 using System.Reflection;
 
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Specialty;
 namespace SmartDigitalPsico.WebAPI.Test;
 
 [TestFixture]

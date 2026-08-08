@@ -1,8 +1,8 @@
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
     /// <summary>

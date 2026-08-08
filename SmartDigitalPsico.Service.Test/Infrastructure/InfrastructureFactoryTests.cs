@@ -4,6 +4,8 @@ using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Service.Infrastructure.Notification;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
 
 [TestFixture]
@@ -191,7 +193,7 @@ public class InfrastructureFactoryTests
         // Arrange
         var services = new ServiceCollection();
         services.AddSingleton(new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
-        services.AddSingleton(Mock.Of<SmartDigitalPsico.Domain.Interfaces.Repository.IUserTokenSessionRepository>());
+        services.AddSingleton(Mock.Of<SmartDigitalPsico.Domain.Interfaces.Common.IUserTokenSessionRepository>());
         services.AddSingleton(Mock.Of<IAppMapper>());
         services.AddSingleton(Mock.Of<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>>());
         using var provider = services.BuildServiceProvider();

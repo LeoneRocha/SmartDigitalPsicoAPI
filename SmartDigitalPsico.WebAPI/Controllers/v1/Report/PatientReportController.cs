@@ -4,9 +4,9 @@ using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Report.Entity;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
+using SmartDigitalPsico.Domain.Interfaces.Patient;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
 {
     [ApiController]

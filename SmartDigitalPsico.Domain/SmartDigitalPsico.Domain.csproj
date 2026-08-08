@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTO\Domains\**" />
+    <EmbeddedResource Remove="DTO\Domains\**" />
+    <None Remove="DTO\Domains\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="SmartDigitalPsico.Domain.Test" />
   </ItemGroup>
   
@@ -37,7 +43,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="DTO\Domains\AddDTOs\" />
     <Folder Include="Smtp\" />
   </ItemGroup>
   

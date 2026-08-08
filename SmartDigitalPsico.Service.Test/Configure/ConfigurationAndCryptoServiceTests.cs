@@ -19,6 +19,8 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Service.Configure;
 using SmartDigitalPsico.Service.Configure.Domain;
 
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.User;
 namespace SmartDigitalPsico.Service.Test.Configure;
 
 [TestFixture]
@@ -35,8 +37,8 @@ public class ConfigurationAndCryptoServiceTests
         ServicesDomainService.AddDependenciesAuto(services);
 
         services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService));
-        services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleUpdateService));
-        services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Service.IUserService));
+        services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleUpdateService));
+        services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.User.IUserService));
     }
 
     // Cenário: lambdas de ORM, CORS, Localization, NoSql e Queue são executadas.

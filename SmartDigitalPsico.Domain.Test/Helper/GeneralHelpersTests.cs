@@ -3,6 +3,8 @@ using Microsoft.Extensions.Localization;
 using Moq;
 using SmartDigitalPsico.Domain.Helpers;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Domain.Test.Helper;
 
 [TestFixture]
@@ -296,13 +298,13 @@ public class GeneralHelpersTests
     public void SharedServices_RegisteredAndMissingServices_ResolvesOrThrows()
     {
         // Arrange
-        var language = new Mock<SmartDigitalPsico.Domain.Interfaces.Service.IApplicationLanguageService>().Object;
+        var language = new Mock<SmartDigitalPsico.Domain.Interfaces.Application.IApplicationLanguageService>().Object;
         var sender = new Mock<SmartDigitalPsico.Domain.Interfaces.Notification.ISendNotificationService>().Object;
-        var template = new Mock<SmartDigitalPsico.Domain.Interfaces.Service.INotificationTemplateService>().Object;
+        var template = new Mock<SmartDigitalPsico.Domain.Interfaces.Notification.INotificationTemplateService>().Object;
         var provider = new Mock<IServiceProvider>();
-        provider.Setup(x => x.GetService(typeof(SmartDigitalPsico.Domain.Interfaces.Service.IApplicationLanguageService))).Returns(language);
+        provider.Setup(x => x.GetService(typeof(SmartDigitalPsico.Domain.Interfaces.Application.IApplicationLanguageService))).Returns(language);
         provider.Setup(x => x.GetService(typeof(SmartDigitalPsico.Domain.Interfaces.Notification.ISendNotificationService))).Returns(sender);
-        provider.Setup(x => x.GetService(typeof(SmartDigitalPsico.Domain.Interfaces.Service.INotificationTemplateService))).Returns(template);
+        provider.Setup(x => x.GetService(typeof(SmartDigitalPsico.Domain.Interfaces.Notification.INotificationTemplateService))).Returns(template);
         var services = new SmartDigitalPsico.Domain.DependeciesCollection.SharedServices(
             new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService>().Object,
             new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService>().Object,

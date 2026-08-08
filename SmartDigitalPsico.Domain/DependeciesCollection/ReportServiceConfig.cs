@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Interfaces.Collection;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {

@@ -2,8 +2,8 @@ using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
     /// <summary>

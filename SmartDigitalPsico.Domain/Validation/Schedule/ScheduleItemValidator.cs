@@ -1,7 +1,7 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
+using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
 {
     /// <summary>

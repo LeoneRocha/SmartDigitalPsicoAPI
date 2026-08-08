@@ -2,8 +2,8 @@ using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.WindowsService.Test;
 
 [TestFixture]

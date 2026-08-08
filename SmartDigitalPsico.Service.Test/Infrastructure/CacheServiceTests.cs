@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
 
 [TestFixture]

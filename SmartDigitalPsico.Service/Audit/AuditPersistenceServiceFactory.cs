@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Audit;
 
+using SmartDigitalPsico.Domain.Interfaces.Audit;
 namespace SmartDigitalPsico.Service.Audit
 {
     /// <summary>

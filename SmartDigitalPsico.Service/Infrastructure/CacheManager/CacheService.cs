@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
 namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
 {
     /// <summary>

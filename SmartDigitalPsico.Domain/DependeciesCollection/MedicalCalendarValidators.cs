@@ -1,9 +1,9 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.ModelEntity;
 
+using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
     /// <summary>

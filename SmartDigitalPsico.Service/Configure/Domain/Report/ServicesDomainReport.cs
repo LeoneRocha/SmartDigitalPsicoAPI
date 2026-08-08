@@ -1,11 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Report;
 using SmartDigitalPsico.Domain.DependeciesCollection;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Service.Infrastructure.Report;
 using SmartDigitalPsico.Service.Report.Entity;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
     /// <summary>

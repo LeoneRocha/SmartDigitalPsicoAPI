@@ -7,13 +7,13 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
 using SmartDigitalPsico.Domain.DTO.Common;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
 
 [TestFixture]

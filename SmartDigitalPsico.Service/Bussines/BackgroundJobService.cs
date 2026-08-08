@@ -1,7 +1,7 @@
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service.Bussines
 {
     /// <summary>

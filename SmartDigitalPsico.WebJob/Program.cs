@@ -1,8 +1,8 @@
 using Serilog;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.WebJob.Configure;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.WebJob
 {
     public static class Program

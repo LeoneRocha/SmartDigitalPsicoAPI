@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using FileData = SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service.Infrastructure.FileManager
 {
     /// <summary>
