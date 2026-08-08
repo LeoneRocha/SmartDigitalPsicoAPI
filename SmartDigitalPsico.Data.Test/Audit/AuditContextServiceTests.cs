@@ -2,8 +2,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 using SmartDigitalPsico.Data.Audit;
-using SmartDigitalPsico.Data.Repository.CacheManager;
-using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Data.Test.Configure;
 

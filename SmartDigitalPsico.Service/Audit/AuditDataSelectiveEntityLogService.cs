@@ -1,18 +1,12 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.Generic;
-
-using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {

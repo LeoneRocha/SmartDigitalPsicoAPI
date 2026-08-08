@@ -1,12 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Service.Infrastructure.Notification;
-using SmartDigitalPsico.Service.Infrastructure.Report;
-using SmartDigitalPsico.Service.Infrastructure.Smtp;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
 

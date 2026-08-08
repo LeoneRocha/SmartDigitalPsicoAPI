@@ -1,13 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Moq;
 using SmartDigitalPsico.Core.SDK.API;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.ModelEntity;
-using System.Globalization;
 using System.Security.Claims;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.API;

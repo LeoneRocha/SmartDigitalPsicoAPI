@@ -1,7 +1,5 @@
 using SmartDigitalPsico.Domain.DTO.Patient;
 using SmartDigitalPsico.Domain.DTO.User;
-using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
 

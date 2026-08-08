@@ -6,7 +6,6 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Mapper;
 using SmartDigitalPsico.Domain.Resiliency;

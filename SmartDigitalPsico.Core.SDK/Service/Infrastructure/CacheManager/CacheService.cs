@@ -1,9 +1,7 @@
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
-using SmartDigitalPsico.Core.SDK.Domain.ModelEntity;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using System.Globalization;
 using System.Reflection;

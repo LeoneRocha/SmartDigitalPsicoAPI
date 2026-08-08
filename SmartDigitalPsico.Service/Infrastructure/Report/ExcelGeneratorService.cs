@@ -1,8 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.DTO.Report;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Report
 {

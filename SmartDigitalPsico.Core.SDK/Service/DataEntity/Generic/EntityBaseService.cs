@@ -1,12 +1,8 @@
 using AutoMapper;
 using FluentValidation;
-using FluentValidation.Results;
-using Serilog;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;

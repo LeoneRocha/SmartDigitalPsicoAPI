@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Data.Repository.Generic;
 using SmartDigitalPsico.Data.Repository.Schedule;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Domain.ModelEntity;

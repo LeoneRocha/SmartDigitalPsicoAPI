@@ -1,8 +1,6 @@
 using System.Collections.Concurrent;
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;

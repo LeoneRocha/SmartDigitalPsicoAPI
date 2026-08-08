@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 

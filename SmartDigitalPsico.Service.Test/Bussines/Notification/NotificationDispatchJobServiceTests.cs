@@ -1,4 +1,3 @@
-using AwesomeAssertions;
 using Moq;
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;

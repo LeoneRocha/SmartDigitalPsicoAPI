@@ -1,10 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Serilog;
-using SmartDigitalPsico.Domain.DTO.Report;
-using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Service.Infrastructure.Report;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Report;

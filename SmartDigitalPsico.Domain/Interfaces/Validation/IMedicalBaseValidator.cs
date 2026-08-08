@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Validation
 {
     /// <summary>

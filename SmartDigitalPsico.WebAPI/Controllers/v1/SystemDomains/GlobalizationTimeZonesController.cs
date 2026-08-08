@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.DTO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {

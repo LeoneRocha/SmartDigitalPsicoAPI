@@ -1,7 +1,4 @@
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 

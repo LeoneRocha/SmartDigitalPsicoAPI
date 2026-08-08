@@ -3,7 +3,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using Serilog;
-using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
@@ -13,8 +12,6 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Resiliency;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Generic;

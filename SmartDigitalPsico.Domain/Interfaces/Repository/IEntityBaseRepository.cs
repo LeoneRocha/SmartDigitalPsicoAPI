@@ -1,5 +1,3 @@
-using IEntityBase = SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {
     /// <summary>

@@ -2,7 +2,6 @@ using AutoMapper;
 using FluentValidation;
 using Moq;
 using Serilog;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;

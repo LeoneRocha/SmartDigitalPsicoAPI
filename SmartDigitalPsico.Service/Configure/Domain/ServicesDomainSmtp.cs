@@ -1,7 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Notification;
 using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp;
 
 namespace SmartDigitalPsico.Service.Configure.Domain

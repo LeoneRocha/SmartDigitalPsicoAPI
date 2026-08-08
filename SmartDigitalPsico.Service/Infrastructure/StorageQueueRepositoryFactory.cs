@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {

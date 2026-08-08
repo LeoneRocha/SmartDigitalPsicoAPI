@@ -1,6 +1,5 @@
 
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 
 namespace SmartDigitalPsico.Domain.Test.Helper;
 

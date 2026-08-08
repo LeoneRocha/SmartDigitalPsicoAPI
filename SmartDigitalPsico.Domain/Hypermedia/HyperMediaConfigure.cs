@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Hypermedia.Enricher.Domains;
 using SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals;
 using SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {

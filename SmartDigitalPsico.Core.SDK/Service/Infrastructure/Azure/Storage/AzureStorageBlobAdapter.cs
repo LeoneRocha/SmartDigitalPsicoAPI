@@ -3,9 +3,7 @@ using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Core.SDK.Domain.DTO;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.Core.SDK.Domain.Security;
 
 namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage
 {

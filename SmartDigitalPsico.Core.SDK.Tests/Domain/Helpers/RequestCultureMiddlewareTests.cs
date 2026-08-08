@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Http;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using System.Globalization;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Helpers;

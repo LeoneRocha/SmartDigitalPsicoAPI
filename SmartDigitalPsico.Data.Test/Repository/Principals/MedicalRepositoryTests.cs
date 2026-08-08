@@ -4,7 +4,6 @@ using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {

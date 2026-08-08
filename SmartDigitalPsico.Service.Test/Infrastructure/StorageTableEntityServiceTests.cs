@@ -1,9 +1,4 @@
 using Moq;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Service.Infrastructure;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
 

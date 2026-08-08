@@ -1,6 +1,4 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 using System.Text.RegularExpressions;
 

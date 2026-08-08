@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace SmartDigitalPsico.Domain.DTO.Contracts
 {
     /// <summary>

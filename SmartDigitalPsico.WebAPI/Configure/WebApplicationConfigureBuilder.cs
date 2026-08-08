@@ -8,7 +8,6 @@ using Serilog.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {

@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.WebJob;
 
 namespace SmartDigitalPsico.WebJob.Test;
 

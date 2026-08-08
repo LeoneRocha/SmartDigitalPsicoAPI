@@ -1,5 +1,4 @@
 using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
-using SmartDigitalPsico.Data.Repository.FileManager;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 

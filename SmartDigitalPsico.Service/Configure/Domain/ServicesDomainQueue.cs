@@ -1,7 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.Service.Infrastructure;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {

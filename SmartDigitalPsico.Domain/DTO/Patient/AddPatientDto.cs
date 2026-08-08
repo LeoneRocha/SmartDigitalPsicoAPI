@@ -1,7 +1,4 @@
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.DTO.Contracts;
-using System.ComponentModel.DataAnnotations;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient
 {

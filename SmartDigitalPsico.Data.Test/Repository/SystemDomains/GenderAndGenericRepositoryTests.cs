@@ -6,7 +6,6 @@ using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
 using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains

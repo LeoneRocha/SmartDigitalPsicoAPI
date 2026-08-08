@@ -1,6 +1,3 @@
-using System;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
     [Obsolete("Use SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.IEntityBaseService instead.")]

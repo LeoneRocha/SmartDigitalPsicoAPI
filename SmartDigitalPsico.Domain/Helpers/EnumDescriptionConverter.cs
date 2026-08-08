@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 namespace SmartDigitalPsico.Domain.Helpers
 {
     /// <summary>

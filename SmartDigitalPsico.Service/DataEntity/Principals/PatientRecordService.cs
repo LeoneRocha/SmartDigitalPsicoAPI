@@ -1,14 +1,10 @@
 using Azure;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
@@ -16,8 +12,6 @@ using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.Generic;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {

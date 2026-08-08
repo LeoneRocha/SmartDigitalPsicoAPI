@@ -1,7 +1,5 @@
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using SmartDigitalPsico.Domain.DTO.Report;
-using SmartDigitalPsico.Domain.Report;
 
 namespace SmartDigitalPsico.Domain.Test.Report;
 

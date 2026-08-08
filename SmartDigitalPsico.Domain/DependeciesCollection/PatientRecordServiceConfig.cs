@@ -1,6 +1,5 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 

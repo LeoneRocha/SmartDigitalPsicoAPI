@@ -1,10 +1,6 @@
-using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
 

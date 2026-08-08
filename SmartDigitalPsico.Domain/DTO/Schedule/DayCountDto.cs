@@ -1,5 +1,3 @@
-using System;
-
 namespace SmartDigitalPsico.Domain.DTO.Schedule
 {
     /// <summary>

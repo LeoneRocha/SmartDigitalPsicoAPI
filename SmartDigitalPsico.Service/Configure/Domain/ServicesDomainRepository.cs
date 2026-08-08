@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Configure.Domain

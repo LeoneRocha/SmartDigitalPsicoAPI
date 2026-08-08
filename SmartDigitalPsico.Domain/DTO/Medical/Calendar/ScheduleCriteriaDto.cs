@@ -1,6 +1,5 @@
 using AutoMapper.Configuration.Annotations;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using System.Text.Json.Serialization;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar

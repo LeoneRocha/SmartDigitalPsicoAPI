@@ -1,13 +1,8 @@
 using SmartDigitalPsico.Service.Infrastructure.Notification;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Audit.Interface;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Security;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Service.Infrastructure.CacheManager;
-using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Notification;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Configure.Domain

@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants;
-using System.Text;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient

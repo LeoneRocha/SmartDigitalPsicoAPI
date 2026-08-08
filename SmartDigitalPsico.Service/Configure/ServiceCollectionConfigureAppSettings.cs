@@ -2,13 +2,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.Resiliency;
 

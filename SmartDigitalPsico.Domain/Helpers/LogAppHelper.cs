@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.DTO;
-using SmartDigitalPsico.Core.SDK.Domain.DTO;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;

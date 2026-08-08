@@ -1,8 +1,3 @@
-using SmartDigitalPsico.Domain.DTO.Report;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Report;
-
 namespace SmartDigitalPsico.Domain.Test.Report;
 
 [TestFixture]

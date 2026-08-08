@@ -1,7 +1,4 @@
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service

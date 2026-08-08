@@ -7,7 +7,6 @@ using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.DTO;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 
 namespace SmartDigitalPsico.Service.Test.TestSupport;

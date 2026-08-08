@@ -10,10 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
-using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO;
-using SmartDigitalPsico.Core.SDK.Domain.DTO;
 using SmartDigitalPsico.Domain.DTO.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -22,7 +20,6 @@ using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains;
 using SmartDigitalPsico.WebAPI.Configure;
 using System.Reflection;
-using System.Collections;
 
 namespace SmartDigitalPsico.WebAPI.Test;
 

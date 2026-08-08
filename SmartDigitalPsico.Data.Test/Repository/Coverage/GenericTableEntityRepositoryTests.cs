@@ -1,7 +1,4 @@
 using Moq;
-using SmartDigitalPsico.Data.TableEntityRepository;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 

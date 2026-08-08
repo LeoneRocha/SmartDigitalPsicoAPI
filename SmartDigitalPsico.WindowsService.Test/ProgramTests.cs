@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SmartDigitalPsico.WindowsService;
 
 namespace SmartDigitalPsico.WindowsService.Test;
 

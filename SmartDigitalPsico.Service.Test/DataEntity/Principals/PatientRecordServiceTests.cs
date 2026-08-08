@@ -1,13 +1,10 @@
-using AwesomeAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Service.DataEntity.Principals;

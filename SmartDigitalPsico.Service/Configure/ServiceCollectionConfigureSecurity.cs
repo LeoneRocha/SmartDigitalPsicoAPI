@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using SmartDigitalPsico.Domain.DTO.Security;
 using System.Text;
 
 namespace SmartDigitalPsico.Service.Configure

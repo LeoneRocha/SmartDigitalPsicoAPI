@@ -1,7 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Base;
 

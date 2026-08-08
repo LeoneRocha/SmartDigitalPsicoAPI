@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.DTO.Domains

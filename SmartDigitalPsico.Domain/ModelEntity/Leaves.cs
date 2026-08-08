@@ -1,8 +1,4 @@
-using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using EntityBase = SmartDigitalPsico.Core.SDK.Domain.Contracts.EntityBase;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 
 
 namespace SmartDigitalPsico.Domain.ModelEntity

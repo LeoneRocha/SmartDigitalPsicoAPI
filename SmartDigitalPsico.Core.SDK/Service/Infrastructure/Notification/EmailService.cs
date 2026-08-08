@@ -4,7 +4,6 @@ using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Notification
 {
     /// <summary>

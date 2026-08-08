@@ -1,6 +1,5 @@
 using Moq;
 using Serilog;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.Audit;
 

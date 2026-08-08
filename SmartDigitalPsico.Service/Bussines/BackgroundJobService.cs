@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using Serilog;

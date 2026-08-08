@@ -1,11 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.DTO.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using System.Linq;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
 {

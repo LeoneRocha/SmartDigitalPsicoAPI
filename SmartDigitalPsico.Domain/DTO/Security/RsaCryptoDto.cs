@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-
 namespace SmartDigitalPsico.Domain.DTO.Security
 {
     /// <summary>

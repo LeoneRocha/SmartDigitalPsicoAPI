@@ -1,5 +1,4 @@
 using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;

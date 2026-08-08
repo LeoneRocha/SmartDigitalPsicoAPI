@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
-using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using System.Net.Http.Headers;
 using System.Text;
 

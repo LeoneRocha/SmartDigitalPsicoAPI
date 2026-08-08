@@ -3,7 +3,6 @@ using Moq;
 using Serilog;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using System.Diagnostics;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;

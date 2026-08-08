@@ -1,6 +1,4 @@
-using PdfSharp.Fonts;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Report;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Report;

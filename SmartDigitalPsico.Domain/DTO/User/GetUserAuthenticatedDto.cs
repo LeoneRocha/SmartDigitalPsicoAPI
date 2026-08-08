@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.VO;
 

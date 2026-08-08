@@ -1,4 +1,3 @@
-using AwesomeAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;

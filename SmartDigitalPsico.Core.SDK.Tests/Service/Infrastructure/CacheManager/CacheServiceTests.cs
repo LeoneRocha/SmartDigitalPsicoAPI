@@ -1,10 +1,7 @@
 using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Infrastructure;

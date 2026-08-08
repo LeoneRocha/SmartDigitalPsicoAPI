@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 

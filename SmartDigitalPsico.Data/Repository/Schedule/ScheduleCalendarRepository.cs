@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;

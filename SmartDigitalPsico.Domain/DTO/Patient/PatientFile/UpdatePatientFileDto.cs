@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.DTO.Contracts;
-
 namespace SmartDigitalPsico.Domain.DTO.Patient.PatientFile
 {
     /// <summary>

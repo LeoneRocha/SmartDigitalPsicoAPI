@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.Security;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {
     /// <summary>

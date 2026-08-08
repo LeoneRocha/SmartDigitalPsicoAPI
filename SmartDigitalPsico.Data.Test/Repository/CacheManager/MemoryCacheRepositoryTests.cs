@@ -1,11 +1,8 @@
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
-using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.DTO.Domains;
 
 namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
 {

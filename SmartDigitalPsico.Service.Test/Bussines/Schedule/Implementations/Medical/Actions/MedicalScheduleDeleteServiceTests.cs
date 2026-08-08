@@ -4,7 +4,6 @@ using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions;
 using SmartDigitalPsico.Service.Test.TestSupport;

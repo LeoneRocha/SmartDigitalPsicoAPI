@@ -1,7 +1,5 @@
 using AutoMapper;
 using Moq;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Service.Infrastructure.Authentication;

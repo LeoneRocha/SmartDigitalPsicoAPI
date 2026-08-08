@@ -1,7 +1,6 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Validation;
 
 namespace SmartDigitalPsico.Domain.Validation.Base

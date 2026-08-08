@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Configure
 {

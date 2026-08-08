@@ -1,7 +1,5 @@
 using FluentValidation.Results;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Core.SDK.Domain.Validation;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Validation.Helper
 {

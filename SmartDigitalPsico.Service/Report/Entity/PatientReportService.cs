@@ -1,24 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
-using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.Report.Entity
 {

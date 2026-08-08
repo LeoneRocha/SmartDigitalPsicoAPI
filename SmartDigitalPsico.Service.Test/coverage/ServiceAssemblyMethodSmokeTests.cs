@@ -1,6 +1,5 @@
 using System.Reflection;
 using Moq;
-using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
 

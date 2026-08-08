@@ -1,7 +1,5 @@
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {

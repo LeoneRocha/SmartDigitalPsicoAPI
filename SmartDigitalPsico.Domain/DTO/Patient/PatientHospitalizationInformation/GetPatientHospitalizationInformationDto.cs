@@ -1,7 +1,4 @@
-using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
-using SmartDigitalPsico.Domain.DTO.Contracts;
 
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.PatientHospitalizationInformation

@@ -1,12 +1,10 @@
 using Microsoft.Extensions.Configuration;
-using AwesomeAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.Test.TestSupport;
 

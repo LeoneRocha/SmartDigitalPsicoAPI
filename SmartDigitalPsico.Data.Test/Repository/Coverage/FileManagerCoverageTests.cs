@@ -1,14 +1,9 @@
-using SmartDigitalPsico.Core.SDK.Domain.Security;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Data.Repository.FileManager;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;

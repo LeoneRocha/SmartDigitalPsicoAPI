@@ -1,8 +1,5 @@
 using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Data.Repository.CacheManager;
-using SmartDigitalPsico.Data.Repository.FileManager;
-using SmartDigitalPsico.Domain.DTO.Domains;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 

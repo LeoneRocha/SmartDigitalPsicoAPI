@@ -1,6 +1,3 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Notification
 {
     /// <summary>

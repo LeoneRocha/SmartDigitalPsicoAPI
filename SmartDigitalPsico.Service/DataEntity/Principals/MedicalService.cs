@@ -4,21 +4,12 @@ using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
-using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.Generic;
-
-using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {

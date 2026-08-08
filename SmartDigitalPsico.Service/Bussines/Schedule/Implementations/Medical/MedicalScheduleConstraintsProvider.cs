@@ -3,9 +3,7 @@ using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.ModelEntity;
 using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical

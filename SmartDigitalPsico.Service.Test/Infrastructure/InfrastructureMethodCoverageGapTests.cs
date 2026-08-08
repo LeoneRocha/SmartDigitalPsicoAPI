@@ -2,21 +2,13 @@ using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Infrastructure;
 using SmartDigitalPsico.Service.Infrastructure.Authentication;
-using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
-using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 using SmartDigitalPsico.Service.Infrastructure.Notification;
-using SmartDigitalPsico.Service.Infrastructure.Smtp;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
 

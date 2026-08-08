@@ -1,6 +1,3 @@
-using SmartDigitalPsico.Domain.DTO.SMTP;
-using SmartDigitalPsico.Service.Infrastructure.Smtp;
-
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Smtp;
 
 [TestFixture]

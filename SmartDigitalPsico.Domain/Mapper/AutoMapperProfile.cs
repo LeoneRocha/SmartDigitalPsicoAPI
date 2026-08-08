@@ -1,7 +1,4 @@
 using AutoMapper;
-using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Core.SDK.Domain.Contracts;
-using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;

@@ -1,7 +1,5 @@
 using AutoMapper.Configuration.Annotations;
 using SmartDigitalPsico.Domain.DTO.Patient;
-using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using System.Text.Json.Serialization;
 

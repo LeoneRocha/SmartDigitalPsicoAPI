@@ -1,10 +1,8 @@
-using AwesomeAssertions;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.Report.Entity;

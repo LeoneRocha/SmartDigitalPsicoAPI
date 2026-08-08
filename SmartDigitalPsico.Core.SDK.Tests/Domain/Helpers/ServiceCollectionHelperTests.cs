@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Helpers;

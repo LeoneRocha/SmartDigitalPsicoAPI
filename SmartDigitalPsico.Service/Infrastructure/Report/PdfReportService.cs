@@ -1,8 +1,5 @@
-using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Report
 {

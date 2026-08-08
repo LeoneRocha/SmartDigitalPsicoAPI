@@ -9,9 +9,7 @@ using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
-using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Azure;
 

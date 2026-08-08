@@ -2,7 +2,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.WindowsService;
 
 namespace SmartDigitalPsico.WindowsService.Test;
 

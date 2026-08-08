@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SmartDigitalPsico.Data.Test.Migrations;

@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using FileData = SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData;
 

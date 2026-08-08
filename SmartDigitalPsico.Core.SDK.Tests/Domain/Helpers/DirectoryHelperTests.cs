@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Helpers;
 

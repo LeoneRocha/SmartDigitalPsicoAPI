@@ -1,4 +1,3 @@
-using Azure.Data.Tables;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Core.SDK.Domain.TableEntityNoSQL;
 

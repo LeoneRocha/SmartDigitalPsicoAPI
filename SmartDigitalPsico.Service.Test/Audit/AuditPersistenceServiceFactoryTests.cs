@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Service.Audit;
 using SmartDigitalPsico.Service.Configure.Domain;
 

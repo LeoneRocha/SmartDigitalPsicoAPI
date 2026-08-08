@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using System.ComponentModel;
 
 namespace SmartDigitalPsico.Domain.DTO.Report.Enitty

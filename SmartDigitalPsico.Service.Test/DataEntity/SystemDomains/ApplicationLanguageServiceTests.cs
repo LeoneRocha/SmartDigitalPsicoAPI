@@ -1,4 +1,3 @@
-using AwesomeAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
@@ -6,11 +5,8 @@ using Moq;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
-using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using System.Globalization;
 

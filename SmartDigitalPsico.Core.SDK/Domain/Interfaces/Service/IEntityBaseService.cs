@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service

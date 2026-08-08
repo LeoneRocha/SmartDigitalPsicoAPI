@@ -1,5 +1,4 @@
 using SmartDigitalPsico.Core.SDK.Domain.DTO;
-using SmartDigitalPsico.Core.SDK.Domain.Security;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure
 {

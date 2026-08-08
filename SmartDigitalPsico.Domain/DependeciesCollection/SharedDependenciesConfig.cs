@@ -1,6 +1,5 @@
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection

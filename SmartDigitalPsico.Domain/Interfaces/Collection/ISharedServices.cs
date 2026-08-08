@@ -1,5 +1,4 @@
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Collection

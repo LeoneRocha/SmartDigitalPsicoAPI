@@ -1,10 +1,7 @@
 using AutoMapper;
 using FluentValidation;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
 
 namespace SmartDigitalPsico.Service.DataEntity.Generic
 {

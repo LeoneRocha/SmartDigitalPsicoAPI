@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
-using SmartDigitalPsico.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.PatientFile
 {

@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Service.Infrastructure.Authentication;
 
 namespace SmartDigitalPsico.Service.Configure.Domain

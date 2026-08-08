@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace SmartDigitalPsico.Service.Configure

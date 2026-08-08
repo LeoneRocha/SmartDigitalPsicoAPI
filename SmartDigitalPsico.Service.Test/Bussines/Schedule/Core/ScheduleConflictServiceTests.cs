@@ -1,6 +1,5 @@
 using Moq;
 using Serilog;
-using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;

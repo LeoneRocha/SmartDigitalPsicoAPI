@@ -1,9 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Service.Infrastructure;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {

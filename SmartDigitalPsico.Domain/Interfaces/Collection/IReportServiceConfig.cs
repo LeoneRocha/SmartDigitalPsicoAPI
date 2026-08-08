@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Collection
 {
     /// <summary>

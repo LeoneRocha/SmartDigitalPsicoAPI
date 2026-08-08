@@ -10,11 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.User;
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Test.ModelCoverage;
 

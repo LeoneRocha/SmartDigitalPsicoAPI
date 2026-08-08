@@ -1,12 +1,8 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-
-using IEntityBase = SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase;
 namespace SmartDigitalPsico.Domain.Validation.Contratcs
 {
     /// <summary>
