@@ -1,9 +1,9 @@
 namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
 {
     /// <summary>
-    /// Classe responsÃ¡vel por ErrorValidatorMenssageConstants.
+    /// Classe responsável por ErrorValidatorMenssageConstants.
     /// Responsabilidade: constantes compartilhadas do sistema.
-    /// RelaÃ§Ã£o: referenciado por Domain, Service e WebAPI.
+    /// Relação: referenciado por Domain, Service e WebAPI.
     /// </summary>
     public static class ErrorValidatorMenssageConstants
     {

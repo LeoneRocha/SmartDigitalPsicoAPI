@@ -100,7 +100,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Validation.Helper
                 var values = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Skip(parts, 2));
                 
                 var replacedMessage = template;
-                if (values != null && values.Length > 0)
+                if (values.Length > 0)
                 {
                     for (int i = 0; i < values.Length; i++)
                     {

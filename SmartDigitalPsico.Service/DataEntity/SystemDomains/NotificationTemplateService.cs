@@ -12,15 +12,15 @@ using System.Globalization;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
-    /// Classe responsÃ¡vel por NotificationTemplateService.
-    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
-    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
+    /// Classe responsável por NotificationTemplateService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class NotificationTemplateService
       : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Domain.ModelEntity.NotificationTemplate, GetNotificationTemplateDto>, INotificationTemplateService
     {
         /// <summary>
-        /// MÃ©todo NotificationTemplateService: executa a operaÃ§Ã£o NotificationTemplateService.
+        /// Método NotificationTemplateService: executa a operação NotificationTemplateService.
         /// </summary>
         public NotificationTemplateService(
             ISharedServices sharedServices,
@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         }
         /// <summary>
-        /// MÃ©todo Update: atualiza um registro/recurso existente.
+        /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
         public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return await base.Update(dto);
         }
         /// <summary>
-        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
+        /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
@@ -55,7 +55,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// MÃ©todo GetNotificationTemplatesAsync: consulta e retorna dados.
+        /// Método GetNotificationTemplatesAsync: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<GetNotificationTemplateDto>> GetNotificationTemplatesAsync(string templateKey)
         {

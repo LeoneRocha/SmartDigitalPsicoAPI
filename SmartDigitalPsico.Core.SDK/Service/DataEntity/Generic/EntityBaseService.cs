@@ -13,8 +13,8 @@ using System.Linq.Expressions;
 namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
 {
     /// <summary>
-    /// Classe responsÃ¡vel por EntityBaseService (mÃ¡x. 2 genÃ©ricos â€” Sonar S2436).
-    /// DTOs Add/Update via IEntityDtoAdd/IEntityDto; repositÃ³rio tipado como SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository&lt;TEntity&gt;.
+    /// Classe responsável por EntityBaseService (máx. 2 genéricos — Sonar S2436).
+    /// DTOs Add/Update via IEntityDtoAdd/IEntityDto; repositório tipado como SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository&lt;TEntity&gt;.
     /// </summary>
     public class EntityBaseService<TEntity, TEntityResult>
         : IEntityBaseService<TEntity, TEntityResult>
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
         
 
         /// <summary>
-        /// MÃ©todo EntityBaseService: executa a operaÃ§Ã£o EntityBaseService.
+        /// Operação EntityBaseService: executa a operação EntityBaseService.
         /// </summary>
         public EntityBaseService(
     IAppMapper mapper,
@@ -50,14 +50,14 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
     _entityValidator = entityValidator;
 }
         /// <summary>
-        /// MÃ©todo SetUserId: configura estado ou dependencias.
+        /// Operação SetUserId: configura estado ou dependencias.
         /// </summary>
         public void SetUserId(long id)
         {
             UserId = id;
         }
         /// <summary>
-        /// MÃ©todo GetLocalization: consulta e retorna dados.
+        /// Operação GetLocalization: consulta e retorna dados.
         /// </summary>
         protected virtual async Task<string> GetLocalization(string key, string defaultMenssage)
         {
@@ -65,7 +65,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
         }
 
         /// <summary>
-        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
+        /// Operação Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> Create(IEntityDtoAdd item)
         {
@@ -100,7 +100,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
             return response;
         }
         /// <summary>
-        /// MÃ©todo Delete: remove ou cancela um registro/recurso.
+        /// Operação Delete: remove ou cancela um registro/recurso.
         /// </summary>
         public virtual async Task<ServiceResponse<bool>> Delete(long id)
         {
@@ -136,7 +136,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
             return response;
         }
         /// <summary>
-        /// MÃ©todo Update: atualiza um registro/recurso existente.
+        /// Operação Update: atualiza um registro/recurso existente.
         /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> Update(IEntityDto item)
         {
@@ -173,7 +173,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
             return response;
         }
         /// <summary>
-        /// MÃ©todo Exists: valida regras ou verifica existÃªncia.
+        /// Operação Exists: valida regras ou verifica existência.
         /// </summary>
         public async Task<ServiceResponse<bool>> Exists(long id)
         {
@@ -198,7 +198,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
             return response;
         }
         /// <summary>
-        /// MÃ©todo FindAll: consulta e retorna dados.
+        /// Operação FindAll: consulta e retorna dados.
         /// </summary>
         public virtual async Task<ServiceResponse<List<TEntityResult>>> FindAll()
         {
@@ -224,7 +224,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
             return response;
         }
         /// <summary>
-        /// MÃ©todo FindByID: consulta e retorna dados.
+        /// Operação FindByID: consulta e retorna dados.
         /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> FindByID(long id)
         {
@@ -253,7 +253,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
             return response;
         }
         /// <summary>
-        /// MÃ©todo GetCount: consulta e retorna dados.
+        /// Operação GetCount: consulta e retorna dados.
         /// </summary>
         public virtual async Task<ServiceResponse<int>> GetCount()
         {
@@ -279,7 +279,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
             return response;
         }
         /// <summary>
-        /// MÃ©todo EnableOrDisable: altera o estado de habilitaÃ§Ã£o do recurso.
+        /// Operação EnableOrDisable: altera o estado de habilitação do recurso.
         /// </summary>
         public virtual async Task<ServiceResponse<bool>> EnableOrDisable(long id)
         {
@@ -314,7 +314,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
             return response;
         }
         /// <summary>
-        /// MÃ©todo Validate: valida regras ou verifica existÃªncia.
+        /// Operação Validate: valida regras ou verifica existência.
         /// </summary>
         public virtual async Task<ServiceResponse<TEntityResult>> Validate(TEntity item)
         {
@@ -363,7 +363,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
         //HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors)
 
         /// <summary>
-        /// MÃ©todo GetLocalizationErros: consulta e retorna dados.
+        /// Operação GetLocalizationErros: consulta e retorna dados.
         /// </summary>
         protected async Task<List<ErrorResponse>> GetLocalizationErros(List<ErrorResponse> errorResponses)
         {

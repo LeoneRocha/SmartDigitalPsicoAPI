@@ -66,8 +66,8 @@ namespace SmartDigitalPsico.Service.Configure
 
             // Compatibilidade: consumidores ainda tipados no shim Obsolete do host.
 #pragma warning disable SDP_CORE_SDK_REPO
-            services.AddScoped<SmartDigitalPsico.Data.Context.Interface.IEntityDataContext>(sp =>
-                (SmartDigitalPsico.Data.Context.Interface.IEntityDataContext)sp.GetRequiredService<IEntityDataContext>());
+            services.AddScoped<SmartDigitalPsico.Data.Context.Interface.IEntityDataSmartDigitalPsicoContext>(sp =>
+                (SmartDigitalPsico.Data.Context.Interface.IEntityDataSmartDigitalPsicoContext)sp.GetRequiredService<IEntityDataContext>());
 #pragma warning restore SDP_CORE_SDK_REPO
         }
     }

@@ -15,16 +15,16 @@ using SmartDigitalPsico.Core.SDK.Domain.VO;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
-    /// Classe responsÃ¡vel por NotificationRecordsService.
-    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
-    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
+    /// Classe responsável por NotificationRecordsService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class NotificationRecordsService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<NotificationRecord, GetNotificationRecordsDto>, INotificationRecordsService
     {
         private readonly INotificationRulesService _notificationRulesService;
 
         /// <summary>
-        /// MÃ©todo NotificationRecordsService: executa a operaÃ§Ã£o NotificationRecordsService.
+        /// Método NotificationRecordsService: executa a operação NotificationRecordsService.
         /// </summary>
         public NotificationRecordsService(
             ISharedServices sharedServices,
@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
+        /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
@@ -52,7 +52,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// MÃ©todo Update: atualiza um registro/recurso existente.
+        /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
         public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
@@ -70,7 +70,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 entityUpdate.Enable = dto.Enable;
                 entityUpdate.IsCompleted = dto.IsCompleted;               
                
-                // Atualiza as datas e o usuÃ¡rio modificador
+                // Atualiza as datas e o usuário modificador
                 entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
                 response = await base.Validate(entityUpdate);
@@ -95,10 +95,10 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Cria ou atualiza registros de NotificationRecords para um ou mais MedicalCalendars, associando todas as regras existentes.
         /// </summary>
-        /// <param name="dto">DTO contendo os MedicalCalendars e o tipo de notificaÃ§Ã£o.</param>
-        /// <returns>Task representando a operaÃ§Ã£o assÃ­ncrona.</returns>
+        /// <param name="dto">DTO contendo os MedicalCalendars e o tipo de notificação.</param>
+        /// <returns>Task representando a operação assíncrona.</returns>
         /// <summary>
-        /// MÃ©todo CreateOrUpdateNotificationRecordsAsync: cria ou persiste um novo registro/recurso.
+        /// Método CreateOrUpdateNotificationRecordsAsync: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task CreateOrUpdateNotificationRecordsAsync(GenerateNotificationRecordsDto dto)
         {
@@ -238,8 +238,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
          
         private static int GetTimeZoneOffset(string timeZone)
         {
-            // ImplementaÃ§Ã£o simplificada, ajustar conforme necessidade
-            // Exemplo: retorna -3 para horÃ¡rio de BrasÃ­lia
+            // Implementação simplificada, ajustar conforme necessidade
+            // Exemplo: retorna -3 para horário de Brasília
             return timeZone == "BRT" ? -3 : 0;
         }
 
@@ -260,7 +260,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         } 
 
         /// <summary>
-        /// MÃ©todo GetPendingNotificationsAsync: consulta e retorna dados.
+        /// Método GetPendingNotificationsAsync: consulta e retorna dados.
         /// </summary>
         public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {

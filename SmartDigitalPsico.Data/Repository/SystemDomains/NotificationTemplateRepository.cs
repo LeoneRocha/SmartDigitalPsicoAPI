@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         /// </summary>
         public async Task<NotificationTemplate?> GetNotificationTemplateAsync(string templateKey, string language)
         {
-            var templates = ((SmartDigitalPsico.Data.Context.EntityDataContext)_context).NotificationTemplates.AsNoTracking()
+            var templates = ((SmartDigitalPsico.Data.Context.EntityDataSmartDigitalPsicoContext)_context).NotificationTemplates.AsNoTracking()
                 .Where(t => t.TemplateKey == templateKey && t.Enable);
 
             var template = await templates.FirstOrDefaultAsync(t => t.Language == language);

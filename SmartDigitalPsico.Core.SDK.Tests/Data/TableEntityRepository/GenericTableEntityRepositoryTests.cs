@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Repository.Coverage;
 [TestFixture]
 public class GenericTableEntityRepositoryTests
 {
-    // CenÃ¡rio: adapter de tabela configurado para leitura e escrita.
+    // Cenário: adapter de tabela configurado para leitura e escrita.
     // Objetivo: delegar GetAll, GetById, Insert, Update e Delete ao contrato de storage.
     [Test]
     public async Task CrudOperations_WhenAdapterConfigured_DelegatesToStorageContract()
@@ -33,8 +33,8 @@ public class GenericTableEntityRepositoryTests
         adapter.Verify(value => value.DeleteAsync("tenant", "row"), Times.Once);
     }
 
-    // CenÃ¡rio: UpdateAsync recebe entidade cujo GetById retorna linha vazia/padrÃ£o.
-    // Objetivo: inserir a entidade quando a linha ainda nÃ£o existe de fato.
+    // Cenário: UpdateAsync recebe entidade cujo GetById retorna linha vazia/padrão.
+    // Objetivo: inserir a entidade quando a linha ainda não existe de fato.
     [Test]
     public async Task UpdateAsync_MissingRow_InsertsEntity()
     {

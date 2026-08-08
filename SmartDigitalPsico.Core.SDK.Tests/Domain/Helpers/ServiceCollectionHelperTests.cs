@@ -9,7 +9,7 @@ public class ServiceCollectionHelperTests
     [Test]
     public void FilterItems_FiltersProvidedSets_ReturnsRemainingItems()
     {
-        // CenÃ¡rio: uma sequÃªncia contÃ©m itens em dois filtros.
+        // Cenário: uma sequência contém itens em dois filtros.
         // Objetivo: remover todos os itens filtrados.
         // Arrange
         var items = new[] { 1, 2, 3, 4 };
@@ -24,7 +24,7 @@ public class ServiceCollectionHelperTests
     [Test]
     public void GetRegisteredInterfaces_ScopedServices_ReturnsOnlyScopedTypes()
     {
-        // CenÃ¡rio: a coleÃ§Ã£o possui serviÃ§os com escopos distintos.
+        // Cenário: a coleção possui serviços com escopos distintos.
         // Objetivo: retornar exclusivamente interfaces scoped.
         // Arrange
         IServiceCollection services = new ServiceCollection();
@@ -42,8 +42,8 @@ public class ServiceCollectionHelperTests
     [Test]
     public void GetInterfaces_MatchingSuffix_ReturnsInterfaceAndImplementation()
     {
-        // CenÃ¡rio: o assembly possui classes com e sem sufixo de repositÃ³rio.
-        // Objetivo: localizar somente implementaÃ§Ãµes com interface correspondente.
+        // Cenário: o assembly possui classes com e sem sufixo de repositório.
+        // Objetivo: localizar somente implementações com interface correspondente.
         // Arrange
         var assembly = Assembly.GetExecutingAssembly();
 
@@ -57,8 +57,8 @@ public class ServiceCollectionHelperTests
     [Test]
     public void RegisterInterfaces_IgnoredInterface_RegistersOnlyEligibleServices()
     {
-        // CenÃ¡rio: uma interface encontrada estÃ¡ na lista de exclusÃ£o.
-        // Objetivo: registrar somente implementaÃ§Ãµes permitidas como scoped.
+        // Cenário: uma interface encontrada está na lista de exclusão.
+        // Objetivo: registrar somente implementações permitidas como scoped.
         // Arrange
         IServiceCollection services = new ServiceCollection();
 

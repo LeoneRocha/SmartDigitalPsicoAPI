@@ -6,14 +6,14 @@ using SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient;
 namespace SmartDigitalPsico.Domain.Hypermedia
 {
     /// <summary>
-    /// Classe responsÃ¡vel por HyperMediaConfigure.
+    /// Classe responsável por HyperMediaConfigure.
     /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
-    /// RelaÃ§Ã£o: usado pelos Controllers na serializaÃ§Ã£o.
+    /// Relação: usado pelos Controllers na serialização.
     /// </summary>
     public static class HyperMediaConfigure
     {
         /// <summary>
-        /// MÃ©todo AddHyperMedia: cria ou persiste um novo registro/recurso.
+        /// Operação AddHyperMedia: cria ou persiste um novo registro/recurso.
         /// </summary>
         public static void AddHyperMedia(IServiceCollection Service)
         {

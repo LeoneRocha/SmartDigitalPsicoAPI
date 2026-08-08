@@ -9,8 +9,8 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Infrastructure;
 [TestFixture]
 public class CacheServiceTests
 {
-    // CenÃ¡rio: operaÃ§Ãµes Set/Get/Exists/Remove no cache em memÃ³ria.
-    // Objetivo: invocar o repositÃ³rio e respeitar configuraÃ§Ã£o de expiraÃ§Ã£o.
+    // Cenário: operações Set/Get/Exists/Remove no cache em memória.
+    // Objetivo: invocar o repositório e respeitar configuração de expiração.
     [Test]
     public void MemoryCache_SetGetExistsRemove_Succeeds()
     {
@@ -46,7 +46,7 @@ public class CacheServiceTests
         memory.Verify(x => x.Set("customer", expected), Times.Once);
         memory.Verify(x => x.Remove("customer"), Times.Once);
     }
-    // CenÃ¡rio: gravaÃ§Ã£o de payload no cache em disco.
+    // Cenário: gravação de payload no cache em disco.
     // Objetivo: persistir valor e criar log de cache.
     [Test]
     public void DiskCache_SavePayload_WritesCacheLog()
@@ -66,7 +66,7 @@ public class CacheServiceTests
 
         disk.Verify(x => x.SetAsync("payload", payload), Times.Once);
     }
-    // CenÃ¡rio: helpers estÃ¡ticos com cache habilitado.
+    // Cenário: helpers estáticos com cache habilitado.
     // Objetivo: salvar e ler global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO com sucesso.
     [Test]
     public async Task StaticCacheHelpers_EnabledCache_SavesAndReads()
@@ -92,8 +92,8 @@ public class CacheServiceTests
 
         cache.Verify(x => x.Set("result", It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<int>>()), Times.Once);
     }
-    // CenÃ¡rio: backend sem suporte ou falha no repositÃ³rio de disco.
-    // Objetivo: retornar false sem lanÃ§ar exceÃ§Ã£o.
+    // Cenário: backend sem suporte ou falha no repositório de disco.
+    // Objetivo: retornar false sem lançar exceção.
     [Test]
     public void UnsupportedCacheAndRepositoryFailures_Failures_ReturnFalseWithoutThrowing()
     {
@@ -118,8 +118,8 @@ public class CacheServiceTests
         }
     }
 
-    // CenÃ¡rio: backends de cache ainda nÃ£o implementados.
-    // Objetivo: cobrir braÃ§os vazios do switch em Set/Exists/Remove/TryGet.
+    // Cenário: backends de cache ainda não implementados.
+    // Objetivo: cobrir braços vazios do switch em Set/Exists/Remove/TryGet.
     [TestCase(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.MongoDB)]
     [TestCase(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.AzureStorage)]
     [TestCase(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.AzureCosmoDB)]
@@ -146,7 +146,7 @@ public class CacheServiceTests
         }
     }
 
-    // CenÃ¡rio: cache em disco expirado e valor nulo.
+    // Cenário: cache em disco expirado e valor nulo.
     // Objetivo: cobrir checkCacheIsValid e processCacheRepositoryDisk false.
     [Test]
     public void DiskCache_ExpiredAndNullValue_CoversValidationBranches()
@@ -189,8 +189,8 @@ public class CacheServiceTests
         disk.Verify(x => x.RemoveAsync("k"), Times.AtLeastOnce);
     }
 
-    // CenÃ¡rio: entrada em disco com propriedade Data nula.
-    // Objetivo: cobrir retorno false apÃ³s valorData == null.
+    // Cenário: entrada em disco com propriedade Data nula.
+    // Objetivo: cobrir retorno false após valorData == null.
     [Test]
     public void DiskCache_NullDataProperty_ReturnsExistsFalse()
     {
@@ -206,7 +206,7 @@ public class CacheServiceTests
         var existsNullData = service.Exists<NullDataCacheEntry>("null-data");
         var existsMissingProp = service.Exists<NoDataPropertyCacheEntry>("no-data-prop");
 
-        // Assert â€” Data nulo invalida o cache; propriedade Data ausente usa sentinel e permanece vÃ¡lida.
+        // Assert — Data nulo invalida o cache; propriedade Data ausente usa sentinel e permanece válida.
         using (Assert.EnterMultipleScope())
         {
             existsNullData.Should().BeFalse();

@@ -12,25 +12,25 @@ namespace SmartDigitalPsico.Data.Context
     /// Implementa o shim de produto (DbSets); o contrato genérico canônico está em Core.SDK.
     /// </summary>
 #pragma warning disable SDP_CORE_SDK_REPO // host IEntityDataContext: DbSets de produto
-    public abstract class EntityDataContext : DbContext, IEntityDataContext
+    public abstract class EntityDataSmartDigitalPsicoContext : DbContext, IEntityDataSmartDigitalPsicoContext
 #pragma warning restore SDP_CORE_SDK_REPO
     {
         /// <summary>
         /// Método EntityDataContext: executa a operação EntityDataContext.
         /// </summary>
-        protected EntityDataContext()
+        protected EntityDataSmartDigitalPsicoContext()
         {
         }
         /// <summary>
         /// Método EntityDataContext: executa a operação EntityDataContext.
         /// </summary>
-        protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContextMySql> options) : base(options)
+        protected EntityDataSmartDigitalPsicoContext(DbContextOptions<SmartDigitalPsicoDataContextMySql> options) : base(options)
         {
         }
         /// <summary>
         /// Método EntityDataContext: executa a operação EntityDataContext.
         /// </summary>
-        protected EntityDataContext(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options) : base(options)
+        protected EntityDataSmartDigitalPsicoContext(DbContextOptions<SmartDigitalPsicoDataContextSqlServer> options) : base(options)
         {
         }
         #region DBsets

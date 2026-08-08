@@ -20,7 +20,7 @@ public class DirectoryHelperTests
     [Test]
     public void GetDiretory_AbsolutePath_CreatesAndReturnsPath()
     {
-        // CenÃ¡rio: o caminho configurado Ã© absoluto.
+        // Cenário: o caminho configurado é absoluto.
         // Objetivo: criar e retornar o mesmo caminho absoluto.
         // Arrange
         var path = Path.Combine(_tempPath, "absolute");
@@ -36,8 +36,8 @@ public class DirectoryHelperTests
     [Test]
     public void GetDiretoryTemp_ConfiguredAbsolutePath_CreatesConfiguredDirectory()
     {
-        // CenÃ¡rio: o diretÃ³rio temporÃ¡rio vem de configuraÃ§Ã£o em memÃ³ria.
-        // Objetivo: retornar o diretÃ³rio configurado.
+        // Cenário: o diretório temporário vem de configuração em memória.
+        // Objetivo: retornar o diretório configurado.
         // Arrange
         var path = Path.Combine(_tempPath, "temp");
         IConfiguration configuration = new ConfigurationBuilder()
@@ -55,8 +55,8 @@ public class DirectoryHelperTests
     [Test]
     public void GetPathSaveCache_AbsolutePath_CreatesAndReturnsPath()
     {
-        // CenÃ¡rio: o cache usa caminho absoluto.
-        // Objetivo: criar o diretÃ³rio de cache.
+        // Cenário: o cache usa caminho absoluto.
+        // Objetivo: criar o diretório de cache.
         // Arrange
         var path = Path.Combine(_tempPath, "cache");
 
@@ -68,8 +68,8 @@ public class DirectoryHelperTests
         Directory.Exists(path).Should().BeTrue();
     }
 
-    // CenÃ¡rio: diretÃ³rios relativos ainda nÃ£o existem.
-    // Objetivo: resolver a partir do diretÃ³rio atual e criar cada segmento.
+    // Cenário: diretórios relativos ainda não existem.
+    // Objetivo: resolver a partir do diretório atual e criar cada segmento.
     [Test]
     public void DirectoryMethods_RelativePaths_CreatesAndReturnsResolvedPaths()
     {

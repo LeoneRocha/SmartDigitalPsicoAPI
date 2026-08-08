@@ -25,7 +25,7 @@ public class FileHelperTests
     [Test]
     public async Task FileOperations_ValidInputs_ProcessesFiles()
     {
-        // CenÃ¡rio: arquivos temporÃ¡rios sÃ£o usados nas operaÃ§Ãµes de leitura, cÃ³pia e exclusÃ£o.
+        // Cenário: arquivos temporários são usados nas operações de leitura, cópia e exclusão.
         // Objetivo: validar os fluxos bem-sucedidos do helper.
         // Arrange
         Directory.CreateDirectory(_tempPath);
@@ -49,10 +49,10 @@ public class FileHelperTests
     [Test]
     public async Task FormFiles_ValidInput_ReturnsContentAndBytes()
     {
-        // CenÃ¡rio: um upload contÃ©m texto UTF-8.
+        // Cenário: um upload contém texto UTF-8.
         // Objetivo: ler o upload como texto e bytes.
         // Arrange
-        var data = Encoding.UTF8.GetBytes("conteÃºdo de teste");
+        var data = Encoding.UTF8.GetBytes("conteúdo de teste");
         var file = new FormFile(new MemoryStream(data), 0, data.Length, "file", "input.txt");
 
         // Act
@@ -60,15 +60,15 @@ public class FileHelperTests
         var bytes = await SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.GetByteDataFromIFormFile(file);
 
         // Assert
-        text.Should().Be("conteÃºdo de teste");
+        text.Should().Be("conteúdo de teste");
         bytes.Should().BeEquivalentTo(data);
     }
 
     [Test]
     public async Task GetFileByRequest_FileWithName_SavesAndReturnsRelativePath()
     {
-        // CenÃ¡rio: a requisiÃ§Ã£o possui um arquivo vÃ¡lido.
-        // Objetivo: persistir o arquivo no diretÃ³rio de destino.
+        // Cenário: a requisição possui um arquivo válido.
+        // Objetivo: persistir o arquivo no diretório de destino.
         // Arrange
         var folder = Path.Combine(_tempPath, "upload");
         Directory.CreateDirectory(folder);
@@ -99,8 +99,8 @@ public class FileHelperTests
     [Test]
     public async Task GetFileByRequest_EmptyOrMissingName_ReturnsEmptyOrThrowsWarning()
     {
-        // CenÃ¡rio: uploads vazio e sem nome no content disposition.
-        // Objetivo: cobrir os retornos alternativos da requisiÃ§Ã£o.
+        // Cenário: uploads vazio e sem nome no content disposition.
+        // Objetivo: cobrir os retornos alternativos da requisição.
         // Arrange
         var empty = new Mock<IFormFile>();
         empty.SetupGet(x => x.Length).Returns(0);
@@ -124,8 +124,8 @@ public class FileHelperTests
     [Test]
     public async Task UtilityMethods_EdgeCases_ReturnExpectedValues()
     {
-        // CenÃ¡rio: caminhos, base64 e arquivos temporÃ¡rios tÃªm entradas distintas.
-        // Objetivo: validar normalizaÃ§Ã£o e ramificaÃ§Ãµes de utilitÃ¡rios.
+        // Cenário: caminhos, base64 e arquivos temporários têm entradas distintas.
+        // Objetivo: validar normalização e ramificações de utilitários.
         // Arrange
         var relative = Path.Combine(".", "folder", "..", "file.txt");
         var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = _tempPath }).Build();
@@ -152,8 +152,8 @@ public class FileHelperTests
         await missingDelete.Should().ThrowAsync<FileNotFoundException>();
     }
 
-    // CenÃ¡rio: origem relativa e download pelo diretÃ³rio sÃ£o solicitados.
-    // Objetivo: compor o caminho relativo e retornar o conteÃºdo para o navegador.
+    // Cenário: origem relativa e download pelo diretório são solicitados.
+    // Objetivo: compor o caminho relativo e retornar o conteúdo para o navegador.
     [Test]
     public void Download_RelativeFolder_ReturnsFileContent()
     {
@@ -162,7 +162,7 @@ public class FileHelperTests
         Directory.CreateDirectory(_tempPath);
         Directory.SetCurrentDirectory(_tempPath);
         Directory.CreateDirectory("downloads");
-        File.WriteAllText(Path.Combine("downloads", "report.txt"), "conteÃºdo");
+        File.WriteAllText(Path.Combine("downloads", "report.txt"), "conteúdo");
 
         try
         {
@@ -174,7 +174,7 @@ public class FileHelperTests
             using (Assert.EnterMultipleScope())
             {
                 filePath.Should().Be(Path.Combine(_tempPath, "downloads", "report.txt"));
-                result.FileContents.Should().BeEquivalentTo(Encoding.UTF8.GetBytes("conteÃºdo"));
+                result.FileContents.Should().BeEquivalentTo(Encoding.UTF8.GetBytes("conteúdo"));
                 result.FileDownloadName.Should().Be(filePath);
             }
         }
@@ -187,8 +187,8 @@ public class FileHelperTests
     [Test]
     public void CreateDiretory_MissingDirectory_CreatesDirectory()
     {
-        // CenÃ¡rio: o diretÃ³rio de destino ainda nÃ£o existe.
-        // Objetivo: criar o diretÃ³rio de forma idempotente.
+        // Cenário: o diretório de destino ainda não existe.
+        // Objetivo: criar o diretório de forma idempotente.
         // Arrange
         var directory = Path.Combine(_tempPath, "created");
 

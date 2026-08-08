@@ -3,50 +3,50 @@ using SmartDigitalPsico.Core.SDK.Domain.VO;
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service
 {
     /// <summary>
-    /// Contrato CRUD genÃ©rico (mÃ¡x. 2 parÃ¢metros de tipo â€” Sonar S2436).
-    /// Add/Update usam IEntityDtoAdd / IEntityDto para nÃ£o multiplicar genÃ©ricos.
+    /// Contrato CRUD genérico (máx. 2 parâmetros de tipo — Sonar S2436).
+    /// Add/Update usam IEntityDtoAdd / IEntityDto para não multiplicar genéricos.
     /// </summary>
     public interface IEntityBaseService<TEntity, TEntityResult>
     {
         /// <summary>
-        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
+        /// Operação Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         Task<ServiceResponse<TEntityResult>> Create(IEntityDtoAdd item);
         /// <summary>
-        /// MÃ©todo FindByID: consulta e retorna dados.
+        /// Operação FindByID: consulta e retorna dados.
         /// </summary>
         Task<ServiceResponse<TEntityResult>> FindByID(long id);
         /// <summary>
-        /// MÃ©todo FindAll: consulta e retorna dados.
+        /// Operação FindAll: consulta e retorna dados.
         /// </summary>
         Task<ServiceResponse<List<TEntityResult>>> FindAll();
         /// <summary>
-        /// MÃ©todo Update: atualiza um registro/recurso existente.
+        /// Operação Update: atualiza um registro/recurso existente.
         /// </summary>
         Task<ServiceResponse<TEntityResult>> Update(IEntityDto item);
         /// <summary>
-        /// MÃ©todo Delete: remove ou cancela um registro/recurso.
+        /// Operação Delete: remove ou cancela um registro/recurso.
         /// </summary>
         Task<ServiceResponse<bool>> Delete(long id);
         /// <summary>
-        /// MÃ©todo EnableOrDisable: executa a operaÃ§Ã£o EnableOrDisable.
+        /// Operação EnableOrDisable: executa a operação EnableOrDisable.
         /// </summary>
         Task<ServiceResponse<bool>> EnableOrDisable(long id);
         /// <summary>
-        /// MÃ©todo Exists: valida regras ou verifica existÃªncia.
+        /// Operação Exists: valida regras ou verifica existência.
         /// </summary>
         Task<ServiceResponse<bool>> Exists(long id);
         /// <summary>
-        /// MÃ©todo GetCount: consulta e retorna dados.
+        /// Operação GetCount: consulta e retorna dados.
         /// </summary>
         Task<ServiceResponse<int>> GetCount();
 
         /// <summary>
-        /// MÃ©todo SetUserId: configura estado ou dependÃªncias.
+        /// Operação SetUserId: configura estado ou dependências.
         /// </summary>
         void SetUserId(long id);
         /// <summary>
-        /// MÃ©todo Validate: valida regras ou verifica existÃªncia.
+        /// Operação Validate: valida regras ou verifica existência.
         /// </summary>
         Task<ServiceResponse<TEntityResult>> Validate(TEntity item);
     }

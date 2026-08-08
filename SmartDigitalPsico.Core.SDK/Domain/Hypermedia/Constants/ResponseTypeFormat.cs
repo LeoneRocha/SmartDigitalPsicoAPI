@@ -5,9 +5,11 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants
     /// </summary>
     public static class ResponseTypeFormat
     {
-        public const string DefaultGet = "application/json";
-        public const string DefaultPost = "application/json";
-        public const string DefaultPut = "application/json";
-        public const string DefaultPatch = "application/json";
+        private const string ApplicationJson = "application/json";
+
+        public const string DefaultGet = ApplicationJson;
+        public const string DefaultPost = ApplicationJson;
+        public const string DefaultPut = ApplicationJson;
+        public const string DefaultPatch = ApplicationJson;
     }
 }

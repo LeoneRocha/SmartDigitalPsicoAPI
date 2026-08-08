@@ -5,8 +5,8 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Infrastructure.Smtp;
 [TestFixture]
 public class SmtpEmailStrategyTests
 {
-    // CenÃ¡rio: envio de e-mail com servidor SMTP indisponÃ­vel.
-    // Objetivo: montar MailMessage e tentar envio (cobre construÃ§Ã£o do cliente SMTP).
+    // Cenário: envio de e-mail com servidor SMTP indisponível.
+    // Objetivo: montar MailMessage e tentar envio (cobre construção do cliente SMTP).
     [Test]
     public void SendEmailAsync_InvalidServer_ThrowsAfterBuildingMessage()
     {

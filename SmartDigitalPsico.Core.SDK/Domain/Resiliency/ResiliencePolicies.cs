@@ -6,9 +6,9 @@ using System.Data;
 namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency
 {
     /// <summary>
-    /// Classe responsÃ¡vel por ResiliencePolicies.
+    /// Classe responsável por ResiliencePolicies.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// RelaÃ§Ã£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public static class ResiliencePolicies
     {
@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency
             });
 
         /// <summary>
-        /// MÃ©todo CustomRetryPolicy: executa a operaÃ§Ã£o CustomRetryPolicy.
+        /// Operação CustomRetryPolicy: executa a operação CustomRetryPolicy.
         /// </summary>
         public static IAsyncPolicy CustomRetryPolicy(IResiliencePolicyConfig policyConfig)
         {
@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency
         }
 
         /// <summary>
-        /// MÃ©todo CreateRetryPolicy: cria ou persiste um novo registro/recurso.
+        /// Operação CreateRetryPolicy: cria ou persiste um novo registro/recurso.
         /// </summary>
         public static AsyncRetryPolicy CreateRetryPolicy(int retryCount, int retryDelayInSeconds)
         {
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency
         }
 
         /// <summary>
-        /// MÃ©todo GetPolicyFromConfig: consulta e retorna dados.
+        /// Operação GetPolicyFromConfig: consulta e retorna dados.
         /// </summary>
         public static IAsyncPolicy GetPolicyFromConfig(IResiliencePolicyConfig policyConfig)
         {

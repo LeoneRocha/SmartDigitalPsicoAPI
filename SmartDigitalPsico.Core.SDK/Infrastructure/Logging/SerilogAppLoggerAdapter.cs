@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Core.SDK.Infrastructure.Logging
         /// <summary>
         /// Expõe o logger Serilog subjacente apenas para bootstrap de host (UseSerilog / sinks).
         /// </summary>
-        public ILogger InnerLogger => _logger;
+        public ILogger Logger => _logger;
 
         public bool IsEnabled(ELogLevel level)
             => _logger.IsEnabled(ToSerilogLevel(level));

@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Data.Context
     /// Responsabilidade: contexto EF Core / configuração de dados.
     /// Relação: usado pelos repositórios da camada Data.
     /// </summary>
-    public class SmartDigitalPsicoDataContextMySql : EntityDataContext
+    public class SmartDigitalPsicoDataContextMySql : EntityDataSmartDigitalPsicoContext
     {
         private readonly AuditContextInterceptor? _auditInterceptor;
         /// <summary>

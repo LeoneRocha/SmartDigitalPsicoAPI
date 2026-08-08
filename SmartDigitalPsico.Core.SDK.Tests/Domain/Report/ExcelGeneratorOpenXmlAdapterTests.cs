@@ -23,8 +23,8 @@ public class ExcelGeneratorOpenXmlAdapterTests
     [Test]
     public async Task Generate_SortedSheetsAndMergeCells_CreatesWorkbookContent()
     {
-        // CenÃ¡rio: uma planilha contÃ©m dados tipados e cÃ©lulas mescladas.
-        // Objetivo: gerar workbook ordenado com cabeÃ§alho, filtro e estilos.
+        // Cenário: uma planilha contém dados tipados e células mescladas.
+        // Objetivo: gerar workbook ordenado com cabeçalho, filtro e estilos.
         // Arrange
         Directory.CreateDirectory(_tempPath);
         var output = Path.Combine(_tempPath, "report.xlsx");

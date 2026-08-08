@@ -14,9 +14,9 @@ using SmartDigitalPsico.Core.SDK.Domain.VO;
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>
-    /// Classe responsÃ¡vel por MedicalService.
-    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
-    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
+    /// Classe responsável por MedicalService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class MedicalService
         : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Medical, GetMedicalDto>, IMedicalService
@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly ISharedServices _sharedServices;
 
         /// <summary>
-        /// MÃ©todo MedicalService: executa a operaÃ§Ã£o MedicalService.
+        /// Método MedicalService: executa a operação MedicalService.
         /// </summary>
         public MedicalService(
             ISharedServices sharedServices,
@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _sharedServices = sharedServices;
         }
         /// <summary>
-        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
+        /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         public override async Task<ServiceResponse<GetMedicalDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
@@ -91,7 +91,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// MÃ©todo Update: atualiza um registro/recurso existente.
+        /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
         public override async Task<ServiceResponse<GetMedicalDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
@@ -154,7 +154,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
 
         /// <summary>
-        /// MÃ©todo Delete: remove ou cancela um registro/recurso.
+        /// Método Delete: remove ou cancela um registro/recurso.
         /// </summary>
         public override Task<ServiceResponse<bool>> Delete(long id)
         {
@@ -162,7 +162,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// MÃ©todo FindAll: consulta e retorna dados.
+        /// Método FindAll: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<List<GetMedicalDto>>> FindAll()
         {
@@ -174,7 +174,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return await base.FindAll();
         }
         /// <summary>
-        /// MÃ©todo FindByID: consulta e retorna dados.
+        /// Método FindByID: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<GetMedicalDto>> FindByID(long id)
         {
@@ -275,7 +275,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             DataNotificationTemplateVO fallbackEmail = new DataNotificationTemplateVO()
             {
                 Subject = await GetLocalization(GeneralLanguageKeyConstants.MedicalUpdateTitle, GeneralLanguageMenssageConstants.MedicalUpdateTitle),
-                Body = $"Mï¿½dico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
+                Body = $"Médico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
                 ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
             };
             await _sharedServices.SendNotificationService.SendNotificationAsync(fallbackEmail, ENotificationServiceType.Email, []);

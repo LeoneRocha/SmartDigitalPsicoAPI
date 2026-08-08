@@ -27,8 +27,8 @@ public class PDFsharpMigraDocReportAdapterTests
     [Test]
     public async Task Generate_TableAndTextPages_ReturnsAndSavesPdf()
     {
-        // CenÃ¡rio: o relatÃ³rio tem conteÃºdo em tabela e texto.
-        // Objetivo: renderizar os dois tipos em memÃ³ria e arquivo.
+        // Cenário: o relatório tem conteúdo em tabela e texto.
+        // Objetivo: renderizar os dois tipos em memória e arquivo.
         // Arrange
         Directory.CreateDirectory(_tempPath);
         var content = new ReportPageContentDto

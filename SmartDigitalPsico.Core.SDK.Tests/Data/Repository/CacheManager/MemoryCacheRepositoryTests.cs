@@ -43,7 +43,7 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Repository.CacheManager
             return _memoryCacheRepository;
         }
 
-        // CenÃƒÂ¡rio: a chave jÃƒÂ¡ existe no cache em memÃƒÂ³ria.
+        // Cenário: a chave já existe no cache em memória.
         // Objetivo: retornar true e o valor armazenado ao consultar a chave.
         [Test]
         public void TryGet_KeyExists_ReturnsTrue()
@@ -66,7 +66,7 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Repository.CacheManager
             }
         }
 
-        // CenÃƒÂ¡rio: entrada vÃƒÂ¡lida ÃƒÂ© enviada para o cache em memÃƒÂ³ria.
+        // Cenário: entrada válida é enviada para o cache em memória.
         // Objetivo: confirmar que Set persiste o valor com sucesso.
         [Test]
         public void Set_ValidInput_ReturnsTrue()
@@ -83,7 +83,7 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Repository.CacheManager
             Assert.That(result, Is.True);
         }
 
-        // CenÃƒÂ¡rio: a chave jÃƒÂ¡ existe no cache em memÃƒÂ³ria.
+        // Cenário: a chave já existe no cache em memória.
         // Objetivo: confirmar que Remove remove a entrada com sucesso.
         [Test]
         public void Remove_KeyExists_ReturnsTrue()
@@ -102,8 +102,6 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Repository.CacheManager
             Assert.That(result, Is.True);
         }
     }
-}
-
-
 
     public class TestEntity { public int Id { get; set; } }
+}

@@ -13,8 +13,8 @@ public class ApiBaseControllerTests
     [Test]
     public void GetUserIdCurrent_JwtClaim_ReturnsClaimIdentifier()
     {
-        // CenÃ¡rio: o usuÃ¡rio autenticado possui NameIdentifier JWT.
-        // Objetivo: retornar o identificador do usuÃ¡rio atual.
+        // Cenário: o usuário autenticado possui NameIdentifier JWT.
+        // Objetivo: retornar o identificador do usuário atual.
         // Arrange
         var controller = CreateController(new ServiceCollection().BuildServiceProvider(), new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, "42")], "test")));
 

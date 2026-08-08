@@ -3,13 +3,9 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Data.Context.Interface
-{
-    /// <summary>
-    /// Shim Obsolete — contrato genérico em SmartDigitalPsico.Core.SDK; DbSets de produto permanecem aqui.
-    /// </summary>
-    // Movido para SmartDigitalPsico.Core.SDK — parte genérica no pacote Core.
-    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use SmartDigitalPsico.Core.SDK.Data.Context.Interface.IEntityDataContext para o contrato genérico. DbSets de produto permanecem neste shim.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
-    public interface IEntityDataContext : SmartDigitalPsico.Core.SDK.Data.Context.Interface.IEntityDataContext
+{ 
+
+    public interface IEntityDataSmartDigitalPsicoContext : SmartDigitalPsico.Core.SDK.Data.Context.Interface.IEntityDataContext
     {
         DbSet<ApplicationCacheLog> ApplicationCacheLogs { get; set; }
         DbSet<ApplicationConfigSetting> ApplicationConfigSettings { get; set; }

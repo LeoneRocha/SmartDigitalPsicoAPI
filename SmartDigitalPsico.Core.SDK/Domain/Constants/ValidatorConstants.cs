@@ -1,9 +1,9 @@
 namespace SmartDigitalPsico.Core.SDK.Domain.Constants
 {
     /// <summary>
-    /// Classe responsÃ¡vel por ValidatorConstants.
+    /// Classe responsável por ValidatorConstants.
     /// Responsabilidade: constantes compartilhadas do sistema.
-    /// RelaÃ§Ã£o: referenciado por Domain, Service e WebAPI.
+    /// Relação: referenciado por Domain, Service e WebAPI.
     /// </summary>
     public static class ValidatorConstants
     {

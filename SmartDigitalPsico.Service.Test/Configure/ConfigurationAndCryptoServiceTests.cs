@@ -401,7 +401,7 @@ public class ConfigurationAndCryptoServiceTests
             options.SupportedCultures.Should().NotBeEmpty();
             mvc.RespectBrowserAcceptHeader.Should().BeTrue();
             provider.GetRequiredService<IAppLogger>().Should().BeOfType<SmartDigitalPsico.Core.SDK.Infrastructure.Logging.SerilogAppLoggerAdapter>();
-            ((SmartDigitalPsico.Core.SDK.Infrastructure.Logging.SerilogAppLoggerAdapter)provider.GetRequiredService<IAppLogger>()).InnerLogger.Should().BeSameAs(serilogLogger);
+            ((SmartDigitalPsico.Core.SDK.Infrastructure.Logging.SerilogAppLoggerAdapter)provider.GetRequiredService<IAppLogger>()).Logger.Should().BeSameAs(serilogLogger);
         }
     }
 

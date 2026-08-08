@@ -1,8 +1,7 @@
-using Moq;
+﻿using Moq;
 using Serilog;
 using Serilog.Events;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Infrastructure.Logging;
@@ -15,7 +14,7 @@ public class SerilogAppLoggerAdapterTests
     {
         var serilog = new Mock<ILogger>();
         serilog.Setup(x => x.IsEnabled(LogEventLevel.Information)).Returns(true);
-        IAppLogger logger = new SerilogAppLoggerAdapter(serilog.Object);
+        var logger = new SerilogAppLoggerAdapter(serilog.Object);
 
         logger.Information("Hello {Name}", "world");
 
@@ -27,7 +26,7 @@ public class SerilogAppLoggerAdapterTests
     {
         var serilog = new Mock<ILogger>();
         serilog.Setup(x => x.IsEnabled(LogEventLevel.Warning)).Returns(true);
-        IAppLogger logger = new SerilogAppLoggerAdapter(serilog.Object);
+        var logger = new SerilogAppLoggerAdapter(serilog.Object);
 
         logger.IsEnabled(ELogLevel.Warning).Should().BeTrue();
         serilog.Verify(x => x.IsEnabled(LogEventLevel.Warning), Times.Once);
@@ -39,12 +38,12 @@ public class SerilogAppLoggerAdapterTests
         var inner = new Mock<ILogger>();
         var contextual = new Mock<ILogger>();
         inner.Setup(x => x.ForContext(It.IsAny<string>(), It.IsAny<object?>(), It.IsAny<bool>())).Returns(contextual.Object);
-        IAppLogger logger = new SerilogAppLoggerAdapter(inner.Object);
+        var logger = new SerilogAppLoggerAdapter(inner.Object);
 
         var next = logger.ForContext("UserId", 42);
 
         next.Should().BeOfType<SerilogAppLoggerAdapter>();
-        ((SerilogAppLoggerAdapter)next).InnerLogger.Should().BeSameAs(contextual.Object);
+        ((SerilogAppLoggerAdapter)next).Logger.Should().BeSameAs(contextual.Object);
     }
 
     [Test]

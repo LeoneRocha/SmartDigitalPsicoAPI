@@ -21,8 +21,8 @@ public class QuestPdfReportAdapterTests
     [Test]
     public async Task Generate_TableAndTextPages_ReturnsAndSavesPdf()
     {
-        // CenÃ¡rio: o relatÃ³rio possui pÃ¡ginas de tabela e texto.
-        // Objetivo: gerar PDF em memÃ³ria e em arquivo para ambos os formatos.
+        // Cenário: o relatório possui páginas de tabela e texto.
+        // Objetivo: gerar PDF em memória e em arquivo para ambos os formatos.
         // Arrange
         Directory.CreateDirectory(_tempPath);
         var content = CreateContent();

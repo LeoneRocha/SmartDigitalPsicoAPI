@@ -14,9 +14,9 @@ using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>
-    /// Classe responsÃ¡vel por PatientHospitalizationInformationService.
-    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
-    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
+    /// Classe responsável por PatientHospitalizationInformationService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class PatientHospitalizationInformationService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<PatientHospitalizationInformation, GetPatientHospitalizationInformationDto>, IPatientHospitalizationInformationService
 
@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly IUserRepository _userRepository;
 
         /// <summary>
-        /// MÃ©todo PatientHospitalizationInformationService: executa a operaÃ§Ã£o PatientHospitalizationInformationService.
+        /// Método PatientHospitalizationInformationService: executa a operação PatientHospitalizationInformationService.
         /// </summary>
         public PatientHospitalizationInformationService(
             ISharedServices sharedServices,
@@ -39,7 +39,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
+        /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
@@ -72,7 +72,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// MÃ©todo Update: atualiza um registro/recurso existente.
+        /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
         public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
@@ -109,7 +109,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
         /// <summary>
-        /// MÃ©todo FindAllByPatient: consulta e retorna dados.
+        /// Método FindAllByPatient: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<List<GetPatientHospitalizationInformationDto>>> FindAllByPatient(long patientId)
         {
@@ -146,7 +146,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// MÃ©todo FindAll: consulta e retorna dados.
+        /// Método FindAll: consulta e retorna dados.
         /// </summary>
         public async override Task<ServiceResponse<List<GetPatientHospitalizationInformationDto>>> FindAll()
         {
@@ -156,7 +156,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
         /// <summary>
-        /// MÃ©todo FindByID: consulta e retorna dados.
+        /// Método FindByID: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<GetPatientHospitalizationInformationDto>> FindByID(long id)
         {

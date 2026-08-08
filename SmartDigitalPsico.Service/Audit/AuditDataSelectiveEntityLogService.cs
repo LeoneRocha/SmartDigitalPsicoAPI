@@ -11,9 +11,9 @@ using SmartDigitalPsico.Core.SDK.Domain.VO;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
-    /// Classe responsÃ¡vel por AuditDataSelectiveEntityLogService.
+    /// Classe responsável por AuditDataSelectiveEntityLogService.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// RelaÃ§Ã£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class AuditDataSelectiveEntityLogService
         : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<AuditDataSelectiveEntityLog, GetAuditDataSelectiveEntityLogDto>, IAuditDataSelectiveEntityLogService
@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         private readonly ISharedDependenciesConfig _sharedDependenciesConfig;
 
         /// <summary>
-        /// MÃ©todo AuditDataSelectiveEntityLogService: executa a operaÃ§Ã£o AuditDataSelectiveEntityLogService.
+        /// Operação AuditDataSelectiveEntityLogService: executa a operação AuditDataSelectiveEntityLogService.
         /// </summary>
         public AuditDataSelectiveEntityLogService(
             ISharedServices sharedServices,
@@ -36,7 +36,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _sharedDependenciesConfig = sharedDependenciesConfig;
         }
         /// <summary>
-        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
+        /// Operação Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// MÃ©todo Save: cria ou persiste um novo registro/recurso.
+        /// Operação Save: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task Save(object entryOld, object entryNew, string operation, string[] propertiesToIgnore)
         {

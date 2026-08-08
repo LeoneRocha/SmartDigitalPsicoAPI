@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Infrastructure.Mapping;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Infrastructure.Mapping;
@@ -13,7 +12,7 @@ public class AutoMapperAppMapperAdapterTests
     {
         var inner = new Mock<IMapper>();
         inner.Setup(x => x.Map<string>(It.IsAny<object>())).Returns("mapped");
-        IAppMapper mapper = new AutoMapperAppMapperAdapter(inner.Object);
+        var mapper = new AutoMapperAppMapperAdapter(inner.Object);
 
         var result = mapper.Map<string>(new { Id = 1 });
 
@@ -27,7 +26,7 @@ public class AutoMapperAppMapperAdapterTests
         var inner = new Mock<IMapper>();
         var dest = new Dest();
         inner.Setup(x => x.Map(It.IsAny<Source>(), It.IsAny<Dest>())).Returns(dest);
-        IAppMapper mapper = new AutoMapperAppMapperAdapter(inner.Object);
+        var mapper = new AutoMapperAppMapperAdapter(inner.Object);
 
         var result = mapper.Map(new Source(), dest);
 

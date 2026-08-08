@@ -9,8 +9,8 @@ public class RequestCultureMiddlewareTests
     [Test]
     public async Task Invoke_CultureHeader_SetsCultureAndInvokesNext()
     {
-        // CenÃ¡rio: a requisiÃ§Ã£o informa uma cultura vÃ¡lida.
-        // Objetivo: aplicar a cultura antes de chamar o prÃ³ximo middleware.
+        // Cenário: a requisição informa uma cultura válida.
+        // Objetivo: aplicar a cultura antes de chamar o próximo middleware.
         // Arrange
         var context = new DefaultHttpContext();
         context.Request.Headers["X-Culture"] = "pt-BR";
@@ -19,7 +19,7 @@ public class RequestCultureMiddlewareTests
         string? uiCultureDuringNext = null;
         var middleware = new SmartDigitalPsico.Core.SDK.Domain.Helpers.RequestCultureMiddleware(_ =>
         {
-            // Captura dentro do pipeline: apÃ³s o await o AsyncLocal pode voltar ao default da thread.
+            // Captura dentro do pipeline: após o await o AsyncLocal pode voltar ao default da thread.
             invoked = true;
             cultureDuringNext = CultureInfo.CurrentCulture.Name;
             uiCultureDuringNext = CultureInfo.CurrentUICulture.Name;
@@ -41,7 +41,7 @@ public class RequestCultureMiddlewareTests
     [Test]
     public async Task Invoke_EmptyCultureHeader_InvokesNextWithoutChangingCulture()
     {
-        // CenÃ¡rio: a requisiÃ§Ã£o nÃ£o informa cultura.
+        // Cenário: a requisição não informa cultura.
         // Objetivo: continuar o pipeline sem criar CultureInfo.
         // Arrange
         var previous = CultureInfo.CurrentCulture;

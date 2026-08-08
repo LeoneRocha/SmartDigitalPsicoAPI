@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         /// </summary>
         public async Task<UserTokenSession?> GetSessionAsync(long userId)
         { 
-            return await ((SmartDigitalPsico.Data.Context.EntityDataContext)_context).UserTokenSessions.FirstOrDefaultAsync(ts => ts.UserId == userId);
+            return await ((SmartDigitalPsico.Data.Context.EntityDataSmartDigitalPsicoContext)_context).UserTokenSessions.FirstOrDefaultAsync(ts => ts.UserId == userId);
         }
 
         /// <summary>
@@ -30,14 +30,14 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         /// </summary>
         public async Task SaveSessionAsync(UserTokenSession session)
         {
-            var existingSession = await ((SmartDigitalPsico.Data.Context.EntityDataContext)_context).UserTokenSessions.SingleOrDefaultAsync(ts => ts.UserId == session.UserId);
+            var existingSession = await ((SmartDigitalPsico.Data.Context.EntityDataSmartDigitalPsicoContext)_context).UserTokenSessions.SingleOrDefaultAsync(ts => ts.UserId == session.UserId);
             if (existingSession == null)
             {
-                await ((SmartDigitalPsico.Data.Context.EntityDataContext)_context).UserTokenSessions.AddAsync(session);
+                await ((SmartDigitalPsico.Data.Context.EntityDataSmartDigitalPsicoContext)_context).UserTokenSessions.AddAsync(session);
             }
             else
             {
-                ((SmartDigitalPsico.Data.Context.EntityDataContext)_context).UserTokenSessions.Update(session);
+                ((SmartDigitalPsico.Data.Context.EntityDataSmartDigitalPsicoContext)_context).UserTokenSessions.Update(session);
             }
             await _context.SaveChangesAsync();
         }

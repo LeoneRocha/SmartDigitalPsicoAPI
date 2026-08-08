@@ -9,8 +9,8 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Infrastructure;
 [TestFixture]
 public class StorageTableEntityServiceTests
 {
-    // CenÃ¡rio: fÃ¡brica cria contrato interno e operaÃ§Ãµes sÃ£o delegadas.
-    // Objetivo: cobrir ctor e todos os mÃ©todos pÃºblicos do StorageTableEntityService.
+    // Cenário: fábrica cria contrato interno e operações são delegadas.
+    // Objetivo: cobrir ctor e todos os métodos públicos do StorageTableEntityService.
     [Test]
     public async Task StorageTableEntityService_AllOperations_DelegateToFactoryRepository()
     {

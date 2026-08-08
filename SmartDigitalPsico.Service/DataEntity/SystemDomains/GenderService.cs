@@ -11,14 +11,14 @@ using SmartDigitalPsico.Core.SDK.Domain.VO;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
-    /// Classe responsÃ¡vel por GenderService.
-    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
-    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
+    /// Classe responsável por GenderService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class GenderService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Gender, GetGenderDto>, IGenderService
     {
         /// <summary>
-        /// MÃ©todo GenderService: executa a operaÃ§Ã£o GenderService.
+        /// Método GenderService: executa a operação GenderService.
         /// </summary>
         public GenderService(
             ISharedServices sharedServices,
@@ -32,7 +32,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// MÃ©todo FindAll: consulta e retorna dados.
+        /// Método FindAll: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<List<GetGenderDto>>> FindAll()
         {
@@ -63,7 +63,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return result;
         }
         /// <summary>
-        /// MÃ©todo FindByID: consulta e retorna dados.
+        /// Método FindByID: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<GetGenderDto>> FindByID(long id)
         {
@@ -86,7 +86,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// MÃ©todo Update: atualiza um registro/recurso existente.
+        /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
         public override async Task<ServiceResponse<GetGenderDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {

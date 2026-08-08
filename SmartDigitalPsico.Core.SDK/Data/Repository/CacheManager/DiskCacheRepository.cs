@@ -108,7 +108,7 @@ namespace SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager
             return true;
         }
 
-        private string GetPathSaveCache(string pathCache)
+        private static string GetPathSaveCache(string pathCache)
         {
             string pathToSaveCache;
             if (Path.IsPathFullyQualified(pathCache))

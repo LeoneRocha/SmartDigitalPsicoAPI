@@ -12,14 +12,14 @@ using System.Globalization;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
-    /// Classe responsÃ¡vel por ApplicationLanguageService.
-    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
-    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
+    /// Classe responsável por ApplicationLanguageService.
+    /// Responsabilidade: serviço de entidade de negócio.
+    /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class ApplicationLanguageService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<ApplicationLanguage, GetApplicationLanguageDto>, IApplicationLanguageService
     {
         /// <summary>
-        /// MÃ©todo ApplicationLanguageService: executa a operaÃ§Ã£o ApplicationLanguageService.
+        /// Método ApplicationLanguageService: executa a operação ApplicationLanguageService.
         /// </summary>
         public ApplicationLanguageService(
             ISharedServices sharedServices,
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
         }
         /// <summary>
-        /// MÃ©todo FindAll: consulta e retorna dados.
+        /// Método FindAll: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<List<GetApplicationLanguageDto>>> FindAll()
         {
@@ -158,7 +158,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
 
         /// <summary>
-        /// MÃ©todo RemoveCache: remove ou cancela um registro/recurso.
+        /// Método RemoveCache: remove ou cancela um registro/recurso.
         /// </summary>
         public async Task RemoveCache(string keyCache)
         {
@@ -171,7 +171,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
 
         /// <summary>
-        /// MÃ©todo Save: cria ou persiste um novo registro/recurso.
+        /// Método Save: cria ou persiste um novo registro/recurso.
         /// </summary>
         public virtual async Task Save(AddApplicationLanguageDto item)
         {

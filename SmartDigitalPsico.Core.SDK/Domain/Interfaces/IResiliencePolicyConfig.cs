@@ -1,9 +1,9 @@
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces
 {
     /// <summary>
-    /// Interface (contrato) responsÃ¡vel por IResiliencePolicyConfig.
-    /// Responsabilidade: contrato de abstraÃ§Ã£o do domÃ­nio.
-    /// RelaÃ§Ã£o: implementado nas camadas Data/Service.
+    /// Interface (contrato) responsável por IResiliencePolicyConfig.
+    /// Responsabilidade: contrato de abstração do domínio.
+    /// Relação: implementado nas camadas Data/Service.
     /// </summary>
     public interface IResiliencePolicyConfig
     {
