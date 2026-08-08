@@ -21,12 +21,12 @@ public class MedicalScheduleDeleteServiceTests
     {
         // Arrange
         var ctx = CreateContext(out var query, out var delete, out var sut);
-        query.Setup(x => x.GetByIdAsync(10)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?>
+        query.Setup(x => x.GetByIdAsync(10)).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
             Success = true,
             Data = new ScheduleCalendar { Id = 10, OwnerKey = MedicalScheduleKeys.ForMedical(3), UniqueToken = "u1" }
         });
-        delete.Setup(x => x.DeleteByIdAsync(10)).ReturnsAsync(new ServiceResponse<bool> { Success = true });
+        delete.Setup(x => x.DeleteByIdAsync(10)).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true });
 
         // Act
         var result = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto { Id = 10, MedicalId = 3, DeleteSeries = false });
@@ -42,13 +42,13 @@ public class MedicalScheduleDeleteServiceTests
     {
         // Arrange
         var ctx = CreateContext(out var query, out var delete, out var sut);
-        query.Setup(x => x.GetByTokenAsync("tok")).ReturnsAsync(new ServiceResponse<ScheduleCalendar?>
+        query.Setup(x => x.GetByTokenAsync("tok")).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
             Success = true,
             Data = new ScheduleCalendar { Id = 11, OwnerKey = MedicalScheduleKeys.ForMedical(3), UniqueToken = "u2" }
         });
         delete.Setup(x => x.DeleteByTokenFilteredAsync(It.IsAny<ScheduleDeleteTokenRequest>()))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true });
 
         // Act
         var ok = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto
@@ -59,7 +59,7 @@ public class MedicalScheduleDeleteServiceTests
         });
 
         delete.Setup(x => x.DeleteByTokenFilteredAsync(It.IsAny<ScheduleDeleteTokenRequest>()))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = false, Message = "fail" });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = false, Message = "fail" });
         var failDelete = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto
         {
             MedicalId = 3,
@@ -67,7 +67,7 @@ public class MedicalScheduleDeleteServiceTests
             TokenRecurrence = "tok"
         });
 
-        query.Setup(x => x.GetByTokenAsync("tok2")).ReturnsAsync(new ServiceResponse<ScheduleCalendar?>
+        query.Setup(x => x.GetByTokenAsync("tok2")).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
             Success = true,
             Data = new ScheduleCalendar { Id = 12, OwnerKey = MedicalScheduleKeys.ForMedical(99), UniqueToken = "u3" }
@@ -79,9 +79,9 @@ public class MedicalScheduleDeleteServiceTests
             TokenRecurrence = "tok2"
         });
 
-        query.Setup(x => x.GetByTokenAsync("missing")).ReturnsAsync(new ServiceResponse<ScheduleCalendar?> { Success = true, Data = null });
+        query.Setup(x => x.GetByTokenAsync("missing")).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Success = true, Data = null });
         delete.Setup(x => x.DeleteByTokenFilteredAsync(It.IsAny<ScheduleDeleteTokenRequest>()))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true });
         var packageNullOk = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto
         {
             MedicalId = 3,
@@ -115,24 +115,24 @@ public class MedicalScheduleDeleteServiceTests
     {
         // Arrange
         var ctx = CreateContext(out var query, out var delete, out var sut);
-        query.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?> { Success = false });
+        query.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Success = false });
 
         // Act
         var missing = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto { Id = 1, MedicalId = 3 });
 
-        query.Setup(x => x.GetByIdAsync(2)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?>
+        query.Setup(x => x.GetByIdAsync(2)).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
             Success = true,
             Data = new ScheduleCalendar { Id = 2, OwnerKey = MedicalScheduleKeys.ForMedical(99), UniqueToken = "u" }
         });
         var denied = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto { Id = 2, MedicalId = 3 });
 
-        query.Setup(x => x.GetByIdAsync(3)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?>
+        query.Setup(x => x.GetByIdAsync(3)).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
             Success = true,
             Data = new ScheduleCalendar { Id = 3, OwnerKey = MedicalScheduleKeys.ForMedical(3), UniqueToken = "u" }
         });
-        delete.Setup(x => x.DeleteByIdAsync(3)).ReturnsAsync(new ServiceResponse<bool> { Success = false, Message = "x" });
+        delete.Setup(x => x.DeleteByIdAsync(3)).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = false, Message = "x" });
         var failDelete = await sut.DeleteOneOrRecurrence(new DeleteMedicalCalendarDto { Id = 3, MedicalId = 3 });
 
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).Returns(Task.FromResult<User>(null!));

@@ -8,6 +8,8 @@ namespace SmartDigitalPsico.Domain.Helpers
     /// Responsabilidade: utilitário auxiliar do domínio.
     /// Relação: usado por Services e Domain para regras compartilhadas.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public class RequestCultureMiddleware
     {
         private readonly RequestDelegate _next;

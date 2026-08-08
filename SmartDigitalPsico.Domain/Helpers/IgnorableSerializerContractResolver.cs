@@ -5,16 +5,18 @@ using System.Reflection;
 namespace SmartDigitalPsico.Domain.Helpers
 {
     /// <summary>
-    /// Classe responsável por IgnorableSerializerContractResolver.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// Classe responsÃ¡vel por SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver.
+    /// Responsabilidade: utilitÃ¡rio auxiliar do domÃ­nio.
+    /// RelaÃ§Ã£o: usado por Services e Domain para regras compartilhadas.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public class IgnorableSerializerContractResolver : DefaultContractResolver
     {
         private readonly HashSet<string> _propertiesToIgnore;
 
         /// <summary>
-        /// Método IgnorableSerializerContractResolver: executa a operação IgnorableSerializerContractResolver.
+        /// MÃ©todo SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver: executa a operaÃ§Ã£o SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver.
         /// </summary>
         public IgnorableSerializerContractResolver(IEnumerable<string> propertiesToIgnore)
         {
@@ -22,7 +24,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
 
         /// <summary>
-        /// Método CreateProperty: cria ou persiste um novo registro/recurso.
+        /// MÃ©todo CreateProperty: cria ou persiste um novo registro/recurso.
         /// </summary>
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {

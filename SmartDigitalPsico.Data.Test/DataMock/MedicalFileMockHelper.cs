@@ -1,5 +1,5 @@
-﻿using Bogus;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using Bogus;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.DataMock

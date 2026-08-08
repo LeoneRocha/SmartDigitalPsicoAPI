@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
@@ -11,12 +12,12 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class ApplicationCacheLogRepository : GenericRepositoryEntityBase<ApplicationCacheLog>, IApplicationCacheLogRepository
+    public class ApplicationCacheLogRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<ApplicationCacheLog>, IApplicationCacheLogRepository
     {
         /// <summary>
         /// Método ApplicationCacheLogRepository: executa a operação ApplicationCacheLogRepository.
         /// </summary>
-        public ApplicationCacheLogRepository(IEntityDataContext context) : base(context) { }
+        public ApplicationCacheLogRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context) { }
 
 
 

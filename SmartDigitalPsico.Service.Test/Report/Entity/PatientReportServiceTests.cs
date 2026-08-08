@@ -143,7 +143,7 @@ public class PatientReportServiceTests
         await File.WriteAllTextAsync(tempFile, "pdf-content");
 
         // Assert
-        context.PdfReportService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Domain.DTO.Report.ReportPageContentDto>()))
+        context.PdfReportService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto>()))
             .ReturnsAsync(tempFile);
         var configuration = new Mock<IConfiguration>();
         configuration.Setup(x => x["AppSettings:ResourcesTemp"]).Returns(Path.GetTempPath());
@@ -189,7 +189,7 @@ public class PatientReportServiceTests
         await File.WriteAllTextAsync(tempFile, "excel-content");
 
         // Assert
-        context.ExcelGeneratorService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Domain.DTO.Report.ReportWorkbookDataDto>()))
+        context.ExcelGeneratorService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto>()))
             .ReturnsAsync(tempFile);
         var configuration = new Mock<IConfiguration>();
         configuration.Setup(x => x["AppSettings:ResourcesTemp"]).Returns(Path.GetTempPath());
@@ -241,7 +241,7 @@ public class PatientReportServiceTests
         var patient = new Patient { Id = 20, CreatedUser = new User { Id = 1 }, Medical = new Medical { SecurityKey = "key" } };
         context.PatientRepository.Setup(x => x.GetPatientDetailsByIdAsync(20)).ReturnsAsync(patient);
         context.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
-        context.ExcelGeneratorService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Domain.DTO.Report.ReportWorkbookDataDto>()))
+        context.ExcelGeneratorService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto>()))
             .ThrowsAsync(new InvalidOperationException("disk error"));
 
         var result = await context.Service.DownloadReportPatientDetailsById(20, EReportOutputType.Excel);
@@ -260,8 +260,8 @@ public class PatientReportServiceTests
         public Mock<IPatientRepositories> PatientRepositories { get; } = new();
         public Mock<IPatientRecordServiceConfig> Config { get; } = new();
         public Mock<IReportServiceConfig> ReportServiceConfig { get; } = new();
-        public Mock<IExcelGeneratorService> ExcelGeneratorService { get; } = new();
-        public Mock<IPdfReportService> PdfReportService { get; } = new();
+        public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService> ExcelGeneratorService { get; } = new();
+        public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService> PdfReportService { get; } = new();
         public PatientReportService Service { get; }
 
         public PatientReportServiceContext()

@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Test.DataMock
@@ -10,12 +10,12 @@ namespace SmartDigitalPsico.Data.Test.DataMock
             return [
                new ApplicationCacheLog {
                     Id = 1, Enable = true, 
-                   CreatedDate = DateHelper.GetDateTimeNowFromUtc(),
+                   CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc(),
                    CacheId = Guid.NewGuid().ToString(), 
                    CacheKey ="unit_test", 
-                   DateTimeSlidingExpiration =  DateHelper.GetDateTimeNowFromUtc().AddMinutes(1),
-                   LastAccessDate = DateHelper.GetDateTimeNowFromUtc(),
-                   ModifyDate = DateHelper.GetDateTimeNowFromUtc()                   
+                   DateTimeSlidingExpiration =  SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddMinutes(1),
+                   LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc(),
+                   ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc()                   
                 }
            ];
         }

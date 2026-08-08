@@ -1,4 +1,5 @@
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository.Schedule
@@ -6,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository.Schedule
     /// <summary>
     /// Generic schedule persistence (SoT). Replaces MedicalCalendarRepository for schedule queries.
     /// </summary>
-    public interface IScheduleCalendarRepository : IEntityBaseRepository<ScheduleCalendar>
+    public interface IScheduleCalendarRepository : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<ScheduleCalendar>
     {
         /// <summary>
         /// Método GetByUniqueTokenAsync: consulta e retorna dados.

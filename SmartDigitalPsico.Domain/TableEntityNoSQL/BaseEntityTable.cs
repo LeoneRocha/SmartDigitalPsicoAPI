@@ -1,19 +1,11 @@
-using Azure;
-using Azure.Data.Tables;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
-
 namespace SmartDigitalPsico.Domain.TableEntityNoSQL
 {
     /// <summary>
-    /// Classe responsável por BaseEntityTable.
-    /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsicoAPI.Core.SDK.
     /// </summary>
-    public abstract class BaseEntityTable : ITableEntity, ITableBaseEntity
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
+    public abstract class BaseEntityTable : SmartDigitalPsicoAPI.Core.SDK.Domain.TableEntityNoSQL.BaseEntityTable
     {
-        public string PartitionKey { get; set; } = string.Empty;
-        public string RowKey { get; set; } = string.Empty;
-        public DateTimeOffset? Timestamp { get; set; }
-        public ETag ETag { get; set; }
     }
 }

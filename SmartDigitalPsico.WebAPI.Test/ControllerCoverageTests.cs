@@ -10,12 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
-using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO;
 using SmartDigitalPsico.Domain.DTO.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains;
@@ -685,7 +686,7 @@ public class ControllerCoverageTests
 
     private sealed class EmptyCulturesController : GlobalizationCulturesController
     {
-        protected override List<CultureDisplayDto> GetCultures() => [];
+        protected override List<global::SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.CultureDisplayDto> GetCultures() => [];
     }
 
     private sealed class MissingVersionInformationController : AppInformationVersionProductController

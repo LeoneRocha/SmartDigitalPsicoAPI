@@ -1,6 +1,7 @@
 using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
@@ -10,11 +11,11 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class MedicalSettingsRepository : GenericRepositoryEntityBase<MedicalSettings>, IMedicalSettingsRepository
+    public class MedicalSettingsRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<MedicalSettings>, IMedicalSettingsRepository
     {
         /// <summary>
         /// Método MedicalSettingsRepository: executa a operação MedicalSettingsRepository.
         /// </summary>
-        public MedicalSettingsRepository(IEntityDataContext context) : base(context) { }
+        public MedicalSettingsRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context) { }
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Helper

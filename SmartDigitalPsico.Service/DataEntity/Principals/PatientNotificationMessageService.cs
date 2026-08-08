@@ -1,15 +1,18 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.Helper;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
 using SmartDigitalPsico.Domain.Interfaces;
@@ -17,19 +20,19 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>
-    /// Classe responsável por PatientNotificationMessageService.
-    /// Responsabilidade: serviço de entidade de negócio.
-    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// Classe responsÃ¡vel por PatientNotificationMessageService.
+    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
+    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
     /// </summary>
     public class PatientNotificationMessageService
-        : EntityBaseService<PatientNotificationMessage, GetPatientNotificationMessageVO>, IPatientNotificationMessageService
+        : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<PatientNotificationMessage, GetPatientNotificationMessageVO>, IPatientNotificationMessageService
 
     {
         private readonly IPatientRepository _patientRepository;
         private readonly IUserRepository _userRepository;
 
         /// <summary>
-        /// Método PatientNotificationMessageService: executa a operação PatientNotificationMessageService.
+        /// MÃ©todo PatientNotificationMessageService: executa a operaÃ§Ã£o PatientNotificationMessageService.
         /// </summary>
         public PatientNotificationMessageService(
             ISharedServices sharedServices,
@@ -45,9 +48,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _userRepository = sharedRepositories.UserRepository;
         }
         /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Create(IEntityDtoAdd item)
+        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             var dto = (AddPatientNotificationMessageDto)item;
             PatientNotificationMessage entityAdd = _mapper.Map<PatientNotificationMessage>(dto);
@@ -61,9 +64,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #endregion
 
-            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
             ServiceResponse<GetPatientNotificationMessageVO> response = await base.Validate(entityAdd);
 
@@ -80,15 +83,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método Update: atualiza um registro/recurso existente.
+        /// MÃ©todo Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Update(IEntityDto item)
+        public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> Update(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var dto = (UpdatePatientNotificationMessageDto)item;
             PatientNotificationMessage entityUpdate = await ((IPatientNotificationMessageRepository)_entityRepository).FindByID(dto.Id);
 
-            entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-            entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
             entityUpdate.ModifyUserId = UserId;
 
@@ -97,10 +100,10 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             entityUpdate.MessagePatient = dto.Message;
 
             entityUpdate.IsReaded = dto.IsReaded;
-            entityUpdate.ReadingDate = dto.IsReaded ? DateHelper.GetDateTimeNowFromUtc() : null;
+            entityUpdate.ReadingDate = dto.IsReaded ? SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null;
 
             entityUpdate.Notified = dto.Notified;
-            entityUpdate.NotifiedDate = dto.Notified ? DateHelper.GetDateTimeNowFromUtc() : null;
+            entityUpdate.NotifiedDate = dto.Notified ? SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null;
 
             #endregion Columns
 
@@ -117,7 +120,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return response;
         }
         /// <summary>
-        /// Método FindAllByPatient: consulta e retorna dados.
+        /// MÃ©todo FindAllByPatient: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<List<GetPatientNotificationMessageVO>>> FindAllByPatient(long patientId)
         {
@@ -138,7 +141,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método FindAll: consulta e retorna dados.
+        /// MÃ©todo FindAll: consulta e retorna dados.
         /// </summary>
         public async override Task<ServiceResponse<List<GetPatientNotificationMessageVO>>> FindAll()
         {
@@ -151,7 +154,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
 
         /// <summary>
-        /// Método FindByID: consulta e retorna dados.
+        /// MÃ©todo FindByID: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<GetPatientNotificationMessageVO>> FindByID(long id)
         {
@@ -189,3 +192,4 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
     }
 }
+

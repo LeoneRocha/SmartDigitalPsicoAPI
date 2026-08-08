@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj" />
+    <ProjectReference Include="..\SmartDigitalPsicoAPI.Core.SDK\SmartDigitalPsicoAPI.Core.SDK.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Domains
 {
@@ -10,6 +11,6 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
     public class AuthConfigurationDto
     {
         public bool IsEnable { get; set; }
-        public ETypeApiCredential TypeApiCredential { get; set; }
+        public SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeApiCredential TypeApiCredential { get; set; }
     }
 }

@@ -250,12 +250,12 @@ public class RemainingServiceLineGapTests
         {
         }
 
-        public override Task<ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetAuditDataSelectiveEntityLogDto>> Create(
-            SmartDigitalPsico.Domain.Interfaces.IEntityDtoAdd item)
+        public override Task<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetAuditDataSelectiveEntityLogDto>> Create(
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             if (!CreateSucceeds)
                 throw new InvalidOperationException("fail");
-            return Task.FromResult(new ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetAuditDataSelectiveEntityLogDto>
+            return Task.FromResult(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetAuditDataSelectiveEntityLogDto>
             {
                 Success = true,
                 Message = "ok"
@@ -359,7 +359,7 @@ public class RemainingServiceLineGapTests
     public void DiskCache_ValidDataProperty_ReturnsExistsTrue()
     {
         // Arrange
-        var disk = new Mock<IDiskCacheRepository>();
+        var disk = new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>();
         var entry = new ExpirableCacheEntry
         {
             Data = "payload",
@@ -367,13 +367,13 @@ public class RemainingServiceLineGapTests
         };
         disk.Setup(x => x.TryGetAsync<ExpirableCacheEntry>("valid-data"))
             .ReturnsAsync(new KeyValuePair<bool, ExpirableCacheEntry>(true, entry));
-        var service = new CacheService(
-            Mock.Of<IMemoryCacheRepository>(),
+        var service = new SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService(
+            Mock.Of<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>(),
             disk.Object,
             Mock.Of<IApplicationCacheLogRepository>(),
-            Microsoft.Extensions.Options.Options.Create(new SmartDigitalPsico.Domain.DTO.Domains.CacheConfigurationDto
+            Microsoft.Extensions.Options.Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
             {
-                TypeCache = ETypeLocationCache.Disk,
+                TypeCache = global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Disk,
                 IsEnable = true,
                 AbsoluteExpirationInHours = 1,
                 SlidingExpirationInMinutes = 5
@@ -392,3 +392,4 @@ public class RemainingServiceLineGapTests
         }
     }
 }
+

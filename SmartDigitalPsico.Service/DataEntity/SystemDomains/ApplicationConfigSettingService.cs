@@ -1,6 +1,7 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
@@ -16,7 +17,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class ApplicationConfigSettingService
-      : EntityBaseService<ApplicationConfigSetting, GetApplicationConfigSettingDto>, IApplicationConfigSettingService
+      : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<ApplicationConfigSetting, GetApplicationConfigSettingDto>, IApplicationConfigSettingService
     {
         /// <summary>
         /// Método ApplicationConfigSettingService: executa a operação ApplicationConfigSettingService.

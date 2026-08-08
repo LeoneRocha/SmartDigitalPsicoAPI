@@ -1,16 +1,19 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientAdditionalInformation;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.Helper;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
 using SmartDigitalPsico.Domain.Interfaces;
@@ -18,17 +21,17 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>
-    /// Classe responsável por PatientAdditionalInformationService.
-    /// Responsabilidade: serviço de entidade de negócio.
-    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// Classe responsÃ¡vel por PatientAdditionalInformationService.
+    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
+    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
     /// </summary>
-    public class PatientAdditionalInformationService : EntityBaseService<PatientAdditionalInformation, GetPatientAdditionalInformationDto>, IPatientAdditionalInformationService
+    public class PatientAdditionalInformationService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<PatientAdditionalInformation, GetPatientAdditionalInformationDto>, IPatientAdditionalInformationService
 
     {
         private readonly IUserRepository _userRepository;
 
         /// <summary>
-        /// Método PatientAdditionalInformationService: executa a operação PatientAdditionalInformationService.
+        /// MÃ©todo PatientAdditionalInformationService: executa a operaÃ§Ã£o PatientAdditionalInformationService.
         /// </summary>
         public PatientAdditionalInformationService(
             ISharedServices sharedServices,
@@ -43,7 +46,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _userRepository = userRepository;
         }
         /// <summary>
-        /// Método FindAll: consulta e retorna dados.
+        /// MÃ©todo FindAll: consulta e retorna dados.
         /// </summary>
         public async override Task<ServiceResponse<List<GetPatientAdditionalInformationDto>>> FindAll()
         {
@@ -54,9 +57,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Create(IEntityDtoAdd item)
+        public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             var dto = (AddPatientAdditionalInformationDto)item;
             PatientAdditionalInformation entityAdd = _mapper.Map<PatientAdditionalInformation>(dto);
@@ -68,9 +71,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #endregion
 
-            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
             ServiceResponse<GetPatientAdditionalInformationDto> response = await base.Validate(entityAdd);
 
@@ -85,9 +88,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método Update: atualiza um registro/recurso existente.
+        /// MÃ©todo Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Update(IEntityDto item)
+        public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> Update(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var dto = (UpdatePatientAdditionalInformationDto)item;
 
@@ -98,8 +101,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #endregion Relationship
 
-            entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-            entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
             #region Columns
             entityUpdate.Enable = dto.Enable;
@@ -120,7 +123,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método FindAllByPatient: consulta e retorna dados.
+        /// MÃ©todo FindAllByPatient: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<List<GetPatientAdditionalInformationDto>>> FindAllByPatient(long patientId)
         {
@@ -162,7 +165,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         /// <param name="id"></param>
         /// <returns></returns>
         /// <summary>
-        /// Método FindByID: consulta e retorna dados.
+        /// MÃ©todo FindByID: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<GetPatientAdditionalInformationDto>> FindByID(long id)
         {
@@ -199,3 +202,4 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
     }
 }
+

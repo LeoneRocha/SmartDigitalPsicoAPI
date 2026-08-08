@@ -1,10 +1,13 @@
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.DTO.Report;
 using System.Reflection;
+
 
 namespace SmartDigitalPsico.Domain.Report
 {
@@ -13,6 +16,8 @@ namespace SmartDigitalPsico.Domain.Report
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public class PDFsharpMigraDocReportAdapter : IPdfReportAdapter
     {
         //https://docs.pdfsharp.net/index.html
@@ -70,11 +75,11 @@ namespace SmartDigitalPsico.Domain.Report
         }
         private static void AddPageContent(Section section, ReportPageDataDto page)
         {
-            if (page.PageType == EReportPageType.Table)
+            if (page.PageType == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Table)
             {
                 AddTable(section, page);
             }
-            else if (page.PageType == EReportPageType.Text)
+            else if (page.PageType == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Text)
             {
                 AddText(section, page);
             }
@@ -103,7 +108,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
         private static void AddRowContentProperties(Section section, object row, PropertyInfo prop)
         {
-            var label = ReflectionHelpers.GetLabelProperty(prop);
+            var label = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetLabelProperty(prop);
             var value = prop.GetValue(row)?.ToString() ?? string.Empty;
 
             AddLabel(section, label);
@@ -133,7 +138,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
         private static PropertyInfo[] GetProperties(ReportPageDataDto page)
         {
-            return ReflectionHelpers.GetProperties(page.Rows[0], page.PropertiesToIgnore).ToArray();
+            return SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetProperties(page.Rows[0], page.PropertiesToIgnore).ToArray();
         }
         private static void DefineTableColumns(MigraDoc.DocumentObjectModel.Tables.Table table, int propertyCount)
         {

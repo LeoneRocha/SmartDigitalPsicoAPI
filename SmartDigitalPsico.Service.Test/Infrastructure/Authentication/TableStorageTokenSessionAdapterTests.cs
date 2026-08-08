@@ -18,7 +18,7 @@ public class TableStorageTokenSessionAdapterTests
     {
         // Arrange
         var tableEntity = new UserTokenSessionTableEntity { RowKey = "42", RefreshToken = "rt" };
-        var storage = new Mock<IStorageTableContract<UserTokenSessionTableEntity>>();
+        var storage = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
         storage.Setup(x => x.GetByIdAsync("UserTokenSession", "42")).ReturnsAsync(tableEntity);
         var mapper = new Mock<IMapper>();
         mapper.Setup(x => x.Map<UserTokenSession>(tableEntity)).Returns(new UserTokenSession { UserId = 42, RefreshToken = "rt" });
@@ -38,14 +38,14 @@ public class TableStorageTokenSessionAdapterTests
     public async Task SaveSessionAsync_NewSession_UpdatesTableEntity()
     {
         // Arrange
-        var storage = new Mock<IStorageTableContract<UserTokenSessionTableEntity>>();
+        var storage = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
         storage.Setup(x => x.GetByIdAsync("UserTokenSession", "7")).Returns(Task.FromResult<UserTokenSessionTableEntity>(null!));
         storage.Setup(x => x.UpdateAsync(It.IsAny<UserTokenSessionTableEntity>())).Returns(Task.CompletedTask);
         var mapper = new Mock<IMapper>();
         mapper.Setup(x => x.Map<UserTokenSessionTableEntity>(It.IsAny<UserTokenSession>()))
             .Returns(new UserTokenSessionTableEntity());
         var adapter = new TableStorageTokenSessionAdapter(mapper.Object, storage.Object);
-        var session = new UserTokenSession { UserId = 7, RefreshToken = "new-rt", ExpiresAt = DateHelper.GetDateTimeNowFromUtc().AddDays(1) };
+        var session = new UserTokenSession { UserId = 7, RefreshToken = "new-rt", ExpiresAt = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(1) };
 
         // Act
         await adapter.SaveSessionAsync(session);
@@ -66,9 +66,9 @@ public class TableStorageTokenSessionAdapterTests
         {
             PartitionKey = "UserTokenSession",
             RowKey = "8",
-            ExpiresAt = DateHelper.GetDateTimeNowFromUtc().AddHours(-1)
+            ExpiresAt = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddHours(-1)
         };
-        var storage = new Mock<IStorageTableContract<UserTokenSessionTableEntity>>();
+        var storage = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
         storage.Setup(x => x.GetByIdAsync("UserTokenSession", "8")).ReturnsAsync(expired);
         storage.Setup(x => x.DeleteAsync("UserTokenSession", "8")).Returns(Task.CompletedTask);
         storage.Setup(x => x.UpdateAsync(It.IsAny<UserTokenSessionTableEntity>())).Returns(Task.CompletedTask);
@@ -78,7 +78,7 @@ public class TableStorageTokenSessionAdapterTests
         var adapter = new TableStorageTokenSessionAdapter(mapper.Object, storage.Object);
 
         // Act
-        await adapter.SaveSessionAsync(new UserTokenSession { UserId = 8, RefreshToken = "rt", ExpiresAt = DateHelper.GetDateTimeNowFromUtc().AddDays(1) });
+        await adapter.SaveSessionAsync(new UserTokenSession { UserId = 8, RefreshToken = "rt", ExpiresAt = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(1) });
 
         // Assert
         storage.Verify(x => x.DeleteAsync("UserTokenSession", "8"), Times.Once);

@@ -2,11 +2,13 @@ using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions
 {
@@ -68,8 +70,8 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
                 entity.Id = package.Id;
                 entity.CreatedUserId = _support.UserId;
                 entity.ModifyUserId = _support.UserId;
-                entity.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-                entity.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+                entity.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entity.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 entity.TokenRecurrence = package.UniqueToken;
 
                 var validation = await _support.ValidateEntityAsync(entity);

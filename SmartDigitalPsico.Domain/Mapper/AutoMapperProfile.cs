@@ -1,5 +1,6 @@
 using AutoMapper;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
@@ -20,27 +21,28 @@ using SmartDigitalPsico.Domain.DTO.User;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
+
 namespace SmartDigitalPsico.Domain.Mapper
 {
     /// <summary>
-    /// Classe responsável por AutoMapperProfile.
+    /// Classe responsÃ¡vel por AutoMapperProfile.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// RelaÃ§Ã£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class AutoMapperProfile : Profile
     {
         
         /// <summary>
-        /// Método AutoMapperProfile: executa a operação AutoMapperProfile.
+        /// MÃ©todo AutoMapperProfile: executa a operaÃ§Ã£o AutoMapperProfile.
         /// </summary>
         public AutoMapperProfile()
         {
-            #region EntityBase
-            CreateMap<EntityBaseWithNameEmail, EntityDtoBaseName>();
-            CreateMap<EntityDtoBaseName, EntityBaseWithNameEmail>();
+            #region SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBase
+            CreateMap<SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBaseWithNameEmail, SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName>();
+            CreateMap<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName, SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBaseWithNameEmail>();
 
-            CreateMap<EntityBase, EntityDtoBaseDomain>();
-            CreateMap<EntityDtoBaseDomain, EntityBase>();
+            CreateMap<SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBase, SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain>();
+            CreateMap<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain, SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBase>();
             #endregion
 
             #region ApplicationConfigSetting

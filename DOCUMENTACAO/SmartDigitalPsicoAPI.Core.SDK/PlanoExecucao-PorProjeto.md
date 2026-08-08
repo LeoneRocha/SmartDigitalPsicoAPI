@@ -1,7 +1,7 @@
 # Plano de Execução por Projeto — SmartDigitalPsicoAPI.Core.SDK
 
-**Versão:** 1.0  
-**Data:** 2026-08-04  
+**Versão:** 2.0  
+**Data:** 2026-08-08  
 **Estratégia:** Core canônico + host `[Obsolete]` ([Levantamento.md](./Levantamento.md) / [PlanoDeAcao.md](./PlanoDeAcao.md))  
 **Análises:** [Analise-Domain.md](./Analise-Domain.md) · [Analise-Data.md](./Analise-Data.md) · [Analise-Service.md](./Analise-Service.md) · [Analise-WebAPI.md](./Analise-WebAPI.md)
 

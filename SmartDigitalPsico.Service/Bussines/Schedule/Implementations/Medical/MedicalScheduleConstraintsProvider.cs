@@ -1,8 +1,9 @@
-using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
@@ -16,7 +17,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
     {
         private readonly IMedicalRepository _medicalRepository;
         private readonly IApplicationLanguageService _languageService;
-        private readonly ICacheService _cacheService;
+        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService _cacheService;
 
         /// <summary>
         /// Método MedicalScheduleConstraintsProvider: executa a operação MedicalScheduleConstraintsProvider.
@@ -24,7 +25,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         public MedicalScheduleConstraintsProvider(
             IMedicalRepository medicalRepository,
             IApplicationLanguageService languageService,
-            ICacheService cacheService)
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService)
         {
             _medicalRepository = medicalRepository;
             _languageService = languageService;

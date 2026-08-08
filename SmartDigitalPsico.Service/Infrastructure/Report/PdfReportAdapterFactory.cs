@@ -1,30 +1,11 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.Report;
-
 namespace SmartDigitalPsico.Service.Infrastructure.Report
 {
     /// <summary>
-    /// Classe responsável por PdfReportAdapterFactory.
-    /// Responsabilidade: geração de relatórios.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsicoAPI.Core.SDK.
     /// </summary>
-    public class PdfReportAdapterFactory : IPdfReportAdapterFactory
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPORT")]
+    public class PdfReportAdapterFactory : SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Report.PdfReportAdapterFactory
     {
-        /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        public IPdfReportAdapter Create(EPdfReportComponentType ePdfReportComponentType)
-        {
-            switch (ePdfReportComponentType)
-            {
-                case EPdfReportComponentType.QuestPDF:
-                    return new QuestPdfReportAdapter();
-                case EPdfReportComponentType.PDFsharp:
-                    return new PDFsharpMigraDocReportAdapter();
-                default:
-                    throw new ArgumentException("Invalid Pdf Component Type");
-            }
-        }
     }
 }

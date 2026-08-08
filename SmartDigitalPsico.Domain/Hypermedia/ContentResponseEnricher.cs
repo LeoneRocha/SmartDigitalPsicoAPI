@@ -1,117 +1,15 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Routing;
-using SmartDigitalPsico.Domain.AppException;
-using SmartDigitalPsico.Domain.Hypermedia.Abstract;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
-using SmartDigitalPsico.Domain.VO;
-using System.Collections.Concurrent;
-using System.Text;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Abstract;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {
     /// <summary>
-    /// Classe responsável por ContentResponseEnricher.
-    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
-    /// Relação: usado pelos Controllers na serialização.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsicoAPI.Core.SDK.
+    /// Enrichers de domínio continuam no host herdando este tipo (ou o Core).
     /// </summary>
-    public abstract class ContentResponseEnricher<T> : IResponseEnricher where T : ISupportsHyperMedia
-    { 
-        /// <summary>
-        /// Método CanEnrich: executa a operação CanEnrich.
-        /// </summary>
-        public virtual bool CanEnrich(Type contentType)
-        {
-            bool isCanEnrich = contentType == typeof(T) || contentType == typeof(List<T>) || contentType == typeof(PagedSearchVO<T>)
-                || contentType == typeof(ServiceResponse<T>) || contentType == typeof(ServiceResponse<List<T>>);
-
-            return isCanEnrich;
-        }
-
-        protected abstract Task EnrichModel(T content, IUrlHelper urlHelper);
-
-        bool IResponseEnricher.CanEnrich(ResultExecutingContext context)
-        {
-            if (context.Result is OkObjectResult okObjectResult)
-            {
-                if (okObjectResult.Value == null)
-                {
-                    throw new AppWarningException("EnrichModel Value cannot be null.");
-                } 
-                var objValidate = okObjectResult.Value.GetType();
-                return CanEnrich(objValidate);
-            }
-            return false;
-        }
-        /// <summary>
-        /// Método Enrich: executa a operação Enrich.
-        /// </summary>
-        public async Task Enrich(ResultExecutingContext context)
-        {
-            var urlHelper = new UrlHelperFactory().GetUrlHelper(context);
-            if (context.Result is OkObjectResult okObjectResult)
-            {
-                await HandleOkObjectResult(okObjectResult, urlHelper);
-            }
-            await Task.CompletedTask;
-        }
-
-        private async Task HandleOkObjectResult(OkObjectResult okObjectResult, IUrlHelper urlHelper)
-        {
-            switch (okObjectResult.Value)
-            {
-                case ServiceResponse<T> serviceResponse:
-                    await HandleServiceResponse(serviceResponse, urlHelper);
-                    break;
-                case ServiceResponse<List<T>> serviceResponseList:
-                    HandleServiceResponseList(serviceResponseList, urlHelper);
-                    break;
-                case T model:
-                    await EnrichModel(model, urlHelper);
-                    break;
-                case List<T> collection:
-                    HandleCollection(collection, urlHelper);
-                    break;
-                case PagedSearchVO<T> pagedSearch when pagedSearch.List != null:
-                    HandleCollection(pagedSearch.List.ToList(), urlHelper);
-                    break;
-            }
-        }
-
-        private async Task HandleServiceResponse(ServiceResponse<T> serviceResponse, IUrlHelper urlHelper)
-        {
-            // List<T> responses are handled by ServiceResponse<List<T>> in HandleOkObjectResult.
-            if (serviceResponse.Data is T model)
-            {
-                await EnrichModel(model, urlHelper);
-            }
-        }
-
-        private void HandleServiceResponseList(ServiceResponse<List<T>> serviceResponseList, IUrlHelper urlHelper)
-        {
-            if (serviceResponseList.Data is List<T> collection)
-            {
-                HandleCollection(collection, urlHelper);
-            }
-        }
-
-        private void HandleCollection(List<T> collection, IUrlHelper urlHelper)
-        {
-            ConcurrentBag<T> bag = new ConcurrentBag<T>(collection);
-            Parallel.ForEach(bag, element => EnrichModel(element, urlHelper));
-        }
-         
-        protected readonly object _lock = new object();
-        /// <summary>
-        /// Método GetLink: consulta e retorna dados.
-        /// </summary>
-        protected string GetLink(long id, IUrlHelper urlHelper, string path)
-        {
-            lock (_lock)
-            {
-                var url = new { controller = path, id };
-                return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
-            }
-        }
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HYPER")]
+    public abstract class ContentResponseEnricher<T> : SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.ContentResponseEnricher<T>
+        where T : ISupportsHyperMedia
+    {
     }
 }

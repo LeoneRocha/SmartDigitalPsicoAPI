@@ -2,29 +2,33 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.DTO.Report;
 using System.Reflection;
+
 
 namespace SmartDigitalPsico.Domain.Report
 {
     //https://www.questpdf.com/api-reference/line.html
     /// <summary>
-    /// Classe responsável por QuestPdfReportAdapter.
+    /// Classe responsÃ¡vel por QuestPdfReportAdapter.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// RelaÃ§Ã£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public class QuestPdfReportAdapter : IPdfReportAdapter
     {
         /// <summary>
-        /// Método QuestPdfReportAdapter: executa a operação QuestPdfReportAdapter.
+        /// MÃ©todo QuestPdfReportAdapter: executa a operaÃ§Ã£o QuestPdfReportAdapter.
         /// </summary>
         public QuestPdfReportAdapter()
         {
             QuestPDF.Settings.License = LicenseType.Community;//Commercial not free
         }
         /// <summary>
-        /// Método Generate: executa a operação Generate.
+        /// MÃ©todo Generate: executa a operaÃ§Ã£o Generate.
         /// </summary>
         public byte[] Generate(ReportPageContentDto content)
         {
@@ -35,7 +39,7 @@ namespace SmartDigitalPsico.Domain.Report
             return document.GeneratePdf();
         }
         /// <summary>
-        /// Método Generate: executa a operação Generate.
+        /// MÃ©todo Generate: executa a operaÃ§Ã£o Generate.
         /// </summary>
         public async Task Generate(ReportPageContentDto content, string filePath)
         {
@@ -55,7 +59,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
         private static void AddPage(IDocumentContainer container, ReportPageDataDto pageAdd)
         {
-            if (pageAdd.PageType == Enuns.EReportPageType.Table)
+            if (pageAdd.PageType == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Table)
             {
                 container.Page(page =>
                 {
@@ -65,7 +69,7 @@ namespace SmartDigitalPsico.Domain.Report
                     AddFooter(page, pageAdd.FooterTitle);
                 });
             }
-            if (pageAdd.PageType == Enuns.EReportPageType.Text)
+            if (pageAdd.PageType == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Text)
             {
                 container.Page(page =>
                 {
@@ -94,7 +98,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
         private static PropertyInfo[] GetProperties(ReportPageDataDto pageAdd)
         {
-            return ReflectionHelpers.GetProperties(pageAdd.Rows[0], pageAdd.PropertiesToIgnore).ToArray();
+            return SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetProperties(pageAdd.Rows[0], pageAdd.PropertiesToIgnore).ToArray();
         }
         private static void DefineTableColumns(TableDescriptor table, int propertyCount)
         {
@@ -163,7 +167,7 @@ namespace SmartDigitalPsico.Domain.Report
 
         private static void AddRowContentProperties(ColumnDescriptor column, object row, PropertyInfo prop)
         {
-            var label = ReflectionHelpers.GetLabelProperty(prop);
+            var label = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetLabelProperty(prop);
             var value = prop.GetValue(row)?.ToString() ?? string.Empty;
 
             AddLabel(column, label);
@@ -173,7 +177,7 @@ namespace SmartDigitalPsico.Domain.Report
         }
         private static void AddSpacing(ColumnDescriptor column)
         {
-            column.Item().Text(""); // Linha em branco para espaçamento
+            column.Item().Text(""); // Linha em branco para espaÃ§amento
         }
         private static void AddValue(ColumnDescriptor column, string value)
         {

@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
@@ -11,12 +12,12 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class UserRepository : GenericRepositoryEntityBase<User>, IUserRepository
+    public class UserRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<User>, IUserRepository
     {
         /// <summary>
         /// Método UserRepository: executa a operação UserRepository.
         /// </summary>
-        public UserRepository(IEntityDataContext context) : base(context) { }
+        public UserRepository(IEntityDataContext context) : base(context.Set<User>(), context as DbContext) { }
 
         /// <summary>
         /// Método FindAll: consulta e retorna dados.

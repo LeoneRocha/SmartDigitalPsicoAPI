@@ -6,7 +6,9 @@ using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Configure
 {

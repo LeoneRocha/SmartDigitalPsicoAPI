@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
     /// Responsabilidade: repositório de persistência.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public interface ILeavesRepository : IEntityBaseRepository<Leaves>
+    public interface ILeavesRepository : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Leaves>
     { 
     }
 } 

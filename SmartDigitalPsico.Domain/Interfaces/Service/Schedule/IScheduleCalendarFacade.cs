@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service.Schedule
 {

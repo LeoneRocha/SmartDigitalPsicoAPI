@@ -2,11 +2,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
 {
@@ -19,7 +20,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Report
     /// Responsabilidade: geração de relatórios.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public class PatientReportController : ApiBaseController
+    public class PatientReportController : SmartDigitalPsicoAPI.Core.SDK.API.ApiBaseController
     {
         private readonly IPatientReportService _entityService;
 

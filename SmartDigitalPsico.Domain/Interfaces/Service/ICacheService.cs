@@ -1,23 +1,9 @@
+﻿using System;
+
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
-    /// <summary>
-    /// Interface (contrato) responsável por ICacheService.
-    /// Responsabilidade: contrato de serviço de negócio.
-    /// Relação: implementado na camada Service e consumido pelos Controllers.
-    /// </summary>
-    public interface ICacheService
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public interface ICacheService : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService
     {
-        bool Exists<T>(string? cacheKey) where T : class, new();
-        bool TryGet<T>(string? cacheKey, out T value) where T : class, new();
-        bool Set<T>(string? cacheKey, T value);
-        bool Remove<T>(string? cacheKey);
-        /// <summary>
-        /// Método GetSlidingExpiration: consulta e retorna dados.
-        /// </summary>
-        DateTime GetSlidingExpiration();
-        /// <summary>
-        /// Método IsEnable: executa a operação IsEnable.
-        /// </summary>
-        bool IsEnable(); 
     }
 }

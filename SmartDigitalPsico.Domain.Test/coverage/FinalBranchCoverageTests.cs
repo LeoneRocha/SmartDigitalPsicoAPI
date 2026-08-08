@@ -9,20 +9,25 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.AppException;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.DTO.Security;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Security;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -30,18 +35,18 @@ using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Report;
 using SmartDigitalPsico.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Security;
-using SmartDigitalPsico.Domain.Validation;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation;
 using SmartDigitalPsico.Domain.Validation.Base;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.Validation.DTO;
-using SmartDigitalPsico.Domain.Validation.Helper;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
 using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
 using SmartDigitalPsico.Domain.Validation.Schedule;
 using SmartDigitalPsico.Domain.Test.Report;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 using TextJson = System.Text.Json.JsonSerializer;
 
 namespace SmartDigitalPsico.Domain.Test.Coverage;
@@ -65,17 +70,17 @@ public sealed class FinalBranchCoverageTests
     }
 
     // Cenário: conversor de enum cobre descrição, nome, vazio e write sem attribute.
-    // Objetivo: fechar ramos restantes do EnumDescriptionConverter.
+    // Objetivo: fechar ramos restantes do SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter.
     [Test]
     public void EnumDescriptionConverter_AllReadWritePaths_AreCovered()
     {
         // Arrange
         var options = new JsonSerializerOptions();
-        options.Converters.Add(new EnumDescriptionConverter<DescribedEnum>());
-        var converter = new EnumDescriptionConverter<DescribedEnum>();
-        var fromDescription = typeof(EnumDescriptionConverter<DescribedEnum>)
+        options.Converters.Add(new SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>());
+        var converter = new SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>();
+        var fromDescription = typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>)
             .GetMethod("TryGetEnumValueFromDescription", BindingFlags.NonPublic | BindingFlags.Static)!;
-        var fromName = typeof(EnumDescriptionConverter<DescribedEnum>)
+        var fromName = typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>)
             .GetMethod("TryGetEnumValueFromName", BindingFlags.NonPublic | BindingFlags.Static)!;
         var valueField = typeof(DescribedEnum).GetField(nameof(DescribedEnum.Value))!;
         var plainField = typeof(DescribedEnum).GetField(nameof(DescribedEnum.Plain))!;
@@ -169,20 +174,20 @@ public sealed class FinalBranchCoverageTests
         Directory.CreateDirectory(_tempPath);
         var excelOut = Path.Combine(_tempPath, "no-merge.xlsx");
         var pdfOut = Path.Combine(_tempPath, "null-cells.pdf");
-        var excel = new ExcelGeneratorOpenXmlAdapter();
-        var pdf = new PDFsharpMigraDocReportAdapter();
-        var workbook = new ReportWorkbookDataDto
+        var excel = new SmartDigitalPsicoAPI.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter();
+        var pdf = new SmartDigitalPsicoAPI.Core.SDK.Domain.Report.PDFsharpMigraDocReportAdapter();
+        var workbook = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto
         {
-            Sheets = [new ReportSheetDataDto { Name = "Plain", Rows = [new NullableRow { Text = null, Number = 0 }] }]
+            Sheets = [new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Name = "Plain", Rows = [new NullableRow { Text = null, Number = 0 }] }]
         };
-        var content = new ReportPageContentDto
+        var content = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto
         {
             Pages =
             [
-                new ReportPageDataDto
+                new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto
                 {
                     Name = "Nulls",
-                    PageType = EReportPageType.Text,
+                    PageType = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Text,
                     Rows = [new NullableRow { Text = null, Number = 0 }],
                     PropertiesToIgnore = []
                 }
@@ -228,7 +233,7 @@ public sealed class FinalBranchCoverageTests
             // Act
             var info = LogAppHelper.GetInformationVersionProduct();
             var version = LogAppHelper.GetAssemblyVersion();
-            var rsaBase64 = RsaCryptoServiceHelper.ConvertToBase64(emptyModulus);
+            var rsaBase64 = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.RsaCryptoServiceHelper.ConvertToBase64(emptyModulus);
             var errors = HelperValidation.GetErrorsMap(validation);
             var translated = HelperValidation.TranslateErroCode(new ErrorResponse
             {
@@ -374,7 +379,7 @@ public sealed class FinalBranchCoverageTests
         });
         var medicalBaseMismatch = await new MedicalBaseValidator<MedicalCalendar>(
             medicalRepo.Object,
-            Mock.Of<IEntityBaseRepository<MedicalCalendar>>(),
+            Mock.Of<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>(),
             users.Object).MedicalCreated(new MedicalCalendar { Id = 0, MedicalId = 99 }, 0, 2);
 
         // Assert
@@ -397,18 +402,18 @@ public sealed class FinalBranchCoverageTests
     }
 
     // Cenário: token inválido e política com delay default.
-    // Objetivo: cobrir TokenService e ResiliencePolicies ramos restantes.
+    // Objetivo: cobrir TokenService e SmartDigitalPsicoAPI.Core.SDK.Domain.Resiliency.ResiliencePolicies ramos restantes.
     [Test]
     public async Task TokenServiceAndResilience_RemainingBranches_AreCovered()
     {
         // Arrange
         const string secret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
-        var service = new TokenService(new TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
+        var service = new TokenService(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
         var attempts = 0;
 
         // Act
         var invalid = () => service.GetPrincipalFromExpiredToken("not-a-jwt");
-        await ResiliencePolicies.CustomRetryPolicy(new ResiliencePolicyConfig
+        await SmartDigitalPsicoAPI.Core.SDK.Domain.Resiliency.ResiliencePolicies.CustomRetryPolicy(new ResiliencePolicyConfig
         {
             PolicyName = "CustomRetryPolicy",
             RetryCount = 1,
@@ -502,7 +507,7 @@ public sealed class FinalBranchCoverageTests
             }]);
 
         const string secret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
-        var tokenService = new TokenService(new TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
+        var tokenService = new TokenService(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
         var expiredToken = tokenService.GenerateAccessToken([new Claim("sub", "1")]);
 
         var prevEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -514,7 +519,7 @@ public sealed class FinalBranchCoverageTests
             var localizer = new Mock<IStringLocalizer<FinalBranchCoverageTests>>();
             localizer.Setup(l => l[It.IsAny<string>()]).Returns(new LocalizedString("welcome", "ok"));
 
-            var resolver = new IgnorableSerializerContractResolver(["Secret"]);
+            var resolver = new SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(["Secret"]);
             var ignoredJson = JsonConvert.SerializeObject(new { Visible = "yes", Secret = "no" }, new JsonSerializerSettings
             {
                 ContractResolver = resolver
@@ -542,13 +547,13 @@ public sealed class FinalBranchCoverageTests
                 MaxOccurrences = 100
             });
 
-            var excel = new ExcelGeneratorOpenXmlAdapter();
+            var excel = new SmartDigitalPsicoAPI.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter();
             var excelOut = Path.Combine(_tempPath, "merge.xlsx");
-            await excel.Generate(new ReportWorkbookDataDto
+            await excel.Generate(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto
             {
                 Sheets =
                 [
-                    new ReportSheetDataDto
+                    new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto
                     {
                         Name = "Merged",
                         Rows = [new NullableRow { Text = "cell", Number = 1 }],
@@ -557,16 +562,16 @@ public sealed class FinalBranchCoverageTests
                 ]
             }, excelOut);
 
-            var pdf = new PDFsharpMigraDocReportAdapter();
-            var pdfTableBytes = pdf.Generate(new ReportPageContentDto
+            var pdf = new SmartDigitalPsicoAPI.Core.SDK.Domain.Report.PDFsharpMigraDocReportAdapter();
+            var pdfTableBytes = pdf.Generate(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto
             {
                 Pages =
                 [
-                    new ReportPageDataDto
+                    new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto
                     {
                         Name = "Table",
                         FooterTitle = null!,
-                        PageType = EReportPageType.Table,
+                        PageType = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Table,
                         Rows = [new NullableRow { Text = null, Number = 2 }],
                         PropertiesToIgnore = []
                     }
@@ -654,7 +659,7 @@ public sealed class FinalBranchCoverageTests
 
             var medicalBase = new MedicalBaseValidator<MedicalCalendar>(
                 medicalRepo.Object,
-                Mock.Of<IEntityBaseRepository<MedicalCalendar>>(),
+                Mock.Of<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>(),
                 users.Object);
             var baseCreatedSuccess = await medicalBase.MedicalCreated(
                 new MedicalCalendar { Id = 0, MedicalId = 9 }, 0, 2);
@@ -719,15 +724,15 @@ public sealed class FinalBranchCoverageTests
             }, CancellationToken.None);
 
             var validPrincipal = tokenService.GetPrincipalFromExpiredToken(expiredToken);
-            await ResiliencePolicies.CustomRetryPolicy(new ResiliencePolicyConfig
+            await SmartDigitalPsicoAPI.Core.SDK.Domain.Resiliency.ResiliencePolicies.CustomRetryPolicy(new ResiliencePolicyConfig
             {
                 PolicyName = "CustomRetryPolicy",
                 RetryCount = 2,
                 RetryDelayInSeconds = 1
             }).ExecuteAsync(() => Task.CompletedTask);
 
-            CultureDateTimeHelper.GetNameAndCulture(null!).Should().BeEmpty();
-            CultureDateTimeHelper.GetKeyLocalizationRecordFormat(null!, null!).Should().BeEmpty();
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetNameAndCulture(null!).Should().BeEmpty();
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetKeyLocalizationRecordFormat(null!, null!).Should().BeEmpty();
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -876,7 +881,7 @@ public sealed class FinalBranchCoverageTests
             RecurrenceType = ERecurrenceCalendarType.Daily,
             MaxOccurrences = 0
         });
-        var wrongAlg = () => new TokenService(new TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 })
+        var wrongAlg = () => new TokenService(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 })
             .GetPrincipalFromExpiredToken(wrongAlgToken);
         LogAppHelper.LogException(logger.Object, new AppWarningException("warn"), "TEST");
         var pipeSingle = HelperValidation.GetErrorsMap(new ValidationResult(
@@ -886,7 +891,7 @@ public sealed class FinalBranchCoverageTests
         var usersBase = new Mock<IUserRepository>();
         usersBase.Setup(r => r.FindByID(2)).ReturnsAsync(new User { Id = 2, MedicalId = 9, Medical = null });
         var baseDenied = await new MedicalBaseValidator<MedicalCalendar>(
-            medicalRepo.Object, Mock.Of<IEntityBaseRepository<MedicalCalendar>>(), usersBase.Object)
+            medicalRepo.Object, Mock.Of<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>(), usersBase.Object)
             .MedicalCreated(new MedicalCalendar { Id = 0, MedicalId = 9 }, 0, 2);
 
         var patientListDenied = await new PatientFileSelectListValidator(users.Object).ValidateAsync(new RecordsList<PatientFile>

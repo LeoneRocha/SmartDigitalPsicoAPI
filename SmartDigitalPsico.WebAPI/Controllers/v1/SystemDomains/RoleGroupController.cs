@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.Hypermedia.Filters;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {
@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class RoleGroupController : ApiBaseController
+    public class RoleGroupController : SmartDigitalPsicoAPI.Core.SDK.API.ApiBaseController
     {
         private readonly IRoleGroupService _entityService;
 

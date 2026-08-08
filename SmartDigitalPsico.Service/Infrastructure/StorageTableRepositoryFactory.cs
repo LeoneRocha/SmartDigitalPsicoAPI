@@ -1,33 +1,15 @@
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Data.TableEntityRepository;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Service.Infrastructure
 {
     /// <summary>
-    /// Classe responsável por StorageTableRepositoryFactory.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: suporta Services e jobs de background.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsicoAPI.Core.SDK.
     /// </summary>
-    public class StorageTableRepositoryFactory : IStorageTableRepositoryFactory 
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
+    public class StorageTableRepositoryFactory : SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.StorageTableRepositoryFactory
     {
-        private readonly IConfiguration _configuration;
-        /// <summary>
-        /// Método StorageTableRepositoryFactory: executa a operação StorageTableRepositoryFactory.
-        /// </summary>
-        public StorageTableRepositoryFactory(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-        public IStorageTableContract<T> Create<T>(EStorageAdapterType eStorageAdapterType, string tableName) where T : BaseEntityTable, new()
-        {
-            //Add logic Factory
-            var azureStorageTableAdapter = new AzureStorageTableAdapter<T>(_configuration, tableName);
-            return new GenericTableEntityRepository<T>(azureStorageTableAdapter, tableName);
-        }
+        public StorageTableRepositoryFactory(IConfiguration configuration) : base(configuration) { }
     }
 }

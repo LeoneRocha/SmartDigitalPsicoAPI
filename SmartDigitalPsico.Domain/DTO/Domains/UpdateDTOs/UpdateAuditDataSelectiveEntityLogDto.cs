@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class UpdateAuditDataSelectiveEntityLogDto : AuditDataSelectiveEntityLogBaseDto, IEntityDto
+    public class UpdateAuditDataSelectiveEntityLogDto : AuditDataSelectiveEntityLogBaseDto, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto
     {
         public long Id { get; set; }
     }

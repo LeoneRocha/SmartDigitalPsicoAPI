@@ -1,7 +1,8 @@
 using FluentValidation.Results;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Domain.Validation;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation;
 
 namespace SmartDigitalPsico.Domain.Validation.Helper
 {
@@ -10,6 +11,8 @@ namespace SmartDigitalPsico.Domain.Validation.Helper
     /// Responsabilidade: validador FluentValidation de regras de negócio.
     /// Relação: invocado pelos Services antes da persistência.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class HelperValidation
     {
         /// <summary>

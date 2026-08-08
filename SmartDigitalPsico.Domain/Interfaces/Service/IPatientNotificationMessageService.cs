@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface IPatientNotificationMessageService : IEntityBaseService<PatientNotificationMessage, GetPatientNotificationMessageVO>
+    public interface IPatientNotificationMessageService : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.IEntityBaseService<PatientNotificationMessage, GetPatientNotificationMessageVO>
     {
         
         /// <summary>

@@ -1,9 +1,10 @@
 using System.ComponentModel;
 
+
 namespace SmartDigitalPsico.Domain.Enuns
 {
     /// <summary>
-    /// Enumeração responsável por ETypeLocationSaveFiles.
+    /// Enumeração responsável por SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.
     /// Responsabilidade: valores enumerados do domínio.
     /// Relação: usado em entidades, DTOs e regras de negócio.
     /// </summary>

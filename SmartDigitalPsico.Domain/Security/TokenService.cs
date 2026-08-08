@@ -15,14 +15,14 @@ namespace SmartDigitalPsico.Domain.Security
     /// </summary>
     public class TokenService : ITokenService
     {
-        private readonly TokenConfigurationDto _configuration;
+        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto _configuration;
 
         internal static Func<JwtSecurityTokenHandler>? TokenHandlerFactoryForTests { get; set; }
 
         /// <summary>
         /// Método TokenService: mapeia ou transforma dados entre modelos.
         /// </summary>
-        public TokenService(TokenConfigurationDto configuration)
+        public TokenService(SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto configuration)
         {
             _configuration = configuration;
         }

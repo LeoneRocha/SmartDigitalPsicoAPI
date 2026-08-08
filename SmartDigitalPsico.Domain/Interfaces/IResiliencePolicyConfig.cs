@@ -1,14 +1,9 @@
+﻿using System;
+
 namespace SmartDigitalPsico.Domain.Interfaces
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IResiliencePolicyConfig.
-    /// Responsabilidade: contrato de abstração do domínio.
-    /// Relação: implementado nas camadas Data/Service.
-    /// </summary>
-    public interface IResiliencePolicyConfig
+    [Obsolete("Use SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig instead.")]
+    public interface IResiliencePolicyConfig : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig
     {
-        string PolicyName { get; set; }
-        int RetryCount { get; set; }
-        int RetryDelayInSeconds { get; set; }
     }
 }

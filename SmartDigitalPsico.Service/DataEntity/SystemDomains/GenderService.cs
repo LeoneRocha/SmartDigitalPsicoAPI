@@ -4,11 +4,13 @@ using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
 using SmartDigitalPsico.Domain.Interfaces;
@@ -16,14 +18,14 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
-    /// Classe responsável por GenderService.
-    /// Responsabilidade: serviço de entidade de negócio.
-    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// Classe responsÃ¡vel por GenderService.
+    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
+    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
     /// </summary>
-    public class GenderService : EntityBaseService<Gender, GetGenderDto>, IGenderService
+    public class GenderService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Gender, GetGenderDto>, IGenderService
     {
         /// <summary>
-        /// Método GenderService: executa a operação GenderService.
+        /// MÃ©todo GenderService: executa a operaÃ§Ã£o GenderService.
         /// </summary>
         public GenderService(
             ISharedServices sharedServices,
@@ -37,7 +39,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// Método FindAll: consulta e retorna dados.
+        /// MÃ©todo FindAll: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<List<GetGenderDto>>> FindAll()
         {
@@ -68,7 +70,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return result;
         }
         /// <summary>
-        /// Método FindByID: consulta e retorna dados.
+        /// MÃ©todo FindByID: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<GetGenderDto>> FindByID(long id)
         {
@@ -91,9 +93,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// Método Update: atualiza um registro/recurso existente.
+        /// MÃ©todo Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetGenderDto>> Update(IEntityDto item)
+        public override async Task<ServiceResponse<GetGenderDto>> Update(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var dto = (UpdateGenderDto)item;
             ServiceResponse<GetGenderDto> response = new ServiceResponse<GetGenderDto>();
@@ -113,7 +115,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             entityUpdate.Language = dto.Language;
 
             response = await Validate(entityUpdate);
-            entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
             if (response.Success)
             {
                 Gender entityResponse = await ((IGenderRepository)_entityRepository).Update(entityUpdate);
@@ -126,3 +128,4 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
     }
 }
+

@@ -14,7 +14,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     public class PatientRecordServiceConfig : IPatientRecordServiceConfig
     {
         public IValidator<PatientRecord> EntityValidator { get; }
-        public IStorageTableContract<PatientRecordTableEntity> StorageTableService { get; }
+        public SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity> StorageTableService { get; }
         public ISharedRepositories SharedRepositories { get; }
         public ISharedServices SharedServices { get; }
         public ISharedDependenciesConfig SharedDependenciesConfig { get; }
@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             IValidator<PatientRecord> entityValidator,
-            IStorageTableContract<PatientRecordTableEntity> storageTableService
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity> storageTableService
             )
         {
             EntityValidator = entityValidator;

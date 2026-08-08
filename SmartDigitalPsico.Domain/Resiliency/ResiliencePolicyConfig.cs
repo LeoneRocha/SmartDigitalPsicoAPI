@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Resiliency
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public class ResiliencePolicyConfig : IResiliencePolicyConfig
+    public class ResiliencePolicyConfig : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig
     {
         public string PolicyName { get; set; } = string.Empty;
         public int RetryCount { get; set; }

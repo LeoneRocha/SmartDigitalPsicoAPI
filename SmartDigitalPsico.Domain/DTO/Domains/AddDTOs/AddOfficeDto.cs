@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.DTO.Domains.AddDTOs
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class AddOfficeDto: EntityDtoBaseDomainAdd
+    public class AddOfficeDto: SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomainAdd
     { 
     }
 }

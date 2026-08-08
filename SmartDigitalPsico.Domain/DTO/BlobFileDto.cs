@@ -7,11 +7,9 @@ namespace SmartDigitalPsico.Domain.Security
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class BlobFileDto
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public class BlobFileDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto
     {
-        public string FilePath { get; set; } = string.Empty;
-        public string ContainerName { get; set; } = string.Empty;
-        public BlobHttpHeaders? BlobHeaders { get; set; }
-        public string? BlobName { get; set; }
     }
 }

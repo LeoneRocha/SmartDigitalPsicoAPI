@@ -1,34 +1,16 @@
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Data.Repository.Infrastructure;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {
     /// <summary>
-    /// Classe responsável por StorageQueueRepositoryFactory.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: suporta Services e jobs de background.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsicoAPI.Core.SDK.
+    /// Namespace histórico mantido por compatibilidade.
     /// </summary>
-    public class StorageQueueRepositoryFactory : IStorageQueueRepositoryFactory
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
+    public class StorageQueueRepositoryFactory : SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.StorageQueueRepositoryFactory
     {
-        private readonly IConfiguration _configuration;
-        /// <summary>
-        /// Método StorageQueueRepositoryFactory: executa a operação StorageQueueRepositoryFactory.
-        /// </summary>
-        public StorageQueueRepositoryFactory(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-        /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        public IStorageQueueContract Create(EStorageAdapterType eStorageAdapterType, string queueName)
-        {
-            //Add logic Factory
-            var azureStorageQueueAdapter = new AzureStorageQueueAdapter(_configuration, queueName);
-
-            return new GenericStorageQueueRepository(azureStorageQueueAdapter, queueName);
-        }
+        public StorageQueueRepositoryFactory(IConfiguration configuration) : base(configuration) { }
     }
 }

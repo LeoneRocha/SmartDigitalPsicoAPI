@@ -1,4 +1,5 @@
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Domains
 {
@@ -7,14 +8,9 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class CacheConfigurationDto
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public class CacheConfigurationDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
     {
-        public int AbsoluteExpirationInHours { get; set; }
-        public int SlidingExpirationInMinutes { get; set; }
-        public int AbsoluteExpirationInMinutes { get; set; }
-        public string PathCache { get; set; } = string.Empty;
-        public string ExtensionCache { get; set; } = string.Empty;
-        public bool IsEnable { get; set; }
-        public ETypeLocationCache TypeCache { get; set; }
     }
 }

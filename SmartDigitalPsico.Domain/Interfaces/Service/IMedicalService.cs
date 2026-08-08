@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
     public interface IMedicalService
-        : IEntityBaseService<Medical, GetMedicalDto>
+        : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.IEntityBaseService<Medical, GetMedicalDto>
     {
 
     }

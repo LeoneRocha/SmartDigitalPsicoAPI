@@ -78,9 +78,9 @@ public class MedicalServiceTests
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<Medical>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.Repository.Setup(x => x.Update(entity)).ReturnsAsync(entity);
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Success = false });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Success = false });
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(
-                It.IsAny<SmartDigitalPsico.Domain.VO.DataNotificationTemplateVO>(),
+                It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
                 It.IsAny<SmartDigitalPsico.Domain.Enuns.ENotificationServiceType>(),
                 It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);
@@ -106,7 +106,7 @@ public class MedicalServiceTests
             entity.Email.Should().Be("new@x.com");
         }
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
-            It.IsAny<SmartDigitalPsico.Domain.VO.DataNotificationTemplateVO>(),
+            It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
             It.IsAny<SmartDigitalPsico.Domain.Enuns.ENotificationServiceType>(),
             It.IsAny<Dictionary<string, string>>()), Times.Once);
     }
@@ -128,13 +128,13 @@ public class MedicalServiceTests
         context.Repository.Setup(x => x.Update(entity)).ReturnsAsync(entity);
         context.UserRepository.Setup(x => x.FindByID(5)).ReturnsAsync(new User { Id = 5, Name = "Admin User" });
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
             {
                 Success = true,
                 Data = new GetNotificationTemplateDto { Subject = "Updated", Body = "Body {{MedicalName}}" }
             });
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(
-                It.IsAny<SmartDigitalPsico.Domain.VO.DataNotificationTemplateVO>(),
+                It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
                 It.IsAny<SmartDigitalPsico.Domain.Enuns.ENotificationServiceType>(),
                 It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);
@@ -153,7 +153,7 @@ public class MedicalServiceTests
         result.Success.Should().BeTrue();
 
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
-            It.IsAny<SmartDigitalPsico.Domain.VO.DataNotificationTemplateVO>(),
+            It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
             SmartDigitalPsico.Domain.Enuns.ENotificationServiceType.Email,
             It.Is<Dictionary<string, string>>(d => d["MedicalName"] == "Dr. Template Updated")), Times.Once);
     }
@@ -173,7 +173,7 @@ public class MedicalServiceTests
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
             .ThrowsAsync(new InvalidOperationException("template error"));
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(
-                It.IsAny<SmartDigitalPsico.Domain.VO.DataNotificationTemplateVO>(),
+                It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
                 It.IsAny<SmartDigitalPsico.Domain.Enuns.ENotificationServiceType>(),
                 It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);
@@ -193,7 +193,7 @@ public class MedicalServiceTests
         result.Success.Should().BeTrue();
 
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
-            It.IsAny<SmartDigitalPsico.Domain.VO.DataNotificationTemplateVO>(),
+            It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
             SmartDigitalPsico.Domain.Enuns.ENotificationServiceType.Email,
             It.IsAny<Dictionary<string, string>>()), Times.Once);
     }

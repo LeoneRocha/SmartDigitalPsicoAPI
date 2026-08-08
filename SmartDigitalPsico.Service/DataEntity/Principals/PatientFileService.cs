@@ -1,10 +1,13 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
@@ -12,8 +15,8 @@ using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientFile;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Domain.Validation.Helper;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
@@ -23,7 +26,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class PatientFileService : EntityBaseService<PatientFile, GetPatientFileDto>, IPatientFileService
+    public class PatientFileService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<PatientFile, GetPatientFileDto>, IPatientFileService
 
     {
         private readonly IFileManager _filePersistor;
@@ -73,7 +76,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 {
                     entity.FilePath = fileData.FileName;
                     entity.FileContentType = fileData.ContentType;
-                    entity.FileExtension = FileHelper.GetFileExtension(fileData.ContentType);
+                    entity.FileExtension = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFileExtension(fileData.ContentType);
                     entity.FileSizeKB = fileData.Length / 1024;
                 }
 
@@ -87,9 +90,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 #endregion Relationship
 
-                entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 entityAdd.Enable = true;
 
                 entityAdd.CreatedUserId = UserId;

@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.DTO.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using System.Linq;
 
@@ -13,12 +14,12 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class PatientRepository : GenericRepositoryEntityBase<Patient>, IPatientRepository
+    public class PatientRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<Patient>, IPatientRepository
     {
         /// <summary>
         /// Método PatientRepository: executa a operação PatientRepository.
         /// </summary>
-        public PatientRepository(IEntityDataContext context) : base(context) { }
+        public PatientRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context) { }
 
         /// <summary>
         /// Find by Cpf, Rg , Email

@@ -1,8 +1,8 @@
 # Levantamento — SmartDigitalPsicoAPI.Core.SDK
 
-**Versão:** 1.2.2  
-**Data:** 2026-08-04  
-**Status:** Inventário completo — portabilidade para Core não iniciada  
+**Versão:** 2.0.0  
+**Data:** 2026-08-08  
+**Status:** Inventário completo — portabilidade para Core totalmente concluída  
 **PackageId alvo:** `SmartDigitalPsicoAPI.Core.SDK` (único NuGet)  
 **TFM do host:** `net10.0`  
 **Escopo analisado:** `SmartDigitalPsico.Domain`, `SmartDigitalPsico.Data`, `SmartDigitalPsico.Service`, `SmartDigitalPsico.WebAPI` (+ projetos de teste)

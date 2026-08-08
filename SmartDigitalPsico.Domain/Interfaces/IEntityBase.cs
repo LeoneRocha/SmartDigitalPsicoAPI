@@ -1,13 +1,9 @@
+﻿using System;
+
 namespace SmartDigitalPsico.Domain.Interfaces
 { 
-    /// <summary>
-    /// Interface (contrato) responsável por IEntityBase.
-    /// Responsabilidade: contrato de abstração do domínio.
-    /// Relação: implementado nas camadas Data/Service.
-    /// </summary>
-    public interface IEntityBase 
-    {
-        long Id { get; set; }
-        bool Enable { get; set; } 
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public interface IEntityBase : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityBase 
+    { 
     } 
 }

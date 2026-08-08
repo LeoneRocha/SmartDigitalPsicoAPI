@@ -2,11 +2,12 @@ using System.Collections.Concurrent;
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
 {
@@ -92,7 +93,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
             ScheduleCalendarItem[] items,
             TimeSpan interval)
         {
-            var nowLocal = DateHelper.GetDateTimeNowWithTimeZone(request.TimeZone);
+            var nowLocal = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowWithTimeZone(request.TimeZone);
             var dateActual = nowLocal.Date;
 
             var busy = items
@@ -238,7 +239,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
 
             if (request.Mode == ScheduleGradeMode.AvailableOnly)
             {
-                var dateCurrent = DateHelper.GetDateTimeNowFromUtc();
+                var dateCurrent = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 result = result
                     .Select(day => new ScheduleDayDto
                     {

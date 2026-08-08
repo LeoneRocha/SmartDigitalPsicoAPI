@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface IRoleGroupService : IEntityBaseService<RoleGroup, GetRoleGroupDto>
+    public interface IRoleGroupService : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.IEntityBaseService<RoleGroup, GetRoleGroupDto>
     {
 
     }

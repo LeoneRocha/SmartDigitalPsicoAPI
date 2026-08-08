@@ -1,7 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Enuns;
+using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Smtp;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Notification
 {
@@ -25,13 +26,13 @@ namespace SmartDigitalPsico.Service.Infrastructure.Notification
         /// <summary>
         /// Método GetService: consulta e retorna dados.
         /// </summary>
-        public INotificationPlatformService GetService(ENotificationServiceType serviceType)
+        public SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Domain.Enuns.ENotificationServiceType serviceType)
         {
             return serviceType switch
             {
-                ENotificationServiceType.Email => _serviceProvider.GetRequiredService<IEmailService>(),
-                ENotificationServiceType.Sms => _serviceProvider.GetRequiredService<ISmsService>(),
-                ENotificationServiceType.WhatsApp => _serviceProvider.GetRequiredService<IWhatsAppService>(),
+                SmartDigitalPsico.Domain.Enuns.ENotificationServiceType.Email => _serviceProvider.GetRequiredService<IEmailService>(),
+                SmartDigitalPsico.Domain.Enuns.ENotificationServiceType.Sms => _serviceProvider.GetRequiredService<ISmsService>(),
+                SmartDigitalPsico.Domain.Enuns.ENotificationServiceType.WhatsApp => _serviceProvider.GetRequiredService<IWhatsAppService>(),
                 _ => throw new ArgumentException("Invalid service type", nameof(serviceType))
             };
         }

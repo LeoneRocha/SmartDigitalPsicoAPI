@@ -1,4 +1,6 @@
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+
 
 namespace SmartDigitalPsico.Domain.Interfaces.Smtp
 {
@@ -7,11 +9,13 @@ namespace SmartDigitalPsico.Domain.Interfaces.Smtp
     /// Responsabilidade: contrato de abstração do domínio.
     /// Relação: implementado nas camadas Data/Service.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public interface IEmailStrategyFactory
     {
         /// <summary>
         /// Método CreateStrategy: cria ou persiste um novo registro/recurso.
         /// </summary>
-        IEmailStrategy CreateStrategy(EEmailStrategyType strategyType);
+        IEmailStrategy CreateStrategy(SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EEmailStrategyType strategyType);
     }
 }

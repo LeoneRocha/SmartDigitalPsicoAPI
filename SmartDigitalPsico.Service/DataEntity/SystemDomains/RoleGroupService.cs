@@ -1,6 +1,7 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
@@ -15,7 +16,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class RoleGroupService : EntityBaseService<RoleGroup, GetRoleGroupDto>, IRoleGroupService
+    public class RoleGroupService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<RoleGroup, GetRoleGroupDto>, IRoleGroupService
 
     {
         /// <summary>

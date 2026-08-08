@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Domain.TableEntityNoSQL
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public class UserTokenSessionTableEntity : BaseEntityTable
+    public class UserTokenSessionTableEntity : SmartDigitalPsicoAPI.Core.SDK.Domain.TableEntityNoSQL.BaseEntityTable
     {
         public string AccessToken { get; set; } = string.Empty;
         public string RefreshToken { get; set; } = string.Empty;

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.DTO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Helpers
@@ -9,6 +10,8 @@ namespace SmartDigitalPsico.Service.Helpers
     /// Responsabilidade: utilitário auxiliar do domínio.
     /// Relação: usado por Services e Domain para regras compartilhadas.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class ServiceCollectionHelper
     {
         public static T[] FilterItems<T>(T[] items, params T[][] filters)
@@ -35,11 +38,11 @@ namespace SmartDigitalPsico.Service.Helpers
         /// <summary>
         /// Método GetInterfaces: consulta e retorna dados.
         /// </summary>
-        public static RepositoryInfo[] GetInterfaces(string[] classSuffixes, params Assembly[] assemblies)
+        public static SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.RepositoryInfo[] GetInterfaces(string[] classSuffixes, params Assembly[] assemblies)
         {
             var repositories = assemblies.SelectMany(assembly => assembly.GetTypes())
                              .Where(type => type.IsClass && !type.IsAbstract && classSuffixes.Any(suffix => type.Name.EndsWith(suffix)))
-                             .Select(type => new RepositoryInfo
+                             .Select(type => new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.RepositoryInfo
                              {
                                  InterfaceType = type.GetInterfaces().FirstOrDefault(i => i.Name == $"I{type.Name}"),
                                  ImplementationType = type

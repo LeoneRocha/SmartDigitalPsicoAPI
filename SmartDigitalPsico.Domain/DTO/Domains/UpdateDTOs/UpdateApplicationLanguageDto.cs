@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class UpdateApplicationLanguageDto : EntityDtoBaseDomain
+    public class UpdateApplicationLanguageDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain
     { 
         public string LanguageKey { get; set; } = string.Empty;         
         public string LanguageValue { get; set; } = string.Empty;         

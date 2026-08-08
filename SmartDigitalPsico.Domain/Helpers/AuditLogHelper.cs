@@ -42,7 +42,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static string SerializeObject(object dataAuditLog, string[] propertiesToIgnore)
         {
             var jsonSettings = GetJsonSettings();
-            jsonSettings.ContractResolver = new IgnorableSerializerContractResolver(propertiesToIgnore);
+            jsonSettings.ContractResolver = new SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(propertiesToIgnore);
             if (dataAuditLog != null)
                 return JsonConvert.SerializeObject(dataAuditLog, jsonSettings);
 
@@ -144,7 +144,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static T DeepClone<T>(T obj, string[] propertiesToIgnore)
         {
             var jsonSettings = GetJsonSettings();
-            jsonSettings.ContractResolver = new IgnorableSerializerContractResolver(propertiesToIgnore);
+            jsonSettings.ContractResolver = new SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(propertiesToIgnore);
 
             var json = JsonConvert.SerializeObject(obj, jsonSettings);
             return JsonConvert.DeserializeObject<T>(json)!;

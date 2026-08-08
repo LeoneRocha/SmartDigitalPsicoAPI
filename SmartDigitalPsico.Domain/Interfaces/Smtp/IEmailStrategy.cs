@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.SMTP;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.SMTP;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Smtp
 {
@@ -7,6 +7,8 @@ namespace SmartDigitalPsico.Domain.Interfaces.Smtp
     /// Responsabilidade: contrato de abstração do domínio.
     /// Relação: implementado nas camadas Data/Service.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public interface IEmailStrategy
     {
         /// <summary>

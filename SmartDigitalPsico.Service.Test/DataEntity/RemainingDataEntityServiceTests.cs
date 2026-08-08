@@ -79,7 +79,7 @@ public class RemainingDataEntityServiceTests
         var dependencies = new Dependencies();
         var templates = new Mock<INotificationTemplateService>();
         templates.Setup(value => value.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationTemplateDto>());
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationTemplateDto>());
         dependencies.ServicesMock.SetupGet(value => value.NotificationTemplateService).Returns(templates.Object);
         var service = new MedicalCalenderNotificationService(dependencies.Services);
 
@@ -99,7 +99,7 @@ public class RemainingDataEntityServiceTests
 
         public Dependencies()
         {
-            var cache = new Mock<ICacheService>();
+            var cache = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService>();
             ServicesMock.SetupGet(value => value.CacheService).Returns(cache.Object);
             Services = ServicesMock.Object;
 

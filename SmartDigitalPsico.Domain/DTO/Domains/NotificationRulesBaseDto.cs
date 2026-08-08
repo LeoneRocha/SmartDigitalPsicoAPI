@@ -1,5 +1,6 @@
 using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Domains
 {
@@ -8,7 +9,7 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public abstract class NotificationRulesBaseDto : EntityDtoBaseDomain
+    public abstract class NotificationRulesBaseDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain
     {
         public long MedicalId { get; set; }
         public bool IsEnabled { get; set; }

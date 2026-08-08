@@ -11,8 +11,8 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
     public interface IApplicationLanguageService
-        : IEntityBaseService<ApplicationLanguage, GetApplicationLanguageDto>
+        : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.IEntityBaseService<ApplicationLanguage, GetApplicationLanguageDto>
     { 
-        Task<string> GetLocalization<T>(string key, string defaultMenssage, ICacheService cacheService);
+        Task<string> GetLocalization<T>(string key, string defaultMenssage, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService);
     }
 }

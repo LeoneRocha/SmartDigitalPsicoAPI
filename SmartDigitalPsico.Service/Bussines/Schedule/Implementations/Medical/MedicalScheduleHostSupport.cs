@@ -3,13 +3,15 @@ using Serilog;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation.Helper;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 {
@@ -19,7 +21,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
     public class MedicalScheduleHostSupport
     {
         private readonly IApplicationLanguageService _languageService;
-        private readonly ICacheService _cacheService;
+        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService _cacheService;
         private readonly IMedicalCalendarValidators _validators;
 
         /// <summary>
@@ -105,7 +107,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
             entity.CreatedUserId = UserId;
             entity.PatientId = item.PatientId;
             entity.MedicalId = item.MedicalId;
-            entity.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entity.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
             entity.ModifyDate = entity.CreatedDate;
             entity.LastAccessDate = entity.CreatedDate;
             if (string.IsNullOrWhiteSpace(entity.TokenRecurrence))

@@ -13,8 +13,8 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
     {
         IApplicationLanguageService ApplicationLanguageService { get; }
         ISendNotificationService SendNotificationService { get; }
-        ICacheService CacheService { get; }
-        ICryptoService CryptoService { get; }
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService CacheService { get; }
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoService CryptoService { get; }
         INotificationTemplateService NotificationTemplateService { get; }
     }
 }

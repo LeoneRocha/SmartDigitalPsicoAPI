@@ -1,5 +1,5 @@
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Domain.DTO.SMTP;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Smtp;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.SMTP;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Smtp
 {
@@ -8,6 +8,8 @@ namespace SmartDigitalPsico.Service.Infrastructure.Smtp
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public class ThirdPartyEmailStrategy : IEmailStrategy
     {
         /// <summary>

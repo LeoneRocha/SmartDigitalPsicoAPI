@@ -1,10 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Service.Helpers;
-using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
@@ -29,9 +26,11 @@ namespace SmartDigitalPsico.Service.Configure.Domain
 
         private static void RegisterManuallyAddedServices(IServiceCollection services)
         {
-            services.AddSingleton<IMemoryCacheRepository, MemoryCacheRepository>();
+            services.AddSingleton<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository, SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository>();
+            services.AddSingleton<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository, SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository>();
+            services.AddSingleton<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository, SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository>();
             services.AddScoped<IFileManager, FileManager>();
-            services.AddScoped<IStorageBlobAdapter, AzureStorageBlobAdapter>();
+            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter, SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter>();
         }
 
         private static void RegisterRepositories(IServiceCollection services)
@@ -45,13 +44,15 @@ namespace SmartDigitalPsico.Service.Configure.Domain
 
             var ignoredInterfaces = new List<Type>
             {
-                typeof(IMemoryCacheRepository),
+                typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository),
+                typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository),
+                typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository),
                 typeof(IFileManager),
-                typeof(IStorageBlobAdapter),
+                typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter),
                 typeof(IUserTokenSessionRepository)
             };
 
-            ServiceCollectionHelper.RegisterInterfaces(services, [RepositorySuffix], ignoredInterfaces, assemblies);
-        } 
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ServiceCollectionHelper.RegisterInterfaces(services, [RepositorySuffix], ignoredInterfaces, assemblies);
+        }
     }
 }

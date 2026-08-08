@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,10 +10,12 @@ using System.Text;
 namespace SmartDigitalPsico.Domain.Helpers
 {
     /// <summary>
-    /// Classe responsável por FileHelper.
+    /// Classe responsável por SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.
     /// Responsabilidade: utilitário auxiliar do domínio.
     /// Relação: usado por Services e Domain para regras compartilhadas.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class FileHelper
     {
         /// <summary>
@@ -110,7 +112,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             {
                 var content = new System.IO.MemoryStream(filedata);
 
-                var path = Path.Combine(DirectoryHelper.GetDiretoryTemp(configuration), fileName);
+                var path = Path.Combine(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(configuration), fileName);
 
                 await copyStream(content, path);
             }
@@ -207,7 +209,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 fileStream.ReadExactly(fileBytes);
                 var response = new FileContentResult(fileBytes, contentType)
                 {
-                    LastModified = DateHelper.GetDateTimeNowFromUtc(),
+                    LastModified = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc(),
                     FileDownloadName = GetSameName(filePath),
                 };
                 return response;

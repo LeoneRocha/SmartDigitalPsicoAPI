@@ -8,7 +8,7 @@ using Azure.Storage.Queues.Models;
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.Security;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Service.Infrastructure.Azure.Storage;
@@ -25,9 +25,9 @@ public class AzureStorageAdaptersCoverageTests
     {
         // Arrange
         var empty = new ConfigurationBuilder().AddInMemoryCollection().Build();
-        var table = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(empty, "t");
-        var queue = new AzureStorageQueueAdapter(empty, "q");
-        var blob = new AzureStorageBlobAdapter(empty);
+        var table = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity>(empty, "t");
+        var queue = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageQueueAdapter(empty, "q");
+        var blob = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter(empty);
 
         // Act
         var all = await table.GetAllAsync();
@@ -38,7 +38,7 @@ public class AzureStorageAdaptersCoverageTests
         await queue.EnqueueMessageAsync("m");
         var dequeued = await queue.DequeueMessageAsync();
         await queue.DeleteMessageAsync("id", "pop");
-        var uploadUrl = await blob.UploadFileReturnUrl(new BlobFileDto { ContainerName = "c", FilePath = "x" });
+        var uploadUrl = await blob.UploadFileReturnUrl(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto { ContainerName = "c", FilePath = "x" });
         var publicUrl = await blob.GetFileStorageUrlPublic("c", "b");
         await blob.CreateContainerIfNotExists("c");
         await blob.DownloadFile("c", "b", Path.GetTempFileName());
@@ -108,7 +108,7 @@ public class AzureStorageAdaptersCoverageTests
                 It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ETag>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Mock.Of<Response>());
 
-        var sut = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(tableClient.Object);
+        var sut = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity>(tableClient.Object);
 
         // Act
         await sut.InsertAsync(entity);
@@ -153,7 +153,7 @@ public class AzureStorageAdaptersCoverageTests
             .Setup(x => x.DeleteMessageAsync("id1", "pop1", It.IsAny<CancellationToken>()))
             .ReturnsAsync(Mock.Of<Response>());
 
-        var sut = new AzureStorageQueueAdapter(queueClient.Object);
+        var sut = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageQueueAdapter(queueClient.Object);
 
         // Act
         var empty = await sut.DequeueMessageAsync();
@@ -226,12 +226,12 @@ public class AzureStorageAdaptersCoverageTests
         var blobService = new Mock<BlobServiceClient>();
         blobService.Setup(x => x.GetBlobContainerClient(It.IsAny<string>())).Returns(containerClient.Object);
 
-        var sut = new AzureStorageBlobAdapter(cfg, blobService.Object);
+        var sut = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter(cfg, blobService.Object);
 
         try
         {
             // Act
-            var url = await sut.UploadFileReturnUrl(new BlobFileDto
+            var url = await sut.UploadFileReturnUrl(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto
             {
                 ContainerName = "container1",
                 FilePath = tempFile,
@@ -302,8 +302,8 @@ public class AzureStorageAdaptersCoverageTests
                 new[] { QueuesModelFactory.QueueMessage("id", "pop", "injected", dequeueCount: 1) },
                 Mock.Of<Response>()));
 
-        var table = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(tableClient.Object);
-        var queue = new AzureStorageQueueAdapter(queueClient.Object);
+        var table = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity>(tableClient.Object);
+        var queue = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageQueueAdapter(queueClient.Object);
 
         // Act
         await table.InsertAsync(entity);
@@ -321,9 +321,9 @@ public class AzureStorageAdaptersCoverageTests
     public void InjectedConstructors_CreateAdapters()
     {
         // Arrange
-        var table = new AzureStorageTableAdapter<UserTokenSessionTableEntity>(new Mock<TableClient>().Object);
-        var queue = new AzureStorageQueueAdapter(new Mock<QueueClient>().Object);
-        var blob = new AzureStorageBlobAdapter(
+        var table = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity>(new Mock<TableClient>().Object);
+        var queue = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageQueueAdapter(new Mock<QueueClient>().Object);
+        var blob = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter(
             new ConfigurationBuilder().AddInMemoryCollection().Build(),
             new Mock<BlobServiceClient>().Object);
 

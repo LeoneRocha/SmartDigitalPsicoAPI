@@ -1,11 +1,12 @@
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
 {
@@ -89,7 +90,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
                     return conflict;
 
                 // DB depois do processamento de conflito (CPU)
-                var now = DateHelper.GetDateTimeNowFromUtc();
+                var now = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 var (startPeriod, endPeriod) = ComputePeriod(request.Items);
                 var entity = new ScheduleCalendar
                 {

@@ -1,5 +1,6 @@
 using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Report;
 
 namespace SmartDigitalPsico.Domain.Test.Report;
@@ -27,7 +28,7 @@ public class QuestPdfReportAdapterTests
         // Arrange
         Directory.CreateDirectory(_tempPath);
         var content = CreateContent();
-        var adapter = new QuestPdfReportAdapter();
+        var adapter = new SmartDigitalPsicoAPI.Core.SDK.Domain.Report.QuestPdfReportAdapter();
         var output = Path.Combine(_tempPath, "quest.pdf");
 
         // Act
@@ -41,12 +42,12 @@ public class QuestPdfReportAdapterTests
         new FileInfo(output).Length.Should().BeGreaterThan(0);
     }
 
-    private static ReportPageContentDto CreateContent() => new()
+    private static SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto CreateContent() => new()
     {
         Pages =
         [
-            new ReportPageDataDto { Name = "Table", PageType = EReportPageType.Table, Rows = [new SampleRow { Name = "Ana", Amount = 12, Optional = null }], PropertiesToIgnore = ["Ignored"] },
-            new ReportPageDataDto { Name = "Text", PageType = EReportPageType.Text, Rows = [new SampleRow { Name = "Bruno", Amount = 20, Optional = null }], PropertiesToIgnore = ["Ignored"] }
+            new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Name = "Table", PageType = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Table, Rows = [new SampleRow { Name = "Ana", Amount = 12, Optional = null }], PropertiesToIgnore = ["Ignored"] },
+            new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Name = "Text", PageType = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Text, Rows = [new SampleRow { Name = "Bruno", Amount = 20, Optional = null }], PropertiesToIgnore = ["Ignored"] }
         ]
     };
 

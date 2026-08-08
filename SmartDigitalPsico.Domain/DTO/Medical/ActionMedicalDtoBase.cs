@@ -1,5 +1,6 @@
 using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical
 {

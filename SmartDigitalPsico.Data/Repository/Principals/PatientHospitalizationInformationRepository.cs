@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsico.Data.Repository.Generic;
+using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
@@ -11,12 +12,12 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class PatientHospitalizationInformationRepository : GenericRepositoryEntityBase<PatientHospitalizationInformation>, IPatientHospitalizationInformationRepository
+    public class PatientHospitalizationInformationRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<PatientHospitalizationInformation>, IPatientHospitalizationInformationRepository
     {
         /// <summary>
         /// Método PatientHospitalizationInformationRepository: executa a operação PatientHospitalizationInformationRepository.
         /// </summary>
-        public PatientHospitalizationInformationRepository(IEntityDataContext context) : base(context) { }
+        public PatientHospitalizationInformationRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context) { }
 
         /// <summary>
         /// Método FindAllByPatient: consulta e retorna dados.

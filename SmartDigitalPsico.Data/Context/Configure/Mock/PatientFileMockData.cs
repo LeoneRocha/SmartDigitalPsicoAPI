@@ -1,4 +1,5 @@
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
@@ -49,7 +50,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                         FileExtension = t.Extension,
                         FileContentType = t.ContentType,
                         FileSizeKB = t.SizeKb,
-                        TypeLocationSaveFile = ETypeLocationSaveFiles.Disk,
+                        TypeLocationSaveFile = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.Disk,
                         FileCloudContainer = string.Empty,
                         FileBlobName = string.Empty
                     });

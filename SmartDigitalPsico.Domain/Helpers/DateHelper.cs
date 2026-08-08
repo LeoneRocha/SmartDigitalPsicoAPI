@@ -1,108 +1,34 @@
-using System.Globalization;
-
 namespace SmartDigitalPsico.Domain.Helpers
 {
     /// <summary>
-    /// Classe responsável por DateHelper.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsicoAPI.Core.SDK.
     /// </summary>
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class DateHelper
     {
-        private static readonly string dateFormat = "dd/MM/yyyy HH:mm:ss";
-
-        /// <summary>
-        /// Método ConvertSecondsToTimeString: mapeia ou transforma dados entre modelos.
-        /// </summary>
         public static string ConvertSecondsToTimeString(double seconds)
-        {
-            TimeSpan time = TimeSpan.FromSeconds(seconds);
-            return time.ToString(@"hh\:mm\:ss");
-        }
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.ConvertSecondsToTimeString(seconds);
 
-        /// <summary>
-        /// Método GetDateTimeCustomFormat: consulta e retorna dados.
-        /// </summary>
         public static string GetDateTimeCustomFormat(DateTime dateInput)
-        {
-            var cultureInfo = CultureInfo.InvariantCulture;
-            return dateInput.ToString(dateFormat, cultureInfo);
-        }
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(dateInput);
 
-        /// <summary>
-        /// Método SetCulture: configura estado ou dependencias.
-        /// </summary>
         public static void SetCulture(string cultureName = "pt-BR")
-        {
-            var cultureInfo = new CultureInfo(cultureName);
-            // Set the culture of the current thread
-            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.SetCulture(cultureName);
 
-            // Set the UI culture of the current thread
-            Thread.CurrentThread.CurrentUICulture = cultureInfo;
-        }
-        /// <summary>
-        /// Método GetDateTimeNowBrazil: consulta e retorna dados.
-        /// </summary>
         public static DateTime GetDateTimeNowBrazil()
-        {
-            return ApplyTimeZone(GetDateTimeNowFromUtc(), "E. South America Standard Time");
-        }
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil();
 
-        /// <summary>
-        /// Método GetDateTimeNowToLog: consulta e retorna dados.
-        /// </summary>
         public static DateTime GetDateTimeNowToLog()
-        {
-            return GetDateTimeNowBrazil();
-        }
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog();
 
-        /// <summary>
-        /// Método GetDateTimeNowFromUtc: consulta e retorna dados.
-        /// </summary>
         public static DateTime GetDateTimeNowFromUtc()
-        {
-            return DateTime.UtcNow;
-        }
-        /// <summary>
-        /// Método GetDateTimeNowWithTimeZone: consulta e retorna dados.
-        /// </summary>
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+
         public static DateTime GetDateTimeNowWithTimeZone(string timeZoneId)
-        {
-            DateTime dateResult = GetDateTimeNowWithCurrentCulture();
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowWithTimeZone(timeZoneId);
 
-            if (!string.IsNullOrEmpty(timeZoneId))
-            {
-                dateResult = ApplyTimeZone(GetDateTimeNowFromUtc(), timeZoneId);
-            }
-            return dateResult;
-        }
-        private static DateTime GetDateTimeNowWithCurrentCulture()
-        {
-            var cultureInfo = CultureInfo.CurrentCulture;
-            var dateTimeFormatInfo = cultureInfo.DateTimeFormat;
-            return GetDateTimeWithCulture(GetDateTimeNowFromUtc(), dateTimeFormatInfo);
-        }
-
-        private static DateTime GetDateTimeWithCulture(DateTime dateTime, DateTimeFormatInfo dateTimeFormatInfo)
-        {
-            // Lógica para formatar a data e hora de acordo com a cultura fornecida
-            return DateTime.Parse(dateTime.ToString(dateTimeFormatInfo), dateTimeFormatInfo);
-        }  
-       
-        /// <summary>
-        /// Método ApplyTimeZone: executa a operação ApplyTimeZone.
-        /// </summary>
         public static DateTime ApplyTimeZone(DateTime dateTime, string timeZoneId)
-        {
-            // Obter o fuso horário a partir do ID
-            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
-
-            // Converter a data e hora para o fuso horário especificado
-            DateTime dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZone);
-
-            return dateTimeWithTimeZone;
-        }
-
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(dateTime, timeZoneId);
     }
 }

@@ -81,8 +81,8 @@ public class AuditDataSelectiveEntityLogServiceTests
         {
         }
 
-        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(IEntityDtoAdd item)
-            => Task.FromResult(new ServiceResponse<GetAuditDataSelectiveEntityLogDto> { Success = true });
+        public override Task<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
+            => Task.FromResult(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetAuditDataSelectiveEntityLogDto> { Success = true });
     }
 
     private sealed class ThrowingAuditDataSelectiveEntityLogService : AuditDataSelectiveEntityLogService
@@ -97,7 +97,8 @@ public class AuditDataSelectiveEntityLogServiceTests
         {
         }
 
-        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(IEntityDtoAdd item)
+        public override Task<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
             => throw new InvalidOperationException("create-fail");
     }
 }
+

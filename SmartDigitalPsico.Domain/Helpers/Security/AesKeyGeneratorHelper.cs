@@ -3,10 +3,12 @@ using System.Security.Cryptography;
 namespace SmartDigitalPsico.Domain.Helpers.Security
 {
     /// <summary>
-    /// Classe responsável por AesKeyGeneratorHelper.
+    /// Classe responsável por SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.
     /// Responsabilidade: segurança e autenticação.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class AesKeyGeneratorHelper
     {
 

@@ -1,4 +1,5 @@
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.ModelEntity;
 
@@ -28,7 +29,7 @@ namespace SmartDigitalPsico.Service.Audit
             foreach (var auditEntry in auditEntries)
             {
                 _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}",
-                    auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                    auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
             }
         } 
         /// <summary>
@@ -39,7 +40,7 @@ namespace SmartDigitalPsico.Service.Audit
             await Task.Run(() =>
             {
                 _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}",
-                   auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                   auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
             });
         }
     }

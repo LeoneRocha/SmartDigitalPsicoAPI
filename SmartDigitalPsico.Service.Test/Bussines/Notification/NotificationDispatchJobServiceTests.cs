@@ -118,7 +118,7 @@ public class NotificationDispatchJobServiceTests
         context.MedicalCalenderNotificationService.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), EMedicalCalendarActionType.NotificationDispatch))
             .Returns(Task.CompletedTask);
         context.NotificationRecordsService.Setup(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()))
-            .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
 
         int? lastProcessed = null;
 
@@ -180,7 +180,7 @@ public class NotificationDispatchJobServiceTests
         context.MedicalCalenderNotificationService.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), It.IsAny<EMedicalCalendarActionType>()))
             .Returns(Task.CompletedTask);
         context.NotificationRecordsService.Setup(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()))
-            .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
 
         // Act
         await context.Service.ProcessPendingNotificationsAsync();

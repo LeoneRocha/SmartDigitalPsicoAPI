@@ -2,8 +2,9 @@ using Bogus;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using System.Text;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
@@ -37,9 +38,9 @@ public class FileHelperTests
         await File.WriteAllTextAsync(source, content);
 
         // Act
-        var result = FileHelper.ProccessDownloadToBrowser(source);
-        await FileHelper.CopyFile(source, destination);
-        await FileHelper.Delete(destination);
+        var result = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.ProccessDownloadToBrowser(source);
+        await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.CopyFile(source, destination);
+        await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.Delete(destination);
 
         // Assert
         result.FileContents.Should().BeEquivalentTo(Encoding.UTF8.GetBytes(content));
@@ -57,8 +58,8 @@ public class FileHelperTests
         var file = new FormFile(new MemoryStream(data), 0, data.Length, "file", "input.txt");
 
         // Act
-        var text = await FileHelper.GetFileFormDataUpload(file);
-        var bytes = await FileHelper.GetByteDataFromIFormFile(file);
+        var text = await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFileFormDataUpload(file);
+        var bytes = await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetByteDataFromIFormFile(file);
 
         // Assert
         text.Should().Be("conteúdo de teste");
@@ -85,7 +86,7 @@ public class FileHelperTests
         try
         {
             // Act
-            var result = await FileHelper.GetFileByRequest(request.Object, "upload");
+            var result = await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFileByRequest(request.Object, "upload");
 
             // Assert
             result.Should().Be(Path.Combine("upload", "report.txt"));
@@ -114,8 +115,8 @@ public class FileHelperTests
         unnamedRequest.SetupGet(x => x.Form).Returns(new FormCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>(), new FormFileCollection { unnamed.Object }));
 
         // Act
-        var emptyResult = await FileHelper.GetFileByRequest(emptyRequest.Object, "ignored");
-        var action = async () => await FileHelper.GetFileByRequest(unnamedRequest.Object, "ignored");
+        var emptyResult = await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFileByRequest(emptyRequest.Object, "ignored");
+        var action = async () => await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFileByRequest(unnamedRequest.Object, "ignored");
 
         // Assert
         emptyResult.Should().BeEmpty();
@@ -134,21 +135,21 @@ public class FileHelperTests
 
         // Act
         Directory.CreateDirectory(_tempPath);
-        await FileHelper.GetFromByteSaveTemp([1, 2, 3], "bytes.bin", config);
-        await FileHelper.GetFromByteSaveTemp(null!, "ignored.bin", config);
-        var missingCopy = async () => await FileHelper.CopyFile(Path.Combine(_tempPath, "missing"), output);
-        var missingDelete = async () => await FileHelper.Delete(output + ".missing");
+        await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFromByteSaveTemp([1, 2, 3], "bytes.bin", config);
+        await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFromByteSaveTemp(null!, "ignored.bin", config);
+        var missingCopy = async () => await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.CopyFile(Path.Combine(_tempPath, "missing"), output);
+        var missingDelete = async () => await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.Delete(output + ".missing");
 
         // Assert
-        FileHelper.GetFileExtension("application/json").Should().Be("jso");
-        FileHelper.NormalizePath(relative).Should().Be(Path.GetFullPath(relative));
-        ((Action)(() => FileHelper.NormalizePath(" "))).Should().Throw<ArgumentException>();
-        FileHelper.GetFileFromBase64String(Convert.ToBase64String(Encoding.UTF8.GetBytes("ok"))).Should().Be("ok");
-        FileHelper.GetFileFromBase64String(string.Empty).Should().BeEmpty();
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFileExtension("application/json").Should().Be("jso");
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.NormalizePath(relative).Should().Be(Path.GetFullPath(relative));
+        ((Action)(() => SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.NormalizePath(" "))).Should().Throw<ArgumentException>();
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFileFromBase64String(Convert.ToBase64String(Encoding.UTF8.GetBytes("ok"))).Should().Be("ok");
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFileFromBase64String(string.Empty).Should().BeEmpty();
         File.ReadAllBytes(output).Should().BeEquivalentTo([1, 2, 3]);
-        FileHelper.GetContentType("unknown.custom").Should().Be("application/octet-stream");
-        FileHelper.GetSameName("archive.tar.gz").Should().Be("archive.tar.gz");
-        FileHelper.GetFilePath(_tempPath, "bytes.bin").Should().Be(output);
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetContentType("unknown.custom").Should().Be("application/octet-stream");
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetSameName("archive.tar.gz").Should().Be("archive.tar.gz");
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFilePath(_tempPath, "bytes.bin").Should().Be(output);
         await missingCopy.Should().ThrowAsync<FileNotFoundException>();
         await missingDelete.Should().ThrowAsync<FileNotFoundException>();
     }
@@ -168,8 +169,8 @@ public class FileHelperTests
         try
         {
             // Act
-            var filePath = FileHelper.GetFilePath("downloads", "report.txt");
-            var result = FileHelper.ProccessDownloadToBrowser("downloads", "report.txt");
+            var filePath = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFilePath("downloads", "report.txt");
+            var result = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.ProccessDownloadToBrowser("downloads", "report.txt");
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -194,8 +195,8 @@ public class FileHelperTests
         var directory = Path.Combine(_tempPath, "created");
 
         // Act
-        FileHelper.CreateDiretory(directory);
-        FileHelper.CreateDiretory(directory);
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.CreateDiretory(directory);
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.CreateDiretory(directory);
 
         // Assert
         Directory.Exists(directory).Should().BeTrue();

@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientMedicationInformation;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
     public interface IPatientMedicationInformationService 
-        : IEntityBaseService<PatientMedicationInformation, GetPatientMedicationInformationDto>
+        : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.IEntityBaseService<PatientMedicationInformation, GetPatientMedicationInformationDto>
     { 
         /// <summary>
         /// Método FindAllByPatient: consulta e retorna dados.

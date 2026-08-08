@@ -1,5 +1,6 @@
 using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 {
@@ -26,7 +27,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public abstract class GetMedicalCalendarDtoBase : EntityDtoBase
+    public abstract class GetMedicalCalendarDtoBase : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBase
     { 
         #region Columns  
         public string Title { get; set; } = string.Empty;

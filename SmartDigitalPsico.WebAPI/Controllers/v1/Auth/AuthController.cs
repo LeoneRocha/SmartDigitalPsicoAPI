@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.DTO.User;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
 {
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
         /// <summary>
         /// Método Refresh: executa a operação Refresh.
         /// </summary>
-        public IActionResult Refresh([FromBody] TokenVO tokenVo)
+        public IActionResult Refresh([FromBody] SmartDigitalPsico.Domain.VO.TokenVO tokenVo)
         { 
             return NoContent();
         } 

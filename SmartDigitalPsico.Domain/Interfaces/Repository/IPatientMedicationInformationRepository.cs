@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
     /// Responsabilidade: repositório de persistência.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public interface IPatientMedicationInformationRepository : IEntityBaseRepository<PatientMedicationInformation>
+    public interface IPatientMedicationInformationRepository : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<PatientMedicationInformation>
     {
         /// <summary>
         /// Método FindAllByPatient: consulta e retorna dados.

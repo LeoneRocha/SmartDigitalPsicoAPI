@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.PatientRecord
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class AddPatientRecordDto : IEntityDtoAdd
+    public class AddPatientRecordDto : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd
     {
         #region Relationship  
         public long PatientId { get; set; }

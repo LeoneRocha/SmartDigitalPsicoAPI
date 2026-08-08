@@ -9,8 +9,8 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
     /// </summary>
     public interface IReportServiceConfig
     {
-        IExcelGeneratorService ExcelGeneratorService { get; }
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService ExcelGeneratorService { get; }
 
-        IPdfReportService PdfReportService { get; }
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService PdfReportService { get; }
     }
 }

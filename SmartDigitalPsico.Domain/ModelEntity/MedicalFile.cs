@@ -1,5 +1,5 @@
 using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.ModelEntity.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {

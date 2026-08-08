@@ -1,20 +1,11 @@
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
-
 namespace SmartDigitalPsico.Domain.DTO.SMTP
 {
     /// <summary>
-    /// Classe responsável por SmtpSettingsDto.
-    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
-    /// Relação: usado por Controllers, Services e Validators.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsicoAPI.Core.SDK.
     /// </summary>
-    public class SmtpSettingsDto : ISmtpSettingsDto
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_SMTP")]
+    public class SmtpSettingsDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.SMTP.SmtpSettingsDto
     {
-        public string Server { get; set; } = string.Empty;
-        public int Port { get; set; }
-        public string SenderName { get; set; } = string.Empty;
-        public string SenderEmail { get; set; } = string.Empty;
-        public string Username { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public bool EnableSsl { get; set; } = true;
     }
-} 
+}

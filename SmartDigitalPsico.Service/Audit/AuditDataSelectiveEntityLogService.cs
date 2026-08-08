@@ -3,11 +3,13 @@ using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
 using SmartDigitalPsico.Domain.Interfaces;
@@ -15,17 +17,17 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
-    /// Classe responsável por AuditDataSelectiveEntityLogService.
+    /// Classe responsÃ¡vel por AuditDataSelectiveEntityLogService.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// RelaÃ§Ã£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class AuditDataSelectiveEntityLogService
-        : EntityBaseService<AuditDataSelectiveEntityLog, GetAuditDataSelectiveEntityLogDto>, IAuditDataSelectiveEntityLogService
+        : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<AuditDataSelectiveEntityLog, GetAuditDataSelectiveEntityLogDto>, IAuditDataSelectiveEntityLogService
     {
         private readonly ISharedDependenciesConfig _sharedDependenciesConfig;
 
         /// <summary>
-        /// Método AuditDataSelectiveEntityLogService: executa a operação AuditDataSelectiveEntityLogService.
+        /// MÃ©todo AuditDataSelectiveEntityLogService: executa a operaÃ§Ã£o AuditDataSelectiveEntityLogService.
         /// </summary>
         public AuditDataSelectiveEntityLogService(
             ISharedServices sharedServices,
@@ -40,15 +42,15 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             _sharedDependenciesConfig = sharedDependenciesConfig;
         }
         /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(IEntityDtoAdd item)
+        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Método Save: cria ou persiste um novo registro/recurso.
+        /// MÃ©todo Save: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task Save(object entryOld, object entryNew, string operation, string[] propertiesToIgnore)
         {
@@ -63,10 +65,11 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 if (auditEntry != null)
                 {
                     _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID}| User Name: {UserAuditedLogin} | Date: {Date}",
-                      auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, auditEntry.UserAuditedLogin, DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                      auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, auditEntry.UserAuditedLogin, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
                 }
                 _sharedDependenciesConfig.Logger.Error(ex, "Error writing log");
             }
         }
     }
 }
+

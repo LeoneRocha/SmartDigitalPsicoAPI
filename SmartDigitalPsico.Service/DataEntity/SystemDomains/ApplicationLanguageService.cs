@@ -4,11 +4,13 @@ using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 using System.Globalization;
@@ -16,14 +18,14 @@ using System.Globalization;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
-    /// Classe responsável por ApplicationLanguageService.
-    /// Responsabilidade: serviço de entidade de negócio.
-    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// Classe responsÃ¡vel por ApplicationLanguageService.
+    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
+    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
     /// </summary>
-    public class ApplicationLanguageService : EntityBaseService<ApplicationLanguage, GetApplicationLanguageDto>, IApplicationLanguageService
+    public class ApplicationLanguageService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<ApplicationLanguage, GetApplicationLanguageDto>, IApplicationLanguageService
     {
         /// <summary>
-        /// Método ApplicationLanguageService: executa a operação ApplicationLanguageService.
+        /// MÃ©todo ApplicationLanguageService: executa a operaÃ§Ã£o ApplicationLanguageService.
         /// </summary>
         public ApplicationLanguageService(
             ISharedServices sharedServices,
@@ -35,20 +37,20 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
         }
         /// <summary>
-        /// Método FindAll: consulta e retorna dados.
+        /// MÃ©todo FindAll: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<List<GetApplicationLanguageDto>>> FindAll()
         {
             string keyCache = "FindAll_GetApplicationLanguageVO";
 
-            ServiceResponse<List<GetApplicationLanguageDto>> result = await CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(_cacheService, keyCache);
+            ServiceResponse<List<GetApplicationLanguageDto>> result = await SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.CacheManager.CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(_cacheService, keyCache);
             if (_cacheService.IsEnable())
             {
                 if (result.Data == null)
                 {
                     result = await base.FindAll();
 
-                    await CacheService.SaveDataToCache(keyCache, result.Data, _cacheService);
+                    await SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.CacheManager.CacheService.SaveDataToCache(keyCache, result.Data, _cacheService);
                 }
             }
             else
@@ -61,7 +63,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         #region GetLocalization
         public static async Task<string> GetLocalization<T>(string key, IStringLocalizer<T> localizer)
         {
-            var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
+            var findKey = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetNameAndCulture(key);
             string message = localizer.GetString(findKey);
 
             await Task.FromResult("NotFoundLocalization");
@@ -69,7 +71,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return message;
         }
 
-        public async Task<string> GetLocalization<T>(string key, string defaultMenssage, ICacheService cacheService)
+        public async Task<string> GetLocalization<T>(string key, string defaultMenssage, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService)
         {
             string resultLocalization = string.Empty;
             string keyCache = "FindAll_GetApplicationLanguageVO";
@@ -79,7 +81,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             await SaveCache(keyCache);
             try
             {
-                ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
+                ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.CacheManager.CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
 
                 GetApplicationLanguageDto? languageFindFromCache = FindLanguageFromCache(resultFromCache, resourceKey, key, language);
                 if (languageFindFromCache != null)
@@ -142,7 +144,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "GetLocalization: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "GetLocalization: {Message} at: {Time}", ex.Message, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
             }
 
             return resultLocalization;
@@ -156,13 +158,13 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 var result = await ((IApplicationLanguageRepository)_entityRepository).FindAll();
                 var data = result.Select(c => _mapper.Map<GetApplicationLanguageDto>(c)).ToList();
 
-                await CacheService.SaveDataToCache(keyCache, data, _cacheService);
+                await SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.CacheManager.CacheService.SaveDataToCache(keyCache, data, _cacheService);
             }
         }
 
 
         /// <summary>
-        /// Método RemoveCache: remove ou cancela um registro/recurso.
+        /// MÃ©todo RemoveCache: remove ou cancela um registro/recurso.
         /// </summary>
         public async Task RemoveCache(string keyCache)
         {
@@ -175,7 +177,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
 
         /// <summary>
-        /// Método Save: cria ou persiste um novo registro/recurso.
+        /// MÃ©todo Save: cria ou persiste um novo registro/recurso.
         /// </summary>
         public virtual async Task Save(AddApplicationLanguageDto item)
         {
@@ -183,9 +185,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             try
             {
                 ApplicationLanguage entityAdd = _mapper.Map<ApplicationLanguage>(item);
-                entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 entityAdd.Enable = true;
 
                 if (response.Success)
@@ -196,7 +198,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
             }
         }
 
@@ -231,3 +233,4 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
     }
 }
+

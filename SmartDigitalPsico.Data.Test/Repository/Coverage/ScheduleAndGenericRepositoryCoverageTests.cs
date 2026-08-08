@@ -234,7 +234,7 @@ public class ScheduleAndGenericRepositoryCoverageTests : BaseTests
             ]
         };
 
-    private sealed class ApplicationCacheLogRepository : GenericRepositoryEntityBase<ApplicationCacheLog>
+    private sealed class ApplicationCacheLogRepository : SmartDigitalPsico.Data.Repository.Generic.GenericRepositoryEntityBase<ApplicationCacheLog>
     {
         public ApplicationCacheLogRepository(SmartDigitalPsico.Data.Context.Interface.IEntityDataContext context) : base(context)
         {

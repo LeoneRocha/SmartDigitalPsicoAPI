@@ -4,14 +4,18 @@ using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Security;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
 using SmartDigitalPsico.Domain.Interfaces;
@@ -19,12 +23,12 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>
-    /// Classe responsável por MedicalService.
-    /// Responsabilidade: serviço de entidade de negócio.
-    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// Classe responsÃ¡vel por MedicalService.
+    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
+    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
     /// </summary>
     public class MedicalService
-        : EntityBaseService<Medical, GetMedicalDto>, IMedicalService
+        : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Medical, GetMedicalDto>, IMedicalService
 
     {
         private readonly IUserRepository _userRepository;
@@ -32,7 +36,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         private readonly ISharedServices _sharedServices;
 
         /// <summary>
-        /// Método MedicalService: executa a operação MedicalService.
+        /// MÃ©todo MedicalService: executa a operaÃ§Ã£o MedicalService.
         /// </summary>
         public MedicalService(
             ISharedServices sharedServices,
@@ -48,9 +52,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _sharedServices = sharedServices;
         }
         /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetMedicalDto>> Create(IEntityDtoAdd item)
+        public override async Task<ServiceResponse<GetMedicalDto>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             var dto = (AddMedicalDto)item;
             Medical entityAdd = _mapper.Map<Medical>(dto);
@@ -63,9 +67,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
             #endregion Relationship
 
-            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
             entityAdd.CreatedUserId = UserId;
             entityAdd.Enable = true;
 
@@ -77,7 +81,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (response.Success)
             {
 
-                entityAdd.SecurityKey = AesKeyGeneratorHelper.GenerateKey();
+                entityAdd.SecurityKey = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey();
                 Medical entityResponse = await ((IMedicalRepository)_entityRepository).Create(entityAdd);
 
                 entityResponse.MedicalSpecialties = new List<MedicalSpecialty>();
@@ -96,9 +100,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método Update: atualiza um registro/recurso existente.
+        /// MÃ©todo Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetMedicalDto>> Update(IEntityDto item)
+        public override async Task<ServiceResponse<GetMedicalDto>> Update(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var dto = (UpdateMedicalDto)item;
             ServiceResponse<GetMedicalDto> response = new ServiceResponse<GetMedicalDto>();
@@ -120,8 +124,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
                 #endregion Relationship
 
-                entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-                entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 entityUpdate.ModifyUserId = UserId;
 
                 #region Columns
@@ -143,7 +147,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 if (response.Success)
                 {
                     if (string.IsNullOrEmpty(entityUpdate.SecurityKey))
-                        entityUpdate.SecurityKey = AesKeyGeneratorHelper.GenerateKey();
+                        entityUpdate.SecurityKey = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey();
 
                     Medical entityResponse = await ((IMedicalRepository)_entityRepository).Update(entityUpdate);
 
@@ -159,7 +163,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
 
 
         /// <summary>
-        /// Método Delete: remove ou cancela um registro/recurso.
+        /// MÃ©todo Delete: remove ou cancela um registro/recurso.
         /// </summary>
         public override Task<ServiceResponse<bool>> Delete(long id)
         {
@@ -167,7 +171,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método FindAll: consulta e retorna dados.
+        /// MÃ©todo FindAll: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<List<GetMedicalDto>>> FindAll()
         {
@@ -179,7 +183,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return await base.FindAll();
         }
         /// <summary>
-        /// Método FindByID: consulta e retorna dados.
+        /// MÃ©todo FindByID: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<GetMedicalDto>> FindByID(long id)
         {
@@ -280,10 +284,11 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             DataNotificationTemplateVO fallbackEmail = new DataNotificationTemplateVO()
             {
                 Subject = await GetLocalization(GeneralLanguageKeyConstants.MedicalUpdateTitle, GeneralLanguageMenssageConstants.MedicalUpdateTitle),
-                Body = $"M�dico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
+                Body = $"Mï¿½dico {entityResponse.Name} ({entityResponse.Id}) atualizado.",
                 ToEmails = new List<string>() { "leocr_lem@yahoo.com.br" }
             };
             await _sharedServices.SendNotificationService.SendNotificationAsync(fallbackEmail, ENotificationServiceType.Email, []);
         }
     }
 }
+

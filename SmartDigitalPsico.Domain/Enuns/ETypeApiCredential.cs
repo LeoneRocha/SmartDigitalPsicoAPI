@@ -3,7 +3,7 @@ using System.ComponentModel;
 namespace SmartDigitalPsico.Domain.Enuns
 {
     /// <summary>
-    /// Enumeração responsável por ETypeApiCredential.
+    /// Enumeração responsável por SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeApiCredential.
     /// Responsabilidade: valores enumerados do domínio.
     /// Relação: usado em entidades, DTOs e regras de negócio.
     /// </summary>

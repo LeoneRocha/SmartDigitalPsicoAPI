@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Repository
     /// Responsabilidade: repositório de persistência.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public interface IUserTokenSessionRepository : IEntityBaseRepository<UserTokenSession>
+    public interface IUserTokenSessionRepository : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<UserTokenSession>
     {
         /// <summary>
         /// Método GetSessionAsync: consulta e retorna dados.

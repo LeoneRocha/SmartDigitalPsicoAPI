@@ -10,6 +10,8 @@ namespace SmartDigitalPsico.Domain.Helpers.Security
     /// Responsabilidade: segurança e autenticação.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class SecurityHelper
     {
         /// <summary>
@@ -61,7 +63,7 @@ namespace SmartDigitalPsico.Domain.Helpers.Security
             var tokendDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateHelper.GetDateTimeNowFromUtc().AddDays(1),
+                Expires = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(1),
                 SigningCredentials = creds
             };
             var tokenHandler = new JwtSecurityTokenHandler();

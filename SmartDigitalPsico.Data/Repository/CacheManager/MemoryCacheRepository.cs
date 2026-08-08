@@ -1,63 +1,19 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.DTO.Domains;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains;
 
 namespace SmartDigitalPsico.Data.Repository.CacheManager
 {
     /// <summary>
-    /// Classe responsável por MemoryCacheRepository.
-    /// Responsabilidade: repositório de persistência.
-    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsicoAPI.Core.SDK.
     /// </summary>
-    public class MemoryCacheRepository : IMemoryCacheRepository
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_CACHE")]
+    public class MemoryCacheRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository
     {
-        private readonly IMemoryCache _memoryCache;
-        private readonly MemoryCacheEntryOptions? _cacheOptions;
-        /// <summary>
-        /// Método MemoryCacheRepository: executa a operação MemoryCacheRepository.
-        /// </summary>
         public MemoryCacheRepository(IMemoryCache memoryCache, IOptions<CacheConfigurationDto> cacheConfig)
+            : base(memoryCache, cacheConfig)
         {
-            _memoryCache = memoryCache;
-            CacheConfigurationDto _cacheConfig = cacheConfig.Value;
-            if (_cacheConfig != null)
-            {
-                DateTime absoluteExpiration = DateHelper.GetDateTimeNowFromUtc().AddHours(_cacheConfig.AbsoluteExpirationInHours).AddMinutes(_cacheConfig.AbsoluteExpirationInMinutes);
-                _cacheOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpiration = absoluteExpiration,
-                    Priority = CacheItemPriority.High,
-                    SlidingExpiration = TimeSpan.FromMinutes(_cacheConfig.SlidingExpirationInMinutes)
-                };
-            }
         }
-        public bool TryGet<T>(string cacheKey, out T? value)
-        {
-            bool isSuccessGet;
-            isSuccessGet = _memoryCache.TryGetValue(cacheKey, out value);
-            return isSuccessGet;
-        }
-
-        public bool Set<T>(string cacheKey, T value)
-        {
-            _memoryCache.Set(cacheKey, value, _cacheOptions);
-            return true;
-        }
-        public bool Set<T>(string cacheKey, T value, MemoryCacheEntryOptions memoryCacheEntryOptions)
-        {
-            _memoryCache.Set(cacheKey, value, memoryCacheEntryOptions);
-            return true;
-        }
-
-        /// <summary>
-        /// Método Remove: remove ou cancela um registro/recurso.
-        /// </summary>
-        public bool Remove(string cacheKey)
-        {
-            _memoryCache.Remove(cacheKey);
-            return true;
-        }   
     }
 }

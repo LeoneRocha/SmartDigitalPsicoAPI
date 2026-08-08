@@ -19,11 +19,11 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         /// </summary>
         public static void AddDependencies(IServiceCollection services)
         {
-            services.AddScoped<IExcelGeneratorService, ExcelGeneratorService>();
-            services.AddScoped<IExcelGeneratorFactory, ExcelGeneratorFactory>();
+            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService, ExcelGeneratorService>();
+            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorFactory, SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Report.ExcelGeneratorFactory>();
 
-            services.AddScoped<IPdfReportAdapterFactory, PdfReportAdapterFactory>();
-            services.AddScoped<IPdfReportService, PdfReportService>();
+            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory, SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Report.PdfReportAdapterFactory>();
+            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService, PdfReportService>();
             #region ENTITIES
 
             services.AddScoped<IPatientReportService, PatientReportService>();

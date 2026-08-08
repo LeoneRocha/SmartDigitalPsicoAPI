@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface INotificationRecordsService : IEntityBaseService<NotificationRecord, GetNotificationRecordsDto>
+    public interface INotificationRecordsService : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.IEntityBaseService<NotificationRecord, GetNotificationRecordsDto>
     {
         /// <summary>
         /// Método GetPendingNotificationsAsync: consulta e retorna dados.

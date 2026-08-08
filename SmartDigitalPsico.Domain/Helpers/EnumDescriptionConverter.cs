@@ -6,14 +6,16 @@ using System.Text.Json.Serialization;
 namespace SmartDigitalPsico.Domain.Helpers
 {
     /// <summary>
-    /// Classe responsável por EnumDescriptionConverter.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// Classe responsÃ¡vel por SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter.
+    /// Responsabilidade: utilitÃ¡rio auxiliar do domÃ­nio.
+    /// RelaÃ§Ã£o: usado por Services e Domain para regras compartilhadas.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public class EnumDescriptionConverter<T> : JsonConverter<T> where T : Enum
     {
         /// <summary>
-        /// Método Read: consulta e retorna dados.
+        /// MÃ©todo Read: consulta e retorna dados.
         /// </summary>
         public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -56,7 +58,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
 
         /// <summary>
-        /// Método Write: executa a operação Write.
+        /// MÃ©todo Write: executa a operaÃ§Ã£o Write.
         /// </summary>
         public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
         {

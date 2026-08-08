@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class AddMedicalCalendarDto : ActionMedicalCalendarDtoBase, IEntityDtoAdd
+    public class AddMedicalCalendarDto : ActionMedicalCalendarDtoBase, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd
     {
        
     }

@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
@@ -10,6 +10,8 @@ namespace SmartDigitalPsico.Service.Infrastructure
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
     public class StorageTableEntityService<T> : IStorageTableContract<T> where T : BaseEntityTable, new()
     {
         private readonly IStorageTableContract<T> _storageTableEntityRepository;
@@ -19,7 +21,7 @@ namespace SmartDigitalPsico.Service.Infrastructure
         /// </summary>
         public StorageTableEntityService(IStorageTableRepositoryFactory storageTableRepositoryFactory, string tableName)
         {
-            EStorageAdapterType _storageAdapterType = EStorageAdapterType.Azure;
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EStorageAdapterType _storageAdapterType = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EStorageAdapterType.Azure;
             _storageTableEntityRepository = storageTableRepositoryFactory.Create<T>(_storageAdapterType, tableName);
         }
 

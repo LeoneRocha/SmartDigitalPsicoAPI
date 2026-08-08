@@ -1,5 +1,7 @@
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using System.Security.Claims;
+
 
 namespace SmartDigitalPsico.Domain.Helpers.Security
 {
@@ -13,11 +15,11 @@ namespace SmartDigitalPsico.Domain.Helpers.Security
         /// <summary>
         /// Método GetUserIdApi: consulta e retorna dados.
         /// </summary>
-        public static long GetUserIdApi(ClaimsPrincipal user, ETypeApiCredential typeApiCredential)
+        public static long GetUserIdApi(ClaimsPrincipal user, SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeApiCredential typeApiCredential)
         {
             long idUserResult = 0;
             long idUser;
-            if (user != null && typeApiCredential == ETypeApiCredential.Jwt && long.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out idUser))
+            if (user != null && typeApiCredential == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt && long.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out idUser))
             {
                 idUserResult = idUser;
             }

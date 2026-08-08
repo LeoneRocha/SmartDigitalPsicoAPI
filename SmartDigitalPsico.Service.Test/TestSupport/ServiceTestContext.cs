@@ -19,10 +19,10 @@ namespace SmartDigitalPsico.Service.Test.TestSupport;
 /// </summary>
 public sealed class ServiceTestContext
 {
-    public Mock<ICacheService> Cache { get; } = new();
+    public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService> Cache { get; } = new();
     public Mock<IApplicationLanguageService> Language { get; } = new();
     public Mock<ISendNotificationService> SendNotification { get; } = new();
-    public Mock<ICryptoService> Crypto { get; } = new();
+    public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoService> Crypto { get; } = new();
     public Mock<INotificationTemplateService> NotificationTemplate { get; } = new();
     public Mock<ISharedServices> SharedServicesMock { get; } = new();
     public ISharedServices SharedServices => SharedServicesMock.Object;
@@ -40,8 +40,8 @@ public sealed class ServiceTestContext
 
     public ServiceTestContext()
     {
-        Language.Setup(x => x.GetLocalization<ISharedResource>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ICacheService>()))
-            .ReturnsAsync((string _, string fallback, ICacheService _) => fallback);
+        Language.Setup(x => x.GetLocalization<ISharedResource>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService>()))
+            .ReturnsAsync((string _, string fallback, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService _) => fallback);
 
         SharedServicesMock.SetupGet(x => x.CacheService).Returns(Cache.Object);
         SharedServicesMock.SetupGet(x => x.ApplicationLanguageService).Returns(Language.Object);

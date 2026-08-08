@@ -1,7 +1,8 @@
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.ModelEntity.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Domain.Validation.Base
 {

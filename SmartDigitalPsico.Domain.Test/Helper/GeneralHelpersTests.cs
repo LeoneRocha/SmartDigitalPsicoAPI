@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Moq;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Domain.Test.Helper;
@@ -34,7 +35,7 @@ public class GeneralHelpersTests
     {
         public SelfReferencingAuditModel? Next { get; set; }
     }
-    private sealed class TestFile : FileBase { }
+    private sealed class TestFile : SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileBase { }
 
     // Cenário: Uma mensagem possui tokens e uma mensagem simples não possui.
     // Objetivo: Substituir somente os tokens presentes.
@@ -45,14 +46,14 @@ public class GeneralHelpersTests
         const string message = "Key|{0} between {1}|Age|18";
         // Act
         var language = ApplicationLanguageHelper.ReplaceTokensInMessage(message);
-        var email = EmailHelper.ReplaceTokens("Hello [{Name}] [{Missing}]", new Dictionary<string, string> { ["Name"] = "Ana" });
+        var email = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EmailHelper.ReplaceTokens("Hello [{Name}] [{Missing}]", new Dictionary<string, string> { ["Name"] = "Ana" });
         // Assert
         using (Assert.EnterMultipleScope())
         {
             language.Should().Be("Key|Age between 18");
             ApplicationLanguageHelper.ReplaceTokens("No token").Should().Be("No token");
             email.Should().Be("Hello Ana [{Missing}]");
-            EmailHelper.ReplaceTokens("unchanged", []).Should().Be("unchanged");
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EmailHelper.ReplaceTokens("unchanged", []).Should().Be("unchanged");
         }
     }
 
@@ -64,7 +65,7 @@ public class GeneralHelpersTests
         // Arrange
         const string html = "<div style='color:red'><strong>safe</strong><script>alert(1)</script></div>";
         // Act
-        var result = HtmlSanitizerHelper.Sanitize(html);
+        var result = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(html);
         // Assert
         using (Assert.EnterMultipleScope())
         {
@@ -82,15 +83,15 @@ public class GeneralHelpersTests
         // Arrange
         var model = new OrderedModel();
         // Act
-        var properties = ReflectionHelpers.GetProperties(model, ["Ignored"]).ToList();
-        var label = ReflectionHelpers.GetLabelProperty(properties[0]);
+        var properties = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetProperties(model, ["Ignored"]).ToList();
+        var label = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetLabelProperty(properties[0]);
         // Assert
         using (Assert.EnterMultipleScope())
         {
             properties.Select(x => x.Name).Should().BeEquivalentTo(["First", "Second"], o => o.WithStrictOrdering());
             label.Should().Be("Nome exibido");
-            ReflectionHelpers.GetLabelProperty(typeof(OrderedModel).GetProperty(nameof(OrderedModel.Second))!).Should().Be("Second");
-            new SmartDigitalPsico.Domain.Helpers.OrderAttribute(7).Order.Should().Be(7);
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetLabelProperty(typeof(OrderedModel).GetProperty(nameof(OrderedModel.Second))!).Should().Be("Second");
+            new SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.OrderAttribute(7).Order.Should().Be(7);
         }
     }
 
@@ -103,18 +104,18 @@ public class GeneralHelpersTests
         var date = new DateTime(2025, 2, 3, 4, 5, 6);
         var file = new TestFile { FileContentType = "image/png" };
         // Act
-        var headers = BlobFileHelper.GetBlobHeadersAzure(file);
+        var headers = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.BlobFileHelper.GetBlobHeadersAzure(file);
         var clone = AuditLogHelper.DeepClone(new OrderedModel(), ["Ignored"]);
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            DateHelper.ConvertSecondsToTimeString(3661).Should().Be("01:01:01");
-            DateHelper.GetDateTimeCustomFormat(date).Should().Be("03/02/2025 04:05:06");
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.ConvertSecondsToTimeString(3661).Should().Be("01:01:01");
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(date).Should().Be("03/02/2025 04:05:06");
             headers.ContentType.Should().Be("image/png");
             AuditLogHelper.SerializeObject(null!).Should().BeEmpty();
             AuditLogHelper.SerializeObject(new OrderedModel(), ["Ignored"]).Should().NotContain("Ignored");
             clone.Ignored.Should().Be("ignored");
-            DateHelper.GetDateTimeNowWithTimeZone(string.Empty).Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowWithTimeZone(string.Empty).Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
         }
     }
 
@@ -245,26 +246,26 @@ public class GeneralHelpersTests
         var date = new DateTime(2025, 2, 3, 4, 5, 6, DateTimeKind.Utc);
 
         // Act
-        var cultures = CultureDateTimeHelper.GetCultures();
-        var translated = CultureDateTimeHelper.TranslateCulture([new() { Id = "pt-BR" }]);
-        DateHelper.SetCulture("en-US");
+        var cultures = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultures();
+        var translated = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.TranslateCulture([new() { Id = "pt-BR" }]);
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.SetCulture("en-US");
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            CultureDateTimeHelper.GetTimeZonesIds().Should().NotBeEmpty();
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetTimeZonesIds().Should().NotBeEmpty();
             cultures.Select(x => x.Id).Should().Contain(["en-US", "pt-BR", "es-ES"]);
             translated.Should().ContainSingle().Which.Name.Should().Be("pt-BR");
-            CultureDateTimeHelper.GetNameAndCulture("welcome").Should().Be("welcome");
-            CultureDateTimeHelper.GetKeyLocalizationRecordFormat("welcome", "pt-BR").Should().Be("welcome");
-            CultureDateTimeHelper.GetLocalizer(localizer.Object, "welcome").Should().Be("Bem-vinda");
-            CultureDateTimeHelper.GetLocalizer<GeneralHelpersTests>(null!, "missing").Should().Be("NotFoundLocalization");
-            CultureDateTimeHelper.GetTimeZoneBrazil().Should().NotBeNullOrWhiteSpace();
-            CultureDateTimeHelper.GetCultureBrazil().Should().Be("pt-BR");
-            DateHelper.GetDateTimeNowBrazil().Should().BeBefore(DateTime.UtcNow.AddMinutes(1));
-            DateHelper.GetDateTimeNowToLog().Should().BeBefore(DateTime.UtcNow.AddMinutes(1));
-            DateHelper.GetDateTimeNowWithTimeZone("UTC").Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
-            DateHelper.ApplyTimeZone(date, "UTC").Should().Be(date);
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetNameAndCulture("welcome").Should().Be("welcome");
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetKeyLocalizationRecordFormat("welcome", "pt-BR").Should().Be("welcome");
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetLocalizer(localizer.Object, "welcome").Should().Be("Bem-vinda");
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetLocalizer<GeneralHelpersTests>(null!, "missing").Should().Be("NotFoundLocalization");
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetTimeZoneBrazil().Should().NotBeNullOrWhiteSpace();
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultureBrazil().Should().Be("pt-BR");
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().Should().BeBefore(DateTime.UtcNow.AddMinutes(1));
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog().Should().BeBefore(DateTime.UtcNow.AddMinutes(1));
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowWithTimeZone("UTC").Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(date, "UTC").Should().Be(date);
         }
     }
 
@@ -308,12 +309,12 @@ public class GeneralHelpersTests
         provider.Setup(x => x.GetService(typeof(SmartDigitalPsico.Domain.Interfaces.Notification.ISendNotificationService))).Returns(sender);
         provider.Setup(x => x.GetService(typeof(SmartDigitalPsico.Domain.Interfaces.Service.INotificationTemplateService))).Returns(template);
         var services = new SmartDigitalPsico.Domain.DependeciesCollection.SharedServices(
-            new Mock<SmartDigitalPsico.Domain.Interfaces.Service.ICacheService>().Object,
-            new Mock<SmartDigitalPsico.Domain.Interfaces.Security.ICryptoService>().Object,
+            new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService>().Object,
+            new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoService>().Object,
             provider.Object);
         var missing = new SmartDigitalPsico.Domain.DependeciesCollection.SharedServices(
-            new Mock<SmartDigitalPsico.Domain.Interfaces.Service.ICacheService>().Object,
-            new Mock<SmartDigitalPsico.Domain.Interfaces.Security.ICryptoService>().Object,
+            new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService>().Object,
+            new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoService>().Object,
             new Mock<IServiceProvider>().Object);
 
         // Act

@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 
 namespace SmartDigitalPsico.Service.Infrastructure
@@ -8,6 +8,8 @@ namespace SmartDigitalPsico.Service.Infrastructure
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
     public class StorageQueueService : IStorageQueueContract 
     {
         private readonly IStorageQueueContract _storageQueueRepository;
@@ -17,7 +19,7 @@ namespace SmartDigitalPsico.Service.Infrastructure
         /// </summary>
         public StorageQueueService(IStorageQueueRepositoryFactory storageQueueRepositoryFactory, string queueName)
         {
-            EStorageAdapterType _storageAdapterType = EStorageAdapterType.Azure;
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EStorageAdapterType _storageAdapterType = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EStorageAdapterType.Azure;
             _storageQueueRepository = storageQueueRepositoryFactory.Create(_storageAdapterType, queueName);
         }
 

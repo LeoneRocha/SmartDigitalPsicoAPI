@@ -1,7 +1,11 @@
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
+using EntityBase = SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBase;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace SmartDigitalPsico.Domain.ModelEntity.Contracts
 {
@@ -10,6 +14,8 @@ namespace SmartDigitalPsico.Domain.ModelEntity.Contracts
     /// Responsabilidade: contrato compartilhado entre camadas.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public abstract class FileBase : EntityBase
     {
         #region Columns  
@@ -43,7 +49,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity.Contracts
         public long FileSizeKB { get; set; }
 
         [Column("TypeLocationSaveFile")]
-        public ETypeLocationSaveFiles TypeLocationSaveFile { get; set; }
+        public SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles TypeLocationSaveFile { get; set; }
 
 
         [Column("FileCloudContainer", TypeName = "varchar(60)")]

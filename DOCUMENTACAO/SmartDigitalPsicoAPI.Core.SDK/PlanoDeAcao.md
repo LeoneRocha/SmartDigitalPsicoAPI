@@ -1,8 +1,8 @@
 # Plano de Ação — Core canônico + host [Obsolete]
 
-**Versão:** 1.2  
-**Data:** 2026-08-04  
-**Status:** Planejado — execução de código não iniciada  
+**Versão:** 2.0  
+**Data:** 2026-08-08  
+**Status:** Concluído — execução de código e migração finalizadas com sucesso  
 **Inventário base:** [Levantamento.md](./Levantamento.md)  
 **Fatia futura (Schedule / Notification):** [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) — backlog; **não** altera as Fases 1–7 abaixo  
 **Execução por projeto:** [PlanoExecucao-PorProjeto.md](./PlanoExecucao-PorProjeto.md) (ondas Domain→Data→Service→WebAPI)  

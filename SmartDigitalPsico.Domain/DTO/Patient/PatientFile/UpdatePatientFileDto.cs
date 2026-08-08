@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.PatientFile
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class UpdatePatientFileDto : EntityDtoBase
+    public class UpdatePatientFileDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBase
     { 
         public string Description { get; set; } = string.Empty;          
         public string FilePath { get; set; } = string.Empty;

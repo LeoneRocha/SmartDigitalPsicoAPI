@@ -44,7 +44,7 @@ public class MedicalScheduleAppointmentServiceTests
         var context = new AppointmentServiceContext();
         context.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, PatientIntervalTimeMinutes = 30 });
-        context.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>())).ReturnsAsync(new ServiceResponse<ScheduleCalendar> { Success = true, Data = new ScheduleCalendar { Id = 55 } });
+        context.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>())).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = true, Data = new ScheduleCalendar { Id = 55 } });
 
         var criteria = new ScheduleCriteriaDto { ScheduleType = EScheduleCalendarType.Schedule, MedicalId = 3, PatientId = 10, AppointmentDateTime = DateTime.UtcNow };
 
@@ -65,7 +65,7 @@ public class MedicalScheduleAppointmentServiceTests
         context.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         var token = Guid.NewGuid();
         context.UpdateService.Setup(x => x.CancelOccurrenceAsync(It.IsAny<ScheduleCancelRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCancelResult> { Success = true, Data = new ScheduleCancelResult { PackageId = 7, UniqueToken = token.ToString() } });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCancelResult> { Success = true, Data = new ScheduleCancelResult { PackageId = 7, UniqueToken = token.ToString() } });
         context.NotificationRecordsRepository.Setup(x => x.DeleteByTokenAndEventAsync(token, It.IsAny<DateTime>())).ReturnsAsync(true);
 
         var criteria = new ScheduleCriteriaDto { ScheduleType = EScheduleCalendarType.Cancellation, MedicalId = 3, PatientId = 10, AppointmentDateTime = DateTime.UtcNow };
@@ -147,7 +147,7 @@ public class MedicalScheduleAppointmentServiceTests
         var context = new AppointmentServiceContext();
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.AppointmentQuery.Setup(x => x.GetItemsForOwnerSubjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = [] });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = [] });
 
         var criteria = new AppointmentCriteriaDto { MedicalId = 3, PatientId = 10, Year = 2026, Month = 1 };
 
@@ -168,7 +168,7 @@ public class MedicalScheduleAppointmentServiceTests
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         var items = new[] { new ScheduleCalendarItem { StartDateTime = DateTime.UtcNow, TimeZone = "UTC" } };
         context.AppointmentQuery.Setup(x => x.GetItemsForOwnerSubjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = items });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = items });
         context.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, Name = "Dr. House" });
 
         var criteria = new AppointmentCriteriaDto { MedicalId = 3, PatientId = 10, Year = 2026, Month = 1 };

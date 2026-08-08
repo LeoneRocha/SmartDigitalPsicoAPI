@@ -17,11 +17,11 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         /// </summary>
         public static void AddDependencies(IServiceCollection services)
         {
-            services.AddTransient<IStorageQueueRepositoryFactory, StorageQueueRepositoryFactory>();
-            services.AddScoped<IStorageQueueContract>(provider =>
+            services.AddTransient<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueRepositoryFactory, SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.StorageQueueRepositoryFactory>();
+            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueContract>(provider =>
             {
-                var serviceFactory = provider.GetRequiredService<IStorageQueueRepositoryFactory>();
-                return new StorageQueueService(serviceFactory, StorageQueueNameConstants.GeneralQueue);
+                var serviceFactory = provider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueRepositoryFactory>();
+                return new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.StorageQueueService(serviceFactory, StorageQueueNameConstants.GeneralQueue);
             });
         }
     }

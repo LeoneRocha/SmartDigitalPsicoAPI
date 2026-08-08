@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
     /// </summary>
     public static class UserMockData
     {
-        // Hashes estáticos (não use SecurityHelper.CreatePasswordHash em HasData — salt aleatório a cada build).
+        // Hashes estáticos (não use SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash em HasData — salt aleatório a cada build).
         // Senhas: admin = mock123adm | doctor = doctor123
         private static readonly byte[] AdminPasswordHash =
         [

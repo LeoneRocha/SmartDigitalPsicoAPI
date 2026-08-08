@@ -1,67 +1,20 @@
-using Polly;
-using Polly.Retry;
-using SmartDigitalPsico.Domain.Interfaces;
-using System.Data;
+﻿using System;
 
 namespace SmartDigitalPsico.Domain.Resiliency
 {
-    /// <summary>
-    /// Classe responsável por ResiliencePolicies.
-    /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
+    [Obsolete("Use SmartDigitalPsicoAPI.Core.SDK.Domain.Resiliency.ResiliencePolicies instead.")]
     public static class ResiliencePolicies
     {
-        public static AsyncRetryPolicy DefaultRetryPolicy => Policy
-            .Handle<Exception>()
-            .WaitAndRetryAsync(new[]
-            {
-                    TimeSpan.FromSeconds(1),
-                    TimeSpan.FromSeconds(2),
-                    TimeSpan.FromSeconds(3)
-            });
+                public static Polly.IAsyncPolicy GetPolicyFromConfig(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig config) 
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Resiliency.ResiliencePolicies.GetPolicyFromConfig(config);
 
-        /// <summary>
-        /// Método CustomRetryPolicy: executa a operação CustomRetryPolicy.
-        /// </summary>
-        public static IAsyncPolicy CustomRetryPolicy(IResiliencePolicyConfig policyConfig)
-        {
-            // Use default values if not specified in the configuration
-            var retryCount = policyConfig.RetryCount > 0 ? policyConfig.RetryCount : 3;
-            var retryDelayInSeconds = policyConfig.RetryDelayInSeconds > 0 ? policyConfig.RetryDelayInSeconds : 1;
+        public static Polly.IAsyncPolicy CustomRetryPolicy(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig policyConfig)
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Resiliency.ResiliencePolicies.CustomRetryPolicy(policyConfig);
 
-            return CreateRetryPolicy(retryCount, retryDelayInSeconds);
-        }
+        public static Polly.Retry.AsyncRetryPolicy CreateRetryPolicy(int retryCount, int retryDelayInSeconds)
+            => SmartDigitalPsicoAPI.Core.SDK.Domain.Resiliency.ResiliencePolicies.CreateRetryPolicy(retryCount, retryDelayInSeconds);
 
-        /// <summary>
-        /// Método CreateRetryPolicy: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        public static AsyncRetryPolicy CreateRetryPolicy(int retryCount, int retryDelayInSeconds)
-        {
-            return Policy
-                .Handle<Exception>()
-                .WaitAndRetryAsync(Enumerable.Range(1, retryCount)
-                    .Select(retryAttempt => TimeSpan.FromSeconds(retryDelayInSeconds * retryAttempt)));
-        }
-
-        /// <summary>
-        /// Método GetPolicyFromConfig: consulta e retorna dados.
-        /// </summary>
-        public static IAsyncPolicy GetPolicyFromConfig(IResiliencePolicyConfig policyConfig)
-        {
-            if (!string.IsNullOrEmpty(policyConfig.PolicyName))
-            {
-                switch (policyConfig.PolicyName)
-                {
-                    case "DefaultRetryPolicy":
-                        return DefaultRetryPolicy;
-                    case "CustomRetryPolicy":
-                        return CustomRetryPolicy(policyConfig); 
-                    default:
-                        throw new InvalidOperationException("Invalid policy name");
-                }
-            }
-            return DefaultRetryPolicy;
-        }
+        public static Polly.Retry.AsyncRetryPolicy DefaultRetryPolicy => SmartDigitalPsicoAPI.Core.SDK.Domain.Resiliency.ResiliencePolicies.DefaultRetryPolicy;
     }
 }
+

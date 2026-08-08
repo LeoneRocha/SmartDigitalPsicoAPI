@@ -5,10 +5,12 @@ using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Security;
 using SmartDigitalPsico.Domain.DTO.SMTP;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Security;
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Service.Configure
@@ -36,8 +38,8 @@ namespace SmartDigitalPsico.Service.Configure
 
         private static void addCacheConfiguration(IServiceCollection services, IConfiguration _configuration )
         {
-            services.Configure<CacheConfigurationDto>(ConfigurationAppSettingsHelper.GetCacheConfiguration(_configuration));
-            services.Configure<AuthConfigurationDto>(ConfigurationAppSettingsHelper.GetAuthConfiguration(_configuration)); 
+            services.Configure<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto>(ConfigurationAppSettingsHelper.GetCacheConfiguration(_configuration));
+            services.Configure<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto>(ConfigurationAppSettingsHelper.GetAuthConfiguration(_configuration)); 
         }
          
         private static void addSmtpConfig(IServiceCollection services, IConfiguration configuration)
@@ -55,16 +57,16 @@ namespace SmartDigitalPsico.Service.Configure
         /// <summary>
         /// Método AddAndReturnTokenConfiguration: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public static TokenConfigurationDto AddAndReturnTokenConfiguration(IServiceCollection services, IConfiguration _configuration)
+        public static SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto AddAndReturnTokenConfiguration(IServiceCollection services, IConfiguration _configuration)
         {  
             var configValue = ConfigurationAppSettingsHelper.GetTokenConfigurations(_configuration);
 
-            var tokenConfigurations = new TokenConfigurationDto();
+            var tokenConfigurations = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto();
 
-            new ConfigureFromConfigurationOptions<TokenConfigurationDto>(configValue)
+            new ConfigureFromConfigurationOptions<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto>(configValue)
              .Configure(tokenConfigurations);
 
-            services.AddSingleton<ITokenConfigurationDto>(tokenConfigurations);
+            services.AddSingleton<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto>(tokenConfigurations);
             services.AddSingleton(tokenConfigurations);
 
             return tokenConfigurations;
@@ -78,17 +80,17 @@ namespace SmartDigitalPsico.Service.Configure
             new ConfigureFromConfigurationOptions<ResiliencePolicyConfig>(configValue)
              .Configure(policyConfig);
             // Register the PolicyConfig instance as a singleton
-            services.AddSingleton<IResiliencePolicyConfig>(policyConfig);
+            services.AddSingleton<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig>(policyConfig);
         }
 
         private static void addLocationSaveFileConfiguration(IServiceCollection services, IConfiguration _configuration)
         {
-            var locationSaveFileConfigurationVO = new LocationSaveFileConfigurationDto();
+            var locationSaveFileConfigurationVO = new SmartDigitalPsico.Domain.DTO.Domains.LocationSaveFileConfigurationDto();
             var configValue = ConfigurationAppSettingsHelper.GetLocationSaveFileConfigurationVO(_configuration);
 
-            new ConfigureFromConfigurationOptions<LocationSaveFileConfigurationDto>(configValue)
+            new ConfigureFromConfigurationOptions<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto>(configValue)
              .Configure(locationSaveFileConfigurationVO);
-            // Register the PolicyConfig instance as a singleton
+            services.AddSingleton<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.ILocationSaveFileConfigurationDto>(locationSaveFileConfigurationVO);
             services.AddSingleton<ILocationSaveFileConfigurationDto>(locationSaveFileConfigurationVO);
         } 
 

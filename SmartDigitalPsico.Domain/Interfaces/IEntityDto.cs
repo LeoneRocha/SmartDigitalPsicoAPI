@@ -1,12 +1,9 @@
+﻿using System;
+
 namespace SmartDigitalPsico.Domain.Interfaces
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IEntityDto.
-    /// Responsabilidade: contrato de abstração do domínio.
-    /// Relação: implementado nas camadas Data/Service.
-    /// </summary>
-    public interface IEntityDto
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public interface IEntityDto : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto
     {
-        public long Id { get; set; }
     }
 }

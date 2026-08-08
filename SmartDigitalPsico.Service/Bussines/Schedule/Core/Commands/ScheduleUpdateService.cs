@@ -1,12 +1,14 @@
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
 {
@@ -72,7 +74,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
                 if (conflict != null)
                     return conflict;
 
-                var now = DateHelper.GetDateTimeNowFromUtc();
+                var now = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 entity.Enable = request.Enable;
                 entity.ModifyDate = now;
                 entity.LastAccessDate = now;
@@ -155,7 +157,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
                     newStatus = entry.Status;
                 }
 
-                package.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                package.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 await _repository.Update(package);
 
                 response.Success = true;

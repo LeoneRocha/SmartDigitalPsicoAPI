@@ -28,15 +28,15 @@ public class ExcelGeneratorOpenXmlAdapterTests
         // Arrange
         Directory.CreateDirectory(_tempPath);
         var output = Path.Combine(_tempPath, "report.xlsx");
-        var workbook = new ReportWorkbookDataDto
+        var workbook = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto
         {
             Sheets =
             [
-                new ReportSheetDataDto { Order = 2, Name = "Second", Rows = [new SampleRow { Text = "second", Number = 2, Enabled = false, Date = new DateTime(2025, 1, 2) }] },
-                new ReportSheetDataDto { Order = 1, Name = "First", MergeCellReferences = ["A1:B1"], Rows = [new SampleRow { Text = "first", Number = 1, Enabled = true, Date = new DateTime(2025, 1, 1) }], PropertiesToIgnore = ["Ignored"] }
+                new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Order = 2, Name = "Second", Rows = [new SampleRow { Text = "second", Number = 2, Enabled = false, Date = new DateTime(2025, 1, 2) }] },
+                new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Order = 1, Name = "First", MergeCellReferences = ["A1:B1"], Rows = [new SampleRow { Text = "first", Number = 1, Enabled = true, Date = new DateTime(2025, 1, 1) }], PropertiesToIgnore = ["Ignored"] }
             ]
         };
-        var adapter = new ExcelGeneratorOpenXmlAdapter();
+        var adapter = new SmartDigitalPsicoAPI.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter();
 
         // Act
         await adapter.Generate(workbook, output);
@@ -59,7 +59,7 @@ public class ExcelGeneratorOpenXmlAdapterTests
         worksheet!.Descendants<MergeCell>().Should().ContainSingle(x => x.Reference == "A1:B1");
         worksheet.Descendants<AutoFilter>().Should().ContainSingle(x => x.Reference == "A1:D1");
         worksheet.Descendants<Row>().Should().HaveCount(2);
-        ExcelGeneratorOpenXmlAdapter.GetStylesheet().Elements<CellFormats>().Should().ContainSingle().Which.ChildElements.Should().HaveCount(5);
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter.GetStylesheet().Elements<CellFormats>().Should().ContainSingle().Which.ChildElements.Should().HaveCount(5);
     }
 
     private sealed class SampleRow

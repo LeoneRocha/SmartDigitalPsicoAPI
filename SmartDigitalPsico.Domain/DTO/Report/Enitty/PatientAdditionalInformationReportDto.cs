@@ -1,4 +1,5 @@
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using System.ComponentModel;
 
 namespace SmartDigitalPsico.Domain.DTO.Report.Enitty
@@ -10,11 +11,11 @@ namespace SmartDigitalPsico.Domain.DTO.Report.Enitty
     /// </summary>
     public class PatientAdditionalInformationReportDto
     {
-        [Order(0)]
+        [SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Order(0)]
         [Description("Psychiatric")]
         public string FollowUp_Psychiatric { get; set; } = string.Empty;
 
-        [Order(1)]
+        [SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Order(1)]
         [Description("Neurological")]
         public string FollowUp_Neurological { get; set; } = string.Empty;
     }

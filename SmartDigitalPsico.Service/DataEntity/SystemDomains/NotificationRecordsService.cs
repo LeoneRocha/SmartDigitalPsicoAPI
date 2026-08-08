@@ -6,12 +6,15 @@ using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.DTO.Notification;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
 using SmartDigitalPsico.Domain.Interfaces;
@@ -19,16 +22,16 @@ using SmartDigitalPsico.Domain.Interfaces;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>
-    /// Classe responsável por NotificationRecordsService.
-    /// Responsabilidade: serviço de entidade de negócio.
-    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// Classe responsÃ¡vel por NotificationRecordsService.
+    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
+    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
     /// </summary>
-    public class NotificationRecordsService : EntityBaseService<NotificationRecord, GetNotificationRecordsDto>, INotificationRecordsService
+    public class NotificationRecordsService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<NotificationRecord, GetNotificationRecordsDto>, INotificationRecordsService
     {
         private readonly INotificationRulesService _notificationRulesService;
 
         /// <summary>
-        /// Método NotificationRecordsService: executa a operação NotificationRecordsService.
+        /// MÃ©todo NotificationRecordsService: executa a operaÃ§Ã£o NotificationRecordsService.
         /// </summary>
         public NotificationRecordsService(
             ISharedServices sharedServices,
@@ -44,9 +47,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
+        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(IEntityDtoAdd item)
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             var dto = (AddNotificationRecordsDto)item;
             dto.NextScheduledSendTime = GetNextScheduledSendTime(dto);
@@ -56,9 +59,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         }
 
         /// <summary>
-        /// Método Update: atualiza um registro/recurso existente.
+        /// MÃ©todo Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(IEntityDto item)
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var dto = (UpdateNotificationRecordsDto)item;
             ServiceResponse<GetNotificationRecordsDto> response = new ServiceResponse<GetNotificationRecordsDto>();
@@ -74,8 +77,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 entityUpdate.Enable = dto.Enable;
                 entityUpdate.IsCompleted = dto.IsCompleted;               
                
-                // Atualiza as datas e o usuário modificador
-                entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                // Atualiza as datas e o usuÃ¡rio modificador
+                entityUpdate.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
                 response = await base.Validate(entityUpdate);
 
@@ -99,10 +102,10 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// Cria ou atualiza registros de NotificationRecords para um ou mais MedicalCalendars, associando todas as regras existentes.
         /// </summary>
-        /// <param name="dto">DTO contendo os MedicalCalendars e o tipo de notificação.</param>
-        /// <returns>Task representando a operação assíncrona.</returns>
+        /// <param name="dto">DTO contendo os MedicalCalendars e o tipo de notificaÃ§Ã£o.</param>
+        /// <returns>Task representando a operaÃ§Ã£o assÃ­ncrona.</returns>
         /// <summary>
-        /// Método CreateOrUpdateNotificationRecordsAsync: cria ou persiste um novo registro/recurso.
+        /// MÃ©todo CreateOrUpdateNotificationRecordsAsync: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task CreateOrUpdateNotificationRecordsAsync(GenerateNotificationRecordsDto dto)
         {
@@ -140,7 +143,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         private static NotificationRuleStatus[] GenerateNotificationRulesDtos(NotificationRule[] notificationRules, MedicalCalendar medicalCalendar)
         {
-            var currentTime  = DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
+            var currentTime  = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
 
             return notificationRules
                 .Select(nr => new NotificationRuleStatus
@@ -170,7 +173,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 TokenId = ParseTokenId(medicalCalendar.TokenRecurrence),
                 NotificationRules = notificationRulesDtos,
                 IsCompleted = isCompleted,
-                FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
+                FinalSendDate = isCompleted ? (DateTime?)SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null
             };
         }
 
@@ -198,7 +201,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                         TokenId = tokenId,
                         NotificationRules = notificationRecordDto.NotificationRules,
                         IsCompleted = isCompleted,
-                        FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
+                        FinalSendDate = isCompleted ? (DateTime?)SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null
                     };
 
                     await Update(updateNotificationRecordDto);
@@ -242,8 +245,8 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
          
         private static int GetTimeZoneOffset(string timeZone)
         {
-            // Implementação simplificada, ajustar conforme necessidade
-            // Exemplo: retorna -3 para horário de Brasília
+            // ImplementaÃ§Ã£o simplificada, ajustar conforme necessidade
+            // Exemplo: retorna -3 para horÃ¡rio de BrasÃ­lia
             return timeZone == "BRT" ? -3 : 0;
         }
 
@@ -264,7 +267,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         } 
 
         /// <summary>
-        /// Método GetPendingNotificationsAsync: consulta e retorna dados.
+        /// MÃ©todo GetPendingNotificationsAsync: consulta e retorna dados.
         /// </summary>
         public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
@@ -274,3 +277,4 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         #endregion private
     }
 }
+

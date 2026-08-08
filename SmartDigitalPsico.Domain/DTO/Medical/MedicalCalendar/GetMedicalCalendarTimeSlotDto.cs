@@ -1,8 +1,10 @@
 using AutoMapper.Configuration.Annotations;
 using SmartDigitalPsico.Domain.DTO.Patient;
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Domain.Hypermedia.Abstract;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Abstract;
 using System.Text.Json.Serialization;
+
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 {
@@ -28,6 +30,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar
 
         [JsonIgnore]
         [Ignore]
-        public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
+        public List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
     }
 }

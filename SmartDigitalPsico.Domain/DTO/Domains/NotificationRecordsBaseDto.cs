@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public abstract class NotificationRecordsBaseDto : EntityDtoBaseDomain
+    public abstract class NotificationRecordsBaseDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain
     {  
         /// <summary>
         /// Schedule UniqueToken as Guid (opaque; no FK to schedule tables).

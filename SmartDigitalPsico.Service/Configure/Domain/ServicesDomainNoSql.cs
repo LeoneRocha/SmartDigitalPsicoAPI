@@ -20,18 +20,18 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         public static void AddDependencies(IServiceCollection services)
         {
 
-            services.AddTransient<IStorageTableRepositoryFactory, StorageTableRepositoryFactory>();
+            services.AddTransient<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageTableRepositoryFactory, SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.StorageTableRepositoryFactory>();
 
-            services.AddScoped<IStorageTableContract<PatientRecordTableEntity>>(provider =>
+            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity>>(provider =>
             {
-                var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
-                return new StorageTableEntityService<PatientRecordTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
+                var serviceFactory = provider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageTableRepositoryFactory>();
+                return new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.StorageTableEntityService<PatientRecordTableEntity>(serviceFactory, StorageTableConstants.PatientRecordTable);
             });
 
-            services.AddScoped<IStorageTableContract<UserTokenSessionTableEntity>>(provider =>
+            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>(provider =>
             {
-                var serviceFactory = provider.GetRequiredService<IStorageTableRepositoryFactory>();
-                return new StorageTableEntityService<UserTokenSessionTableEntity>(serviceFactory, StorageTableConstants.UserTokenSessionTable);
+                var serviceFactory = provider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageTableRepositoryFactory>();
+                return new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.StorageTableEntityService<UserTokenSessionTableEntity>(serviceFactory, StorageTableConstants.UserTokenSessionTable);
             });
         }
     }

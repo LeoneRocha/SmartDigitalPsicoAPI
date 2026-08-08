@@ -1,8 +1,10 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Medical;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Schedule;
@@ -98,14 +100,14 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Calendar
         private async Task<bool> BeFutureDateTime(long userId, DateTime dateTime)
         {
             var user = await _userRepository.FindByID(userId);
-            var dateCurrent = DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
+            var dateCurrent = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
             return dateTime > dateCurrent;
         }
 
         private async Task<bool> BeFutureDateTime(long userId, DateTime? dateTime)
         {
             var user = await _userRepository.FindByID(userId);
-            var dateCurrent = DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
+            var dateCurrent = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
             return dateTime.HasValue && dateTime.Value > dateCurrent;
         }
 

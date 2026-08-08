@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Domain.VO;
 using System.Collections;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
@@ -9,10 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.User;
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Domain.Hypermedia.Abstract;
-using SmartDigitalPsico.Domain.Hypermedia.Filters;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Abstract;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.Hypermedia.Utils;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Test.ModelCoverage;
 
@@ -180,8 +182,8 @@ public class DomainPocoReflectionCoverageTests
         // Act
         var user = enricher.CanEnrich(typeof(GetUserDto));
         var list = enricher.CanEnrich(typeof(List<GetUserDto>));
-        var response = enricher.CanEnrich(typeof(ServiceResponse<GetUserDto>));
-        var responseList = enricher.CanEnrich(typeof(ServiceResponse<List<GetUserDto>>));
+        var response = enricher.CanEnrich(typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetUserDto>));
+        var responseList = enricher.CanEnrich(typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<List<GetUserDto>>));
         var paged = enricher.CanEnrich(typeof(PagedSearchVO<GetUserDto>));
         var unsupported = enricher.CanEnrich(typeof(string));
 
@@ -208,8 +210,8 @@ public class DomainPocoReflectionCoverageTests
         {
             new GetUserDto(),
             new List<GetUserDto> { new() },
-            new ServiceResponse<GetUserDto> { Data = new GetUserDto() },
-            new ServiceResponse<List<GetUserDto>> { Data = [new GetUserDto()] },
+            new SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetUserDto> { Data = new GetUserDto() },
+            new SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<List<GetUserDto>> { Data = [new GetUserDto()] },
             new PagedSearchVO<GetUserDto> { List = [new GetUserDto()] }
         }.Select(CriarContextoDeResultado).ToList();
 
@@ -244,7 +246,7 @@ public class DomainPocoReflectionCoverageTests
         {
             nonOk.Should().BeFalse();
             compatible.Should().BeTrue();
-            action.Should().Throw<SmartDigitalPsico.Domain.AppException.AppWarningException>();
+            action.Should().Throw<SmartDigitalPsicoAPI.Core.SDK.Domain.AppException.AppWarningException>();
         }
     }
 
@@ -301,10 +303,10 @@ public class DomainPocoReflectionCoverageTests
         var expiration = DateTime.UtcNow.AddMinutes(5);
 
         // Act
-        var emptyCache = new ServiceResponseCacheVO<string>();
-        var cache = new ServiceResponseCacheVO<string>("conteúdo", "chave", expiration);
-        var copiedCache = new ServiceResponseCacheVO<string>(
-            new ServiceResponse<string> { Data = "origem", Success = false, Message = "mensagem" },
+        var emptyCache = new SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>();
+        var cache = new SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>("conteúdo", "chave", expiration);
+        var copiedCache = new SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>(
+            new SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<string> { Data = "origem", Success = false, Message = "mensagem" },
             "chave-origem",
             expiration);
         var token = new TokenVO(true, "criado", "expira", "acesso", "renovação");
@@ -470,7 +472,7 @@ public class DomainPocoReflectionCoverageTests
         return new ResultExecutingContext(actionContext, new List<IFilterMetadata>(), actionResult, new object());
     }
 
-    private sealed class EnriquecedorDeTeste : ContentResponseEnricher<GetUserDto>
+    private sealed class EnriquecedorDeTeste : SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.ContentResponseEnricher<GetUserDto>
     {
         public int ModelosEnriquecidos { get; private set; }
 

@@ -2,6 +2,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.DTO.Report;
 using System.Text;
@@ -13,6 +14,8 @@ namespace SmartDigitalPsico.Domain.Report
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public class ExcelGeneratorOpenXmlAdapter : IExcelGenerator
     {
 #pragma warning disable S3220
@@ -164,11 +167,11 @@ namespace SmartDigitalPsico.Domain.Report
             if (firstRow == null) return;
 
             var headerRow = new Row();
-            var properties = ReflectionHelpers.GetProperties(firstRow, propertiesToIgnore);
+            var properties = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetProperties(firstRow, propertiesToIgnore);
 
             foreach (var property in properties)
             {
-                var headerText = ReflectionHelpers.GetLabelProperty(property);
+                var headerText = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetLabelProperty(property);
 
                 var cell = CreateTextCell(headerText, 2);
                 headerRow.Append(cell);
@@ -183,7 +186,7 @@ namespace SmartDigitalPsico.Domain.Report
             foreach (var rowData in rows)
             {
                 var row = new Row();
-                var properties = ReflectionHelpers.GetProperties(rowData, propertiesToIgnore);
+                var properties = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ReflectionHelpers.GetProperties(rowData, propertiesToIgnore);
 
                 foreach (var property in properties)
                 {

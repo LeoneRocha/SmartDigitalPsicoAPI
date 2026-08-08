@@ -13,8 +13,8 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     /// </summary>
     public class SharedServices : ISharedServices
     {
-        public ICacheService CacheService { get; }
-        public ICryptoService CryptoService { get; }
+        public SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService CacheService { get; }
+        public SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoService CryptoService { get; }
 
         private readonly IServiceProvider _serviceProvider;
 
@@ -22,8 +22,8 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         /// Método SharedServices: executa a operação SharedServices.
         /// </summary>
         public SharedServices(
-            ICacheService cacheService,
-            ICryptoService cryptoService, 
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService,
+            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoService cryptoService, 
             IServiceProvider serviceProvider
         )
         {

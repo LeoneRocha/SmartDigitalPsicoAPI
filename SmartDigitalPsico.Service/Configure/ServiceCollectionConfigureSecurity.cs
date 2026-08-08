@@ -16,11 +16,11 @@ namespace SmartDigitalPsico.Service.Configure
         /// <summary>
         /// Método Configure: configura estado ou dependencias.
         /// </summary>
-        public static void Configure(IServiceCollection services, TokenConfigurationDto tokenConfigurations)
+        public static void Configure(IServiceCollection services, SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto tokenConfigurations)
         {
             addSecurity(services, tokenConfigurations);
         }
-        private static void addSecurity(IServiceCollection services, TokenConfigurationDto tokenConfigurations)
+        private static void addSecurity(IServiceCollection services, SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto tokenConfigurations)
         {
             services.AddAuthentication(options =>
             {

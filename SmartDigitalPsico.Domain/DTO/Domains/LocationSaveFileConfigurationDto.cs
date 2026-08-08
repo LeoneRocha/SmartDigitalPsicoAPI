@@ -1,5 +1,7 @@
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces;
+
 
 namespace SmartDigitalPsico.Domain.DTO.Domains
 {
@@ -8,8 +10,9 @@ namespace SmartDigitalPsico.Domain.DTO.Domains
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class LocationSaveFileConfigurationDto : ILocationSaveFileConfigurationDto
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public class LocationSaveFileConfigurationDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto, ILocationSaveFileConfigurationDto
     {
-        public ETypeLocationSaveFiles TypeLocationSaveFiles { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using Serilog.Context;
 using SmartDigitalPsico.Data.Context.Interface;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {
@@ -69,12 +70,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
                 LogAppHelper.PrintLogInformationVersionProduct(_logger);
 
-                _logger.Information("Web API Loading at: {Time}", DateHelper.GetDateTimeNowToLog());
+                _logger.Information("Web API Loading at: {Time}", SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
                 (applicationRunner ?? (currentApplication => currentApplication.Run()))(app);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Web API Error Loading at: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Web API Error Loading at: {Message} at: {Time}", ex.Message, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
                 throw new InvalidOperationException("Web API failed during startup or configuration.", ex);
             }
         }
@@ -100,7 +101,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             app.UseHttpsRedirection();
 
-            string diretorioTemp = DirectoryHelper.GetDiretoryTemp(configuration);
+            string diretorioTemp = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(configuration);
 
             app.UseStaticFiles(new StaticFileOptions()
             {
@@ -177,7 +178,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
         private static void addCustomMiddleware(IApplicationBuilder app)
         {
-            app.UseMiddleware<RequestCultureMiddleware>();
+            app.UseMiddleware<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.RequestCultureMiddleware>();
         }
 
         internal static async Task PushCorrelationLogPropertiesAsync(HttpContext context, Func<Task> next)

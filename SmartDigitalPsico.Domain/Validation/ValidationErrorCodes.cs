@@ -5,6 +5,8 @@ namespace SmartDigitalPsico.Domain.Validation
     /// SmartDigitalPsico.{Validator}.{EntityOrDto}.{Field}
     /// or SmartDigitalPsico.{Validator}.{EntityOrDto}.{Field}.{RuleName}
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class ValidationErrorCodes
     {
         public const string Project = "SmartDigitalPsico";

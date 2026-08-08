@@ -14,11 +14,11 @@ public class GenericTableEntityRepositoryTests
     public async Task CrudOperations_WhenAdapterConfigured_DelegatesToStorageContract()
     {
         // Arrange
-        var adapter = new Mock<IStorageTableContract<TestTableEntity>>();
+        var adapter = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<TestTableEntity>>();
         var entity = new TestTableEntity { PartitionKey = "tenant", RowKey = "row" };
         adapter.Setup(value => value.GetAllAsync()).ReturnsAsync([entity]);
         adapter.Setup(value => value.GetByIdAsync("tenant", "row")).ReturnsAsync(entity);
-        var repository = new GenericTableEntityRepository<TestTableEntity>(adapter.Object, "ignored");
+        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.TableEntityRepository.GenericTableEntityRepository<TestTableEntity>(adapter.Object, "ignored");
 
         // Act
         (await repository.GetAllAsync()).Should().ContainSingle();
@@ -39,10 +39,10 @@ public class GenericTableEntityRepositoryTests
     public async Task UpdateAsync_MissingRow_InsertsEntity()
     {
         // Arrange
-        var adapter = new Mock<IStorageTableContract<TestTableEntity>>();
+        var adapter = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<TestTableEntity>>();
         var entity = new TestTableEntity { PartitionKey = "tenant", RowKey = "row" };
         adapter.Setup(value => value.GetByIdAsync("tenant", "row")).ReturnsAsync(new TestTableEntity());
-        var repository = new GenericTableEntityRepository<TestTableEntity>(adapter.Object, "table");
+        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.TableEntityRepository.GenericTableEntityRepository<TestTableEntity>(adapter.Object, "table");
 
         // Act
         await repository.UpdateAsync(entity);
@@ -52,7 +52,7 @@ public class GenericTableEntityRepositoryTests
         adapter.Verify(value => value.UpdateAsync(It.IsAny<TestTableEntity>()), Times.Never);
     }
 
-    public sealed class TestTableEntity : BaseEntityTable
+    public sealed class TestTableEntity : SmartDigitalPsicoAPI.Core.SDK.Domain.TableEntityNoSQL.BaseEntityTable
     {
     }
 }

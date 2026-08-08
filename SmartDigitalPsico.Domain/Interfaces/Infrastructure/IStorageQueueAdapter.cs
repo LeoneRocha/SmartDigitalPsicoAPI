@@ -1,23 +1,11 @@
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {
     /// <summary>
-    /// Interface (contrato) responsável por IStorageQueueContract.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — use SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueContract.
     /// </summary>
-    public interface IStorageQueueContract
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
+    public interface IStorageQueueContract : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueContract
     {
-        /// <summary>
-        /// Método EnqueueMessageAsync: executa a operação EnqueueMessageAsync.
-        /// </summary>
-        Task EnqueueMessageAsync(string message);
-        /// <summary>
-        /// Método DequeueMessageAsync: executa a operação DequeueMessageAsync.
-        /// </summary>
-        Task<string> DequeueMessageAsync();
-        /// <summary>
-        /// Método DeleteMessageAsync: remove ou cancela um registro/recurso.
-        /// </summary>
-        Task DeleteMessageAsync(string messageId, string popReceipt);
     }
 }

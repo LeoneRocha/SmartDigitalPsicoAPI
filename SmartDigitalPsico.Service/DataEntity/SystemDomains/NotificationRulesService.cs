@@ -3,8 +3,10 @@ using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.DataEntity.Generic;
@@ -17,7 +19,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class NotificationRulesService
-      : EntityBaseService<NotificationRule, GetNotificationRulesDto>, INotificationRulesService
+      : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<NotificationRule, GetNotificationRulesDto>, INotificationRulesService
     {
         /// <summary>
         /// Método NotificationRulesService: executa a operação NotificationRulesService.

@@ -1,4 +1,7 @@
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
+using EntityBase = SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBase;
+
 
 namespace SmartDigitalPsico.Domain.ModelEntity
 {
@@ -7,7 +10,7 @@ namespace SmartDigitalPsico.Domain.ModelEntity
     /// Responsabilidade: entidade de domínio persistida via EF Core.
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
-    public class User : EntityBaseWithNameEmail
+    public class User : SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBaseWithNameEmail
     {
         /// <summary>
         /// Método User: executa a operação User.

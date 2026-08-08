@@ -1,33 +1,35 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts;
+using FileData = SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileData;
 using SmartDigitalPsico.Domain.Security;
 
 namespace SmartDigitalPsico.Data.Repository.FileManager
 {
     /// <summary>
-    /// Classe responsável por FileManager.
-    /// Responsabilidade: repositório de persistência.
-    /// Relação: implementa interfaces do Domain e usa o EF Core Context.
+    /// Classe responsÃ¡vel por FileManager.
+    /// Responsabilidade: repositÃ³rio de persistÃªncia.
+    /// RelaÃ§Ã£o: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
     public class FileManager : IFileManager
     {
         private readonly IConfiguration _configuration;
         private readonly ILocationSaveFileConfigurationDto _locationSaveFileConfigurationVO;
-        private readonly IFileDiskRepository _repositoryFileDisk;
-        private readonly IStorageBlobAdapter _storageClientAdapter;
+        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository _repositoryFileDisk;
+        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter _storageClientAdapter;
 
         /// <summary>
-        /// Método FileManager: executa a operação FileManager.
+        /// MÃ©todo FileManager: executa a operaÃ§Ã£o FileManager.
         /// </summary>
         public FileManager(IConfiguration configuration
             , ILocationSaveFileConfigurationDto locationSaveFileConfigurationVO
-            , IFileDiskRepository repositoryFileDisk, IStorageBlobAdapter storageClientAdapter)
+            , SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository repositoryFileDisk, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter storageClientAdapter)
         {
             _locationSaveFileConfigurationVO = locationSaveFileConfigurationVO;
             _repositoryFileDisk = repositoryFileDisk;
@@ -36,30 +38,30 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         }
 
         /// <summary>
-        /// Método PersistFile: executa a operação PersistFile.
+        /// MÃ©todo PersistFile: executa a operaÃ§Ã£o PersistFile.
         /// </summary>
         public async Task<string> PersistFile(IFormFile? fileData, FileBase entityAdd, string folderContainer, string folderIdentity)
         {
             string folderDest = string.Empty;
             if (fileData != null)
             {
-                string pathDomainBussines = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
+                string pathDomainBussines = Path.Combine(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
                 folderDest = Path.Combine(pathDomainBussines, folderContainer, folderIdentity);
                 string pathSave = GetFilePath(folderContainer, folderIdentity, fileData.FileName);
 
-                byte[] fileDataSave = await FileHelper.GetByteDataFromIFormFile(fileData);
+                byte[] fileDataSave = await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetByteDataFromIFormFile(fileData);
 
                 switch (_locationSaveFileConfigurationVO.TypeLocationSaveFiles)
                 {
-                    case ETypeLocationSaveFiles.DataBase:
+                    case SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.DataBase:
                         SaveToDatabase(entityAdd, fileDataSave);
                         break;
-                    case ETypeLocationSaveFiles.Disk:
+                    case SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.Disk:
                         await SaveToDisk(folderDest, fileData, fileDataSave, pathSave);
                         entityAdd.FilePath = pathSave;
-                        entityAdd.TypeLocationSaveFile = ETypeLocationSaveFiles.Disk;
+                        entityAdd.TypeLocationSaveFile = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.Disk;
                         break;
-                    case ETypeLocationSaveFiles.CloudStorageAzure:
+                    case SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.CloudStorageAzure:
                         await SaveToDisk(folderDest, fileData, fileDataSave, pathSave);
                         entityAdd.FilePath = pathSave;
                         await SaveCloudStorageAzure(entityAdd, folderContainer, folderIdentity);
@@ -72,7 +74,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         }
 
         /// <summary>
-        /// Método DownloadFileById: executa a operação DownloadFileById.
+        /// MÃ©todo DownloadFileById: executa a operaÃ§Ã£o DownloadFileById.
         /// </summary>
         public async Task<FileBase?> DownloadFileById(FileBase fileEntity, string folderIdentity)
         {
@@ -80,14 +82,14 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             {
                 switch (fileEntity.TypeLocationSaveFile)
                 {
-                    case ETypeLocationSaveFiles.DataBase when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.DataBase:
-                        await FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
+                    case SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.DataBase when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.DataBase:
+                        await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
                         break;
-                    case ETypeLocationSaveFiles.Disk when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.Disk:
+                    case SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.Disk when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.Disk:
                         fileEntity.FileData = await GetFromDisk(fileEntity);
-                        await FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
+                        await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
                         break;
-                    case ETypeLocationSaveFiles.CloudStorageAzure when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.CloudStorageAzure:
+                    case SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.CloudStorageAzure when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.CloudStorageAzure:
                         await GetFileCloudAzureStorage(fileEntity, folderIdentity);
                         break;
                 }
@@ -96,7 +98,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         }
 
         /// <summary>
-        /// Método DeleteFile: remove ou cancela um registro/recurso.
+        /// MÃ©todo DeleteFile: remove ou cancela um registro/recurso.
         /// </summary>
         public async Task<bool> DeleteFile(FileBase fileEntity, string folderIdentity)
         {
@@ -104,10 +106,10 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             {
                 switch (fileEntity.TypeLocationSaveFile)
                 {
-                    case ETypeLocationSaveFiles.Disk when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.Disk:
+                    case SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.Disk when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.Disk:
                         await DeleteToDisk(string.Empty, fileEntity.FileName, fileEntity.FilePath);
                         break;
-                    case ETypeLocationSaveFiles.CloudStorageAzure when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == ETypeLocationSaveFiles.CloudStorageAzure:
+                    case SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.CloudStorageAzure when _locationSaveFileConfigurationVO.TypeLocationSaveFiles == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.CloudStorageAzure:
                         await DeleteFileCloudAzureStorage(fileEntity, folderIdentity);
                         break;
                 }
@@ -119,22 +121,22 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
 
         private string GetFilePath(string folderContainer, string folderIdentity, string fileName)
         {
-            string pathDomainBussines = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
+            string pathDomainBussines = Path.Combine(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
             string folderDest = Path.Combine(pathDomainBussines, folderContainer, folderIdentity);
             return Path.Combine(folderDest, fileName);
         }
 
         private async Task<byte[]> GetFromDisk(FileBase fileEntity)
         {
-            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = DateHelper.GetDateTimeNowFromUtc() }) ?? [];
+            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() }) ?? [];
         }
 
         private async Task SaveCloudStorageAzure(FileBase fileEntity, string folderContainer, string folderIdentity)
         {
             fileEntity.FileData = [];
-            fileEntity.TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure;
+            fileEntity.TypeLocationSaveFile = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.CloudStorageAzure;
 
-            var blobFile = new BlobFileDto() { FilePath = fileEntity.FilePath, BlobHeaders = BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
+            var blobFile = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto() { FilePath = fileEntity.FilePath, BlobHeaders = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
             blobFile.BlobName = $"{folderIdentity}/{fileEntity.FileName}";
             blobFile.ContainerName = folderContainer;
             string fileURL = await _storageClientAdapter.UploadFileReturnUrl(blobFile);
@@ -147,7 +149,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         private static void SaveToDatabase(FileBase entityAdd, byte[] fileDataSave)
         {
             entityAdd.FileData = fileDataSave;
-            entityAdd.TypeLocationSaveFile = ETypeLocationSaveFiles.DataBase;
+            entityAdd.TypeLocationSaveFile = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.DataBase;
         }
 
         private async Task SaveToDisk(string folderDest, IFormFile fileData, byte[] fileDataSave, string pathSave)
@@ -158,7 +160,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                 FileData = fileDataSave,
                 FileName = fileData.FileName,
                 FilePath = pathSave,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc()
             });
         }
 
@@ -169,16 +171,16 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
                 FolderDestination = folderDest,
                 FileName = fileName,
                 FilePath = pathSave,
-                CreatedDate = DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc()
             });
         }
 
         private async Task GetFileCloudAzureStorage(FileBase fileEntity, string folderIdentity)
         {
             fileEntity.FileData = [];
-            fileEntity.TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure;
+            fileEntity.TypeLocationSaveFile = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.CloudStorageAzure;
 
-            var blobFile = new BlobFileDto() { FilePath = fileEntity.FilePath, BlobHeaders = BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
+            var blobFile = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto() { FilePath = fileEntity.FilePath, BlobHeaders = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
             blobFile.BlobName = fileEntity.FileBlobName;
             blobFile.ContainerName = fileEntity.FileCloudContainer;
 
@@ -186,7 +188,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             string pathSave = GetFilePath(blobFile.ContainerName, folderIdentity, string.Empty);
             fileEntity.FilePath = Path.Combine(pathSave, "temp", fileEntity.FileName);
 
-            // Garantir que o diretório de destino exista
+            // Garantir que o diretÃ³rio de destino exista
             string directoryPath = ResolveDirectoryPath(fileEntity.FilePath);
             if (!Directory.Exists(directoryPath))
             {
@@ -194,7 +196,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
             }
             await DeleteFileDirectory(fileEntity.FileName, fileEntity.FilePath);
 
-            var fileTemp = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), fileEntity.FileName);
+            var fileTemp = Path.Combine(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), fileEntity.FileName);
 
             await DeleteFileDirectory(fileEntity.FileName, fileTemp);
 
@@ -203,7 +205,7 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
 
             //Get by from disk
             fileEntity.FileData = await GetFromDisk(fileEntity);
-            await FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
+            await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFromByteSaveTemp(fileEntity.FileData, fileEntity.FileName, _configuration);
 
             await DeleteFileDirectory(fileEntity.FileName, fileEntity.FilePath);
         }
@@ -220,9 +222,9 @@ namespace SmartDigitalPsico.Data.Repository.FileManager
         private async Task DeleteFileCloudAzureStorage(FileBase fileEntity, string folderIdentity)
         {
             fileEntity.FileData = [];
-            fileEntity.TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure;
+            fileEntity.TypeLocationSaveFile = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.CloudStorageAzure;
 
-            var blobFile = new BlobFileDto() { FilePath = fileEntity.FilePath, BlobHeaders = BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
+            var blobFile = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto() { FilePath = fileEntity.FilePath, BlobHeaders = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.BlobFileHelper.GetBlobHeadersAzure(fileEntity) };
             blobFile.BlobName = $"{folderIdentity}/{fileEntity.FileName}";
             blobFile.ContainerName = fileEntity.FileCloudContainer;
 

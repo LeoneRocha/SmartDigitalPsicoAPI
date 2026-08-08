@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientAdditionalInformation;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {
@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Service
     /// Responsabilidade: contrato de serviço de negócio.
     /// Relação: implementado na camada Service e consumido pelos Controllers.
     /// </summary>
-    public interface IPatientAdditionalInformationService : IEntityBaseService<PatientAdditionalInformation, GetPatientAdditionalInformationDto>
+    public interface IPatientAdditionalInformationService : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.IEntityBaseService<PatientAdditionalInformation, GetPatientAdditionalInformationDto>
     { 
         /// <summary>
         /// Método FindAllByPatient: consulta e retorna dados.

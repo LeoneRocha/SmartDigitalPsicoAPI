@@ -1,46 +1,17 @@
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure;
 
 namespace SmartDigitalPsico.Data.Repository.Infrastructure
 {
     /// <summary>
-    /// Classe responsável por GenericStorageQueueRepository.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsicoAPI.Core.SDK.
     /// </summary>
-    public class GenericStorageQueueRepository : IStorageQueueContract
+    // Movido para SmartDigitalPsicoAPI.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
+    public class GenericStorageQueueRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Infrastructure.GenericStorageQueueRepository
     {
-        private readonly IStorageQueueContract _storageQueueAdapter;
-
-        /// <summary>
-        /// Método GenericStorageQueueRepository: executa a operação GenericStorageQueueRepository.
-        /// </summary>
         public GenericStorageQueueRepository(IStorageQueueContract storageQueueAdapter, string tableName)
+            : base(storageQueueAdapter, tableName)
         {
-            _storageQueueAdapter = storageQueueAdapter;
-        }
-
-        /// <summary>
-        /// Método DeleteMessageAsync: remove ou cancela um registro/recurso.
-        /// </summary>
-        public virtual async Task DeleteMessageAsync(string messageId, string popReceipt)
-        {
-            await _storageQueueAdapter.DeleteMessageAsync(messageId, popReceipt);
-        }
-
-        /// <summary>
-        /// Método DequeueMessageAsync: executa a operação DequeueMessageAsync.
-        /// </summary>
-        public virtual async Task<string> DequeueMessageAsync()
-        {
-            return await _storageQueueAdapter.DequeueMessageAsync();
-        }
-
-        /// <summary>
-        /// Método EnqueueMessageAsync: executa a operação EnqueueMessageAsync.
-        /// </summary>
-        public virtual async Task EnqueueMessageAsync(string message)
-        {
-            await _storageQueueAdapter.EnqueueMessageAsync(message);
         }
     }
-} 
+}

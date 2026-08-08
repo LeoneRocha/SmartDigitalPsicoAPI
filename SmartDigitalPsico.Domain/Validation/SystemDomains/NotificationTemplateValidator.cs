@@ -1,5 +1,6 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity;
 using System.Text.RegularExpressions;
 
@@ -48,7 +49,7 @@ namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 
         private bool BeSafeHtml(string body)
         {
-            var sanitized = HtmlSanitizerHelper.Sanitize(body);
+            var sanitized = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(body);
 
             // Remover espaços em branco extras
             string removeWhitespace(string input) => Regex.Replace(input, @"\s+", "", RegexOptions.None, TimeSpan.FromMilliseconds(100));

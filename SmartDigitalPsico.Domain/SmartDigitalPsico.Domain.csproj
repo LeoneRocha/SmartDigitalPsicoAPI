@@ -39,5 +39,9 @@
   <ItemGroup>
     <Folder Include="Smtp\" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SmartDigitalPsicoAPI.Core.SDK\SmartDigitalPsicoAPI.Core.SDK.csproj" />
+  </ItemGroup>
 
 </Project>

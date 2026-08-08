@@ -68,7 +68,7 @@ public class ServiceBranchCoverageRemainingTests
     {
         // Arrange
         var ctx = new UserServiceContext();
-        SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
         var userNoMedical = new User
         {
             Id = 20,
@@ -179,7 +179,7 @@ public class ServiceBranchCoverageRemainingTests
                 .ThrowsAsync(new InvalidOperationException("db"));
             var prefilled = typeof(ApplicationLanguageService)
                 .GetMethod("GetLocalization", BindingFlags.Instance | BindingFlags.Public, null!,
-                    [typeof(string), typeof(string), typeof(ICacheService)], null!)!;
+                    [typeof(string), typeof(string), typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService)], null!)!;
 
             // Force catch with non-empty resultLocalization via reflection on private flow:
             // ExistLanguage throws after we can't pre-set; instead test InsertLanguageNotFound with non-empty.
@@ -187,8 +187,8 @@ public class ServiceBranchCoverageRemainingTests
             ctx.Repository.Setup(x => x.ExistLanguage("en-US", "KeepValue", "SharedResource")).ReturnsAsync(false);
             ctx.Repository.Setup(x => x.Create(It.IsAny<ApplicationLanguage>())).ReturnsAsync((ApplicationLanguage a) => { a.Id = 1; return a; });
 
-            var cached = new ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
-                new ServiceResponse<List<GetApplicationLanguageDto>>
+            var cached = new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
+                new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<List<GetApplicationLanguageDto>>
                 {
                     Data =
                     [
@@ -214,8 +214,8 @@ public class ServiceBranchCoverageRemainingTests
             var cacheCtx = new ApplicationLanguageServiceContext();
             cacheCtx.Cache.Setup(x => x.IsEnable()).Returns(true);
             cacheCtx.Cache.Setup(x => x.Exists<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO")).Returns(true);
-            cacheCtx.Cache.Setup(x => x.TryGet("FindAll_GetApplicationLanguageVO", out It.Ref<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
-                .Returns((string _, out ServiceResponseCacheVO<List<GetApplicationLanguageDto>> value) =>
+            cacheCtx.Cache.Setup(x => x.TryGet("FindAll_GetApplicationLanguageVO", out It.Ref<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
+                .Returns((string _, out global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>> value) =>
                 {
                     value = cached;
                     return true;
@@ -300,7 +300,7 @@ public class ServiceBranchCoverageRemainingTests
         bookEmptyToken.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         bookEmptyToken.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         bookEmptyToken.Repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>()))
             .ReturnsAsync((ScheduleCalendar e) => e);
 
@@ -308,7 +308,7 @@ public class ServiceBranchCoverageRemainingTests
         createConflictDataFalse.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         createConflictDataFalse.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = false, Message = null!, Errors = null! });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = false, Message = null!, Errors = null! });
 
         var createNoInner = new ScheduleCreateContext();
         createNoInner.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
@@ -322,7 +322,7 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new ScheduleCalendar { Id = 1, UniqueToken = token, ScheduleData = [item] });
         updateConflictSuccessFalse.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = false, Data = true, Message = "msg", Errors = [new ErrorResponse { Name = "c" }] });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = false, Data = true, Message = "msg", Errors = [new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ErrorResponse { Name = "c" }] });
 
         var updateNoInner = new ScheduleUpdateContext();
         updateNoInner.Repository.Setup(x => x.GetByUniqueTokenAsync(token))
@@ -711,19 +711,19 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new ValidationResult());
         context.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, PatientIntervalTimeMinutes = 30 });
         context.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendar> { Success = false, Message = "book-fail" });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = false, Message = "book-fail" });
         context.UpdateService.Setup(x => x.CancelOccurrenceAsync(It.IsAny<ScheduleCancelRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCancelResult> { Success = false, Message = null!, Data = null! });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCancelResult> { Success = false, Message = null!, Data = null! });
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         context.AppointmentQuery.Setup(x => x.GetItemsForOwnerSubjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null! });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null! });
 
         var cancelSuccessNullData = new AppointmentServiceContext();
         cancelSuccessNullData.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         cancelSuccessNullData.UpdateService.Setup(x => x.CancelOccurrenceAsync(It.IsAny<ScheduleCancelRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCancelResult> { Success = true, Data = null! });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCancelResult> { Success = true, Data = null! });
 
         // Act
         var bookFail = await context.Service.RequestAppointment(new ScheduleCriteriaDto
@@ -786,10 +786,10 @@ public class ServiceBranchCoverageRemainingTests
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 3, TimeZone = null! });
         var query = new Mock<IScheduleQueryService>();
         query.Setup(x => x.GetItemsForOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null! });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null! });
         var availability = new Mock<IScheduleAvailabilityService>();
         availability.Setup(x => x.BuildGradeAsync(It.IsAny<ScheduleGradeRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleGradeResult>
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult>
             {
                 Success = true,
                 Data = new ScheduleGradeResult
@@ -848,7 +848,7 @@ public class ServiceBranchCoverageRemainingTests
         var sut = new MedicalScheduleUpdateService(shared.HostSupport, query.Object, update.Object, shared.NotificationAdapter);
         var start = DateTime.UtcNow.AddDays(2);
 
-        query.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?>
+        query.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
             Success = true,
             Data = new ScheduleCalendar { Id = 1, UniqueToken = "t", ScheduleData = null! }
@@ -862,7 +862,7 @@ public class ServiceBranchCoverageRemainingTests
             Status = EStatusCalendar.Refused
         });
 
-        query.Setup(x => x.GetByIdAsync(2)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?>
+        query.Setup(x => x.GetByIdAsync(2)).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
             Success = true,
             Data = new ScheduleCalendar
@@ -879,7 +879,7 @@ public class ServiceBranchCoverageRemainingTests
             Status = EStatusCalendar.Active
         });
 
-        query.Setup(x => x.GetByIdAsync(3)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?>
+        query.Setup(x => x.GetByIdAsync(3)).ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
             Success = true,
             Data = new ScheduleCalendar
@@ -977,7 +977,7 @@ public class ServiceBranchCoverageRemainingTests
         services.SetupGet(x => x.NotificationTemplateService).Returns(templates.Object);
         services.SetupGet(x => x.SendNotificationService).Returns(send.Object);
         templates.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new ServiceResponse<GetNotificationTemplateDto>
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
             {
                 Success = true,
                 Data = new GetNotificationTemplateDto
@@ -987,9 +987,9 @@ public class ServiceBranchCoverageRemainingTests
                     TemplateKey = "unknown-key-xyz"
                 }
             });
-        DataNotificationTemplateVO? captured = null;
-        send.Setup(x => x.SendNotificationAsync(It.IsAny<DataNotificationTemplateVO>(), ENotificationServiceType.Email, It.IsAny<Dictionary<string, string>>()))
-            .Callback<DataNotificationTemplateVO, ENotificationServiceType, Dictionary<string, string>>((vo, _, _) => captured = vo)
+        global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO? captured = null;
+        send.Setup(x => x.SendNotificationAsync(It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO>(), ENotificationServiceType.Email, It.IsAny<Dictionary<string, string>>()))
+            .Callback<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO, ENotificationServiceType, Dictionary<string, string>>((vo, _, _) => captured = vo)
             .Returns(Task.CompletedTask);
         var sut = new MedicalCalenderNotificationService(services.Object);
 
@@ -1150,10 +1150,10 @@ public class ServiceBranchCoverageRemainingTests
         config.SetupGet(x => x.SharedDependenciesConfig).Returns(shared.Config);
         config.SetupGet(x => x.SharedRepositories).Returns(shared.SharedRepositories);
         config.SetupGet(x => x.EntityValidator).Returns(Mock.Of<IValidator<PatientRecord>>());
-        config.SetupGet(x => x.StorageTableService).Returns(Mock.Of<IStorageTableContract<PatientRecordTableEntity>>());
+        config.SetupGet(x => x.StorageTableService).Returns(Mock.Of<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity>>());
         var reportConfig = new Mock<IReportServiceConfig>();
-        reportConfig.SetupGet(x => x.ExcelGeneratorService).Returns(Mock.Of<SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService>());
-        reportConfig.SetupGet(x => x.PdfReportService).Returns(Mock.Of<SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report.IPdfReportService>());
+        reportConfig.SetupGet(x => x.ExcelGeneratorService).Returns(Mock.Of<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService>());
+        reportConfig.SetupGet(x => x.PdfReportService).Returns(Mock.Of<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService>());
         patientRepo.Setup(x => x.GetPatientDetailsByIdAsync(10)).ReturnsAsync(new Patient
         {
             Id = 10,
@@ -1182,12 +1182,12 @@ public class ServiceBranchCoverageRemainingTests
     }
 
     // Cenário: Cache TryGet exception, value null e checkCacheIsValid temData false.
-    // Objetivo: fechar ramos restantes de CacheService.
+    // Objetivo: fechar ramos restantes de SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService.
     [Test]
     public void CacheService_ExceptionNullValueAndInvalidDate_CoverBranches()
     {
         // Arrange
-        var disk = new Mock<IDiskCacheRepository>();
+        var disk = new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>();
         var logs = new Mock<IApplicationCacheLogRepository>();
         disk.Setup(x => x.TryGetAsync<ExpirableCacheEntry>("throw"))
             .ThrowsAsync(new InvalidOperationException("disk-fail"));
@@ -1203,15 +1203,15 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new KeyValuePair<bool, ExpirableCacheEntry>(true, badDate));
         disk.Setup(x => x.SetAsync("props", It.IsAny<CachePropsWithValues>())).ReturnsAsync(true);
         logs.Setup(x => x.Create(It.IsAny<ApplicationCacheLog>())).ReturnsAsync(new ApplicationCacheLog());
-        var memory = new Mock<IMemoryCacheRepository>();
+        var memory = new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>();
         memory.Setup(x => x.TryGet("mem", out It.Ref<CacheValue?>.IsAny))
             .Returns((string _, out CacheValue? value) =>
             {
                 value = null;
                 return false;
             });
-        var diskService = CreateCache(ETypeLocationCache.Disk, disk: disk, logs: logs);
-        var memoryService = CreateCache(ETypeLocationCache.Memory, memory: memory);
+        var diskService = CreateCache(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Disk, disk: disk, logs: logs);
+        var memoryService = CreateCache(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory, memory: memory);
 
         var tryThrow = diskService.TryGet("throw", out ExpirableCacheEntry thrownValue);
         var badDateExists = diskService.Exists<ExpirableCacheEntry>("bad-date");
@@ -1243,12 +1243,12 @@ public class ServiceBranchCoverageRemainingTests
     {
         // Arrange
         var emptyConfig = new ConfigurationBuilder().AddInMemoryCollection().Build();
-        var table = new AzureStorageTableAdapter<PatientRecordTableEntity>(emptyConfig, "branch-table");
-        var blob = new AzureStorageBlobAdapter(emptyConfig);
+        var table = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<PatientRecordTableEntity>(emptyConfig, "branch-table");
+        var blob = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter(emptyConfig);
 
         // Act
         var tableResult = await table.GetByIdAsync("pk", "rk");
-        var upload = await blob.UploadFileReturnUrl(new BlobFileDto
+        var upload = await blob.UploadFileReturnUrl(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto
         {
             ContainerName = "files",
             BlobName = string.Empty,
@@ -1270,7 +1270,7 @@ public class ServiceBranchCoverageRemainingTests
     {
         // Arrange
         var ctx = new UserServiceContext();
-        SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
+        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
         // Medical sem navegações para evitar ciclo no AutoMapper durante Login.
         var user = new User
         {
@@ -1387,7 +1387,7 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new ScheduleCalendar { Id = 4, UniqueToken = token, ScheduleData = null! });
         updateCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         updateCtx.Repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>()))
             .ReturnsAsync((ScheduleCalendar e) => e);
         var item = new ScheduleCalendarItem
@@ -1549,7 +1549,7 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new ValidationResult());
         appt.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, PatientIntervalTimeMinutes = 30 });
         appt.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendar> { Success = true, Data = null!, Message = "ok" });
+            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = true, Data = null!, Message = "ok" });
 
         // Act
         await ctx.NotificationAdapter.SendNotifyRegisterAsync(calendar, EMedicalCalendarActionType.Add);
@@ -1620,14 +1620,14 @@ public class ServiceBranchCoverageRemainingTests
     public async Task CacheAndAvailability_MissingPropsAndNullExpiration_CoverBranches()
     {
         // Arrange
-        var disk = new Mock<IDiskCacheRepository>();
+        var disk = new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>();
         var logs = new Mock<IApplicationCacheLogRepository>();
         disk.Setup(x => x.SetAsync("no-props", It.IsAny<CachePropsWithValues>())).ReturnsAsync(true);
         logs.Setup(x => x.Create(It.IsAny<ApplicationCacheLog>())).ReturnsAsync(new ApplicationCacheLog());
         var noExp = new ExpirableCacheEntry { Data = "x", DateTimeSlidingExpiration = null! };
         disk.Setup(x => x.TryGetAsync<ExpirableCacheEntry>("no-exp"))
             .ReturnsAsync(new KeyValuePair<bool, ExpirableCacheEntry>(true, noExp));
-        var service = CreateCache(ETypeLocationCache.Disk, disk: disk, logs: logs);
+        var service = CreateCache(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Disk, disk: disk, logs: logs);
 
         var day = DateTime.UtcNow.Date.AddDays(2);
         while (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
@@ -1667,16 +1667,16 @@ public class ServiceBranchCoverageRemainingTests
         }
     }
 
-    private static CacheService CreateCache(
-        ETypeLocationCache type,
-        Mock<IMemoryCacheRepository>? memory = null!,
-        Mock<IDiskCacheRepository>? disk = null!,
+    private static SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService CreateCache(
+        global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache type,
+        Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>? memory = null!,
+        Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>? disk = null!,
         Mock<IApplicationCacheLogRepository>? logs = null!)
         => new(
-            (memory ?? new Mock<IMemoryCacheRepository>()).Object,
-            (disk ?? new Mock<IDiskCacheRepository>()).Object,
+            (memory ?? new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>()).Object,
+            (disk ?? new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>()).Object,
             (logs ?? new Mock<IApplicationCacheLogRepository>()).Object,
-            Options.Create(new CacheConfigurationDto
+            Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
             {
                 TypeCache = type,
                 IsEnable = true,
@@ -1694,7 +1694,7 @@ public class ServiceBranchCoverageRemainingTests
     {
         public ServiceTestContext Context { get; } = new();
         public Mock<IRoleGroupRepository> RoleGroupRepository { get; } = new();
-        public Mock<ITokenConfigurationDto> TokenConfiguration { get; } = new();
+        public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto> TokenConfiguration { get; } = new();
         public Mock<ITokenService> TokenService { get; } = new();
         public Mock<ITokenSessionPersistenceService> TokenSessionService { get; } = new();
         public Mock<IValidator<User>> Validator { get; } = new();
@@ -1702,7 +1702,7 @@ public class ServiceBranchCoverageRemainingTests
 
         public UserServiceContext()
         {
-            var authConfig = Options.Create(new AuthConfigurationDto { IsEnable = true, TypeApiCredential = ETypeApiCredential.Jwt });
+            var authConfig = Options.Create(new AuthConfigurationDto { IsEnable = true, TypeApiCredential = global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt });
             Service = new UserService(
                 Context.SharedServices,
                 Context.Config,
@@ -1718,7 +1718,7 @@ public class ServiceBranchCoverageRemainingTests
 
     private sealed class EntityProbeContext
     {
-        public Mock<IEntityBaseRepository<Gender>> Repository { get; } = new();
+        public Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
         public Mock<AutoMapper.IMapper> Mapper { get; } = new();
         public ProbeEntityBaseService Service { get; }
@@ -1737,19 +1737,19 @@ public class ServiceBranchCoverageRemainingTests
         }
     }
 
-    private sealed class ProbeEntityBaseService : EntityBaseService<Gender, GetGenderDto>
+    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Gender, GetGenderDto>
     {
         public ProbeEntityBaseService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig dependencies,
             ISharedRepositories repositories,
-            IEntityBaseRepository<Gender> repository,
+            global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender> repository,
             IValidator<Gender> validator)
             : base(sharedServices, dependencies, repositories, repository, validator)
         {
         }
 
-        public Task<List<ErrorResponse>> ExposeGetLocalizationErros(List<ErrorResponse> errors)
+        public Task<List<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ErrorResponse>> ExposeGetLocalizationErros(List<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ErrorResponse> errors)
             => GetLocalizationErros(errors);
     }
 
@@ -1757,7 +1757,7 @@ public class ServiceBranchCoverageRemainingTests
     {
         public ServiceTestContext Context { get; } = new();
         public Mock<IApplicationLanguageRepository> Repository => Context.ApplicationLanguageRepository;
-        public Mock<ICacheService> Cache => Context.Cache;
+        public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService> Cache => Context.Cache;
         public ApplicationLanguageService Service { get; }
 
         public ApplicationLanguageServiceContext()
@@ -1829,7 +1829,7 @@ public class ServiceBranchCoverageRemainingTests
         public Mock<IMedicalRepository> MedicalRepository { get; } = new();
         public Mock<IPatientRepository> PatientRepository { get; } = new();
         public Mock<IValidator<PatientRecord>> Validator { get; } = new();
-        public Mock<IStorageTableContract<PatientRecordTableEntity>> StorageTableService { get; } = new();
+        public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity>> StorageTableService { get; } = new();
         public Mock<IAuditDataSelectiveEntityLogService> AuditService { get; } = new();
         public PatientRecordService Service { get; }
 

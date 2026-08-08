@@ -2,8 +2,10 @@ using Serilog;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Events;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
@@ -58,7 +60,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
 
             LogInformation(NotificationDispatchConstants.StartingProcessing);
             var pendingRecords = await _notificationRecordsService.GetPendingNotificationsAsync();
-            var currentUtc = DateHelper.GetDateTimeNowFromUtc();
+            var currentUtc = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
             var filteredRecords = FilterPendingRecords(pendingRecords, currentUtc);
             int totalRecords = filteredRecords.Length;
@@ -84,7 +86,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, processedCount);
              
             stopwatch.Stop();
-            _logger.Information("NotificationDispatchJobService - ProcessPendingNotificationsAsync : Finished at: {Time}  Duration:  {DurationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
+            _logger.Information("NotificationDispatchJobService - ProcessPendingNotificationsAsync : Finished at: {Time}  Duration:  {DurationTime}", SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
         }
 
         private async Task UpdateRecordsSended(ConcurrentBag<NotificationRecord> updatedRecords)
@@ -188,7 +190,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
                 IsCompleted = record.IsCompleted,
                 FinalSendDate = record.FinalSendDate,
                 CreatedDate = record.CreatedDate,
-                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc(),
                 Description = string.Empty,
                 Enable = record.Enable,
                 EventDate = record.EventDate,

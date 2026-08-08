@@ -5,24 +5,26 @@ namespace SmartDigitalPsico.Domain.Hypermedia.Filters
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     /// <summary>
-    /// Classe responsável por HyperMediaFilterrAttribute.
+    /// Classe responsÃ¡vel por HyperMediaFilterrAttribute.
     /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
-    /// Relação: usado pelos Controllers na serialização.
+    /// RelaÃ§Ã£o: usado pelos Controllers na serializaÃ§Ã£o.
     /// </summary>
+        // Movido para SmartDigitalPsicoAPI.Core.SDK.
+    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public class HyperMediaFilterrAttribute : ResultFilterAttribute
     {
-        private readonly HyperMediaFilterOptions _hyperMediaFilterOptions;
+        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions _hyperMediaFilterOptions;
 
         /// <summary>
-        /// Método HyperMediaFilterrAttribute: executa a operação HyperMediaFilterrAttribute.
+        /// MÃ©todo HyperMediaFilterrAttribute: executa a operaÃ§Ã£o HyperMediaFilterrAttribute.
         /// </summary>
-        public HyperMediaFilterrAttribute(HyperMediaFilterOptions hyperMediaFilterOptions)
+        public HyperMediaFilterrAttribute(SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions hyperMediaFilterOptions)
         {
             _hyperMediaFilterOptions = hyperMediaFilterOptions;
         }
 
         /// <summary>
-        /// Método OnResultExecuting: executa a operação OnResultExecuting.
+        /// MÃ©todo OnResultExecuting: executa a operaÃ§Ã£o OnResultExecuting.
         /// </summary>
         public override void OnResultExecuting(ResultExecutingContext context)
         {

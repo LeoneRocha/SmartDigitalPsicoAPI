@@ -3,36 +3,39 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Domain.Validation.Helper;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation.Helper;
 using Azure;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 
 namespace SmartDigitalPsico.Service.DataEntity.Principals
 {
     /// <summary>
-    /// Classe responsável por MedicalFileService.
-    /// Responsabilidade: serviço de entidade de negócio.
-    /// Relação: orquestra repositórios, validators e mapeamentos.
+    /// Classe responsÃ¡vel por MedicalFileService.
+    /// Responsabilidade: serviÃ§o de entidade de negÃ³cio.
+    /// RelaÃ§Ã£o: orquestra repositÃ³rios, validators e mapeamentos.
     /// </summary>
-    public class MedicalFileService : EntityBaseService<MedicalFile, GetMedicalFileDto>, IMedicalFileService
+    public class MedicalFileService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<MedicalFile, GetMedicalFileDto>, IMedicalFileService
     {
         private readonly IConfiguration _configuration;
         private readonly IFileManager _filePersistor;
         private readonly IUserRepository _userRepository;
 
         /// <summary>
-        /// Método MedicalFileService: executa a operação MedicalFileService.
+        /// MÃ©todo MedicalFileService: executa a operaÃ§Ã£o MedicalFileService.
         /// </summary>
         public MedicalFileService(
             ISharedServices sharedServices,
@@ -49,7 +52,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             _userRepository = sharedRepositories.UserRepository;
         }
         /// <summary>
-        /// Método FindAll: consulta e retorna dados.
+        /// MÃ©todo FindAll: consulta e retorna dados.
         /// </summary>
         public override async Task<ServiceResponse<List<GetMedicalFileDto>>> FindAll()
         {
@@ -60,7 +63,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método FindByID: consulta e retorna dados.
+        /// MÃ©todo FindByID: consulta e retorna dados.
         /// </summary>
         public async override Task<ServiceResponse<GetMedicalFileDto>> FindByID(long id)
         {
@@ -69,14 +72,14 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             if (response.Data != null && string.IsNullOrEmpty(response.Data.FilePath))
             {
                 var fileName = response.Data.FileName ?? string.Empty;
-                await FileHelper.GetFromByteSaveTemp(response.Data.FileData, fileName, _configuration);
-                response.Data.FileUrl = FileHelper.GetFilePath(DirectoryHelper.GetDiretoryTemp(_configuration), fileName);
+                await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFromByteSaveTemp(response.Data.FileData, fileName, _configuration);
+                response.Data.FileUrl = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFilePath(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), fileName);
             }
             return response;
         }
 
         /// <summary>
-        /// Método FindAllByMedical: consulta e retorna dados.
+        /// MÃ©todo FindAllByMedical: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<List<GetMedicalFileDto>>> FindAllByMedical(long medicalId)
         {
@@ -115,15 +118,15 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método Update: atualiza um registro/recurso existente.
+        /// MÃ©todo Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override Task<ServiceResponse<GetMedicalFileDto>> Update(IEntityDto item)
+        public override Task<ServiceResponse<GetMedicalFileDto>> Update(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             throw new NotImplementedException("Not Permission");
         }
 
         /// <summary>
-        /// Método PostFileAsync: executa a operação PostFileAsync.
+        /// MÃ©todo PostFileAsync: executa a operaÃ§Ã£o PostFileAsync.
         /// </summary>
         public async Task<ServiceResponse<GetMedicalFileDto>> PostFileAsync(AddMedicalFileDto entity)
         {
@@ -137,7 +140,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 {
                     entity.FilePath = fileData.FileName;
                     entity.FileContentType = fileData.ContentType;
-                    entity.FileExtension = FileHelper.GetFileExtension(fileData.ContentType);
+                    entity.FileExtension = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.GetFileExtension(fileData.ContentType);
                     entity.FileSizeKB = fileData.Length / 1024;
                 }
 
@@ -146,9 +149,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
                 entityAdd.FileName = entity.FilePath;
                 entityAdd.MedicalId = entity.MedicalId;
 
-                entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 entityAdd.Enable = true;
 
                 entityAdd.CreatedUserId = UserId;
@@ -166,7 +169,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
 
         /// <summary>
-        /// Método DownloadFileById: executa a operação DownloadFileById.
+        /// MÃ©todo DownloadFileById: executa a operaÃ§Ã£o DownloadFileById.
         /// </summary>
         public async Task<GetMedicalFileDto> DownloadFileById(long fileId)
         {
@@ -181,7 +184,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
             return resultVO;
         }
         /// <summary>
-        /// Método Delete: remove ou cancela um registro/recurso.
+        /// MÃ©todo Delete: remove ou cancela um registro/recurso.
         /// </summary>
         public async override Task<ServiceResponse<bool>> Delete(long id)
         {
@@ -196,3 +199,4 @@ namespace SmartDigitalPsico.Service.DataEntity.Principals
         }
     }
 }
+

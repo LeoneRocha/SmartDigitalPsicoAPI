@@ -25,10 +25,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método Get: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<List<TimeZoneDisplayDto>>> Get()
+        public async Task<ActionResult<List<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.TimeZoneDisplayDto>>> Get()
         {
             await Task.FromResult(0);
-            return Ok(CultureDateTimeHelper.GetTimeZonesIds());
+            return Ok(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetTimeZonesIds());
         }
     }
 }
