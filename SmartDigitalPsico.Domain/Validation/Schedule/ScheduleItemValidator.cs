@@ -2,7 +2,7 @@ using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
-namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
+namespace SmartDigitalPsico.Domain.Validation
 {
     /// <summary>
     /// Classe responsável por ScheduleItemValidator.

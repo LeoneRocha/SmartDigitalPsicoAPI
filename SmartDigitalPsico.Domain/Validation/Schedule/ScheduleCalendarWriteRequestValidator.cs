@@ -1,7 +1,7 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 
-namespace SmartDigitalPsico.Domain.Validation.Schedule
+namespace SmartDigitalPsico.Domain.Validation
 {
     /// <summary>
     /// Generic write-request validator for ScheduleCalendar SoT.

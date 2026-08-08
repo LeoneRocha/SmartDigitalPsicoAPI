@@ -1,7 +1,7 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
-namespace SmartDigitalPsico.Domain.Validation.Schedule
+namespace SmartDigitalPsico.Domain.Validation
 {
     /// <summary>
     /// Generic validator for ScheduleCalendarItem (no Medical/Patient rules).

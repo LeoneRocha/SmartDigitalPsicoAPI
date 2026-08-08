@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="DTO\Domains\**" />
+    <Compile Remove="Smtp\**" />
     <EmbeddedResource Remove="DTO\Domains\**" />
+    <EmbeddedResource Remove="Smtp\**" />
     <None Remove="DTO\Domains\**" />
+    <None Remove="Smtp\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,10 +43,6 @@
     <PackageReference Include="Serilog.Extensions.Hosting" />
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.File" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Smtp\" />
   </ItemGroup>
   
   <ItemGroup>

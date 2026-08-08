@@ -32,12 +32,7 @@ using TextJson = System.Text.Json.JsonSerializer;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
-using SmartDigitalPsico.Domain.Validation.Base;
-using SmartDigitalPsico.Domain.Validation.DTO;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
@@ -457,10 +452,10 @@ public class DomainRemainingCoverageTests
         // Arrange
         var okUsers = new Mock<IUserRepository>();
         okUsers.Setup(repository => repository.FindByID(1)).ReturnsAsync(new User { MedicalId = 9 });
-        var okValidator = new CalendarCriteriaValidator(okUsers.Object);
+        var okValidator = new MedicalCalendarCriteriaValidator(okUsers.Object);
         var faultedUsers = new Mock<IUserRepository>();
         faultedUsers.Setup(repository => repository.FindByID(It.IsAny<long>())).ThrowsAsync(new InvalidOperationException());
-        var faultedValidator = new CalendarCriteriaValidator(faultedUsers.Object);
+        var faultedValidator = new MedicalCalendarCriteriaValidator(faultedUsers.Object);
         var matching = new CalendarCriteriaDto { UserIdLogged = 1, MedicalId = 9 };
         var mismatch = new CalendarCriteriaDto { UserIdLogged = 1, MedicalId = 2 };
 
@@ -551,7 +546,7 @@ public class DomainRemainingCoverageTests
 
         var patientList = new PatientSelectListValidator(faulted.Object);
         var patientFileList = new PatientFileSelectListValidator(faulted.Object);
-        var medicalFileList = new SmartDigitalPsico.Domain.Validation.Contratcs.MedicalFileSelectListValidator(faulted.Object);
+        var medicalFileList = new SmartDigitalPsico.Domain.Validation.MedicalFileSelectListValidator(faulted.Object);
         var calendarList = new MedicalCalendarListValidator(faulted.Object);
         var deniedFileList = new PatientFileSelectListValidator(ok.Object);
         var emptyFileList = new PatientFileSelectListValidator(ok.Object);
@@ -848,7 +843,7 @@ public class DomainRemainingCoverageTests
 
         var recordValidator = new RecordValidatorForBranchCoverage(users.Object);
         var calendarList = new MedicalCalendarListValidator(users.Object);
-        var calendarCriteria = new CalendarCriteriaValidator(users.Object);
+        var calendarCriteria = new MedicalCalendarCriteriaValidator(users.Object);
 
         var start = DateTime.UtcNow.Date.AddDays(5).AddHours(10);
         var medicalRepository = new Mock<IMedicalRepository>();
@@ -1089,14 +1084,14 @@ public class DomainRemainingCoverageTests
         }
     }
 
-    private sealed class RecordsListValidatorForCoverage : SmartDigitalPsico.Domain.Validation.Contratcs.RecordsListValidator<Patient>
+    private sealed class RecordsListValidatorForCoverage : SmartDigitalPsico.Domain.Validation.RecordsListValidator<Patient>
     {
         public RecordsListValidatorForCoverage(IUserRepository userRepository) : base(userRepository)
         {
         }
     }
 
-    private sealed class RecordValidatorForBranchCoverage : SmartDigitalPsico.Domain.Validation.Contratcs.RecordValidator<Patient>
+    private sealed class RecordValidatorForBranchCoverage : SmartDigitalPsico.Domain.Validation.RecordValidator<Patient>
     {
         public RecordValidatorForBranchCoverage(IUserRepository userRepository) : base(userRepository)
         {

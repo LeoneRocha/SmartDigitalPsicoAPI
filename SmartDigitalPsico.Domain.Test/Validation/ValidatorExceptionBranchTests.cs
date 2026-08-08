@@ -1,8 +1,6 @@
 using Moq;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.PatientValidations;
-using SmartDigitalPsico.Domain.Validation.Principals;
-using SmartDigitalPsico.Domain.Validation.SystemDomains;
+using SmartDigitalPsico.Domain.Validation;
 using System.Reflection;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;

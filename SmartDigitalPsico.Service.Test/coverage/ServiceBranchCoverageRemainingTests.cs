@@ -29,7 +29,7 @@ using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Domain.Validation.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.Bussines.Notification;
 using SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands;

@@ -9,8 +9,7 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;

@@ -9,7 +9,7 @@ using SmartDigitalPsico.Domain.DTO.Notification.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Validation.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Service.Bussines.Notification;
 using SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands;

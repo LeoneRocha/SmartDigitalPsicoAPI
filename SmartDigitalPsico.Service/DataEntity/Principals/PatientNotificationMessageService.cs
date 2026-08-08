@@ -7,7 +7,7 @@ using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;

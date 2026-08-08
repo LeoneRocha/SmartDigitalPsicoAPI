@@ -1,5 +1,5 @@
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Schedule

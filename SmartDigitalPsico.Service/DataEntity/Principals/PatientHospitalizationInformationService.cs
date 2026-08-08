@@ -1,8 +1,7 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;

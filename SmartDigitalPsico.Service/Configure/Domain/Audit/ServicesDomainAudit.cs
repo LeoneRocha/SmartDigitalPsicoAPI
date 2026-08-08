@@ -4,7 +4,7 @@ using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.SystemDomains;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Service.Audit;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 

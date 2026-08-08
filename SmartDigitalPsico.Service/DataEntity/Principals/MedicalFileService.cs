@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE;

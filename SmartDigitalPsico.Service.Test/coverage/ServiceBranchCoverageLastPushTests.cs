@@ -195,7 +195,7 @@ public class ServiceBranchCoverageLastPushTests
         var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
-        var result = await service.HasNoConflictAsync(new Domain.Validation.Schedule.ScheduleCalendarConflictRequest
+        var result = await service.HasNoConflictAsync(new Domain.Validation.ScheduleCalendarConflictRequest
         {
             TenantKey = "medical",
             OwnerKey = "medical:1",

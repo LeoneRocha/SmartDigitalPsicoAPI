@@ -1,7 +1,7 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 
-namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
+namespace SmartDigitalPsico.Domain.Validation
 {
     /// <summary>
     /// Classe responsável por ScheduleItemValidationContextValidator.

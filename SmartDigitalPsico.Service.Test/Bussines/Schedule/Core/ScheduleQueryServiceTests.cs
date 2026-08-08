@@ -61,7 +61,7 @@ public class ScheduleQueryServiceTests
     {
         // Arrange
         var conflicts = new Mock<IScheduleConflictService>();
-        conflicts.Setup(x => x.HasNoConflictAsync(It.IsAny<SmartDigitalPsico.Domain.Validation.Schedule.ScheduleCalendarConflictRequest>()))
+        conflicts.Setup(x => x.HasNoConflictAsync(It.IsAny<SmartDigitalPsico.Domain.Validation.ScheduleCalendarConflictRequest>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool>
             {
                 Success = true,
@@ -203,7 +203,7 @@ public class ScheduleQueryServiceTests
     {
         // Arrange
         var conflicts = new Mock<IScheduleConflictService>();
-        conflicts.Setup(x => x.HasNoConflictAsync(It.IsAny<SmartDigitalPsico.Domain.Validation.Schedule.ScheduleCalendarConflictRequest>()))
+        conflicts.Setup(x => x.HasNoConflictAsync(It.IsAny<SmartDigitalPsico.Domain.Validation.ScheduleCalendarConflictRequest>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = false, Data = false, Message = "indisponível" });
         var service = new ScheduleQueryService(Mock.Of<IScheduleCalendarRepository>(), conflicts.Object, Mock.Of<IAppLogger>());
 

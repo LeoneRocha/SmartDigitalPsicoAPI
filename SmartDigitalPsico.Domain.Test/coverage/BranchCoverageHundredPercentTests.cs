@@ -16,14 +16,8 @@ using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 using SmartDigitalPsico.Domain.Test.Report;
-using SmartDigitalPsico.Domain.Validation.Base;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
-using SmartDigitalPsico.Domain.Validation.DTO;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using ValidationFailure = FluentValidation.Results.ValidationFailure;
 using TextJson = System.Text.Json.JsonSerializer;

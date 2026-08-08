@@ -3,11 +3,7 @@ using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
-using SmartDigitalPsico.Domain.Validation.DTO;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 using System.Reflection;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;

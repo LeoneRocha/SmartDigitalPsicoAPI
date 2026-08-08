@@ -11,7 +11,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 

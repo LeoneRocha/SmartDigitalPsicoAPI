@@ -15,7 +15,7 @@ using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;

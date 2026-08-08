@@ -23,15 +23,8 @@ using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 
 using SmartDigitalPsico.Core.SDK.Domain.Validation;
-using SmartDigitalPsico.Domain.Validation.Base;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
-using SmartDigitalPsico.Domain.Validation.DTO;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Validation.PatientValidations;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
 using SmartDigitalPsico.Domain.Test.Report;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using TextJson = System.Text.Json.JsonSerializer;
@@ -282,7 +275,7 @@ public sealed class FinalBranchCoverageTests
 
         var calendarValidator = new MedicalCalendarValidator(medicalRepo.Object, users.Object, scheduleRepo.Object);
         var calendarList = new MedicalCalendarListValidator(users.Object);
-        var calendarCriteria = new CalendarCriteriaValidator(users.Object);
+        var calendarCriteria = new MedicalCalendarCriteriaValidator(users.Object);
         var itemValidator = new ScheduleItemValidator(medicalRepo.Object);
         var calendarItemValidator = new ScheduleCalendarItemValidator();
         var overlapValidator = new ScheduleItemValidationContextValidator();

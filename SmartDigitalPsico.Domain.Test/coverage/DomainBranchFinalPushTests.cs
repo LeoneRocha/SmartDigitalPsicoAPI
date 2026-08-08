@@ -10,11 +10,7 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
-using SmartDigitalPsico.Domain.Validation.Contratcs;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -789,7 +785,7 @@ public class DomainBranchFinalPushTests
         public string Secret { get; init; } = string.Empty;
     }
 
-    private sealed class TestMedicalBaseValidator : SmartDigitalPsico.Domain.Validation.Base.MedicalBaseValidator<MedicalCalendar>
+    private sealed class TestMedicalBaseValidator : SmartDigitalPsico.Domain.Validation.MedicalBaseValidator<MedicalCalendar>
     {
         public TestMedicalBaseValidator(IMedicalRepository medicalRepository, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar> entityRepository, IUserRepository userRepository)
             : base(medicalRepository, entityRepository, userRepository) { }

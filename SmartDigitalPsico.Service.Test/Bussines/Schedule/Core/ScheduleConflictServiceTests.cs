@@ -3,7 +3,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;

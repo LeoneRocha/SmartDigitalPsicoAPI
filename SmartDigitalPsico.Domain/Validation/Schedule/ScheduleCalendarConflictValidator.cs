@@ -3,7 +3,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-namespace SmartDigitalPsico.Domain.Validation.Schedule
+namespace SmartDigitalPsico.Domain.Validation
 {
     /// <summary>
     /// Generic conflict check against ScheduleCalendar SoT (owner/tenant keys).

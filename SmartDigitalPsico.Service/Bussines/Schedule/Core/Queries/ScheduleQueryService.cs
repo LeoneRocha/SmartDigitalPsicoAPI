@@ -97,7 +97,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
         /// </summary>
         public async Task<ServiceResponse<bool>> HasConflictAsync(string tenantKey, string ownerKey, DateTime appointmentDateTime)
         {
-            var noConflict = await _conflictService.HasNoConflictAsync(new Domain.Validation.Schedule.ScheduleCalendarConflictRequest
+            var noConflict = await _conflictService.HasNoConflictAsync(new Domain.Validation.ScheduleCalendarConflictRequest
             {
                 TenantKey = tenantKey,
                 OwnerKey = ownerKey,

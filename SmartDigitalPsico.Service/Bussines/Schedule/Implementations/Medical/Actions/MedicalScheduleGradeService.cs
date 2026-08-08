@@ -4,7 +4,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
+using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
@@ -116,7 +116,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Ac
 
         private async Task<bool> ValidateCriteriaAsync(CalendarCriteriaDto criteria, ServiceResponse<CalendarDto> response)
         {
-            var result = await new CalendarCriteriaValidator(_support.UserRepository).ValidateAsync(criteria);
+            var result = await new MedicalCalendarCriteriaValidator(_support.UserRepository).ValidateAsync(criteria);
             if (result.IsValid) return true;
             response.Success = false;
             response.Data = new CalendarDto();
