@@ -146,6 +146,8 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGet("/health", () => Results.Ok(new { status = "Healthy" }))
+                    .AllowAnonymous();
                 endpoints.MapControllers();
                 endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
             });

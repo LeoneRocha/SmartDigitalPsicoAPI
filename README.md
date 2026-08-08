@@ -164,7 +164,8 @@ Docker (exemplo):
 
 ```bash
 docker build -f SmartDigitalPsico.WebAPI/Dockerfile -t smartdigitalpsicoapi .
-docker run -p 8080:80 smartdigitalpsicoapi
+docker run -p 8080:8080 smartdigitalpsicoapi
+# health: http://localhost:8080/health
 ```
 
 ### Frontend (UI Dashboard)
