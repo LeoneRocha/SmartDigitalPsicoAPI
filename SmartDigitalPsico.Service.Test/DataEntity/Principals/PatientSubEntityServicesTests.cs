@@ -1,10 +1,10 @@
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientAdditionalInformation;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientHospitalizationInformation;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientMedicationInformation;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientNotificationMessage;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.DataEntity.Principals;

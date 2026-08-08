@@ -1,7 +1,14 @@
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
-using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
+using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Office.UPDATE;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Leaves.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Specialty.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
@@ -12,6 +19,7 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Service.Bussines.Notification;
 
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
 namespace SmartDigitalPsico.Service.Test.Bussines.Notification;
 
 [TestFixture]
@@ -118,7 +126,7 @@ public class NotificationDispatchJobServiceTests
         context.MedicalCalenderNotificationService.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), EMedicalCalendarActionType.NotificationDispatch))
             .Returns(Task.CompletedTask);
         context.NotificationRecordsService.Setup(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Notification.GET.GetNotificationRecordsDto>());
 
         int? lastProcessed = null;
 
@@ -180,7 +188,7 @@ public class NotificationDispatchJobServiceTests
         context.MedicalCalenderNotificationService.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), It.IsAny<EMedicalCalendarActionType>()))
             .Returns(Task.CompletedTask);
         context.NotificationRecordsService.Setup(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Notification.GET.GetNotificationRecordsDto>());
 
         // Act
         await context.Service.ProcessPendingNotificationsAsync();

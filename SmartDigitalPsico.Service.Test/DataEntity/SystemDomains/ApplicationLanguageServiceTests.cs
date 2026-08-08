@@ -2,7 +2,14 @@ using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Gender.GET;
+using SmartDigitalPsico.Domain.DTO.Office.GET;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
+using SmartDigitalPsico.Domain.DTO.Leaves.GET;
+using SmartDigitalPsico.Domain.DTO.Specialty.GET;
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.DTO.Application.GET;
+using SmartDigitalPsico.Domain.DTO.Audit.GET;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -10,6 +17,7 @@ using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using System.Globalization;
 
+using SmartDigitalPsico.Domain.DTO.Application.ADD;
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
 
 [TestFixture]
@@ -108,7 +116,7 @@ public class ApplicationLanguageServiceTests
         context.Repository.Setup(x => x.Create(It.IsAny<ApplicationLanguage>())).ReturnsAsync((ApplicationLanguage a) => { a.Id = 9; return a; });
 
         // Act
-        await context.Service.Save(new SmartDigitalPsico.Domain.DTO.Domains.AddDTOs.AddApplicationLanguageDto
+        await context.Service.Save(new SmartDigitalPsico.Domain.DTO.Application.ADD.AddApplicationLanguageDto
         {
             Language = "en-US",
             LanguageKey = "key",

@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Schedule;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 

@@ -1,7 +1,10 @@
 using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
-using SmartDigitalPsico.Domain.DTO.Schedule;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -10,6 +13,7 @@ using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
+using SmartDigitalPsico.Domain.DTO.Notification.Common;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical.Actions;
 
 [TestFixture]
@@ -35,7 +39,7 @@ public class MedicalScheduleCreateUpdateServiceTests
         };
         context.CreateService.Setup(x => x.CreateAsync(It.IsAny<ScheduleCalendarWriteRequest>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = true, Data = package });
-        context.Shared.NotificationRecordsService.Setup(x => x.CreateOrUpdateNotificationRecordsAsync(It.IsAny<SmartDigitalPsico.Domain.DTO.Notification.GenerateNotificationRecordsDto>()))
+        context.Shared.NotificationRecordsService.Setup(x => x.CreateOrUpdateNotificationRecordsAsync(It.IsAny<SmartDigitalPsico.Domain.DTO.Notification.Common.GenerateNotificationRecordsDto>()))
             .Returns(Task.CompletedTask);
         context.Shared.MedicalCalenderNotification.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), It.IsAny<EMedicalCalendarActionType>()))
             .Returns(Task.CompletedTask);
@@ -189,7 +193,7 @@ public class MedicalScheduleCreateUpdateServiceTests
         };
         context.UpdateService.Setup(x => x.UpdateAsync(It.IsAny<ScheduleCalendarWriteRequest>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = true, Data = persisted });
-        context.Shared.NotificationRecordsService.Setup(x => x.CreateOrUpdateNotificationRecordsAsync(It.IsAny<SmartDigitalPsico.Domain.DTO.Notification.GenerateNotificationRecordsDto>()))
+        context.Shared.NotificationRecordsService.Setup(x => x.CreateOrUpdateNotificationRecordsAsync(It.IsAny<SmartDigitalPsico.Domain.DTO.Notification.Common.GenerateNotificationRecordsDto>()))
             .Returns(Task.CompletedTask);
         context.Shared.MedicalCalenderNotification.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), It.IsAny<EMedicalCalendarActionType>()))
             .Returns(Task.CompletedTask);

@@ -1,4 +1,7 @@
-using SmartDigitalPsico.Domain.DTO.Patient;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository

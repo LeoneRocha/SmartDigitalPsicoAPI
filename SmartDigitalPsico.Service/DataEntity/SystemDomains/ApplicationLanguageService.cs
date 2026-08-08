@@ -1,13 +1,27 @@
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Gender.GET;
+using SmartDigitalPsico.Domain.DTO.Office.GET;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
+using SmartDigitalPsico.Domain.DTO.Leaves.GET;
+using SmartDigitalPsico.Domain.DTO.Specialty.GET;
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.DTO.Application.GET;
+using SmartDigitalPsico.Domain.DTO.Audit.GET;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using System.Globalization;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
+using SmartDigitalPsico.Domain.DTO.Gender.ADD;
+using SmartDigitalPsico.Domain.DTO.Office.ADD;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
+using SmartDigitalPsico.Domain.DTO.Leaves.ADD;
+using SmartDigitalPsico.Domain.DTO.Specialty.ADD;
+using SmartDigitalPsico.Domain.DTO.Notification.ADD;
+using SmartDigitalPsico.Domain.DTO.Application.ADD;
+using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {

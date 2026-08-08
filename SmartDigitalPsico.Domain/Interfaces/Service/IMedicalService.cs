@@ -1,5 +1,8 @@
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.DTO.Medical;
+using SmartDigitalPsico.Domain.DTO.Medical.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.GET;
+using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Medical.Common;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service
 {

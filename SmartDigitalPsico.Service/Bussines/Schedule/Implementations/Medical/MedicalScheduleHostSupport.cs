@@ -1,7 +1,10 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;

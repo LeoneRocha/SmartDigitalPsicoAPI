@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.DTO.Medical;
+using SmartDigitalPsico.Domain.DTO.Medical.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.GET;
+using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Medical.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals

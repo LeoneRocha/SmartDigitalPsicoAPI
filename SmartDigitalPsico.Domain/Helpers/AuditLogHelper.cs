@@ -1,5 +1,12 @@
 using Newtonsoft.Json;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
+using SmartDigitalPsico.Domain.DTO.Gender.ADD;
+using SmartDigitalPsico.Domain.DTO.Office.ADD;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
+using SmartDigitalPsico.Domain.DTO.Leaves.ADD;
+using SmartDigitalPsico.Domain.DTO.Specialty.ADD;
+using SmartDigitalPsico.Domain.DTO.Notification.ADD;
+using SmartDigitalPsico.Domain.DTO.Application.ADD;
+using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {

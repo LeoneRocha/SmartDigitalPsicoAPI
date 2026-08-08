@@ -1,5 +1,9 @@
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
+using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Service

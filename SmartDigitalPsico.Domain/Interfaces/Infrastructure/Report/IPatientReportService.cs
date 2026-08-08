@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.DTO.Report.Enitty;
+using SmartDigitalPsico.Domain.DTO.Report.Entity;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 

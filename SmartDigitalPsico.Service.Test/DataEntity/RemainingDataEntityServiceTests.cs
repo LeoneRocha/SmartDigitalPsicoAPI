@@ -13,6 +13,7 @@ using SmartDigitalPsico.Service.DataEntity.General;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
 namespace SmartDigitalPsico.Service.Test.DataEntity;
 
 [TestFixture]
@@ -80,7 +81,7 @@ public class RemainingDataEntityServiceTests
         var dependencies = new Dependencies();
         var templates = new Mock<INotificationTemplateService>();
         templates.Setup(value => value.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationTemplateDto>());
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Notification.GET.GetNotificationTemplateDto>());
         dependencies.ServicesMock.SetupGet(value => value.NotificationTemplateService).Returns(templates.Object);
         var service = new MedicalCalenderNotificationService(dependencies.Services);
 

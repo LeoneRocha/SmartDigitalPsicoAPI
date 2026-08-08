@@ -1,10 +1,14 @@
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
-using SmartDigitalPsico.Domain.DTO.Schedule;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 {
     /// <summary>
@@ -274,7 +278,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                     RecurrenceCount = mc.RecurrenceCount ?? 0,
                     TokenRecurrence = mc.TokenRecurrence,
                     PatientId = mc.PatientId,
-                    Patient = new Domain.DTO.Patient.GetPatientDto
+                    Patient = new Domain.DTO.Patient.GET.GetPatientDto
                     {
                         Id = mc.PatientId ?? 0,
                         Name = patientName

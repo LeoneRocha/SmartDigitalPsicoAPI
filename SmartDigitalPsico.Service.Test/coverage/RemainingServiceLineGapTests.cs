@@ -2,9 +2,16 @@ using System.Reflection;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
-using SmartDigitalPsico.Domain.DTO.Notification;
-using SmartDigitalPsico.Domain.DTO.Schedule;
+using SmartDigitalPsico.Domain.DTO.Gender.ADD;
+using SmartDigitalPsico.Domain.DTO.Office.ADD;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
+using SmartDigitalPsico.Domain.DTO.Leaves.ADD;
+using SmartDigitalPsico.Domain.DTO.Specialty.ADD;
+using SmartDigitalPsico.Domain.DTO.Notification.ADD;
+using SmartDigitalPsico.Domain.DTO.Application.ADD;
+using SmartDigitalPsico.Domain.DTO.Audit.ADD;
+using SmartDigitalPsico.Domain.DTO.Notification.Common;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
@@ -21,6 +28,7 @@ using SmartDigitalPsico.Service.Test.Infrastructure;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 
+using SmartDigitalPsico.Domain.DTO.Audit.GET;
 namespace SmartDigitalPsico.Service.Test.Coverage;
 
 [TestFixture]
@@ -246,12 +254,12 @@ public class RemainingServiceLineGapTests
         {
         }
 
-        public override Task<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetAuditDataSelectiveEntityLogDto>> Create(
+        public override Task<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Audit.GET.GetAuditDataSelectiveEntityLogDto>> Create(
             SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             if (!CreateSucceeds)
                 throw new InvalidOperationException("fail");
-            return Task.FromResult(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetAuditDataSelectiveEntityLogDto>
+            return Task.FromResult(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Audit.GET.GetAuditDataSelectiveEntityLogDto>
             {
                 Success = true,
                 Message = "ok"

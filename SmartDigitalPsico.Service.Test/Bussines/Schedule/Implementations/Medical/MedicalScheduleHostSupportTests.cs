@@ -1,6 +1,9 @@
 using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 using SmartDigitalPsico.Service.Test.TestSupport;

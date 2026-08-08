@@ -4,7 +4,10 @@ using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Medical;
+using SmartDigitalPsico.Domain.DTO.Medical.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.GET;
+using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Medical.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals

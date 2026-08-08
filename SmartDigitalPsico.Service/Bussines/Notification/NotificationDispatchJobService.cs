@@ -1,6 +1,13 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
+using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Office.UPDATE;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Leaves.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Specialty.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Events;
 using SmartDigitalPsico.Domain.Helpers;

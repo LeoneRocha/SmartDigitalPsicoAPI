@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.DTO;
+using SmartDigitalPsico.Domain.DTO.Common;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
 {

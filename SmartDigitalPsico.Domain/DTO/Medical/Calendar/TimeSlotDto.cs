@@ -1,4 +1,7 @@
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 { 
