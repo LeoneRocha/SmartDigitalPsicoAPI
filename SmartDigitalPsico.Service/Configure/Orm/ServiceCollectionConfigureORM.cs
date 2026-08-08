@@ -6,6 +6,7 @@ using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Service.Configure.AppSettings;
 using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Configure
@@ -20,7 +21,7 @@ namespace SmartDigitalPsico.Service.Configure
         public static void Configure(IServiceCollection services, IConfiguration configuration)
         {
             _configuration = configuration;
-            addORM(services, ServiceCollectionConfigureAppSettings.AddAndReturnTypeDataBase(_configuration));
+            addORM(services, AppSettingsServiceCollectionExtensions.AddAndReturnTypeDataBase(_configuration));
         }
 
         private static void addORM(IServiceCollection services, ETypeDataBase etypeDataBase)

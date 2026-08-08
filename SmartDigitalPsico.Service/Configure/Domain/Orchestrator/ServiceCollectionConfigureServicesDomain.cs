@@ -2,22 +2,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Queue;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Smtp;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
-
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
     /// <summary>
-    /// Classe responsável por ServiceCollectionConfigureServicesDomain.
-    /// Responsabilidade: configuração de startup/DI da aplicação.
-    /// Relação: registra serviços no container e configura o pipeline.
+    /// Orquestra DI de domínio do produto + blocos Core.SDK reutilizáveis.
     /// </summary>
     public static class ServiceCollectionConfigureServicesDomain
     {
-        /// <summary>
-        /// Método Configure: configura estado ou dependencias.
-        /// </summary>
         public static void Configure(IServiceCollection services, IConfiguration _configuration)
         {
             ServicesDomainRepository.AddDependencies(services);
@@ -28,13 +26,13 @@ namespace SmartDigitalPsico.Service.Configure.Domain
 
             ServicesDomainValidation.AddDependencies(services);
 
-            ServicesDomainSecurity.AddDependencies(services);
+            services.AddCoreCrypto();
 
             ServicesDomainNoSql.AddDependencies(services);
 
-            ServicesDomainSmtp.AddDependencies(services);
+            services.AddCoreSmtp();
 
-            ServicesDomainQueue.AddDependencies(services);
+            services.AddCoreStorageQueue(StorageQueueNameConstants.GeneralQueue);
 
             addCollectionDependencies(services);
 
@@ -46,6 +44,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
 
             ServicesDomainService.AddDependenciesAuto(services);
         }
+
         private static void addCollectionDependencies(IServiceCollection services)
         {
             services.AddScoped<IPatientRecordServiceConfig, PatientRecordServiceConfig>();
@@ -54,7 +53,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             services.AddScoped<ISharedRepositories, SharedRepositories>();
             services.AddScoped<ISharedServices, SharedServices>();
             services.AddScoped<IMedicalCalendarValidators, MedicalCalendarValidators>();
-        } 
+        }
+
         private static void addDependenciesSingleton(IServiceCollection services)
         {
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -62,6 +62,6 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             services.AddSingleton<SmartDigitalPsico.Core.SDK.Domain.Interfaces.ITokenService, SmartDigitalPsico.Core.SDK.Domain.Security.TokenService>();
             services.AddSingleton<SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig, SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicyConfig>();
             services.AddSingleton<SmartDigitalPsico.Core.SDK.Domain.Interfaces.ILocationSaveFileConfigurationDto, SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto>();
-        } 
+        }
     }
 }
