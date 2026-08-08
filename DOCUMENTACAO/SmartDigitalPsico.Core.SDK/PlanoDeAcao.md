@@ -1,8 +1,8 @@
-# Plano de Ação — Core canônico + host [Obsolete]
+# Plano de Ação — Core canônico + host bridges
 
-**Versão:** 2.0  
+**Versão:** 2.1  
 **Data:** 2026-08-08  
-**Status:** Concluído — execução de código e migração finalizadas com sucesso  
+**Status:** Concluído — shims Obsolete removidos (v2.6); Core é a única fonte dos tipos portados  
 **Inventário base:** [Levantamento.md](./Levantamento.md)  
 **Fatia futura (Schedule / Notification):** [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) — backlog; **não** altera as Fases 1–7 abaixo  
 **Execução por projeto:** [PlanoExecucao-PorProjeto.md](./PlanoExecucao-PorProjeto.md) (ondas Domain→Data→Service→WebAPI)  
@@ -13,38 +13,40 @@
 
 ## Regras não negociáveis
 
-1. **Core = canônico:** portar para `SmartDigitalPsico.Core.SDK` o código dos tipos inventariados (mesmos tipos; sem inventar `Guard`/`Result`/Dapper/UoW/providers Redis novos).
-2. **Host = consulta:** **não apagar** os arquivos atuais em Domain/Data/Service/WebAPI. Marcar `[Obsolete]` + comentário `// Movido para SmartDigitalPsico.Core.SDK`. Preferir shim fino (herda/delega ao Core).
-3. **Consumidores:** atualizar `using`, referências de tipo e DI para o pacote Core.
-4. **Único shell a criar:** `SmartDigitalPsico.Core.SDK.csproj` + `SmartDigitalPsico.Core.SDK.Tests.csproj` + entrada na solution. Além disso, só a **cópia canônica** dos tipos já inventariados.
+1. **Core = canônico:** tipos portados vivem só em `SmartDigitalPsico.Core.SDK` (sem inventar `Guard`/`Result`/Dapper/UoW/providers Redis novos).
+2. **Host = produto + bridges:** **não** recriar shims Obsolete para tipos já no Core. Usar Core direto. Bridges intencionais: `EntityBaseService`, `ApiBaseController`, `CacheService`, host `IEntityDataContext` (DbSets).
+3. **Consumidores:** `using` / DI / tipos apontam ao pacote Core.
+4. **Único shell:** `SmartDigitalPsico.Core.SDK.csproj` + `SmartDigitalPsico.Core.SDK.Tests.csproj` + entrada na solution.
 5. **Um único NuGet:** `PackageId=SmartDigitalPsico.Core.SDK`.
 6. **Manter o específico:** DbContext tipado, entidades, migrations, validators de negócio, enrichers de domínio, `EntityBaseService` / `ReportBaseService`.
 7. **Zero regressão funcional.**
-8. **Testes:** suíte canônica em `Core.SDK.Tests`; testes no host **não apagar** de imediato — atualizar usings para o Core.
+8. **Testes:** suíte canônica em `Core.SDK.Tests`; testes no host usam usings do Core.
 9. **Build após cada fase**; cobertura ≥ 90% no SDK.Tests (tipos canônicos).
-10. **Remoção física** dos shims Obsolete no host = **fora de escopo** desta iniciativa.
+10. **Remoção física dos shims Obsolete:** **concluída** (Progresso v2.6). Não reintroduzir wrappers host para tipos Core.
 
-### Padrão Obsolete (host)
+### Histórico — padrão Obsolete (host) — supersedido
+
+Nas Fases 1–7 os originais no host foram marcados `[Obsolete]` + shim fino. Em v2.6 esses arquivos foram **apagados**. O único remanescente é:
 
 ```csharp
-// Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+// Host IEntityDataContext — DbSets de produto (bridge)
 [Obsolete(
-    "Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.",
+    "Movido para SmartDigitalPsico.Core.SDK. Use SmartDigitalPsico.Core.SDK.Data.Context.Interface.IEntityDataContext para o contrato genérico. DbSets de produto permanecem neste shim.",
     error: false,
-    DiagnosticId = "SDP_CORE_SDK_GENERIC")]
+    DiagnosticId = "SDP_CORE_SDK_REPO")]
 ```
 
-| DiagnosticId | Família |
+| DiagnosticId | Família (histórico) |
 | ------------ | ------- |
-| `SDP_CORE_SDK_REPO` | Repositórios genéricos / Table / Queue / FileDisk |
-| `SDP_CORE_SDK_CACHE` | Cache contratos + Memory/Disk + CacheService |
+| `SDP_CORE_SDK_REPO` | Repositórios / EF / host `IEntityDataContext` |
+| `SDP_CORE_SDK_CACHE` | Cache |
 | `SDP_CORE_SDK_AZURE` | Adapters Azure |
-| `SDP_CORE_SDK_HELPER` | Helpers, VOs, DTOs base, exceptions, ValidationErrorCodes |
-| `SDP_CORE_SDK_CRYPTO` | Crypto adapters/factories |
-| `SDP_CORE_SDK_REPORT` | Report engines/factories |
-| `SDP_CORE_SDK_HYPER` | Hypermedia framework |
-| `SDP_CORE_SDK_SMTP` | SMTP strategies |
-| `SDP_CORE_SDK_API` | ApiBaseController, RequestCultureMiddleware |
+| `SDP_CORE_SDK_HELPER` | Helpers, VOs, DTOs base |
+| `SDP_CORE_SDK_CRYPTO` | Crypto |
+| `SDP_CORE_SDK_REPORT` | Report |
+| `SDP_CORE_SDK_HYPER` | Hypermedia |
+| `SDP_CORE_SDK_SMTP` | SMTP |
+| `SDP_CORE_SDK_API` | API / culture middleware |
 
 ---
 
@@ -53,20 +55,11 @@
 ```text
 SmartDigitalPsicoAPI/
 ├── SmartDigitalPsico.Core.SDK/          # CANÔNICO (código portado)
-│   ├── Repositories/
-│   ├── Caching/
-│   ├── Cloud/Azure/
-│   ├── Helpers/
-│   ├── Contracts/
-│   ├── Security/
-│   ├── Report/
-│   ├── Hypermedia/
-│   └── Smtp/
 ├── SmartDigitalPsico.Core.SDK.Tests/    # Suíte canônica
-├── SmartDigitalPsico.Domain/               # Específico + shims [Obsolete] (consulta)
-├── SmartDigitalPsico.Data/                 # Específico + shims [Obsolete]
-├── SmartDigitalPsico.Service/              # Específico + shims [Obsolete]
-└── SmartDigitalPsico.WebAPI/               # Consumidores com usings → Core
+├── SmartDigitalPsico.Domain/            # Específico de produto (+ bridges ApiBase)
+├── SmartDigitalPsico.Data/              # Específico + IEntityDataContext (DbSets)
+├── SmartDigitalPsico.Service/           # Específico (+ bridges EntityBaseService/CacheService)
+└── SmartDigitalPsico.WebAPI/            # Consumidores → Core
 ```
 
 **TFM:** `net10.0`. Host referencia Core via `ProjectReference`.
@@ -75,19 +68,19 @@ SmartDigitalPsicoAPI/
 
 ## Critérios de aceite globais
 
-- [ ] `dotnet build SmartDigitalPsicoAPI.sln` verde
-- [ ] `dotnet test` verde
-- [ ] Arquivos originais no host **ainda existem** com `[Obsolete]` + comentário
-- [ ] Consumidores dos tipos portados usam namespaces do Core
-- [ ] Nenhum tipo inventado fora do inventário
-- [ ] Atualizar [Progresso.md](./Progresso.md)
+- [x] `dotnet build SmartDigitalPsicoAPI.sln` verde
+- [x] `dotnet test` verde
+- [x] Shims Obsolete host **removidos** (exceto `IEntityDataContext` DbSets)
+- [x] Consumidores dos tipos portados usam namespaces do Core
+- [x] Nenhum tipo inventado fora do inventário
+- [x] Atualizar [Progresso.md](./Progresso.md)
 
-### Ritual por tipo (Fases 2–5)
+### Ritual por tipo (Fases 2–5 — histórico)
 
-1. Portar código canônico para o Core (ajuste mínimo: namespace; retarget `DbContext` só no Core quando aplicável)
-2. No host: marcar `[Obsolete]` + comentário; preferir shim fino
+1. Portar código canônico para o Core
+2. Host: `[Obsolete]` + shim fino *(supersedido — hoje apagar / não recriar)*
 3. Atualizar usings/DI dos consumidores para o Core
-4. Portar/copiar testes canônicos para `Core.SDK.Tests`; ajustar usings nos testes do host
+4. Testes canônicos em `Core.SDK.Tests`
 5. Build + test
 
 ---
