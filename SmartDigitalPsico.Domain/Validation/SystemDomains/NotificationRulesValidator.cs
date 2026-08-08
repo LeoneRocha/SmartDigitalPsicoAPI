@@ -1,6 +1,7 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.ModelEntity;
 
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {
     /// <summary>

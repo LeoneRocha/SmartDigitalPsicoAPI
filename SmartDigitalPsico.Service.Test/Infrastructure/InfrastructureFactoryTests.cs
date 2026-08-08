@@ -1,7 +1,7 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Service.Infrastructure.Notification;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure;

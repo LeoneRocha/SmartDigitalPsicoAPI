@@ -1,14 +1,14 @@
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-
-using SmartDigitalPsico.Domain.DTO.Patient.GET;
 namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
 {
     /// <summary>
@@ -400,7 +400,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
                     TimeZone = criteria.TimeZone,
                     StartDateTime = criteria.AppointmentDateTime,
                     EndDateTime = criteria.AppointmentDateTime.AddMinutes(intervalMinutes),
-                    Status = Domain.Enuns.EStatusCalendar.PendingConfirmation,
+                    Status = EStatusCalendar.PendingConfirmation,
                     TokenRecurrence = token
                 }
             };

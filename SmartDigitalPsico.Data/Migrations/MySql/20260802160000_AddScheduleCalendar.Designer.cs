@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartDigitalPsico.Data.Context;
 
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 #nullable disable
 
 namespace SmartDigitalPsico.Data.Migrations.MySql

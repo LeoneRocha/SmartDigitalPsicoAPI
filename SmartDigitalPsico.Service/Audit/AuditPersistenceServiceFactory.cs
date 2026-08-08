@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 
 namespace SmartDigitalPsico.Service.Audit

@@ -8,6 +8,7 @@ using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Notification.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;

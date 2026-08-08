@@ -10,6 +10,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Notification
         /// <summary>
         /// Método GetService: consulta e retorna dados.
         /// </summary>
-        SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Domain.Enuns.ENotificationServiceType serviceType);
+        SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType serviceType);
     }
 }

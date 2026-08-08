@@ -1,7 +1,7 @@
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Validation.Schedule;

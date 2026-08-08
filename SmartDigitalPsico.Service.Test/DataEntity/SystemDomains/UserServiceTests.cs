@@ -15,7 +15,7 @@ using SmartDigitalPsico.Domain.DTO.User.ADD;
 using SmartDigitalPsico.Domain.DTO.User.GET;
 using SmartDigitalPsico.Domain.DTO.User.UPDATE;
 using SmartDigitalPsico.Domain.DTO.User.Common;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.VO;

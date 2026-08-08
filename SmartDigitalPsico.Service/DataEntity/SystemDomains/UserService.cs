@@ -16,7 +16,7 @@ using SmartDigitalPsico.Domain.DTO.User.ADD;
 using SmartDigitalPsico.Domain.DTO.User.GET;
 using SmartDigitalPsico.Domain.DTO.User.UPDATE;
 using SmartDigitalPsico.Domain.DTO.User.Common;
-using ENotificationServiceType = SmartDigitalPsico.Domain.Enuns.ENotificationServiceType;
+using ENotificationServiceType = SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -27,6 +27,7 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 {
     /// <summary>

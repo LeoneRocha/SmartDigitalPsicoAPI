@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Domain.ModelEntity;
 

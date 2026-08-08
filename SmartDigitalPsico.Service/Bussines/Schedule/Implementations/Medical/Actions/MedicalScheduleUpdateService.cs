@@ -5,6 +5,7 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;

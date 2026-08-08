@@ -1,5 +1,5 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 

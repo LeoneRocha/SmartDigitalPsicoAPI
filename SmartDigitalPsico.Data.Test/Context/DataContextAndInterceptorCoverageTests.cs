@@ -3,7 +3,7 @@ using Moq;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.ModelEntity;
 

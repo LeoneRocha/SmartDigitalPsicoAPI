@@ -1,11 +1,9 @@
 using System.ComponentModel;
 
-namespace SmartDigitalPsico.Domain.Enuns
+namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
 {
     /// <summary>
-    /// Enumeração responsável por EMaritalStatus.
-    /// Responsabilidade: valores enumerados do domínio.
-    /// Relação: usado em entidades, DTOs e regras de negócio.
+    /// Estado civil genérico.
     /// </summary>
     public enum EMaritalStatus
     {

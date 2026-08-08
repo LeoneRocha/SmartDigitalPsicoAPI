@@ -27,7 +27,7 @@ using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.UPDATE;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;

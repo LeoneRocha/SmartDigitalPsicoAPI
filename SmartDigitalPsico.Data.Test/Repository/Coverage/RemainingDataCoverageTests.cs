@@ -606,7 +606,7 @@ public class RemainingDataCoverageTests : BaseTests
         // Arrange
         var persistence = new Mock<IAuditPersistenceService>();
         var factory = new Mock<IAuditPersistenceServiceFactory>();
-        factory.Setup(value => value.CreateService(SmartDigitalPsico.Domain.Enuns.EAuditServiceType.Database)).Returns(persistence.Object);
+        factory.Setup(value => value.CreateService(SmartDigitalPsico.Core.SDK.Domain.Enuns.EAuditServiceType.Database)).Returns(persistence.Object);
         var auditService = new Mock<IAuditContextService>();
         auditService.Setup(service => service.OnBeforeSaveChanges(It.IsAny<DbContext>()))
             .Returns(() =>
@@ -645,7 +645,7 @@ public class RemainingDataCoverageTests : BaseTests
         context.SaveChanges();
 
         typeof(AuditContextInterceptor).GetField("_serviceType", BindingFlags.Instance | BindingFlags.NonPublic)!
-            .SetValue(interceptor, SmartDigitalPsico.Domain.Enuns.EAuditServiceType.Log);
+            .SetValue(interceptor, SmartDigitalPsico.Core.SDK.Domain.Enuns.EAuditServiceType.Log);
         auditService.Setup(service => service.GetNewEntries(It.IsAny<DbContext>(), It.IsAny<List<AuditDataEntityLog>>()))
             .Returns((DbContext _, List<AuditDataEntityLog> entries) => entries);
         context.ApplicationCacheLogs.First().CacheKey = "log-path";
@@ -793,7 +793,7 @@ public class RemainingDataCoverageTests : BaseTests
                     Title = "open",
                     StartDateTime = now,
                     EndDateTime = null,
-                    Status = SmartDigitalPsico.Domain.Enuns.EStatusCalendar.Confirmed,
+                    Status = SmartDigitalPsico.Core.SDK.Domain.Enuns.EStatusCalendar.Confirmed,
                     TimeZone = "UTC",
                     TokenRecurrence = "   "
                 }
@@ -918,7 +918,7 @@ public class RemainingDataCoverageTests : BaseTests
                         Title = "token-item",
                         StartDateTime = now,
                         EndDateTime = now.AddMinutes(30),
-                        Status = SmartDigitalPsico.Domain.Enuns.EStatusCalendar.Confirmed,
+                        Status = SmartDigitalPsico.Core.SDK.Domain.Enuns.EStatusCalendar.Confirmed,
                         TimeZone = "UTC",
                         TokenRecurrence = "custom-token"
                     }
@@ -940,7 +940,7 @@ public class RemainingDataCoverageTests : BaseTests
                         Title = "late",
                         StartDateTime = now.AddHours(3),
                         EndDateTime = null,
-                        Status = SmartDigitalPsico.Domain.Enuns.EStatusCalendar.Confirmed,
+                        Status = SmartDigitalPsico.Core.SDK.Domain.Enuns.EStatusCalendar.Confirmed,
                         TimeZone = "UTC"
                     }
                 ]

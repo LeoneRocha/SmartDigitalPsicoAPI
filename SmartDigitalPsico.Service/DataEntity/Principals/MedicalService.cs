@@ -13,7 +13,7 @@ using SmartDigitalPsico.Domain.DTO.Medical.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.Common;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;

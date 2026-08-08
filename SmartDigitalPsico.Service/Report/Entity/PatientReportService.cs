@@ -6,7 +6,7 @@ using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.DTO.Report.Entity;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.Interfaces.Repository;

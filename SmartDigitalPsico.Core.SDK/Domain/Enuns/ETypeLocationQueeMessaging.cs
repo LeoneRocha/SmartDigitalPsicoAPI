@@ -1,14 +1,12 @@
 using System.ComponentModel;
 
-namespace SmartDigitalPsico.Domain.Enuns
+namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
 {
     /// <summary>
-    /// Enumeração responsável por ETypeLocationQueeMessaging.
-    /// Responsabilidade: valores enumerados do domínio.
-    /// Relação: usado em entidades, DTOs e regras de negócio.
+    /// Localização/provedor de filas de mensageria.
     /// </summary>
     public enum ETypeLocationQueeMessaging
-    {  
+    {
         [Description("Local Salvamento em MongoDB")]
         MongoDB = 0,
 
@@ -16,15 +14,15 @@ namespace SmartDigitalPsico.Domain.Enuns
         AzureStorageQuee = 1,
 
         [Description("Local Salvamento em Azure Service Bus")]
-        AzureServiceBus =2,  
-        
+        AzureServiceBus = 2,
+
         [Description("Local Salvamento em Azure Event Grid")]
-        AzureEventGrid = 3, 
-        
+        AzureEventGrid = 3,
+
         [Description("Local Salvamento em Azure Event Hubs")]
-        AzureEventHubs = 4, 
-        
+        AzureEventHubs = 4,
+
         [Description("Local Salvamento em Azure Event Hubs")]
-        AzureRelay = 5, 
+        AzureRelay = 5,
     }
 }

@@ -1,7 +1,7 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Service.Audit;
 using SmartDigitalPsico.Service.Configure.Domain;

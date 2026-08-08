@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.ModelEntity.Schedule
 {

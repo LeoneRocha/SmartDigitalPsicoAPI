@@ -13,6 +13,7 @@ using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 using SmartDigitalPsico.Domain.DTO.Notification.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Repository;

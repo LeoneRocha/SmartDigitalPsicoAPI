@@ -1,7 +1,7 @@
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;

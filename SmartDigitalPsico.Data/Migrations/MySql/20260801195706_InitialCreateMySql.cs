@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 #nullable disable
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional

@@ -4,8 +4,8 @@ using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
-using EIntervalNotificationType = SmartDigitalPsico.Domain.Enuns.EIntervalNotificationType;
-using ENotificationServiceType = SmartDigitalPsico.Domain.Enuns.ENotificationServiceType;
+using EIntervalNotificationType = SmartDigitalPsico.Core.SDK.Domain.Enuns.EIntervalNotificationType;
+using ENotificationServiceType = SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType;
 using ENotificationType = SmartDigitalPsico.Domain.Enuns.ENotificationType;
 
 

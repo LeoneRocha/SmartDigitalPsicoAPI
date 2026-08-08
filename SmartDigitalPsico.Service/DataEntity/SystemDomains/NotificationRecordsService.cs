@@ -20,7 +20,7 @@ using SmartDigitalPsico.Domain.DTO.Specialty.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;

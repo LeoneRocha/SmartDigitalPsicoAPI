@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 

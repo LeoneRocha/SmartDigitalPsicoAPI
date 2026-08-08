@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;

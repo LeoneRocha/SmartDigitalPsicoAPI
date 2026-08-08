@@ -90,7 +90,7 @@ public class MedicalServiceTests
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Success = false });
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(
                 It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
-                It.IsAny<SmartDigitalPsico.Domain.Enuns.ENotificationServiceType>(),
+                It.IsAny<SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType>(),
                 It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);
 
@@ -116,7 +116,7 @@ public class MedicalServiceTests
         }
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
             It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
-            It.IsAny<SmartDigitalPsico.Domain.Enuns.ENotificationServiceType>(),
+            It.IsAny<SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType>(),
             It.IsAny<Dictionary<string, string>>()), Times.Once);
     }
 
@@ -144,7 +144,7 @@ public class MedicalServiceTests
             });
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(
                 It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
-                It.IsAny<SmartDigitalPsico.Domain.Enuns.ENotificationServiceType>(),
+                It.IsAny<SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType>(),
                 It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);
 
@@ -163,7 +163,7 @@ public class MedicalServiceTests
 
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
             It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
-            SmartDigitalPsico.Domain.Enuns.ENotificationServiceType.Email,
+            SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType.Email,
             It.Is<Dictionary<string, string>>(d => d["MedicalName"] == "Dr. Template Updated")), Times.Once);
     }
 
@@ -183,7 +183,7 @@ public class MedicalServiceTests
             .ThrowsAsync(new InvalidOperationException("template error"));
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(
                 It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
-                It.IsAny<SmartDigitalPsico.Domain.Enuns.ENotificationServiceType>(),
+                It.IsAny<SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType>(),
                 It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);
 
@@ -203,7 +203,7 @@ public class MedicalServiceTests
 
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
             It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
-            SmartDigitalPsico.Domain.Enuns.ENotificationServiceType.Email,
+            SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType.Email,
             It.IsAny<Dictionary<string, string>>()), Times.Once);
     }
 

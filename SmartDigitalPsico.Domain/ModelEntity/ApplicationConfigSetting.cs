@@ -1,5 +1,5 @@
 using EntityBase = SmartDigitalPsico.Core.SDK.Domain.Contracts.EntityBase;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 
 

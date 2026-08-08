@@ -1,5 +1,5 @@
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 using EmailTemplateBodyConstants = SmartDigitalPsico.Domain.Constants.EmailTemplateBodyConstants;
 using EmailTemplateTagConstants = SmartDigitalPsico.Domain.Constants.EmailTemplateTagConstants;
