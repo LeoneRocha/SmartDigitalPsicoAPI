@@ -1,25 +1,24 @@
 using FluentValidation;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.AppException;
+using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.SMTP;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP;
 using SmartDigitalPsico.Domain.DTO.User;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -35,13 +34,13 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
     public class UserService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<User, GetUserDto>, IUserService
     {
         private readonly IRoleGroupRepository _roleGroupRepository;
-        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto _configurationToken;
+        private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto _configurationToken;
         private readonly ITokenService _tokenService;
         private readonly ISharedServices _sharedServices;
         private readonly ISharedRepositories _sharedRepositories;
         private readonly ITokenSessionPersistenceService _tokenSessionService;
 
-        private readonly AuthConfigurationDto _configurationAuth;
+        private readonly SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto _configurationAuth;
         /// <summary>
         /// MÃ©todo UserService: executa a operaÃ§Ã£o UserService.
         /// </summary>
@@ -50,9 +49,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
             IRoleGroupRepository roleGroupRepository,
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto configurationToken,
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto configurationToken,
             ITokenService tokenService,
-            IOptions<AuthConfigurationDto> configurationAuth,
+            IOptions<SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto> configurationAuth,
             IValidator<User> entityValidator,
             ITokenSessionPersistenceService tokenSessionService
             )
@@ -81,14 +80,14 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 response.Message = ValidatorConstants.Validade_UserNotFound;
                 return response;
             }
-            else if (!SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            else if (!SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 response.Success = false;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.WrongPassword, GeneralLanguageMenssageConstants.WrongPassword);
                 return response;
             }
 
-            if (_configurationAuth.TypeApiCredential == SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt)
+            if (_configurationAuth.TypeApiCredential == SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt)
             {
                 response.Data = await executeLoginJwt(user);
             }
@@ -102,15 +101,15 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// </summary>
         public async Task<ServiceResponse<GetUserDto>> Register(UserRegisterDto userRegisterVO)
         {
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User entityAdd = _mapper.Map<User>(userRegisterVO);
 
             entityAdd.PasswordHash = passwordHash;
             entityAdd.PasswordSalt = passwordSalt;
-            entityAdd.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
             entityAdd.Role = "Pending";
             entityAdd.Admin = false;
 
@@ -129,7 +128,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// MÃ©todo Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetUserDto>> Update(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto item)
+        public override async Task<ServiceResponse<GetUserDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var updateUser = (UpdateUserDto)item;
             ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
@@ -151,13 +150,13 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 entityUpdate.TimeZone = updateUser.TimeZone;
                 if (!string.IsNullOrEmpty(updateUser.Password))
                 {
-                    SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash(updateUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                    SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash(updateUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
                     entityUpdate.PasswordHash = passwordHash;
                     entityUpdate.PasswordSalt = passwordSalt;
                 }
                 entityUpdate.Role = updateUser.Role;
 
-                entityUpdate.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
                 if (updateUser.MedicalId > 0)
                     entityUpdate.MedicalId = updateUser.MedicalId;
@@ -196,18 +195,18 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetUserDto>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
+        public override async Task<ServiceResponse<GetUserDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             var userRegisterVO = (AddUserDto)item;
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash(userRegisterVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User entityAdd = _mapper.Map<User>(userRegisterVO);
 
             entityAdd.PasswordHash = passwordHash;
             entityAdd.PasswordSalt = passwordSalt;
-            entityAdd.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
             entityAdd.Role = userRegisterVO.Role;
 
             List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO.RoleGroupsIds.ToList());
@@ -298,13 +297,13 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             user.RefreshToken = refreshToken;
 
-            DateTime refreshTokenExpiryTime = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(_configurationToken.DaysToExpiry);
+            DateTime refreshTokenExpiryTime = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(_configurationToken.DaysToExpiry);
 
             user.RefreshTokenExpiryTime = refreshTokenExpiryTime;
 
             await ((IUserRepository)_entityRepository).RefreshUserInfo(user);
 
-            DateTime createDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            DateTime createDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
 
             UserTokenSession? tokenSession = await _tokenSessionService.GetSessionAsync(user.Id);
@@ -366,7 +365,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
                     if (user.RefreshToken != refreshToken ||
                         !user.RefreshTokenExpiryTime.HasValue ||
-                        user.RefreshTokenExpiryTime.Value <= SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc())
+                        user.RefreshTokenExpiryTime.Value <= SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc())
                         return new SmartDigitalPsico.Domain.VO.TokenVO();
 
                     accessToken = _tokenService.GenerateAccessToken(principal.Claims);
@@ -377,7 +376,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 }
             }
 
-            DateTime createDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            DateTime createDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
 
             return new SmartDigitalPsico.Domain.VO.TokenVO(
@@ -411,12 +410,12 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
             if (!string.IsNullOrEmpty(userUpdateProfileVO.Password))
             {
-                SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash(userUpdateProfileVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash(userUpdateProfileVO.Password, out byte[] passwordHash, out byte[] passwordSalt);
                 entityUpdate.PasswordHash = passwordHash;
                 entityUpdate.PasswordSalt = passwordSalt;
             }
 
-            entityUpdate.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
             response = await base.Validate(entityUpdate);
 

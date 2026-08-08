@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Notification
     /// Responsabilidade: contrato de abstração do domínio.
     /// Relação: implementado nas camadas Data/Service.
     /// </summary>
-    public interface IWhatsAppService : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService
+    public interface IWhatsAppService : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService
     { 
     }
 }

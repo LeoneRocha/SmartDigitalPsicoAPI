@@ -10,15 +10,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO;
+using SmartDigitalPsico.Core.SDK.Domain.DTO;
 using SmartDigitalPsico.Domain.DTO.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains;
 using SmartDigitalPsico.WebAPI.Configure;
 using System.Reflection;
@@ -87,7 +87,7 @@ public class ControllerCoverageTests
         };
         var controller = new SpecialtyController(
             service.Object,
-            Options.Create(new AuthConfigurationDto()))
+            Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto()))
         {
             ControllerContext = new ControllerContext { HttpContext = httpContext }
         };
@@ -359,7 +359,7 @@ public class ControllerCoverageTests
             });
         var controller = new SmartDigitalPsico.WebAPI.Controllers.v1.Principals.MedicalController(
             service.Object,
-            Options.Create(new AuthConfigurationDto()))
+            Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto()))
         {
             ControllerContext = new ControllerContext
             {
@@ -686,7 +686,7 @@ public class ControllerCoverageTests
 
     private sealed class EmptyCulturesController : GlobalizationCulturesController
     {
-        protected override List<global::SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.CultureDisplayDto> GetCultures() => [];
+        protected override List<global::SmartDigitalPsico.Core.SDK.Domain.DTO.CultureDisplayDto> GetCultures() => [];
     }
 
     private sealed class MissingVersionInformationController : AppInformationVersionProductController

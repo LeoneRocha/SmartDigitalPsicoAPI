@@ -1,8 +1,8 @@
 using SmartDigitalPsico.Domain.Enuns;
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Smtp;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 
 namespace SmartDigitalPsico.Service.Infrastructure.Notification
 {
@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Notification
         /// <summary>
         /// Método GetService: consulta e retorna dados.
         /// </summary>
-        public SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Domain.Enuns.ENotificationServiceType serviceType)
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Domain.Enuns.ENotificationServiceType serviceType)
         {
             return serviceType switch
             {

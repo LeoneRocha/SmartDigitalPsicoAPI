@@ -1,5 +1,5 @@
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using Serilog;
@@ -31,9 +31,9 @@ namespace SmartDigitalPsico.Service.Bussines
         /// </summary>
         public async Task ExecuteNotificationProcessAsync()
         {
-            _logger.Information("### {NameProcess} ### - Starting notification processing job...", NotificationDispatchJobService_Name, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+            _logger.Information("### {NameProcess} ### - Starting notification processing job...", NotificationDispatchJobService_Name, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
             await _notificationDispatchJobService.ProcessPendingNotificationsAsync();
-            _logger.Information("### {NameProcess} ### - Notification processing job completed.", NotificationDispatchJobService_Name, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+            _logger.Information("### {NameProcess} ### - Notification processing job completed.", NotificationDispatchJobService_Name, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
         }
     }
 }

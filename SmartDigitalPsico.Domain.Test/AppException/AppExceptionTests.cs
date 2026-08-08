@@ -1,4 +1,4 @@
-using SmartDigitalPsicoAPI.Core.SDK.Domain.AppException;
+using SmartDigitalPsico.Core.SDK.Domain.AppException;
 
 namespace SmartDigitalPsico.Domain.Test.AppException;
 

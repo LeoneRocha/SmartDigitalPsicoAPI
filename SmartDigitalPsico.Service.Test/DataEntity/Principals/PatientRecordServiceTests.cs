@@ -237,7 +237,7 @@ public class PatientRecordServiceTests
         public Mock<IMedicalRepository> MedicalRepository { get; } = new();
         public Mock<IPatientRepository> PatientRepository { get; } = new();
         public Mock<IValidator<PatientRecord>> Validator { get; } = new();
-        public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity>> StorageTableService { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity>> StorageTableService { get; } = new();
         public Mock<IAuditDataSelectiveEntityLogService> AuditService { get; } = new();
         public PatientRecordService Service { get; }
 

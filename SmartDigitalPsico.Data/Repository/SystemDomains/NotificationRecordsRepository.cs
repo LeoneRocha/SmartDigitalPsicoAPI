@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
@@ -14,12 +14,12 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class NotificationRecordsRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<NotificationRecord>, INotificationRecordsRepository
+    public class NotificationRecordsRepository : SmartDigitalPsico.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<NotificationRecord>, INotificationRecordsRepository
     {
         /// <summary>
         /// Método NotificationRecordsRepository: executa a operação NotificationRecordsRepository.
         /// </summary>
-        public NotificationRecordsRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context) { }
+        public NotificationRecordsRepository(IEntityDataContext context) : base(context) { }
 
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
@@ -43,8 +43,8 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         /// </summary>
         public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
-            var currentDateUtc = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().Date;
-            var currentDateUtcDay1Plus = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().Date.AddDays(1);
+            var currentDateUtc = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().Date;
+            var currentDateUtcDay1Plus = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().Date.AddDays(1);
 
             return await _dataset
                 .Where(nr => !nr.IsCompleted

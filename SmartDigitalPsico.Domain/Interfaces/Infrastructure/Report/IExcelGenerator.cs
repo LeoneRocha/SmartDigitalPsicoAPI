@@ -1,19 +1,11 @@
-using SmartDigitalPsico.Domain.DTO.Report;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report
 {
     /// <summary>
-    /// Interface (contrato) responsável por IExcelGenerator.
-    /// Responsabilidade: geração de relatórios.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — use SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGenerator.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
-    public interface IExcelGenerator
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public interface IExcelGenerator : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGenerator
     {
-        /// <summary>
-        /// Método Generate: executa a operação Generate.
-        /// </summary>
-        Task Generate(ReportWorkbookDataDto workbookDataInput, string filePath);
     }
 }

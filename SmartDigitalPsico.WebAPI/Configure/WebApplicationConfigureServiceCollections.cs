@@ -1,5 +1,5 @@
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
 using SmartDigitalPsico.Service.Configure;
 using SmartDigitalPsico.Service.Configure.Domain;
 

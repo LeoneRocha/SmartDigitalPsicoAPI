@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 
@@ -11,15 +11,15 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
     /// Responsabilidade: geração de relatórios.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public class PdfReportService : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService
+    public class PdfReportService : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService
     {
-        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory _pdfReportAdapterFactory;
+        private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory _pdfReportAdapterFactory;
         private readonly ISharedDependenciesConfig _sharedDependenciesConfig;
 
         /// <summary>
         /// Método PdfReportService: executa a operação PdfReportService.
         /// </summary>
-        public PdfReportService(ISharedDependenciesConfig sharedDependenciesConfig, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory pdfReportAdapterFactory)
+        public PdfReportService(ISharedDependenciesConfig sharedDependenciesConfig, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory pdfReportAdapterFactory)
         {
             _sharedDependenciesConfig = sharedDependenciesConfig;
             _pdfReportAdapterFactory = pdfReportAdapterFactory;
@@ -27,16 +27,16 @@ namespace SmartDigitalPsico.Service.Infrastructure.Report
         /// <summary>
         /// Método Generate: executa a operação Generate.
         /// </summary>
-        public async Task<string> Generate(SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto content)
+        public async Task<string> Generate(SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto content)
         {
             try
             {
                 string filePath = ConfigurationAppSettingsHelper.GetAppSettingsResourcesTemp(_sharedDependenciesConfig.Configuration);
-                var adapter = _pdfReportAdapterFactory.Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EPdfReportComponentType.PDFsharp);
+                var adapter = _pdfReportAdapterFactory.Create(SmartDigitalPsico.Core.SDK.Domain.Enuns.EPdfReportComponentType.PDFsharp);
 
                 content.FileName = $"{content.FileName}.pdf";
                 filePath = Path.Combine(filePath, content.FolderOutput, content.FileName);
-                filePath = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.NormalizePath(filePath);
+                filePath = SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.NormalizePath(filePath);
                 string directoryPath = Path.GetDirectoryName(filePath)!;
                 if (!Directory.Exists(directoryPath))
                 {

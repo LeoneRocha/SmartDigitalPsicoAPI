@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
@@ -14,12 +14,12 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class NotificationRulesRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<NotificationRule>, INotificationRulesRepository
+    public class NotificationRulesRepository : SmartDigitalPsico.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<NotificationRule>, INotificationRulesRepository
     {
         /// <summary>
         /// Método NotificationRulesRepository: executa a operação NotificationRulesRepository.
         /// </summary>
-        public NotificationRulesRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context) { }
+        public NotificationRulesRepository(IEntityDataContext context) : base(context) { }
 
         /// <summary>
         /// Método GetNotificationRulesAsync: consulta e retorna dados.

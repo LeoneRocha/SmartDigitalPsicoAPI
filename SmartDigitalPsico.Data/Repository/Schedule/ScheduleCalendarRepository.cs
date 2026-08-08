@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
@@ -12,12 +12,12 @@ namespace SmartDigitalPsico.Data.Repository.Schedule
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class ScheduleCalendarRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<ScheduleCalendar>, IScheduleCalendarRepository
+    public class ScheduleCalendarRepository : SmartDigitalPsico.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<ScheduleCalendar>, IScheduleCalendarRepository
     {
         /// <summary>
         /// Método ScheduleCalendarRepository: operação de agendamento.
         /// </summary>
-        public ScheduleCalendarRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context) { }
+        public ScheduleCalendarRepository(IEntityDataContext context) : base(context) { }
 
         /// <summary>
         /// Método AddRangeAsync: cria ou persiste um novo registro/recurso.

@@ -21,7 +21,7 @@ public class AuditPersistenceServiceFactoryTests
         // Arrange
         var services = new ServiceCollection();
         ServicesDomainAudit.AddDependencies(services);
-        services.AddSingleton(Mock.Of<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
+        services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
         services.AddSingleton<Serilog.ILogger>(_ => Mock.Of<Serilog.ILogger>());
         services.AddLogging();
         using var provider = services.BuildServiceProvider();

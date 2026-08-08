@@ -4,11 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Configure
 {
@@ -65,6 +63,12 @@ namespace SmartDigitalPsico.Service.Configure
                 default:
                     break;
             }
+
+            // Compatibilidade: consumidores ainda tipados no shim Obsolete do host.
+#pragma warning disable SDP_CORE_SDK_REPO
+            services.AddScoped<SmartDigitalPsico.Data.Context.Interface.IEntityDataContext>(sp =>
+                (SmartDigitalPsico.Data.Context.Interface.IEntityDataContext)sp.GetRequiredService<IEntityDataContext>());
+#pragma warning restore SDP_CORE_SDK_REPO
         }
     }
 }

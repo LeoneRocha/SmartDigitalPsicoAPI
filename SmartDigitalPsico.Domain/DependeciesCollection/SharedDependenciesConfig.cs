@@ -14,7 +14,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     {
         public IMapper Mapper { get; }
         public Serilog.ILogger Logger { get; }
-        public SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig PolicyConfig { get; }
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig PolicyConfig { get; }
 
         public IConfiguration Configuration { get; }
 
@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         public SharedDependenciesConfig(
             IMapper mapper,
             Serilog.ILogger logger,
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig policyConfig,
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig policyConfig,
            IConfiguration configuration)
         {
             Mapper = mapper;

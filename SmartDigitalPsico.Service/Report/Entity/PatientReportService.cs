@@ -1,23 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
 using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.DTO.Report.Enitty;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation.Helper;
+using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
 namespace SmartDigitalPsico.Service.Report.Entity
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Service.Report.Entity
        : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<PatientRecord, GetPatientRecordDto>, IPatientReportService
     {
         private readonly IUserRepository _userRepository;
-        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoService _cryptoService;
+        private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService _cryptoService;
         private readonly IPatientRepository _patientRepository;
         private readonly IReportServiceConfig _reportServiceConfig;
         private readonly IPatientRecordServiceConfig _config;
@@ -130,19 +130,19 @@ namespace SmartDigitalPsico.Service.Report.Entity
         }
         private async Task<(string, string)> GeneratePdfReport(PatientDetailReportDto data, List<object> reportPatient, List<object> infos, List<object> hospitalizations, List<object> medications, List<object> records)
         {
-            var reportPDF = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto()
+            var reportPDF = new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto()
             {
-                FileName = $"PatientDetailReport_{data.Id}_{SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
+                FileName = $"PatientDetailReport_{data.Id}_{SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 FolderOutput = "Reports_PDF",
                 Title = "Report Patient",
-                Pages = new List<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto>()
+                Pages = new List<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto>()
                 {
-                    new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Order = 1, Name = "Patient Detail", Rows = reportPatient, PageType =  SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Text,
+                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Order = 1, Name = "Patient Detail", Rows = reportPatient, PageType =  SmartDigitalPsico.Core.SDK.Domain.Enuns.EReportPageType.Text,
                         PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
-                    new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 2, Name = "Informations", Rows = infos },
-                    new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
-                    new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 4, Name = "Medications", Rows = medications },
-                    new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 5, Name = "Records", Rows = records },
+                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 2, Name = "Informations", Rows = infos },
+                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
+                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 4, Name = "Medications", Rows = medications },
+                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 5, Name = "Records", Rows = records },
                 }
             };
             var result = await _reportServiceConfig.PdfReportService.Generate(reportPDF);
@@ -151,18 +151,18 @@ namespace SmartDigitalPsico.Service.Report.Entity
 
         private async Task<(string, string)> GenerateExcelReport(PatientDetailReportDto data, List<object> reportPatient, List<object> infos, List<object> hospitalizations, List<object> medications, List<object> records)
         {
-            var reportExcel = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto()
+            var reportExcel = new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto()
             {
                 FolderOutput = "Reports",
-                FileName = $"PatientDetailReport_{data.Id}_{SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
-                Sheets = new List<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto>
+                FileName = $"PatientDetailReport_{data.Id}_{SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
+                Sheets = new List<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto>
         {
-            new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Order = 1, Name = "Patient", Rows = reportPatient,
+            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Order = 1, Name = "Patient", Rows = reportPatient,
                 PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
-            new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 2, Name = "Informations", Rows = infos },
-            new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
-            new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 4, Name = "Medications", Rows = medications },
-            new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 5, Name = "Records", Rows = records },
+            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 2, Name = "Informations", Rows = infos },
+            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
+            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 4, Name = "Medications", Rows = medications },
+            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 5, Name = "Records", Rows = records },
         }
             };
 
@@ -183,14 +183,14 @@ namespace SmartDigitalPsico.Service.Report.Entity
                     var responseFile = await GenerateFileReport(responseData.Data, eReportOutputType);
 
                     //Copy Temp folder 
-                    var folderOuput = Path.Combine(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_config.SharedDependenciesConfig.Configuration), responseFile.Item2);
-                    folderOuput = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.NormalizePath(folderOuput);
+                    var folderOuput = Path.Combine(SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_config.SharedDependenciesConfig.Configuration), responseFile.Item2);
+                    folderOuput = SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.NormalizePath(folderOuput);
 
-                    await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.CopyFile(responseFile.Item1, folderOuput);
+                    await SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.CopyFile(responseFile.Item1, folderOuput);
                     //Delete origin 
-                    await SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.Delete(responseFile.Item1);
+                    await SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.Delete(responseFile.Item1);
 
-                    var response = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.ProccessDownloadToBrowser(folderOuput);
+                    var response = SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.ProccessDownloadToBrowser(folderOuput);
                     return response;
                 }
             }

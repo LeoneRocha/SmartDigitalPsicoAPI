@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Data.Test.DataMock
         }
         public static User[] GetMockFromBogus()
         {
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("mockteste", out byte[] passwordHash, out byte[] passwordSalt);
+            SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("mockteste", out byte[] passwordHash, out byte[] passwordSalt);
 
             var faker = new Faker<User>("pt_BR")
                 .RuleFor(u => u.Id, f => f.Random.Long())
@@ -28,8 +28,8 @@ namespace SmartDigitalPsico.Data.Test.DataMock
                 .RuleFor(u => u.PasswordHash, passwordHash)
                 .RuleFor(u => u.PasswordSalt, passwordSalt)
                 .RuleFor(u => u.Role, f => f.PickRandom("Admin", "Medical", "Patient", "Staff", "Pendente"))
-                .RuleFor(u => u.Language, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultureBrazil())
-                .RuleFor(u => u.TimeZone, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetTimeZoneBrazil())
+                .RuleFor(u => u.Language, SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultureBrazil())
+                .RuleFor(u => u.TimeZone, SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetTimeZoneBrazil())
                 .RuleFor(u => u.RefreshToken, f => f.Random.AlphaNumeric(32))
                 .RuleFor(u => u.RefreshTokenExpiryTime, f => f.Date.Future());
 

@@ -1,9 +1,9 @@
 using AutoMapper;
 using Azure;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
@@ -17,13 +17,13 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
     /// </summary>
     public class TableStorageTokenSessionAdapter : ITokenSessionPersistenceAdapter
     {
-        private readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity> _storageTableService;
+        private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity> _storageTableService;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// Método TableStorageTokenSessionAdapter: executa a operação TableStorageTokenSessionAdapter.
         /// </summary>
-        public TableStorageTokenSessionAdapter(IMapper mapper, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity> storageTableService)
+        public TableStorageTokenSessionAdapter(IMapper mapper, SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity> storageTableService)
         {
             _storageTableService = storageTableService;
             _mapper = mapper;
@@ -52,7 +52,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
             addToken.ETag = ETag.All;
 
             var tableFounded = await _storageTableService.GetByIdAsync(addToken.PartitionKey, addToken.RowKey);
-            if (tableFounded != null && tableFounded.ExpiresAt <= SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc())
+            if (tableFounded != null && tableFounded.ExpiresAt <= SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc())
             {
                 await _storageTableService.DeleteAsync(addToken.PartitionKey, addToken.RowKey);
             }

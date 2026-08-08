@@ -1,7 +1,7 @@
 using PdfSharp.Fonts;
 using SmartDigitalPsico.Domain.DTO.Report;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Report;
 
 namespace SmartDigitalPsico.Domain.Test.Report;
@@ -34,15 +34,15 @@ public class PDFsharpMigraDocReportAdapterTests
         // Objetivo: renderizar os dois tipos em memória e arquivo.
         // Arrange
         Directory.CreateDirectory(_tempPath);
-        var content = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto
+        var content = new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto
         {
             Pages =
             [
-                new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Name = "Tabela", PageType = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Table, Rows = [new SampleRow { Name = "Ana", Value = 3, Empty = null }], PropertiesToIgnore = ["Empty"] },
-                new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Name = "Texto", PageType = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EReportPageType.Text, Rows = [new SampleRow { Name = "Bruno", Value = 8, Empty = null }], PropertiesToIgnore = ["Empty"] }
+                new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Name = "Tabela", PageType = SmartDigitalPsico.Core.SDK.Domain.Enuns.EReportPageType.Table, Rows = [new SampleRow { Name = "Ana", Value = 3, Empty = null }], PropertiesToIgnore = ["Empty"] },
+                new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Name = "Texto", PageType = SmartDigitalPsico.Core.SDK.Domain.Enuns.EReportPageType.Text, Rows = [new SampleRow { Name = "Bruno", Value = 8, Empty = null }], PropertiesToIgnore = ["Empty"] }
             ]
         };
-        var adapter = new SmartDigitalPsicoAPI.Core.SDK.Domain.Report.PDFsharpMigraDocReportAdapter();
+        var adapter = new SmartDigitalPsico.Core.SDK.Domain.Report.PDFsharpMigraDocReportAdapter();
         var output = Path.Combine(_tempPath, "migradoc.pdf");
 
         // Act

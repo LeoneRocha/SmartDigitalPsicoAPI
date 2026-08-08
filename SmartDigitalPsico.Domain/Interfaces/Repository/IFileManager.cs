@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Http;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Repository
 {

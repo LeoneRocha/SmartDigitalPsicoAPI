@@ -1,6 +1,6 @@
 using AutoMapper;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
@@ -37,12 +37,12 @@ namespace SmartDigitalPsico.Domain.Mapper
         /// </summary>
         public AutoMapperProfile()
         {
-            #region SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBase
-            CreateMap<SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBaseWithNameEmail, SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName>();
-            CreateMap<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName, SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBaseWithNameEmail>();
+            #region SmartDigitalPsico.Core.SDK.Domain.Contracts.EntityBase
+            CreateMap<SmartDigitalPsico.Core.SDK.Domain.Contracts.EntityBaseWithNameEmail, SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName>();
+            CreateMap<SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName, SmartDigitalPsico.Core.SDK.Domain.Contracts.EntityBaseWithNameEmail>();
 
-            CreateMap<SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBase, SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain>();
-            CreateMap<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain, SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts.EntityBase>();
+            CreateMap<SmartDigitalPsico.Core.SDK.Domain.Contracts.EntityBase, SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain>();
+            CreateMap<SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain, SmartDigitalPsico.Core.SDK.Domain.Contracts.EntityBase>();
             #endregion
 
             #region ApplicationConfigSetting

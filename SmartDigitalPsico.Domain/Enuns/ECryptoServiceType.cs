@@ -1,7 +1,7 @@
 namespace SmartDigitalPsico.Domain.Enuns
 {
     /// <summary>
-    /// Enumeração responsável por SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ECryptoServiceType.
+    /// Enumeração responsável por SmartDigitalPsico.Core.SDK.Domain.Enuns.ECryptoServiceType.
     /// Responsabilidade: valores enumerados do domínio.
     /// Relação: usado em entidades, DTOs e regras de negócio.
     /// </summary>

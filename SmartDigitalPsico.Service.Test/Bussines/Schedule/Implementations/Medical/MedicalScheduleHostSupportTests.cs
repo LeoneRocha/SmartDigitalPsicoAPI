@@ -28,7 +28,7 @@ public class MedicalScheduleHostSupportTests
         // Act
         var translated = await ctx.HostSupport.TranslateErrors(
         [
-            new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ErrorResponse { ErrorCode = "E1", DefaultMessage = "msg", Name = "N", FullMessage = "full" }
+            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { ErrorCode = "E1", DefaultMessage = "msg", Name = "N", FullMessage = "full" }
         ]);
         var invalid = await ctx.HostSupport.ValidateEntityAsync(new MedicalCalendar { Id = 1 });
         var entity = ctx.HostSupport.MapNewEntity(new AddMedicalCalendarDto

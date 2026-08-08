@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Hypermedia.Constants;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientHospitalizationInformation;
 
@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient
     /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
     /// Relação: usado pelos Controllers na serialização.
     /// </summary>
-    public class GetPatientHospitalizationInformationEnricher : ContentResponseEnricher<GetPatientHospitalizationInformationDto>
+    public class GetPatientHospitalizationInformationEnricher : SmartDigitalPsico.Core.SDK.Domain.Hypermedia.ContentResponseEnricher<GetPatientHospitalizationInformationDto>
 
     {
         /// <summary>
@@ -22,28 +22,28 @@ namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient
             var path = "api/Patient/v1/PatientHospitalizationInformation/".ToLower();
             string link = GetLink(content.Id, urlHelper, path);
 
-            content.Links.Add(new SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink()
+            content.Links.Add(new SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink()
             {
                 Method = HttpActionVerb.GET,
                 Href = link,
                 Rel = RelationType.self,
                 Type = ResponseTypeFormat.DefaultGet
             });
-            content.Links.Add(new SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink()
+            content.Links.Add(new SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink()
             {
                 Method = HttpActionVerb.POST,
                 Href = link,
                 Rel = RelationType.post,
                 Type = ResponseTypeFormat.DefaultPost
             });
-            content.Links.Add(new SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink()
+            content.Links.Add(new SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink()
             {
                 Method = HttpActionVerb.PUT,
                 Href = link,
                 Rel = RelationType.put,
                 Type = ResponseTypeFormat.DefaultPut
             });
-            content.Links.Add(new SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink()
+            content.Links.Add(new SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink()
             {
                 Method = HttpActionVerb.DELETE,
                 Href = link,

@@ -14,7 +14,7 @@ public class SmtpEmailStrategyTests
         // Arrange
 
         // Act
-        var strategy = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Smtp.SmtpEmailStrategy(new SmtpSettingsDto
+        var strategy = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp.SmtpEmailStrategy(new SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP.SmtpSettingsDto
         {
             SenderEmail = "sender@test.com",
             SenderName = "Sender",
@@ -24,7 +24,7 @@ public class SmtpEmailStrategyTests
             Password = "pass",
             EnableSsl = true
         });
-        var message = new global::SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.SMTP.EmailMessageDto
+        var message = new global::SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP.EmailMessageDto
         {
             Subject = "Test",
             Message = "<p>Hello</p>",

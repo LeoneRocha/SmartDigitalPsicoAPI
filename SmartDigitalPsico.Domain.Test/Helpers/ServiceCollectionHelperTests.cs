@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Service.Helpers;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
@@ -16,7 +15,7 @@ public class ServiceCollectionHelperTests
         var items = new[] { 1, 2, 3, 4 };
 
         // Act
-        var result = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ServiceCollectionHelper.FilterItems(items, [2], [4]);
+        var result = SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.FilterItems(items, [2], [4]);
 
         // Assert
         result.Should().BeEquivalentTo([1, 3]);
@@ -33,7 +32,7 @@ public class ServiceCollectionHelperTests
         services.AddSingleton<ITestService, TestService>();
 
         // Act
-        var result = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ServiceCollectionHelper.GetRegisteredInterfaces(services);
+        var result = SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.GetRegisteredInterfaces(services);
 
         // Assert
         result.Should().Contain(typeof(ITestRepository));
@@ -49,7 +48,7 @@ public class ServiceCollectionHelperTests
         var assembly = Assembly.GetExecutingAssembly();
 
         // Act
-        var result = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ServiceCollectionHelper.GetInterfaces(["Repository"], assembly);
+        var result = SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.GetInterfaces(["Repository"], assembly);
 
         // Assert
         result.Should().ContainSingle(x => x.InterfaceType == typeof(ITestRepository) && x.ImplementationType == typeof(TestRepository));
@@ -64,7 +63,7 @@ public class ServiceCollectionHelperTests
         IServiceCollection services = new ServiceCollection();
 
         // Act
-        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ServiceCollectionHelper.RegisterInterfaces(services, ["Repository"], [typeof(IIgnoredRepository)], [Assembly.GetExecutingAssembly()]);
+        SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.RegisterInterfaces(services, ["Repository"], [typeof(IIgnoredRepository)], [Assembly.GetExecutingAssembly()]);
 
         // Assert
         services.Should().ContainSingle(x => x.ServiceType == typeof(ITestRepository) && x.ImplementationType == typeof(TestRepository) && x.Lifetime == ServiceLifetime.Scoped);

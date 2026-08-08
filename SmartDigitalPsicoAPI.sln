@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
@@ -39,9 +39,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.WebJob.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.WindowsService.Test", "SmartDigitalPsico.WindowsService.Test\SmartDigitalPsico.WindowsService.Test.csproj", "{4CB63151-3848-4F8B-B6BE-F21547AF07BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsicoAPI.Core.SDK", "SmartDigitalPsicoAPI.Core.SDK\SmartDigitalPsicoAPI.Core.SDK.csproj", "{F58C4992-6038-41DF-BE4B-A7C97C2498C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.Core.SDK", "SmartDigitalPsico.Core.SDK\SmartDigitalPsico.Core.SDK.csproj", "{F58C4992-6038-41DF-BE4B-A7C97C2498C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsicoAPI.Core.SDK.Tests", "SmartDigitalPsicoAPI.Core.SDK.Tests\SmartDigitalPsicoAPI.Core.SDK.Tests.csproj", "{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.Core.SDK.Tests", "SmartDigitalPsico.Core.SDK.Tests\SmartDigitalPsico.Core.SDK.Tests.csproj", "{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,9 +15,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     /// </summary>
     public class GlobalizationCulturesController : ControllerBase
     {
-        protected virtual List<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.CultureDisplayDto> GetCultures()
+        protected virtual List<SmartDigitalPsico.Core.SDK.Domain.DTO.CultureDisplayDto> GetCultures()
         {
-            return SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultures();
+            return SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultures();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método Get: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<List<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.CultureDisplayDto>>> Get()
+        public async Task<ActionResult<List<SmartDigitalPsico.Core.SDK.Domain.DTO.CultureDisplayDto>>> Get()
         { 
             await Task.FromResult(0);
             var response = GetCultures();

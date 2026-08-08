@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.PatientFile
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class AddPatientFileDtoservice : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd 
+    public class AddPatientFileDtoservice : SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd 
     {
         /// <summary>
         /// Método AddPatientFileDtoservice: cria ou persiste um novo registro/recurso.

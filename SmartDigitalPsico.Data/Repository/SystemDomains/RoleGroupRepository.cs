@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
@@ -12,12 +12,12 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class RoleGroupRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<RoleGroup>, IRoleGroupRepository
+    public class RoleGroupRepository : SmartDigitalPsico.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<RoleGroup>, IRoleGroupRepository
     {
         /// <summary>
         /// Método RoleGroupRepository: executa a operação RoleGroupRepository.
         /// </summary>
-        public RoleGroupRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context) { }
+        public RoleGroupRepository(IEntityDataContext context) : base(context) { }
 
         /// <summary>
         /// Método FindByIDs: consulta e retorna dados.

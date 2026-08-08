@@ -63,8 +63,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSingleton<ITokenService, TokenService>();
-            services.AddSingleton<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig, ResiliencePolicyConfig>();
-            services.AddSingleton<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.ILocationSaveFileConfigurationDto, SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto>();
+            services.AddSingleton<SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig, ResiliencePolicyConfig>();
+            services.AddSingleton<SmartDigitalPsico.Core.SDK.Domain.Interfaces.ILocationSaveFileConfigurationDto, SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto>();
         } 
     }
 }

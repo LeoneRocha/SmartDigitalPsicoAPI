@@ -1,21 +1,11 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
-
-
 namespace SmartDigitalPsico.Domain.Interfaces.Smtp
 {
     /// <summary>
-    /// Interface (contrato) responsável por IEmailStrategyFactory.
-    /// Responsabilidade: contrato de abstração do domínio.
-    /// Relação: implementado nas camadas Data/Service.
+    /// Shim Obsolete — use SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp.IEmailStrategyFactory.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
-    public interface IEmailStrategyFactory
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public interface IEmailStrategyFactory : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp.IEmailStrategyFactory
     {
-        /// <summary>
-        /// Método CreateStrategy: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        IEmailStrategy CreateStrategy(SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EEmailStrategyType strategyType);
     }
 }

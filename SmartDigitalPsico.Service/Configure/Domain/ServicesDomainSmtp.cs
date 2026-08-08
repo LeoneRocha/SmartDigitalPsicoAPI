@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Smtp;
-using SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Notification;
-using SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Smtp;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
+using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Notification;
+using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
@@ -18,8 +18,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         /// </summary>
         public static void AddDependencies(IServiceCollection services)
         {
-            services.AddSingleton<IEmailService, SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Notification.EmailService>();
-            services.AddSingleton<IEmailStrategyFactory, SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Smtp.EmailStrategyFactory>();
+            services.AddSingleton<IEmailService, SmartDigitalPsico.Core.SDK.Service.Infrastructure.Notification.EmailService>();
+            services.AddSingleton<IEmailStrategyFactory, SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp.EmailStrategyFactory>();
             services.AddSingleton<EmailContext>(); 
         }
     }

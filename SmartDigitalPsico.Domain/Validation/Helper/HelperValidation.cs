@@ -1,100 +1,25 @@
 using FluentValidation.Results;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Validation;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Validation.Helper
 {
     /// <summary>
-    /// Classe responsável por HelperValidation.
-    /// Responsabilidade: validador FluentValidation de regras de negócio.
-    /// Relação: invocado pelos Services antes da persistência.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class HelperValidation
     {
-        /// <summary>
-        /// Método GetErrorsMap: consulta e retorna dados.
-        /// </summary>
-        public static ErrorResponse[] GetErrorsMap(FluentValidation.Results.ValidationResult? validationResult)
-        {
-            if (validationResult == null || validationResult.IsValid) return Array.Empty<ErrorResponse>();
+        public static ErrorResponse[] GetErrorsMap(ValidationResult? validationResult)
+            => SmartDigitalPsico.Core.SDK.Domain.Validation.Helper.HelperValidation.GetErrorsMap(validationResult);
 
-            return validationResult.Errors.Select(ConvertToErrorResponse).ToArray();
-        }
-
-        private static bool IsStructuredErrorCode(string? errorCode)
-            => !string.IsNullOrWhiteSpace(errorCode)
-               && errorCode.StartsWith(ValidationErrorCodes.Project + ".", StringComparison.Ordinal);
-
-        private static ErrorResponse ConvertToErrorResponse(ValidationFailure errorItem)
-        {
-            var errorAdd = new ErrorResponse
-            {
-                FullMessage = errorItem.ErrorMessage,
-                DefaultMessage = errorItem.ErrorMessage,
-                Message = errorItem.ErrorMessage,
-                ErrorCode = errorItem.ErrorCode,
-                Name = errorItem.PropertyName
-            };
-
-            if (errorAdd.Message.Contains('|') && errorAdd.Message.Contains('_'))
-            {
-                var parts = errorAdd.Message.Split('|');
-                // Keep FluentValidation WithErrorCode when it follows SmartDigitalPsico.* convention
-                if (!IsStructuredErrorCode(errorItem.ErrorCode))
-                {
-                    errorAdd.ErrorCode = parts[0];
-                }
-                errorAdd.DefaultMessage = parts[1];
-            }
-            else if (!IsStructuredErrorCode(errorAdd.ErrorCode) && !errorAdd.Message.Contains('_'))
-            {
-                errorAdd.ErrorCode = errorAdd.Message.Replace(" ", "_");
-            }
-
-            return errorAdd;
-        }
-
-        /// <summary>
-        /// Método TranslateErroCode: executa a operação TranslateErroCode.
-        /// </summary>
         public static ErrorResponse TranslateErroCode(ErrorResponse errorItem)
-        {
-            if (errorItem.FullMessage.Contains('|') && errorItem.FullMessage.Contains('_'))
-            {
-                var processedMessage = ApplicationLanguageHelper.ReplaceTokensInMessage(errorItem.FullMessage);
-                var parts = processedMessage.Split('|');
-                if (!IsStructuredErrorCode(errorItem.ErrorCode))
-                {
-                    errorItem.ErrorCode = parts[0];
-                }
-                errorItem.Message = parts[1];
-            }
+            => SmartDigitalPsico.Core.SDK.Domain.Validation.Helper.HelperValidation.TranslateErroCode(errorItem);
 
-            return errorItem;
-        }
-
-        /// <summary>
-        /// Método TranslateErroCode: executa a operação TranslateErroCode.
-        /// </summary>
         public static string TranslateErroCode(string message, string errorCode)
-        {
-            if (!string.IsNullOrEmpty(errorCode))
-            {
-                message = message.Replace("[MaxLength]", errorCode.Replace("[", "").Replace("]", "").Replace(",", ""));
-            }
-            return message;
-        }
+            => SmartDigitalPsico.Core.SDK.Domain.Validation.Helper.HelperValidation.TranslateErroCode(message, errorCode);
 
-        /// <summary>
-        /// Método ConvertValidationFailureListToErroResponse: mapeia ou transforma dados entre modelos.
-        /// </summary>
         public static List<ErrorResponse> ConvertValidationFailureListToErroResponse(List<ValidationFailure> errors)
-        {
-            return errors.DistinctBy(d => d.PropertyName).Select(er => ConvertToErrorResponse(er)).ToList();
-        }
+            => SmartDigitalPsico.Core.SDK.Domain.Validation.Helper.HelperValidation.ConvertValidationFailureListToErroResponse(errors);
     }
 }

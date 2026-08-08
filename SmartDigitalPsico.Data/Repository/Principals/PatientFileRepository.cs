@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.Principals
@@ -12,12 +12,12 @@ namespace SmartDigitalPsico.Data.Repository.Principals
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class PatientFileRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<PatientFile>, IPatientFileRepository
+    public class PatientFileRepository : SmartDigitalPsico.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<PatientFile>, IPatientFileRepository
     {
         /// <summary>
         /// Método PatientFileRepository: executa a operação PatientFileRepository.
         /// </summary>
-        public PatientFileRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context) { }
+        public PatientFileRepository(IEntityDataContext context) : base(context) { }
 
         /// <summary>
         /// Método FindByID: consulta e retorna dados.

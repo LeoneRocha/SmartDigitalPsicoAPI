@@ -4,13 +4,13 @@ using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
 using System.Globalization;
@@ -43,14 +43,14 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         {
             string keyCache = "FindAll_GetApplicationLanguageVO";
 
-            ServiceResponse<List<GetApplicationLanguageDto>> result = await SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.CacheManager.CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(_cacheService, keyCache);
+            ServiceResponse<List<GetApplicationLanguageDto>> result = await SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager.CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(_cacheService, keyCache);
             if (_cacheService.IsEnable())
             {
                 if (result.Data == null)
                 {
                     result = await base.FindAll();
 
-                    await SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.CacheManager.CacheService.SaveDataToCache(keyCache, result.Data, _cacheService);
+                    await SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager.CacheService.SaveDataToCache(keyCache, result.Data, _cacheService);
                 }
             }
             else
@@ -63,7 +63,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         #region GetLocalization
         public static async Task<string> GetLocalization<T>(string key, IStringLocalizer<T> localizer)
         {
-            var findKey = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetNameAndCulture(key);
+            var findKey = SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetNameAndCulture(key);
             string message = localizer.GetString(findKey);
 
             await Task.FromResult("NotFoundLocalization");
@@ -71,7 +71,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             return message;
         }
 
-        public async Task<string> GetLocalization<T>(string key, string defaultMenssage, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService)
+        public async Task<string> GetLocalization<T>(string key, string defaultMenssage, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService)
         {
             string resultLocalization = string.Empty;
             string keyCache = "FindAll_GetApplicationLanguageVO";
@@ -81,7 +81,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             await SaveCache(keyCache);
             try
             {
-                ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.CacheManager.CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
+                ServiceResponse<List<GetApplicationLanguageDto>> resultFromCache = await SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager.CacheService.GetDataFromCache<List<GetApplicationLanguageDto>>(cacheService, keyCache);
 
                 GetApplicationLanguageDto? languageFindFromCache = FindLanguageFromCache(resultFromCache, resourceKey, key, language);
                 if (languageFindFromCache != null)
@@ -144,7 +144,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "GetLocalization: {Message} at: {Time}", ex.Message, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "GetLocalization: {Message} at: {Time}", ex.Message, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
             }
 
             return resultLocalization;
@@ -158,7 +158,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 var result = await ((IApplicationLanguageRepository)_entityRepository).FindAll();
                 var data = result.Select(c => _mapper.Map<GetApplicationLanguageDto>(c)).ToList();
 
-                await SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.CacheManager.CacheService.SaveDataToCache(keyCache, data, _cacheService);
+                await SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager.CacheService.SaveDataToCache(keyCache, data, _cacheService);
             }
         }
 
@@ -185,9 +185,9 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             try
             {
                 ApplicationLanguage entityAdd = _mapper.Map<ApplicationLanguage>(item);
-                entityAdd.CreatedDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.LastAccessDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
                 entityAdd.Enable = true;
 
                 if (response.Success)
@@ -198,7 +198,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
             }
         }
 

@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using DateHelper = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper;
+using DateHelper = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper;
 
 namespace SmartDigitalPsico.WindowsService
 {

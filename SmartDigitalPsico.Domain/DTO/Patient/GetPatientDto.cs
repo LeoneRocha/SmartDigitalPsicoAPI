@@ -2,10 +2,10 @@ using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Abstract;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
 
 namespace SmartDigitalPsico.Domain.DTO.Patient
@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Domain.DTO.Patient
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class GetPatientDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBase, ISupportsHyperMedia
+    public class GetPatientDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBase, ISupportsHyperMedia
     { 
         #region Relationship     
         public GetMedicalDto Medical { get; set; } = new GetMedicalDto();
@@ -42,6 +42,6 @@ namespace SmartDigitalPsico.Domain.DTO.Patient
         public string EmergencyContactPhoneNumber { get; set; } = string.Empty;
         #endregion
 
-        public List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
+        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
     }
 }

@@ -29,7 +29,7 @@ public class MedicalCalenderNotificationServiceTests
 
         // Assert
         context.SendNotification.Verify(x => x.SendNotificationAsync(
-            It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
+            It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
             ENotificationServiceType.Email,
             It.Is<Dictionary<string, string>>(d => d["MedicalName"] == "Dr. Test")), Times.Once);
     }
@@ -218,13 +218,13 @@ public class MedicalCalenderNotificationServiceTests
     private static void SetupTemplate(NotificationContext context, string tag)
     {
         context.Templates.Setup(x => x.GetNotificationTemplatesAsync(tag))
-            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
             {
                 Success = true,
                 Data = new GetNotificationTemplateDto { Subject = "Subject", Body = "<p>Body</p>", TemplateKey = tag }
             });
         context.SendNotification.Setup(x => x.SendNotificationAsync(
-                It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
+                It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
                 It.IsAny<ENotificationServiceType>(),
                 It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);

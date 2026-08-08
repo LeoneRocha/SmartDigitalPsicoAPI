@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Serilog;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.AppException;
+using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using System.Diagnostics;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;

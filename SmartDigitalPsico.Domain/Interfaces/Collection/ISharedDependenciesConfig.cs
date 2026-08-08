@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
     {  
         ILogger Logger { get; }
         IMapper Mapper { get; }
-        SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig PolicyConfig { get; }
+        SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig PolicyConfig { get; }
 
         IConfiguration Configuration { get; }
     }

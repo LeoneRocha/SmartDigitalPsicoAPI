@@ -3,17 +3,11 @@ using System.Security.Cryptography;
 namespace SmartDigitalPsico.Domain.DTO.Security
 {
     /// <summary>
-    /// Classe responsável por RsaCryptoDto.
-    /// Responsabilidade: segurança e autenticação.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
-    public class RsaCryptoDto
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public class RsaCryptoDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Security.RsaCryptoDto
     {
-        public RSAParameters PublicKey { get; set; }
-        public RSAParameters PrivateKey { get; set; }
-        public string PublicKeyBase64 { get; set; } = string.Empty;
-        public string PrivateKeyBase64 { get; set; } = string.Empty;
     }
 }

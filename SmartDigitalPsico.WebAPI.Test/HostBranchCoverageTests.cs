@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Moq;
 using Serilog;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.WebAPI.Configure;
 
 namespace SmartDigitalPsico.WebAPI.Test;

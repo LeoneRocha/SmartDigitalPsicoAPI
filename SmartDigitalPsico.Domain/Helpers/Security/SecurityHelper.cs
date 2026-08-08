@@ -1,89 +1,24 @@
-using Microsoft.IdentityModel.Tokens;
 using SmartDigitalPsico.Domain.Security;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace SmartDigitalPsico.Domain.Helpers.Security
 {
     /// <summary>
-    /// Classe responsável por SecurityHelper.
-    /// Responsabilidade: segurança e autenticação.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class SecurityHelper
     {
-        /// <summary>
-        /// Método CreatePasswordHash: cria ou persiste um novo registro/recurso.
-        /// </summary>
         public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-        /// <summary>
-        /// Método VerifyPasswordHash: executa a operação VerifyPasswordHash.
-        /// </summary>
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
         public static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != passwordHash[i])
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        }
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.VerifyPasswordHash(password, passwordHash, passwordSalt);
 
-
-        /// <summary>
-        /// Método CreateToken: cria ou persiste um novo registro/recurso.
-        /// </summary>
         public static string CreateToken(SecurityDto secVo)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, secVo.Id),
-                new Claim(ClaimTypes.Name, secVo.Name),
-                new Claim(ClaimTypes.Role, secVo.Role)
-            };
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secVo.SecurityKeyConfig));
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreateToken(secVo);
 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var tokendDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(1),
-                SigningCredentials = creds
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokendDescriptor);
-
-            return tokenHandler.WriteToken(token);
-        }
-
-        /// <summary>
-        /// Método IsBase64String: executa a operação IsBase64String.
-        /// </summary>
         public static bool IsBase64String(string base64)
-        {
-            if (string.IsNullOrEmpty(base64))
-            {
-                return false;
-            }
-
-            Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
-            return Convert.TryFromBase64String(base64, buffer, out _);
-        } 
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.IsBase64String(base64);
     }
 }

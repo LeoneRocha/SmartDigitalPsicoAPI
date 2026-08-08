@@ -6,15 +6,15 @@ using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.DTO.Notification;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 
 using SmartDigitalPsico.Domain.Interfaces;
@@ -49,7 +49,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             var dto = (AddNotificationRecordsDto)item;
             dto.NextScheduledSendTime = GetNextScheduledSendTime(dto);
@@ -61,7 +61,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// MÃ©todo Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto item)
+        public override async Task<ServiceResponse<GetNotificationRecordsDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var dto = (UpdateNotificationRecordsDto)item;
             ServiceResponse<GetNotificationRecordsDto> response = new ServiceResponse<GetNotificationRecordsDto>();
@@ -78,7 +78,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 entityUpdate.IsCompleted = dto.IsCompleted;               
                
                 // Atualiza as datas e o usuÃ¡rio modificador
-                entityUpdate.ModifyDate = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
                 response = await base.Validate(entityUpdate);
 
@@ -143,7 +143,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
 
         private static NotificationRuleStatus[] GenerateNotificationRulesDtos(NotificationRule[] notificationRules, MedicalCalendar medicalCalendar)
         {
-            var currentTime  = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
+            var currentTime  = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
 
             return notificationRules
                 .Select(nr => new NotificationRuleStatus
@@ -173,7 +173,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                 TokenId = ParseTokenId(medicalCalendar.TokenRecurrence),
                 NotificationRules = notificationRulesDtos,
                 IsCompleted = isCompleted,
-                FinalSendDate = isCompleted ? (DateTime?)SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null
+                FinalSendDate = isCompleted ? (DateTime?)SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null
             };
         }
 
@@ -201,7 +201,7 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
                         TokenId = tokenId,
                         NotificationRules = notificationRecordDto.NotificationRules,
                         IsCompleted = isCompleted,
-                        FinalSendDate = isCompleted ? (DateTime?)SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null
+                        FinalSendDate = isCompleted ? (DateTime?)SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null
                     };
 
                     await Update(updateNotificationRecordDto);

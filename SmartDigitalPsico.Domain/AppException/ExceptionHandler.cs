@@ -1,33 +1,18 @@
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.AppException
 {
     /// <summary>
-    /// Classe responsável por ExceptionHandler.
-    /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class ExceptionHandler
     {
-        /// <summary>
-        /// Método GerateListErrorResponse: executa a operação GerateListErrorResponse.
-        /// </summary>
         public static List<ErrorResponse> GerateListErrorResponse(Exception ex)
-        {
-            List<ErrorResponse> result = new List<ErrorResponse>();
-            result.Add(new ErrorResponse() { Name = ex.Source ?? "SmartDigitalPsico", Message = ex.Message, ErrorCode = ex.HResult.ToString() });
+            => SmartDigitalPsico.Core.SDK.Domain.AppException.ExceptionHandler.GerateListErrorResponse(ex);
 
-            return result;
-        }
-
-        /// <summary>
-        /// Método GetMessage: consulta e retorna dados.
-        /// </summary>
         public static string GetMessage(Exception ex)
-        {
-            return $" {ex.Message} - {ex.InnerException?.Message}";
-        }
+            => SmartDigitalPsico.Core.SDK.Domain.AppException.ExceptionHandler.GetMessage(ex);
     }
 }

@@ -5,10 +5,9 @@ using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Security;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Service.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Service.Infrastructure.CacheManager;
-using SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Notification;
+using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Notification;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
@@ -39,7 +38,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         private static void RegisterManuallyAddedServices(IServiceCollection services)
         {
             // Bridge host: Core CacheService + ApplicationCacheLog (auditoria de produto).
-            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService, SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService>();
+            services.AddScoped<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService, SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService>();
             services.AddScoped<INotificationPlatformServiceFactory, NotificationPlatformServiceFactory>();
 
             // Schedule Core — write / read / conflict (CQRS-ready)
@@ -75,16 +74,16 @@ namespace SmartDigitalPsico.Service.Configure.Domain
 
             var ignoredInterfaces = new List<Type>
             {
-                typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoService),
+                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService),
                 typeof(IEmailService),
                 typeof(ITokenService),
                 typeof(IAuditContextService),
-                typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService),
+                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService),
                 typeof(INotificationPlatformServiceFactory)
             }; 
-            ignoredInterfaces.AddRange(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ServiceCollectionHelper.GetRegisteredInterfaces(services));
+            ignoredInterfaces.AddRange(SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.GetRegisteredInterfaces(services));
 
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.ServiceCollectionHelper.RegisterInterfaces(services, [ServiceSuffix], ignoredInterfaces, assemblies);
+            SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.RegisterInterfaces(services, [ServiceSuffix], ignoredInterfaces, assemblies);
         }
     }
 }

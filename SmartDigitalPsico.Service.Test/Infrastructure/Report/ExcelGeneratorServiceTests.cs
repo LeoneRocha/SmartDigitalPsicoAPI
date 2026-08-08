@@ -19,13 +19,13 @@ public class ExcelGeneratorServiceTests
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = tempRoot })
             .Build();
-        var generator = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGenerator>();
-        generator.Setup(x => x.Generate(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto>(), It.IsAny<string>()))
+        var generator = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGenerator>();
+        generator.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto>(), It.IsAny<string>()))
             .Returns(Task.CompletedTask);
-        var factory = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorFactory>();
+        var factory = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorFactory>();
         factory.Setup(x => x.Create()).Returns(generator.Object);
         var service = new ExcelGeneratorService(configuration, factory.Object);
-        var workbook = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto { FileName = "report", FolderOutput = "exports" };
+        var workbook = new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto { FileName = "report", FolderOutput = "exports" };
 
         // Act
         var path = await service.Generate(workbook);

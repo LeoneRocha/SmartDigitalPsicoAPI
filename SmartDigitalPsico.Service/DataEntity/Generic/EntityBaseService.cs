@@ -1,19 +1,22 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Service.DataEntity.Generic;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 using SmartDigitalPsico.Domain.Constants.I18nKeyConstants;
 
 namespace SmartDigitalPsico.Service.DataEntity.Generic
 {
-    [Obsolete("Use SmartDigitalPsicoAPI.Core.SDK.Service.DataEntity.Generic.EntityBaseService instead.")]
-    public class EntityBaseService<TEntity, TEntityResult> : SmartDigitalPsicoAPI.Core.SDK.Service.DataEntity.Generic.EntityBaseService<TEntity, TEntityResult>
-        where TEntity : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityBase, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityBaseLog
+    /// <summary>
+    /// Bridge de produto sobre EntityBaseService do Core — injeta i18n via IApplicationLanguageService.
+    /// Serviços de domínio devem herdar este tipo. Base canônica: SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic.EntityBaseService.
+    /// </summary>
+    public class EntityBaseService<TEntity, TEntityResult> : SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic.EntityBaseService<TEntity, TEntityResult>
+        where TEntity : SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBaseLog
         where TEntityResult : class
     {
         protected readonly Lazy<IApplicationLanguageService> _applicationLanguageService;

@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SmartDigitalPsico.Data.Context.Configure.Helper;
+using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
+using SmartDigitalPsico.Core.SDK.Data.Context.Configure;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
-using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Entity
@@ -14,7 +14,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
     /// Responsabilidade: configuração de startup/DI da aplicação.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public class PatientHospitalizationInformationConfiguration : EntityBaseConfiguration<PatientHospitalizationInformation>
+    public class PatientHospitalizationInformationConfiguration : SmartDigitalPsico.Core.SDK.Data.Context.Configure.EntityBaseConfiguration<PatientHospitalizationInformation>
     {
         /// <summary>
         /// Método PatientHospitalizationInformationConfiguration: executa a operação PatientHospitalizationInformationConfiguration.

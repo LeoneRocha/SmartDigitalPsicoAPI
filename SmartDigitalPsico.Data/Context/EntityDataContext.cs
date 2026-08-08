@@ -9,8 +9,11 @@ namespace SmartDigitalPsico.Data.Context
     /// Classe responsável por EntityDataContext.
     /// Responsabilidade: contexto EF Core / configuração de dados.
     /// Relação: usado pelos repositórios da camada Data.
+    /// Implementa o shim de produto (DbSets); o contrato genérico canônico está em Core.SDK.
     /// </summary>
+#pragma warning disable SDP_CORE_SDK_REPO // host IEntityDataContext: DbSets de produto
     public abstract class EntityDataContext : DbContext, IEntityDataContext
+#pragma warning restore SDP_CORE_SDK_REPO
     {
         /// <summary>
         /// Método EntityDataContext: executa a operação EntityDataContext.

@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator
 {

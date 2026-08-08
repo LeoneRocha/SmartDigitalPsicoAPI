@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
@@ -25,8 +25,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                   CreatedDate = MockSeedDates.SeedUtc,
                   ModifyDate = MockSeedDates.SeedUtc,
                   LastAccessDate = MockSeedDates.SeedUtc,
-                  TypeLocationCache = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory,
-                  TypeLocationSaveFiles = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.DataBase,
+                  TypeLocationCache = SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory,
+                  TypeLocationSaveFiles = SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.DataBase,
                   TypeLocationQueeMessaging = ETypeLocationQueeMessaging.MongoDB,
                   EndPointUrl_Cache = string.Empty,
                   EndPointUrl_StorageFiles = string.Empty,

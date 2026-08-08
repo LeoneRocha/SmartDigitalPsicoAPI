@@ -1,4 +1,4 @@
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using Bogus;
 using SmartDigitalPsico.Domain.ModelEntity;
 

@@ -1,19 +1,11 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {
     /// <summary>
-    /// Interface (contrato) responsável por IStorageTableRepositoryFactory.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — use SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageTableRepositoryFactory.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
-    public interface IStorageTableRepositoryFactory
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public interface IStorageTableRepositoryFactory : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageTableRepositoryFactory
     {
-        IStorageTableContract<T> Create<T>(SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EStorageAdapterType eStorageAdapterType, string tableName) where T : BaseEntityTable, new();
     }
 }

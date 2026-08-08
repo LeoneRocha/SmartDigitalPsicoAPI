@@ -1,8 +1,8 @@
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Security;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +18,7 @@ using Moq;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Data.Context.Configure;
+using SmartDigitalPsico.Core.SDK.Data.Context.Configure;
 using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
 using SmartDigitalPsico.Data.Repository.Infrastructure;
@@ -61,7 +61,7 @@ public class RemainingDataCoverageTests : BaseTests
     public async Task FileDiskRepository_SaveNullDataAndExistsMiss_ReturnExpectedResults()
     {
         // Arrange
-        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
         var path = Path.Combine(_temporaryDirectory, "nested", "file.bin");
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
         await File.WriteAllBytesAsync(path, [1, 2]);
@@ -89,7 +89,7 @@ public class RemainingDataCoverageTests : BaseTests
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(value => value.Exists(It.IsAny<FileData>())).Returns(true);
         disk.Setup(value => value.Get(It.IsAny<FileData>())).ReturnsAsync(System.Text.Encoding.UTF8.GetBytes("null"));
-        var cache = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+        var cache = new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             PathCache = _temporaryDirectory,
             ExtensionCache = ".cache"
@@ -147,7 +147,7 @@ public class RemainingDataCoverageTests : BaseTests
     public async Task FileDiskRepository_ExistsAndGetPathBranches_AreCovered()
     {
         // Arrange
-        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
         var folder = Path.Combine(_temporaryDirectory, "exists");
         var filePath = Path.Combine(folder, "found.bin");
         Directory.CreateDirectory(folder);
@@ -178,11 +178,11 @@ public class RemainingDataCoverageTests : BaseTests
         // Arrange
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(r => r.Get(It.IsAny<FileData>())).ReturnsAsync((byte[]?)null);
-        var azure = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
+        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = _temporaryDirectory })
             .Build();
-        var manager = new FileManager(configuration, new SmartDigitalPsico.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
+        var manager = new FileManager(configuration, new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
         azure.Setup(a => a.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Returns(Task.CompletedTask);
         var entity = new MedicalFile
@@ -208,12 +208,12 @@ public class RemainingDataCoverageTests : BaseTests
     {
         // Arrange
         var cache = new MemoryCache(new MemoryCacheOptions());
-        var options = Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+        var options = Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             AbsoluteExpirationInHours = 1,
             SlidingExpirationInMinutes = 1
         });
-        var service = new AuditContextService(new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository(cache, options));
+        var service = new AuditContextService(new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository(cache, options));
         var entry = new AuditDataEntityLog
         {
             AuditDate = DateTime.UtcNow,
@@ -249,8 +249,8 @@ public class RemainingDataCoverageTests : BaseTests
     {
         // Arrange
         var cache = new MemoryCache(new MemoryCacheOptions());
-        var options = Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto { AbsoluteExpirationInHours = 1, SlidingExpirationInMinutes = 1 });
-        var service = new AuditContextService(new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository(cache, options));
+        var options = Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto { AbsoluteExpirationInHours = 1, SlidingExpirationInMinutes = 1 });
+        var service = new AuditContextService(new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository(cache, options));
         var longJson = new string('x', 9000);
         var truncated = typeof(AuditContextService).GetMethod("TruncateAuditJson", BindingFlags.NonPublic | BindingFlags.Static)!
             .Invoke(null, [longJson]) as string;
@@ -287,13 +287,13 @@ public class RemainingDataCoverageTests : BaseTests
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(d => d.Save(It.IsAny<FileData>())).ReturnsAsync(true);
         disk.Setup(d => d.Get(It.IsAny<FileData>())).ReturnsAsync([1, 2]);
-        var azure = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
-        azure.Setup(a => a.UploadFileReturnUrl(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto>())).ReturnsAsync("https://blob/file");
+        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
+        azure.Setup(a => a.UploadFileReturnUrl(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.BlobFileDto>())).ReturnsAsync("https://blob/file");
         azure.Setup(a => a.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = _temporaryDirectory })
             .Build();
-        var cloudManager = new FileManager(configuration, new SmartDigitalPsico.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
+        var cloudManager = new FileManager(configuration, new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
         var file = new FormFile(new MemoryStream([1, 2, 3]), 0, 3, "file", "upload.txt");
         var entity = new MedicalFile();
 
@@ -323,7 +323,7 @@ public class RemainingDataCoverageTests : BaseTests
     public async Task FileDiskRepository_PathCombinationAndDeleteBranches_CoverAllPaths()
     {
         // Arrange
-        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
         var folder = Path.Combine(_temporaryDirectory, "combo");
         Directory.CreateDirectory(folder);
         var combined = Path.Combine(folder, "child.bin");
@@ -356,7 +356,7 @@ public class RemainingDataCoverageTests : BaseTests
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(d => d.Exists(It.IsAny<FileData>())).Returns(true);
         disk.Setup(d => d.Get(It.IsAny<FileData>())).ReturnsAsync(System.Text.Encoding.UTF8.GetBytes("{\"Name\":\"cached\"}"));
-        var cache = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+        var cache = new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             PathCache = _temporaryDirectory,
             ExtensionCache = ".cache"
@@ -379,9 +379,9 @@ public class RemainingDataCoverageTests : BaseTests
     public async Task GenericStorageQueueRepository_DelegatesQueueOperations()
     {
         // Arrange
-        var adapter = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueContract>();
+        var adapter = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueContract>();
         adapter.Setup(value => value.DequeueMessageAsync()).ReturnsAsync("payload");
-        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Infrastructure.GenericStorageQueueRepository(adapter.Object, "queue");
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.Infrastructure.GenericStorageQueueRepository(adapter.Object, "queue");
 
         // Act
         await repository.EnqueueMessageAsync("hello");
@@ -415,7 +415,7 @@ public class RemainingDataCoverageTests : BaseTests
     {
         // Arrange
         var builder = new ModelBuilder(new ConventionSet()).Entity<ApplicationCacheLog>();
-        var configuration = new TestEntityBaseConfiguration(SmartDigitalPsico.Domain.Enuns.ETypeDataBase.Mysql);
+        var configuration = new TestEntityBaseConfiguration(ETypeDataBase.Mysql);
         Action act = () => configuration.Configure(builder);
 
         // Act
@@ -572,7 +572,7 @@ public class RemainingDataCoverageTests : BaseTests
     public async Task FileDiskRepository_DeletesDirectFilePathAndCacheMissBranches()
     {
         // Arrange
-        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
         var directFile = Path.Combine(_temporaryDirectory, "direct.bin");
         await File.WriteAllBytesAsync(directFile, [9, 9]);
 
@@ -582,7 +582,7 @@ public class RemainingDataCoverageTests : BaseTests
         // Assert
         File.Exists(directFile).Should().BeFalse();
 
-        var cache = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(repository, Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+        var cache = new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(repository, Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             PathCache = _temporaryDirectory,
             ExtensionCache = ".cache"
@@ -592,7 +592,7 @@ public class RemainingDataCoverageTests : BaseTests
         disk.SetupSequence(value => value.Get(It.IsAny<FileData>()))
             .ReturnsAsync((byte[]?)null)
             .ReturnsAsync(System.Text.Encoding.UTF8.GetBytes("null"));
-        var missCache = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+        var missCache = new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             PathCache = _temporaryDirectory,
             ExtensionCache = ".cache"
@@ -608,7 +608,7 @@ public class RemainingDataCoverageTests : BaseTests
     public async Task FileDiskRepository_DetectsCorruptedWriteDuringVerification()
     {
         // Arrange
-        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
         Exception? failure = null;
 
         // Act
@@ -656,7 +656,7 @@ public class RemainingDataCoverageTests : BaseTests
     public async Task UserRepository_RefreshUserInfo_WhenLookupMissesAfterExists_ReturnsEmptyUser()
     {
         // Arrange
-        var context = new Mock<SmartDigitalPsico.Data.Context.Interface.IEntityDataContext>();
+        var context = new Mock<SmartDigitalPsico.Core.SDK.Data.Context.Interface.IEntityDataContext>();
         var provider = new FlipAsyncQueryProvider();
         var users = new FlipAsyncQueryable<User>(provider);
         var dbSet = new Mock<DbSet<User>>();
@@ -669,7 +669,7 @@ public class RemainingDataCoverageTests : BaseTests
         context.Setup(value => value.Set<User>()).Returns(dbSet.Object);
 
         var repository = new UserRepository(context.Object);
-        var field = typeof(SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<User>)
+        var field = typeof(SmartDigitalPsico.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<User>)
             .GetField("_dataset", BindingFlags.Instance | BindingFlags.NonPublic);
         field!.SetValue(repository, dbSet.Object);
 
@@ -688,7 +688,7 @@ public class RemainingDataCoverageTests : BaseTests
         // Arrange
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(value => value.Get(It.IsAny<FileData>())).ReturnsAsync([1, 2, 3]);
-        var azure = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
+        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
         azure.Setup(value => value.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Returns(async (string _, string __, string path) =>
             {
@@ -699,8 +699,8 @@ public class RemainingDataCoverageTests : BaseTests
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = _temporaryDirectory })
             .Build();
-        var databaseManager = new FileManager(configuration, new SmartDigitalPsico.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.DataBase }, disk.Object, azure.Object);
-        var azureManager = new FileManager(configuration, new SmartDigitalPsico.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
+        var databaseManager = new FileManager(configuration, new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.DataBase }, disk.Object, azure.Object);
+        var azureManager = new FileManager(configuration, new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
 
         var databaseEntity = new MedicalFile
         {
@@ -849,7 +849,7 @@ public class RemainingDataCoverageTests : BaseTests
         schedule.OwnerKey = "owner-2";
         cache.CacheKey = new string('x', 9000);
 
-        var service = new AuditContextService(new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository(new MemoryCache(new MemoryCacheOptions()), Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+        var service = new AuditContextService(new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository(new MemoryCache(new MemoryCacheOptions()), Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             AbsoluteExpirationInHours = 1,
             SlidingExpirationInMinutes = 1
@@ -904,7 +904,7 @@ public class RemainingDataCoverageTests : BaseTests
         var getKeyValues = typeof(AuditContextService).GetMethod("GetKeyValues", BindingFlags.NonPublic | BindingFlags.Static)!;
         var keyValue = getKeyValues.Invoke(null, [cacheEntry]) as string;
 
-        var fileDisk = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        var fileDisk = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
         var emptyPathFile = Path.Combine(_temporaryDirectory, "direct.bin");
         await File.WriteAllBytesAsync(emptyPathFile, [4, 5]);
         var folderPath = Path.Combine(_temporaryDirectory, "folder-read");
@@ -914,7 +914,7 @@ public class RemainingDataCoverageTests : BaseTests
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(d => d.Exists(It.IsAny<FileData>())).Returns(true);
         disk.Setup(d => d.Get(It.IsAny<FileData>())).ReturnsAsync(System.Text.Encoding.UTF8.GetBytes("null"));
-        var diskCache = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+        var diskCache = new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             PathCache = _temporaryDirectory,
             ExtensionCache = ".cache"
@@ -1001,7 +1001,7 @@ public class RemainingDataCoverageTests : BaseTests
     public async Task FileDiskRepository_GetDirectPathWhenCombinedMissing_CoversElseBranch()
     {
         // Arrange
-        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
         var direct = Path.Combine(_temporaryDirectory, "direct-only.bin");
         await File.WriteAllBytesAsync(direct, [3, 4, 5]);
 
@@ -1021,7 +1021,7 @@ public class RemainingDataCoverageTests : BaseTests
         var disk = new Mock<IFileDiskRepository>();
         disk.Setup(d => d.Exists(It.IsAny<FileData>())).Returns(true);
         disk.Setup(d => d.Get(It.IsAny<FileData>())).ReturnsAsync(System.Text.Encoding.UTF8.GetBytes("{\"Name\":\"hit\"}"));
-        var cache = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+        var cache = new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(disk.Object, Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             PathCache = _temporaryDirectory,
             ExtensionCache = ".cache"
@@ -1153,7 +1153,7 @@ public class RemainingDataCoverageTests : BaseTests
 
     private sealed class TestEntityBaseConfiguration : EntityBaseConfiguration<ApplicationCacheLog>
     {
-        public TestEntityBaseConfiguration(SmartDigitalPsico.Domain.Enuns.ETypeDataBase eTypeDataBase) : base(eTypeDataBase)
+        public TestEntityBaseConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase)
         {
         }
     }

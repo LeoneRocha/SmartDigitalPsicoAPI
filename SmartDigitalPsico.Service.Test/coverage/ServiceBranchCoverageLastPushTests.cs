@@ -69,15 +69,15 @@ public class ServiceBranchCoverageLastPushTests
             throw new InvalidOperationException("boom-keep");
         };
 
-        var memoryNull = new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>();
+        var memoryNull = new Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>();
         memoryNull.Setup(x => x.TryGet(It.IsAny<string>(), out It.Ref<CacheValue?>.IsAny))
             .Returns(throwNull);
 
-        var memoryKeep = new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>();
+        var memoryKeep = new Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>();
         memoryKeep.Setup(x => x.TryGet(It.IsAny<string>(), out It.Ref<CacheValue?>.IsAny))
             .Returns(throwKeep);
 
-        var disk = new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>();
+        var disk = new Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>();
         var logs = new Mock<IApplicationCacheLogRepository>();
         disk.Setup(x => x.SetAsync("with-null-tostring", It.IsAny<CachePropsNullToString>())).ReturnsAsync(true);
         logs.Setup(x => x.Create(It.IsAny<ApplicationCacheLog>())).ReturnsAsync(new ApplicationCacheLog());
@@ -88,9 +88,9 @@ public class ServiceBranchCoverageLastPushTests
                 DateTimeSlidingExpiration = null!
             }));
 
-        var memoryNullService = CreateCache(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory, memory: memoryNull);
-        var memoryKeepService = CreateCache(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory, memory: memoryKeep);
-        var diskService = CreateCache(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Disk, disk: disk, logs: logs);
+        var memoryNullService = CreateCache(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory, memory: memoryNull);
+        var memoryKeepService = CreateCache(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory, memory: memoryKeep);
+        var diskService = CreateCache(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Disk, disk: disk, logs: logs);
 
         var tryGetNull = memoryNullService.TryGet("k", out CacheValue valueNull);
         var tryGetKeep = memoryKeepService.TryGet("k2", out CacheValue valueKeep);
@@ -147,7 +147,7 @@ public class ServiceBranchCoverageLastPushTests
         repository.Setup(x => x.GetByUniqueTokenAsync("upd-null-end"))
             .ReturnsAsync(new ScheduleCalendar { Id = 10, UniqueToken = "upd-null-end", ScheduleData = null! });
         conflict.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:1", It.IsAny<ScheduleCalendarItem[]>(), "upd-null-end"))
-            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         var service = new ScheduleUpdateService(repository.Object, conflict.Object, Mock.Of<ILogger>());
 
         // Act
@@ -326,7 +326,7 @@ public class ServiceBranchCoverageLastPushTests
     {
         // Arrange
         var ctx = new UserServiceContext();
-        SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
+        SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
         var adminNoLang = new User
         {
             Id = 40,
@@ -798,7 +798,7 @@ public class ServiceBranchCoverageLastPushTests
     public async Task MedicalFile_FindByID_FileNameNullAndNonNull_CoverBranches()
     {
         // Arrange
-        async Task<global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<GetMedicalFileDto>> RunAsync(string? fileName)
+        async Task<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetMedicalFileDto>> RunAsync(string? fileName)
         {
             var shared = new ServiceTestContext();
             var mapper = new Mock<IMapper>();
@@ -885,7 +885,7 @@ public class ServiceBranchCoverageLastPushTests
         // Arrange
         var memoryNull = new ThrowingNullOutMemoryCache();
         var memoryKeep = new ThrowingKeepOutMemoryCache();
-        var disk = new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>();
+        var disk = new Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>();
         var logs = new Mock<IApplicationCacheLogRepository>();
         disk.Setup(x => x.SetAsync(It.IsAny<string>(), It.IsAny<CachePropsNullToString>())).ReturnsAsync(true);
         logs.Setup(x => x.Create(It.IsAny<ApplicationCacheLog>())).ReturnsAsync(new ApplicationCacheLog());
@@ -893,9 +893,9 @@ public class ServiceBranchCoverageLastPushTests
             memoryNull,
             disk.Object,
             logs.Object,
-            Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+            Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
             {
-                TypeCache = global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory,
+                TypeCache = global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory,
                 IsEnable = true,
                 AbsoluteExpirationInHours = 1,
                 SlidingExpirationInMinutes = 5
@@ -904,14 +904,14 @@ public class ServiceBranchCoverageLastPushTests
             memoryKeep,
             disk.Object,
             logs.Object,
-            Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+            Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
             {
-                TypeCache = global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory,
+                TypeCache = global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory,
                 IsEnable = true,
                 AbsoluteExpirationInHours = 1,
                 SlidingExpirationInMinutes = 5
             }));
-        var diskService = CreateCache(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Disk, disk: disk, logs: logs);
+        var diskService = CreateCache(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Disk, disk: disk, logs: logs);
 
         var tryGetNull = memoryNullService.TryGet("k", out CacheValue valueNull);
         var tryGetKeep = memoryKeepService.TryGet("k2", out CacheValue valueKeep);
@@ -964,7 +964,7 @@ public class ServiceBranchCoverageLastPushTests
         {
             Id = 77,
             RefreshToken = "good-refresh",
-            RefreshTokenExpiryTime = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(3)
+            RefreshTokenExpiryTime = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(3)
         };
         userCtx.TokenService.Setup(x => x.GetPrincipalFromExpiredToken("acc77")).Returns(principal);
         userCtx.Context.UserRepository.Setup(x => x.FindByID(77)).ReturnsAsync(user);
@@ -1052,9 +1052,9 @@ public class ServiceBranchCoverageLastPushTests
     public void AzureBlobAdapter_ResolveBlobName_BothSides()
     {
         // Arrange
-        var fromPath = SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter.ResolveBlobName(null!, @"C:\temp\file.pdf");
-        var fromPathEmpty = SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter.ResolveBlobName("", @"C:\temp\file.pdf");
-        var fromName = SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter.ResolveBlobName("explicit.bin", @"C:\temp\file.pdf");
+        var fromPath = SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter.ResolveBlobName(null!, @"C:\temp\file.pdf");
+        var fromPathEmpty = SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter.ResolveBlobName("", @"C:\temp\file.pdf");
+        var fromName = SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter.ResolveBlobName("explicit.bin", @"C:\temp\file.pdf");
 
         // Act
 
@@ -1090,19 +1090,19 @@ public class ServiceBranchCoverageLastPushTests
         missing.Should().NotBeNull();
     }
 
-    private static SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity> CreateTableAdapterWithClient(TableClient client)
-        => new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity>(client);
+    private static SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity> CreateTableAdapterWithClient(TableClient client)
+        => new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity>(client);
 
     private static SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService CreateCache(
-        global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache type,
-        Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>? memory = null!,
-        Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>? disk = null!,
+        global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache type,
+        Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>? memory = null!,
+        Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>? disk = null!,
         Mock<IApplicationCacheLogRepository>? logs = null!)
         => new(
-            (memory ?? new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>()).Object,
-            (disk ?? new Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>()).Object,
+            (memory ?? new Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>()).Object,
+            (disk ?? new Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>()).Object,
             (logs ?? new Mock<IApplicationCacheLogRepository>()).Object,
-            Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+            Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
             {
                 TypeCache = type,
                 IsEnable = true,
@@ -1133,7 +1133,7 @@ public class ServiceBranchCoverageLastPushTests
         public string? DateTimeSlidingExpiration { get; set; }
     }
 
-    private sealed class ThrowingNullOutMemoryCache : global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository
+    private sealed class ThrowingNullOutMemoryCache : global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository
     {
         public bool TryGet<T>(string cacheKey, out T? value)
         {
@@ -1148,7 +1148,7 @@ public class ServiceBranchCoverageLastPushTests
         public bool Remove(string cacheKey) => false;
     }
 
-    private sealed class ThrowingKeepOutMemoryCache : global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository
+    private sealed class ThrowingKeepOutMemoryCache : global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository
     {
         public bool TryGet<T>(string cacheKey, out T? value)
         {
@@ -1166,7 +1166,7 @@ public class ServiceBranchCoverageLastPushTests
     private sealed class EntityBaseProbeContext
     {
         public ServiceTestContext Shared { get; } = new();
-        public Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
+        public Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
         public Mock<IMapper> Mapper { get; } = new();
         public SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Gender, GetGenderDto> Service { get; }
@@ -1195,7 +1195,7 @@ public class ServiceBranchCoverageLastPushTests
     {
         public ServiceTestContext Shared { get; } = new();
         public Mock<IApplicationLanguageRepository> Repository => Shared.ApplicationLanguageRepository;
-        public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService> Cache => Shared.Cache;
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService> Cache => Shared.Cache;
         public ApplicationLanguageService Service { get; }
 
         public ApplicationLanguageProbeContext()
@@ -1216,7 +1216,7 @@ public class ServiceBranchCoverageLastPushTests
     {
         public ServiceTestContext Context { get; } = new();
         public Mock<IRoleGroupRepository> RoleGroupRepository { get; } = new();
-        public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto> TokenConfiguration { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto> TokenConfiguration { get; } = new();
         public Mock<ITokenService> TokenService { get; } = new();
         public Mock<ITokenSessionPersistenceService> TokenSessionService { get; } = new();
         public Mock<IValidator<User>> Validator { get; } = new();
@@ -1224,7 +1224,7 @@ public class ServiceBranchCoverageLastPushTests
 
         public UserServiceContext()
         {
-            var authConfig = Options.Create(new AuthConfigurationDto { IsEnable = true, TypeApiCredential = global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt });
+            var authConfig = Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto { IsEnable = true, TypeApiCredential = global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt });
             Service = new UserService(
                 Context.SharedServices,
                 Context.Config,
@@ -1240,7 +1240,7 @@ public class ServiceBranchCoverageLastPushTests
 
     private sealed class EntityProbeContext
     {
-        public Mock<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
+        public Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
         public Mock<IMapper> Mapper { get; } = new();
         public ProbeEntityBaseService Service { get; }
@@ -1264,7 +1264,7 @@ public class ServiceBranchCoverageLastPushTests
             ISharedServices sharedServices,
             ISharedDependenciesConfig dependencies,
             ISharedRepositories repositories,
-            global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender> repository,
+            global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender> repository,
             IValidator<Gender> validator)
             : base(sharedServices, dependencies, repositories, repository, validator)
         {
@@ -1275,7 +1275,7 @@ public class ServiceBranchCoverageLastPushTests
     {
         public ServiceTestContext Context { get; } = new();
         public Mock<IApplicationLanguageRepository> Repository => Context.ApplicationLanguageRepository;
-        public Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService> Cache => Context.Cache;
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService> Cache => Context.Cache;
         public ApplicationLanguageService Service { get; }
 
         public ApplicationLanguageServiceContext()

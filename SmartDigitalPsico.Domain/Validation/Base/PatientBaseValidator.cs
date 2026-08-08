@@ -1,7 +1,7 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Validation;
 
 namespace SmartDigitalPsico.Domain.Validation.Base
@@ -11,15 +11,15 @@ namespace SmartDigitalPsico.Domain.Validation.Base
     /// Responsabilidade: validador FluentValidation de regras de negócio.
     /// Relação: invocado pelos Services antes da persistência.
     /// </summary>
-    public class PatientBaseValidator<T> : AbstractValidator<T>, IPatientBaseValidator<T> where T : IEntityPatientBase, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityBase
+    public class PatientBaseValidator<T> : AbstractValidator<T>, IPatientBaseValidator<T> where T : IEntityPatientBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase
     {
         protected readonly IPatientRepository _patientRepository;
-        protected readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<T> _entityRepository;
+        protected readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<T> _entityRepository;
 
         /// <summary>
         /// Método PatientBaseValidator: executa a operação PatientBaseValidator.
         /// </summary>
-        public PatientBaseValidator(IPatientRepository patientRepository, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<T> entityRepository)
+        public PatientBaseValidator(IPatientRepository patientRepository, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<T> entityRepository)
         {
             _patientRepository = patientRepository;
             _entityRepository = entityRepository;

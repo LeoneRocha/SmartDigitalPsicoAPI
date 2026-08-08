@@ -3,7 +3,7 @@ using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
 
 namespace SmartDigitalPsico.Service.DataEntity.Generic
@@ -14,8 +14,8 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
     public class ReportBaseService<TEntity, Repo>
-        where TEntity : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityBase, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityBaseLog
-        where Repo : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<TEntity>
+        where TEntity : SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBaseLog
+        where Repo : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<TEntity>
 
     {
         protected readonly IMapper _mapper;
@@ -23,9 +23,9 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         protected readonly IValidator<TEntity> _entityValidator;
         protected long UserId { get; private set; }
         protected readonly IApplicationLanguageRepository _applicationLanguageRepository;
-        protected readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService _cacheService;
+        protected readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService _cacheService;
         protected readonly Serilog.ILogger _logger;
-        protected readonly SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig _policyConfig;
+        protected readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig _policyConfig;
          
         /// <summary>
         /// Método ReportBaseService: executa a operação ReportBaseService.

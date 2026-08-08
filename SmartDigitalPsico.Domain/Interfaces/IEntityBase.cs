@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 
 namespace SmartDigitalPsico.Domain.Interfaces
 { 
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
-    public interface IEntityBase : SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityBase 
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public interface IEntityBase : SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase 
     { 
     } 
 }

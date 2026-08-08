@@ -1,51 +1,33 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.API
 {
     /// <summary>
-    /// Classe responsável por ApiBaseController.
-    /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Bridge de produto sobre ApiBaseController do Core — aplica cultura via IUserRepository.
+    /// Controllers da WebAPI devem herdar este tipo para manter i18n por usuário.
+    /// Base canônica: SmartDigitalPsico.Core.SDK.API.ApiBaseController.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
-    public abstract class ApiBaseController : ControllerBase
+    public abstract class ApiBaseController : SmartDigitalPsico.Core.SDK.API.ApiBaseController
     {
-        protected AuthConfigurationDto _configurationAuth;
+        private IUserRepository? UserRepository
+            => HttpContext?.RequestServices.GetService(typeof(IUserRepository)) as IUserRepository;
 
-        private IUserRepository? _userRepository
-        {
-            get
-            {
-                return HttpContext.RequestServices.GetService(typeof(IUserRepository)) as IUserRepository;
-            }
-        }
-
-        /// <summary>
-        /// Método ApiBaseController: executa a operação ApiBaseController.
-        /// </summary>
         protected ApiBaseController(IOptions<AuthConfigurationDto> configurationAuth)
+            : base(configurationAuth)
         {
-            _configurationAuth = configurationAuth.Value;
         }
 
-        /// <summary>
-        /// Método SetCurrentCulture: configura estado ou dependencias.
-        /// </summary>
-        protected async Task SetCurrentCulture()
+        protected override async Task SetCurrentCulture()
         {
             long userId = GetUserIdCurrent();
-            if (_userRepository != null)
+            if (UserRepository != null)
             {
-                User userCurrent = await _userRepository.FindByID(userId);
+                User userCurrent = await UserRepository.FindByID(userId);
                 if (!string.IsNullOrWhiteSpace(userCurrent.Language))
                 {
                     ApplyCulture(new CultureInfo(userCurrent.Language));
@@ -53,23 +35,9 @@ namespace SmartDigitalPsico.Domain.API
             }
         }
 
-        /// <summary>
-        /// Aplica a cultura corrente da requisição. Extensível para testes (AsyncLocal não flui ao caller).
-        /// </summary>
-        protected virtual void ApplyCulture(CultureInfo cultureInfo)
+        protected override long GetUserIdCurrent()
         {
-            CultureInfo.CurrentCulture = cultureInfo;
-            CultureInfo.CurrentUICulture = cultureInfo;
-        }
-
-        /// <summary>
-        /// Método GetUserIdCurrent: consulta e retorna dados.
-        /// </summary>
-        protected long GetUserIdCurrent()
-        {
-            long idUser = SecurityHelperApi.GetUserIdApi(User, _configurationAuth.TypeApiCredential);
-            return idUser;
+            return SecurityHelperApi.GetUserIdApi(User, _configurationAuth.TypeApiCredential);
         }
     }
-
 }

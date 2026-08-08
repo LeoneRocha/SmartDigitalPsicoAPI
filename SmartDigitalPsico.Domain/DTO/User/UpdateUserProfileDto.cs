@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Domain.DTO.User
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class UpdateUserProfileDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName
+    public class UpdateUserProfileDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName
     {
         #region Relationship 
         public UpdateMedicalDto? Medical { get; set; }

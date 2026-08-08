@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Abstract;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.DTO.Contracts;
 
 
@@ -11,11 +11,11 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.PatientHospitalizationInformation
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class GetPatientHospitalizationInformationDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBase, ISupportsHyperMedia
+    public class GetPatientHospitalizationInformationDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBase, ISupportsHyperMedia
     {  
         #region Relationship  
         public GetPatientDto Patient { get; set; } = new GetPatientDto();
-        public List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
+        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
         #endregion Relationship
 
         #region Columns 

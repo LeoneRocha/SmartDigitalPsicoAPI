@@ -19,11 +19,11 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         /// </summary>
         public static void AddDependencies(IServiceCollection services)
         {
-            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService, ExcelGeneratorService>();
-            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorFactory, SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Report.ExcelGeneratorFactory>();
+            services.AddScoped<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService, ExcelGeneratorService>();
+            services.AddScoped<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorFactory, SmartDigitalPsico.Core.SDK.Service.Infrastructure.Report.ExcelGeneratorFactory>();
 
-            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory, SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Report.PdfReportAdapterFactory>();
-            services.AddScoped<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService, PdfReportService>();
+            services.AddScoped<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory, SmartDigitalPsico.Core.SDK.Service.Infrastructure.Report.PdfReportAdapterFactory>();
+            services.AddScoped<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService, PdfReportService>();
             #region ENTITIES
 
             services.AddScoped<IPatientReportService, PatientReportService>();

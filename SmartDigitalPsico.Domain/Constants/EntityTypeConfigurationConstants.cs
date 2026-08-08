@@ -1,64 +1,29 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.Constants
 {
     /// <summary>
-    /// Classe responsável por EntityTypeConfigurationConstants.
-    /// Responsabilidade: constantes compartilhadas do sistema.
-    /// Relação: referenciado por Domain, Service e WebAPI.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
+    // Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class EntityTypeConfigurationConstants
-    { 
-        public const string Type_Varchar_255 = "varchar(255)";
-        public const string Type_Varchar_40 = "varchar(40)";
-        public const string Type_Varchar_20 = "varchar(20)";
+    {
+        public const string Type_Varchar_255 = SmartDigitalPsico.Core.SDK.Domain.Constants.EntityTypeConfigurationConstants.Type_Varchar_255;
+        public const string Type_Varchar_40 = SmartDigitalPsico.Core.SDK.Domain.Constants.EntityTypeConfigurationConstants.Type_Varchar_40;
+        public const string Type_Varchar_20 = SmartDigitalPsico.Core.SDK.Domain.Constants.EntityTypeConfigurationConstants.Type_Varchar_20;
 
-        public const string Type_Text_MySql = "text";
-        public const string Type_Text_SqlServer = "varchar(max)";
+        public const string Type_Text_MySql = SmartDigitalPsico.Core.SDK.Domain.Constants.EntityTypeConfigurationConstants.Type_Text_MySql;
+        public const string Type_Text_SqlServer = SmartDigitalPsico.Core.SDK.Domain.Constants.EntityTypeConfigurationConstants.Type_Text_SqlServer;
 
-        public const string Language_Default_PTBR = "pt-BR";
+        public const string Language_Default_PTBR = SmartDigitalPsico.Core.SDK.Domain.Constants.EntityTypeConfigurationConstants.Language_Default_PTBR;
 
-        public const string ApplicationLanguage_ResourceKey_Default = "SharedResource";
+        public const string ApplicationLanguage_ResourceKey_Default = SmartDigitalPsico.Core.SDK.Domain.Constants.EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default;
 
-        /// <summary>
-        /// Método GetTypeTextByTypeDataBase: consulta e retorna dados.
-        /// </summary>
         public static string GetTypeTextByTypeDataBase(ETypeDataBase eTypeDataBase)
-        {
-            switch (eTypeDataBase)
-            {
-                case ETypeDataBase.MSsqlServer:
-                    return Type_Text_SqlServer;
-                case ETypeDataBase.Mysql:
-                    return Type_Text_MySql;
-                case ETypeDataBase.Postgree:
-                    return Type_Text_SqlServer;
-                case ETypeDataBase.FireBase:
-                    return Type_Text_SqlServer;
-                default:
-                    return Type_Text_SqlServer;
-            }
-        }
+            => SmartDigitalPsico.Core.SDK.Domain.Constants.EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase(eTypeDataBase);
 
-        /// <summary>
-        /// Método GetMaxLengthByTypeDataBase: consulta e retorna dados.
-        /// </summary>
         public static int GetMaxLengthByTypeDataBase(ETypeDataBase eTypeDataBase)
-        {
-            switch (eTypeDataBase)
-            {
-                case ETypeDataBase.MSsqlServer:
-                    return int.MaxValue;  
-                case ETypeDataBase.Mysql:
-                    return 65535;
-                case ETypeDataBase.Postgree:
-                    return int.MaxValue;  
-                case ETypeDataBase.FireBase:
-                    return int.MaxValue; 
-                default:
-                    return int.MaxValue;
-            }
-        }
+            => SmartDigitalPsico.Core.SDK.Domain.Constants.EntityTypeConfigurationConstants.GetMaxLengthByTypeDataBase(eTypeDataBase);
     }
 }

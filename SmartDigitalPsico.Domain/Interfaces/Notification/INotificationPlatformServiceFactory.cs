@@ -1,5 +1,5 @@
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Notification
 {
@@ -13,6 +13,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Notification
         /// <summary>
         /// Método GetService: consulta e retorna dados.
         /// </summary>
-        SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Domain.Enuns.ENotificationServiceType serviceType);
+        SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Domain.Enuns.ENotificationServiceType serviceType);
     }
 }

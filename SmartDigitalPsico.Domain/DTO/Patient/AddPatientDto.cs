@@ -1,5 +1,5 @@
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.DTO.Contracts;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.DTO.Patient
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class AddPatientDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseAdd
+    public class AddPatientDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseAdd
     {
         #region Relationship 
         public long MedicalId { get; set; }  

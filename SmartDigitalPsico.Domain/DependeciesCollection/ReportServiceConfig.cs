@@ -10,15 +10,15 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     /// </summary>
     public class ReportServiceConfig : IReportServiceConfig
     { 
-        public SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService ExcelGeneratorService { get; }
-        public SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService PdfReportService { get; } 
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService ExcelGeneratorService { get; }
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService PdfReportService { get; } 
 
         /// <summary>
         /// Método ReportServiceConfig: executa a operação ReportServiceConfig.
         /// </summary>
         public ReportServiceConfig(
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService excelGeneratorService,
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService pdfReportService
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService excelGeneratorService,
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService pdfReportService
             )
         {
             ExcelGeneratorService = excelGeneratorService;

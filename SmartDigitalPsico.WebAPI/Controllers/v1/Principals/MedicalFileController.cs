@@ -4,12 +4,12 @@ using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 {
@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class MedicalFileController : SmartDigitalPsicoAPI.Core.SDK.API.ApiBaseController
+    public class MedicalFileController : SmartDigitalPsico.Domain.API.ApiBaseController
     {
         private readonly IMedicalFileService _entityService;
         private readonly IConfiguration _configuration;
@@ -89,7 +89,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var result = await _entityService.DownloadFileById(id);
-            var response = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.FileHelper.ProccessDownloadToBrowser(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), result.FileName);
+            var response = SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.ProccessDownloadToBrowser(SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), result.FileName);
             return response;
         }
 

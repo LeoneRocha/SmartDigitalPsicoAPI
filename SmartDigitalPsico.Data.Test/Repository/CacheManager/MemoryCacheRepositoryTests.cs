@@ -1,4 +1,4 @@
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -12,8 +12,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
     [TestFixture]
     public class MemoryCacheRepositoryTests
     {
-        private SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository? _memoryCacheRepository;
-        private IOptions<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto>? _cacheConfig;
+        private SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository? _memoryCacheRepository;
+        private IOptions<SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto>? _cacheConfig;
         private readonly string cacheKey = "GendercacheKey";
 
         [SetUp]
@@ -22,26 +22,26 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
             _memoryCacheRepository = getSetupRepo();
         }
 
-        private SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository getSetupRepo()
+        private SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository getSetupRepo()
         {
-            var cacheConfig = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+            var cacheConfig = new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
             {
                 IsEnable = true,
-                TypeCache = SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory,
+                TypeCache = SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Memory,
                 ExtensionCache = ".json",
                 PathCache = "./ResourcesTempCache",
                 AbsoluteExpirationInHours = 1,
                 AbsoluteExpirationInMinutes = 30,
                 SlidingExpirationInMinutes = 15 
             }; 
-            var mockOptions = new Mock<IOptions<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto>>();
+            var mockOptions = new Mock<IOptions<SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto>>();
             mockOptions.Setup(o => o.Value).Returns(cacheConfig);
 
             _cacheConfig = mockOptions.Object;
 
             var memoryCache = new MemoryCache(new MemoryCacheOptions());
 
-            _memoryCacheRepository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository(memoryCache, _cacheConfig);
+            _memoryCacheRepository = new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository(memoryCache, _cacheConfig);
 
             return _memoryCacheRepository;
         }

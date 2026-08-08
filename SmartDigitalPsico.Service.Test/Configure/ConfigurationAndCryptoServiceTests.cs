@@ -7,9 +7,9 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
 using SmartDigitalPsico.Data.Audit;
-using SmartDigitalPsico.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -53,7 +53,7 @@ public class ConfigurationAndCryptoServiceTests
         ServiceCollectionConfigureHeader.Configure(services);
         ServiceCollectionConfigureLocalization.Configure(services);
         ServiceCollectionConfigureLog.Configure(services, new LoggerConfiguration().CreateLogger());
-        ServiceCollectionConfigureSecurity.Configure(services, new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
+        ServiceCollectionConfigureSecurity.Configure(services, new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
         {
             Issuer = "issuer",
             Audience = "audience",
@@ -86,9 +86,9 @@ public class ConfigurationAndCryptoServiceTests
         {
             token.Issuer.Should().Be("issuer");
             token.Audience.Should().Be("audience");
-            provider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto>().Issuer.Should().Be("issuer");
-            provider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig>().Should().NotBeNull();
-            provider.GetRequiredService<ILocationSaveFileConfigurationDto>().Should().NotBeNull();
+            provider.GetRequiredService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto>().Issuer.Should().Be("issuer");
+            provider.GetRequiredService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig>().Should().NotBeNull();
+            provider.GetRequiredService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.ILocationSaveFileConfigurationDto>().Should().NotBeNull();
         }
     }
     // Cenário: TypeDataBase válido é lido da configuração.
@@ -122,7 +122,7 @@ public class ConfigurationAndCryptoServiceTests
         ServicesDomainService.AddDependenciesAuto(services);
 
         // Assert
-        services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Service.ICacheService));
+        services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService));
         services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Service.Schedule.IScheduleUpdateService));
         services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Domain.Interfaces.Service.IUserService));
     }
@@ -133,12 +133,12 @@ public class ConfigurationAndCryptoServiceTests
     {
         // Arrange
         var encryptedBytes = new byte[] { 1, 2, 3 };
-        var adapter = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoAdpter>();
+        var adapter = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoAdpter>();
         adapter.Setup(x => x.Encrypt("plain")).Returns(encryptedBytes);
         adapter.Setup(x => x.Decrypt(encryptedBytes)).Returns("plain");
-        var factory = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoAdapterFactory>();
-        factory.Setup(x => x.Create(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ECryptoServiceType.Aes, It.IsAny<string>(), "iv")).Returns(adapter.Object);
-        var service = new SmartDigitalPsico.Service.Security.CryptoService(BuildConfiguration(), factory.Object);
+        var factory = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoAdapterFactory>();
+        factory.Setup(x => x.Create(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ECryptoServiceType.Aes, It.IsAny<string>(), "iv")).Returns(adapter.Object);
+        var service = new SmartDigitalPsico.Core.SDK.Domain.Security.CryptoService(BuildConfiguration(), factory.Object);
 
         // Act
         var encryptedFromConfiguredKey = service.Encrypt("plain");
@@ -158,8 +158,8 @@ public class ConfigurationAndCryptoServiceTests
             invalid.Should().BeEmpty();
             blank.Should().BeEmpty();
         }
-        factory.Verify(x => x.Create(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ECryptoServiceType.Aes, "key", "iv"), Times.Exactly(2));
-        factory.Verify(x => x.Create(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.ECryptoServiceType.Aes, "override-key", "iv"), Times.Exactly(2));
+        factory.Verify(x => x.Create(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ECryptoServiceType.Aes, "key", "iv"), Times.Exactly(2));
+        factory.Verify(x => x.Create(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ECryptoServiceType.Aes, "override-key", "iv"), Times.Exactly(2));
     }
     // Cenário: adapter de blob sem connection string.
     // Objetivo: executar caminhos seguros sem cliente Azure real.
@@ -167,10 +167,10 @@ public class ConfigurationAndCryptoServiceTests
     public async Task AzureStorageBlobAdapter_WithoutConnection_UsesSafeNoClientBehavior()
     {
         // Arrange
-        var adapter = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter(new ConfigurationBuilder().AddInMemoryCollection().Build());
+        var adapter = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageBlobAdapter(new ConfigurationBuilder().AddInMemoryCollection().Build());
 
         // Act
-        var upload = await adapter.UploadFileReturnUrl(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto { ContainerName = "files", FilePath = "unused" });
+        var upload = await adapter.UploadFileReturnUrl(new SmartDigitalPsico.Core.SDK.Domain.DTO.BlobFileDto { ContainerName = "files", FilePath = "unused" });
         var url = await adapter.GetFileStorageUrlPublic("files", "test.txt");
         await adapter.CreateContainerIfNotExists("files");
         await adapter.DownloadFile("files", "test.txt", Path.GetTempFileName());
@@ -201,7 +201,7 @@ public class ConfigurationAndCryptoServiceTests
         services.AddSingleton(environment.Object);
         services.AddSingleton<Microsoft.Extensions.Hosting.IHostEnvironment>(environment.Object);
         ServiceCollectionConfigureDocumentation.Configure(services);
-        ServiceCollectionConfigureSecurity.Configure(services, new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
+        ServiceCollectionConfigureSecurity.Configure(services, new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
         {
             Issuer = "issuer",
             Audience = "audience",
@@ -243,7 +243,7 @@ public class ConfigurationAndCryptoServiceTests
         var services = new ServiceCollection();
         services.AddSingleton<IConfiguration>(configuration);
         services.AddLogging();
-        services.AddSingleton(Mock.Of<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
+        services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
         services.AddSingleton(Mock.Of<Serilog.ILogger>());
         ServiceCollectionConfigureCors.Configure(services);
         ServiceCollectionConfigureLocalization.Configure(services);
@@ -261,9 +261,9 @@ public class ConfigurationAndCryptoServiceTests
             .GetPolicyAsync(httpContext, null).GetAwaiter().GetResult();
         var localization = provider.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
         var mysqlContext = provider.GetRequiredService<IEntityDataContext>();
-        var patientRecordTable = provider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity>>();
-        var userTokenTable = provider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
-        var queue = provider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueContract>();
+        var patientRecordTable = provider.GetRequiredService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity>>();
+        var userTokenTable = provider.GetRequiredService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
+        var queue = provider.GetRequiredService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueContract>();
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -288,7 +288,7 @@ public class ConfigurationAndCryptoServiceTests
         // Arrange
         var services = new ServiceCollection();
         services.AddLogging();
-        services.AddSingleton(Mock.Of<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
+        services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
         services.AddSingleton(Mock.Of<Serilog.ILogger>());
         var configuration = BuildConfiguration(new Dictionary<string, string?>
         {
@@ -299,7 +299,7 @@ public class ConfigurationAndCryptoServiceTests
         RegisterAuditSupportServices(services);
         ServiceCollectionConfigureOrm.Configure(services, configuration);
         ServiceCollectionConfigureHeader.Configure(services);
-        ServiceCollectionConfigureSecurity.Configure(services, new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
+        ServiceCollectionConfigureSecurity.Configure(services, new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
         {
             Issuer = "issuer",
             Audience = "audience",
@@ -368,16 +368,16 @@ public class ConfigurationAndCryptoServiceTests
         noSqlServices.AddSingleton(BuildConfiguration());
         ServicesDomainNoSql.AddDependencies(noSqlServices);
         using var noSqlProvider = noSqlServices.BuildServiceProvider();
-        var patientTable = noSqlProvider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.PatientRecordTableEntity>>();
-        var tokenTable = noSqlProvider.GetRequiredService<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>>();
+        var patientTable = noSqlProvider.GetRequiredService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.PatientRecordTableEntity>>();
+        var tokenTable = noSqlProvider.GetRequiredService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>>();
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             mysqlServices.Should().Contain(x => x.ServiceType.Name.Contains("DataContext", StringComparison.Ordinal));
             sqlServices.Should().Contain(x => x.ServiceType.Name.Contains("DataContext", StringComparison.Ordinal));
-            services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter));
-            services.Should().Contain(x => x.ServiceType == typeof(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository));
+            services.Should().Contain(x => x.ServiceType == typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter));
+            services.Should().Contain(x => x.ServiceType == typeof(global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository));
             patientTable.Should().NotBeNull();
             tokenTable.Should().NotBeNull();
         }
@@ -424,12 +424,12 @@ public class ConfigurationAndCryptoServiceTests
         // Arrange
 
         // Act
-        var factory = new SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.StorageTableRepositoryFactory(BuildConfiguration());
+        var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.StorageTableRepositoryFactory(BuildConfiguration());
         var logger = new Mock<Serilog.ILogger>();
         var audit = new SmartDigitalPsico.Service.Audit.AuditPersistenceLogService(logger.Object);
 
         var table = factory.Create<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>(
-            global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EStorageAdapterType.Azure, $"t{Guid.NewGuid():N}"[..10]);
+            global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EStorageAdapterType.Azure, $"t{Guid.NewGuid():N}"[..10]);
         audit.SaveAuditEntries(
         [
             new SmartDigitalPsico.Domain.ModelEntity.AuditDataEntityLog
@@ -458,7 +458,7 @@ public class ConfigurationAndCryptoServiceTests
 
     private static void RegisterAuditSupportServices(IServiceCollection services)
     {
-        services.AddSingleton(Mock.Of<global::SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
+        services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
         services.AddSingleton<Serilog.ILogger>(_ => Mock.Of<Serilog.ILogger>());
     }
 

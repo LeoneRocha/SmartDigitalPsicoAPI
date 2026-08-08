@@ -1,35 +1,11 @@
-using SmartDigitalPsico.Domain.Interfaces;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace SmartDigitalPsico.Domain.Contracts
 {
     /// <summary>
-    /// Classe responsável por EntityBase.
-    /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
-    public abstract class EntityBase : IEntityBase, IEntityBaseLog
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public abstract class EntityBase : SmartDigitalPsico.Core.SDK.Domain.Contracts.EntityBase, Interfaces.IEntityBase, Interfaces.IEntityBaseLog
     {
-        [Column("Id", Order = 0)]
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
-
-        [Column("Enable", Order = 1)]
-        [DefaultValue(true)]
-        public bool Enable { get; set; }
-
-        [Column("CreatedDate")]
-        public DateTime CreatedDate { get; set; }
-
-        [Column("ModifyDate")]
-        public DateTime ModifyDate { get; set; }
-
-        [Column("LastAccessDate")]
-        public DateTime LastAccessDate { get; set; }
     }
 }

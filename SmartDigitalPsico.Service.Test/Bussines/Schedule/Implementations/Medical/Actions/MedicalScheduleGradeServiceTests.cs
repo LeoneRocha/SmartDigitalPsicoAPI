@@ -77,13 +77,13 @@ public class MedicalScheduleGradeServiceTests
 
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 3, TimeZone = "UTC" });
         query.Setup(x => x.GetItemsForOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = [] });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = [] });
         availability.Setup(x => x.BuildGradeAsync(It.IsAny<ScheduleGradeRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult> { Success = false, Message = "grade-fail" });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult> { Success = false, Message = "grade-fail" });
         var gradeFail = await sut.GetMonthlyCalendar(ValidCriteria(day));
 
         availability.Setup(x => x.BuildGradeAsync(It.IsAny<ScheduleGradeRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult>
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult>
             {
                 Success = true,
                 Data = new ScheduleGradeResult
@@ -185,9 +185,9 @@ public class MedicalScheduleGradeServiceTests
         ctx.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(CreateMedical());
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 3, TimeZone = "UTC" });
         query.Setup(x => x.GetItemsForOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = [] });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = [] });
         availability.Setup(x => x.BuildGradeAsync(It.IsAny<ScheduleGradeRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult>
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult>
             {
                 Success = true,
                 Data = new ScheduleGradeResult
@@ -232,7 +232,7 @@ public class MedicalScheduleGradeServiceTests
         ctx.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(CreateMedical());
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 3, TimeZone = "UTC" });
         query.Setup(x => x.GetItemsForOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]>
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]>
             {
                 Success = true,
                 Data =
@@ -246,7 +246,7 @@ public class MedicalScheduleGradeServiceTests
                 ]
             });
         availability.Setup(x => x.BuildGradeAsync(It.IsAny<ScheduleGradeRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsicoAPI.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult>
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult>
             {
                 Success = true,
                 Data = new ScheduleGradeResult

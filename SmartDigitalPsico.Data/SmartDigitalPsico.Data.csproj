@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -28,7 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartDigitalPsico.Domain\SmartDigitalPsico.Domain.csproj" />
-    <ProjectReference Include="..\SmartDigitalPsicoAPI.Core.SDK\SmartDigitalPsicoAPI.Core.SDK.csproj" />
+    <ProjectReference Include="..\SmartDigitalPsico.Core.SDK\SmartDigitalPsico.Core.SDK.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\MySql\" />

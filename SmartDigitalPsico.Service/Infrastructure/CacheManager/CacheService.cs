@@ -1,23 +1,22 @@
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Infrastructure.CacheManager
 {
     /// <summary>
     /// Bridge de produto sobre CacheService do Core — adiciona ApplicationCacheLog.
+    /// DI deve registrar este tipo (não o Core direto) para manter auditoria de cache.
     /// </summary>
-    // Movido para SmartDigitalPsicoAPI.Core.SDK — lógica canônica no pacote Core; host mantém auditoria ApplicationCacheLog.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK (ou este bridge apenas se precisar de ApplicationCacheLog).", error: false, DiagnosticId = "SDP_CORE_SDK_CACHE")]
-    public class CacheService : SmartDigitalPsicoAPI.Core.SDK.Service.Infrastructure.CacheManager.CacheService
+    public class CacheService : SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager.CacheService
     {
         private readonly IApplicationCacheLogRepository _applicationCacheLogRepository;
 
         public CacheService(
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository memoryCacheRepository,
-            SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository diskCacheRepository,
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository memoryCacheRepository,
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository diskCacheRepository,
             IApplicationCacheLogRepository applicationCacheLogRepository,
             IOptions<CacheConfigurationDto> cacheConfig)
             : base(memoryCacheRepository, diskCacheRepository, cacheConfig)

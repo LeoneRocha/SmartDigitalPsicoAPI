@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Abstract;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
 
 namespace SmartDigitalPsico.Domain.DTO.Domains.GetDTOs
@@ -12,6 +12,6 @@ namespace SmartDigitalPsico.Domain.DTO.Domains.GetDTOs
     /// </summary>
     public class GetNotificationTemplateDto : NotificationTemplateBaseDto, ISupportsHyperMedia
     {
-        public List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink>(); 
+        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>(); 
     }
 }

@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
     public interface IPatientRecordServiceConfig
     {  
         IValidator<PatientRecord> EntityValidator { get; } 
-        SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity> StorageTableService { get; }
+        SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity> StorageTableService { get; }
 
         ISharedRepositories SharedRepositories { get; }
          

@@ -1,37 +1,16 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 
 namespace SmartDigitalPsico.Data.Context.Interface
 {
     /// <summary>
-    /// Interface (contrato) responsável por IEntityDataContext.
-    /// Responsabilidade: contexto EF Core / configuração de dados.
-    /// Relação: usado pelos repositórios da camada Data.
+    /// Shim Obsolete — contrato genérico em SmartDigitalPsico.Core.SDK; DbSets de produto permanecem aqui.
     /// </summary>
-    public interface IEntityDataContext : IDisposable
+    // Movido para SmartDigitalPsico.Core.SDK — parte genérica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use SmartDigitalPsico.Core.SDK.Data.Context.Interface.IEntityDataContext para o contrato genérico. DbSets de produto permanecem neste shim.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
+    public interface IEntityDataContext : SmartDigitalPsico.Core.SDK.Data.Context.Interface.IEntityDataContext
     {
-        #region Common
-        DbSet<TEntity> Set<TEntity>() where TEntity : class;
-        DatabaseFacade Database { get; }
-        /// <summary>
-        /// Método Entry: executa a operação Entry.
-        /// </summary>
-        EntityEntry Entry(object entity);
-        EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
-        /// <summary>
-        /// Método SaveChanges: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        int SaveChanges();
-        /// <summary>
-        /// Método SaveChangesAsync: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-        #endregion Common
-
-        #region DbSets 
         DbSet<ApplicationCacheLog> ApplicationCacheLogs { get; set; }
         DbSet<ApplicationConfigSetting> ApplicationConfigSettings { get; set; }
         DbSet<ApplicationLanguage> ApplicationLanguages { get; set; }
@@ -45,7 +24,6 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<NotificationRecord> NotificationRecords { get; set; }
         DbSet<NotificationRule> NotificationRules { get; set; }
         DbSet<NotificationTemplate> NotificationTemplates { get; set; }
-
         DbSet<Office> Offices { get; set; }
         DbSet<PatientAdditionalInformation> PatientAdditionalInformations { get; set; }
         DbSet<PatientFile> PatientFiles { get; set; }
@@ -61,7 +39,5 @@ namespace SmartDigitalPsico.Data.Context.Interface
         DbSet<User> Users { get; set; }
         DbSet<UserTokenSession> UserTokenSessions { get; set; }
         DbSet<ScheduleCalendar> ScheduleCalendars { get; set; }
-
-        #endregion DbSets 
     }
 }

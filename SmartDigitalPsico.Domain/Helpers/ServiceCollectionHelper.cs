@@ -1,79 +1,25 @@
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.DTO;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.DTO;
 using System.Reflection;
 
-namespace SmartDigitalPsico.Service.Helpers
+namespace SmartDigitalPsico.Domain.Helpers
 {
     /// <summary>
-    /// Classe responsável por ServiceCollectionHelper.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class ServiceCollectionHelper
     {
         public static T[] FilterItems<T>(T[] items, params T[][] filters)
-        {
-            var filteredItems = items;
-            foreach (var filter in filters)
-            {
-                filteredItems = filteredItems.Where(item => !filter.Contains(item)).ToArray();
-            }
-            return filteredItems;
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.FilterItems(items, filters);
 
-        }
-
-        /// <summary>
-        /// Método GetRegisteredInterfaces: consulta e retorna dados.
-        /// </summary>
         public static HashSet<Type> GetRegisteredInterfaces(IServiceCollection services)
-        {
-            return services.Where(service => service.Lifetime == ServiceLifetime.Scoped)
-                           .Select(service => service.ServiceType)
-                           .ToHashSet();
-        }
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.GetRegisteredInterfaces(services);
 
-        /// <summary>
-        /// Método GetInterfaces: consulta e retorna dados.
-        /// </summary>
-        public static SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.RepositoryInfo[] GetInterfaces(string[] classSuffixes, params Assembly[] assemblies)
-        {
-            var repositories = assemblies.SelectMany(assembly => assembly.GetTypes())
-                             .Where(type => type.IsClass && !type.IsAbstract && classSuffixes.Any(suffix => type.Name.EndsWith(suffix)))
-                             .Select(type => new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.RepositoryInfo
-                             {
-                                 InterfaceType = type.GetInterfaces().FirstOrDefault(i => i.Name == $"I{type.Name}"),
-                                 ImplementationType = type
-                             })
-                             .Where(repo => repo.InterfaceType != null)
-                             .ToArray();
+        public static SmartDigitalPsico.Core.SDK.Domain.DTO.RepositoryInfo[] GetInterfaces(string[] classSuffixes, params Assembly[] assemblies)
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.GetInterfaces(classSuffixes, assemblies);
 
-            return repositories.ToArray();
-        }
-
-    /// <summary>
-    /// Método RegisterInterfaces: cria ou persiste um novo registro/recurso.
-    /// </summary>
-    public static void RegisterInterfaces(IServiceCollection services, string[] classSuffixes, List<Type> ignoredInterfaces, Assembly[] assemblies)
-        {
-            var interfaceInfos = GetInterfaces(classSuffixes, assemblies);
-
-            interfaceInfos = interfaceInfos.OrderBy(i => i.InterfaceType!.Name).ToArray();
-
-            var filteredInterfaces = FilterItems(interfaceInfos.Select(info => info.InterfaceType!).ToArray(), ignoredInterfaces.ToArray());
-
-            filteredInterfaces = filteredInterfaces.OrderBy(i => i.Name).ToArray();
-
-            foreach (var interfaceType in filteredInterfaces)
-            {
-                var implementationType = interfaceInfos.First(info => info.InterfaceType == interfaceType).ImplementationType;
-                if (implementationType != null)
-                {
-                    services.AddScoped(interfaceType, implementationType);
-                }
-            }
-        }
+        public static void RegisterInterfaces(IServiceCollection services, string[] classSuffixes, List<Type> ignoredInterfaces, Assembly[] assemblies)
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.ServiceCollectionHelper.RegisterInterfaces(services, classSuffixes, ignoredInterfaces, assemblies);
     }
 }

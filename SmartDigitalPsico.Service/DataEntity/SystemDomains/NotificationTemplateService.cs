@@ -4,12 +4,12 @@ using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Service.DataEntity.Generic;
 using System.Globalization;
 
@@ -43,20 +43,20 @@ namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
         /// <summary>
         /// MÃ©todo Update: atualiza um registro/recurso existente.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDto item)
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var dto = (UpdateNotificationTemplateDto)item;
-            dto.Body = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
+            dto.Body = SmartDigitalPsico.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
 
             return await base.Update(dto);
         }
         /// <summary>
         /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
+        public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             var dto = (AddNotificationTemplateDto)item;
-            dto.Body = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
+            dto.Body = SmartDigitalPsico.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
             return await base.Create(dto);
         }
 

@@ -175,7 +175,7 @@ public class MedicalFileServiceTests
         var dto = new AddMedicalFileDto { MedicalId = 9, Description = "Laudo", FileDetails = CreateFormFile() };
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<MedicalFile>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
-        context.FilePersistor.Setup(x => x.PersistFile(It.IsAny<Microsoft.AspNetCore.Http.IFormFile>(), It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "medicalfiles", "9"))
+        context.FilePersistor.Setup(x => x.PersistFile(It.IsAny<Microsoft.AspNetCore.Http.IFormFile>(), It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "medicalfiles", "9"))
             .ReturnsAsync("stored/laudo.pdf");
         context.Repository.Setup(x => x.Create(It.IsAny<MedicalFile>())).ReturnsAsync((MedicalFile f) => { f.Id = 33; return f; });
 
@@ -197,7 +197,7 @@ public class MedicalFileServiceTests
         var context = new MedicalFileServiceContext();
         var fileEntity = new MedicalFile { Id = 40, MedicalId = 9 };
         context.Repository.Setup(x => x.FindByID(40)).ReturnsAsync(fileEntity);
-        context.FilePersistor.Setup(x => x.DownloadFileById(It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "9"))
+        context.FilePersistor.Setup(x => x.DownloadFileById(It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "9"))
             .ReturnsAsync(new MedicalFile { FileData = new byte[] { 9, 8, 7 } });
 
         // Act
@@ -216,7 +216,7 @@ public class MedicalFileServiceTests
         var context = new MedicalFileServiceContext();
         var fileEntity = new MedicalFile { Id = 45, MedicalId = 9 };
         context.Repository.Setup(x => x.FindByID(45)).ReturnsAsync(fileEntity);
-        context.FilePersistor.Setup(x => x.DeleteFile(It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "9")).ReturnsAsync(true);
+        context.FilePersistor.Setup(x => x.DeleteFile(It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "9")).ReturnsAsync(true);
         context.Repository.Setup(x => x.Delete(45)).ReturnsAsync(true);
 
         // Act
@@ -235,7 +235,7 @@ public class MedicalFileServiceTests
         var context = new MedicalFileServiceContext();
         var fileEntity = new MedicalFile { Id = 46, MedicalId = 9 };
         context.Repository.Setup(x => x.FindByID(46)).ReturnsAsync(fileEntity);
-        context.FilePersistor.Setup(x => x.DeleteFile(It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "9")).ReturnsAsync(false);
+        context.FilePersistor.Setup(x => x.DeleteFile(It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "9")).ReturnsAsync(false);
 
         // Act
         var result = await context.Service.Delete(46);

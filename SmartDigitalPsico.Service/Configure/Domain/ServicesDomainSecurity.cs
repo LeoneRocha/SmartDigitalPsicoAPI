@@ -17,8 +17,8 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         /// </summary>
         public static void AddDependencies(IServiceCollection services)
         { 
-            services.AddTransient<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoAdapterFactory, SmartDigitalPsicoAPI.Core.SDK.Domain.Security.CryptoAdapterFactory>();
-            services.AddTransient<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Security.ICryptoService, SmartDigitalPsicoAPI.Core.SDK.Domain.Security.CryptoService>();
+            services.AddTransient<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoAdapterFactory, SmartDigitalPsico.Core.SDK.Domain.Security.CryptoAdapterFactory>();
+            services.AddTransient<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService, SmartDigitalPsico.Core.SDK.Domain.Security.CryptoService>();
         }
     }
 }

@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Hypermedia.Enricher.Domains;
 using SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals;
 using SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 
 namespace SmartDigitalPsico.Domain.Hypermedia
 {
@@ -18,20 +18,20 @@ namespace SmartDigitalPsico.Domain.Hypermedia
         /// </summary>
         public static void AddHyperMedia(IServiceCollection Service)
         {
-            var filterOptions = new SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions();
+            var filterOptions = new SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions();
 
             addfilterOptions(filterOptions);
 
             Service.AddSingleton(filterOptions);
         }
 
-        private static void addfilterOptions(SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions filterOptions)
+        private static void addfilterOptions(SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions filterOptions)
         {
             addDomains(filterOptions);
             addPrincipals(filterOptions);
         }
 
-        private static void addPrincipals(SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions filterOptions)
+        private static void addPrincipals(SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions filterOptions)
         {
             filterOptions.ContentResponseEnricherList.Add(new GetUserEnricher());
             filterOptions.ContentResponseEnricherList.Add(new GetMedicalEnricher());
@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Domain.Hypermedia
             addPatient(filterOptions);
         }
 
-        private static void addPatient(SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions filterOptions)
+        private static void addPatient(SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions filterOptions)
         {
             filterOptions.ContentResponseEnricherList.Add(new GetPatientAdditionalInformationEnricher());
             filterOptions.ContentResponseEnricherList.Add(new GetPatientFileEnricher());
@@ -51,7 +51,7 @@ namespace SmartDigitalPsico.Domain.Hypermedia
             filterOptions.ContentResponseEnricherList.Add(new GetPatientEnricher());
         }
 
-        private static void addDomains(SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions filterOptions)
+        private static void addDomains(SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters.HyperMediaFilterOptions filterOptions)
         {
             filterOptions.ContentResponseEnricherList.Add(new GetApplicationConfigSettingEnricher());
             filterOptions.ContentResponseEnricherList.Add(new GetApplicationLanguageEnricher());

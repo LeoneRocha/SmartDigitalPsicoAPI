@@ -1,8 +1,8 @@
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Security;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -35,9 +35,9 @@ public class FileManagerCoverageTests
     {
         // Arrange
         var disk = new Mock<IFileDiskRepository>();
-        disk.Setup(value => value.Save(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync(true);
-        var azure = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
-        azure.Setup(value => value.UploadFileReturnUrl(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto>())).ReturnsAsync("https://files/item");
+        disk.Setup(value => value.Save(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync(true);
+        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
+        azure.Setup(value => value.UploadFileReturnUrl(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.BlobFileDto>())).ReturnsAsync("https://files/item");
         var file = CreateFormFile("note.txt", [1, 2, 3]);
 
         var databaseEntity = new MedicalFile();
@@ -54,7 +54,7 @@ public class FileManagerCoverageTests
         var diskManager = CreateManager(ETypeLocationSaveFiles.Disk, disk, azure);
         await diskManager.PersistFile(file, diskEntity, "medical", "42");
         diskEntity.TypeLocationSaveFile.Should().Be(ETypeLocationSaveFiles.Disk);
-        disk.Verify(value => value.Save(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
+        disk.Verify(value => value.Save(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
 
         var cloudEntity = new MedicalFile();
         var cloudManager = CreateManager(ETypeLocationSaveFiles.CloudStorageAzure, disk, azure);
@@ -62,8 +62,8 @@ public class FileManagerCoverageTests
         cloudEntity.TypeLocationSaveFile.Should().Be(ETypeLocationSaveFiles.CloudStorageAzure);
         cloudEntity.FilePath.Should().Be("https://files/item");
         cloudEntity.FileData.Should().BeEmpty();
-        azure.Verify(value => value.UploadFileReturnUrl(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.BlobFileDto>()), Times.Once);
-        disk.Verify(value => value.Delete(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
+        azure.Verify(value => value.UploadFileReturnUrl(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.BlobFileDto>()), Times.Once);
+        disk.Verify(value => value.Delete(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
     }
 
     // Cenário: download e exclusão em disco e Azure, inclusive entidade nula.
@@ -73,8 +73,8 @@ public class FileManagerCoverageTests
     {
         // Arrange
         var disk = new Mock<IFileDiskRepository>();
-        disk.Setup(value => value.Get(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync([7, 8]);
-        var azure = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
+        disk.Setup(value => value.Get(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync([7, 8]);
+        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
         var diskManager = CreateManager(ETypeLocationSaveFiles.Disk, disk, azure);
         var diskEntity = new MedicalFile { FileName = "disk.txt", Description = "disk.txt", FilePath = Path.Combine(_temporaryDirectory, "disk.txt"), TypeLocationSaveFile = ETypeLocationSaveFiles.Disk };
 
@@ -83,7 +83,7 @@ public class FileManagerCoverageTests
         (await diskManager.DeleteFile(diskEntity, "42")).Should().BeTrue();
 
         // Assert
-        disk.Verify(value => value.Delete(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
+        disk.Verify(value => value.Delete(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Once);
 
         var azureManager = CreateManager(ETypeLocationSaveFiles.CloudStorageAzure, disk, azure);
         var cloudEntity = new MedicalFile { FileName = "cloud.txt", FileCloudContainer = "medical", FileBlobName = "42/cloud.txt", TypeLocationSaveFile = ETypeLocationSaveFiles.CloudStorageAzure };
@@ -101,7 +101,7 @@ public class FileManagerCoverageTests
     {
         // Arrange
         var disk = new Mock<IFileDiskRepository>();
-        var azure = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
+        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
         var diskManager = CreateManager(ETypeLocationSaveFiles.Disk, disk, azure);
         var databaseManager = CreateManager(ETypeLocationSaveFiles.DataBase, disk, azure);
         var entity = new MedicalFile
@@ -120,7 +120,7 @@ public class FileManagerCoverageTests
         {
             folder.Should().BeEmpty();
             downloaded.Should().BeSameAs(entity);
-            disk.Verify(value => value.Get(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Never);
+            disk.Verify(value => value.Get(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>()), Times.Never);
         }
     }
 
@@ -131,15 +131,15 @@ public class FileManagerCoverageTests
     {
         // Arrange
         var disk = new Mock<IFileDiskRepository>();
-        disk.Setup(d => d.Get(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync([9, 8, 7]);
-        var azure = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
+        disk.Setup(d => d.Get(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData>())).ReturnsAsync([9, 8, 7]);
+        var azure = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter>();
         azure.Setup(a => a.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Returns(Task.CompletedTask);
         var nestedRoot = Path.Combine(_temporaryDirectory, "nested-root");
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = nestedRoot })
             .Build();
-        var manager = new FileManager(configuration, new SmartDigitalPsico.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
+        var manager = new FileManager(configuration, new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = ETypeLocationSaveFiles.CloudStorageAzure }, disk.Object, azure.Object);
         var entity = new MedicalFile
         {
             FileName = "cloud-dl.txt",
@@ -185,9 +185,9 @@ public class FileManagerCoverageTests
         }
     }
 
-    private FileManager CreateManager(ETypeLocationSaveFiles location, Mock<IFileDiskRepository> disk, Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter> azure)
+    private FileManager CreateManager(ETypeLocationSaveFiles location, Mock<IFileDiskRepository> disk, Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter> azure)
     {
-        var settings = new SmartDigitalPsico.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = location };
+        var settings = new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto { TypeLocationSaveFiles = location };
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { ["AppSettings:ResourcesTemp"] = _temporaryDirectory })
             .Build();

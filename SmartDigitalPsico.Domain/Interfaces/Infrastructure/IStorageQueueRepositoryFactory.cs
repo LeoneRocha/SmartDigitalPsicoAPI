@@ -1,20 +1,11 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Infrastructure
 {
     /// <summary>
-    /// Interface (contrato) responsável por IStorageQueueRepositoryFactory.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — use SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueRepositoryFactory.
     /// </summary>
-        // Movido para SmartDigitalPsicoAPI.Core.SDK.
-    [Obsolete("Movido para SmartDigitalPsicoAPI.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsicoAPI.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
-    public interface IStorageQueueRepositoryFactory
+    // Movido para SmartDigitalPsico.Core.SDK
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public interface IStorageQueueRepositoryFactory : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageQueueRepositoryFactory
     {
-        /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        IStorageQueueContract Create(SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EStorageAdapterType eStorageAdapterType, string queueName); 
     }
 }

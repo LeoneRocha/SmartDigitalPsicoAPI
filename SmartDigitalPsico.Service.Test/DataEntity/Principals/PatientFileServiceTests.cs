@@ -22,7 +22,7 @@ public class PatientFileServiceTests
         var context = new PatientFileServiceContext();
         var dto = new AddPatientFileDto { PatientId = 5, Description = "Exame", FileDetails = CreateFormFile() };
         context.PatientRepository.Setup(x => x.FindByID(5)).ReturnsAsync(new Patient { Id = 5, MedicalId = 9 });
-        context.FilePersistor.Setup(x => x.PersistFile(It.IsAny<Microsoft.AspNetCore.Http.IFormFile>(), It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "patientfiles", "9_5"))
+        context.FilePersistor.Setup(x => x.PersistFile(It.IsAny<Microsoft.AspNetCore.Http.IFormFile>(), It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "patientfiles", "9_5"))
             .ReturnsAsync("stored/path.pdf");
         context.Repository.Setup(x => x.Create(It.IsAny<PatientFile>())).ReturnsAsync((PatientFile f) => { f.Id = 12; return f; });
 
@@ -45,7 +45,7 @@ public class PatientFileServiceTests
         var fileEntity = new PatientFile { Id = 15, PatientId = 5, FileName = "exam.pdf" };
         context.Repository.Setup(x => x.FindByID(15)).ReturnsAsync(fileEntity);
         context.PatientRepository.Setup(x => x.FindByID(5)).ReturnsAsync(new Patient { Id = 5, MedicalId = 9 });
-        context.FilePersistor.Setup(x => x.DownloadFileById(It.IsAny<global::SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "9_5"))
+        context.FilePersistor.Setup(x => x.DownloadFileById(It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileBase>(), "9_5"))
             .ReturnsAsync(new PatientFile { FileData = new byte[] { 1, 2, 3 } });
 
         // Act

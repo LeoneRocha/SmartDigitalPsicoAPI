@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.Abstract;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.DTO.Contracts;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.Medical;
@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Domain.DTO.User
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class GetUserDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName, ISupportsHyperMedia
+    public class GetUserDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseName, ISupportsHyperMedia
     {
         #region Relationship
         public List<GetRoleGroupDto> RoleGroups { get; set; } = new List<GetRoleGroupDto>();
@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Domain.DTO.User
         public string Language { get; set; } = string.Empty;
         public string TimeZone { get; set; } = string.Empty;
         #endregion Columns 
-        public List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsicoAPI.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
+        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
 
     }
 }

@@ -9,7 +9,7 @@ namespace SmartDigitalPsico.Domain.DTO.User
     /// Responsabilidade: DTO de transferÃªncia de dados entre camadas da API.
     /// RelaÃ§Ã£o: usado por Controllers, Services e Validators.
     /// </summary>
-    public class GetUserAuthenticatedDto : SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Contracts.EntityDtoBase
+    public class GetUserAuthenticatedDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBase
     {
         /// <summary>
         /// MÃ©todo GetUserAuthenticatedDto: consulta e retorna dados.

@@ -1,35 +1,18 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using System.Reflection;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Helper
 {
     /// <summary>
-    /// Classe responsável por ModelBuilderExtensions.
-    /// Responsabilidade: configuração de startup/DI da aplicação.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
+    // Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
     public static class ModelBuilderExtensions
     {
-        /// <summary>
-        /// Método AddConfigurationEntities: cria ou persiste um novo registro/recurso.
-        /// </summary>
         public static void AddConfigurationEntities(this ModelBuilder modelBuilder, ETypeDataBase eDataBaseType, Assembly assembly, List<Type> manuallyConfiguredTypes)
-        {
-            Type[] configTypes = ListClassConfiguration(assembly, manuallyConfiguredTypes).OrderBy(t=> t.Name).ToArray();
-
-            foreach (var configType in configTypes)
-            {
-                dynamic configInstance = Activator.CreateInstance(configType, eDataBaseType)!;
-                modelBuilder.ApplyConfiguration(configInstance);
-            }
-        }
-
-        private static Type[] ListClassConfiguration(Assembly assembly, List<Type> manuallyConfiguredTypes)
-        {
-            var listAdd = assembly.GetTypes().Where(t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)) && !manuallyConfiguredTypes.Contains(t) && t.Name.EndsWith("Configuration")).ToArray();  
-            return listAdd;
-        }
+            => SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper.ModelBuilderExtensions.AddConfigurationEntities(
+                modelBuilder, eDataBaseType, assembly, manuallyConfiguredTypes);
     }
 }

@@ -1,15 +1,11 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
-
 namespace SmartDigitalPsico.Domain.DTO.Domains
 {
     /// <summary>
-    /// Classe responsável por DataBaseConfigurationDto.
-    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
-    /// Relação: usado por Controllers, Services e Validators.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
-    public class DataBaseConfigurationDto
+    // Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public class DataBaseConfigurationDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.DataBaseConfigurationDto
     {
-        public ETypeDataBase TypeDataBase { get; set; }
     }
 }

@@ -27,13 +27,13 @@ public class PdfReportServiceTests
         var configMock = new Mock<ISharedDependenciesConfig>();
         configMock.SetupGet(x => x.Configuration).Returns(config);
         configMock.SetupGet(x => x.Logger).Returns(Mock.Of<ILogger>());
-        var adapter = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapter>();
+        var adapter = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapter>();
         var expectedPath = Path.Combine(tempRoot, "Reports_PDF", "report.pdf");
-        adapter.Setup(x => x.Generate(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), expectedPath)).Returns(Task.CompletedTask);
-        var factory = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory>();
-        factory.Setup(x => x.Create(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EPdfReportComponentType.PDFsharp)).Returns(adapter.Object);
+        adapter.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), expectedPath)).Returns(Task.CompletedTask);
+        var factory = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory>();
+        factory.Setup(x => x.Create(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EPdfReportComponentType.PDFsharp)).Returns(adapter.Object);
         var service = new PdfReportService(configMock.Object, factory.Object);
-        var content = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto { FileName = "report", FolderOutput = "Reports_PDF", Title = "Test" };
+        var content = new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto { FileName = "report", FolderOutput = "Reports_PDF", Title = "Test" };
 
         try
         {
@@ -42,7 +42,7 @@ public class PdfReportServiceTests
 
             // Assert
             result.Should().Be(expectedPath);
-            adapter.Verify(x => x.Generate(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), expectedPath), Times.Once);
+            adapter.Verify(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), expectedPath), Times.Once);
         }
         finally
         {
@@ -65,14 +65,14 @@ public class PdfReportServiceTests
         var configMock = new Mock<ISharedDependenciesConfig>();
         configMock.SetupGet(x => x.Configuration).Returns(config);
         configMock.SetupGet(x => x.Logger).Returns(logger.Object);
-        var adapter = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapter>();
-        adapter.Setup(x => x.Generate(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), It.IsAny<string>())).ThrowsAsync(new InvalidOperationException("pdf error"));
-        var factory = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory>();
-        factory.Setup(x => x.Create(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EPdfReportComponentType.PDFsharp)).Returns(adapter.Object);
+        var adapter = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapter>();
+        adapter.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), It.IsAny<string>())).ThrowsAsync(new InvalidOperationException("pdf error"));
+        var factory = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory>();
+        factory.Setup(x => x.Create(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EPdfReportComponentType.PDFsharp)).Returns(adapter.Object);
         var service = new PdfReportService(configMock.Object, factory.Object);
 
         // Act
-        var result = await service.Generate(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto { FileName = "fail", FolderOutput = "Reports_PDF" });
+        var result = await service.Generate(new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto { FileName = "fail", FolderOutput = "Reports_PDF" });
 
         // Assert
         result.Should().BeEmpty();
@@ -102,18 +102,18 @@ public class PdfReportServiceTests
         var configMock = new Mock<ISharedDependenciesConfig>();
         configMock.SetupGet(x => x.Configuration).Returns(config);
         configMock.SetupGet(x => x.Logger).Returns(Mock.Of<ILogger>());
-        var adapter = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapter>();
-        adapter.Setup(x => x.Generate(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), existingFile)).Returns(Task.CompletedTask);
-        var factory = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory>();
-        factory.Setup(x => x.Create(global::SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns.EPdfReportComponentType.PDFsharp)).Returns(adapter.Object);
+        var adapter = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapter>();
+        adapter.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), existingFile)).Returns(Task.CompletedTask);
+        var factory = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory>();
+        factory.Setup(x => x.Create(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EPdfReportComponentType.PDFsharp)).Returns(adapter.Object);
         var service = new PdfReportService(configMock.Object, factory.Object);
 
         try
         {
-            var result = await service.Generate(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto { FileName = "report", FolderOutput = "Reports_PDF" });
+            var result = await service.Generate(new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto { FileName = "report", FolderOutput = "Reports_PDF" });
 
             result.Should().Be(existingFile);
-            adapter.Verify(x => x.Generate(It.IsAny<SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), existingFile), Times.Once);
+            adapter.Verify(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), existingFile), Times.Once);
         }
         finally
         {

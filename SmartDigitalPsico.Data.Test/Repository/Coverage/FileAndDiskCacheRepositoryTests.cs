@@ -1,4 +1,4 @@
-using SmartDigitalPsicoAPI.Core.SDK.Domain.ModelEntity.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Data.Repository.CacheManager;
 using SmartDigitalPsico.Data.Repository.FileManager;
@@ -25,12 +25,12 @@ public class FileAndDiskCacheRepositoryTests
     }
 
     // Cenário: salvar, ler, substituir e excluir arquivo em disco.
-    // Objetivo: cobrir Save, Exists, Get e Delete do SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository.
+    // Objetivo: cobrir Save, Exists, Get e Delete do SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository.
     [Test]
     public async Task FileDiskRepository_PersistsReadsReplacesAndDeletesFiles()
     {
         // Arrange
-        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
         var criteria = new FileData
         {
             FolderDestination = _temporaryDirectory,
@@ -58,13 +58,13 @@ public class FileAndDiskCacheRepositoryTests
     }
 
     // Cenário: cache em disco com valores JSON serializados.
-    // Objetivo: cobrir Set, TryGet e Remove do SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository.
+    // Objetivo: cobrir Set, TryGet e Remove do SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository.
     [Test]
     public async Task DiskCacheRepository_StoresRetrievesAndRemovesJsonValues()
     {
         // Arrange
-        var repository = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
-        var cache = new SmartDigitalPsicoAPI.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(repository, Options.Create(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        var cache = new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.DiskCacheRepository(repository, Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             PathCache = _temporaryDirectory,
             ExtensionCache = ".cache"

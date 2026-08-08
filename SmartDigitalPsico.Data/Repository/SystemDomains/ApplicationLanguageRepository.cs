@@ -1,9 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Repository.SystemDomains
@@ -13,12 +13,12 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class ApplicationLanguageRepository : SmartDigitalPsicoAPI.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<ApplicationLanguage>, IApplicationLanguageRepository
+    public class ApplicationLanguageRepository : SmartDigitalPsico.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<ApplicationLanguage>, IApplicationLanguageRepository
     {
         /// <summary>
         /// Método ApplicationLanguageRepository: executa a operação ApplicationLanguageRepository.
         /// </summary>
-        public ApplicationLanguageRepository(IEntityDataContext context) : base((Microsoft.EntityFrameworkCore.DbContext)context)
+        public ApplicationLanguageRepository(IEntityDataContext context) : base(context)
         {
 
         }

@@ -1,32 +1,21 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Data.Context.Configure
 {
     /// <summary>
-    /// Classe responsável por EntityBaseConfiguration.
-    /// Responsabilidade: configuração de startup/DI da aplicação.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
-    public abstract class EntityBaseConfiguration<T> : IEntityTypeConfiguration<T> where T : class
+    // Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_REPO")]
+    public abstract class EntityBaseConfiguration<T> : SmartDigitalPsico.Core.SDK.Data.Context.Configure.EntityBaseConfiguration<T>
+        where T : class
     {
-        /// <summary>
-        /// Método EntityBaseConfiguration: executa a operação EntityBaseConfiguration.
-        /// </summary>
-        protected EntityBaseConfiguration(ETypeDataBase eTypeDataBase)
+        protected EntityBaseConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase)
         {
-            ETypeDataBase = eTypeDataBase;
         }
-        protected ETypeDataBase ETypeDataBase { get; private set; }
 
-        /// <summary>
-        /// Método Configure: configura estado ou dependencias.
-        /// </summary>
-        public virtual void Configure(EntityTypeBuilder<T> builder)
-        {
-            throw new NotImplementedException();
-        }
+        public override void Configure(EntityTypeBuilder<T> builder)
+            => base.Configure(builder);
     }
 }

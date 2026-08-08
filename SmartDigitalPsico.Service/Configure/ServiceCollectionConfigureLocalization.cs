@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.API;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service.Configure
 {
@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Service.Configure
             services.Configure<RequestLocalizationOptions>(
                 options =>
                 {
-                    var supportedCultures = SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.TranslateCulture(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultures());
+                    var supportedCultures = SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.TranslateCulture(SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultures());
 
                     options.DefaultRequestCulture = new RequestCulture(culture: "pt-BR", uiCulture: "pt-BR");
 

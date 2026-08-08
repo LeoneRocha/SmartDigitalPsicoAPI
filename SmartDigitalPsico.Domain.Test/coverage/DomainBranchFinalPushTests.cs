@@ -4,16 +4,16 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.DTO.Security;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Report;
@@ -273,13 +273,13 @@ public class DomainBranchFinalPushTests
         }
     }
 
-    // Cenário: SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver com PropertyName nulo e propriedade ignorada.
+    // Cenário: SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver com PropertyName nulo e propriedade ignorada.
     // Objetivo: cobrir CreateProperty ramos.
     [Test]
     public void IgnorableSerializerContractResolver_NullAndIgnoredPropertyNames_CoverBranches()
     {
         // Arrange
-        var resolver = new SmartDigitalPsico.Domain.Helpers.IgnorableSerializerContractResolver(["Secret"]);
+        var resolver = new SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(["Secret"]);
         var settings = new JsonSerializerSettings { ContractResolver = resolver };
         var json = JsonConvert.SerializeObject(new FinalRow { Label = "x", Public = "y", Secret = "z" }, settings);
         resolver.ApplyIgnoreRulesForTests(new Newtonsoft.Json.Serialization.JsonProperty { PropertyName = "Secret" });
@@ -341,7 +341,7 @@ public class DomainBranchFinalPushTests
     public void TokenService_GetPrincipalFromExpiredToken_InvalidAlg_Throws()
     {
         // Arrange
-        var config = new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
+        var config = new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
         {
             Issuer = "issuer",
             Audience = "audience",
@@ -367,7 +367,7 @@ public class DomainBranchFinalPushTests
         act.Should().Throw<SecurityTokenException>();
     }
 
-    // Cenário: LogAppHelper, SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter e RecurrenceMaterializer com ramos finais.
+    // Cenário: LogAppHelper, SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter e RecurrenceMaterializer com ramos finais.
     // Objetivo: fechar branches restantes de assembly, enum e recorrência.
     [Test]
     public void DomainBranchFinalGaps_LogAppValidatorsRecurrenceEnum_CloseRemainingBranches()
@@ -389,15 +389,15 @@ public class DomainBranchFinalPushTests
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", null);
             LogAppHelper.GetInformationVersionProduct().EnvironmentName.Should().Be("Undefined");
 
-            var converter = new SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>();
+            var converter = new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>();
             var bytes = Encoding.UTF8.GetBytes("\"Human\"");
             var reader = new Utf8JsonReader(bytes);
             reader.Read();
             converter.Read(ref reader, typeof(FinalDescribedEnum), new JsonSerializerOptions()).Should().Be(FinalDescribedEnum.Value);
 
-            var fromDescription = typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
+            var fromDescription = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
                 .GetMethod("TryGetEnumValueFromDescription", BindingFlags.NonPublic | BindingFlags.Static)!;
-            var fromName = typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
+            var fromName = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
                 .GetMethod("TryGetEnumValueFromName", BindingFlags.NonPublic | BindingFlags.Static)!;
             var otherField = typeof(OtherDescribedEnum).GetField(nameof(OtherDescribedEnum.Value))!;
             ((bool)fromDescription.Invoke(null, [otherField, "OtherHuman", null])!).Should().BeFalse();
@@ -493,7 +493,7 @@ public class DomainBranchFinalPushTests
     {
         // Arrange
         var medicalRepo = new Mock<IMedicalRepository>();
-        var entityRepo = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
+        var entityRepo = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
         var userRepo = new Mock<IUserRepository>();
         userRepo.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Medical = new Medical { Id = 5 } });
         var validator = new TestMedicalBaseValidator(medicalRepo.Object, entityRepo.Object, userRepo.Object);
@@ -549,7 +549,7 @@ public class DomainBranchFinalPushTests
             LogAppHelper.EntryAssemblyFallbackForTests = previousFallback;
         }
 
-        var addHeader = typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter)
+        var addHeader = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter)
             .GetMethod("AddHeaderRow", BindingFlags.NonPublic | BindingFlags.Static)!;
         var sheet = new DocumentFormat.OpenXml.Spreadsheet.SheetData();
         addHeader.Invoke(null, [null, new List<string>(), sheet]);
@@ -564,7 +564,7 @@ public class DomainBranchFinalPushTests
     {
         // Arrange
         const string secret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
-        var service = new TokenService(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
+        var service = new TokenService(new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
         var token = service.GenerateAccessToken([new Claim("sub", "1")]);
         // Act
         // Assert
@@ -590,7 +590,7 @@ public class DomainBranchFinalPushTests
         try
         {
             TokenService.TokenHandlerFactoryForTests = () => new NonJwtTokenHandler();
-            var service = new TokenService(new SmartDigitalPsicoAPI.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
+            var service = new TokenService(new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
             {
                 Secret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
                 Issuer = "i",
@@ -617,7 +617,7 @@ public class DomainBranchFinalPushTests
         // Arrange
         var medicalRepo = new Mock<IMedicalRepository>();
         medicalRepo.Setup(x => x.Exists(It.IsAny<long>())).ReturnsAsync(true);
-        var entityRepo = new Mock<SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
+        var entityRepo = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
         entityRepo.Setup(x => x.Exists(It.IsAny<long>())).ReturnsAsync(false);
         var userRepo = new Mock<IUserRepository>();
         userRepo.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Medical = new Medical { Id = 5 } });
@@ -707,7 +707,7 @@ public class DomainBranchFinalPushTests
         existingNullEnd.IsValid.Should().BeTrue();
     }
 
-    // Cenário: SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter, RecurrenceMaterializer e LogAppHelper finais.
+    // Cenário: SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter, RecurrenceMaterializer e LogAppHelper finais.
     // Objetivo: fechar branches restantes de descrição, recorrência e assembly.
     [Test]
     public void EnumConverter_RecurrenceAndLogApp_FinalBranches()
@@ -725,10 +725,10 @@ public class DomainBranchFinalPushTests
             LogAppHelper.EntryAssemblyProviderForTests = null;
         }
 
-        var converter = new SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>();
-        var fromDescription = typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
+        var converter = new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>();
+        var fromDescription = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
             .GetMethod("TryGetEnumValueFromDescription", BindingFlags.NonPublic | BindingFlags.Static)!;
-        var fromName = typeof(SmartDigitalPsicoAPI.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
+        var fromName = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
             .GetMethod("TryGetEnumValueFromName", BindingFlags.NonPublic | BindingFlags.Static)!;
         var field = typeof(FinalDescribedEnum).GetField(nameof(FinalDescribedEnum.Value))!;
         var argsDesc = new object?[] { field, "Wrong", null };
@@ -795,7 +795,7 @@ public class DomainBranchFinalPushTests
 
     private sealed class TestMedicalBaseValidator : SmartDigitalPsico.Domain.Validation.Base.MedicalBaseValidator<MedicalCalendar>
     {
-        public TestMedicalBaseValidator(IMedicalRepository medicalRepository, SmartDigitalPsicoAPI.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar> entityRepository, IUserRepository userRepository)
+        public TestMedicalBaseValidator(IMedicalRepository medicalRepository, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar> entityRepository, IUserRepository userRepository)
             : base(medicalRepository, entityRepository, userRepository) { }
     }
 
