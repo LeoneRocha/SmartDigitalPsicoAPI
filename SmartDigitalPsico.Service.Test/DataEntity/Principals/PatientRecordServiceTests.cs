@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Service.Audit;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
@@ -7,7 +8,8 @@ using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Service.DataEntity.Principals;
+using SmartDigitalPsico.Service.Patient;
+using SmartDigitalPsico.Service.Medical;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
@@ -16,6 +18,14 @@ using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
+    using User = SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
+    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
+    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
+    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
+    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 [TestFixture]
 public class PatientRecordServiceTests

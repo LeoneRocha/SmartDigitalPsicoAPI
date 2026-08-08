@@ -23,15 +23,23 @@ using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.EntityModels;
 
-namespace SmartDigitalPsico.Service.DataEntity.SystemDomains
+namespace SmartDigitalPsico.Service.Audit
 {
+    using User = SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
+    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
+    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
+    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
+    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
     /// <summary>
     /// Classe responsável por AuditDataSelectiveEntityLogService.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class AuditDataSelectiveEntityLogService
-        : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<AuditDataSelectiveEntityLog, GetAuditDataSelectiveEntityLogDto>, IAuditDataSelectiveEntityLogService
+        : SmartDigitalPsico.Service.Common.EntityBaseService<AuditDataSelectiveEntityLog, GetAuditDataSelectiveEntityLogDto>, IAuditDataSelectiveEntityLogService
     {
         private readonly ISharedDependenciesConfig _sharedDependenciesConfig;
 

@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Service.Audit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,14 @@ using SmartDigitalPsico.Service.Configure.Domain;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.User;
 namespace SmartDigitalPsico.Service.Test.Configure;
+    using User = SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
+    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
+    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
+    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
+    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 [TestFixture]
 public class ConfigurationAndCryptoServiceTests

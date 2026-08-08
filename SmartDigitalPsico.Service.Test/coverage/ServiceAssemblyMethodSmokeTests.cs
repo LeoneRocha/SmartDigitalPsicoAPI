@@ -1,7 +1,16 @@
+using SmartDigitalPsico.Service.Audit;
 using System.Reflection;
 using Moq;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
+    using User = SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
+    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
+    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
+    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
+    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 [TestFixture]
 public class ServiceAssemblyMethodSmokeTests
@@ -12,7 +21,7 @@ public class ServiceAssemblyMethodSmokeTests
     public async Task ConcreteServiceTypes_PublicMethods_CanBeInvokedWithMockedDependencies()
     {
         // Arrange
-        var assembly = typeof(SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<,>).Assembly;
+        var assembly = typeof(SmartDigitalPsico.Service.Common.EntityBaseService<,>).Assembly;
         var concreteTypes = assembly.GetTypes()
             .Where(type => type.IsClass && type.IsPublic && !type.IsAbstract && !type.ContainsGenericParameters)
             .Where(type => type.Namespace is not null && type.Namespace.StartsWith("SmartDigitalPsico.Service", StringComparison.Ordinal))

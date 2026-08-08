@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Service.Audit;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -13,6 +14,14 @@ using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
+    using User = SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
+    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
+    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
+    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
+    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 [TestFixture]
 public class InfrastructureMethodCoverageGapTests
@@ -157,7 +166,7 @@ public class InfrastructureMethodCoverageGapTests
             .ReturnsAsync(new KeyValuePair<bool, CacheValue>(false, null!));
         disk.Setup(x => x.TryGetAsync<CacheValue>("null-value"))
             .ReturnsAsync(new KeyValuePair<bool, CacheValue>(true, null!));
-        var service = new SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService(
+        var service = new SmartDigitalPsico.Service.Infrastructure.Cache.CacheService(
             Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>(),
             disk.Object,
             Mock.Of<IApplicationCacheLogRepository>(),

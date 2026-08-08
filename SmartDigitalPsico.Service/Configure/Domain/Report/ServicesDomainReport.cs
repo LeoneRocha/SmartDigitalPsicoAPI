@@ -5,9 +5,17 @@ using SmartDigitalPsico.Service.Infrastructure.Report;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
-using SmartDigitalPsico.Service.Report;
+using SmartDigitalPsico.Service.Patient;
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
+    using User = SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
+    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
+    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
+    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
+    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
     /// <summary>
     /// Factories de relatório no Core; serviços Excel/Pdf/Patient no host.
     /// </summary>

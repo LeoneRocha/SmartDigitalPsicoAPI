@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Service.Audit;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Configuration;
@@ -28,16 +29,24 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Bussines.Notification;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions;
-using SmartDigitalPsico.Service.DataEntity.General;
-using SmartDigitalPsico.Service.DataEntity.Principals;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
-using SmartDigitalPsico.Service.Report;
+using SmartDigitalPsico.Service.Notification;
+using SmartDigitalPsico.Service.Schedule.Core.Commands;
+using SmartDigitalPsico.Service.Schedule.Core.Conflict;
+using SmartDigitalPsico.Service.Schedule.Core.Queries;
+using SmartDigitalPsico.Service.Schedule.Medical;
+using SmartDigitalPsico.Service.Schedule.Medical.Actions;
+using SmartDigitalPsico.Service.Medical;
+using SmartDigitalPsico.Service.Patient;
+using SmartDigitalPsico.Service.Medical;
+using SmartDigitalPsico.Service.Application;
+using SmartDigitalPsico.Service.Gender;
+using SmartDigitalPsico.Service.Leaves;
+using SmartDigitalPsico.Service.Notification;
+using SmartDigitalPsico.Service.Office;
+using SmartDigitalPsico.Service.RoleGroup;
+using SmartDigitalPsico.Service.Specialty;
+using SmartDigitalPsico.Service.User;
+using SmartDigitalPsico.Service.Patient;
 using SmartDigitalPsico.Service.Test.Infrastructure;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using System.Globalization;
@@ -46,6 +55,14 @@ using System.Security.Claims;
 using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
+    using User = SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
+    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
+    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
+    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
+    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 [TestFixture]
 public class ServiceBranchCoverageRemainingTests
@@ -1171,7 +1188,7 @@ public class ServiceBranchCoverageRemainingTests
     }
 
     // Cenário: Cache TryGet exception, value null e checkCacheIsValid temData false.
-    // Objetivo: fechar ramos restantes de SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService.
+    // Objetivo: fechar ramos restantes de SmartDigitalPsico.Service.Infrastructure.Cache.CacheService.
     [Test]
     public void CacheService_ExceptionNullValueAndInvalidDate_CoverBranches()
     {
@@ -1656,7 +1673,7 @@ public class ServiceBranchCoverageRemainingTests
         }
     }
 
-    private static SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService CreateCache(
+    private static SmartDigitalPsico.Service.Infrastructure.Cache.CacheService CreateCache(
         global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache type,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>? memory = null!,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>? disk = null!,
@@ -1726,7 +1743,7 @@ public class ServiceBranchCoverageRemainingTests
         }
     }
 
-    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Gender, GetGenderDto>
+    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.Common.EntityBaseService<Gender, GetGenderDto>
     {
         public ProbeEntityBaseService(
             ISharedServices sharedServices,

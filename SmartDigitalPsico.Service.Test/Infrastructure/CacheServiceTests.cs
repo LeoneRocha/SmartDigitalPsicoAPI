@@ -1,8 +1,17 @@
+using SmartDigitalPsico.Service.Audit;
 using Microsoft.Extensions.Options;
 using Moq;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
+    using User = SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
+    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
+    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
+    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
+    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 [TestFixture]
 public class CacheServiceTests
@@ -85,8 +94,8 @@ public class CacheServiceTests
             });
 
         // Act
-        await SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService.SaveDataToCache("result", 42, cache.Object);
-        var result = await SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService.GetDataFromCache<int>(cache.Object, "result");
+        await SmartDigitalPsico.Service.Infrastructure.Cache.CacheService.SaveDataToCache("result", 42, cache.Object);
+        var result = await SmartDigitalPsico.Service.Infrastructure.Cache.CacheService.GetDataFromCache<int>(cache.Object, "result");
 
         // Assert
         result.Data.Should().Be(42);
@@ -216,7 +225,7 @@ public class CacheServiceTests
         }
     }
 
-    private static SmartDigitalPsico.Service.Infrastructure.CacheManager.CacheService Create(
+    private static SmartDigitalPsico.Service.Infrastructure.Cache.CacheService Create(
         global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache type,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>? memory = null,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>? disk = null,
