@@ -1,4 +1,4 @@
-using AutoMapper;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
                     var serviceRepo = _serviceProvider.GetService<IUserTokenSessionRepository>();
                     return new DatabaseTokenSessionAdapter(serviceRepo!); 
                 case ETokenSessionPersistenceType.AzureStorageTable:
-                    var mapper = _serviceProvider.GetService<IMapper>();
+                    var mapper = _serviceProvider.GetService<IAppMapper>();
 
                     var serviceStorage = _serviceProvider.GetService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
                     

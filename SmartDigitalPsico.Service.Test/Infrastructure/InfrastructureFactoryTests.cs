@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Domain.Enuns;
@@ -191,7 +192,7 @@ public class InfrastructureFactoryTests
         var services = new ServiceCollection();
         services.AddSingleton(new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
         services.AddSingleton(Mock.Of<SmartDigitalPsico.Domain.Interfaces.Repository.IUserTokenSessionRepository>());
-        services.AddSingleton(Mock.Of<AutoMapper.IMapper>());
+        services.AddSingleton(Mock.Of<IAppMapper>());
         services.AddSingleton(Mock.Of<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>>());
         using var provider = services.BuildServiceProvider();
         var factory = new SmartDigitalPsico.Service.Infrastructure.Authentication.TokenSessionPersistenceFactory(provider);

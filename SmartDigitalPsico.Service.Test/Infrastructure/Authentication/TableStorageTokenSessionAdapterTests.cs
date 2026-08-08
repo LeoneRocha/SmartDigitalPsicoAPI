@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using AutoMapper;
 using Moq;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -18,7 +19,7 @@ public class TableStorageTokenSessionAdapterTests
         var tableEntity = new UserTokenSessionTableEntity { RowKey = "42", RefreshToken = "rt" };
         var storage = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
         storage.Setup(x => x.GetByIdAsync("UserTokenSession", "42")).ReturnsAsync(tableEntity);
-        var mapper = new Mock<IMapper>();
+        var mapper = new Mock<IAppMapper>();
         mapper.Setup(x => x.Map<UserTokenSession>(tableEntity)).Returns(new UserTokenSession { UserId = 42, RefreshToken = "rt" });
         var adapter = new TableStorageTokenSessionAdapter(mapper.Object, storage.Object);
 
@@ -39,7 +40,7 @@ public class TableStorageTokenSessionAdapterTests
         var storage = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
         storage.Setup(x => x.GetByIdAsync("UserTokenSession", "7")).Returns(Task.FromResult<UserTokenSessionTableEntity>(null!));
         storage.Setup(x => x.UpdateAsync(It.IsAny<UserTokenSessionTableEntity>())).Returns(Task.CompletedTask);
-        var mapper = new Mock<IMapper>();
+        var mapper = new Mock<IAppMapper>();
         mapper.Setup(x => x.Map<UserTokenSessionTableEntity>(It.IsAny<UserTokenSession>()))
             .Returns(new UserTokenSessionTableEntity());
         var adapter = new TableStorageTokenSessionAdapter(mapper.Object, storage.Object);
@@ -70,7 +71,7 @@ public class TableStorageTokenSessionAdapterTests
         storage.Setup(x => x.GetByIdAsync("UserTokenSession", "8")).ReturnsAsync(expired);
         storage.Setup(x => x.DeleteAsync("UserTokenSession", "8")).Returns(Task.CompletedTask);
         storage.Setup(x => x.UpdateAsync(It.IsAny<UserTokenSessionTableEntity>())).Returns(Task.CompletedTask);
-        var mapper = new Mock<IMapper>();
+        var mapper = new Mock<IAppMapper>();
         mapper.Setup(x => x.Map<UserTokenSessionTableEntity>(It.IsAny<UserTokenSession>()))
             .Returns(new UserTokenSessionTableEntity());
         var adapter = new TableStorageTokenSessionAdapter(mapper.Object, storage.Object);

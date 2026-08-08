@@ -1,4 +1,4 @@
-using AutoMapper;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Azure;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
@@ -14,12 +14,12 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
     public class TableStorageTokenSessionAdapter : ITokenSessionPersistenceAdapter
     {
         private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity> _storageTableService;
-        private readonly IMapper _mapper;
+        private readonly IAppMapper _mapper;
 
         /// <summary>
         /// Método TableStorageTokenSessionAdapter: executa a operação TableStorageTokenSessionAdapter.
         /// </summary>
-        public TableStorageTokenSessionAdapter(IMapper mapper, SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity> storageTableService)
+        public TableStorageTokenSessionAdapter(IAppMapper mapper, SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity> storageTableService)
         {
             _storageTableService = storageTableService;
             _mapper = mapper;

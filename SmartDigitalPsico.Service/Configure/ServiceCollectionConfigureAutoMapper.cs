@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Mapping;
 using SmartDigitalPsico.Domain.Mapper;
 
 namespace SmartDigitalPsico.Service.Configure
@@ -21,6 +22,9 @@ namespace SmartDigitalPsico.Service.Configure
             {
                 cfg.AddMaps(typeof(AutoMapperProfile));
             });
+
+            // App code usa IAppMapper; AutoMapper.IMapper permanece para o próprio AutoMapper / perfis.
+            services.AddAppMapper();
         }
     }
 }

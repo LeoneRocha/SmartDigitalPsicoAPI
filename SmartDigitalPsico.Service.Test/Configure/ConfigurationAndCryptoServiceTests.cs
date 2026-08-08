@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;

@@ -1,5 +1,5 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using AutoMapper;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         where Repo : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<TEntity>
 
     {
-        protected readonly IMapper _mapper;
+        protected readonly IAppMapper _mapper;
         protected readonly Repo _entityRepository;
         protected readonly IValidator<TEntity> _entityValidator;
         protected long UserId { get; private set; }

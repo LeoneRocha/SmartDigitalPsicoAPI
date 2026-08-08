@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using System.Globalization;
 using System.Reflection;
 using System.Security.Claims;
@@ -1705,7 +1706,7 @@ public class ServiceBranchCoverageRemainingTests
     {
         public Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
-        public Mock<AutoMapper.IMapper> Mapper { get; } = new();
+        public Mock<IAppMapper> Mapper { get; } = new();
         public ProbeEntityBaseService Service { get; }
 
         public EntityProbeContext(string policyName = "")

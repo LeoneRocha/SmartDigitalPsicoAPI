@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
@@ -452,7 +453,7 @@ public class EntityBaseServiceTests
     {
         public Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
-        public Mock<IMapper> Mapper { get; } = new();
+        public Mock<IAppMapper> Mapper { get; } = new();
         public Mock<IAppLogger> Logger { get; } = new();
         public ProbeEntityBaseService Service { get; }
 
@@ -665,7 +666,7 @@ public class GenderServiceTests
     private sealed class GenderServiceContext
     {
         public Mock<IGenderRepository> Repository { get; } = new();
-        public Mock<IMapper> Mapper { get; } = new();
+        public Mock<IAppMapper> Mapper { get; } = new();
         public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService> Cache { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
         public GenderService Service { get; }

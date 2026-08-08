@@ -1,9 +1,9 @@
-using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
         where TEntity : SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBaseLog
         where TEntityResult : class
     {
-        protected readonly IMapper _mapper;
+        protected readonly IAppMapper _mapper;
         protected readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<TEntity> _entityRepository;
         protected readonly IValidator<TEntity> _entityValidator;
         protected long UserId { get; private set; }
@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
         /// MÃ©todo EntityBaseService: executa a operaÃ§Ã£o EntityBaseService.
         /// </summary>
         public EntityBaseService(
-    IMapper mapper,
+    IAppMapper mapper,
     IAppLogger logger,
     SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService,
     SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig policyConfig,

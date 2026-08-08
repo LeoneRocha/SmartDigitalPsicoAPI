@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using System.Globalization;
 using System.Reflection;
 using System.Security.Claims;
@@ -265,7 +266,7 @@ public class ServiceBranchCoverageLastPushTests
     {
         // Arrange
         var shared = new ServiceTestContext();
-        var mapper = new Mock<IMapper>();
+        var mapper = new Mock<IAppMapper>();
         mapper.Setup(x => x.Map<GetMedicalFileDto>(It.IsAny<MedicalFile>()))
             .Returns(() =>
             {
@@ -786,7 +787,7 @@ public class ServiceBranchCoverageLastPushTests
         async Task<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetMedicalFileDto>> RunAsync(string? fileName)
         {
             var shared = new ServiceTestContext();
-            var mapper = new Mock<IMapper>();
+            var mapper = new Mock<IAppMapper>();
             mapper.Setup(x => x.Map<GetMedicalFileDto>(It.IsAny<MedicalFile>()))
                 .Returns(() => new GetMedicalFileDto
                 {
@@ -1153,7 +1154,7 @@ public class ServiceBranchCoverageLastPushTests
         public ServiceTestContext Shared { get; } = new();
         public Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
-        public Mock<IMapper> Mapper { get; } = new();
+        public Mock<IAppMapper> Mapper { get; } = new();
         public SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<Gender, GetGenderDto> Service { get; }
 
         public EntityBaseProbeContext()
@@ -1227,7 +1228,7 @@ public class ServiceBranchCoverageLastPushTests
     {
         public Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
-        public Mock<IMapper> Mapper { get; } = new();
+        public Mock<IAppMapper> Mapper { get; } = new();
         public ProbeEntityBaseService Service { get; }
 
         public EntityProbeContext()

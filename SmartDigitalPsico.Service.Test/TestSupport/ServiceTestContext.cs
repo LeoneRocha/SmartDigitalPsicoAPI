@@ -1,8 +1,9 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Mapping;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
@@ -15,7 +16,7 @@ namespace SmartDigitalPsico.Service.Test.TestSupport;
 
 /// <summary>
 /// Contexto compartilhado de dependências mockadas para os testes comportamentais de Service.
-/// Usa o AutoMapperProfile real para evitar centenas de Setups manuais de IMapper.Map.
+/// Usa o AutoMapperProfile real (via IAppMapper) para evitar centenas de Setups manuais.
 /// </summary>
 public sealed class ServiceTestContext
 {
@@ -33,7 +34,7 @@ public sealed class ServiceTestContext
     public Mock<ISharedRepositories> SharedRepositoriesMock { get; } = new();
     public ISharedRepositories SharedRepositories => SharedRepositoriesMock.Object;
 
-    public IMapper Mapper { get; }
+    public IAppMapper Mapper { get; }
     public Mock<IAppLogger> Logger { get; } = new();
     public Mock<ISharedDependenciesConfig> ConfigMock { get; } = new();
     public ISharedDependenciesConfig Config => ConfigMock.Object;
@@ -54,7 +55,7 @@ public sealed class ServiceTestContext
         SharedRepositoriesMock.SetupGet(x => x.ApplicationConfigSettingRepository).Returns(ApplicationConfigSettingRepository.Object);
 
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
-        Mapper = mapperConfiguration.CreateMapper();
+        Mapper = new AutoMapperAppMapperAdapter(mapperConfiguration.CreateMapper());
 
         ConfigMock.SetupGet(x => x.Mapper).Returns(Mapper);
         ConfigMock.SetupGet(x => x.Logger).Returns(Logger.Object);

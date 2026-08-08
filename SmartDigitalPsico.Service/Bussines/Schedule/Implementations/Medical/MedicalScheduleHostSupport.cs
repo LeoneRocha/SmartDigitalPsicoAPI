@@ -1,4 +1,4 @@
-using AutoMapper;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical
         }
 
         public long UserId { get; private set; }
-        public IMapper Mapper { get; }
+        public IAppMapper Mapper { get; }
         public IAppLogger Logger { get; }
         public IUserRepository UserRepository { get; }
         public IPatientRepository PatientRepository { get; }

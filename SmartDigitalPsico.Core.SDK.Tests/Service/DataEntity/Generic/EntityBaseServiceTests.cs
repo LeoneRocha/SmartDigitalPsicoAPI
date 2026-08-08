@@ -1,4 +1,4 @@
-using AutoMapper;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
@@ -221,7 +221,7 @@ public class EntityBaseServiceTests
     {
         public Mock<IEntityBaseRepository<TestEntity>> Repository { get; } = new();
         public Mock<IValidator<TestEntity>> Validator { get; } = new();
-        public Mock<IMapper> Mapper { get; } = new();
+        public Mock<IAppMapper> Mapper { get; } = new();
         public Mock<IAppLogger> Logger { get; } = new();
         public ProbeEntityBaseService Service { get; }
 
@@ -246,7 +246,7 @@ public class EntityBaseServiceTests
     private sealed class ProbeEntityBaseService : EntityBaseService<TestEntity, ResultDto>
     {
         public ProbeEntityBaseService(
-            IMapper mapper,
+            IAppMapper mapper,
             IAppLogger logger,
             ICacheService cacheService,
             IResiliencePolicyConfig policyConfig,
