@@ -1,4 +1,4 @@
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
     {
         private readonly IScheduleCalendarRepository _repository;
         private readonly IScheduleConflictService _conflictService;
-        private readonly ILogger _logger;
+        private readonly IAppLogger _logger;
 
         /// <summary>
         /// Método ScheduleUpdateService: operação de agendamento.
@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
         public ScheduleUpdateService(
             IScheduleCalendarRepository repository,
             IScheduleConflictService conflictService,
-            ILogger logger)
+            IAppLogger logger)
         {
             _repository = repository;
             _conflictService = conflictService;

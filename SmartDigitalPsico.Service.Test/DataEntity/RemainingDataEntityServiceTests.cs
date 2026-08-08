@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -109,7 +110,7 @@ public class RemainingDataEntityServiceTests
 
             var config = new Mock<ISharedDependenciesConfig>();
             config.SetupGet(value => value.Mapper).Returns(Mock.Of<IMapper>());
-            config.SetupGet(value => value.Logger).Returns(Mock.Of<ILogger>());
+            config.SetupGet(value => value.Logger).Returns(Mock.Of<IAppLogger>());
             config.SetupGet(value => value.PolicyConfig).Returns(new ResiliencePolicyConfig());
             Config = config.Object;
         }

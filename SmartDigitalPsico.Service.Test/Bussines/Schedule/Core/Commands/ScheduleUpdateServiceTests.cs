@@ -1,4 +1,5 @@
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
@@ -176,7 +177,7 @@ public class ScheduleUpdateServiceTests
         // Assert
         result.Success.Should().BeFalse();
 
-        context.Logger.Verify(x => x.Error<string?>(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<string?>()), Times.Once);
+        context.Logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Once);
     }
 
     // Cenário: cancelamento de ocorrência inexistente.
@@ -416,7 +417,7 @@ public class ScheduleUpdateServiceTests
     {
         public Mock<IScheduleCalendarRepository> Repository { get; } = new();
         public Mock<IScheduleConflictService> ConflictService { get; } = new();
-        public Mock<ILogger> Logger { get; } = new();
+        public Mock<IAppLogger> Logger { get; } = new();
         public ScheduleUpdateService Service { get; }
 
         public ScheduleUpdateContext()

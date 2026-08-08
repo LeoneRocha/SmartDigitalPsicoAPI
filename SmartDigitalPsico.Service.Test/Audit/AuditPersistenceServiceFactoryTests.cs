@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Domain.Enuns;
@@ -21,7 +22,7 @@ public class AuditPersistenceServiceFactoryTests
         var services = new ServiceCollection();
         ServicesDomainAudit.AddDependencies(services);
         services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
-        services.AddSingleton<Serilog.ILogger>(_ => Mock.Of<Serilog.ILogger>());
+        services.AddSingleton<IAppLogger>(_ => Mock.Of<IAppLogger>());
         services.AddLogging();
         using var provider = services.BuildServiceProvider();
 

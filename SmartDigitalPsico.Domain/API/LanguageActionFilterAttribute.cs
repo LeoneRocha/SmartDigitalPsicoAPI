@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.API
@@ -12,14 +13,14 @@ namespace SmartDigitalPsico.Domain.API
     /// </summary>
     public class LanguageActionFilterAttribute : ActionFilterAttribute
     {
-        private readonly ILogger _logger;
+        private readonly IAppLogger _logger;
 
         /// <summary>
         /// Método LanguageActionFilterAttribute: executa a operação LanguageActionFilterAttribute.
         /// </summary>
-        public LanguageActionFilterAttribute(ILoggerFactory loggerFactory)
+        public LanguageActionFilterAttribute(IAppLogger logger)
         {
-            _logger = loggerFactory.CreateLogger("LanguageActionFilter");
+            _logger = logger;
         }
 
         /// <summary>
@@ -30,8 +31,8 @@ namespace SmartDigitalPsico.Domain.API
             string culture = context.RouteData.Values["culture"]?.ToString() ?? string.Empty;
 
             // Evita custo de formatação/avaliação quando Information está desabilitado (Sonar/CA logging).
-            if (_logger.IsEnabled(LogLevel.Information))
-                _logger.LogInformation("Setting the culture from the URL: {Culture}", culture);
+            if (_logger.IsEnabled(ELogLevel.Information))
+                _logger.Information("Setting the culture from the URL: {Culture}", culture);
 
 #if NET451
         System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);

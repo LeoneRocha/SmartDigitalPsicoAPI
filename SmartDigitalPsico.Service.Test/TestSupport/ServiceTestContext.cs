@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -33,7 +34,7 @@ public sealed class ServiceTestContext
     public ISharedRepositories SharedRepositories => SharedRepositoriesMock.Object;
 
     public IMapper Mapper { get; }
-    public Mock<ILogger> Logger { get; } = new();
+    public Mock<IAppLogger> Logger { get; } = new();
     public Mock<ISharedDependenciesConfig> ConfigMock { get; } = new();
     public ISharedDependenciesConfig Config => ConfigMock.Object;
 

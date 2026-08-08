@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
@@ -92,11 +93,10 @@ public class EntityBaseServiceTests
         result.Success.Should().BeFalse();
         result.Errors.Should().ContainSingle(x => x.Name == "Create");
 
-        context.Logger.Verify(x => x.Error<string, DateTime>(
+        context.Logger.Verify(x => x.Error(
             It.IsAny<Exception>(),
             It.IsAny<string>(),
-            It.IsAny<string>(),
-            It.IsAny<DateTime>()), Times.Once);
+            It.IsAny<object[]>()), Times.Once);
     }
 
     // Cenário: a atualização aponta para registro inexistente.
@@ -453,7 +453,7 @@ public class EntityBaseServiceTests
         public Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
         public Mock<IMapper> Mapper { get; } = new();
-        public Mock<ILogger> Logger { get; } = new();
+        public Mock<IAppLogger> Logger { get; } = new();
         public ProbeEntityBaseService Service { get; }
 
         public ServiceContext(string policyName = "")
@@ -683,7 +683,7 @@ public class GenderServiceTests
 
             var config = new Mock<ISharedDependenciesConfig>();
             config.SetupGet(x => x.Mapper).Returns(Mapper.Object);
-            config.SetupGet(x => x.Logger).Returns(Mock.Of<ILogger>());
+            config.SetupGet(x => x.Logger).Returns(Mock.Of<IAppLogger>());
             config.SetupGet(x => x.PolicyConfig).Returns(new ResiliencePolicyConfig());
 
             Service = new GenderService(

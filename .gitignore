@@ -149,6 +149,21 @@ coverage*.json
 coverage*.xml
 coverage*.info
 
+# Coverlet report output folders (*.Test/coverage) — keep unit-test sources (*.cs)
+SmartDigitalPsico.Data.Test/coverage/
+SmartDigitalPsico.WebAPI.Test/coverage/
+SmartDigitalPsico.WebJob.Test/coverage/
+SmartDigitalPsico.WindowsService.Test/coverage/
+SmartDigitalPsico.Domain.Test/coverage/**
+!SmartDigitalPsico.Domain.Test/coverage/
+!SmartDigitalPsico.Domain.Test/coverage/**/
+!SmartDigitalPsico.Domain.Test/coverage/**/*.cs
+SmartDigitalPsico.Service.Test/coverage/**
+!SmartDigitalPsico.Service.Test/coverage/
+!SmartDigitalPsico.Service.Test/coverage/**/
+!SmartDigitalPsico.Service.Test/coverage/**/*.cs
+# Do NOT ignore SmartDigitalPsico.*.Test/Repository/Coverage/ (test source)
+
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml

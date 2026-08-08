@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.Json;
@@ -934,7 +935,7 @@ public class DomainRemainingCoverageTests
             // Act
             var info = LogAppHelper.GetInformationVersionProduct();
             var text = LogAppHelper.ShowInformationVersionProductString();
-            var logger = new Mock<Serilog.ILogger>();
+            var logger = new Mock<IAppLogger>();
             LogAppHelper.PrintLogInformationVersionProduct(logger.Object);
 
             // Assert

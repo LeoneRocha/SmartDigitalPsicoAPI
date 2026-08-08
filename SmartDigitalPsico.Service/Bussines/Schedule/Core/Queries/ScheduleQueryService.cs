@@ -1,4 +1,4 @@
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
     {
         private readonly IScheduleCalendarRepository _repository;
         private readonly IScheduleConflictService _conflictService;
-        private readonly ILogger _logger;
+        private readonly IAppLogger _logger;
 
         /// <summary>
         /// Método ScheduleQueryService: operação de agendamento.
@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
         public ScheduleQueryService(
             IScheduleCalendarRepository repository,
             IScheduleConflictService conflictService,
-            ILogger logger)
+            IAppLogger logger)
         {
             _repository = repository;
             _conflictService = conflictService;

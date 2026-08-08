@@ -1,3 +1,5 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using DateHelper = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper;
@@ -12,17 +14,17 @@ namespace SmartDigitalPsico.WindowsService
     public class Worker : BackgroundService
     {
         private const string SystemName = "SmartDigitalPsico.WindowsService";
-        private readonly Serilog.ILogger _logger;
+        private readonly IAppLogger _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Método Worker: executa a operação Worker.
         /// </summary>
-        public Worker(Serilog.ILogger logger, IConfiguration configuration, IServiceProvider serviceProvider)
+        public Worker(IAppLogger logger, IConfiguration configuration, IServiceProvider serviceProvider)
         {
-            // Caso o logger seja nulo, cria a partir da configuração
-            _logger = logger ?? LogAppHelper.CreateLogger(configuration);
+            // Caso o logger seja nulo, cria a partir da configuração (Serilog só no adapter).
+            _logger = logger ?? new SerilogAppLoggerAdapter(LogAppHelper.CreateLogger(configuration));
             _configuration = configuration;
             _serviceProvider = serviceProvider;
         }

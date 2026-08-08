@@ -1,4 +1,5 @@
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Enuns;
@@ -201,7 +202,7 @@ public class NotificationDispatchJobServiceTests
         public Mock<IScheduleCalendarRepository> ScheduleCalendarRepository { get; } = new();
         public Mock<IPatientRepositories> PatientRepositories { get; } = new();
         public Mock<IPatientRepository> PatientRepository { get; } = new();
-        public Mock<ILogger> Logger { get; } = new();
+        public Mock<IAppLogger> Logger { get; } = new();
         public NotificationDispatchJobService Service { get; }
 
         public DispatchJobContext()

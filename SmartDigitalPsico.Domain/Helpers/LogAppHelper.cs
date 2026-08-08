@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.DTO;
 using System.Diagnostics;
 using System.Reflection;
@@ -42,7 +43,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         /// <summary>
         /// Método LogException: executa a operação LogException.
         /// </summary>
-        public static void LogException(Serilog.ILogger logger, Exception ex, string logType)
+        public static void LogException(IAppLogger logger, Exception ex, string logType)
         {
             var message = $"{logType}-LEVEL: {ex.Message} at: {SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog()}";
             if (ex is AppWarningException)
@@ -58,6 +59,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
         /// <summary>
         /// Método CreateLogger: cria ou persiste um novo registro/recurso.
+        /// Bootstrap de host — materializa Serilog.Core.Logger para UseSerilog / sinks.
         /// </summary>
         public static Serilog.Core.Logger CreateLogger(IConfiguration configuration)
         {
@@ -104,7 +106,6 @@ namespace SmartDigitalPsico.Domain.Helpers
         }
         private static string GetHostEnvironmentName()
         {
-            // Obtém o nome do ambiente do host
             IHostEnvironment? hostEnvironment = ForceNullHostEnvironmentForTests
                 ? null
                 : new HostBuilder().UseContentRoot(AppContext.BaseDirectory).ConfigureHostConfiguration(config =>
@@ -126,7 +127,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         /// <summary>
         /// Método PrintLogInformationVersionProduct: executa a operação PrintLogInformationVersionProduct.
         /// </summary>
-        public static void PrintLogInformationVersionProduct(Serilog.ILogger logger)
+        public static void PrintLogInformationVersionProduct(IAppLogger logger)
         {
             var assemblyApp = GetInformationVersionProduct();
             logger.Information("******* PRODUCT INFORMATION *******");
@@ -145,20 +146,18 @@ namespace SmartDigitalPsico.Domain.Helpers
             }
         }
 
-        // Método para encapsular chamadas a _logger.Information_
         /// <summary>
         /// Método LogInfo: executa a operação LogInfo.
         /// </summary>
-        public static void LogInfo(ILogger logger, string message, params object[] args)
+        public static void LogInfo(IAppLogger logger, string message, params object[] args)
         {
             logger.Information(message, args);
         }
 
-        // Método para encapsular chamadas a _logger.Error_
         /// <summary>
         /// Método LogError: executa a operação LogError.
         /// </summary>
-        public static void LogError(ILogger logger, Exception ex, string message, params object[] args)
+        public static void LogError(IAppLogger logger, Exception ex, string message, params object[] args)
         {
             logger.Error(ex, message, args);
         }

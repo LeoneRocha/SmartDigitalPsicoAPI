@@ -38,7 +38,7 @@ using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Report.Entity;
 using SmartDigitalPsico.Service.Test.Infrastructure;
 using SmartDigitalPsico.Service.Test.TestSupport;
-using ILogger = Serilog.ILogger;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
@@ -421,7 +421,7 @@ public class ServiceBranchCoverageRemainingTests
                     ]
                 }
             ]);
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var empty = await service.HasNoConflictBatchAsync("medical", "medical:1", [], null!);
@@ -456,7 +456,7 @@ public class ServiceBranchCoverageRemainingTests
         var day = DateTime.UtcNow.Date.AddDays(1);
         while (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
             day = day.AddDays(1);
-        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<ILogger>());
+        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<IAppLogger>());
         var request = new ScheduleGradeRequest
         {
             TenantKey = "medical",
@@ -520,7 +520,7 @@ public class ServiceBranchCoverageRemainingTests
             medicalNotify.Object,
             scheduleRepo.Object,
             patientRepos.Object,
-            Mock.Of<ILogger>());
+            Mock.Of<IAppLogger>());
         var filter = typeof(NotificationDispatchJobService)
             .GetMethod("FilterPendingRecords", BindingFlags.Static | BindingFlags.NonPublic)!;
         var hydrate = typeof(NotificationDispatchJobService)
@@ -1364,7 +1364,7 @@ public class ServiceBranchCoverageRemainingTests
                     TokenRecurrence = "other"
                 }
             ]);
-        var conflictService = new ScheduleConflictService(conflictRepo.Object, Mock.Of<ILogger>());
+        var conflictService = new ScheduleConflictService(conflictRepo.Object, Mock.Of<IAppLogger>());
 
         var updateCtx = new ScheduleUpdateContext();
         var token = "merge-null";
@@ -1397,7 +1397,7 @@ public class ServiceBranchCoverageRemainingTests
                 }
             ]);
         cancelRepo.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
-        var cancelService = new ScheduleUpdateService(cancelRepo.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var cancelService = new ScheduleUpdateService(cancelRepo.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var conflict = await conflictService.HasNoConflictAsync(new ScheduleCalendarConflictRequest
@@ -1617,7 +1617,7 @@ public class ServiceBranchCoverageRemainingTests
         var day = DateTime.UtcNow.Date.AddDays(2);
         while (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
             day = day.AddDays(1);
-        var availability = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<ILogger>());
+        var availability = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<IAppLogger>());
         var request = new ScheduleGradeRequest
         {
             TenantKey = "medical",
@@ -1767,7 +1767,7 @@ public class ServiceBranchCoverageRemainingTests
 
         public ScheduleCreateContext()
         {
-            Service = new ScheduleCreateService(Repository.Object, ConflictService.Object, Mock.Of<ILogger>());
+            Service = new ScheduleCreateService(Repository.Object, ConflictService.Object, Mock.Of<IAppLogger>());
         }
     }
 
@@ -1779,7 +1779,7 @@ public class ServiceBranchCoverageRemainingTests
 
         public ScheduleUpdateContext()
         {
-            Service = new ScheduleUpdateService(Repository.Object, ConflictService.Object, Mock.Of<ILogger>());
+            Service = new ScheduleUpdateService(Repository.Object, ConflictService.Object, Mock.Of<IAppLogger>());
         }
     }
 

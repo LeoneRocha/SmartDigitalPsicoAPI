@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
@@ -17,14 +17,14 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries
     public class ScheduleAvailabilityService : IScheduleAvailabilityService
     {
         private readonly IScheduleCalendarRepository _repository;
-        private readonly ILogger _logger;
+        private readonly IAppLogger _logger;
 
         private static readonly ConcurrentBag<(DateTime StartDateTime, DateTime EndDateTime, ScheduleCalendarItem Item)> EmptyBusyBag = [];
 
         /// <summary>
         /// Método ScheduleAvailabilityService: operação de agendamento.
         /// </summary>
-        public ScheduleAvailabilityService(IScheduleCalendarRepository repository, ILogger logger)
+        public ScheduleAvailabilityService(IScheduleCalendarRepository repository, IAppLogger logger)
         {
             _repository = repository;
             _logger = logger;

@@ -1,4 +1,5 @@
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
@@ -19,7 +20,7 @@ public class ScheduleQueryServiceTests
         var repository = new Mock<IScheduleCalendarRepository>();
         var expected = new ScheduleCalendar { Id = 31, UniqueToken = "token-31" };
         repository.Setup(x => x.GetByUniqueTokenAsync("token-31")).ReturnsAsync(expected);
-        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.GetByTokenAsync("token-31");
@@ -40,7 +41,7 @@ public class ScheduleQueryServiceTests
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>();
         repository.Setup(x => x.FindByID(31)).ThrowsAsync(new InvalidOperationException("database unavailable"));
-        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.GetByIdAsync(31);
@@ -68,7 +69,7 @@ public class ScheduleQueryServiceTests
                 Data = false,
                 Message = "conflict"
             });
-        var service = new ScheduleQueryService(Mock.Of<IScheduleCalendarRepository>(), conflicts.Object, Mock.Of<ILogger>());
+        var service = new ScheduleQueryService(Mock.Of<IScheduleCalendarRepository>(), conflicts.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasConflictAsync("medical", "medical:1", new DateTime(2026, 8, 20, 9, 0, 0, DateTimeKind.Utc));
@@ -91,7 +92,7 @@ public class ScheduleQueryServiceTests
         var repository = new Mock<IScheduleCalendarRepository>();
         var expected = new ScheduleCalendar { Id = 32, UniqueToken = "token-32" };
         repository.Setup(x => x.FindByID(32)).ReturnsAsync(expected);
-        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.GetByIdAsync(32);
@@ -112,7 +113,7 @@ public class ScheduleQueryServiceTests
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>();
         repository.Setup(x => x.FindByID(404)).Returns(Task.FromResult<ScheduleCalendar>(null!));
-        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.GetByIdAsync(404);
@@ -136,7 +137,7 @@ public class ScheduleQueryServiceTests
         var expected = new[] { new ScheduleCalendar { Id = 1 } };
         repository.Setup(x => x.GetOverlappingByOwnerAsync("medical", "medical:1", start, start.AddHours(1)))
             .ReturnsAsync(expected);
-        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.GetOverlappingPeriodAsync("medical", "medical:1", start, start.AddHours(1));
@@ -160,7 +161,7 @@ public class ScheduleQueryServiceTests
         var expected = new[] { new ScheduleCalendarItem { StartDateTime = start } };
         repository.Setup(x => x.GetItemsForOwnerAsync("medical", "medical:1", start, start.AddHours(1)))
             .ReturnsAsync(expected);
-        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.GetItemsForOwnerAsync("medical", "medical:1", start, start.AddHours(1));
@@ -183,7 +184,7 @@ public class ScheduleQueryServiceTests
         var appointment = new DateTime(2026, 8, 20, 9, 0, 0, DateTimeKind.Utc);
         var expected = new ScheduleCalendarItem { StartDateTime = appointment };
         repository.Setup(x => x.GetItemAsync("medical", "medical:1", "patient:2", appointment)).ReturnsAsync(expected);
-        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var service = new ScheduleQueryService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.GetItemAsync("medical", "medical:1", "patient:2", appointment);
@@ -205,7 +206,7 @@ public class ScheduleQueryServiceTests
         var conflicts = new Mock<IScheduleConflictService>();
         conflicts.Setup(x => x.HasNoConflictAsync(It.IsAny<SmartDigitalPsico.Domain.Validation.Schedule.ScheduleCalendarConflictRequest>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = false, Data = false, Message = "indisponível" });
-        var service = new ScheduleQueryService(Mock.Of<IScheduleCalendarRepository>(), conflicts.Object, Mock.Of<ILogger>());
+        var service = new ScheduleQueryService(Mock.Of<IScheduleCalendarRepository>(), conflicts.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasConflictAsync("medical", "medical:1", DateTime.UtcNow);

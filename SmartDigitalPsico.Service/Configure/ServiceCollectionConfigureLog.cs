@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
 
 namespace SmartDigitalPsico.Service.Configure
 {
@@ -14,16 +15,14 @@ namespace SmartDigitalPsico.Service.Configure
         /// </summary>
         public static void Configure(IServiceCollection services, Serilog.Core.Logger _logger)
         {
-            //Add log 
             addLog(services, _logger);
         }
+
         private static void addLog(IServiceCollection services, Serilog.Core.Logger _logger)
         {
             services.AddLogging();
-            services.AddSingleton<Serilog.ILogger>(sp =>
-            {
-                return _logger;
-            });
+            // Serilog permanece no container para UseSerilog / host; app code usa IAppLogger.
+            services.AddAppLogger(_logger);
         }
     }
 }

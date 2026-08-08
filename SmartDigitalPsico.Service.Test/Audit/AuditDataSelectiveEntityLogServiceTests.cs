@@ -1,5 +1,6 @@
 using FluentValidation;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -18,7 +19,7 @@ public class AuditDataSelectiveEntityLogServiceTests
     public async Task Save_CreateSucceeds_CompletesWithoutLoggingError()
     {
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var sharedConfig = new Mock<ISharedDependenciesConfig>();
         sharedConfig.SetupGet(x => x.Logger).Returns(logger.Object);
         var service = new SuccessfulAuditDataSelectiveEntityLogService(
@@ -45,7 +46,7 @@ public class AuditDataSelectiveEntityLogServiceTests
     public async Task Save_CreateThrows_LogsInformationAndError()
     {
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var sharedConfig = new Mock<ISharedDependenciesConfig>();
         sharedConfig.SetupGet(x => x.Logger).Returns(logger.Object);
         var service = new ThrowingAuditDataSelectiveEntityLogService(

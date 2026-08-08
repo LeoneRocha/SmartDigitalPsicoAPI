@@ -19,7 +19,7 @@ using SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Test.Infrastructure;
 using SmartDigitalPsico.Service.Test.TestSupport;
-using ILogger = Serilog.ILogger;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
 
@@ -60,7 +60,7 @@ public class RemainingServiceLineGapTests
             medicalNotify.Object,
             scheduleRepo.Object,
             patientRepos.Object,
-            Mock.Of<ILogger>());
+            Mock.Of<IAppLogger>());
         var method = typeof(NotificationDispatchJobService)
             .GetMethod("ProcessRecordAsync", BindingFlags.Instance | BindingFlags.NonPublic)!;
         var now = DateTime.UtcNow;
@@ -95,7 +95,7 @@ public class RemainingServiceLineGapTests
     public async Task ScheduleAvailability_BusyOutsideRange_SkipsOutOfRangeDays()
     {
         // Arrange
-        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<ILogger>());
+        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<IAppLogger>());
         var day = new DateTime(2026, 3, 10);
         var request = new ScheduleGradeRequest
         {
@@ -193,7 +193,7 @@ public class RemainingServiceLineGapTests
                 SubjectKey = "patient:1"
             }
         };
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasNoConflictBatchAsync("medical", "medical:1", items, null);
@@ -208,7 +208,7 @@ public class RemainingServiceLineGapTests
     public async Task AuditDataSelectiveEntityLogService_Save_CreateThrows_LogsInformationAndError()
     {
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var sharedConfig = new Mock<ISharedDependenciesConfig>();
         sharedConfig.SetupGet(x => x.Logger).Returns(logger.Object);
         var shared = new ServiceTestContext();

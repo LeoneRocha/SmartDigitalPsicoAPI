@@ -1,4 +1,4 @@
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
@@ -14,12 +14,12 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands
     public class ScheduleDeleteService : IScheduleDeleteService
     {
         private readonly IScheduleCalendarRepository _repository;
-        private readonly ILogger _logger;
+        private readonly IAppLogger _logger;
 
         /// <summary>
         /// Método ScheduleDeleteService: operação de agendamento.
         /// </summary>
-        public ScheduleDeleteService(IScheduleCalendarRepository repository, ILogger logger)
+        public ScheduleDeleteService(IScheduleCalendarRepository repository, IAppLogger logger)
         {
             _repository = repository;
             _logger = logger;

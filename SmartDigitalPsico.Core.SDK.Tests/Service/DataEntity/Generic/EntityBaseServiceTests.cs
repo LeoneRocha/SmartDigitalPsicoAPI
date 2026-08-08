@@ -2,7 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
@@ -222,7 +222,7 @@ public class EntityBaseServiceTests
         public Mock<IEntityBaseRepository<TestEntity>> Repository { get; } = new();
         public Mock<IValidator<TestEntity>> Validator { get; } = new();
         public Mock<IMapper> Mapper { get; } = new();
-        public Mock<ILogger> Logger { get; } = new();
+        public Mock<IAppLogger> Logger { get; } = new();
         public ProbeEntityBaseService Service { get; }
 
         public ServiceContext(string policyName = "")
@@ -247,7 +247,7 @@ public class EntityBaseServiceTests
     {
         public ProbeEntityBaseService(
             IMapper mapper,
-            ILogger logger,
+            IAppLogger logger,
             ICacheService cacheService,
             IResiliencePolicyConfig policyConfig,
             IEntityBaseRepository<TestEntity> entityRepository,

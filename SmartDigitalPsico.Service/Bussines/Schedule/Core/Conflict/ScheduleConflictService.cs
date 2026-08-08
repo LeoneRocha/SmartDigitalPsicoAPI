@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict
     public class ScheduleConflictService : IScheduleConflictService
     {
         private readonly IScheduleCalendarRepository _repository;
-        private readonly ILogger _logger;
+        private readonly IAppLogger _logger;
 
         private readonly record struct ExistingOccurrence(
             ScheduleCalendarItem Item,
@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict
         /// <summary>
         /// Método ScheduleConflictService: operação de agendamento.
         /// </summary>
-        public ScheduleConflictService(IScheduleCalendarRepository repository, ILogger logger)
+        public ScheduleConflictService(IScheduleCalendarRepository repository, IAppLogger logger)
         {
             _repository = repository;
             _logger = logger;

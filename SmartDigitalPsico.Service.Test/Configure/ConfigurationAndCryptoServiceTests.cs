@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Caching.Memory;
@@ -50,7 +51,7 @@ public class ConfigurationAndCryptoServiceTests
         // Assert
         provider.GetRequiredService<IMapper>().Should().NotBeNull();
         provider.GetRequiredService<IMemoryCache>().Should().NotBeNull();
-        services.Should().Contain(x => x.ServiceType == typeof(Serilog.ILogger));
+        services.Should().Contain(x => x.ServiceType == typeof(IAppLogger));
         services.Should().Contain(x => x.ServiceType == typeof(IConfigureOptions<RequestLocalizationOptions>));
     }
     // Cenário: appsettings são vinculados na coleção de serviços.
@@ -230,7 +231,7 @@ public class ConfigurationAndCryptoServiceTests
         services.AddSingleton<IConfiguration>(configuration);
         services.AddLogging();
         services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
-        services.AddSingleton(Mock.Of<Serilog.ILogger>());
+        services.AddSingleton(Mock.Of<IAppLogger>());
         ServiceCollectionConfigureCors.Configure(services);
         ServiceCollectionConfigureLocalization.Configure(services);
         ServicesDomainAudit.AddDependencies(services);
@@ -275,7 +276,7 @@ public class ConfigurationAndCryptoServiceTests
         var services = new ServiceCollection();
         services.AddLogging();
         services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
-        services.AddSingleton(Mock.Of<Serilog.ILogger>());
+        services.AddSingleton(Mock.Of<IAppLogger>());
         var configuration = BuildConfiguration(new Dictionary<string, string?>
         {
             ["DataBaseConfigurations:TypeDataBase"] = "MSsqlServer",
@@ -398,7 +399,8 @@ public class ConfigurationAndCryptoServiceTests
             policy.Should().NotBeNull();
             options.SupportedCultures.Should().NotBeEmpty();
             mvc.RespectBrowserAcceptHeader.Should().BeTrue();
-            provider.GetRequiredService<Serilog.ILogger>().Should().BeSameAs(serilogLogger);
+            provider.GetRequiredService<IAppLogger>().Should().BeOfType<SmartDigitalPsico.Core.SDK.Infrastructure.Logging.SerilogAppLoggerAdapter>();
+            ((SmartDigitalPsico.Core.SDK.Infrastructure.Logging.SerilogAppLoggerAdapter)provider.GetRequiredService<IAppLogger>()).InnerLogger.Should().BeSameAs(serilogLogger);
         }
     }
 
@@ -411,7 +413,7 @@ public class ConfigurationAndCryptoServiceTests
 
         // Act
         var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.StorageTableRepositoryFactory(BuildConfiguration());
-        var logger = new Mock<Serilog.ILogger>();
+        var logger = new Mock<IAppLogger>();
         var audit = new SmartDigitalPsico.Service.Audit.AuditPersistenceLogService(logger.Object);
 
         var table = factory.Create<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>(
@@ -445,7 +447,7 @@ public class ConfigurationAndCryptoServiceTests
     private static void RegisterAuditSupportServices(IServiceCollection services)
     {
         services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
-        services.AddSingleton<Serilog.ILogger>(_ => Mock.Of<Serilog.ILogger>());
+        services.AddSingleton<IAppLogger>(_ => Mock.Of<IAppLogger>());
     }
 
     private static IConfiguration BuildConfiguration(IReadOnlyDictionary<string, string?>? overrides = null)

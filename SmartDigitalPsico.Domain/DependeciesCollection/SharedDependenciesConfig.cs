@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
@@ -12,7 +13,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     public class SharedDependenciesConfig : ISharedDependenciesConfig
     {
         public IMapper Mapper { get; }
-        public Serilog.ILogger Logger { get; }
+        public IAppLogger Logger { get; }
         public SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig PolicyConfig { get; }
 
         public IConfiguration Configuration { get; }
@@ -22,7 +23,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         /// </summary>
         public SharedDependenciesConfig(
             IMapper mapper,
-            Serilog.ILogger logger,
+            IAppLogger logger,
             SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig policyConfig,
            IConfiguration configuration)
         {

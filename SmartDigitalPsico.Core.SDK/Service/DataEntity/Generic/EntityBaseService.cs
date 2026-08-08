@@ -3,6 +3,7 @@ using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
@@ -25,7 +26,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
         protected readonly IValidator<TEntity> _entityValidator;
         protected long UserId { get; private set; }
         protected readonly ICacheService _cacheService;
-        protected readonly Serilog.ILogger _logger;
+        protected readonly IAppLogger _logger;
         protected readonly IResiliencePolicyConfig _policyConfig;
         
 
@@ -34,7 +35,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
         /// </summary>
         public EntityBaseService(
     IMapper mapper,
-    Serilog.ILogger logger,
+    IAppLogger logger,
     SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService,
     SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig policyConfig,
     SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<TEntity> entityRepository,

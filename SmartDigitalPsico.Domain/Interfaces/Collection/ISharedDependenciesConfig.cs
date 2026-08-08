@@ -1,6 +1,6 @@
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Collection
 {
@@ -10,8 +10,8 @@ namespace SmartDigitalPsico.Domain.Interfaces.Collection
     /// Relação: implementado nas camadas Data/Service.
     /// </summary>
     public interface ISharedDependenciesConfig
-    {  
-        ILogger Logger { get; }
+    {
+        IAppLogger Logger { get; }
         IMapper Mapper { get; }
         SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig PolicyConfig { get; }
 

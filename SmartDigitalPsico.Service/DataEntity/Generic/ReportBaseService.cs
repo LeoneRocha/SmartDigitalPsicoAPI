@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using AutoMapper;
 using FluentValidation;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
@@ -21,7 +22,7 @@ namespace SmartDigitalPsico.Service.DataEntity.Generic
         protected long UserId { get; private set; }
         protected readonly IApplicationLanguageRepository _applicationLanguageRepository;
         protected readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService _cacheService;
-        protected readonly Serilog.ILogger _logger;
+        protected readonly IAppLogger _logger;
         protected readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig _policyConfig;
          
         /// <summary>

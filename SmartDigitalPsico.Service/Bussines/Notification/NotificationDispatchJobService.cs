@@ -1,4 +1,4 @@
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
 using SmartDigitalPsico.Domain.Enuns;
@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
         private readonly IMedicalCalenderNotificationService _medicalCalenderNotificationService;
         private readonly IScheduleCalendarRepository _scheduleCalendarRepository;
         private readonly IPatientRepositories _patientRepositories;
-        private readonly ILogger _logger;
+        private readonly IAppLogger _logger;
 
         public event EventHandler<NotificationProgressEventArgs>? ProgressChanged;
 
@@ -38,7 +38,7 @@ namespace SmartDigitalPsico.Service.Bussines.Notification
              IMedicalCalenderNotificationService medicalCalenderNotificationService,
              IScheduleCalendarRepository scheduleCalendarRepository,
              IPatientRepositories patientRepositories,
-             ILogger logger)
+             IAppLogger logger)
         {
             _notificationRecordsService = notificationRecordsService;
             _medicalCalenderNotificationService = medicalCalenderNotificationService;

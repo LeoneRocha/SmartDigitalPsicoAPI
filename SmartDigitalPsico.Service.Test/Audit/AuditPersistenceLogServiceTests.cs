@@ -1,4 +1,5 @@
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Service.Audit;
@@ -14,7 +15,7 @@ public class AuditPersistenceLogServiceTests
     public void SaveAuditEntries_MultipleEntries_LogsEachEntry()
     {
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var service = new AuditPersistenceLogService(logger.Object);
         var entries = new[]
         {
@@ -37,7 +38,7 @@ public class AuditPersistenceLogServiceTests
     public async Task SaveAuditEntry_SingleEntry_LogsInformation()
     {
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var service = new AuditPersistenceLogService(logger.Object);
         var entry = new AuditDataSelectiveEntityLog
         {

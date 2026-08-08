@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Service.Infrastructure.Report;
@@ -23,7 +24,7 @@ public class PdfReportServiceTests
         }).Build();
         var configMock = new Mock<ISharedDependenciesConfig>();
         configMock.SetupGet(x => x.Configuration).Returns(config);
-        configMock.SetupGet(x => x.Logger).Returns(Mock.Of<ILogger>());
+        configMock.SetupGet(x => x.Logger).Returns(Mock.Of<IAppLogger>());
         var adapter = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapter>();
         var expectedPath = Path.Combine(tempRoot, "Reports_PDF", "report.pdf");
         adapter.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), expectedPath)).Returns(Task.CompletedTask);
@@ -58,7 +59,7 @@ public class PdfReportServiceTests
         {
             ["AppSettings:ResourcesTemp"] = Path.GetTempPath()
         }).Build();
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var configMock = new Mock<ISharedDependenciesConfig>();
         configMock.SetupGet(x => x.Configuration).Returns(config);
         configMock.SetupGet(x => x.Logger).Returns(logger.Object);
@@ -98,7 +99,7 @@ public class PdfReportServiceTests
         }).Build();
         var configMock = new Mock<ISharedDependenciesConfig>();
         configMock.SetupGet(x => x.Configuration).Returns(config);
-        configMock.SetupGet(x => x.Logger).Returns(Mock.Of<ILogger>());
+        configMock.SetupGet(x => x.Logger).Returns(Mock.Of<IAppLogger>());
         var adapter = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapter>();
         adapter.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto>(), existingFile)).Returns(Task.CompletedTask);
         var factory = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory>();

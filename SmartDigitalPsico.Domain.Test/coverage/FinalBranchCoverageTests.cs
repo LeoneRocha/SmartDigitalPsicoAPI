@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Security;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -804,7 +805,7 @@ public sealed class FinalBranchCoverageTests
         var overlapValidator = new ScheduleItemValidationContextValidator();
         var calendarList = new MedicalCalendarListValidator(users.Object);
         var scheduleFields = new MedicalCalendarScheduleFieldsValidator();
-        var logger = new Mock<Serilog.ILogger>();
+        var logger = new Mock<IAppLogger>();
 
         // Act
         var outsideHours = await InvokeBool(calendarValidator, "BeInWorkingHours", 5L, monday.Date.AddHours(19));

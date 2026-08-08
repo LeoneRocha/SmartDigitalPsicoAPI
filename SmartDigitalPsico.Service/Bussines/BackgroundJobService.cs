@@ -1,6 +1,6 @@
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using Serilog;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 
 namespace SmartDigitalPsico.Service.Bussines
 {
@@ -12,13 +12,13 @@ namespace SmartDigitalPsico.Service.Bussines
     public class BackgroundJobService : IBackgroundJobService
     {
         private readonly INotificationDispatchJobService _notificationDispatchJobService;
-        private readonly ILogger _logger;
+        private readonly IAppLogger _logger;
         private const string NotificationDispatchJobService_Name = "NotificationDispatchJobService";
 
         /// <summary>
         /// Método BackgroundJobService: executa a operação BackgroundJobService.
         /// </summary>
-        public BackgroundJobService(INotificationDispatchJobService notificationDispatchJobService, ILogger logger)
+        public BackgroundJobService(INotificationDispatchJobService notificationDispatchJobService, IAppLogger logger)
         {
             _notificationDispatchJobService = notificationDispatchJobService;
             _logger = logger;

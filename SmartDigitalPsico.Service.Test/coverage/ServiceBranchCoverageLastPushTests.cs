@@ -29,7 +29,7 @@ using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Test.TestSupport;
-using ILogger = Serilog.ILogger;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
@@ -133,7 +133,7 @@ public class ServiceBranchCoverageLastPushTests
             .ReturnsAsync(new ScheduleCalendar { Id = 10, UniqueToken = "upd-null-end", ScheduleData = null! });
         conflict.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:1", It.IsAny<ScheduleCalendarItem[]>(), "upd-null-end"))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
-        var service = new ScheduleUpdateService(repository.Object, conflict.Object, Mock.Of<ILogger>());
+        var service = new ScheduleUpdateService(repository.Object, conflict.Object, Mock.Of<IAppLogger>());
 
         // Act
         var canceledMatchingNullSubject = await service.CancelOccurrenceAsync(new ScheduleCancelRequest
@@ -171,7 +171,7 @@ public class ServiceBranchCoverageLastPushTests
         var repository = new Mock<IScheduleCalendarRepository>();
         repository.Setup(x => x.GetOverlappingByOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
             .ReturnsAsync([]);
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasNoConflictAsync(new Domain.Validation.Schedule.ScheduleCalendarConflictRequest
@@ -402,7 +402,7 @@ public class ServiceBranchCoverageLastPushTests
                 }
             ]);
         repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
-        var service = new ScheduleUpdateService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var service = new ScheduleUpdateService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var canceled = await service.CancelOccurrenceAsync(new ScheduleCancelRequest
@@ -657,7 +657,7 @@ public class ServiceBranchCoverageLastPushTests
                 }
             ]);
         repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
-        var service = new ScheduleUpdateService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var service = new ScheduleUpdateService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.CancelOccurrenceAsync(new ScheduleCancelRequest
@@ -999,7 +999,7 @@ public class ServiceBranchCoverageLastPushTests
                 }
             ]);
         repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
-        var schedule = new ScheduleUpdateService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<ILogger>());
+        var schedule = new ScheduleUpdateService(repository.Object, Mock.Of<IScheduleConflictService>(), Mock.Of<IAppLogger>());
 
         // Act
         var emptySide = await (Task<string>)insert.Invoke(langCtx.Service,

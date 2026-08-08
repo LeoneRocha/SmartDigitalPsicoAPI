@@ -1,4 +1,5 @@
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Serilog;
 using SmartDigitalPsico.Domain.DTO.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
@@ -19,7 +20,7 @@ public class ScheduleCommandServiceTests
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>(MockBehavior.Strict);
         var conflicts = new Mock<IScheduleConflictService>(MockBehavior.Strict);
-        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<ILogger>());
+        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
         var request = new ScheduleCalendarWriteRequest
         {
             TenantKey = "medical",
@@ -66,7 +67,7 @@ public class ScheduleCommandServiceTests
                 entity.Id = 44;
                 return entity;
             });
-        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<ILogger>());
+        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.CreateAsync(request);
@@ -90,7 +91,7 @@ public class ScheduleCommandServiceTests
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>();
         repository.Setup(x => x.GetByUniqueTokenAsync("missing")).Returns(Task.FromResult<ScheduleCalendar?>(null));
-        var service = new ScheduleDeleteService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleDeleteService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.DeleteByTokenAsync("missing");
@@ -115,7 +116,7 @@ public class ScheduleCommandServiceTests
         repository.Setup(x => x.GetByUniqueTokenAsync("schedule-token"))
             .ReturnsAsync(new ScheduleCalendar { Id = 18, UniqueToken = "schedule-token" });
         repository.Setup(x => x.Delete(18)).ReturnsAsync(true);
-        var service = new ScheduleDeleteService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleDeleteService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.DeleteByTokenAsync("schedule-token");
@@ -141,7 +142,7 @@ public class ScheduleCommandServiceTests
         repository.Setup(x => x.GetByTokenAsync("token", "medical:1", "patient:2")).ReturnsAsync(Array.Empty<ScheduleCalendar>());
         repository.Setup(x => x.GetByUniqueTokenAsync("token")).ReturnsAsync((ScheduleCalendar?)expected);
         repository.Setup(x => x.DeleteRangeAsync(It.IsAny<IEnumerable<ScheduleCalendar>>())).Returns(Task.CompletedTask);
-        var service = new ScheduleDeleteService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleDeleteService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.DeleteByTokenFilteredAsync(request);
@@ -165,7 +166,7 @@ public class ScheduleCommandServiceTests
         var request = new ScheduleDeleteTokenRequest { UniqueToken = "missing", OwnerKey = "medical:1" };
         repository.Setup(x => x.GetByTokenAsync("missing", "medical:1", null)).ReturnsAsync(Array.Empty<ScheduleCalendar>());
         repository.Setup(x => x.GetByUniqueTokenAsync("missing")).Returns(Task.FromResult<ScheduleCalendar?>(null));
-        var service = new ScheduleDeleteService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleDeleteService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.DeleteByTokenFilteredAsync(request);
@@ -188,7 +189,7 @@ public class ScheduleCommandServiceTests
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>();
         repository.Setup(x => x.Exists(55)).ReturnsAsync(false);
-        var service = new ScheduleDeleteService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleDeleteService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.DeleteByIdAsync(55);
@@ -212,7 +213,7 @@ public class ScheduleCommandServiceTests
         var repository = new Mock<IScheduleCalendarRepository>();
         repository.Setup(x => x.Exists(56)).ReturnsAsync(true);
         repository.Setup(x => x.Delete(56)).ReturnsAsync(true);
-        var service = new ScheduleDeleteService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleDeleteService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.DeleteByIdAsync(56);
@@ -239,7 +240,7 @@ public class ScheduleCommandServiceTests
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:3", It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => { e.Id = 77; return e; });
-        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<ILogger>());
+        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
         var request = new ScheduleBookRequest
         {
             TenantKey = "medical",
@@ -266,7 +267,7 @@ public class ScheduleCommandServiceTests
         var conflicts = new Mock<IScheduleConflictService>();
         var request = ValidCreateRequest();
         repository.Setup(x => x.GetByUniqueTokenAsync("dup-token")).ReturnsAsync(new ScheduleCalendar { Id = 1, UniqueToken = "dup-token" });
-        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<ILogger>());
+        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.CreateAsync(request);
@@ -298,7 +299,7 @@ public class ScheduleCommandServiceTests
                 Message = "Overlap",
                 Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Message = "Conflict detail" }]
             });
-        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<ILogger>());
+        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.CreateAsync(request);
@@ -319,7 +320,7 @@ public class ScheduleCommandServiceTests
     {
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>();
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var conflicts = new Mock<IScheduleConflictService>();
         var request = ValidCreateRequest();
         repository.Setup(x => x.GetByUniqueTokenAsync(request.UniqueToken)).ThrowsAsync(new InvalidOperationException("inner"));
@@ -331,7 +332,7 @@ public class ScheduleCommandServiceTests
         // Assert
         result.Success.Should().BeFalse();
 
-        logger.Verify(x => x.Error<string?>(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<string?>()), Times.Once);
+        logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Once);
     }
 
     // Cenário: exclusão por token lança exceção.
@@ -341,7 +342,7 @@ public class ScheduleCommandServiceTests
     {
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>();
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         repository.Setup(x => x.GetByUniqueTokenAsync("tok")).ThrowsAsync(new InvalidOperationException("db"));
         var service = new ScheduleDeleteService(repository.Object, logger.Object);
 
@@ -361,7 +362,7 @@ public class ScheduleCommandServiceTests
     {
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>();
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         repository.Setup(x => x.GetByTokenAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string?>()))
             .ThrowsAsync(new InvalidOperationException("db"));
         var service = new ScheduleDeleteService(repository.Object, logger.Object);
@@ -380,7 +381,7 @@ public class ScheduleCommandServiceTests
     {
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>();
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         repository.Setup(x => x.Exists(1)).ThrowsAsync(new InvalidOperationException("db"));
         var service = new ScheduleDeleteService(repository.Object, logger.Object);
 
@@ -411,7 +412,7 @@ public class ScheduleCommandServiceTests
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:7", request.Items, It.IsAny<string>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => { e.Id = 50; return e; });
-        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<ILogger>());
+        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.CreateAsync(request);
@@ -445,7 +446,7 @@ public class ScheduleCommandServiceTests
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:7", request.Items, "no-subject"))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => { e.Id = 51; return e; });
-        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<ILogger>());
+        var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.CreateAsync(request);

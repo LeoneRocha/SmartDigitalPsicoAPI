@@ -67,7 +67,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
             {
                 var app = BuildAndConfigure(builder);
 
-                LogAppHelper.PrintLogInformationVersionProduct(_logger);
+                LogAppHelper.PrintLogInformationVersionProduct(new SmartDigitalPsico.Core.SDK.Infrastructure.Logging.SerilogAppLoggerAdapter(_logger));
 
                 _logger.Information("Web API Loading at: {Time}", SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
                 (applicationRunner ?? (currentApplication => currentApplication.Run()))(app);

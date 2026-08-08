@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 
@@ -10,7 +11,7 @@ namespace SmartDigitalPsico.WebJob
     /// </summary>
     public class ContinuousJobHostedService : BackgroundService
     {
-        private readonly Serilog.ILogger _logger;
+        private readonly IAppLogger _logger;
         private readonly IBackgroundJobService _jobService;
         private readonly IConfiguration _configuration;
         private const string SystemName = "SmartDigitalPsico.WebJob";
@@ -18,7 +19,7 @@ namespace SmartDigitalPsico.WebJob
         /// <summary>
         /// Método ContinuousJobHostedService: executa a operação ContinuousJobHostedService.
         /// </summary>
-        public ContinuousJobHostedService(IBackgroundJobService jobService, Serilog.ILogger logger, IConfiguration configuration)
+        public ContinuousJobHostedService(IBackgroundJobService jobService, IAppLogger logger, IConfiguration configuration)
         {
             _jobService = jobService;
             _logger = logger;
