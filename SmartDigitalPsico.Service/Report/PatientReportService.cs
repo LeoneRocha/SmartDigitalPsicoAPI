@@ -17,7 +17,7 @@ using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
 
-namespace SmartDigitalPsico.Service.Report.Entity
+namespace SmartDigitalPsico.Service.Report
 {
     /// <summary>
     /// Classe responsável por PatientReportService.
@@ -25,10 +25,10 @@ namespace SmartDigitalPsico.Service.Report.Entity
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class PatientReportService
-       : SmartDigitalPsico.Service.DataEntity.Generic.EntityBaseService<PatientRecord, GetPatientRecordDto>, IPatientReportService
+       : DataEntity.Generic.EntityBaseService<PatientRecord, GetPatientRecordDto>, IPatientReportService
     {
         private readonly IUserRepository _userRepository;
-        private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService _cryptoService;
+        private readonly Core.SDK.Domain.Interfaces.Security.ICryptoService _cryptoService;
         private readonly IPatientRepository _patientRepository;
         private readonly IReportServiceConfig _reportServiceConfig;
         private readonly IPatientRecordServiceConfig _config;
@@ -127,19 +127,19 @@ namespace SmartDigitalPsico.Service.Report.Entity
         }
         private async Task<(string, string)> GeneratePdfReport(PatientDetailReportDto data, List<object> reportPatient, List<object> infos, List<object> hospitalizations, List<object> medications, List<object> records)
         {
-            var reportPDF = new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto()
+            var reportPDF = new Core.SDK.Domain.DTO.Report.ReportPageContentDto()
             {
                 FileName = $"PatientDetailReport_{data.Id}_{SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 FolderOutput = "Reports_PDF",
                 Title = "Report Patient",
-                Pages = new List<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto>()
+                Pages = new List<Core.SDK.Domain.DTO.Report.ReportPageDataDto>()
                 {
-                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Order = 1, Name = "Patient Detail", Rows = reportPatient, PageType =  SmartDigitalPsico.Core.SDK.Domain.Enuns.EReportPageType.Text,
+                    new Core.SDK.Domain.DTO.Report.ReportPageDataDto { Order = 1, Name = "Patient Detail", Rows = reportPatient, PageType =  SmartDigitalPsico.Core.SDK.Domain.Enuns.EReportPageType.Text,
                         PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
-                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 2, Name = "Informations", Rows = infos },
-                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
-                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 4, Name = "Medications", Rows = medications },
-                    new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 5, Name = "Records", Rows = records },
+                    new Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 2, Name = "Informations", Rows = infos },
+                    new Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
+                    new Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 4, Name = "Medications", Rows = medications },
+                    new Core.SDK.Domain.DTO.Report.ReportPageDataDto  { Order = 5, Name = "Records", Rows = records },
                 }
             };
             var result = await _reportServiceConfig.PdfReportService.Generate(reportPDF);
@@ -148,18 +148,18 @@ namespace SmartDigitalPsico.Service.Report.Entity
 
         private async Task<(string, string)> GenerateExcelReport(PatientDetailReportDto data, List<object> reportPatient, List<object> infos, List<object> hospitalizations, List<object> medications, List<object> records)
         {
-            var reportExcel = new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto()
+            var reportExcel = new Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto()
             {
                 FolderOutput = "Reports",
                 FileName = $"PatientDetailReport_{data.Id}_{SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
-                Sheets = new List<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto>
+                Sheets = new List<Core.SDK.Domain.DTO.Report.ReportSheetDataDto>
         {
-            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Order = 1, Name = "Patient", Rows = reportPatient,
+            new Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Order = 1, Name = "Patient", Rows = reportPatient,
                 PropertiesToIgnore = new List<string>(){ "Id", "Gender", "PatientAdditionalInformations", "PatientHospitalizationInformations", "PatientMedicationInformations" , "PatientRecords" } },
-            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 2, Name = "Informations", Rows = infos },
-            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
-            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 4, Name = "Medications", Rows = medications },
-            new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 5, Name = "Records", Rows = records },
+            new Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 2, Name = "Informations", Rows = infos },
+            new Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 3, Name = "Hospitalizations", Rows = hospitalizations },
+            new Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 4, Name = "Medications", Rows = medications },
+            new Core.SDK.Domain.DTO.Report.ReportSheetDataDto  { Order = 5, Name = "Records", Rows = records },
         }
             };
 
