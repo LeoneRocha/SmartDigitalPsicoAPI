@@ -1,17 +1,15 @@
-using SmartDigitalPsico.Domain.Constants;
-
 namespace SmartDigitalPsico.Domain.Hypermedia.Constants
 {
     /// <summary>
-    /// Classe responsável por ResponseTypeFormat.
-    /// Responsabilidade: constantes compartilhadas do sistema.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
+    // Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HYPER")]
     public static class ResponseTypeFormat
-    { 
-        public const string DefaultGet = AppConfigConstants.ApplicationContentJon;
-        public const string DefaultPost = AppConfigConstants.ApplicationContentJon;
-        public const string DefaultPut = AppConfigConstants.ApplicationContentJon;
-        public const string DefaultPatch = AppConfigConstants.ApplicationContentJon;
+    {
+        public const string DefaultGet = SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants.ResponseTypeFormat.DefaultGet;
+        public const string DefaultPost = SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants.ResponseTypeFormat.DefaultPost;
+        public const string DefaultPut = SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants.ResponseTypeFormat.DefaultPut;
+        public const string DefaultPatch = SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants.ResponseTypeFormat.DefaultPatch;
     }
 }

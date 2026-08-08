@@ -3,11 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SmartDigitalPsico.Domain.DependeciesCollection;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Resiliency;
-using SmartDigitalPsico.Domain.Security;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
@@ -62,7 +59,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         {
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddSingleton<ITokenService, TokenService>();
+            services.AddSingleton<SmartDigitalPsico.Core.SDK.Domain.Interfaces.ITokenService, SmartDigitalPsico.Core.SDK.Domain.Security.TokenService>();
             services.AddSingleton<SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig, ResiliencePolicyConfig>();
             services.AddSingleton<SmartDigitalPsico.Core.SDK.Domain.Interfaces.ILocationSaveFileConfigurationDto, SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.LocationSaveFileConfigurationDto>();
         } 

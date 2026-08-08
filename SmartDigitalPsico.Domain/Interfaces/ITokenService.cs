@@ -3,23 +3,11 @@ using System.Security.Claims;
 namespace SmartDigitalPsico.Domain.Interfaces
 {
     /// <summary>
-    /// Interface (contrato) responsável por ITokenService.
-    /// Responsabilidade: contrato de abstração do domínio.
-    /// Relação: implementado nas camadas Data/Service.
+    /// Shim Obsolete — contrato canônico em SmartDigitalPsico.Core.SDK.
     /// </summary>
-    public interface ITokenService
+    // Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
+    public interface ITokenService : SmartDigitalPsico.Core.SDK.Domain.Interfaces.ITokenService
     {
-        /// <summary>
-        /// Método GenerateAccessToken: executa a operação GenerateAccessToken.
-        /// </summary>
-        string GenerateAccessToken(IEnumerable<Claim> claims);
-        /// <summary>
-        /// Método GenerateRefreshToken: executa a operação GenerateRefreshToken.
-        /// </summary>
-        string GenerateRefreshToken();
-        /// <summary>
-        /// Método GetPrincipalFromExpiredToken: consulta e retorna dados.
-        /// </summary>
-        ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
     }
 }

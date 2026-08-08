@@ -1,24 +1,16 @@
 using AutoMapper;
-using Azure;
-using DocumentFormat.OpenXml.Spreadsheet;
 using FluentValidation;
 using FluentValidation.Results;
-using SmartDigitalPsico.Core.SDK.Domain.Constants;
-using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
 using Serilog;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic

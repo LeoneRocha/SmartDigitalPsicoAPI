@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Security;
 using System.Reflection;
 using System.Text.Json;
 using Moq;
@@ -17,7 +18,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Report;
-using SmartDigitalPsico.Domain.Security;
+
 using SmartDigitalPsico.Domain.Validation.Contratcs;
 using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
 using SmartDigitalPsico.Domain.Validation.Principals.Calendar;

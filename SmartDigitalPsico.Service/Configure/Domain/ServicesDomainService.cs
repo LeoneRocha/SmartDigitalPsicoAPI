@@ -76,7 +76,10 @@ namespace SmartDigitalPsico.Service.Configure.Domain
             {
                 typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService),
                 typeof(IEmailService),
-                typeof(ITokenService),
+                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.ITokenService),
+#pragma warning disable SDP_CORE_SDK_HELPER
+                typeof(SmartDigitalPsico.Domain.Interfaces.ITokenService),
+#pragma warning restore SDP_CORE_SDK_HELPER
                 typeof(IAuditContextService),
                 typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService),
                 typeof(INotificationPlatformServiceFactory)

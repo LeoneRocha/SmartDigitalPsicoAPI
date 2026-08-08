@@ -9,6 +9,7 @@ using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
 using SmartDigitalPsico.Domain.DTO.User;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Security;
@@ -624,7 +625,7 @@ public class UserServiceTests
         public ServiceTestContext Context { get; } = new();
         public Mock<IRoleGroupRepository> RoleGroupRepository { get; } = new();
         public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto> TokenConfiguration { get; } = new();
-        public Mock<ITokenService> TokenService { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.ITokenService> TokenService { get; } = new();
         public Mock<ITokenSessionPersistenceService> TokenSessionService { get; } = new();
         public Mock<IValidator<User>> Validator { get; } = new();
         public UserService Service { get; }

@@ -1,7 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.Interfaces.Security;
-using SmartDigitalPsico.Domain.Security;
-using SmartDigitalPsico.Service.Security;
 
 namespace SmartDigitalPsico.Service.Configure.Domain
 {
@@ -16,7 +13,7 @@ namespace SmartDigitalPsico.Service.Configure.Domain
         /// Método AddDependencies: cria ou persiste um novo registro/recurso.
         /// </summary>
         public static void AddDependencies(IServiceCollection services)
-        { 
+        {
             services.AddTransient<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoAdapterFactory, SmartDigitalPsico.Core.SDK.Domain.Security.CryptoAdapterFactory>();
             services.AddTransient<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService, SmartDigitalPsico.Core.SDK.Domain.Security.CryptoService>();
         }

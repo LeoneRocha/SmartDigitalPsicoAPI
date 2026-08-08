@@ -118,11 +118,12 @@ SmartDigitalPsicoAPI/
 
 `IEntityBaseRepository<T>`, `GenericRepositoryEntityBase<T>`, Table/Queue contracts/repos/factories/services, `EStorageAdapterType`, `BaseEntityTable`, `IFileDiskRepository`, `FileDiskRepository`.
 
-**Não portar:** repos Principals/SystemDomains/Schedule, `IEntityDataContext`, DbContext, migrations.
+**Não portar (produto):** repos Principals/SystemDomains/Schedule, DbContext tipado, migrations.  
+**Atualização v2.4:** contrato genérico `IEntityDataContext` **foi** portado ao Core; host shim mantém DbSets de produto.
 
 ### Ajuste EF (só no canônico)
 
-No Core, construtor de `GenericRepositoryEntityBase` usa `DbContext`. No host, shim Obsolete aponta ao tipo do Core.
+No Core, `GenericRepositoryEntityBase` usa `IEntityDataContext` (+ overload `DbContext` via adapter). No host, shim Obsolete aponta ao tipo do Core.
 
 ### Checklist
 
@@ -246,8 +247,8 @@ flowchart TD
 | Apagar arquivos `[Obsolete]` do host | Consulta mantida; remoção = iniciativa futura |
 | Providers Redis/Mongo/Cosmos novos | Stubs ficam no `CacheService` portado |
 | Dapper / UoW / Guard / Result | Inexistentes — não criar |
-| Interface mínima nova de contexto EF | Proibido — retarget `DbContext` no Core |
-| Portar `EntityBaseService` | Fica no host |
+| Interface mínima nova de contexto EF | ~~Proibido~~ **Feito em v2.4** — `Core.SDK.Data.Context.Interface.IEntityDataContext` (genérico); host shim com DbSets |
+| Portar `EntityBaseService` | Bridge no host (i18n); base canônica no Core |
 | Pacotes NuGet satélite | Proibido |
 | `Data/Context/Configure/Entity/*` | EF Fluent do projeto — **Manter** (ver Levantamento §2.3) |
 | Schedule Core + NotificationTemplate stack | Fatia futura — [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md); fora das Fases 1–7 |

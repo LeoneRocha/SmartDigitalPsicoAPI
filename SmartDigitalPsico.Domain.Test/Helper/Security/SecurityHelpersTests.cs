@@ -1,10 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers.Security;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.Security;
 
 namespace SmartDigitalPsico.Domain.Test.Helper.Security;
 

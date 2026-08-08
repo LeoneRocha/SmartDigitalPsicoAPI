@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Security;
 using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
@@ -26,7 +27,7 @@ using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Report;
-using SmartDigitalPsico.Domain.Security;
+
 using SmartDigitalPsico.Domain.Test.Report;
 using SmartDigitalPsico.Core.SDK.Domain.Validation;
 using SmartDigitalPsico.Domain.Validation.Base;

@@ -1,3 +1,4 @@
+using SmartDigitalPsico.Core.SDK.Domain.Security;
 using System.ComponentModel;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -34,7 +35,7 @@ using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Domain.ModelEntity.Schedule;
 using SmartDigitalPsico.Domain.Report;
 using SmartDigitalPsico.Domain.Resiliency;
-using SmartDigitalPsico.Domain.Security;
+
 using SmartDigitalPsico.Core.SDK.Domain.Validation;
 using SmartDigitalPsico.Domain.Validation.Base;
 using SmartDigitalPsico.Domain.Validation.Contratcs;

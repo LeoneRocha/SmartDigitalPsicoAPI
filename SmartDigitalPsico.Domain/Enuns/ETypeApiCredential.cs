@@ -3,12 +3,12 @@ using System.ComponentModel;
 namespace SmartDigitalPsico.Domain.Enuns
 {
     /// <summary>
-    /// Enumeração responsável por SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.
-    /// Responsabilidade: valores enumerados do domínio.
-    /// Relação: usado em entidades, DTOs e regras de negócio.
+    /// Shim Obsolete — use SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.
     /// </summary>
+    // Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public enum ETypeApiCredential
-    { 
+    {
         [Description("JSON Web Token - Bearer")]
         Jwt = 0,
 
@@ -19,6 +19,6 @@ namespace SmartDigitalPsico.Domain.Enuns
         GoogleCloudIdentity = 2,
 
         [Description("AWS IAM Identity Center")]
-        AWSIdentity = 3, 
+        AWSIdentity = 3,
     }
 }

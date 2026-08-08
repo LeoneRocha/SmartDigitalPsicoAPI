@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia;
-using SmartDigitalPsico.Domain.Hypermedia.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants;
 using SmartDigitalPsico.Domain.DTO.Patient.PatientHospitalizationInformation;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Principals.Patient

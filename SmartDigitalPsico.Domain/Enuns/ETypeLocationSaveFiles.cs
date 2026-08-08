@@ -1,18 +1,17 @@
 using System.ComponentModel;
 
-
 namespace SmartDigitalPsico.Domain.Enuns
 {
     /// <summary>
-    /// Enumeração responsável por SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.
-    /// Responsabilidade: valores enumerados do domínio.
-    /// Relação: usado em entidades, DTOs e regras de negócio.
+    /// Shim Obsolete — use SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationSaveFiles.
     /// </summary>
+    // Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public enum ETypeLocationSaveFiles
     {
         [Description("Local Salvamento em Banco de dados")]
         DataBase = 0,
-        
+
         [Description("Local Salvamento em Disco HD/SSD")]
         Disk = 1,
 
@@ -20,6 +19,6 @@ namespace SmartDigitalPsico.Domain.Enuns
         CloudStorageAzure = 2,
 
         [Description("Local Salvamento em Cloud Storage AWS")]
-        CloudStorageAWS = 3, 
+        CloudStorageAWS = 3,
     }
 }

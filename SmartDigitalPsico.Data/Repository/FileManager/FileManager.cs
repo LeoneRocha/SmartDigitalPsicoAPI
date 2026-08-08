@@ -8,7 +8,6 @@ using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts;
 using FileData = SmartDigitalPsico.Core.SDK.Domain.ModelEntity.Contracts.FileData;
-using SmartDigitalPsico.Domain.Security;
 
 namespace SmartDigitalPsico.Data.Repository.FileManager
 {

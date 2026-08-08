@@ -1,8 +1,8 @@
 # Progresso — SmartDigitalPsico.Core.SDK
 
-**Versão:** 2.4.0  
+**Versão:** 2.5.0  
 **Data:** 2026-08-08  
-**Status geral:** Migração Fases 1–7 **concluída** + onda EF genéricos (`IEntityDataContext`, `ETypeDataBase`, Fluent helpers). Core canônico, shims `[Obsolete]` no host, DI/consumidores no Core, bridges de produto, suite verde.  
+**Status geral:** Migração Fases 1–7 + ondas EF/auth/hypermedia leftovers **concluídas**. Revisão de portabilidade: consumidores → Core, enums dual Obsolete, pastas fantasma removidas. Schedule Core permanece backlog.  
 **Pacote / projeto:** `SmartDigitalPsico.Core.SDK` (renomeado de `SmartDigitalPsicoAPI.Core.SDK`)  
 **Documentos:** [Levantamento.md](./Levantamento.md) · [PlanoDeAcao.md](./PlanoDeAcao.md) · [PlanoExecucao-PorProjeto.md](./PlanoExecucao-PorProjeto.md) · [Analise-Domain.md](./Analise-Domain.md) · [Analise-Data.md](./Analise-Data.md) · [Analise-Service.md](./Analise-Service.md) · [Analise-WebAPI.md](./Analise-WebAPI.md) · [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) *(backlog)*
 
@@ -82,6 +82,18 @@ Base canônica permanece no Core; host **herda** e especializa.
 
 DI ORM registra **Core** `IEntityDataContext`; host permanece registrado por cast de compatibilidade.
 
+### Onda v2.5 — revisão de portabilidade (consumidores + leftovers)
+
+| Item | Resultado |
+| ---- | --------- |
+| Enums dual `ETypeApiCredential` / `ECryptoServiceType` / `ETypeLocationSaveFiles` | Host Obsolete; consumidores → Core |
+| `ICryptoService` host | Shim fino (sem CS0108) |
+| Hypermedia `HttpActionVerb` / `RelationType` / `ResponseTypeFormat` | Core + host Obsolete; enrichers → Core |
+| `SecurityHelperApi`, `ITokenService` / `TokenService` | Core + host Obsolete; DI/UserService → Core |
+| `ConfigurationSectionHelper` (genérico) | Core; host `ConfigurationAppSettingsHelper` delega GENERIC e mantém seções de produto |
+| Pastas fantasma `SmartDigitalPsicoAPI.Core.SDK*` | Removidas |
+| Levantamento/Plano/Analise (IEntityDataContext Manter/Proibido) | Supersedidos por Progresso v2.4+ |
+
 ---
 
 ## Changelog
@@ -95,6 +107,7 @@ DI ORM registra **Core** `IEntityDataContext`; host permanece registrado por cas
 | 2026-08-08 | v2.2 consolidação final | Shims finos restantes; bridges produto; 0 warnings Obsolete; cobertura SDK 95%; 100 testes Core.SDK.Tests. |
 | 2026-08-08 | v2.3 rename | Projeto/namespaces/docs: `SmartDigitalPsicoAPI.Core.SDK` → `SmartDigitalPsico.Core.SDK` (+ `.Tests`). |
 | 2026-08-08 | v2.4 genéricos EF | `IEntityDataContext` + `ETypeDataBase` + Fluent helpers/constants/DTO no Core; repos/configs/DI retarget; host Obsolete; suite 1385 testes verde. |
+| 2026-08-08 | v2.5 portabilidade | Retarget consumidores; enums dual Obsolete; Token/SecurityHelperApi/hypermedia constants; Config Section Helper; ghost folders; docs sync. |
 
 ---
 
@@ -104,3 +117,4 @@ DI ORM registra **Core** `IEntityDataContext`; host permanece registrado por cas
 | ---- | ----- | ------ | ------------- | ------ | ---------------- | -------------- | ---------- |
 | 1–7 (rev. 2.2) | **0 Erros · 0 Avisos Obsolete** | **Passando** | **95,06% linhas** | Pendente daemon | **Shims finos** | **Sim** | Bridges produto sem Obsolete |
 | v2.4 EF genéricos | **0 Erros · 0 Avisos SDP_CORE_SDK_*** | **1385 aprovados** | (sem re-medida) | Pendente daemon | **+ shims EF** | **Sim** | `IEntityDataContext` Core + DbSets host |
+| v2.5 portabilidade | **0 Erros · 0 Avisos SDP_CORE_SDK_*** | **1385 aprovados** | (sem re-medida) | Pendente daemon | **enums/token/hypermedia** | **Sim** | Ghost folders removidas |

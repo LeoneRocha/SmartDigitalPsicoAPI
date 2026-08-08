@@ -1,11 +1,13 @@
 # Levantamento — SmartDigitalPsico.Core.SDK
 
-**Versão:** 2.0.0  
+**Versão:** 2.1.0  
 **Data:** 2026-08-08  
-**Status:** Inventário completo — portabilidade para Core totalmente concluída  
+**Status:** Inventário histórico + execução — ver [Progresso.md](./Progresso.md) v2.5 (fonte de verdade do que já foi portado)  
 **PackageId alvo:** `SmartDigitalPsico.Core.SDK` (único NuGet)  
 **TFM do host:** `net10.0`  
 **Escopo analisado:** `SmartDigitalPsico.Domain`, `SmartDigitalPsico.Data`, `SmartDigitalPsico.Service`, `SmartDigitalPsico.WebAPI` (+ projetos de teste)
+
+> **Atualização v2.4/v2.5:** o contrato genérico `IEntityDataContext`, Fluent helpers (`EntityBaseConfiguration`, `ModelBuilderExtensions`, `HelperCharSet`, …), Token/SecurityHelperApi e constantes hypermedia **já estão no Core** com shims Obsolete no host. Trechos abaixo que ainda dizem “Manter/Não portar” para esses itens estão **supersedidos** pelo Progresso. DbContext tipado, migrations e `Context/Configure/Entity/*` de produto continuam **Manter**.
 
 **Fatia futura (Schedule / Notification):** [Levantamento-ScheduleNotificationCore.md](./Levantamento-ScheduleNotificationCore.md) — motor `Bussines/Schedule/Core` + o que de NotificationTemplate é genérico vs produto. **Não** entra nas Fases 1–7 do PlanoDeAcao genérico até priorização.
 

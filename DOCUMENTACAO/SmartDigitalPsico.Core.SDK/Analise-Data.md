@@ -14,6 +14,8 @@ Data concentra **implementações** de repositório genérico EF, cache Memory/D
 
 **Não portar:** pasta `Context/Configure/Entity/*` (Fluent API do projeto), DbContext tipado, migrations, repos de domínio.
 
+> **Supersedido (Progresso v2.4+):** o contrato **genérico** `IEntityDataContext` (sem DbSets de produto), `EntityBaseConfiguration`, `ModelBuilderExtensions`, `HelperCharSet` e `CollectionValueComparerHelper` foram portados ao Core; host mantém shim Obsolete + DbSets de produto. O trecho “`IEntityDataContext` Manter” abaixo aplica-se apenas ao **shim de produto** (DbSets), não ao contrato genérico.
+
 ---
 
 ## 2. Portar+Obsoletar
@@ -29,7 +31,7 @@ Data concentra **implementações** de repositório genérico EF, cache Memory/D
 
 ### Ajuste canônico (Core apenas)
 
-Construtor de `GenericRepositoryEntityBase`: parâmetro `IEntityDataContext` → `Microsoft.EntityFrameworkCore.DbContext` no Core. Host: shim Obsolete apontando ao tipo Core. `IEntityDataContext` **Manter** no Data.
+Construtor de `GenericRepositoryEntityBase`: aceita `IEntityDataContext` (Core) e também `DbContext` via `DbContextEntityDataContextAdapter`. Host: shim Obsolete apontando ao tipo Core. Host `IEntityDataContext` = Core + DbSets de produto (Obsolete).
 
 ---
 

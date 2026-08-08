@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.Helpers.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;

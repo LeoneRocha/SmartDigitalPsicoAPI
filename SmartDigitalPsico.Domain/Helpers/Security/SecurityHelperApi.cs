@@ -1,29 +1,16 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using System.Security.Claims;
-
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.Helpers.Security
 {
     /// <summary>
-    /// Classe responsável por SecurityHelperApi.
-    /// Responsabilidade: segurança e autenticação.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Shim Obsolete — implementação canônica em SmartDigitalPsico.Core.SDK.
     /// </summary>
+    // Movido para SmartDigitalPsico.Core.SDK — implementação canônica no pacote Core.
+    [Obsolete("Movido para SmartDigitalPsico.Core.SDK. Use o tipo correspondente no pacote SmartDigitalPsico.Core.SDK.", error: false, DiagnosticId = "SDP_CORE_SDK_HELPER")]
     public static class SecurityHelperApi
     {
-        /// <summary>
-        /// Método GetUserIdApi: consulta e retorna dados.
-        /// </summary>
-        public static long GetUserIdApi(ClaimsPrincipal user, SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential typeApiCredential)
-        {
-            long idUserResult = 0;
-            long idUser;
-            if (user != null && typeApiCredential == SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt && long.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out idUser))
-            {
-                idUserResult = idUser;
-            }
-            return idUserResult;
-        }
+        public static long GetUserIdApi(ClaimsPrincipal user, ETypeApiCredential typeApiCredential)
+            => SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelperApi.GetUserIdApi(user, typeApiCredential);
     }
 }

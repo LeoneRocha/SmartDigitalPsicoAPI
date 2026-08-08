@@ -22,6 +22,7 @@ using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces;
 using SmartDigitalPsico.Domain.Interfaces.Collection;
 using SmartDigitalPsico.Domain.Interfaces.Repository;
@@ -1217,7 +1218,7 @@ public class ServiceBranchCoverageLastPushTests
         public ServiceTestContext Context { get; } = new();
         public Mock<IRoleGroupRepository> RoleGroupRepository { get; } = new();
         public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto> TokenConfiguration { get; } = new();
-        public Mock<ITokenService> TokenService { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.ITokenService> TokenService { get; } = new();
         public Mock<ITokenSessionPersistenceService> TokenSessionService { get; } = new();
         public Mock<IValidator<User>> Validator { get; } = new();
         public UserService Service { get; }
