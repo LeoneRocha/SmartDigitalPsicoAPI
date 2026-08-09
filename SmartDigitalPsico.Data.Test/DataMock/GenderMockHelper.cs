@@ -1,8 +1,7 @@
-using SmartDigitalPsico.Data.Context.Configure.Mock;
-
-using SmartDigitalPsico.Domain.EntityModels;
+﻿using SmartDigitalPsico.Domain.EntityModels;
 
 using SmartDigitalPsico.Data.Repository;
+using SmartDigitalPsico.Data.Context.Mock;
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class GenderMockHelper

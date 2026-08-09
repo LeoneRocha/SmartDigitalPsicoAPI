@@ -1,9 +1,9 @@
-using Bogus;
-using SmartDigitalPsico.Data.Context.Configure.Mock;
+﻿using Bogus;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
 using SmartDigitalPsico.Data.Repository;
+using SmartDigitalPsico.Data.Context.Mock;
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class UserMockHelper

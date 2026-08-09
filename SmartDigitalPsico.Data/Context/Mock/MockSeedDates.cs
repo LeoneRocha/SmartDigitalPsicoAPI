@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Data.Context.Configure.Mock
+﻿namespace SmartDigitalPsico.Data.Context.Mock
 {
     /// <summary>
     /// Datas estáticas para HasData/seeds. Nunca use DateTime.Now/UtcNow aqui — causa drift em migrations.

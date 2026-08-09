@@ -1,6 +1,6 @@
-using SmartDigitalPsico.Domain.EntityModels;
+﻿using SmartDigitalPsico.Domain.EntityModels;
 
-namespace SmartDigitalPsico.Data.Context.Configure.Mock
+namespace SmartDigitalPsico.Data.Context.Mock
 {
     /// <summary>
     /// Classe responsável por PatientFileMockData.

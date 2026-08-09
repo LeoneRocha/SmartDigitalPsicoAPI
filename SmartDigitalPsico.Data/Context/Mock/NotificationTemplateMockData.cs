@@ -1,11 +1,11 @@
-using SmartDigitalPsico.Core.SDK.Domain.Constants;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using EmailTemplateBodyConstants = SmartDigitalPsico.Domain.Constants.EmailTemplateBodyConstants;
 using EmailTemplateTagConstants = SmartDigitalPsico.Domain.Constants.EmailTemplateTagConstants;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
-namespace SmartDigitalPsico.Data.Context.Configure.Mock
+namespace SmartDigitalPsico.Data.Context.Mock
 {
     /// <summary>
     /// Classe responsável por NotificationTemplateMockData.

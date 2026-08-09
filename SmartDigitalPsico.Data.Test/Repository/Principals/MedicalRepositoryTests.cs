@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Data.Context.Configure.Mock;
+﻿using SmartDigitalPsico.Data.Context.Mock;
 using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
