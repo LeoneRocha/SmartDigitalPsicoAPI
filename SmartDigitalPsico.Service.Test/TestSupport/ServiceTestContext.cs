@@ -52,7 +52,7 @@ public sealed class ServiceTestContext
         SharedRepositoriesMock.SetupGet(x => x.ApplicationLanguageRepository).Returns(ApplicationLanguageRepository.Object);
         SharedRepositoriesMock.SetupGet(x => x.ApplicationConfigSettingRepository).Returns(ApplicationConfigSettingRepository.Object);
 
-        var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
+        var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddMaps(typeof(AutoMapperProfile)), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
         Mapper = new AutoMapperAppMapperAdapter(mapperConfiguration.CreateMapper());
 
         ConfigMock.SetupGet(x => x.Mapper).Returns(Mapper);

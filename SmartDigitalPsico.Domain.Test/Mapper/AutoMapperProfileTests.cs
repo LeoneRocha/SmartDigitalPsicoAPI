@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Domain.Test.Mapper;
 public class AutoMapperProfileTests
 {
     private static MapperConfiguration CreateConfiguration() =>
-        new(config => config.AddProfile<AutoMapperProfile>(), NullLoggerFactory.Instance);
+        new(config => config.AddMaps(typeof(AutoMapperProfile)), NullLoggerFactory.Instance);
 
     [Test]
     public void AutoMapperProfile_RegisteredProfile_CreatesMapper()
