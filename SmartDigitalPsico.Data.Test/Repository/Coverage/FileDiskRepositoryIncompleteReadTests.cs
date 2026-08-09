@@ -1,6 +1,4 @@
-using SmartDigitalPsico.Data.Repository.FileManager;
-using SmartDigitalPsico.Domain.ModelEntity.Contracts;
-
+﻿using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 
 [TestFixture]
@@ -9,7 +7,7 @@ public class FileDiskRepositoryIncompleteReadTests
     [TearDown]
     public void TearDown()
     {
-        FileDiskRepository.OpenReadForTests = null;
+        SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository.OpenReadForTests = null;
     }
 
     // Cenário: a leitura do arquivo retorna menos bytes que o tamanho declarado.
@@ -22,8 +20,8 @@ public class FileDiskRepositoryIncompleteReadTests
         Directory.CreateDirectory(directory);
         var path = Path.Combine(directory, "partial.bin");
         await File.WriteAllBytesAsync(path, [1, 2, 3, 4, 5, 6, 7, 8]);
-        var repository = new FileDiskRepository();
-        FileDiskRepository.OpenReadForTests = _ => new IncompleteReadStream(expectedLength: 8, bytesToReturn: 3);
+        var repository = new SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository();
+        SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository.OpenReadForTests = _ => new IncompleteReadStream(expectedLength: 8, bytesToReturn: 3);
 
         try
         {
@@ -40,7 +38,7 @@ public class FileDiskRepositoryIncompleteReadTests
         }
         finally
         {
-            FileDiskRepository.OpenReadForTests = null;
+            SmartDigitalPsico.Core.SDK.Data.Repository.FileManager.FileDiskRepository.OpenReadForTests = null;
             if (Directory.Exists(directory))
             {
                 Directory.Delete(directory, true);

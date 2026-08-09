@@ -1,8 +1,6 @@
-using Moq;
-using SmartDigitalPsico.Domain.AppException;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
+﻿using Moq;
 using SmartDigitalPsico.Service.Test.TestSupport;
-using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
+using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
 
@@ -52,7 +50,7 @@ public class MedicalScheduleConstraintsProviderTests
         // Act
 
         // Assert
-        await action.Should().ThrowAsync<AppWarningException>();
+        await action.Should().ThrowAsync<SmartDigitalPsico.Core.SDK.Domain.AppException.AppWarningException>();
 
     }
 

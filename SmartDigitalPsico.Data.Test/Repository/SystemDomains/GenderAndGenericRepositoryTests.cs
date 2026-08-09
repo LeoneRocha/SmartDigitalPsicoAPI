@@ -1,14 +1,12 @@
+﻿using System.Linq.Expressions;
 using Bogus;
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Configure.Mock;
-using SmartDigitalPsico.Data.Repository.SystemDomains;
+using SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
-using System.Linq.Expressions;
-
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
@@ -85,7 +83,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
                 await _entityRepository.Create(data);
             });
         }
-
 
         // Cenário: criação de gênero com dados gerados por Bogus.
         // Objetivo: garantir que Create persista entidade gerada dinamicamente.
@@ -245,7 +242,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
                 Assert.That(target, Is.Null);
             }
         }
-
 
         // Cenário: alternância de Enable em um gênero existente.
         // Objetivo: garantir que EnableOrDisable inverta o estado e retorne true.

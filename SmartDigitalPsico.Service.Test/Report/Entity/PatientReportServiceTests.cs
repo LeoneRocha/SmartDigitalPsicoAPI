@@ -1,14 +1,16 @@
-using AwesomeAssertions;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Service.Report.Entity;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Service.Test.TestSupport;
+
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.Report.Entity;
 
@@ -143,7 +145,7 @@ public class PatientReportServiceTests
         await File.WriteAllTextAsync(tempFile, "pdf-content");
 
         // Assert
-        context.PdfReportService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Domain.DTO.Report.ReportPageContentDto>()))
+        context.PdfReportService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto>()))
             .ReturnsAsync(tempFile);
         var configuration = new Mock<IConfiguration>();
         configuration.Setup(x => x["AppSettings:ResourcesTemp"]).Returns(Path.GetTempPath());
@@ -189,7 +191,7 @@ public class PatientReportServiceTests
         await File.WriteAllTextAsync(tempFile, "excel-content");
 
         // Assert
-        context.ExcelGeneratorService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Domain.DTO.Report.ReportWorkbookDataDto>()))
+        context.ExcelGeneratorService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto>()))
             .ReturnsAsync(tempFile);
         var configuration = new Mock<IConfiguration>();
         configuration.Setup(x => x["AppSettings:ResourcesTemp"]).Returns(Path.GetTempPath());
@@ -241,7 +243,7 @@ public class PatientReportServiceTests
         var patient = new Patient { Id = 20, CreatedUser = new User { Id = 1 }, Medical = new Medical { SecurityKey = "key" } };
         context.PatientRepository.Setup(x => x.GetPatientDetailsByIdAsync(20)).ReturnsAsync(patient);
         context.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Admin = true });
-        context.ExcelGeneratorService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Domain.DTO.Report.ReportWorkbookDataDto>()))
+        context.ExcelGeneratorService.Setup(x => x.Generate(It.IsAny<SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto>()))
             .ThrowsAsync(new InvalidOperationException("disk error"));
 
         var result = await context.Service.DownloadReportPatientDetailsById(20, EReportOutputType.Excel);
@@ -260,8 +262,8 @@ public class PatientReportServiceTests
         public Mock<IPatientRepositories> PatientRepositories { get; } = new();
         public Mock<IPatientRecordServiceConfig> Config { get; } = new();
         public Mock<IReportServiceConfig> ReportServiceConfig { get; } = new();
-        public Mock<IExcelGeneratorService> ExcelGeneratorService { get; } = new();
-        public Mock<IPdfReportService> PdfReportService { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService> ExcelGeneratorService { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService> PdfReportService { get; } = new();
         public PatientReportService Service { get; }
 
         public PatientReportServiceContext()

@@ -1,11 +1,9 @@
-using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.DTO.Schedule;
+﻿using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries;
-
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Core;
 
 [TestFixture]
@@ -20,7 +18,7 @@ public class ScheduleAvailabilityServiceFilterTests
         var repository = new Mock<IScheduleCalendarRepository>();
         repository.Setup(x => x.GetItemsForOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
             .ThrowsAsync(new InvalidOperationException("db"));
-        var service = new ScheduleAvailabilityService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleAvailabilityService(repository.Object, Mock.Of<IAppLogger>());
         var day = DateTime.UtcNow.Date.AddDays(2);
 
         // Act
@@ -37,7 +35,7 @@ public class ScheduleAvailabilityServiceFilterTests
     public async Task BuildGradeAsync_EndBeforeStart_ReturnsEmptyDays()
     {
         // Arrange
-        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<ILogger>());
+        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<IAppLogger>());
         var day = DateTime.UtcNow.Date.AddDays(2);
 
         // Act
@@ -57,7 +55,7 @@ public class ScheduleAvailabilityServiceFilterTests
     public async Task BuildGradeAsync_BookingsAndFilters_CoversAvailabilityBranches()
     {
         // Arrange
-        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<ILogger>());
+        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<IAppLogger>());
         var day = DateTime.UtcNow.Date.AddDays(3);
         while (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
             day = day.AddDays(1);

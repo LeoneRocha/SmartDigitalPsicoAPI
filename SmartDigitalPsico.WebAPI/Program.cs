@@ -1,4 +1,4 @@
-using Serilog;
+﻿using Serilog;
 using SmartDigitalPsico.WebAPI.Configure;
 
 namespace SmartDigitalPsico.WebAPI

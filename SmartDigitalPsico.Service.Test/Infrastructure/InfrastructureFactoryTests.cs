@@ -1,13 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.SMTP;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Service.Infrastructure.Notification;
-using SmartDigitalPsico.Service.Infrastructure.Report;
-using SmartDigitalPsico.Service.Infrastructure.Smtp;
-
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
 
 [TestFixture]
@@ -15,14 +9,14 @@ public class InfrastructureFactoryTests
 {
     // Cenário: uma estratégia de e-mail válida é solicitada.
     // Objetivo: garantir que a fábrica cria as estratégias SMTP e de terceiro.
-    [TestCase(EEmailStrategyType.Smtp, typeof(SmtpEmailStrategy))]
-    [TestCase(EEmailStrategyType.ThirdParty, typeof(ThirdPartyEmailStrategy))]
-    public void CreateStrategy_ValidStrategyType_ReturnsExpectedStrategy(EEmailStrategyType strategyType, Type expectedType)
+    [TestCase(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EEmailStrategyType.Smtp, typeof(SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp.SmtpEmailStrategy))]
+    [TestCase(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EEmailStrategyType.ThirdParty, typeof(SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp.ThirdPartyEmailStrategy))]
+    public void CreateStrategy_ValidStrategyType_ReturnsExpectedStrategy(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EEmailStrategyType strategyType, Type expectedType)
     {
         // Arrange
 
         // Act
-        var factory = new EmailStrategyFactory(new SmtpSettingsDto());
+        var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp.EmailStrategyFactory(new SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP.SmtpSettingsDto());
 
         var result = factory.CreateStrategy(strategyType);
 
@@ -38,9 +32,9 @@ public class InfrastructureFactoryTests
         // Arrange
 
         // Act
-        var factory = new EmailStrategyFactory(new SmtpSettingsDto());
+        var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp.EmailStrategyFactory(new SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP.SmtpSettingsDto());
 
-        var action = () => factory.CreateStrategy((EEmailStrategyType)999);
+        var action = () => factory.CreateStrategy((global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EEmailStrategyType)999);
 
         // Assert
         action.Should().Throw<ArgumentException>();
@@ -57,21 +51,21 @@ public class InfrastructureFactoryTests
 
         // Act
         var services = new ServiceCollection();
-        INotificationPlatformService expectedService;
+        global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService expectedService;
         switch (serviceType)
         {
             case ENotificationServiceType.Email:
-                var emailService = Mock.Of<IEmailService>();
+                var emailService = Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp.IEmailService>();
                 services.AddSingleton(emailService);
                 expectedService = emailService;
                 break;
             case ENotificationServiceType.Sms:
-                var smsService = Mock.Of<ISmsService>();
+                var smsService = Mock.Of<global::SmartDigitalPsico.Domain.Interfaces.Notification.ISmsService>();
                 services.AddSingleton(smsService);
                 expectedService = smsService;
                 break;
             case ENotificationServiceType.WhatsApp:
-                var whatsAppService = Mock.Of<IWhatsAppService>();
+                var whatsAppService = Mock.Of<global::SmartDigitalPsico.Domain.Interfaces.Notification.IWhatsAppService>();
                 services.AddSingleton(whatsAppService);
                 expectedService = whatsAppService;
                 break;
@@ -105,14 +99,14 @@ public class InfrastructureFactoryTests
 
     // Cenário: um componente PDF suportado é solicitado.
     // Objetivo: garantir que a fábrica fornece os adaptadores corretos.
-    [TestCase(EPdfReportComponentType.QuestPDF, typeof(SmartDigitalPsico.Domain.Report.QuestPdfReportAdapter))]
-    [TestCase(EPdfReportComponentType.PDFsharp, typeof(SmartDigitalPsico.Domain.Report.PDFsharpMigraDocReportAdapter))]
-    public void Create_SupportedPdfComponent_ReturnsExpectedAdapter(EPdfReportComponentType componentType, Type expectedType)
+    [TestCase(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EPdfReportComponentType.QuestPDF, typeof(SmartDigitalPsico.Core.SDK.Domain.Report.QuestPdfReportAdapter))]
+    [TestCase(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EPdfReportComponentType.PDFsharp, typeof(SmartDigitalPsico.Core.SDK.Domain.Report.PDFsharpMigraDocReportAdapter))]
+    public void Create_SupportedPdfComponent_ReturnsExpectedAdapter(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EPdfReportComponentType componentType, Type expectedType)
     {
         // Arrange
 
         // Act
-        var factory = new PdfReportAdapterFactory();
+        var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Report.PdfReportAdapterFactory();
 
         var result = factory.Create(componentType);
 
@@ -128,9 +122,9 @@ public class InfrastructureFactoryTests
         // Arrange
 
         // Act
-        var factory = new PdfReportAdapterFactory();
+        var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Report.PdfReportAdapterFactory();
 
-        var action = () => factory.Create((EPdfReportComponentType)999);
+        var action = () => factory.Create((global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EPdfReportComponentType)999);
 
         // Assert
         action.Should().Throw<ArgumentException>();
@@ -144,12 +138,12 @@ public class InfrastructureFactoryTests
         // Arrange
 
         // Act
-        var factory = new ExcelGeneratorFactory();
+        var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Report.ExcelGeneratorFactory();
 
         var result = factory.Create();
 
         // Assert
-        result.Should().BeOfType<SmartDigitalPsico.Domain.Report.ExcelGeneratorOpenXmlAdapter>();
+        result.Should().BeOfType<SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter>();
     }
 
     // Cenário: factory de fila de storage.
@@ -160,9 +154,9 @@ public class InfrastructureFactoryTests
         // Arrange
 
         // Act
-        var factory = new SmartDigitalPsico.Domain.Interfaces.Infrastructure.StorageQueueRepositoryFactory(new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
+        var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.StorageQueueRepositoryFactory(new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
 
-        var result = factory.Create(EStorageAdapterType.Azure, "notifications");
+        var result = factory.Create(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EStorageAdapterType.Azure, "notifications");
 
         // Assert
         result.Should().NotBeNull();
@@ -176,11 +170,11 @@ public class InfrastructureFactoryTests
         // Arrange
 
         // Act
-        var factory = new SmartDigitalPsico.Service.Infrastructure.StorageTableRepositoryFactory(
+        var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.StorageTableRepositoryFactory(
             new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
 
         var result = factory.Create<SmartDigitalPsico.Domain.TableEntityNoSQL.PatientRecordTableEntity>(
-            EStorageAdapterType.Azure,
+            global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EStorageAdapterType.Azure,
             "patient-records");
 
         // Assert
@@ -195,11 +189,11 @@ public class InfrastructureFactoryTests
         // Arrange
         var services = new ServiceCollection();
         services.AddSingleton(new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
-        services.AddSingleton(Mock.Of<SmartDigitalPsico.Domain.Interfaces.Repository.IUserTokenSessionRepository>());
-        services.AddSingleton(Mock.Of<AutoMapper.IMapper>());
-        services.AddSingleton(Mock.Of<SmartDigitalPsico.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>>());
+        services.AddSingleton(Mock.Of<SmartDigitalPsico.Domain.Interfaces.Common.IUserTokenSessionRepository>());
+        services.AddSingleton(Mock.Of<IAppMapper>());
+        services.AddSingleton(Mock.Of<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>>());
         using var provider = services.BuildServiceProvider();
-        var factory = new SmartDigitalPsico.Service.Infrastructure.Authentication.TokenSessionPersistenceFactory(provider);
+        var factory = new SmartDigitalPsico.Service.TokenSessionPersistenceFactory(provider);
 
         var database = factory.Create(ETokenSessionPersistenceType.DataBase);
         var table = factory.Create(ETokenSessionPersistenceType.AzureStorageTable);
@@ -209,8 +203,8 @@ public class InfrastructureFactoryTests
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            database.Should().BeOfType<SmartDigitalPsico.Service.Infrastructure.Authentication.DatabaseTokenSessionAdapter>();
-            table.Should().BeOfType<SmartDigitalPsico.Service.Infrastructure.Authentication.TableStorageTokenSessionAdapter>();
+            database.Should().BeOfType<SmartDigitalPsico.Service.DatabaseTokenSessionAdapter>();
+            table.Should().BeOfType<SmartDigitalPsico.Service.TableStorageTokenSessionAdapter>();
         }
     }
 
@@ -222,7 +216,7 @@ public class InfrastructureFactoryTests
         // Arrange
 
         // Act
-        var factory = new SmartDigitalPsico.Service.Infrastructure.Authentication.TokenSessionPersistenceFactory(
+        var factory = new SmartDigitalPsico.Service.TokenSessionPersistenceFactory(
             new ServiceCollection().BuildServiceProvider());
 
         var action = () => factory.Create((ETokenSessionPersistenceType)999);

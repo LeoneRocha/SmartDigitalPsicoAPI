@@ -1,6 +1,4 @@
-using SmartDigitalPsico.Domain.Enuns;
-
-namespace SmartDigitalPsico.Domain.Interfaces.Notification
+﻿namespace SmartDigitalPsico.Domain.Interfaces.Notification
 {
     /// <summary>
     /// Interface (contrato) responsável por INotificationPlatformServiceFactory.
@@ -12,6 +10,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Notification
         /// <summary>
         /// Método GetService: consulta e retorna dados.
         /// </summary>
-        INotificationPlatformService GetService(ENotificationServiceType serviceType);
+        SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType serviceType);
     }
 }

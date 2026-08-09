@@ -1,18 +1,16 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientFile;
-using SmartDigitalPsico.Domain.VO;
-
-
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.Common;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
-    [ApiController] 
+    [ApiController]
     [Authorize("Bearer")]
     [Route("api/patient/v1/[controller]")]
 
@@ -21,7 +19,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class PatientFileController : ApiBaseController
+    public class PatientFileController : Domain.API.ApiBaseController
     {
         private readonly IPatientFileService _entityService;
         private readonly IConfiguration _configuration;
@@ -31,7 +29,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// </summary>
         public PatientFileController(IPatientFileService entityService
             , IOptions<AuthConfigurationDto> configurationAuth
-            , IConfiguration configuration) 
+            , IConfiguration configuration)
             : base(configurationAuth)
         {
             _entityService = entityService;
@@ -79,8 +77,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             return Ok(response);
         }
 
-
-        [HttpGet("Download/{id}")]        
+        [HttpGet("Download/{id}")]
         /// <summary>
         /// Método DownloadFileById: executa a operação DownloadFileById.
         /// </summary>
@@ -88,7 +85,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var result = await _entityService.DownloadFileById(id);
-            var response = FileHelper.ProccessDownloadToBrowser(DirectoryHelper.GetDiretoryTemp(_configuration), result.FileName);
+            var response = SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.ProccessDownloadToBrowser(SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), result.FileName);
             return response;
         }
 
@@ -103,7 +100,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             ServiceResponse<GetPatientFileDto> response = new ServiceResponse<GetPatientFileDto>();
 
             try
-            { 
+            {
                 var addEntity = new AddPatientFileDto() { PatientId = newEntity.PatientId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };
                 response.Data = null;
                 response.Success = await _entityService.PostFileAsync(addEntity);
@@ -119,7 +116,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             {
                 response.Message = $"Upload fail";
                 return BadRequest(response);
-            } 
-        } 
+            }
+        }
     }
 }

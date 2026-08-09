@@ -1,29 +1,28 @@
-using System.Reflection;
+﻿using System.Reflection;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
-using SmartDigitalPsico.Domain.DTO.Notification;
-using SmartDigitalPsico.Domain.DTO.Schedule;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.DTO.Notification.ADD;
+using SmartDigitalPsico.Domain.DTO.Notification.Common;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Infrastructure.CacheManager;
-using SmartDigitalPsico.Service.Bussines.Notification;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Service.Test.Infrastructure;
 using SmartDigitalPsico.Service.Test.TestSupport;
-using ILogger = Serilog.ILogger;
+
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
 
@@ -64,7 +63,7 @@ public class RemainingServiceLineGapTests
             medicalNotify.Object,
             scheduleRepo.Object,
             patientRepos.Object,
-            Mock.Of<ILogger>());
+            Mock.Of<IAppLogger>());
         var method = typeof(NotificationDispatchJobService)
             .GetMethod("ProcessRecordAsync", BindingFlags.Instance | BindingFlags.NonPublic)!;
         var now = DateTime.UtcNow;
@@ -99,7 +98,7 @@ public class RemainingServiceLineGapTests
     public async Task ScheduleAvailability_BusyOutsideRange_SkipsOutOfRangeDays()
     {
         // Arrange
-        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<ILogger>());
+        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<IAppLogger>());
         var day = new DateTime(2026, 3, 10);
         var request = new ScheduleGradeRequest
         {
@@ -197,7 +196,7 @@ public class RemainingServiceLineGapTests
                 SubjectKey = "patient:1"
             }
         };
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasNoConflictBatchAsync("medical", "medical:1", items, null);
@@ -212,7 +211,7 @@ public class RemainingServiceLineGapTests
     public async Task AuditDataSelectiveEntityLogService_Save_CreateThrows_LogsInformationAndError()
     {
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var sharedConfig = new Mock<ISharedDependenciesConfig>();
         sharedConfig.SetupGet(x => x.Logger).Returns(logger.Object);
         var shared = new ServiceTestContext();
@@ -250,12 +249,12 @@ public class RemainingServiceLineGapTests
         {
         }
 
-        public override Task<ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetAuditDataSelectiveEntityLogDto>> Create(
-            SmartDigitalPsico.Domain.Interfaces.IEntityDtoAdd item)
+        public override Task<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Audit.GET.GetAuditDataSelectiveEntityLogDto>> Create(
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             if (!CreateSucceeds)
                 throw new InvalidOperationException("fail");
-            return Task.FromResult(new ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetAuditDataSelectiveEntityLogDto>
+            return Task.FromResult(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Audit.GET.GetAuditDataSelectiveEntityLogDto>
             {
                 Success = true,
                 Message = "ok"
@@ -359,7 +358,7 @@ public class RemainingServiceLineGapTests
     public void DiskCache_ValidDataProperty_ReturnsExistsTrue()
     {
         // Arrange
-        var disk = new Mock<IDiskCacheRepository>();
+        var disk = new Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>();
         var entry = new ExpirableCacheEntry
         {
             Data = "payload",
@@ -367,13 +366,13 @@ public class RemainingServiceLineGapTests
         };
         disk.Setup(x => x.TryGetAsync<ExpirableCacheEntry>("valid-data"))
             .ReturnsAsync(new KeyValuePair<bool, ExpirableCacheEntry>(true, entry));
-        var service = new CacheService(
-            Mock.Of<IMemoryCacheRepository>(),
+        var service = new SmartDigitalPsico.Service.CacheService(
+            Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>(),
             disk.Object,
             Mock.Of<IApplicationCacheLogRepository>(),
-            Microsoft.Extensions.Options.Options.Create(new SmartDigitalPsico.Domain.DTO.Domains.CacheConfigurationDto
+            Microsoft.Extensions.Options.Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
             {
-                TypeCache = ETypeLocationCache.Disk,
+                TypeCache = global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache.Disk,
                 IsEnable = true,
                 AbsoluteExpirationInHours = 1,
                 SlidingExpirationInMinutes = 5
@@ -392,3 +391,4 @@ public class RemainingServiceLineGapTests
         }
     }
 }
+

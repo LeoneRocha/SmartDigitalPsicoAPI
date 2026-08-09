@@ -1,8 +1,7 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.WebJob;
-
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.WebJob.Test;
 
 [TestFixture]
@@ -18,7 +17,7 @@ public class ContinuousJobHostedServiceTests
         var jobService = new Mock<IBackgroundJobService>();
         var service = new CancellingDelayContinuousJobHostedService(
             jobService.Object,
-            Mock.Of<Serilog.ILogger>(),
+            Mock.Of<IAppLogger>(),
             new ConfigurationBuilder().Build(),
             cancellation);
 
@@ -40,7 +39,7 @@ public class ContinuousJobHostedServiceTests
         var jobService = new Mock<IBackgroundJobService>();
         var service = new TestableContinuousJobHostedService(
             jobService.Object,
-            Mock.Of<Serilog.ILogger>(),
+            Mock.Of<IAppLogger>(),
             new ConfigurationBuilder().Build());
 
         // Act
@@ -62,7 +61,7 @@ public class ContinuousJobHostedServiceTests
             .Setup(service => service.ExecuteNotificationProcessAsync())
             .Callback(cancellation.Cancel)
             .Returns(Task.CompletedTask);
-        var logger = new Mock<Serilog.ILogger>();
+        var logger = new Mock<IAppLogger>();
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { ["JobSettings:TaskDelayMinutes"] = "1" })
             .Build();
@@ -84,7 +83,7 @@ public class ContinuousJobHostedServiceTests
         // Arrange
         var service = new TestableContinuousJobHostedService(
             Mock.Of<IBackgroundJobService>(),
-            Mock.Of<Serilog.ILogger>(),
+            Mock.Of<IAppLogger>(),
             new ConfigurationBuilder().Build());
 
         // Act
@@ -109,7 +108,7 @@ public class ContinuousJobHostedServiceTests
             .ThrowsAsync(new InvalidOperationException("Falha simulada"));
         var service = new TestableContinuousJobHostedService(
             jobService.Object,
-            Mock.Of<Serilog.ILogger>(),
+            Mock.Of<IAppLogger>(),
             new ConfigurationBuilder().AddInMemoryCollection(
                 new Dictionary<string, string?> { ["JobSettings:TaskDelayMinutes"] = "1" }).Build());
 
@@ -123,7 +122,7 @@ public class ContinuousJobHostedServiceTests
 
     private class TestableContinuousJobHostedService(
         IBackgroundJobService jobService,
-        Serilog.ILogger logger,
+        IAppLogger logger,
         IConfiguration configuration) : ContinuousJobHostedService(jobService, logger, configuration)
     {
         public Task ExecutePublicAsync(CancellationToken cancellationToken) => ExecuteAsync(cancellationToken);
@@ -131,7 +130,7 @@ public class ContinuousJobHostedServiceTests
 
     private sealed class CancellingDelayContinuousJobHostedService(
         IBackgroundJobService jobService,
-        Serilog.ILogger logger,
+        IAppLogger logger,
         IConfiguration configuration,
         CancellationTokenSource cancellation) : TestableContinuousJobHostedService(jobService, logger, configuration)
     {

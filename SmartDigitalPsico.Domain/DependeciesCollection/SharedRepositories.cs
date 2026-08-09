@@ -1,5 +1,7 @@
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
+﻿using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
+using SmartDigitalPsico.Domain.Interfaces.User;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
@@ -14,13 +16,13 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         public IApplicationLanguageRepository ApplicationLanguageRepository { get; }
         public IApplicationConfigSettingRepository ApplicationConfigSettingRepository { get; }
 
-     
+
 
         /// <summary>
         /// Método SharedRepositories: executa a operação SharedRepositories.
         /// </summary>
         public SharedRepositories(
-            IUserRepository userRepository, 
+            IUserRepository userRepository,
             IApplicationLanguageRepository applicationLanguageRepository,
             IApplicationConfigSettingRepository applicationConfigSettingRepository,
             INotificationTemplateRepository notificationTemplateRepository)
@@ -28,7 +30,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
             UserRepository = userRepository;
             ApplicationLanguageRepository = applicationLanguageRepository;
             ApplicationConfigSettingRepository = applicationConfigSettingRepository;
-         
+
         }
     }
 }

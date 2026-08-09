@@ -1,0 +1,25 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.Enuns;
+using EntityBase = SmartDigitalPsico.Core.SDK.Domain.Contracts.EntityBase;
+
+namespace SmartDigitalPsico.Domain.EntityModels
+{
+    /// <summary>
+    /// Classe responsável por NotificationRule.
+    /// Responsabilidade: entidade de domínio persistida via EF Core.
+    /// Relação: mapeada no Data Context e usada pelos repositórios.
+    /// </summary>
+    public class NotificationRule : EntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseDomains
+    {
+        public Medical? Medical { get; set; }
+        public long MedicalId { get; set; }
+        public bool IsEnabled { get; set; }
+        public EIntervalNotificationType IntervalType { get; set; }
+        public short IntervalValue { get; set; }
+        public bool IsBefore { get; set; }
+        public ENotificationServiceType[] ENotificationServiceType { get; set; } = [];
+        public string Description { get; set; } = string.Empty;
+        public string Language { get; set; } = string.Empty;
+        public ENotificationType NotificationType { get; set; }
+    }
+}

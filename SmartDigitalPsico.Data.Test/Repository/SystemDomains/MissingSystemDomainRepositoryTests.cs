@@ -1,8 +1,7 @@
-using SmartDigitalPsico.Data.Repository.SystemDomains;
+﻿using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity;
-
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains;
 
 [TestFixture]

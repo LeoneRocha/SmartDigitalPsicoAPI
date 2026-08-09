@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj" />
+    <ProjectReference Include="..\SmartDigitalPsico.Core.SDK\SmartDigitalPsico.Core.SDK.csproj" />
   </ItemGroup>
 
 </Project>

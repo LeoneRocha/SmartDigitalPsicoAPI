@@ -1,10 +1,8 @@
-using SmartDigitalPsico.Data.Repository.Principals;
+﻿using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
-
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
@@ -29,7 +27,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             var mockDataListPatient = PatientMockHelper.GetMock().AsQueryable().ToList();
             var mockDataListPatient2 = PatientMockHelper.GetMockFromBogus().AsQueryable().ToList();
-            
+
             var mockDataList = mockData.ToList();
             // Arrange
             _mockContext = new SmartDigitalPsicoDataContextTest();
@@ -42,7 +40,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.Medicals.AddRange(mockDataListMedical2);
             _mockContext.Patients.AddRange(mockDataListPatient2);
             _mockContext.SaveChanges();
-            
+
             _mockContext.PatientFiles.AddRange(mockDataList);
             _mockContext.SaveChanges();
         }
@@ -110,7 +108,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             SetupContext(mockDataList.AsQueryable());
 
             var mockData = mockDataList[0];
-            
+
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientFileRepository(_mockContext);
@@ -125,6 +123,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result.Id, Is.EqualTo(mockData.Id));
 
             }
-        } 
+        }
     }
 }

@@ -1,14 +1,9 @@
-using AwesomeAssertions;
-using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Commands;
-
+﻿using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Core.Commands;
 
 [TestFixture]
@@ -61,7 +56,7 @@ public class ScheduleUpdateServiceTests
         var entity = new ScheduleCalendar { Id = 1, UniqueToken = request.UniqueToken };
         context.Repository.Setup(x => x.GetByUniqueTokenAsync(request.UniqueToken)).ReturnsAsync(entity);
         context.ConflictService.Setup(x => x.HasNoConflictBatchAsync(request.TenantKey, request.OwnerKey, request.Items, entity.UniqueToken))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = false, Message = "Conflito detectado" });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = false, Message = "Conflito detectado" });
 
         // Act
         var result = await context.Service.UpdateAsync(request);
@@ -88,7 +83,7 @@ public class ScheduleUpdateServiceTests
         var entity = new ScheduleCalendar { Id = 2, UniqueToken = request.UniqueToken, ScheduleData = [] };
         context.Repository.Setup(x => x.GetByUniqueTokenAsync(request.UniqueToken)).ReturnsAsync(entity);
         context.ConflictService.Setup(x => x.HasNoConflictBatchAsync(request.TenantKey, request.OwnerKey, request.Items, entity.UniqueToken))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         context.Repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
 
         // Act
@@ -124,7 +119,7 @@ public class ScheduleUpdateServiceTests
         };
         context.Repository.Setup(x => x.GetByUniqueTokenAsync("token-3")).ReturnsAsync(entity);
         context.ConflictService.Setup(x => x.HasNoConflictBatchAsync(request.TenantKey, request.OwnerKey, request.Items, entity.UniqueToken))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         context.Repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
 
         // Act
@@ -150,7 +145,7 @@ public class ScheduleUpdateServiceTests
         var entity = new ScheduleCalendar { Id = 9, UniqueToken = request.UniqueToken, ScheduleData = [] };
         context.Repository.Setup(x => x.FindByID(9)).ReturnsAsync(entity);
         context.ConflictService.Setup(x => x.HasNoConflictBatchAsync(request.TenantKey, request.OwnerKey, request.Items, entity.UniqueToken))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         context.Repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
 
         // Act
@@ -178,7 +173,7 @@ public class ScheduleUpdateServiceTests
         // Assert
         result.Success.Should().BeFalse();
 
-        context.Logger.Verify(x => x.Error<string?>(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<string?>()), Times.Once);
+        context.Logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Once);
     }
 
     // Cenário: cancelamento de ocorrência inexistente.
@@ -320,7 +315,7 @@ public class ScheduleUpdateServiceTests
         };
         context.Repository.Setup(x => x.GetByUniqueTokenAsync("token-10")).ReturnsAsync(entity);
         context.ConflictService.Setup(x => x.HasNoConflictBatchAsync(request.TenantKey, request.OwnerKey, request.Items, entity.UniqueToken))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         context.Repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
 
         // Act
@@ -360,7 +355,7 @@ public class ScheduleUpdateServiceTests
         };
         context.Repository.Setup(x => x.GetByUniqueTokenAsync("token-12")).ReturnsAsync(entity);
         context.ConflictService.Setup(x => x.HasNoConflictBatchAsync(request.TenantKey, request.OwnerKey, It.IsAny<ScheduleCalendarItem[]>(), entity.UniqueToken))
-            .ReturnsAsync(new ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
         context.Repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => e);
 
         // Act
@@ -418,7 +413,7 @@ public class ScheduleUpdateServiceTests
     {
         public Mock<IScheduleCalendarRepository> Repository { get; } = new();
         public Mock<IScheduleConflictService> ConflictService { get; } = new();
-        public Mock<ILogger> Logger { get; } = new();
+        public Mock<IAppLogger> Logger { get; } = new();
         public ScheduleUpdateService Service { get; }
 
         public ScheduleUpdateContext()

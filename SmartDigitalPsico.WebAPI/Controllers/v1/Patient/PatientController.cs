@@ -1,16 +1,17 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Patient;
-using SmartDigitalPsico.Domain.VO;
-
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.Common;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
-    [ApiController] 
+    [ApiController]
     [Authorize("Bearer")]
     [Route("api/patient/v1/[controller]")]
 
@@ -19,7 +20,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class PatientController : ApiBaseController
+    public class PatientController : Domain.API.ApiBaseController
     {
         private readonly IPatientService _entityService;
 
@@ -43,7 +44,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindAll(medicalId));
-        } 
+        }
 
         [HttpPost("Search")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
@@ -55,7 +56,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.PatientSearch(patientSearchCriteriaDto));
         }
-         
+
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
@@ -85,7 +86,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// </summary>
         public async Task<ActionResult<ServiceResponse<GetPatientDto>>> Update(UpdatePatientDto UpdateEntity)
         {
-            this.setUserIdCurrent(); await base.SetCurrentCulture();            
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(UpdateEntity);
             if (response.Data == null)
             {

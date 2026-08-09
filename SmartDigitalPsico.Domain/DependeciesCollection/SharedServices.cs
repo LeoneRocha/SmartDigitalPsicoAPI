@@ -1,9 +1,8 @@
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Security;
-using SmartDigitalPsico.Domain.Interfaces.Service; 
-using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
+﻿using Microsoft.Extensions.DependencyInjection;
 
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
     /// <summary>
@@ -13,8 +12,8 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     /// </summary>
     public class SharedServices : ISharedServices
     {
-        public ICacheService CacheService { get; }
-        public ICryptoService CryptoService { get; }
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService CacheService { get; }
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService CryptoService { get; }
 
         private readonly IServiceProvider _serviceProvider;
 
@@ -22,8 +21,8 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         /// Método SharedServices: executa a operação SharedServices.
         /// </summary>
         public SharedServices(
-            ICacheService cacheService,
-            ICryptoService cryptoService, 
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService,
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService cryptoService,
             IServiceProvider serviceProvider
         )
         {

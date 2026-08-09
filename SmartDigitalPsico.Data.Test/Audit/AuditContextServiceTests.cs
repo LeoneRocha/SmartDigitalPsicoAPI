@@ -1,12 +1,9 @@
+﻿using System.Reflection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System.Reflection;
 using SmartDigitalPsico.Data.Audit;
-using SmartDigitalPsico.Data.Repository.CacheManager;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.ModelEntity;
 using SmartDigitalPsico.Data.Test.Configure;
-
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.Audit;
 
 [TestFixture]
@@ -179,11 +176,11 @@ public class AuditContextServiceTests : BaseTests
     private static AuditContextService CreateService()
     {
         var cache = new MemoryCache(new MemoryCacheOptions());
-        var options = Options.Create(new CacheConfigurationDto
+        var options = Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto
         {
             AbsoluteExpirationInHours = 1,
             SlidingExpirationInMinutes = 1
         });
-        return new AuditContextService(new MemoryCacheRepository(cache, options));
+        return new AuditContextService(new SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager.MemoryCacheRepository(cache, options));
     }
 }

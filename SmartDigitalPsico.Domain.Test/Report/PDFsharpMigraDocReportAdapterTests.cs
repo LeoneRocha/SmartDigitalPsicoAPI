@@ -1,9 +1,4 @@
-using PdfSharp.Fonts;
-using SmartDigitalPsico.Domain.DTO.Report;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Report;
-
-namespace SmartDigitalPsico.Domain.Test.Report;
+﻿namespace SmartDigitalPsico.Domain.Test.Report;
 
 [TestFixture]
 public class PDFsharpMigraDocReportAdapterTests
@@ -33,15 +28,15 @@ public class PDFsharpMigraDocReportAdapterTests
         // Objetivo: renderizar os dois tipos em memória e arquivo.
         // Arrange
         Directory.CreateDirectory(_tempPath);
-        var content = new ReportPageContentDto
+        var content = new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageContentDto
         {
             Pages =
             [
-                new ReportPageDataDto { Name = "Tabela", PageType = EReportPageType.Table, Rows = [new SampleRow { Name = "Ana", Value = 3, Empty = null }], PropertiesToIgnore = ["Empty"] },
-                new ReportPageDataDto { Name = "Texto", PageType = EReportPageType.Text, Rows = [new SampleRow { Name = "Bruno", Value = 8, Empty = null }], PropertiesToIgnore = ["Empty"] }
+                new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Name = "Tabela", PageType = SmartDigitalPsico.Core.SDK.Domain.Enuns.EReportPageType.Table, Rows = [new SampleRow { Name = "Ana", Value = 3, Empty = null }], PropertiesToIgnore = ["Empty"] },
+                new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportPageDataDto { Name = "Texto", PageType = SmartDigitalPsico.Core.SDK.Domain.Enuns.EReportPageType.Text, Rows = [new SampleRow { Name = "Bruno", Value = 8, Empty = null }], PropertiesToIgnore = ["Empty"] }
             ]
         };
-        var adapter = new PDFsharpMigraDocReportAdapter();
+        var adapter = new SmartDigitalPsico.Core.SDK.Domain.Report.PDFsharpMigraDocReportAdapter();
         var output = Path.Combine(_tempPath, "migradoc.pdf");
 
         // Act

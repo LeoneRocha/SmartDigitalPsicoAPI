@@ -1,6 +1,5 @@
+﻿using System.Globalization;
 using Microsoft.AspNetCore.Http;
-using SmartDigitalPsico.Domain.Helpers;
-using System.Globalization;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
 
@@ -18,7 +17,7 @@ public class RequestCultureMiddlewareTests
         var invoked = false;
         string? cultureDuringNext = null;
         string? uiCultureDuringNext = null;
-        var middleware = new RequestCultureMiddleware(_ =>
+        var middleware = new SmartDigitalPsico.Core.SDK.Domain.Helpers.RequestCultureMiddleware(_ =>
         {
             // Captura dentro do pipeline: após o await o AsyncLocal pode voltar ao default da thread.
             invoked = true;
@@ -47,7 +46,7 @@ public class RequestCultureMiddlewareTests
         // Arrange
         var previous = CultureInfo.CurrentCulture;
         var context = new DefaultHttpContext();
-        var middleware = new RequestCultureMiddleware(_ => Task.CompletedTask);
+        var middleware = new SmartDigitalPsico.Core.SDK.Domain.Helpers.RequestCultureMiddleware(_ => Task.CompletedTask);
 
         // Act
         await middleware.Invoke(context);

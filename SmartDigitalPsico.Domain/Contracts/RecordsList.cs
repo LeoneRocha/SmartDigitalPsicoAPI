@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.ModelEntity;
+﻿using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Contracts
 {
@@ -12,5 +12,5 @@ namespace SmartDigitalPsico.Domain.Contracts
         public long UserIdLogged { get; set; }
         public User LoggedInUser { get; set; } = new User();
         public List<T> Records { get; set; } = new List<T>();
-    } 
+    }
 }

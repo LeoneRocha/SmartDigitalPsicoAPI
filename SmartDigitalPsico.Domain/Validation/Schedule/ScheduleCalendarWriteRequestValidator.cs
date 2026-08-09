@@ -1,7 +1,7 @@
-using FluentValidation;
-using SmartDigitalPsico.Domain.DTO.Schedule;
+﻿using FluentValidation;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 
-namespace SmartDigitalPsico.Domain.Validation.Schedule
+namespace SmartDigitalPsico.Domain.Validation
 {
     /// <summary>
     /// Generic write-request validator for ScheduleCalendar SoT.
@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Domain.Validation.Schedule
         /// <summary>
         /// Método ScheduleCalendarWriteRequestValidator: operação de agendamento.
         /// </summary>
-        public ScheduleCalendarWriteRequestValidator(IValidator<SmartDigitalPsico.Domain.ModelEntity.Schedule.ScheduleCalendarItem> itemValidator)
+        public ScheduleCalendarWriteRequestValidator(IValidator<SmartDigitalPsico.Domain.EntityModels.Schedule.ScheduleCalendarItem> itemValidator)
         {
             RuleFor(x => x.UniqueToken)
                 .NotEmpty()

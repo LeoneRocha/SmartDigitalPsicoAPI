@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
@@ -38,6 +38,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.WebJob.Test", "SmartDigitalPsico.WebJob.Test\SmartDigitalPsico.WebJob.Test.csproj", "{5C1E2675-64A1-4F52-9606-5E181F5D0C02}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.WindowsService.Test", "SmartDigitalPsico.WindowsService.Test\SmartDigitalPsico.WindowsService.Test.csproj", "{4CB63151-3848-4F8B-B6BE-F21547AF07BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.Core.SDK", "SmartDigitalPsico.Core.SDK\SmartDigitalPsico.Core.SDK.csproj", "{F58C4992-6038-41DF-BE4B-A7C97C2498C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDigitalPsico.Core.SDK.Tests", "SmartDigitalPsico.Core.SDK.Tests\SmartDigitalPsico.Core.SDK.Tests.csproj", "{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -201,6 +205,30 @@ Global
 		{4CB63151-3848-4F8B-B6BE-F21547AF07BE}.Release|x64.Build.0 = Release|Any CPU
 		{4CB63151-3848-4F8B-B6BE-F21547AF07BE}.Release|x86.ActiveCfg = Release|Any CPU
 		{4CB63151-3848-4F8B-B6BE-F21547AF07BE}.Release|x86.Build.0 = Release|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Debug|x64.Build.0 = Debug|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Debug|x86.Build.0 = Debug|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Release|x64.ActiveCfg = Release|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Release|x64.Build.0 = Release|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{F58C4992-6038-41DF-BE4B-A7C97C2498C6}.Release|x86.Build.0 = Release|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Debug|x64.Build.0 = Debug|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Debug|x86.Build.0 = Debug|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Release|x64.ActiveCfg = Release|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Release|x64.Build.0 = Release|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Release|x86.ActiveCfg = Release|Any CPU
+		{74CBEE02-6B97-43CB-85D3-C8DEE4F7EAB7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

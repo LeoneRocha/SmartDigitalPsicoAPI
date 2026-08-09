@@ -1,8 +1,8 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.VO;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 
-namespace SmartDigitalPsico.Service.Infrastructure.Notification
+using SmartDigitalPsico.Domain.Interfaces.Notification;
+namespace SmartDigitalPsico.Service
 {
     /// <summary>
     /// Classe responsável por SendNotificationService.

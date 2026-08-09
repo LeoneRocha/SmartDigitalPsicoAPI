@@ -1,11 +1,7 @@
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Security;
 
 namespace SmartDigitalPsico.Domain.Test.Security;
 
@@ -20,7 +16,7 @@ public class CryptoAndTokenTests
     public void AesCryptoAdapter_ValidAndInvalidText_ReturnsExpectedResult()
     {
         // Arrange
-        var adapter = new AesCryptoAdpter(AesKeyGeneratorHelper.GenerateKey(), AesKeyGeneratorHelper.GenerateIV());
+        var adapter = new SmartDigitalPsico.Core.SDK.Domain.Security.AesCryptoAdpter(SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey(), SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateIV());
         // Act
         var encrypted = adapter.Encrypt("confidential");
         var decrypted = adapter.Decrypt(encrypted);
@@ -42,20 +38,20 @@ public class CryptoAndTokenTests
     public void AesCryptoAdapter_ConstructorInputs_InitializesOrThrows()
     {
         // Arrange
-        var key = AesKeyGeneratorHelper.GenerateKey();
-        var iv = AesKeyGeneratorHelper.GenerateIV();
+        var key = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey();
+        var iv = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateIV();
         var binaryKey = Convert.FromBase64String(key);
         var binaryIv = Convert.FromBase64String(iv);
 
         // Act
-        var base64Adapter = new AesCryptoAdpter(key, iv);
+        var base64Adapter = new SmartDigitalPsico.Core.SDK.Domain.Security.AesCryptoAdpter(key, iv);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             base64Adapter.Decrypt(base64Adapter.Encrypt("base64")).Should().Be("base64");
-            Action nullKey = () => _ = new AesCryptoAdpter(null!, binaryIv);
-            Action nullIv = () => _ = new AesCryptoAdpter(binaryKey, null!);
+            Action nullKey = () => _ = new SmartDigitalPsico.Core.SDK.Domain.Security.AesCryptoAdpter(null!, binaryIv);
+            Action nullIv = () => _ = new SmartDigitalPsico.Core.SDK.Domain.Security.AesCryptoAdpter(binaryKey, null!);
             nullKey.Should().Throw<ArgumentNullException>();
             nullIv.Should().Throw<ArgumentNullException>();
         }
@@ -67,12 +63,12 @@ public class CryptoAndTokenTests
     public void RsaCryptoAdapter_GeneratedKeys_RoundTripsText()
     {
         // Arrange
-        var keys = RsaCryptoServiceHelper.GenerateKeys(System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
-        var adapter = new RsaCryptoAdpter(keys.PublicKey, keys.PrivateKey);
+        var keys = SmartDigitalPsico.Core.SDK.Domain.Helpers.RsaCryptoServiceHelper.GenerateKeys(System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
+        var adapter = new SmartDigitalPsico.Core.SDK.Domain.Security.RsaCryptoAdpter(keys.PublicKey, keys.PrivateKey);
         // Act
         var encrypted = adapter.Encrypt("rsa text");
         var decrypted = adapter.Decrypt(encrypted);
-        var converted = RsaCryptoServiceHelper.ConvertFromBase64(keys.PublicKeyBase64, System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
+        var converted = SmartDigitalPsico.Core.SDK.Domain.Helpers.RsaCryptoServiceHelper.ConvertFromBase64(keys.PublicKeyBase64, System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
         // Assert
         using (Assert.EnterMultipleScope())
         {
@@ -89,19 +85,19 @@ public class CryptoAndTokenTests
     public void CryptoAdapterFactory_ServiceType_ReturnsAdapterOrThrows()
     {
         // Arrange
-        var factory = new CryptoAdapterFactory();
-        var aesKey = AesKeyGeneratorHelper.GenerateKey();
-        var aesIv = AesKeyGeneratorHelper.GenerateIV();
-        var rsa = RsaCryptoServiceHelper.GenerateKeys(System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
+        var factory = new SmartDigitalPsico.Core.SDK.Domain.Security.CryptoAdapterFactory();
+        var aesKey = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey();
+        var aesIv = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateIV();
+        var rsa = SmartDigitalPsico.Core.SDK.Domain.Helpers.RsaCryptoServiceHelper.GenerateKeys(System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
         // Act
-        var aes = factory.Create(ECryptoServiceType.Aes, aesKey, aesIv);
-        var rsaAdapter = factory.Create(ECryptoServiceType.Rsa, rsa.PrivateKeyBase64, rsa.PublicKeyBase64);
+        var aes = factory.Create(SmartDigitalPsico.Core.SDK.Domain.Enuns.ECryptoServiceType.Aes, aesKey, aesIv);
+        var rsaAdapter = factory.Create(SmartDigitalPsico.Core.SDK.Domain.Enuns.ECryptoServiceType.Rsa, rsa.PrivateKeyBase64, rsa.PublicKeyBase64);
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            aes.Should().BeOfType<AesCryptoAdpter>();
-            rsaAdapter.Should().BeOfType<RsaCryptoAdpter>();
-            ((Action)(() => factory.Create((ECryptoServiceType)99, "", ""))).Should().Throw<ArgumentException>();
+            aes.Should().BeOfType<SmartDigitalPsico.Core.SDK.Domain.Security.AesCryptoAdpter>();
+            rsaAdapter.Should().BeOfType<SmartDigitalPsico.Core.SDK.Domain.Security.RsaCryptoAdpter>();
+            ((Action)(() => factory.Create((SmartDigitalPsico.Core.SDK.Domain.Enuns.ECryptoServiceType)99, "", ""))).Should().Throw<ArgumentException>();
         }
     }
 
@@ -111,7 +107,7 @@ public class CryptoAndTokenTests
     public void TokenService_ValidConfiguration_GeneratesAndValidatesTokens()
     {
         // Arrange
-        var service = new TokenService(new TokenConfigurationDto { Secret = Secret, Issuer = "issuer", Audience = "audience", Minutes = 1 });
+        var service = new TokenService(new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = Secret, Issuer = "issuer", Audience = "audience", Minutes = 1 });
         var claims = new[] { new Claim(ClaimTypes.NameIdentifier, "123"), new Claim(ClaimTypes.Name, "Ana") };
         // Act
         var token = service.GenerateAccessToken(claims);
@@ -132,7 +128,7 @@ public class CryptoAndTokenTests
     public void GetPrincipalFromExpiredToken_InvalidAlgorithm_ThrowsSecurityTokenException()
     {
         // Arrange
-        var configuration = new TokenConfigurationDto { Secret = Secret, Issuer = "issuer", Audience = "audience", Minutes = 1 };
+        var configuration = new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = Secret, Issuer = "issuer", Audience = "audience", Minutes = 1 };
         var service = new TokenService(configuration);
         var credentials = new SigningCredentials(new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Secret)), SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(issuer: configuration.Issuer, audience: configuration.Audience, expires: DateTime.UtcNow.AddMinutes(-1), signingCredentials: credentials);

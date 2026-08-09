@@ -1,5 +1,4 @@
-using System.ComponentModel;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
@@ -7,35 +6,25 @@ using System.Text.Json;
 using FluentValidation.Results;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.DTO.Report;
-using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Report;
-using SmartDigitalPsico.Domain.Security;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.Test.Report;
 using SmartDigitalPsico.Domain.Validation;
-using SmartDigitalPsico.Domain.Validation.Base;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
-using SmartDigitalPsico.Domain.Validation.DTO;
-using SmartDigitalPsico.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
-using SmartDigitalPsico.Domain.VO;
-using ValidationFailure = FluentValidation.Results.ValidationFailure;
 using TextJson = System.Text.Json.JsonSerializer;
+using ValidationFailure = FluentValidation.Results.ValidationFailure;
 
 namespace SmartDigitalPsico.Domain.Test.Coverage;
 
@@ -72,7 +61,7 @@ public sealed class BranchCoverageHundredPercentTests
             var info = LogAppHelper.GetInformationVersionProduct();
             var version = LogAppHelper.GetAssemblyVersion();
 
-        // Act
+            // Act
             // Assert
             using (Assert.EnterMultipleScope())
             {
@@ -89,17 +78,17 @@ public sealed class BranchCoverageHundredPercentTests
     }
 
     // Cenário: conversor enum percorre falhas parciais de descrição/nome e write sem attribute.
-    // Objetivo: fechar ramos restantes do EnumDescriptionConverter.
+    // Objetivo: fechar ramos restantes do SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter.
     [Test]
     public void EnumDescriptionConverter_PartialMatchesAndWritePlain_CoverAllBranches()
     {
         // Arrange
         var options = new JsonSerializerOptions();
-        options.Converters.Add(new EnumDescriptionConverter<HundredDescribedEnum>());
-        var converter = new EnumDescriptionConverter<HundredDescribedEnum>();
-        var fromDescription = typeof(EnumDescriptionConverter<HundredDescribedEnum>)
+        options.Converters.Add(new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<HundredDescribedEnum>());
+        var converter = new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<HundredDescribedEnum>();
+        var fromDescription = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<HundredDescribedEnum>)
             .GetMethod("TryGetEnumValueFromDescription", BindingFlags.NonPublic | BindingFlags.Static)!;
-        var fromName = typeof(EnumDescriptionConverter<HundredDescribedEnum>)
+        var fromName = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<HundredDescribedEnum>)
             .GetMethod("TryGetEnumValueFromName", BindingFlags.NonPublic | BindingFlags.Static)!;
         var valueField = typeof(HundredDescribedEnum).GetField(nameof(HundredDescribedEnum.Value))!;
         var plainField = typeof(HundredDescribedEnum).GetField(nameof(HundredDescribedEnum.Plain))!;
@@ -186,18 +175,18 @@ public sealed class BranchCoverageHundredPercentTests
         Directory.CreateDirectory(_tempPath);
         var mergeOut = Path.Combine(_tempPath, "merge.xlsx");
         var plainOut = Path.Combine(_tempPath, "plain.xlsx");
-        var excel = new ExcelGeneratorOpenXmlAdapter();
-        await excel.Generate(new ReportWorkbookDataDto
+        var excel = new SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter();
+        await excel.Generate(new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto
         {
             Sheets =
             [
-                new ReportSheetDataDto
+                new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto
                 {
                     Name = "Merged",
                     Rows = [new HundredRow { Label = "a", Secret = "hide" }],
                     MergeCellReferences = ["A1:B1"]
                 },
-                new ReportSheetDataDto
+                new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto
                 {
                     Name = "Plain",
                     Rows = [new HundredRow { Label = "b", Secret = "hide" }],
@@ -205,12 +194,12 @@ public sealed class BranchCoverageHundredPercentTests
                 }
             ]
         }, mergeOut);
-        await excel.Generate(new ReportWorkbookDataDto
+        await excel.Generate(new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto
         {
-            Sheets = [new ReportSheetDataDto { Name = "EmptyMerge", Rows = [new HundredRow { Label = "c" }], MergeCellReferences = [] }]
+            Sheets = [new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Name = "EmptyMerge", Rows = [new HundredRow { Label = "c" }], MergeCellReferences = [] }]
         }, plainOut);
 
-        var resolver = new IgnorableSerializerContractResolver(["Secret"]);
+        var resolver = new SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(["Secret"]);
         var kept = Newtonsoft.Json.JsonConvert.SerializeObject(new HundredRow { Label = "x", Public = "y", Secret = "z" },
             new Newtonsoft.Json.JsonSerializerSettings { ContractResolver = resolver });
 
@@ -294,12 +283,12 @@ public sealed class BranchCoverageHundredPercentTests
         var listValidator = new HundredRecordsListValidator(users.Object);
         var recordValidator = new HundredRecordValidator(users.Object);
         var patientFileList = new PatientFileSelectListValidator(users.Object);
-        var medicalBase = new MedicalBaseValidator<MedicalCalendar>(medicalRepo.Object, Mock.Of<IEntityBaseRepository<MedicalCalendar>>(), users.Object);
+        var medicalBase = new MedicalBaseValidator<MedicalCalendar>(medicalRepo.Object, Mock.Of<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>(), users.Object);
 
         const string secret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
         var wrongAlg = new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
             signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)), SecurityAlgorithms.HmacSha256)));
-        var tokenService = new TokenService(new TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
+        var tokenService = new TokenService(new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
 
         var beforeHours = await InvokeBool(calendarValidator, "BeInWorkingHours", 5L, monday.Date.AddHours(7));
         var validTimed = await scheduleFields.ValidateAsync(new MedicalCalendar
@@ -429,7 +418,7 @@ public sealed class BranchCoverageHundredPercentTests
         try
         {
             var info = LogAppHelper.GetInformationVersionProduct();
-        // Act
+            // Act
             // Assert
             info.Name.Should().Contain("SmartDigitalPsico.Domain.Test");
         }
@@ -466,9 +455,9 @@ public sealed class BranchCoverageHundredPercentTests
         });
 
         const string secret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
-        var validToken = new TokenService(new TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 })
+        var validToken = new TokenService(new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 })
             .GenerateAccessToken([new Claim("sub", "1")]);
-        var principal = new TokenService(new TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 })
+        var principal = new TokenService(new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 })
             .GetPrincipalFromExpiredToken(validToken);
 
         var dailyContinue = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest

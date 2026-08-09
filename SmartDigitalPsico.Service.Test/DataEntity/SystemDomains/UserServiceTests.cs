@@ -1,21 +1,20 @@
-using System.Security.Claims;
-using AwesomeAssertions;
+﻿using System.Security.Claims;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO.User;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Security;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.DTO.User.Common;
+using SmartDigitalPsico.Domain.DTO.User.UPDATE;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
 using SmartDigitalPsico.Service.Test.TestSupport;
+
+using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
 
@@ -45,7 +44,7 @@ public class UserServiceTests
     {
         // Arrange
         var context = new UserServiceContext();
-        SecurityHelper.CreatePasswordHash("correct-password", out var hash, out var salt);
+        SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("correct-password", out var hash, out var salt);
         var user = new User { Id = 1, Login = "john", PasswordHash = hash, PasswordSalt = salt };
         context.Context.UserRepository.Setup(x => x.FindByLogin("john")).ReturnsAsync(user);
 
@@ -62,8 +61,8 @@ public class UserServiceTests
     public async Task Login_ValidCredentialsWithJwt_ReturnsAuthenticatedData()
     {
         // Arrange
-        var context = new UserServiceContext(typeApiCredential: ETypeApiCredential.Jwt);
-        SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
+        var context = new UserServiceContext(typeApiCredential: global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt);
+        SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
         var user = new User
         {
             Id = 10,
@@ -101,8 +100,8 @@ public class UserServiceTests
     public async Task Login_ValidCredentialsWithActiveSession_UpdatesExistingSession()
     {
         // Arrange
-        var context = new UserServiceContext(typeApiCredential: ETypeApiCredential.Jwt);
-        SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
+        var context = new UserServiceContext(typeApiCredential: global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt);
+        SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
         var user = new User { Id = 11, Login = "mary", Name = "Mary", PasswordHash = hash, PasswordSalt = salt };
         context.Context.UserRepository.Setup(x => x.FindByLogin("mary")).ReturnsAsync(user);
         context.TokenService.Setup(x => x.GenerateAccessToken(It.IsAny<IEnumerable<Claim>>())).Returns("access-token-2");
@@ -188,7 +187,7 @@ public class UserServiceTests
         context.Context.ApplicationConfigSettingRepository.Setup(x => x.FindAll())
             .ReturnsAsync([new ApplicationConfigSetting { UrlRootManager = "https://app.local" }]);
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new ServiceResponse<GetNotificationTemplateDto> { Success = false });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Success = false });
 
         // Act
         var result = await context.Service.Create(addDto);
@@ -218,7 +217,7 @@ public class UserServiceTests
         context.Context.ApplicationConfigSettingRepository.Setup(x => x.FindAll())
             .ReturnsAsync([new ApplicationConfigSetting { UrlRootManager = "https://app.local" }]);
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new ServiceResponse<GetNotificationTemplateDto> { Success = false });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Success = false });
 
         // Act
         var result = await context.Service.Create(addDto);
@@ -245,13 +244,13 @@ public class UserServiceTests
         context.Context.ApplicationConfigSettingRepository.Setup(x => x.FindAll())
             .ReturnsAsync([new ApplicationConfigSetting { UrlRootManager = "https://app.local" }]);
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new ServiceResponse<GetNotificationTemplateDto>
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
             {
                 Success = true,
                 Data = new GetNotificationTemplateDto { Subject = "Welcome", Body = "Hello" }
             });
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(
-                It.IsAny<DataNotificationTemplateVO>(), ENotificationServiceType.Email, It.IsAny<Dictionary<string, string>>()))
+                It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(), ENotificationServiceType.Email, It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);
 
         // Act
@@ -261,7 +260,7 @@ public class UserServiceTests
         result.Success.Should().BeTrue();
 
         context.Context.SendNotification.Verify(x => x.SendNotificationAsync(
-            It.IsAny<DataNotificationTemplateVO>(), ENotificationServiceType.Email, It.IsAny<Dictionary<string, string>>()), Times.Once);
+            It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(), ENotificationServiceType.Email, It.IsAny<Dictionary<string, string>>()), Times.Once);
     }
 
     // Cenário: atualização de usuário inexistente.
@@ -623,15 +622,15 @@ public class UserServiceTests
     {
         public ServiceTestContext Context { get; } = new();
         public Mock<IRoleGroupRepository> RoleGroupRepository { get; } = new();
-        public Mock<ITokenConfigurationDto> TokenConfiguration { get; } = new();
-        public Mock<ITokenService> TokenService { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto> TokenConfiguration { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.ITokenService> TokenService { get; } = new();
         public Mock<ITokenSessionPersistenceService> TokenSessionService { get; } = new();
         public Mock<IValidator<User>> Validator { get; } = new();
         public UserService Service { get; }
 
-        public UserServiceContext(ETypeApiCredential typeApiCredential = ETypeApiCredential.Jwt)
+        public UserServiceContext(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential typeApiCredential = global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt)
         {
-            var authConfig = Options.Create(new AuthConfigurationDto { IsEnable = true, TypeApiCredential = typeApiCredential });
+            var authConfig = Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto { IsEnable = true, TypeApiCredential = typeApiCredential });
 
             Service = new UserService(
                 Context.SharedServices,

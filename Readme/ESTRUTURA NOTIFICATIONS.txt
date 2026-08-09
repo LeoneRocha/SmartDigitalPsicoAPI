@@ -7,7 +7,7 @@ No validator, definimos regras para os campos opcionais e obrigatórios. Também
 
 ```csharp
 using FluentValidation;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Validation.SystemDomains
 {

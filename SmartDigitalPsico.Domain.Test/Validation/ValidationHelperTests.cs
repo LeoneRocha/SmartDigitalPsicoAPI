@@ -1,10 +1,9 @@
-using FluentValidation.Results;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Security;
+﻿using FluentValidation.Results;
+using SmartDigitalPsico.Core.SDK.Domain.Validation;
+using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Validation;
-using SmartDigitalPsico.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.CustomValidator;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Test.Validation;
 
@@ -138,7 +137,7 @@ public sealed class ValidationHelperTests
         // Arrange
         var notification = new DataNotificationTemplateVO("Subject", "Body");
         var emptyNotification = new DataNotificationTemplateVO();
-        var blob = new BlobFileDto();
+        var blob = new SmartDigitalPsico.Core.SDK.Domain.DTO.BlobFileDto();
 
         // Act
         notification.ToEmails.Add("ana@example.com");

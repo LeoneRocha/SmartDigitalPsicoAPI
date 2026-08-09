@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
+﻿namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {
     /// <summary>
     /// Classe responsável por CalendarCriteriaDto.
@@ -10,5 +10,5 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
         public int IntervalInMinutes { get; set; } // Intervalo em minutos (ex: 30 para 30 minutos, 60 para 1 hora)         
         public bool FilterDaysAndTimesWithAppointments { get; set; } // Filtro para dias com compromissos
         public DateTime? FilterByDate { get; set; } // Filtrar por data específica
-    } 
+    }
 }

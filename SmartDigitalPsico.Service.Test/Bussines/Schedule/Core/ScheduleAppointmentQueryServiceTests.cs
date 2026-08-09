@@ -1,8 +1,7 @@
-using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries;
+﻿using Moq;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Core;
 
 [TestFixture]

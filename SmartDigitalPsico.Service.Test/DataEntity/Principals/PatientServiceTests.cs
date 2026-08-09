@@ -1,12 +1,15 @@
-using AwesomeAssertions;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Patient;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Service.DataEntity.Principals;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.Common;
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Service.Test.TestSupport;
+
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
 
@@ -102,7 +105,7 @@ public class PatientServiceTests
         context.Repository.Setup(x => x.FindByPatient(It.IsAny<Patient>())).ReturnsAsync(new Patient { Id = 40, Name = "Bob" });
 
         // Act
-        var result = await context.Service.FindByPatient(new SmartDigitalPsico.Domain.DTO.Patient.GetPatientDto { Id = 40 });
+        var result = await context.Service.FindByPatient(new SmartDigitalPsico.Domain.DTO.Patient.GET.GetPatientDto { Id = 40 });
 
         // Assert
         result.Success.Should().BeTrue();
@@ -118,7 +121,7 @@ public class PatientServiceTests
         context.Repository.Setup(x => x.FindByPatient(It.IsAny<Patient>())).ReturnsAsync((Patient)null!);
 
         // Act
-        var result = await context.Service.FindByPatient(new SmartDigitalPsico.Domain.DTO.Patient.GetPatientDto { Id = 999 });
+        var result = await context.Service.FindByPatient(new SmartDigitalPsico.Domain.DTO.Patient.GET.GetPatientDto { Id = 999 });
 
         // Assert
         result.Success.Should().BeFalse();

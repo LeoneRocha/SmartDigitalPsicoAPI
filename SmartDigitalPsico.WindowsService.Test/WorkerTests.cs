@@ -1,9 +1,8 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.WindowsService;
-
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.WindowsService.Test;
 
 [TestFixture]
@@ -42,7 +41,7 @@ public class WorkerTests
         services.AddScoped(_ => jobService.Object);
         await using var provider = services.BuildServiceProvider();
         var worker = new CancellingDelayWorker(
-            Mock.Of<Serilog.ILogger>(),
+            Mock.Of<IAppLogger>(),
             new ConfigurationBuilder().Build(),
             provider,
             cancellation);
@@ -65,7 +64,7 @@ public class WorkerTests
         var jobService = new Mock<IBackgroundJobService>();
         await using var provider = new ServiceCollection().BuildServiceProvider();
         var worker = new TestableWorker(
-            Mock.Of<Serilog.ILogger>(),
+            Mock.Of<IAppLogger>(),
             new ConfigurationBuilder().Build(),
             provider);
 
@@ -94,7 +93,7 @@ public class WorkerTests
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { ["TaskDelayMinutes"] = "1" })
             .Build();
-        var worker = new TestableWorker(Mock.Of<Serilog.ILogger>(), configuration, provider);
+        var worker = new TestableWorker(Mock.Of<IAppLogger>(), configuration, provider);
 
         // Act
         var action = () => worker.ExecutePublicAsync(cancellation.Token);
@@ -112,7 +111,7 @@ public class WorkerTests
         // Arrange
         await using var provider = new ServiceCollection().BuildServiceProvider();
         var worker = new TestableWorker(
-            Mock.Of<Serilog.ILogger>(),
+            Mock.Of<IAppLogger>(),
             new ConfigurationBuilder().Build(),
             provider);
 
@@ -140,7 +139,7 @@ public class WorkerTests
         services.AddScoped(_ => jobService.Object);
         await using var provider = services.BuildServiceProvider();
         var worker = new TestableWorker(
-            Mock.Of<Serilog.ILogger>(),
+            Mock.Of<IAppLogger>(),
             new ConfigurationBuilder().AddInMemoryCollection(
                 new Dictionary<string, string?> { ["TaskDelayMinutes"] = "1" }).Build(),
             provider);
@@ -154,7 +153,7 @@ public class WorkerTests
     }
 
     private class TestableWorker(
-        Serilog.ILogger logger,
+        IAppLogger logger,
         IConfiguration configuration,
         IServiceProvider serviceProvider) : Worker(logger, configuration, serviceProvider)
     {
@@ -162,7 +161,7 @@ public class WorkerTests
     }
 
     private sealed class CancellingDelayWorker(
-        Serilog.ILogger logger,
+        IAppLogger logger,
         IConfiguration configuration,
         IServiceProvider serviceProvider,
         CancellationTokenSource cancellation) : TestableWorker(logger, configuration, serviceProvider)

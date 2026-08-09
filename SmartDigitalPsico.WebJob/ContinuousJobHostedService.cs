@@ -1,6 +1,7 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
 
+using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.WebJob
 {
     /// <summary>
@@ -10,7 +11,7 @@ namespace SmartDigitalPsico.WebJob
     /// </summary>
     public class ContinuousJobHostedService : BackgroundService
     {
-        private readonly Serilog.ILogger _logger;
+        private readonly IAppLogger _logger;
         private readonly IBackgroundJobService _jobService;
         private readonly IConfiguration _configuration;
         private const string SystemName = "SmartDigitalPsico.WebJob";
@@ -18,7 +19,7 @@ namespace SmartDigitalPsico.WebJob
         /// <summary>
         /// Método ContinuousJobHostedService: executa a operação ContinuousJobHostedService.
         /// </summary>
-        public ContinuousJobHostedService(IBackgroundJobService jobService, Serilog.ILogger logger, IConfiguration configuration)
+        public ContinuousJobHostedService(IBackgroundJobService jobService, IAppLogger logger, IConfiguration configuration)
         {
             _jobService = jobService;
             _logger = logger;
@@ -50,24 +51,24 @@ namespace SmartDigitalPsico.WebJob
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             int delayMinutes = _configuration.GetValue("JobSettings:TaskDelayMinutes", 1);
-            LogAppHelper.LogInfo(_logger, "ContinuousJobHostedService iniciado às: {time} / started at: {time}", DateHelper.GetDateTimeNowToLog());
+            LogAppHelper.LogInfo(_logger, "ContinuousJobHostedService iniciado às: {time} / started at: {time}", SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
 
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
-                    LogAppHelper.LogInfo(_logger, "Iniciando execução do trabalho em: {time} / Starting job execution at: {time}", DateHelper.GetDateTimeNowToLog());
+                    LogAppHelper.LogInfo(_logger, "Iniciando execução do trabalho em: {time} / Starting job execution at: {time}", SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
                     await _jobService.ExecuteNotificationProcessAsync();
-                    LogAppHelper.LogInfo(_logger, "Trabalho concluído em: {time} / Job execution completed at: {time}", DateHelper.GetDateTimeNowToLog());
+                    LogAppHelper.LogInfo(_logger, "Trabalho concluído em: {time} / Job execution completed at: {time}", SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
                 }
                 catch (Exception ex)
                 {
-                    LogAppHelper.LogError(_logger, ex, "Erro ao executar o trabalho em: {time} / Error executing job at: {time}", DateHelper.GetDateTimeNowToLog());
+                    LogAppHelper.LogError(_logger, ex, "Erro ao executar o trabalho em: {time} / Error executing job at: {time}", SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
                 }
                 await DelayAsync(TimeSpan.FromMinutes(delayMinutes), stoppingToken);
             }
 
-            LogAppHelper.LogInfo(_logger, "ContinuousJobHostedService finalizado às: {time} / Stopping at: {time}", DateHelper.GetDateTimeNowToLog());
+            LogAppHelper.LogInfo(_logger, "ContinuousJobHostedService finalizado às: {time} / Stopping at: {time}", SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
         }
 
         protected virtual Task DelayAsync(TimeSpan delay, CancellationToken stoppingToken)

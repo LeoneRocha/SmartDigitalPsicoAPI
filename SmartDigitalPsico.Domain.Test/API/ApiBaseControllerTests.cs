@@ -1,14 +1,11 @@
+﻿using System.Globalization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
-using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using System.Globalization;
-using System.Security.Claims;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.User;
 
 namespace SmartDigitalPsico.Domain.Test.API;
 
@@ -79,7 +76,7 @@ public class ApiBaseControllerTests
 
     private static TestApiBaseController CreateController(IServiceProvider services, ClaimsPrincipal user)
     {
-        var controller = new TestApiBaseController(Options.Create(new AuthConfigurationDto { TypeApiCredential = ETypeApiCredential.Jwt }));
+        var controller = new TestApiBaseController(Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto { TypeApiCredential = SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt }));
         controller.ControllerContext = new Microsoft.AspNetCore.Mvc.ControllerContext
         {
             HttpContext = new DefaultHttpContext { RequestServices = services, User = user }
@@ -87,7 +84,7 @@ public class ApiBaseControllerTests
         return controller;
     }
 
-    private sealed class TestApiBaseController(IOptions<AuthConfigurationDto> options) : ApiBaseController(options)
+    private sealed class TestApiBaseController(IOptions<SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto> options) : SmartDigitalPsico.Domain.API.ApiBaseController(options)
     {
         public string? AppliedCultureName { get; private set; }
         public string? AppliedUiCultureName { get; private set; }

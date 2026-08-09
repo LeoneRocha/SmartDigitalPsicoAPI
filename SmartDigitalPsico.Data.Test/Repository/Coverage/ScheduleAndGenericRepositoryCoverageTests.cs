@@ -1,11 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Data.Repository.Generic;
-using SmartDigitalPsico.Data.Repository.Schedule;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 
 [TestFixture]
@@ -234,9 +232,10 @@ public class ScheduleAndGenericRepositoryCoverageTests : BaseTests
             ]
         };
 
-    private sealed class ApplicationCacheLogRepository : GenericRepositoryEntityBase<ApplicationCacheLog>
+    private sealed class ApplicationCacheLogRepository : SmartDigitalPsico.Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<ApplicationCacheLog>
     {
-        public ApplicationCacheLogRepository(SmartDigitalPsico.Data.Context.Interface.IEntityDataContext context) : base(context)
+        public ApplicationCacheLogRepository(SmartDigitalPsico.Core.SDK.Data.Context.Interface.IEntityDataContext context)
+            : base(context)
         {
         }
     }

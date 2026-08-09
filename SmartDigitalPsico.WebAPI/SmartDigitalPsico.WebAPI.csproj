@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -54,6 +54,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartDigitalPsico.Service\SmartDigitalPsico.Service.csproj" />
+    <ProjectReference Include="..\SmartDigitalPsico.Core.SDK\SmartDigitalPsico.Core.SDK.csproj" />
   </ItemGroup>
 
   <ItemGroup>

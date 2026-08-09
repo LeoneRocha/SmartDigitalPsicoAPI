@@ -399,7 +399,7 @@ Arquivos futuros (opcional):
 ## 16. Estrutura de pastas alvo
 
 ```text
-Domain/ModelEntity/Schedule/
+Domain/EntityModels/Schedule/
   ScheduleCalendar.cs
   ScheduleCalendarItem.cs
   ScheduleBatch.cs              # legado Obsolete
@@ -502,7 +502,7 @@ Domain/DTO/Medical/...          # CONGELADO para FE
 | Controller congelado | `WebAPI/Controllers/v1/Principals/MedicalCalendarController.cs` |
 | Facade Clinical | `Service/Bussines/Schedule/Actions/ScheduleCalendarFacade.cs` |
 | ScheduleCalendarService | `Service/Bussines/Schedule/ScheduleCalendarService.cs` |
-| ScheduleCalendar / Item | `Domain/ModelEntity/Schedule/` |
+| ScheduleCalendar / Item | `Domain/EntityModels/Schedule/` |
 | Config | `Data/Context/Configure/Entity/ScheduleCalendarConfiguration.cs` |
 
 ---

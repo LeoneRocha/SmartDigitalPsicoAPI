@@ -16,7 +16,7 @@
   ### 1.1 Objetivo
 
   1. Substituir/melhorar, **por baixo**, o fluxo de `MedicalCalendarService` (persistência, conflitos, recorrência, slots)
-  2. Introduzir SoT genérico [`ScheduleCalendar`](../../../../SmartDigitalPsico.Domain/ModelEntity/Schedule/ScheduleCalendar.cs) + [`ScheduleCalendarItem`](../../../../SmartDigitalPsico.Domain/ModelEntity/Schedule/ScheduleCalendarItem.cs) (keys; sem Medical/Patient)
+  2. Introduzir SoT genérico [`ScheduleCalendar`](../../../../SmartDigitalPsico.Domain/EntityModels/Schedule/ScheduleCalendar.cs) + [`ScheduleCalendarItem`](../../../../SmartDigitalPsico.Domain/EntityModels/Schedule/ScheduleCalendarItem.cs) (keys; sem Medical/Patient)
   3. Quebrar o adapter monolítico em **services por ação** + facade (`IScheduleCalendarFacade`)
   4. Manter a API médica **100% compatível** com o Angular
   5. Core reutilizável por outros sistemas (`IScheduleCalendarService`); `ScheduleBatch` legado fora do caminho crítico
@@ -100,7 +100,7 @@
 
   | Camada | Caminho |
   | ------ | ------- |
-  | Entity | `Domain/ModelEntity/MedicalCalendar.cs` |
+  | Entity | `Domain/EntityModels/MedicalCalendar.cs` |
   | Service / fachada fina | `Service/DataEntity/Principals/MedicalCalendarService.cs` |
   | Facade + action services | `Service/Bussines/Schedule/Actions/` |
   | Interface adapter | `Domain/Interfaces/Service/Schedule/IScheduleCalendarFacade.cs` |
@@ -115,7 +115,7 @@
 
   | Camada | Caminho |
   | ------ | ------- |
-  | Entity / Item | `Domain/ModelEntity/Schedule/ScheduleCalendar.cs`, `ScheduleCalendarItem.cs` |
+  | Entity / Item | `Domain/EntityModels/Schedule/ScheduleCalendar.cs`, `ScheduleCalendarItem.cs` |
   | Service | `Service/Bussines/Schedule/ScheduleCalendarService.cs` |
   | Repository | `Data/Repository/Schedule/ScheduleCalendarRepository.cs` |
   | EF config | `Data/Context/Configure/Entity/ScheduleCalendarConfiguration.cs` |
@@ -125,7 +125,7 @@
 
   | Camada | Caminho |
   | ------ | ------- |
-  | Entity / Item | `Domain/ModelEntity/Schedule/ScheduleBatch.cs`, `ScheduleItem.cs` |
+  | Entity / Item | `Domain/EntityModels/Schedule/ScheduleBatch.cs`, `ScheduleItem.cs` |
   | Service | `Service/Bussines/Schedule/ScheduleBatchService.cs` (`[Obsolete]`) |
   | Repository | `Data/Repository/Schedule/ScheduleBatchRepository.cs` |
   | EF config | `Data/Context/Configure/Entity/ScheduleBatchConfiguration.cs` |
@@ -514,7 +514,7 @@
 
   | Artefato | Path |
   | -------- | ---- |
-  | ScheduleBatch / ScheduleItem | `Domain/ModelEntity/Schedule/` |
+  | ScheduleBatch / ScheduleItem | `Domain/EntityModels/Schedule/` |
   | ScheduleBatchConfiguration | `Data/Context/Configure/Entity/ScheduleBatchConfiguration.cs` |
   | Adapter | `Service/Bussines/Schedule/Adapters/MedicalCalendarScheduleAdapter.cs` |
   | Controller | `WebAPI/Controllers/v1/Principals/MedicalCalendarController.cs` |

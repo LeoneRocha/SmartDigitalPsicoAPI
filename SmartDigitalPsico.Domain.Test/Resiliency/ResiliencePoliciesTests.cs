@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Resiliency;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Domain.Test.Resiliency;
 
@@ -14,7 +14,7 @@ public class ResiliencePoliciesTests
         var attempts = 0;
 
         // Act
-        await ResiliencePolicies.CustomRetryPolicy(new ResiliencePolicyConfig
+        await SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicies.CustomRetryPolicy(new ResiliencePolicyConfig
         {
             PolicyName = "CustomRetryPolicy",
             RetryCount = 0,
@@ -39,7 +39,7 @@ public class ResiliencePoliciesTests
         var config = new ResiliencePolicyConfig { PolicyName = "CustomRetryPolicy", RetryCount = 2, RetryDelayInSeconds = 0 };
         var attempts = 0;
         // Act
-        await ResiliencePolicies.CustomRetryPolicy(config).ExecuteAsync(() =>
+        await SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicies.CustomRetryPolicy(config).ExecuteAsync(() =>
         {
             attempts++;
             if (attempts < 3) throw new InvalidOperationException();
@@ -56,16 +56,16 @@ public class ResiliencePoliciesTests
     {
         // Arrange
         // Act
-        var defaultPolicy = ResiliencePolicies.GetPolicyFromConfig(new ResiliencePolicyConfig { PolicyName = "DefaultRetryPolicy" });
-        var emptyPolicy = ResiliencePolicies.GetPolicyFromConfig(new ResiliencePolicyConfig());
+        var defaultPolicy = SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicies.GetPolicyFromConfig(new ResiliencePolicyConfig { PolicyName = "DefaultRetryPolicy" });
+        var emptyPolicy = SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicies.GetPolicyFromConfig(new ResiliencePolicyConfig());
         // Assert
         using (Assert.EnterMultipleScope())
         {
             defaultPolicy.Should().NotBeNull();
             emptyPolicy.Should().NotBeNull();
-            ((Action)(() => ResiliencePolicies.GetPolicyFromConfig(new ResiliencePolicyConfig { PolicyName = "bad" }))).Should().Throw<InvalidOperationException>();
-            ResiliencePolicies.CreateRetryPolicy(1, 0).Should().NotBeNull();
-            ResiliencePolicies.DefaultRetryPolicy.Should().NotBeNull();
+            ((Action)(() => SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicies.GetPolicyFromConfig(new ResiliencePolicyConfig { PolicyName = "bad" }))).Should().Throw<InvalidOperationException>();
+            SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicies.CreateRetryPolicy(1, 0).Should().NotBeNull();
+            SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicies.DefaultRetryPolicy.Should().NotBeNull();
         }
     }
 }

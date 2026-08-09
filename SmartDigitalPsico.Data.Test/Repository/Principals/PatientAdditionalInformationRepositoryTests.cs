@@ -1,11 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Repository.Principals;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
-
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
@@ -20,7 +18,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             // Arrange 
             SetupContext();
         }
-          
+
         private void SetupContext()
         {
             var mockDataPatient = PatientMockHelper.GetMock().Take(totalRegister).AsQueryable();
@@ -41,7 +39,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
             _mockContext.Patients.AddRange(mockDataPatientList2);
             _mockContext.SaveChanges();
-
 
             var mockDataPatientRecordlist = PatientAdditionalInformationMockHelper.GetMockFromBogus().Take(totalRegister).AsQueryable().ToList();
             _mockContext.PatientAdditionalInformations.AddRange(mockDataPatientRecordlist);
@@ -100,11 +97,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         // Objetivo: retornar o registro pelo ID com navegação carregada.
         [Test]
         public async Task FindByID_ExistingId_ReturnsPatientAdditionalInformation()
-        { 
+        {
             // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
-             
+
             _entityRepository = new PatientAdditionalInformationRepository(_mockContext);
             var mockData = _mockContext.PatientAdditionalInformations
                 .Include(e => e.Patient)

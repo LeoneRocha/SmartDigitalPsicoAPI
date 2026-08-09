@@ -1,7 +1,9 @@
-using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.Base;
+﻿using Moq;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Domain.Test.Validation;
 
@@ -15,7 +17,7 @@ public sealed class BaseValidatorTests
     {
         // Arrange
         var medicalRepository = new Mock<IMedicalRepository>();
-        var entityRepository = new Mock<IEntityBaseRepository<MedicalCalendar>>();
+        var entityRepository = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
         var userRepository = new Mock<IUserRepository>();
         var validator = new MedicalBaseValidator<MedicalCalendar>(medicalRepository.Object, entityRepository.Object, userRepository.Object);
         var entity = new MedicalCalendar { Id = 1, MedicalId = 10 };
@@ -52,7 +54,7 @@ public sealed class BaseValidatorTests
     {
         // Arrange
         var patientRepository = new Mock<IPatientRepository>();
-        var entityRepository = new Mock<IEntityBaseRepository<PatientRecord>>();
+        var entityRepository = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<PatientRecord>>();
         var validator = new PatientBaseValidator<PatientRecord>(patientRepository.Object, entityRepository.Object);
         var entity = new PatientRecord { Id = 1, PatientId = 10 };
         entityRepository.Setup(repository => repository.Exists(1)).ReturnsAsync(true);
@@ -83,7 +85,7 @@ public sealed class BaseValidatorTests
     public async Task BaseValidators_FaultedRepositories_ReturnFalse()
     {
         // Arrange
-        var medicalEntities = new Mock<IEntityBaseRepository<MedicalCalendar>>();
+        var medicalEntities = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
         medicalEntities.Setup(repository => repository.Exists(It.IsAny<long>()))
             .ThrowsAsync(new InvalidOperationException());
         var users = new Mock<IUserRepository>();
@@ -92,7 +94,7 @@ public sealed class BaseValidatorTests
         var medicalValidator = new MedicalBaseValidator<MedicalCalendar>(
             Mock.Of<IMedicalRepository>(), medicalEntities.Object, users.Object);
 
-        var patientEntities = new Mock<IEntityBaseRepository<PatientRecord>>();
+        var patientEntities = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<PatientRecord>>();
         patientEntities.Setup(repository => repository.Exists(It.IsAny<long>()))
             .ThrowsAsync(new InvalidOperationException());
         var patients = new Mock<IPatientRepository>();

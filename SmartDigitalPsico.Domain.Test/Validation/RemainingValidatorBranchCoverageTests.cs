@@ -1,10 +1,8 @@
-using Moq;
+﻿using Moq;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.OneValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Domain.Test.Validation;
 
@@ -231,7 +229,7 @@ public class RemainingValidatorBranchCoverageTests
         // Arrange
         var repository = new Mock<IUserRepository>();
         repository.Setup(x => x.FindByID(4)).ReturnsAsync(new User { Id = 4, MedicalId = 20 });
-        var validator = new SmartDigitalPsico.Domain.Validation.Contratcs.MedicalFileSelectListValidator(repository.Object);
+        var validator = new SmartDigitalPsico.Domain.Validation.MedicalFileSelectListValidator(repository.Object);
 
         // Act
         var result = await validator.ValidateAsync(new RecordsList<MedicalFile>
@@ -252,7 +250,7 @@ public class RemainingValidatorBranchCoverageTests
         // Arrange
         var repository = new Mock<IUserRepository>();
         repository.Setup(x => x.FindByID(4)).ReturnsAsync(new User { Id = 4, MedicalId = 20 });
-        var validator = new SmartDigitalPsico.Domain.Validation.Contratcs.MedicalFileSelectListValidator(repository.Object);
+        var validator = new SmartDigitalPsico.Domain.Validation.MedicalFileSelectListValidator(repository.Object);
 
         // Act
         var result = await validator.ValidateAsync(new RecordsList<MedicalFile>
@@ -287,7 +285,7 @@ public class RemainingValidatorBranchCoverageTests
         result.IsValid.Should().BeTrue();
     }
 
-    private sealed class RecordsListValidatorForBranchCoverage : SmartDigitalPsico.Domain.Validation.Contratcs.RecordsListValidator<Patient>
+    private sealed class RecordsListValidatorForBranchCoverage : SmartDigitalPsico.Domain.Validation.RecordsListValidator<Patient>
     {
         public RecordsListValidatorForBranchCoverage(IUserRepository userRepository) : base(userRepository)
         {

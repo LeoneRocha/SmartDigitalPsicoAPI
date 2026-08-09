@@ -1,13 +1,6 @@
 ﻿using Bogus;
-using Bogus.DataSets;
-using Serilog;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.DTO.User;
-using System.Data;
-using SmartDigitalPsico.Data.Context.Configure.Mock;
-
+using SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class UserMockHelper
@@ -18,7 +11,7 @@ namespace SmartDigitalPsico.Data.Test.DataMock
         }
         public static User[] GetMockFromBogus()
         {
-            SecurityHelper.CreatePasswordHash("mockteste", out byte[] passwordHash, out byte[] passwordSalt);
+            SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("mockteste", out byte[] passwordHash, out byte[] passwordSalt);
 
             var faker = new Faker<User>("pt_BR")
                 .RuleFor(u => u.Id, f => f.Random.Long())
@@ -28,8 +21,8 @@ namespace SmartDigitalPsico.Data.Test.DataMock
                 .RuleFor(u => u.PasswordHash, passwordHash)
                 .RuleFor(u => u.PasswordSalt, passwordSalt)
                 .RuleFor(u => u.Role, f => f.PickRandom("Admin", "Medical", "Patient", "Staff", "Pendente"))
-                .RuleFor(u => u.Language, CultureDateTimeHelper.GetCultureBrazil())
-                .RuleFor(u => u.TimeZone, CultureDateTimeHelper.GetTimeZoneBrazil())
+                .RuleFor(u => u.Language, SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultureBrazil())
+                .RuleFor(u => u.TimeZone, SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetTimeZoneBrazil())
                 .RuleFor(u => u.RefreshToken, f => f.Random.AlphaNumeric(32))
                 .RuleFor(u => u.RefreshTokenExpiryTime, f => f.Date.Future());
 
@@ -38,7 +31,7 @@ namespace SmartDigitalPsico.Data.Test.DataMock
             user1.MedicalId = 1;
             var user2 = faker.Generate();
             user2.Role = "Medical";
-            user2.MedicalId = 1; 
+            user2.MedicalId = 1;
 
             var user3 = faker.Generate();
 

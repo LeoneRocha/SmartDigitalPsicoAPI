@@ -1,10 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Caching.Memory;
 using SmartDigitalPsico.Data.Audit.Interface;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit
 {
@@ -15,11 +14,11 @@ namespace SmartDigitalPsico.Data.Audit
     /// </summary>
     public class AuditContextService : IAuditContextService
     {
-        private readonly IMemoryCacheRepository _memoryCacheRepository;
+        private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository _memoryCacheRepository;
         /// <summary>
         /// Método AuditContextService: executa a operação AuditContextService.
         /// </summary>
-        public AuditContextService(IMemoryCacheRepository memoryCacheRepository)
+        public AuditContextService(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository memoryCacheRepository)
         {
             _memoryCacheRepository = memoryCacheRepository;
         }
@@ -45,7 +44,7 @@ namespace SmartDigitalPsico.Data.Audit
         /// </summary>
         public List<AuditDataEntityLog> GetExistingEntries(DbContext context, List<AuditDataEntityLog> auditEntriesInput)
         {
-            var dtUtcNow = DateHelper.GetDateTimeNowFromUtc();
+            var dtUtcNow = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
             var twoMinutesAgo = dtUtcNow.AddMinutes(-2);
             var minDateAauditEntrie = auditEntriesInput.Min(x => x.AuditDate).AddMinutes(-2);
             List<string> tableNames = auditEntriesInput.Select(x => x.TableName).Distinct().ToList();
@@ -85,12 +84,12 @@ namespace SmartDigitalPsico.Data.Audit
         private List<AuditDataEntityLog> handleMemoryIfNotExists(List<AuditDataEntityLog> auditEntriesInput)
         {
 
-            var dtUtcNow = DateHelper.GetDateTimeNowFromUtc();
+            var dtUtcNow = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
             var twoMinutesAgo = dtUtcNow.AddMinutes(-2);
             var minDateAauditEntrie = auditEntriesInput.Min(x => x.AuditDate).AddMinutes(-2);
             List<string> tableNames = auditEntriesInput.Select(x => x.TableName).Distinct().ToList();
             List<string> operations = auditEntriesInput.Select(x => x.Operation).Distinct().ToList();
-            List<string> keyValues = auditEntriesInput.Select(x => x.KeyValue).Distinct().ToList(); 
+            List<string> keyValues = auditEntriesInput.Select(x => x.KeyValue).Distinct().ToList();
             var cacheKey = $"AuditEntries";
 
             List<AuditDataEntityLog> cachedEntriesOut;
@@ -110,7 +109,7 @@ namespace SmartDigitalPsico.Data.Audit
             }
             var _cacheOptions = new MemoryCacheEntryOptions
             {
-                AbsoluteExpiration = DateHelper.GetDateTimeNowFromUtc().AddHours(0).AddMinutes(3),
+                AbsoluteExpiration = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddHours(0).AddMinutes(3),
                 Priority = CacheItemPriority.High,
                 SlidingExpiration = TimeSpan.FromMinutes(3)
             };
@@ -118,7 +117,6 @@ namespace SmartDigitalPsico.Data.Audit
             // Se não existirem registros correspondentes, salva os novos registros
             _memoryCacheRepository.Set(cacheKey, auditEntriesInput, _cacheOptions);
             return cachedEntriesOut;
-
 
         }
 

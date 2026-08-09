@@ -1,16 +1,16 @@
-using AwesomeAssertions;
-using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
+﻿using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Service.Bussines.Notification;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
+
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Notification;
 
@@ -118,7 +118,7 @@ public class NotificationDispatchJobServiceTests
         context.MedicalCalenderNotificationService.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), EMedicalCalendarActionType.NotificationDispatch))
             .Returns(Task.CompletedTask);
         context.NotificationRecordsService.Setup(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()))
-            .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Notification.GET.GetNotificationRecordsDto>());
 
         int? lastProcessed = null;
 
@@ -180,7 +180,7 @@ public class NotificationDispatchJobServiceTests
         context.MedicalCalenderNotificationService.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), It.IsAny<EMedicalCalendarActionType>()))
             .Returns(Task.CompletedTask);
         context.NotificationRecordsService.Setup(x => x.Update(It.IsAny<UpdateNotificationRecordsDto>()))
-            .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationRecordsDto>());
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Notification.GET.GetNotificationRecordsDto>());
 
         // Act
         await context.Service.ProcessPendingNotificationsAsync();
@@ -202,7 +202,7 @@ public class NotificationDispatchJobServiceTests
         public Mock<IScheduleCalendarRepository> ScheduleCalendarRepository { get; } = new();
         public Mock<IPatientRepositories> PatientRepositories { get; } = new();
         public Mock<IPatientRepository> PatientRepository { get; } = new();
-        public Mock<ILogger> Logger { get; } = new();
+        public Mock<IAppLogger> Logger { get; } = new();
         public NotificationDispatchJobService Service { get; }
 
         public DispatchJobContext()

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Events
+﻿namespace SmartDigitalPsico.Domain.Events
 {
     /// <summary>
     /// Classe responsável por NotificationProgressEventArgs.

@@ -1,8 +1,8 @@
-using SmartDigitalPsico.Domain.Helpers;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Service.Audit
+namespace SmartDigitalPsico.Service
 {
     /// <summary>
     /// Classe responsável por AuditPersistenceLogService.
@@ -11,12 +11,12 @@ namespace SmartDigitalPsico.Service.Audit
     /// </summary>
     public class AuditPersistenceLogService : IAuditPersistenceService
     {
-        private readonly Serilog.ILogger _logger;
+        private readonly IAppLogger _logger;
 
         /// <summary>
         /// Método AuditPersistenceLogService: executa a operação AuditPersistenceLogService.
         /// </summary>
-        public AuditPersistenceLogService(Serilog.ILogger logger)
+        public AuditPersistenceLogService(IAppLogger logger)
         {
             _logger = logger;
         }
@@ -28,9 +28,9 @@ namespace SmartDigitalPsico.Service.Audit
             foreach (var auditEntry in auditEntries)
             {
                 _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}",
-                    auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                    auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
             }
-        } 
+        }
         /// <summary>
         /// Método SaveAuditEntry: cria ou persiste um novo registro/recurso.
         /// </summary>
@@ -39,7 +39,7 @@ namespace SmartDigitalPsico.Service.Audit
             await Task.Run(() =>
             {
                 _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}",
-                   auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                   auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
             });
         }
     }

@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context.Configure;
-using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Data.Context
 {
@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Data.Context
     /// Responsabilidade: contexto EF Core / configuração de dados.
     /// Relação: usado pelos repositórios da camada Data.
     /// </summary>
-    public class SmartDigitalPsicoDataContextSqlServer : EntityDataContext
+    public class SmartDigitalPsicoDataContextSqlServer : EntityDataSmartDigitalPsicoContext
     {
         private readonly AuditContextInterceptor? _auditInterceptor;
         /// <summary>

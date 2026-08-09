@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Constants
+﻿namespace SmartDigitalPsico.Domain.Constants
 {
     /// <summary>
     /// Classe responsável por NotificationDispatchConstants.
@@ -19,9 +19,9 @@ namespace SmartDigitalPsico.Domain.Constants
 
         // Constantes de mensagens
         public const string StartingProcessing = "Starting processing of pending notifications / Iniciando processamento de notificações pendentes.";
-        public const string FoundPendingRecords = $"Found {Count} pending records / Encontrados {Count} registros pendentes.";        
+        public const string FoundPendingRecords = $"Found {Count} pending records / Encontrados {Count} registros pendentes.";
         public const string RecordUpdated = $"Record {RecordId} updated successfully / Registro {RecordId} atualizado com sucesso.";
         public const string ProcessingCompleted = $"Processing completed. Updated records: {UpdatedCount} / Processamento concluído. Registros atualizados: {UpdatedCount}.";
-        public const string SendedNotification = $"Sended notification for record {RecordId} / Enviado notificação para registro {RecordId}.";        
+        public const string SendedNotification = $"Sended notification for record {RecordId} / Enviado notificação para registro {RecordId}.";
     }
 }

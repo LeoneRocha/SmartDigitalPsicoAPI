@@ -1,12 +1,11 @@
-using Bogus;
+﻿using Bogus;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
-using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
 
@@ -141,8 +140,13 @@ public class MedicalScheduleMapperTests
         var start = new DateTime(2026, 9, 2, 10, 0, 0, DateTimeKind.Utc);
         var calendar = new MedicalCalendar
         {
-            Id = 11, MedicalId = 4, TokenRecurrence = "fixed", Title = "Follow-up",
-            StartDateTime = start, EndDateTime = start.AddMinutes(45), ReasonCancellation = null!
+            Id = 11,
+            MedicalId = 4,
+            TokenRecurrence = "fixed",
+            Title = "Follow-up",
+            StartDateTime = start,
+            EndDateTime = start.AddMinutes(45),
+            ReasonCancellation = null!
         };
 
         // Act
@@ -167,13 +171,20 @@ public class MedicalScheduleMapperTests
         var early = new ScheduleCalendarItem { Title = "early", StartDateTime = new DateTime(2026, 9, 3, 8, 0, 0), TokenRecurrence = "" };
         var late = new ScheduleCalendarItem
         {
-            PackageId = 19, Title = "late", StartDateTime = new DateTime(2026, 9, 3, 11, 0, 0),
-            SubjectKey = MedicalScheduleKeys.ForPatient(15), OwnerKey = MedicalScheduleKeys.ForMedical(8)
+            PackageId = 19,
+            Title = "late",
+            StartDateTime = new DateTime(2026, 9, 3, 11, 0, 0),
+            SubjectKey = MedicalScheduleKeys.ForPatient(15),
+            OwnerKey = MedicalScheduleKeys.ForMedical(8)
         };
         var package = new ScheduleCalendar
         {
-            Id = 19, Enable = false, OwnerKey = "invalid", SubjectKey = "invalid",
-            UniqueToken = "package-token", ScheduleData = [late, early]
+            Id = 19,
+            Enable = false,
+            OwnerKey = "invalid",
+            SubjectKey = "invalid",
+            UniqueToken = "package-token",
+            ScheduleData = [late, early]
         };
 
         // Act
@@ -205,8 +216,11 @@ public class MedicalScheduleMapperTests
         // Arrange
         var booking = new ScheduleCalendarItem
         {
-            PackageId = 30, Title = "Fallback", StartDateTime = new DateTime(2026, 9, 4, 9, 0, 0),
-            EndDateTime = new DateTime(2026, 9, 4, 9, 30, 0), SubjectKey = MedicalScheduleKeys.ForPatient(71)
+            PackageId = 30,
+            Title = "Fallback",
+            StartDateTime = new DateTime(2026, 9, 4, 9, 0, 0),
+            EndDateTime = new DateTime(2026, 9, 4, 9, 30, 0),
+            SubjectKey = MedicalScheduleKeys.ForPatient(71)
         };
         var day = new ScheduleDayDto
         {
@@ -241,13 +255,21 @@ public class MedicalScheduleMapperTests
         // Arrange
         var criteria = new CalendarCriteriaDto
         {
-            MedicalId = 8, Year = 2026, Month = 9, FilterDaysAndTimesWithAppointments = true,
-            StartDate = new DateTime(2026, 9, 5), EndDate = new DateTime(2026, 9, 6), FilterByDate = new DateTime(2026, 9, 5)
+            MedicalId = 8,
+            Year = 2026,
+            Month = 9,
+            FilterDaysAndTimesWithAppointments = true,
+            StartDate = new DateTime(2026, 9, 5),
+            EndDate = new DateTime(2026, 9, 6),
+            FilterByDate = new DateTime(2026, 9, 5)
         };
         var constraints = new ScheduleOwnerConstraints { DisplayName = "Doctor" };
         var bookingCriteria = new ScheduleCriteriaDto
         {
-            MedicalId = 8, PatientId = 71, Reason = "Reason", TimeZone = "UTC",
+            MedicalId = 8,
+            PatientId = 71,
+            Reason = "Reason",
+            TimeZone = "UTC",
             AppointmentDateTime = new DateTime(2026, 9, 5, 10, 0, 0, DateTimeKind.Utc)
         };
 

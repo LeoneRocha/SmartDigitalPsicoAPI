@@ -1,6 +1,6 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Medical;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Helpers.Schedule
 {

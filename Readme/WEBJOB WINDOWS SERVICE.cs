@@ -58,8 +58,6 @@ namespace MyCompany.MyProject.Service
 
 worker 
 
-using MyCompany.MyProject.Domain.Helper;
-using MyCompany.MyProject.Domain.Interfaces.Clients;
 using MyCompany.MyProject.ServiceUpload.Services;
 
 namespace MyCompany.MyProject.ServiceUpload
@@ -126,17 +124,11 @@ namespace MyCompany.MyProject.ServiceUpload
 }
 ------------------- WEB JOB 
 
-
 using MyCompany.MyProject.Domain.Contracts;
-using MyCompany.MyProject.Domain.Helper;
-using MyCompany.MyProject.Domain.Interfaces.Clients;
-using MyCompany.MyProject.Services.Configure;
 using MyCompany.MyProject.WebJob.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace MyCompany.MyProject.WebJob
 {

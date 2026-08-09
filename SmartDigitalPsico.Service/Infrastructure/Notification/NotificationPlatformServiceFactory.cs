@@ -1,9 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Smtp;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 
-namespace SmartDigitalPsico.Service.Infrastructure.Notification
+using SmartDigitalPsico.Domain.Interfaces.Notification;
+namespace SmartDigitalPsico.Service
 {
     /// <summary>
     /// Classe responsável por NotificationPlatformServiceFactory.
@@ -25,13 +24,13 @@ namespace SmartDigitalPsico.Service.Infrastructure.Notification
         /// <summary>
         /// Método GetService: consulta e retorna dados.
         /// </summary>
-        public INotificationPlatformService GetService(ENotificationServiceType serviceType)
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType serviceType)
         {
             return serviceType switch
             {
-                ENotificationServiceType.Email => _serviceProvider.GetRequiredService<IEmailService>(),
-                ENotificationServiceType.Sms => _serviceProvider.GetRequiredService<ISmsService>(),
-                ENotificationServiceType.WhatsApp => _serviceProvider.GetRequiredService<IWhatsAppService>(),
+                SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType.Email => _serviceProvider.GetRequiredService<IEmailService>(),
+                SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType.Sms => _serviceProvider.GetRequiredService<ISmsService>(),
+                SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType.WhatsApp => _serviceProvider.GetRequiredService<IWhatsAppService>(),
                 _ => throw new ArgumentException("Invalid service type", nameof(serviceType))
             };
         }

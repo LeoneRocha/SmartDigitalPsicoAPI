@@ -1,7 +1,7 @@
-using FluentValidation;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
-using SmartDigitalPsico.Domain.ModelEntity;
+﻿using FluentValidation;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
@@ -14,7 +14,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     public class PatientRecordServiceConfig : IPatientRecordServiceConfig
     {
         public IValidator<PatientRecord> EntityValidator { get; }
-        public IStorageTableContract<PatientRecordTableEntity> StorageTableService { get; }
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity> StorageTableService { get; }
         public ISharedRepositories SharedRepositories { get; }
         public ISharedServices SharedServices { get; }
         public ISharedDependenciesConfig SharedDependenciesConfig { get; }
@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             IValidator<PatientRecord> entityValidator,
-            IStorageTableContract<PatientRecordTableEntity> storageTableService
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity> storageTableService
             )
         {
             EntityValidator = entityValidator;

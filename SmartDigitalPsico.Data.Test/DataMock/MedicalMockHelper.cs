@@ -1,8 +1,7 @@
 ﻿using Bogus;
-using SmartDigitalPsico.Data.Context.Configure.Mock;
+using SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.ModelEntity;
-
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class MedicalMockHelper
@@ -10,7 +9,7 @@ namespace SmartDigitalPsico.Data.Test.DataMock
         public static Medical[] GetMock()
         {
             return MedicalMockData.GetMock();
-        } 
+        }
 
         public static Medical[] GetMockFromBogus()
         {
@@ -22,12 +21,12 @@ namespace SmartDigitalPsico.Data.Test.DataMock
                 .RuleFor(m => m.SecurityKey, f => f.Random.AlphaNumeric(10))
                 .RuleFor(m => m.OfficeId, f => 1)
                 .RuleFor(m => m.UserId, 2)
-                .RuleFor(p => p.CreatedUserId, 1)                
+                .RuleFor(p => p.CreatedUserId, 1)
                 .RuleFor(m => m.ModifyUserId, f => f.Random.Long());
 
-            var data1 = faker.Generate(); 
-            var data2 = faker.Generate(); 
-            var data3 = faker.Generate(); 
+            var data1 = faker.Generate();
+            var data2 = faker.Generate();
+            var data3 = faker.Generate();
 
             return new[] { data1, data2, data3 };
         }

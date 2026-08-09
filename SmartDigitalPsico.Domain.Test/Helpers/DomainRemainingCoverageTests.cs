@@ -1,8 +1,7 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.Json;
 using Azure.Storage.Blobs.Models;
-using SmartDigitalPsico.Domain.Contracts;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -10,38 +9,29 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Newtonsoft.Json;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
-using SmartDigitalPsico.Domain.DTO.Report;
-using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.DTO.User;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.DTO.User.GET;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.Helpers.Security;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.Validation;
 using TextJson = System.Text.Json.JsonSerializer;
-using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Report;
-using SmartDigitalPsico.Domain.Resiliency;
-using SmartDigitalPsico.Domain.Security;
-using SmartDigitalPsico.Domain.Validation.Base;
-using SmartDigitalPsico.Domain.Validation.DTO;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
-using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
 
@@ -53,7 +43,7 @@ public class DomainRemainingCoverageTests
     private static JsonSerializerOptions CreateDescribedEnumJsonOptions()
     {
         var options = new JsonSerializerOptions();
-        options.Converters.Add(new EnumDescriptionConverter<DescribedEnum>());
+        options.Converters.Add(new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>());
         return options;
     }
     // Cenário: recorrências paralelas e sequenciais atingem filtros, limites e datas expiradas.
@@ -202,12 +192,12 @@ public class DomainRemainingCoverageTests
             InvokeAddSheetWithCustomSheetView(output);
             InvokeAddBestFitWithColumns(output);
 
-            var adapter = new ExcelGeneratorOpenXmlAdapter();
+            var adapter = new SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter();
 
             // Act
-            await adapter.Generate(new ReportWorkbookDataDto
+            await adapter.Generate(new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto
             {
-                Sheets = [new ReportSheetDataDto { Name = "A", Rows = [new { Value = 1 }] }]
+                Sheets = [new SmartDigitalPsico.Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Name = "A", Rows = [new { Value = 1 }] }]
             }, Path.Combine(temp, "plain.xlsx"));
 
             // Assert
@@ -455,10 +445,10 @@ public class DomainRemainingCoverageTests
         // Arrange
         var okUsers = new Mock<IUserRepository>();
         okUsers.Setup(repository => repository.FindByID(1)).ReturnsAsync(new User { MedicalId = 9 });
-        var okValidator = new CalendarCriteriaValidator(okUsers.Object);
+        var okValidator = new MedicalCalendarCriteriaValidator(okUsers.Object);
         var faultedUsers = new Mock<IUserRepository>();
         faultedUsers.Setup(repository => repository.FindByID(It.IsAny<long>())).ThrowsAsync(new InvalidOperationException());
-        var faultedValidator = new CalendarCriteriaValidator(faultedUsers.Object);
+        var faultedValidator = new MedicalCalendarCriteriaValidator(faultedUsers.Object);
         var matching = new CalendarCriteriaDto { UserIdLogged = 1, MedicalId = 9 };
         var mismatch = new CalendarCriteriaDto { UserIdLogged = 1, MedicalId = 2 };
 
@@ -482,13 +472,13 @@ public class DomainRemainingCoverageTests
     public async Task BaseValidators_UnchangedIdsAndNullMedical_ReturnExpectedBooleans()
     {
         // Arrange
-        var medicalEntities = new Mock<IEntityBaseRepository<MedicalCalendar>>();
+        var medicalEntities = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
         medicalEntities.Setup(repository => repository.Exists(1)).ReturnsAsync(true);
         medicalEntities.Setup(repository => repository.FindByID(1)).ReturnsAsync(new MedicalCalendar { Id = 1, MedicalId = 10 });
         var medicalValidator = new MedicalBaseValidator<MedicalCalendar>(
             Mock.Of<IMedicalRepository>(), medicalEntities.Object, Mock.Of<IUserRepository>());
 
-        var patientEntities = new Mock<IEntityBaseRepository<PatientRecord>>();
+        var patientEntities = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<PatientRecord>>();
         patientEntities.Setup(repository => repository.Exists(1)).ReturnsAsync(true);
         patientEntities.Setup(repository => repository.FindByID(10)).ReturnsAsync(new PatientRecord { PatientId = 10 });
         var patients = new Mock<IPatientRepository>();
@@ -549,7 +539,7 @@ public class DomainRemainingCoverageTests
 
         var patientList = new PatientSelectListValidator(faulted.Object);
         var patientFileList = new PatientFileSelectListValidator(faulted.Object);
-        var medicalFileList = new SmartDigitalPsico.Domain.Validation.Contratcs.MedicalFileSelectListValidator(faulted.Object);
+        var medicalFileList = new SmartDigitalPsico.Domain.Validation.MedicalFileSelectListValidator(faulted.Object);
         var calendarList = new MedicalCalendarListValidator(faulted.Object);
         var deniedFileList = new PatientFileSelectListValidator(ok.Object);
         var emptyFileList = new PatientFileSelectListValidator(ok.Object);
@@ -612,15 +602,15 @@ public class DomainRemainingCoverageTests
     }
 
     // Cenário: enum é lido por nome após falhar descrição e valores desconhecidos.
-    // Objetivo: executar os retornos false do EnumDescriptionConverter.
+    // Objetivo: executar os retornos false do SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter.
     [Test]
     public void EnumDescriptionConverter_UnmatchedDescriptionAndName_ReturnsFalsePaths()
     {
         // Arrange
-        var converter = new EnumDescriptionConverter<DescribedEnum>();
-        var fromDescription = typeof(EnumDescriptionConverter<DescribedEnum>)
+        var converter = new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>();
+        var fromDescription = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>)
             .GetMethod("TryGetEnumValueFromDescription", BindingFlags.NonPublic | BindingFlags.Static)!;
-        var fromName = typeof(EnumDescriptionConverter<DescribedEnum>)
+        var fromName = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>)
             .GetMethod("TryGetEnumValueFromName", BindingFlags.NonPublic | BindingFlags.Static)!;
         var field = typeof(DescribedEnum).GetField(nameof(DescribedEnum.Plain))!;
 
@@ -646,14 +636,14 @@ public class DomainRemainingCoverageTests
     public void CryptoHelpers_OaepSha3AndBinaryAes_InitializeSuccessfully()
     {
         // Arrange
-        var keys = RsaCryptoServiceHelper.GenerateKeys(RSAEncryptionPadding.OaepSHA3_256);
-        var key = Convert.FromBase64String(AesKeyGeneratorHelper.GenerateKey());
-        var iv = Convert.FromBase64String(AesKeyGeneratorHelper.GenerateIV());
+        var keys = SmartDigitalPsico.Core.SDK.Domain.Helpers.RsaCryptoServiceHelper.GenerateKeys(RSAEncryptionPadding.OaepSHA3_256);
+        var key = Convert.FromBase64String(SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey());
+        var iv = Convert.FromBase64String(SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateIV());
 
         // Act
-        var converted = RsaCryptoServiceHelper.ConvertFromBase64(keys.PublicKeyBase64, RSAEncryptionPadding.OaepSHA3_256);
-        var aes = new AesCryptoAdpter(key, iv);
-        var blob = new BlobFileDto { BlobHeaders = new BlobHttpHeaders { ContentType = "application/pdf" } };
+        var converted = SmartDigitalPsico.Core.SDK.Domain.Helpers.RsaCryptoServiceHelper.ConvertFromBase64(keys.PublicKeyBase64, RSAEncryptionPadding.OaepSHA3_256);
+        var aes = new SmartDigitalPsico.Core.SDK.Domain.Security.AesCryptoAdpter(key, iv);
+        var blob = new SmartDigitalPsico.Core.SDK.Domain.DTO.BlobFileDto { BlobHeaders = new BlobHttpHeaders { ContentType = "application/pdf" } };
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -661,13 +651,13 @@ public class DomainRemainingCoverageTests
             converted.Modulus.Should().NotBeNull();
             aes.Decrypt(aes.Encrypt("ok")).Should().Be("ok");
             blob.BlobHeaders!.ContentType.Should().Be("application/pdf");
-            ResiliencePolicies.GetPolicyFromConfig(new ResiliencePolicyConfig { PolicyName = "CustomRetryPolicy", RetryCount = 1, RetryDelayInSeconds = 0 })
+            SmartDigitalPsico.Core.SDK.Domain.Resiliency.ResiliencePolicies.GetPolicyFromConfig(new ResiliencePolicyConfig { PolicyName = "CustomRetryPolicy", RetryCount = 1, RetryDelayInSeconds = 0 })
                 .Should().NotBeNull();
         }
     }
 
     // Cenário: overlap com EndDateTime nulo e enum lido/gravado sem DescriptionAttribute.
-    // Objetivo: cobrir ramos restantes de ScheduleItemValidationContext e EnumDescriptionConverter.
+    // Objetivo: cobrir ramos restantes de ScheduleItemValidationContext e SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter.
     [Test]
     public async Task ScheduleItemValidationContextValidator_NullEndDateTime_OverlapBranches()
     {
@@ -685,11 +675,11 @@ public class DomainRemainingCoverageTests
             ExistingItems = [new ScheduleItem { MedicalId = 1, PatientId = 1, StartDateTime = start.AddHours(2), EndDateTime = start.AddHours(3) }]
         };
         var options = new JsonSerializerOptions();
-        options.Converters.Add(new EnumDescriptionConverter<DescribedEnum>());
+        options.Converters.Add(new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>());
         using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes("\"Plain\""));
         var reader = new Utf8JsonReader(stream.ToArray());
         reader.Read();
-        var converter = new EnumDescriptionConverter<DescribedEnum>();
+        var converter = new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>();
         var writeStream = new MemoryStream();
         using var writer = new Utf8JsonWriter(writeStream);
 
@@ -740,18 +730,18 @@ public class DomainRemainingCoverageTests
     }
 
     // Cenário: template sem tokens, email sem chave e serialização ignora propriedades listadas.
-    // Objetivo: cobrir ramos false de EmailHelper e IgnorableSerializerContractResolver.
+    // Objetivo: cobrir ramos false de SmartDigitalPsico.Core.SDK.Domain.Helpers.EmailHelper e SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver.
     [Test]
     public void EmailHelperAndSerializerResolver_EdgeInputs_HandleGracefully()
     {
         // Arrange
-        var resolver = new IgnorableSerializerContractResolver(["Secret"]);
+        var resolver = new SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(["Secret"]);
         var settings = new JsonSerializerSettings { ContractResolver = resolver };
         var model = new { Visible = "ok", Secret = "hidden" };
 
         // Act
-        var unchanged = EmailHelper.ReplaceTokens("Hello", null!);
-        var noMatch = EmailHelper.ReplaceTokens("Hello", new Dictionary<string, string> { ["Missing"] = "x" });
+        var unchanged = SmartDigitalPsico.Core.SDK.Domain.Helpers.EmailHelper.ReplaceTokens("Hello", null!);
+        var noMatch = SmartDigitalPsico.Core.SDK.Domain.Helpers.EmailHelper.ReplaceTokens("Hello", new Dictionary<string, string> { ["Missing"] = "x" });
         var json = JsonConvert.SerializeObject(model, settings);
 
         // Assert
@@ -839,14 +829,14 @@ public class DomainRemainingCoverageTests
         users.Setup(r => r.FindByID(2)).ReturnsAsync(new User { Id = 2, MedicalId = 9, Medical = new Medical { Id = 9 } });
         users.Setup(r => r.FindByID(3)).ReturnsAsync(new User { Id = 3, MedicalId = 9, Medical = new Medical { Id = 8 } });
 
-        var medicalEntities = new Mock<IEntityBaseRepository<MedicalCalendar>>();
+        var medicalEntities = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
         medicalEntities.Setup(r => r.Exists(It.IsAny<long>())).ReturnsAsync(false);
         var medicalValidator = new MedicalBaseValidator<MedicalCalendar>(
             Mock.Of<IMedicalRepository>(), medicalEntities.Object, users.Object);
 
         var recordValidator = new RecordValidatorForBranchCoverage(users.Object);
         var calendarList = new MedicalCalendarListValidator(users.Object);
-        var calendarCriteria = new CalendarCriteriaValidator(users.Object);
+        var calendarCriteria = new MedicalCalendarCriteriaValidator(users.Object);
 
         var start = DateTime.UtcNow.Date.AddDays(5).AddHours(10);
         var medicalRepository = new Mock<IMedicalRepository>();
@@ -891,16 +881,22 @@ public class DomainRemainingCoverageTests
         var outsideHours = await InvokeBoolAsync(criteriaValidator, "BeWithinWorkingHours", new ScheduleCriteriaDto { MedicalId = 1, AppointmentDateTime = appointment, TimeZone = "UTC" }, CancellationToken.None);
         var itemValid = await itemValidator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "x", StartDateTime = start, EndDateTime = start.AddHours(1),
-            Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = []
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "x",
+            StartDateTime = start,
+            EndDateTime = start.AddHours(1),
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = []
         });
         var nullRepoDays = await InvokeBoolAsync(itemValidator, "BeInWorkingDays", new ScheduleItem { MedicalId = 5, PatientId = 1, StartDateTime = start, EndDateTime = start.AddHours(1) });
         var nullRepoHours = await InvokeBoolAsync(itemValidator, "BeInWorkingHours", new ScheduleItem { MedicalId = 5, PatientId = 1, StartDateTime = start, EndDateTime = start.AddHours(1) });
         var overlapInvalid = await new ScheduleItemValidationContextValidator().ValidateAsync(overlapContext);
 
-        var aes = new AesCryptoAdpter(AesKeyGeneratorHelper.GenerateKey(), AesKeyGeneratorHelper.GenerateIV());
-        var rsaKeys = RsaCryptoServiceHelper.GenerateKeys(RSAEncryptionPadding.OaepSHA256);
-        var rsa = new RsaCryptoAdpter(rsaKeys.PublicKeyBase64, rsaKeys.PrivateKeyBase64);
+        var aes = new SmartDigitalPsico.Core.SDK.Domain.Security.AesCryptoAdpter(SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey(), SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateIV());
+        var rsaKeys = SmartDigitalPsico.Core.SDK.Domain.Helpers.RsaCryptoServiceHelper.GenerateKeys(RSAEncryptionPadding.OaepSHA256);
+        var rsa = new SmartDigitalPsico.Core.SDK.Domain.Security.RsaCryptoAdpter(rsaKeys.PublicKeyBase64, rsaKeys.PrivateKeyBase64);
         var conflict = ScheduleConflictDetailHelper.Create(
             new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddHours(1) },
             null,
@@ -923,8 +919,8 @@ public class DomainRemainingCoverageTests
             ((Action)(() => aes.Decrypt(null!))).Should().Throw<ArgumentException>();
             ((Action)(() => rsa.Decrypt(null!))).Should().Throw<ArgumentException>();
             conflict.Message.Should().Contain("ExistingPatientId=1");
-            CultureDateTimeHelper.GetNameAndCulture("key").Should().Be("key");
-            CultureDateTimeHelper.GetKeyLocalizationRecordFormat("k", "pt").Should().Be("k");
+            SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetNameAndCulture("key").Should().Be("key");
+            SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetKeyLocalizationRecordFormat("k", "pt").Should().Be("k");
         }
     }
 
@@ -941,7 +937,7 @@ public class DomainRemainingCoverageTests
             // Act
             var info = LogAppHelper.GetInformationVersionProduct();
             var text = LogAppHelper.ShowInformationVersionProductString();
-            var logger = new Mock<Serilog.ILogger>();
+            var logger = new Mock<IAppLogger>();
             LogAppHelper.PrintLogInformationVersionProduct(logger.Object);
 
             // Assert
@@ -990,7 +986,7 @@ public class DomainRemainingCoverageTests
         // CustomSheetView must be a direct child for Elements<CustomSheetView>() to find it.
         worksheetPart.Worksheet = new Worksheet(new SheetData(), new CustomSheetView());
         var mergeCells = new MergeCells(new MergeCell { Reference = new StringValue("A1:B1") });
-        var method = typeof(ExcelGeneratorOpenXmlAdapter).GetMethod("AddSheetToWorkbook", BindingFlags.NonPublic | BindingFlags.Static)!;
+        var method = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter).GetMethod("AddSheetToWorkbook", BindingFlags.NonPublic | BindingFlags.Static)!;
         method.Invoke(null, [workbookPart, worksheetPart, "Custom", 1u, mergeCells]);
         worksheetPart.Worksheet.Elements<MergeCells>().Should().ContainSingle();
         workbookPart.Workbook.Save();
@@ -1019,7 +1015,7 @@ public class DomainRemainingCoverageTests
         var worksheet = worksheetPart.Worksheet;
         worksheet.Should().NotBeNull();
         worksheet!.InsertAt(new Columns(new Column { Min = 1, Max = 1, Width = 10 }), 0);
-        var method = typeof(ExcelGeneratorOpenXmlAdapter).GetMethod("AddBestFit", BindingFlags.NonPublic | BindingFlags.Static)!;
+        var method = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter).GetMethod("AddBestFit", BindingFlags.NonPublic | BindingFlags.Static)!;
         method.Invoke(null, [worksheetPart]);
         worksheet.Descendants<Column>().Should().OnlyContain(column => column.BestFit!.Value);
         worksheet.Save();
@@ -1075,7 +1071,7 @@ public class DomainRemainingCoverageTests
         }
     }
 
-    private sealed class TestEnricher : ContentResponseEnricher<GetUserDto>
+    private sealed class TestEnricher : SmartDigitalPsico.Core.SDK.Domain.Hypermedia.ContentResponseEnricher<GetUserDto>
     {
         public int Enriched { get; private set; }
 
@@ -1087,14 +1083,14 @@ public class DomainRemainingCoverageTests
         }
     }
 
-    private sealed class RecordsListValidatorForCoverage : SmartDigitalPsico.Domain.Validation.Contratcs.RecordsListValidator<Patient>
+    private sealed class RecordsListValidatorForCoverage : SmartDigitalPsico.Domain.Validation.RecordsListValidator<Patient>
     {
         public RecordsListValidatorForCoverage(IUserRepository userRepository) : base(userRepository)
         {
         }
     }
 
-    private sealed class RecordValidatorForBranchCoverage : SmartDigitalPsico.Domain.Validation.Contratcs.RecordValidator<Patient>
+    private sealed class RecordValidatorForBranchCoverage : SmartDigitalPsico.Domain.Validation.RecordValidator<Patient>
     {
         public RecordValidatorForBranchCoverage(IUserRepository userRepository) : base(userRepository)
         {

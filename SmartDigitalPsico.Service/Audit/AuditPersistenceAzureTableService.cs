@@ -1,7 +1,7 @@
+﻿using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Service.Audit
+namespace SmartDigitalPsico.Service
 {
     /// <summary>
     /// Classe responsável por AuditPersistenceAzureTableService.

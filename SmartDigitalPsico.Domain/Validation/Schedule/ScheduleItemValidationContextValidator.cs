@@ -1,7 +1,7 @@
-using FluentValidation;
-using SmartDigitalPsico.Domain.DTO.Schedule;
+﻿using FluentValidation;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 
-namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
+namespace SmartDigitalPsico.Domain.Validation
 {
     /// <summary>
     /// Classe responsável por ScheduleItemValidationContextValidator.
@@ -34,5 +34,5 @@ namespace SmartDigitalPsico.Domain.Validation.Principals.Schedule
                 item.StartDateTime < newItem.EndDateTime &&
                 newItem.StartDateTime < item.EndDateTime);
         }
-    } 
+    }
 }

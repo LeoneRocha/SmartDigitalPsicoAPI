@@ -1,9 +1,8 @@
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 
-namespace SmartDigitalPsico.Service.Infrastructure.Authentication
+namespace SmartDigitalPsico.Service
 {
     /// <summary>
     /// Classe responsável por TokenSessionService.

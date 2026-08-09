@@ -3,7 +3,6 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
-
   <ItemGroup>
     <!-- Bloco A — Plataforma .NET 10 (somente o que não vem do shared framework) -->
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.10" />
@@ -14,7 +13,6 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="10.0.10" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.10" />
-
     <!-- Bloco B — Persistência EF 9 + Pomelo 9 (não subir para EF 10) -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.18" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.18" />
@@ -28,9 +26,9 @@
     <PackageVersion Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     <!-- Override transitivo EF SqlServer 5.1.6 → 6.1.6 (compatível com range EF 9) -->
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.6" />
-
     <!-- Bloco C — OpenAPI / Serilog / Tokens -->
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="10.2.3" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Filters" Version="10.0.1" />
     <PackageVersion Include="Serilog" Version="4.4.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
@@ -40,7 +38,6 @@
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.22.0" />
     <!-- Override transitivo Swashbuckle.Filters Scrutor 3.3.0 -->
     <PackageVersion Include="Scrutor" Version="7.0.0" />
-
     <!-- Bloco D — Azure e utilitários -->
     <PackageVersion Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.6.0" />
     <PackageVersion Include="Azure.Identity" Version="1.21.0" />
@@ -67,7 +64,6 @@
     <PackageVersion Include="Microsoft.Azure.WebJobs" Version="3.0.47" />
     <PackageVersion Include="Microsoft.Azure.WebJobs.Core" Version="3.0.47" />
     <PackageVersion Include="Microsoft.Azure.WebJobs.Extensions" Version="5.2.1" />
-
     <!-- Bloco E — Testes -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
     <PackageVersion Include="NUnit" Version="4.6.1" />
@@ -79,5 +75,6 @@
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
     <PackageVersion Include="coverlet.msbuild" Version="10.0.1" />
     <PackageVersion Include="AwesomeAssertions" Version="9.5.0" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.22.0" />
   </ItemGroup>
 </Project>

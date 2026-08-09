@@ -1,17 +1,18 @@
-using AwesomeAssertions;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientRecord;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
-using SmartDigitalPsico.Domain.ModelEntity;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Service.DataEntity.Principals;
 using SmartDigitalPsico.Service.Test.TestSupport;
+
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
 
@@ -237,7 +238,7 @@ public class PatientRecordServiceTests
         public Mock<IMedicalRepository> MedicalRepository { get; } = new();
         public Mock<IPatientRepository> PatientRepository { get; } = new();
         public Mock<IValidator<PatientRecord>> Validator { get; } = new();
-        public Mock<IStorageTableContract<PatientRecordTableEntity>> StorageTableService { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<PatientRecordTableEntity>> StorageTableService { get; } = new();
         public Mock<IAuditDataSelectiveEntityLogService> AuditService { get; } = new();
         public PatientRecordService Service { get; }
 

@@ -1,10 +1,10 @@
-using FluentValidation;
+﻿using FluentValidation;
 using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Service.DataEntity.Generic;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Gender;
 using SmartDigitalPsico.Service.Test.TestSupport;
+
+using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Generic;
 

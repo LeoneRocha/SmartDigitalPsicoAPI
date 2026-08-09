@@ -1,9 +1,8 @@
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
@@ -28,7 +27,7 @@ public class MedicalScheduleHostSupportTests
         // Act
         var translated = await ctx.HostSupport.TranslateErrors(
         [
-            new ErrorResponse { ErrorCode = "E1", DefaultMessage = "msg", Name = "N", FullMessage = "full" }
+            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { ErrorCode = "E1", DefaultMessage = "msg", Name = "N", FullMessage = "full" }
         ]);
         var invalid = await ctx.HostSupport.ValidateEntityAsync(new MedicalCalendar { Id = 1 });
         var entity = ctx.HostSupport.MapNewEntity(new AddMedicalCalendarDto

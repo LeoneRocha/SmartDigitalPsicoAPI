@@ -1,0 +1,18 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
+
+namespace SmartDigitalPsico.Domain.Interfaces.Notification
+{
+    /// <summary>
+    /// Interface (contrato) responsável por INotificationTemplateService.
+    /// Responsabilidade: contrato de serviço de negócio.
+    /// Relação: implementado na camada Service e consumido pelos Controllers.
+    /// </summary>
+    public interface INotificationTemplateService : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.IEntityBaseService<EntityModels.NotificationTemplate, GetNotificationTemplateDto>
+    {
+        /// <summary>
+        /// Método GetNotificationTemplatesAsync: consulta e retorna dados.
+        /// </summary>
+        Task<ServiceResponse<GetNotificationTemplateDto>> GetNotificationTemplatesAsync(string templateKey);
+    }
+}

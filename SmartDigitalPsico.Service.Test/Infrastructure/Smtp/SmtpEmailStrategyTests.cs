@@ -1,7 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.SMTP;
-using SmartDigitalPsico.Service.Infrastructure.Smtp;
-
-namespace SmartDigitalPsico.Service.Test.Infrastructure.Smtp;
+﻿namespace SmartDigitalPsico.Service.Test.Infrastructure.Smtp;
 
 [TestFixture]
 public class SmtpEmailStrategyTests
@@ -14,7 +11,7 @@ public class SmtpEmailStrategyTests
         // Arrange
 
         // Act
-        var strategy = new SmtpEmailStrategy(new SmtpSettingsDto
+        var strategy = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp.SmtpEmailStrategy(new SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP.SmtpSettingsDto
         {
             SenderEmail = "sender@test.com",
             SenderName = "Sender",
@@ -24,7 +21,7 @@ public class SmtpEmailStrategyTests
             Password = "pass",
             EnableSsl = true
         });
-        var message = new EmailMessageDto
+        var message = new global::SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP.EmailMessageDto
         {
             Subject = "Test",
             Message = "<p>Hello</p>",

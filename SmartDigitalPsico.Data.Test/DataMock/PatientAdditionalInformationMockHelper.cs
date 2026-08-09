@@ -1,6 +1,5 @@
 ﻿using Bogus;
-using SmartDigitalPsico.Domain.ModelEntity;
-
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class PatientAdditionalInformationMockHelper

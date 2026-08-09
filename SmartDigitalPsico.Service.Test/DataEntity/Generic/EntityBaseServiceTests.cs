@@ -1,21 +1,17 @@
-using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.Generic;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
+using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
+using SmartDigitalPsico.Domain.DTO.Gender.ADD;
+using SmartDigitalPsico.Domain.DTO.Gender.GET;
+using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Gender;
+
+using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Generic;
 
@@ -95,11 +91,10 @@ public class EntityBaseServiceTests
         result.Success.Should().BeFalse();
         result.Errors.Should().ContainSingle(x => x.Name == "Create");
 
-        context.Logger.Verify(x => x.Error<string, DateTime>(
+        context.Logger.Verify(x => x.Error(
             It.IsAny<Exception>(),
             It.IsAny<string>(),
-            It.IsAny<string>(),
-            It.IsAny<DateTime>()), Times.Once);
+            It.IsAny<object[]>()), Times.Once);
     }
 
     // Cenário: a atualização aponta para registro inexistente.
@@ -378,7 +373,7 @@ public class EntityBaseServiceTests
     }
 
     // Cenário: Delete/Update/FindAll/FindByID/GetCount/EnableOrDisable/Validate falham por política.
-    // Objetivo: cobrir todos os blocos catch do EntityBaseService.
+    // Objetivo: cobrir todos os blocos catch do SmartDigitalPsico.Service.EntityBaseService.
     [Test]
     public async Task MutationAndQueryMethods_InvalidPolicy_ReturnGenericFailures()
     {
@@ -440,7 +435,7 @@ public class EntityBaseServiceTests
         var empty = await context.Service.ExposeGetLocalizationErros([]);
         var translated = await context.Service.ExposeGetLocalizationErros(
         [
-            new ErrorResponse { Name = "X", ErrorCode = "Code", DefaultMessage = "def", FullMessage = "full" }
+            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "X", ErrorCode = "Code", DefaultMessage = "def", FullMessage = "full" }
         ]);
 
         // Assert
@@ -453,24 +448,24 @@ public class EntityBaseServiceTests
 
     private sealed class ServiceContext
     {
-        public Mock<IEntityBaseRepository<Gender>> Repository { get; } = new();
+        public Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
-        public Mock<IMapper> Mapper { get; } = new();
-        public Mock<ILogger> Logger { get; } = new();
+        public Mock<IAppMapper> Mapper { get; } = new();
+        public Mock<IAppLogger> Logger { get; } = new();
         public ProbeEntityBaseService Service { get; }
 
         public ServiceContext(string policyName = "")
         {
-            var cache = new Mock<ICacheService>();
+            var cache = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService>();
             var language = new Mock<IApplicationLanguageService>();
             language.Setup(x => x.GetLocalization<ISharedResource>(It.IsAny<string>(), It.IsAny<string>(), cache.Object))
-                .ReturnsAsync((string _, string fallback, ICacheService _) => fallback);
+                .ReturnsAsync((string _, string fallback, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService _) => fallback);
 
             var sharedServices = new Mock<ISharedServices>();
             sharedServices.SetupGet(x => x.CacheService).Returns(cache.Object);
             sharedServices.SetupGet(x => x.ApplicationLanguageService).Returns(language.Object);
 
-            var policy = new Mock<IResiliencePolicyConfig>();
+            var policy = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig>();
             policy.SetupGet(x => x.PolicyName).Returns(policyName);
             var dependencies = new Mock<ISharedDependenciesConfig>();
             dependencies.SetupGet(x => x.Mapper).Returns(Mapper.Object);
@@ -486,13 +481,13 @@ public class EntityBaseServiceTests
         }
     }
 
-    private sealed class ProbeEntityBaseService : EntityBaseService<Gender, GetGenderDto>
+    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.EntityBaseService<Gender, GetGenderDto>
     {
         public ProbeEntityBaseService(
             ISharedServices sharedServices,
             ISharedDependenciesConfig dependencies,
             ISharedRepositories repositories,
-            IEntityBaseRepository<Gender> repository,
+            global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender> repository,
             IValidator<Gender> validator)
             : base(sharedServices, dependencies, repositories, repository, validator)
         {
@@ -500,7 +495,7 @@ public class EntityBaseServiceTests
 
         public long ExposedUserId => UserId;
 
-        public Task<List<ErrorResponse>> ExposeGetLocalizationErros(List<ErrorResponse> errors)
+        public Task<List<global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse>> ExposeGetLocalizationErros(List<global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse> errors)
             => GetLocalizationErros(errors);
     }
 }
@@ -541,11 +536,11 @@ public class GenderServiceTests
         context.Repository.Setup(x => x.FindAll()).ReturnsAsync([new Gender { Id = 2 }]);
         context.Mapper.Setup(x => x.Map<GetGenderDto>(It.IsAny<Gender>()))
             .Returns((Gender entity) => new GetGenderDto { Id = entity.Id });
-        context.Cache.Setup(x => x.TryGet<ServiceResponseCacheVO<List<GetGenderDto>>>(
-                It.IsAny<string>(), out It.Ref<ServiceResponseCacheVO<List<GetGenderDto>>>.IsAny))
+        context.Cache.Setup(x => x.TryGet<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetGenderDto>>>(
+                It.IsAny<string>(), out It.Ref<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetGenderDto>>>.IsAny))
             .Returns(false);
         context.Cache.Setup(x => x.GetSlidingExpiration()).Returns(DateTime.UtcNow.AddMinutes(5));
-        context.Cache.Setup(x => x.Set(It.IsAny<string>(), It.IsAny<ServiceResponseCacheVO<List<GetGenderDto>>>()))
+        context.Cache.Setup(x => x.Set(It.IsAny<string>(), It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetGenderDto>>>()))
             .Returns(true);
 
         // Act
@@ -557,7 +552,7 @@ public class GenderServiceTests
             result.Success.Should().BeTrue();
             result.Data.Should().ContainSingle(x => x.Id == 2);
         }
-        context.Cache.Verify(x => x.Set("FindAll_GetGenderVO", It.IsAny<ServiceResponseCacheVO<List<GetGenderDto>>>()), Times.Once);
+        context.Cache.Verify(x => x.Set("FindAll_GetGenderVO", It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetGenderDto>>>()), Times.Once);
     }
 
     // Cenário: a resposta já está armazenada no cache.
@@ -567,11 +562,11 @@ public class GenderServiceTests
     {
         // Arrange
         var context = new GenderServiceContext(cacheEnabled: true);
-        var cached = new ServiceResponseCacheVO<List<GetGenderDto>>(
-            new ServiceResponse<List<GetGenderDto>> { Data = [new GetGenderDto { Id = 3 }], Success = true },
+        var cached = new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetGenderDto>>(
+            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetGenderDto>> { Data = [new GetGenderDto { Id = 3 }], Success = true },
             "FindAll_GetGenderVO",
             DateTime.UtcNow.AddMinutes(5));
-        context.Cache.Setup(x => x.TryGet<ServiceResponseCacheVO<List<GetGenderDto>>>(
+        context.Cache.Setup(x => x.TryGet<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetGenderDto>>>(
                 "FindAll_GetGenderVO", out cached))
             .Returns(true);
 
@@ -668,8 +663,8 @@ public class GenderServiceTests
     private sealed class GenderServiceContext
     {
         public Mock<IGenderRepository> Repository { get; } = new();
-        public Mock<IMapper> Mapper { get; } = new();
-        public Mock<ICacheService> Cache { get; } = new();
+        public Mock<IAppMapper> Mapper { get; } = new();
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService> Cache { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
         public GenderService Service { get; }
 
@@ -677,7 +672,7 @@ public class GenderServiceTests
         {
             var language = new Mock<IApplicationLanguageService>();
             language.Setup(x => x.GetLocalization<ISharedResource>(It.IsAny<string>(), It.IsAny<string>(), Cache.Object))
-                .ReturnsAsync((string _, string fallback, ICacheService _) => fallback);
+                .ReturnsAsync((string _, string fallback, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService _) => fallback);
             Cache.Setup(x => x.IsEnable()).Returns(cacheEnabled);
 
             var services = new Mock<ISharedServices>();
@@ -686,7 +681,7 @@ public class GenderServiceTests
 
             var config = new Mock<ISharedDependenciesConfig>();
             config.SetupGet(x => x.Mapper).Returns(Mapper.Object);
-            config.SetupGet(x => x.Logger).Returns(Mock.Of<ILogger>());
+            config.SetupGet(x => x.Logger).Returns(Mock.Of<IAppLogger>());
             config.SetupGet(x => x.PolicyConfig).Returns(new ResiliencePolicyConfig());
 
             Service = new GenderService(

@@ -1,10 +1,8 @@
-using SmartDigitalPsico.Data.Repository.Principals;
+﻿using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
-
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
@@ -23,10 +21,10 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         {
             var mockDataListUser = UserMockHelper.GetMock().AsQueryable().ToList();
             var mockDataListUser2 = UserMockHelper.GetMockFromBogus().AsQueryable().ToList();
-             
+
             var mockDataListMedical = MedicalMockHelper.GetMock().AsQueryable().ToList();
             var mockDataListMedical2 = MedicalMockHelper.GetMockFromBogus().Take(3).AsQueryable().ToList();
-             
+
             var mockDataList = mockData.ToList();
             // Arrange
             _mockContext = new SmartDigitalPsicoDataContextTest();
@@ -35,7 +33,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
 
             _mockContext.Users.AddRange(mockDataListUser2);
-            _mockContext.Medicals.AddRange(mockDataListMedical2); 
+            _mockContext.Medicals.AddRange(mockDataListMedical2);
             _mockContext.SaveChanges();
 
             _mockContext.MedicalFiles.AddRange(mockDataList);
@@ -56,14 +54,14 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _entityRepository = new MedicalFileRepository(_mockContext);
 
             // Act
-            var listResult = await _entityRepository.FindAll(); 
+            var listResult = await _entityRepository.FindAll();
 
             // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
                 Assert.That(listResult, Is.InstanceOf<List<MedicalFile>>());
-                Assert.That(listResult, Has.Count.GreaterThanOrEqualTo(1)); 
+                Assert.That(listResult, Has.Count.GreaterThanOrEqualTo(1));
             }
         }
 

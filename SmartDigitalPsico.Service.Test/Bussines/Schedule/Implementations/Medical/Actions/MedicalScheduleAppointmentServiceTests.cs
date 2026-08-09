@@ -1,18 +1,12 @@
-using AwesomeAssertions;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Service.Test.TestSupport;
-using MedicalEntity = SmartDigitalPsico.Domain.ModelEntity.Medical;
-
+using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical.Actions;
 
 [TestFixture]
@@ -44,7 +38,7 @@ public class MedicalScheduleAppointmentServiceTests
         var context = new AppointmentServiceContext();
         context.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, PatientIntervalTimeMinutes = 30 });
-        context.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>())).ReturnsAsync(new ServiceResponse<ScheduleCalendar> { Success = true, Data = new ScheduleCalendar { Id = 55 } });
+        context.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>())).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = true, Data = new ScheduleCalendar { Id = 55 } });
 
         var criteria = new ScheduleCriteriaDto { ScheduleType = EScheduleCalendarType.Schedule, MedicalId = 3, PatientId = 10, AppointmentDateTime = DateTime.UtcNow };
 
@@ -65,7 +59,7 @@ public class MedicalScheduleAppointmentServiceTests
         context.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         var token = Guid.NewGuid();
         context.UpdateService.Setup(x => x.CancelOccurrenceAsync(It.IsAny<ScheduleCancelRequest>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCancelResult> { Success = true, Data = new ScheduleCancelResult { PackageId = 7, UniqueToken = token.ToString() } });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCancelResult> { Success = true, Data = new ScheduleCancelResult { PackageId = 7, UniqueToken = token.ToString() } });
         context.NotificationRecordsRepository.Setup(x => x.DeleteByTokenAndEventAsync(token, It.IsAny<DateTime>())).ReturnsAsync(true);
 
         var criteria = new ScheduleCriteriaDto { ScheduleType = EScheduleCalendarType.Cancellation, MedicalId = 3, PatientId = 10, AppointmentDateTime = DateTime.UtcNow };
@@ -147,7 +141,7 @@ public class MedicalScheduleAppointmentServiceTests
         var context = new AppointmentServiceContext();
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.AppointmentQuery.Setup(x => x.GetItemsForOwnerSubjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = [] });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = [] });
 
         var criteria = new AppointmentCriteriaDto { MedicalId = 3, PatientId = 10, Year = 2026, Month = 1 };
 
@@ -168,7 +162,7 @@ public class MedicalScheduleAppointmentServiceTests
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         var items = new[] { new ScheduleCalendarItem { StartDateTime = DateTime.UtcNow, TimeZone = "UTC" } };
         context.AppointmentQuery.Setup(x => x.GetItemsForOwnerSubjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = items });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = items });
         context.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, Name = "Dr. House" });
 
         var criteria = new AppointmentCriteriaDto { MedicalId = 3, PatientId = 10, Year = 2026, Month = 1 };
@@ -207,10 +201,10 @@ public class MedicalScheduleAppointmentServiceTests
         public Mock<IScheduleUpdateService> UpdateService { get; } = new();
         public Mock<IScheduleAppointmentQueryService> AppointmentQuery { get; } = new();
 
-        public Mock<Domain.Interfaces.Repository.IMedicalRepository> MedicalRepository => Shared.MedicalRepository;
+        public Mock<Domain.Interfaces.Medical.IMedicalRepository> MedicalRepository => Shared.MedicalRepository;
         public Mock<FluentValidation.IValidator<ScheduleCriteriaDto>> ScheduleCriteriaDtoValidator => Shared.ScheduleCriteriaDtoValidator;
         public Mock<FluentValidation.IValidator<AppointmentCriteriaDto>> AppointmentCriteriaDtoValidator => Shared.AppointmentCriteriaDtoValidator;
-        public Mock<Domain.Interfaces.Repository.INotificationRecordsRepository> NotificationRecordsRepository => Shared.NotificationRecordsRepository;
+        public Mock<Domain.Interfaces.Notification.INotificationRecordsRepository> NotificationRecordsRepository => Shared.NotificationRecordsRepository;
 
         public MedicalScheduleAppointmentService Service { get; }
 

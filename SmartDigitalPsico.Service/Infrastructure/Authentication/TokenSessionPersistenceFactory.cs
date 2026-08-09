@@ -1,12 +1,9 @@
-using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
-
-namespace SmartDigitalPsico.Service.Infrastructure.Authentication
+namespace SmartDigitalPsico.Service
 {
     /// <summary>
     /// Classe responsável por TokenSessionPersistenceFactory.
@@ -34,17 +31,17 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
             {
                 case ETokenSessionPersistenceType.DataBase:
                     var serviceRepo = _serviceProvider.GetService<IUserTokenSessionRepository>();
-                    return new DatabaseTokenSessionAdapter(serviceRepo!); 
+                    return new DatabaseTokenSessionAdapter(serviceRepo!);
                 case ETokenSessionPersistenceType.AzureStorageTable:
-                    var mapper = _serviceProvider.GetService<IMapper>();
+                    var mapper = _serviceProvider.GetService<IAppMapper>();
 
-                    var serviceStorage = _serviceProvider.GetService<IStorageTableContract<UserTokenSessionTableEntity>>();
-                    
+                    var serviceStorage = _serviceProvider.GetService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
+
                     return new TableStorageTokenSessionAdapter(mapper!, serviceStorage!);
 
                 default:
                     throw new ArgumentException("Invalid adapter type");
-            } 
-        } 
+            }
+        }
     }
 }

@@ -1,14 +1,14 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.API;
-using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientAdditionalInformation;
-using SmartDigitalPsico.Domain.VO;
-
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class PatientAdditionalInformationController : ApiBaseController
+    public class PatientAdditionalInformationController : Domain.API.ApiBaseController
     {
         private readonly IPatientAdditionalInformationService _entityService;
         /// <summary>
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
         private void setUserIdCurrent()
         {
-            _entityService.SetUserId(base.GetUserIdCurrent()); 
+            _entityService.SetUserId(base.GetUserIdCurrent());
         }
 
         [HttpGet("FindAll")]

@@ -1,18 +1,16 @@
-using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsico.Data.Repository.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-
-namespace SmartDigitalPsico.Data.Repository.Schedule
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
+namespace SmartDigitalPsico.Data.Repository
 {
     /// <summary>
     /// Classe responsável por ScheduleCalendarRepository.
     /// Responsabilidade: repositório de persistência.
     /// Relação: implementa interfaces do Domain e usa o EF Core Context.
     /// </summary>
-    public class ScheduleCalendarRepository : GenericRepositoryEntityBase<ScheduleCalendar>, IScheduleCalendarRepository
+    public class ScheduleCalendarRepository : Core.SDK.Data.Repository.Generic.GenericRepositoryEntityBase<ScheduleCalendar>, IScheduleCalendarRepository
     {
         /// <summary>
         /// Método ScheduleCalendarRepository: operação de agendamento.

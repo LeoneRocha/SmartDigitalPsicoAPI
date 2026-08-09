@@ -1,9 +1,4 @@
-using Moq;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
-using SmartDigitalPsico.Domain.Interfaces.TableEntity;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Service.Infrastructure;
+﻿using Moq;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
 
@@ -11,18 +6,18 @@ namespace SmartDigitalPsico.Service.Test.Infrastructure;
 public class StorageTableEntityServiceTests
 {
     // Cenário: fábrica cria contrato interno e operações são delegadas.
-    // Objetivo: cobrir ctor e todos os métodos públicos do StorageTableEntityService.
+    // Objetivo: cobrir ctor e todos os métodos públicos do SmartDigitalPsico.Core.SDK.Service.Infrastructure.StorageTableEntityService.
     [Test]
     public async Task StorageTableEntityService_AllOperations_DelegateToFactoryRepository()
     {
         // Arrange
-        var inner = new Mock<IStorageTableContract<ProbeTableEntity>>();
+        var inner = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<ProbeTableEntity>>();
         var entity = new ProbeTableEntity { PartitionKey = "p", RowKey = "r" };
         inner.Setup(x => x.GetAllAsync()).ReturnsAsync([entity]);
         inner.Setup(x => x.GetByIdAsync("p", "r")).ReturnsAsync(entity);
-        var factory = new Mock<IStorageTableRepositoryFactory>();
-        factory.Setup(f => f.Create<ProbeTableEntity>(EStorageAdapterType.Azure, "t")).Returns(inner.Object);
-        var sut = new StorageTableEntityService<ProbeTableEntity>(factory.Object, "t");
+        var factory = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageTableRepositoryFactory>();
+        factory.Setup(f => f.Create<ProbeTableEntity>(global::SmartDigitalPsico.Core.SDK.Domain.Enuns.EStorageAdapterType.Azure, "t")).Returns(inner.Object);
+        var sut = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.StorageTableEntityService<ProbeTableEntity>(factory.Object, "t");
 
         // Act
         await sut.InsertAsync(entity);
@@ -42,7 +37,7 @@ public class StorageTableEntityServiceTests
         inner.Verify(x => x.DeleteAsync("p", "r"), Times.Once);
     }
 
-    public sealed class ProbeTableEntity : BaseEntityTable
+    public sealed class ProbeTableEntity : SmartDigitalPsico.Core.SDK.Domain.TableEntityNoSQL.BaseEntityTable
     {
     }
 }

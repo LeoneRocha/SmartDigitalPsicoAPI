@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Helpers.Schedule;
+﻿using SmartDigitalPsico.Domain.Helpers.Schedule;
 
 namespace SmartDigitalPsico.Domain.Helpers.Medical
 {

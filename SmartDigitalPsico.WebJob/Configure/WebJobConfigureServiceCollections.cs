@@ -1,6 +1,11 @@
-using SmartDigitalPsico.Service.Configure;
-using SmartDigitalPsico.Service.Configure.Domain;
+﻿using SmartDigitalPsico.Core.SDK.Service.Configure.AppSettings;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Caching;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Logging;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Mapping;
+using SmartDigitalPsico.Domain.Mapper;
 
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service.DependencyInjection.Orchestrator;
 namespace SmartDigitalPsico.WebJob.Configure
 {
     /// <summary>
@@ -15,22 +20,15 @@ namespace SmartDigitalPsico.WebJob.Configure
         /// </summary>
         public static void Configure(IServiceCollection services, IConfiguration configuration, Serilog.Core.Logger _logger)
         {
-            ServiceCollectionConfigureAppSettings.Configure(services, configuration);
-             
-            //For In-Memory Caching
-            ServiceCollectionConfigureCaching.Configure(services);
-                 
-            //AutoMapper
-            ServiceCollectionConfigureAutoMapper.Configure(services);
+            services.AddCoreAppSettings(configuration);
+            services.AddCoreCaching();
+            services.AddCoreMapper(typeof(AutoMapperProfile));
 
-            //Dependencies Services
             ServiceCollectionConfigureServicesDomain.Configure(services, configuration);
 
-            //ORM API 
             ServiceCollectionConfigureOrm.Configure(services, configuration);
 
-            //Add log 
-            ServiceCollectionConfigureLog.Configure(services, _logger); 
+            services.AddCoreLogging(_logger);
         }
     }
 }

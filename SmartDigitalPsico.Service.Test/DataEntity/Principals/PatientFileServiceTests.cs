@@ -1,12 +1,13 @@
-using AwesomeAssertions;
-using FluentValidation;
+﻿using FluentValidation;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Patient.PatientFile;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Contracts;
-using SmartDigitalPsico.Service.DataEntity.Principals;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Service.Test.TestSupport;
+
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
 
@@ -22,7 +23,7 @@ public class PatientFileServiceTests
         var context = new PatientFileServiceContext();
         var dto = new AddPatientFileDto { PatientId = 5, Description = "Exame", FileDetails = CreateFormFile() };
         context.PatientRepository.Setup(x => x.FindByID(5)).ReturnsAsync(new Patient { Id = 5, MedicalId = 9 });
-        context.FilePersistor.Setup(x => x.PersistFile(It.IsAny<Microsoft.AspNetCore.Http.IFormFile>(), It.IsAny<FileBase>(), "patientfiles", "9_5"))
+        context.FilePersistor.Setup(x => x.PersistFile(It.IsAny<Microsoft.AspNetCore.Http.IFormFile>(), It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts.FileBase>(), "patientfiles", "9_5"))
             .ReturnsAsync("stored/path.pdf");
         context.Repository.Setup(x => x.Create(It.IsAny<PatientFile>())).ReturnsAsync((PatientFile f) => { f.Id = 12; return f; });
 
@@ -45,7 +46,7 @@ public class PatientFileServiceTests
         var fileEntity = new PatientFile { Id = 15, PatientId = 5, FileName = "exam.pdf" };
         context.Repository.Setup(x => x.FindByID(15)).ReturnsAsync(fileEntity);
         context.PatientRepository.Setup(x => x.FindByID(5)).ReturnsAsync(new Patient { Id = 5, MedicalId = 9 });
-        context.FilePersistor.Setup(x => x.DownloadFileById(It.IsAny<FileBase>(), "9_5"))
+        context.FilePersistor.Setup(x => x.DownloadFileById(It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts.FileBase>(), "9_5"))
             .ReturnsAsync(new PatientFile { FileData = new byte[] { 1, 2, 3 } });
 
         // Act
@@ -220,7 +221,7 @@ public class PatientFileServiceTests
         public ServiceTestContext Context { get; } = new();
         public Mock<IPatientFileRepository> Repository { get; } = new();
         public Mock<IValidator<PatientFile>> Validator { get; } = new();
-        public Mock<IFileManager> FilePersistor { get; } = new();
+        public Mock<IFileManagerService> FilePersistor { get; } = new();
         public Mock<IPatientRepository> PatientRepository { get; } = new();
         public PatientFileService Service { get; }
 

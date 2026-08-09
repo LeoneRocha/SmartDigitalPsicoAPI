@@ -1,12 +1,9 @@
-using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Conflict;
-
+﻿using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Core;
 
 [TestFixture]
@@ -19,7 +16,7 @@ public class ScheduleConflictServiceTests
     {
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>(MockBehavior.Strict);
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasNoConflictBatchAsync("medical", "medical:1", [], null);
@@ -43,7 +40,7 @@ public class ScheduleConflictServiceTests
         var start = new DateTime(2026, 8, 20, 9, 0, 0, DateTimeKind.Utc);
         repository.Setup(x => x.GetOverlappingByOwnerAsync("medical", "medical:1", start, start.AddHours(2)))
             .ReturnsAsync(Array.Empty<ScheduleCalendar>());
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
         var items = new[]
         {
             new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddHours(1), SubjectKey = "patient:1" },
@@ -81,7 +78,7 @@ public class ScheduleConflictServiceTests
                     ScheduleData = [new ScheduleCalendarItem { StartDateTime = start.AddMinutes(15), EndDateTime = start.AddMinutes(45) }]
                 }
             ]);
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasNoConflictBatchAsync(
@@ -109,7 +106,7 @@ public class ScheduleConflictServiceTests
         var start = new DateTime(2026, 8, 20, 9, 0, 0, DateTimeKind.Utc);
         repository.Setup(x => x.GetOverlappingByOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
             .ThrowsAsync(new InvalidOperationException("indisponível"));
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasNoConflictBatchAsync(
@@ -136,7 +133,7 @@ public class ScheduleConflictServiceTests
         var repository = new Mock<IScheduleCalendarRepository>();
         repository.Setup(x => x.GetOverlappingByOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
             .ReturnsAsync(Array.Empty<ScheduleCalendar>());
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
         var start = new DateTime(2026, 8, 21, 9, 0, 0, DateTimeKind.Utc);
         var request = new ScheduleCalendarConflictRequest
         {
@@ -174,7 +171,7 @@ public class ScheduleConflictServiceTests
                     ScheduleData = [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddHours(1), Status = EStatusCalendar.Canceled }]
                 }
             ]);
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasNoConflictBatchAsync(
@@ -205,7 +202,7 @@ public class ScheduleConflictServiceTests
                     ScheduleData = [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddHours(1), TokenRecurrence = "self-token" }]
                 }
             ]);
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasNoConflictBatchAsync(
@@ -229,7 +226,7 @@ public class ScheduleConflictServiceTests
         var start = new DateTime(2026, 8, 24, 9, 0, 0, DateTimeKind.Utc);
         repository.Setup(x => x.GetOverlappingByOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
             .ReturnsAsync(Array.Empty<ScheduleCalendar>());
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
         var selfCheckItems = new[]
         {
             new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddHours(1), SubjectKey = "patient:1" },
@@ -291,7 +288,7 @@ public class ScheduleConflictServiceTests
                 SubjectKey = $"patient:{i}"
             })
             .ToArray();
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
 
         // Act
         var result = await service.HasNoConflictBatchAsync("medical", "medical:1", items, null);

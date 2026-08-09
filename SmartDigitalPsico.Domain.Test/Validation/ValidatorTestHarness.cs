@@ -1,9 +1,9 @@
+﻿using System.Collections;
+using System.Reflection;
 using Bogus;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using System.Collections;
-using System.Reflection;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace SmartDigitalPsico.Domain.Test.Validation;
@@ -14,7 +14,7 @@ internal static class ValidatorTestHarness
 
     public static async Task<ValidationResult> ValidateAsync(string validatorTypeName, bool populateValues)
     {
-        var validatorType = typeof(SmartDigitalPsico.Domain.Validation.Base.FileValidator).Assembly
+        var validatorType = typeof(SmartDigitalPsico.Domain.Validation.FileValidator).Assembly
             .GetType(validatorTypeName, throwOnError: true)!;
         var validator = CreateValidator(validatorType);
         var modelType = FindModelType(validatorType);

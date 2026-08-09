@@ -1,7 +1,19 @@
+﻿using SmartDigitalPsico.Core.SDK.Service.Configure.ApiExplorer;
+using SmartDigitalPsico.Core.SDK.Service.Configure.AppSettings;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Caching;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Cors;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Documentation;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Localization;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Logging;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Mapping;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Mvc;
+using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Service.Configure;
-using SmartDigitalPsico.Service.Configure.Domain;
+using SmartDigitalPsico.Domain.Mapper;
 
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service.DependencyInjection.Orchestrator;
 namespace SmartDigitalPsico.WebAPI.Configure
 {
     /// <summary>
@@ -10,51 +22,39 @@ namespace SmartDigitalPsico.WebAPI.Configure
     /// Relação: registra serviços no container e configura o pipeline.
     /// </summary>
     public static class WebApplicationConfigureServiceCollections
-    {  
+    {
         /// <summary>
         /// Método Configure: configura estado ou dependencias.
         /// </summary>
         public static void Configure(IServiceCollection services, IConfiguration configuration, Serilog.Core.Logger _logger)
-        {  
-            ServiceCollectionConfigureAppSettings.Configure(services, configuration);
+        {
+            services.AddCoreAppSettings(configuration);
 
-            var tokenConfigurations = ServiceCollectionConfigureAppSettings.AddAndReturnTokenConfiguration(services, configuration);
+            var tokenConfigurations = services.AddAndReturnTokenConfiguration(configuration);
 
-            //For In-Memory Caching
-            ServiceCollectionConfigureCaching.Configure(services);
+            services.AddCoreCaching();
+            services.AddCoreJwtBearer(tokenConfigurations);
+            services.AddCoreMvcControllers();
+            services.AddCoreCors();
 
-            //Security API
-            ServiceCollectionConfigureSecurity.Configure(services, tokenConfigurations);
-
-            //Header
-            ServiceCollectionConfigureHeader.Configure(services);
-
-            //CORS
-            ServiceCollectionConfigureCors.Configure(services);
-
-            //HyperMediaFilterOptions
             HyperMediaConfigure.AddHyperMedia(services);
 
-            //Documentation
-            ServiceCollectionConfigureDocumentation.Configure(services);
+            services.AddCoreSwagger(
+                title: "SmartDigitalPsico.WebAPI",
+                description: "API REST do Smart Digital Psico para gestão clínica, agenda, pacientes e configurações do sistema.",
+                version: LogAppHelper.GetAssemblyVersion());
 
-            //AutoMapper
-            ServiceCollectionConfigureAutoMapper.Configure(services);
+            services.AddCoreMapper(typeof(AutoMapperProfile));
 
-            //Dependencies Services
             ServiceCollectionConfigureServicesDomain.Configure(services, configuration);
 
-            //ORM API 
             ServiceCollectionConfigureOrm.Configure(services, configuration);
 
-            //Add log 
-            ServiceCollectionConfigureLog.Configure(services, _logger);
+            services.AddCoreLogging(_logger);
 
-            //Localization
-            ServiceCollectionConfigureLocalization.Configure(services);
+            services.AddCoreRequestLocalization();
 
-            //Endpoints Api Explorer
-            ServiceCollectionConfigureEndpointsApiExplorer.Configure(services);
+            services.AddCoreEndpointsApiExplorer();
         }
     }
 }

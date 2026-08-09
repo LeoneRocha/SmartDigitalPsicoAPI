@@ -1,10 +1,8 @@
-using SmartDigitalPsico.Data.Context.Configure.Mock;
-using SmartDigitalPsico.Data.Repository.SystemDomains;
+﻿using SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
-
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]

@@ -1,7 +1,7 @@
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
+﻿using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 
-namespace SmartDigitalPsico.Service.Infrastructure.Authentication
+namespace SmartDigitalPsico.Service
 {
     /// <summary>
     /// Classe responsável por DatabaseTokenSessionAdapter.
@@ -15,9 +15,9 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
         /// <summary>
         /// Método DatabaseTokenSessionAdapter: executa a operação DatabaseTokenSessionAdapter.
         /// </summary>
-        public DatabaseTokenSessionAdapter(IUserTokenSessionRepository  userTokenSessionRepository)
+        public DatabaseTokenSessionAdapter(IUserTokenSessionRepository userTokenSessionRepository)
         {
-             _userTokenSessionRepository = userTokenSessionRepository;
+            _userTokenSessionRepository = userTokenSessionRepository;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace SmartDigitalPsico.Service.Infrastructure.Authentication
         /// Método SaveSessionAsync: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task SaveSessionAsync(UserTokenSession userTokenSession)
-        { 
+        {
             await _userTokenSessionRepository.SaveSessionAsync(userTokenSession);
         }
     }

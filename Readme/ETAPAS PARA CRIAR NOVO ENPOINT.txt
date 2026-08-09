@@ -1,6 +1,6 @@
 ====================================== BACK END =========================
 
-1) Criar a classe da tabela (SmartDigitalPsico.Domain.ModelEntity) --------------------------  OK   
+1) Criar a classe da tabela (SmartDigitalPsico.Domain.EntityModels) --------------------------  OK   
 Exemplo:  NotificationRules
  
 1.1 COLOCAR NO IEntityDataContext DBSET  

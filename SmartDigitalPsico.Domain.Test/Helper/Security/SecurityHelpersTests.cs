@@ -1,8 +1,6 @@
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
 
 namespace SmartDigitalPsico.Domain.Test.Helper.Security;
 
@@ -15,10 +13,10 @@ public class SecurityHelpersTests
     public void PasswordHash_ValidAndInvalidPassword_ReturnsExpectedValidation()
     {
         // Arrange
-        SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
+        SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreatePasswordHash("secret", out var hash, out var salt);
         // Act
-        var valid = SecurityHelper.VerifyPasswordHash("secret", hash, salt);
-        var invalid = SecurityHelper.VerifyPasswordHash("other", hash, salt);
+        var valid = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.VerifyPasswordHash("secret", hash, salt);
+        var invalid = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.VerifyPasswordHash("other", hash, salt);
         // Assert
         using (Assert.EnterMultipleScope())
         {
@@ -38,7 +36,7 @@ public class SecurityHelpersTests
     {
         // Arrange
         // Act
-        var result = SecurityHelper.IsBase64String(value);
+        var result = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.IsBase64String(value);
         // Assert
         result.Should().Be(expected);
     }
@@ -49,11 +47,11 @@ public class SecurityHelpersTests
     public void CreateToken_ValidSecurityData_ContainsExpectedClaims()
     {
         // Arrange
-        var security = new SecurityDto { Name = "Ana", Role = "Psicóloga", SecurityKeyConfig = new string('a', 64) };
-        typeof(SecurityDto).GetProperty(nameof(SecurityDto.Id))!.SetValue(security, "42");
+        var security = new SmartDigitalPsico.Core.SDK.Domain.Security.SecurityDto { Name = "Ana", Role = "Psicóloga", SecurityKeyConfig = new string('a', 64) };
+        typeof(SmartDigitalPsico.Core.SDK.Domain.Security.SecurityDto).GetProperty(nameof(SmartDigitalPsico.Core.SDK.Domain.Security.SecurityDto.Id))!.SetValue(security, "42");
 
         // Act
-        var token = SecurityHelper.CreateToken(security);
+        var token = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.CreateToken(security);
         var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
 
         // Assert
@@ -72,8 +70,8 @@ public class SecurityHelpersTests
     {
         // Arrange
         // Act
-        var key = Convert.FromBase64String(AesKeyGeneratorHelper.GenerateKey());
-        var iv = Convert.FromBase64String(AesKeyGeneratorHelper.GenerateIV());
+        var key = Convert.FromBase64String(SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey());
+        var iv = Convert.FromBase64String(SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateIV());
         // Assert
         using (Assert.EnterMultipleScope())
         {
@@ -90,8 +88,8 @@ public class SecurityHelpersTests
         // Arrange
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, "42")]));
         // Act
-        var jwtId = SecurityHelperApi.GetUserIdApi(user, ETypeApiCredential.Jwt);
-        var otherId = SecurityHelperApi.GetUserIdApi(user, ETypeApiCredential.AzureAD);
+        var jwtId = SecurityHelperApi.GetUserIdApi(user, SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt);
+        var otherId = SecurityHelperApi.GetUserIdApi(user, SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.AzureAD);
         // Assert
         using (Assert.EnterMultipleScope())
         {

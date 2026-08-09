@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartDigitalPsico.Data.Context;
 
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 #nullable disable
 
 namespace SmartDigitalPsico.Data.Migrations.MySql
@@ -28,7 +29,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ApplicationCacheLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ApplicationCacheLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +76,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ApplicationConfigSetting", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ApplicationConfigSetting", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -161,7 +162,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ApplicationLanguage", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ApplicationLanguage", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +246,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "Default_ptbr",
-                            LanguageValue = "Padr�o",
+                            LanguageValue = "Padrão",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "ApplicationLanguage"
@@ -267,11 +268,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 4L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Registro n�o encontrado",
+                            Description = "Registro não encontrado",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "RegisterIsNotFound",
-                            LanguageValue = "Registro n�o encontrado",
+                            LanguageValue = "Registro não encontrado",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -345,11 +346,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 10L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A descri��o n�o pode ser vazia",
+                            Description = "A descrição não pode ser vazia",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Description_Null",
-                            LanguageValue = "A descri��o n�o pode ser vazia",
+                            LanguageValue = "A descrição não pode ser vazia",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -358,11 +359,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 11L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O idoma n�o pode ser vazio",
+                            Description = "O idoma não pode ser vazio",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Language_Null",
-                            LanguageValue = "O idoma n�o pode ser vazio",
+                            LanguageValue = "O idoma não pode ser vazio",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -371,11 +372,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 12L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O idoma n�o pode ultrapassar {MaxLength}",
+                            Description = "O idoma não pode ultrapassar {MaxLength}",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Language_MaximumLength",
-                            LanguageValue = "O idoma n�o pode ultrapassar {MaxLength}",
+                            LanguageValue = "O idoma não pode ultrapassar {MaxLength}",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -384,11 +385,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 13L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "V�lido",
+                            Description = "Válido",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "LangValid",
-                            LanguageValue = "V�lido",
+                            LanguageValue = "Válido",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -423,11 +424,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 16L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O medico informado n�o existe.",
+                            Description = "O medico informado não existe.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_MedicalId_NotFound",
-                            LanguageValue = "O medico informado n�o existe.",
+                            LanguageValue = "O medico informado não existe.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -449,11 +450,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 18L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O nome n�o pode ser vazio",
+                            Description = "O nome não pode ser vazio",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Name_Null",
-                            LanguageValue = "O nome n�o pode ser vazio",
+                            LanguageValue = "O nome não pode ser vazio",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -462,11 +463,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 19L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O Login n�o pode ser vazio.",
+                            Description = "O Login não pode ser vazio.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Login_Null",
-                            LanguageValue = "O Login n�o pode ser vazio.",
+                            LanguageValue = "O Login não pode ser vazio.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -488,11 +489,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 21L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O Email n�o pode ser vazio",
+                            Description = "O Email não pode ser vazio",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Email_Null",
-                            LanguageValue = "O Email n�o pode ser vazio",
+                            LanguageValue = "O Email não pode ser vazio",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -501,11 +502,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 22L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O Email � invalido.",
+                            Description = "O Email é invalido.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Email_Invalid",
-                            LanguageValue = "O Email � invalido.",
+                            LanguageValue = "O Email é invalido.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -527,11 +528,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 24L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O Credenciamento n�o pode ser vazio.",
+                            Description = "O Credenciamento não pode ser vazio.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Accreditation_Null",
-                            LanguageValue = "O Credenciamento n�o pode ser vazio.",
+                            LanguageValue = "O Credenciamento não pode ser vazio.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -592,11 +593,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 29L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O Paciente informado n�o existe.",
+                            Description = "O Paciente informado não existe.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Patient_NotFound",
-                            LanguageValue = "O Paciente informado n�o existe.",
+                            LanguageValue = "O Paciente informado não existe.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -605,11 +606,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 30L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O Paciente n�o pode ser alterado.",
+                            Description = "O Paciente não pode ser alterado.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Patient_Changed",
-                            LanguageValue = "O Paciente n�o pode ser alterado.",
+                            LanguageValue = "O Paciente não pode ser alterado.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -618,11 +619,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 31L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Informa��es do paciente n�o podem ser adicionadas ",
+                            Description = "Informações do paciente não podem ser adicionadas ",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Patient_Medical_Created",
-                            LanguageValue = "Informa��es do paciente n�o podem ser adicionadas por outro medico e/ou usuario.",
+                            LanguageValue = "Informações do paciente não podem ser adicionadas por outro medico e/ou usuario.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -631,11 +632,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 32L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Informa��es do paciente n�o podem ser modificadas ",
+                            Description = "Informações do paciente não podem ser modificadas ",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Patient_Medical_Modify",
-                            LanguageValue = "Informa��es do paciente n�o podem ser modificadas por outro medico e/ou usuario.",
+                            LanguageValue = "Informações do paciente não podem ser modificadas por outro medico e/ou usuario.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -644,11 +645,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 33L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O Usu�rio que est� criando deve ser informado.",
+                            Description = "O Usuário que está criando deve ser informado.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_CreatedUserId_Null",
-                            LanguageValue = "O Usu�rio que est� criando deve ser informado.",
+                            LanguageValue = "O Usuário que está criando deve ser informado.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -657,11 +658,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 34L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A anota��o n�o pode ser vazia.",
+                            Description = "A anotação não pode ser vazia.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_Annotation_Null",
-                            LanguageValue = "A anota��o n�o pode ser vazia.",
+                            LanguageValue = "A anotação não pode ser vazia.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -670,11 +671,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 35L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A data da anota��o n�o pode ser vazia.",
+                            Description = "A data da anotação não pode ser vazia.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_AnnotationDate_Null",
-                            LanguageValue = "A data da anota��o n�o pode ser vazia.",
+                            LanguageValue = "A data da anotação não pode ser vazia.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -696,11 +697,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 37L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O Rg n�o pode ser vazio.",
+                            Description = "O Rg não pode ser vazio.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_RG_Null",
-                            LanguageValue = "O Rg n�o pode ser vazio.",
+                            LanguageValue = "O Rg não pode ser vazio.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -709,11 +710,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 38L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "O CPF n�o pode ser vazio.",
+                            Description = "O CPF não pode ser vazio.",
                             Enable = true,
                             Language = "pt-BR",
                             LanguageKey = "ErrorValidator_CPF_Null",
-                            LanguageValue = "O CPF n�o pode ser vazio.",
+                            LanguageValue = "O CPF não pode ser vazio.",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ResourceKey = "SharedResource"
@@ -733,7 +734,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.AuditDataEntityLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.AuditDataEntityLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -811,7 +812,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.AuditDataSelectiveEntityLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.AuditDataSelectiveEntityLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -897,7 +898,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Gender", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Gender", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -963,7 +964,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.InfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.InfoTag", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1037,7 +1038,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MedicalId = 1L,
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Tag = "Depress�o"
+                            Tag = "Depressão"
                         },
                         new
                         {
@@ -1052,7 +1053,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Leaves", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Leaves", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1190,7 +1191,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 7L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Independ�ncia do Brasil",
+                            Description = "Independência do Brasil",
                             Enable = true,
                             IsRecurring = true,
                             Language = "pt-BR",
@@ -1226,7 +1227,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 10L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Proclama��o da Rep�blica",
+                            Description = "Proclamação da República",
                             Enable = true,
                             IsRecurring = true,
                             Language = "pt-BR",
@@ -1248,7 +1249,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Medical", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Medical", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1364,7 +1365,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalCalendar", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalCalendar", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1488,7 +1489,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalFile", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalFile", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1592,7 +1593,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalSettings", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalSettings", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1649,7 +1650,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalSpecialty", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalSpecialty", b =>
                 {
                     b.Property<long>("MedicalId")
                         .HasColumnType("bigint");
@@ -1673,7 +1674,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRecord", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationRecord", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1736,7 +1737,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRule", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationRule", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1909,7 +1910,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationTemplate", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationTemplate", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2003,7 +2004,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 2L,
                             Body = "<p>Seus dados da conta foram atualizados com sucesso.</p>",
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Altera��o de Conta Conclu�da",
+                            Description = "Alteração de Conta Concluída",
                             Enable = true,
                             Language = "pt-BR",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -2057,21 +2058,21 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 6L,
-                            Body = "<p>Seus dados m�dicos foram atualizados com sucesso.</p>",
+                            Body = "<p>Seus dados médicos foram atualizados com sucesso.</p>",
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Atualiza��o de Cadastro M�dico",
+                            Description = "Atualização de Cadastro Médico",
                             Enable = true,
                             Language = "pt-BR",
                             LastAccessDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             NotificationTemplateType = (byte)0,
-                            Subject = "Dados M�dicos Atualizados",
+                            Subject = "Dados Médicos Atualizados",
                             TagApi = "MedicalUpdateEmail"
                         },
                         new
                         {
                             Id = 7L,
-                            Body = "<p>Este � um lembrete para sua consulta agendada.</p>",
+                            Body = "<p>Este é um lembrete para sua consulta agendada.</p>",
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Lembrete de Consulta",
                             Enable = true,
@@ -2084,7 +2085,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Office", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Office", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2132,7 +2133,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 1L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Psic�logo",
+                            Description = "Psicólogo",
                             Enable = true,
                             Language = "pt-BR",
                             LastAccessDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -2142,7 +2143,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 2L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Psic�loga",
+                            Description = "Psicóloga",
                             Enable = true,
                             Language = "pt-BR",
                             LastAccessDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -2152,7 +2153,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 3L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Cl�nico",
+                            Description = "Clínico",
                             Enable = true,
                             Language = "pt-BR",
                             LastAccessDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -2160,7 +2161,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Patient", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Patient", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2301,7 +2302,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             AddressCity = "Aurelino Leal",
                             AddressNeighborhood = "Centro",
                             AddressState = "Bahia",
-                            AddressStreet = "Avenida Presidente M�dici 264",
+                            AddressStreet = "Avenida Presidente Médici 264",
                             Cpf = "947.846.605-42",
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
@@ -2325,15 +2326,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 2L,
                             AddressCep = "12345-678",
-                            AddressCity = "S�o Paulo",
+                            AddressCity = "São Paulo",
                             AddressNeighborhood = "Jardins",
-                            AddressState = "S�o Paulo",
+                            AddressState = "São Paulo",
                             AddressStreet = "Rua das Flores, 123",
                             Cpf = "123.456.789-00",
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             DateOfBirth = new DateTime(1990, 5, 22, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Education = "M�dio Completo",
+                            Education = "Médio Completo",
                             Email = "ana.luiza@domain.com",
                             EmergencyContactName = "Carlos Ferreira",
                             EmergencyContactPhoneNumber = "(11) 91234-5678",
@@ -2355,7 +2356,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             AddressCity = "Rio de Janeiro",
                             AddressNeighborhood = "Copacabana",
                             AddressState = "Rio de Janeiro",
-                            AddressStreet = "Av. Atl�ntica, 456",
+                            AddressStreet = "Av. Atlântica, 456",
                             Cpf = "987.654.321-99",
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
@@ -2370,7 +2371,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MaritalStatus = (byte)0,
                             MedicalId = 1L,
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Jos� Henrique Silva",
+                            Name = "José Henrique Silva",
                             PhoneNumber = "(21) 3000-7000",
                             Profession = "Advogado",
                             Rg = "98.765.432-1"
@@ -2382,12 +2383,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             AddressCity = "Belo Horizonte",
                             AddressNeighborhood = "Savassi",
                             AddressState = "Minas Gerais",
-                            AddressStreet = "Rua dos Ip�s, 789",
+                            AddressStreet = "Rua dos Ipês, 789",
                             Cpf = "456.789.123-10",
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             DateOfBirth = new DateTime(1975, 12, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Education = "P�s-Gradua��o",
+                            Education = "Pós-Graduação",
                             Email = "maria.clara@domain.com",
                             EmergencyContactName = "Fernando Oliveira",
                             EmergencyContactPhoneNumber = "(31) 97654-3210",
@@ -2407,9 +2408,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 5L,
                             AddressCep = "65432-789",
                             AddressCity = "Curitiba",
-                            AddressNeighborhood = "Centro C�vico",
-                            AddressState = "Paran�",
-                            AddressStreet = "Av. Paran�, 987",
+                            AddressNeighborhood = "Centro Cívico",
+                            AddressState = "Paraná",
+                            AddressStreet = "Av. Paraná, 987",
                             Cpf = "654.321.987-88",
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
@@ -2441,7 +2442,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             DateOfBirth = new DateTime(1990, 6, 15, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Education = "M�dio Completo",
+                            Education = "Médio Completo",
                             Email = "laura.costa@example.com",
                             EmergencyContactName = "Ana Costa",
                             EmergencyContactPhoneNumber = "(47) 99987-6543",
@@ -2460,15 +2461,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 7L,
                             AddressCep = "01310-100",
-                            AddressCity = "S�o Paulo",
+                            AddressCity = "São Paulo",
                             AddressNeighborhood = "Bela Vista",
-                            AddressState = "S�o Paulo",
+                            AddressState = "São Paulo",
                             AddressStreet = "Avenida Paulista, 1500",
                             Cpf = "123.456.789-00",
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             DateOfBirth = new DateTime(1985, 11, 30, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Education = "P�s-Gradua��o",
+                            Education = "Pós-Graduação",
                             Email = "diego.almeida@example.com",
                             EmergencyContactName = "Marina Almeida",
                             EmergencyContactPhoneNumber = "(11) 98888-1234",
@@ -2488,7 +2489,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 8L,
                             AddressCep = "30130-010",
                             AddressCity = "Belo Horizonte",
-                            AddressNeighborhood = "Funcion�rios",
+                            AddressNeighborhood = "Funcionários",
                             AddressState = "Minas Gerais",
                             AddressStreet = "Rua da Bahia, 1200",
                             Cpf = "321.654.987-00",
@@ -2507,12 +2508,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             ModifyDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Helena Beatriz Nogueira",
                             PhoneNumber = "(31) 3222-1100",
-                            Profession = "Psic�loga",
+                            Profession = "Psicóloga",
                             Rg = "MG-12.345.678"
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientAdditionalInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientAdditionalInformation", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2577,8 +2578,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Sem intercorr�ncias neurol�gicas relatadas. (Tiago Thales Mendes)",
-                            FollowUp_Psychiatric = "Acompanhamento psiqui�trico mensal em andamento. (Tiago Thales Mendes)",
+                            FollowUp_Neurological = "Sem intercorrências neurológicas relatadas. (Tiago Thales Mendes)",
+                            FollowUp_Psychiatric = "Acompanhamento psiquiátrico mensal em andamento. (Tiago Thales Mendes)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 1L
@@ -2589,8 +2590,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Avalia��o neurol�gica pr�via sem altera��es. (Tiago Thales Mendes)",
-                            FollowUp_Psychiatric = "Hist�rico de crise de ansiedade; em estabiliza��o. (Tiago Thales Mendes)",
+                            FollowUp_Neurological = "Avaliação neurológica prévia sem alterações. (Tiago Thales Mendes)",
+                            FollowUp_Psychiatric = "Histórico de crise de ansiedade; em estabilização. (Tiago Thales Mendes)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 1L
@@ -2601,8 +2602,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Encaminhado para reavalia��o se houver cefaleia persistente. (Tiago Thales Mendes)",
-                            FollowUp_Psychiatric = "Orientado sobre ades�o medicamentosa e sono. (Tiago Thales Mendes)",
+                            FollowUp_Neurological = "Encaminhado para reavaliação se houver cefaleia persistente. (Tiago Thales Mendes)",
+                            FollowUp_Psychiatric = "Orientado sobre adesão medicamentosa e sono. (Tiago Thales Mendes)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 1L
@@ -2613,8 +2614,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Sem intercorr�ncias neurol�gicas relatadas. (Ana Luiza Ferreira)",
-                            FollowUp_Psychiatric = "Acompanhamento psiqui�trico mensal em andamento. (Ana Luiza Ferreira)",
+                            FollowUp_Neurological = "Sem intercorrências neurológicas relatadas. (Ana Luiza Ferreira)",
+                            FollowUp_Psychiatric = "Acompanhamento psiquiátrico mensal em andamento. (Ana Luiza Ferreira)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 2L
@@ -2625,8 +2626,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Avalia��o neurol�gica pr�via sem altera��es. (Ana Luiza Ferreira)",
-                            FollowUp_Psychiatric = "Hist�rico de crise de ansiedade; em estabiliza��o. (Ana Luiza Ferreira)",
+                            FollowUp_Neurological = "Avaliação neurológica prévia sem alterações. (Ana Luiza Ferreira)",
+                            FollowUp_Psychiatric = "Histórico de crise de ansiedade; em estabilização. (Ana Luiza Ferreira)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 2L
@@ -2637,8 +2638,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Encaminhado para reavalia��o se houver cefaleia persistente. (Ana Luiza Ferreira)",
-                            FollowUp_Psychiatric = "Orientado sobre ades�o medicamentosa e sono. (Ana Luiza Ferreira)",
+                            FollowUp_Neurological = "Encaminhado para reavaliação se houver cefaleia persistente. (Ana Luiza Ferreira)",
+                            FollowUp_Psychiatric = "Orientado sobre adesão medicamentosa e sono. (Ana Luiza Ferreira)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 2L
@@ -2649,8 +2650,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Sem intercorr�ncias neurol�gicas relatadas. (Jos� Henrique Silva)",
-                            FollowUp_Psychiatric = "Acompanhamento psiqui�trico mensal em andamento. (Jos� Henrique Silva)",
+                            FollowUp_Neurological = "Sem intercorrências neurológicas relatadas. (José Henrique Silva)",
+                            FollowUp_Psychiatric = "Acompanhamento psiquiátrico mensal em andamento. (José Henrique Silva)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 3L
@@ -2661,8 +2662,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Avalia��o neurol�gica pr�via sem altera��es. (Jos� Henrique Silva)",
-                            FollowUp_Psychiatric = "Hist�rico de crise de ansiedade; em estabiliza��o. (Jos� Henrique Silva)",
+                            FollowUp_Neurological = "Avaliação neurológica prévia sem alterações. (José Henrique Silva)",
+                            FollowUp_Psychiatric = "Histórico de crise de ansiedade; em estabilização. (José Henrique Silva)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 3L
@@ -2673,8 +2674,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Encaminhado para reavalia��o se houver cefaleia persistente. (Jos� Henrique Silva)",
-                            FollowUp_Psychiatric = "Orientado sobre ades�o medicamentosa e sono. (Jos� Henrique Silva)",
+                            FollowUp_Neurological = "Encaminhado para reavaliação se houver cefaleia persistente. (José Henrique Silva)",
+                            FollowUp_Psychiatric = "Orientado sobre adesão medicamentosa e sono. (José Henrique Silva)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 3L
@@ -2685,8 +2686,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Sem intercorr�ncias neurol�gicas relatadas. (Maria Clara Oliveira)",
-                            FollowUp_Psychiatric = "Acompanhamento psiqui�trico mensal em andamento. (Maria Clara Oliveira)",
+                            FollowUp_Neurological = "Sem intercorrências neurológicas relatadas. (Maria Clara Oliveira)",
+                            FollowUp_Psychiatric = "Acompanhamento psiquiátrico mensal em andamento. (Maria Clara Oliveira)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 4L
@@ -2697,8 +2698,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Avalia��o neurol�gica pr�via sem altera��es. (Maria Clara Oliveira)",
-                            FollowUp_Psychiatric = "Hist�rico de crise de ansiedade; em estabiliza��o. (Maria Clara Oliveira)",
+                            FollowUp_Neurological = "Avaliação neurológica prévia sem alterações. (Maria Clara Oliveira)",
+                            FollowUp_Psychiatric = "Histórico de crise de ansiedade; em estabilização. (Maria Clara Oliveira)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 4L
@@ -2709,8 +2710,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Encaminhado para reavalia��o se houver cefaleia persistente. (Maria Clara Oliveira)",
-                            FollowUp_Psychiatric = "Orientado sobre ades�o medicamentosa e sono. (Maria Clara Oliveira)",
+                            FollowUp_Neurological = "Encaminhado para reavaliação se houver cefaleia persistente. (Maria Clara Oliveira)",
+                            FollowUp_Psychiatric = "Orientado sobre adesão medicamentosa e sono. (Maria Clara Oliveira)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 4L
@@ -2721,8 +2722,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Sem intercorr�ncias neurol�gicas relatadas. (Gabriel Santos)",
-                            FollowUp_Psychiatric = "Acompanhamento psiqui�trico mensal em andamento. (Gabriel Santos)",
+                            FollowUp_Neurological = "Sem intercorrências neurológicas relatadas. (Gabriel Santos)",
+                            FollowUp_Psychiatric = "Acompanhamento psiquiátrico mensal em andamento. (Gabriel Santos)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 5L
@@ -2733,8 +2734,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Avalia��o neurol�gica pr�via sem altera��es. (Gabriel Santos)",
-                            FollowUp_Psychiatric = "Hist�rico de crise de ansiedade; em estabiliza��o. (Gabriel Santos)",
+                            FollowUp_Neurological = "Avaliação neurológica prévia sem alterações. (Gabriel Santos)",
+                            FollowUp_Psychiatric = "Histórico de crise de ansiedade; em estabilização. (Gabriel Santos)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 5L
@@ -2745,8 +2746,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Encaminhado para reavalia��o se houver cefaleia persistente. (Gabriel Santos)",
-                            FollowUp_Psychiatric = "Orientado sobre ades�o medicamentosa e sono. (Gabriel Santos)",
+                            FollowUp_Neurological = "Encaminhado para reavaliação se houver cefaleia persistente. (Gabriel Santos)",
+                            FollowUp_Psychiatric = "Orientado sobre adesão medicamentosa e sono. (Gabriel Santos)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 5L
@@ -2757,8 +2758,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Sem intercorr�ncias neurol�gicas relatadas. (Laura Carolina Costa)",
-                            FollowUp_Psychiatric = "Acompanhamento psiqui�trico mensal em andamento. (Laura Carolina Costa)",
+                            FollowUp_Neurological = "Sem intercorrências neurológicas relatadas. (Laura Carolina Costa)",
+                            FollowUp_Psychiatric = "Acompanhamento psiquiátrico mensal em andamento. (Laura Carolina Costa)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 6L
@@ -2769,8 +2770,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Avalia��o neurol�gica pr�via sem altera��es. (Laura Carolina Costa)",
-                            FollowUp_Psychiatric = "Hist�rico de crise de ansiedade; em estabiliza��o. (Laura Carolina Costa)",
+                            FollowUp_Neurological = "Avaliação neurológica prévia sem alterações. (Laura Carolina Costa)",
+                            FollowUp_Psychiatric = "Histórico de crise de ansiedade; em estabilização. (Laura Carolina Costa)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 6L
@@ -2781,8 +2782,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Encaminhado para reavalia��o se houver cefaleia persistente. (Laura Carolina Costa)",
-                            FollowUp_Psychiatric = "Orientado sobre ades�o medicamentosa e sono. (Laura Carolina Costa)",
+                            FollowUp_Neurological = "Encaminhado para reavaliação se houver cefaleia persistente. (Laura Carolina Costa)",
+                            FollowUp_Psychiatric = "Orientado sobre adesão medicamentosa e sono. (Laura Carolina Costa)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 6L
@@ -2793,8 +2794,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Sem intercorr�ncias neurol�gicas relatadas. (Diego Rafael Almeida)",
-                            FollowUp_Psychiatric = "Acompanhamento psiqui�trico mensal em andamento. (Diego Rafael Almeida)",
+                            FollowUp_Neurological = "Sem intercorrências neurológicas relatadas. (Diego Rafael Almeida)",
+                            FollowUp_Psychiatric = "Acompanhamento psiquiátrico mensal em andamento. (Diego Rafael Almeida)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 7L
@@ -2805,8 +2806,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Avalia��o neurol�gica pr�via sem altera��es. (Diego Rafael Almeida)",
-                            FollowUp_Psychiatric = "Hist�rico de crise de ansiedade; em estabiliza��o. (Diego Rafael Almeida)",
+                            FollowUp_Neurological = "Avaliação neurológica prévia sem alterações. (Diego Rafael Almeida)",
+                            FollowUp_Psychiatric = "Histórico de crise de ansiedade; em estabilização. (Diego Rafael Almeida)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 7L
@@ -2817,8 +2818,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Encaminhado para reavalia��o se houver cefaleia persistente. (Diego Rafael Almeida)",
-                            FollowUp_Psychiatric = "Orientado sobre ades�o medicamentosa e sono. (Diego Rafael Almeida)",
+                            FollowUp_Neurological = "Encaminhado para reavaliação se houver cefaleia persistente. (Diego Rafael Almeida)",
+                            FollowUp_Psychiatric = "Orientado sobre adesão medicamentosa e sono. (Diego Rafael Almeida)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 7L
@@ -2829,8 +2830,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Sem intercorr�ncias neurol�gicas relatadas. (Helena Beatriz Nogueira)",
-                            FollowUp_Psychiatric = "Acompanhamento psiqui�trico mensal em andamento. (Helena Beatriz Nogueira)",
+                            FollowUp_Neurological = "Sem intercorrências neurológicas relatadas. (Helena Beatriz Nogueira)",
+                            FollowUp_Psychiatric = "Acompanhamento psiquiátrico mensal em andamento. (Helena Beatriz Nogueira)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 8L
@@ -2841,8 +2842,8 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Avalia��o neurol�gica pr�via sem altera��es. (Helena Beatriz Nogueira)",
-                            FollowUp_Psychiatric = "Hist�rico de crise de ansiedade; em estabiliza��o. (Helena Beatriz Nogueira)",
+                            FollowUp_Neurological = "Avaliação neurológica prévia sem alterações. (Helena Beatriz Nogueira)",
+                            FollowUp_Psychiatric = "Histórico de crise de ansiedade; em estabilização. (Helena Beatriz Nogueira)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 8L
@@ -2853,15 +2854,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
                             Enable = true,
-                            FollowUp_Neurological = "Encaminhado para reavalia��o se houver cefaleia persistente. (Helena Beatriz Nogueira)",
-                            FollowUp_Psychiatric = "Orientado sobre ades�o medicamentosa e sono. (Helena Beatriz Nogueira)",
+                            FollowUp_Neurological = "Encaminhado para reavaliação se houver cefaleia persistente. (Helena Beatriz Nogueira)",
+                            FollowUp_Psychiatric = "Orientado sobre adesão medicamentosa e sono. (Helena Beatriz Nogueira)",
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 8L
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientFile", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientFile", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -3010,7 +3011,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 3L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Documento de identifica��o - Tiago Thales Mendes",
+                            Description = "Documento de identificação - Tiago Thales Mendes",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3070,7 +3071,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 6L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Documento de identifica��o - Ana Luiza Ferreira",
+                            Description = "Documento de identificação - Ana Luiza Ferreira",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3090,7 +3091,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 7L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Termo de consentimento - Jos� Henrique Silva",
+                            Description = "Termo de consentimento - José Henrique Silva",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3110,7 +3111,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 8L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Exame laboratorial - Jos� Henrique Silva",
+                            Description = "Exame laboratorial - José Henrique Silva",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3130,7 +3131,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 9L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Documento de identifica��o - Jos� Henrique Silva",
+                            Description = "Documento de identificação - José Henrique Silva",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3190,7 +3191,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 12L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Documento de identifica��o - Maria Clara Oliveira",
+                            Description = "Documento de identificação - Maria Clara Oliveira",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3250,7 +3251,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 15L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Documento de identifica��o - Gabriel Santos",
+                            Description = "Documento de identificação - Gabriel Santos",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3310,7 +3311,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 18L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Documento de identifica��o - Laura Carolina Costa",
+                            Description = "Documento de identificação - Laura Carolina Costa",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3370,7 +3371,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 21L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Documento de identifica��o - Diego Rafael Almeida",
+                            Description = "Documento de identificação - Diego Rafael Almeida",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3430,7 +3431,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 24L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Documento de identifica��o - Helena Beatriz Nogueira",
+                            Description = "Documento de identificação - Helena Beatriz Nogueira",
                             Enable = true,
                             FileBlobName = "",
                             FileCloudContainer = "",
@@ -3447,7 +3448,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientHospitalizationInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientHospitalizationInformation", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -3523,7 +3524,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F41.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o psiqui�trica breve - Tiago Thales Mendes",
+                            Description = "Internação psiquiátrica breve - Tiago Thales Mendes",
                             Enable = true,
                             EndDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -3538,12 +3539,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F32.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Observa��o cl�nica - Tiago Thales Mendes",
+                            Description = "Observação clínica - Tiago Thales Mendes",
                             Enable = true,
                             EndDate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Estabiliza��o do humor ap�s ajuste medicamentoso.",
+                            Observation = "Estabilização do humor após ajuste medicamentoso.",
                             PatientId = 1L,
                             StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3553,11 +3554,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F90.0",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o para avalia��o diagn�stica - Tiago Thales Mendes",
+                            Description = "Internação para avaliação diagnóstica - Tiago Thales Mendes",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Em avalia��o multidisciplinar.",
+                            Observation = "Em avaliação multidisciplinar.",
                             PatientId = 1L,
                             StartDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3567,7 +3568,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F41.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o psiqui�trica breve - Ana Luiza Ferreira",
+                            Description = "Internação psiquiátrica breve - Ana Luiza Ferreira",
                             Enable = true,
                             EndDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -3582,12 +3583,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F32.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Observa��o cl�nica - Ana Luiza Ferreira",
+                            Description = "Observação clínica - Ana Luiza Ferreira",
                             Enable = true,
                             EndDate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Estabiliza��o do humor ap�s ajuste medicamentoso.",
+                            Observation = "Estabilização do humor após ajuste medicamentoso.",
                             PatientId = 2L,
                             StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3597,11 +3598,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F90.0",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o para avalia��o diagn�stica - Ana Luiza Ferreira",
+                            Description = "Internação para avaliação diagnóstica - Ana Luiza Ferreira",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Em avalia��o multidisciplinar.",
+                            Observation = "Em avaliação multidisciplinar.",
                             PatientId = 2L,
                             StartDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3611,7 +3612,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F41.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o psiqui�trica breve - Jos� Henrique Silva",
+                            Description = "Internação psiquiátrica breve - José Henrique Silva",
                             Enable = true,
                             EndDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -3626,12 +3627,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F32.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Observa��o cl�nica - Jos� Henrique Silva",
+                            Description = "Observação clínica - José Henrique Silva",
                             Enable = true,
                             EndDate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Estabiliza��o do humor ap�s ajuste medicamentoso.",
+                            Observation = "Estabilização do humor após ajuste medicamentoso.",
                             PatientId = 3L,
                             StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3641,11 +3642,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F90.0",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o para avalia��o diagn�stica - Jos� Henrique Silva",
+                            Description = "Internação para avaliação diagnóstica - José Henrique Silva",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Em avalia��o multidisciplinar.",
+                            Observation = "Em avaliação multidisciplinar.",
                             PatientId = 3L,
                             StartDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3655,7 +3656,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F41.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o psiqui�trica breve - Maria Clara Oliveira",
+                            Description = "Internação psiquiátrica breve - Maria Clara Oliveira",
                             Enable = true,
                             EndDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -3670,12 +3671,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F32.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Observa��o cl�nica - Maria Clara Oliveira",
+                            Description = "Observação clínica - Maria Clara Oliveira",
                             Enable = true,
                             EndDate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Estabiliza��o do humor ap�s ajuste medicamentoso.",
+                            Observation = "Estabilização do humor após ajuste medicamentoso.",
                             PatientId = 4L,
                             StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3685,11 +3686,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F90.0",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o para avalia��o diagn�stica - Maria Clara Oliveira",
+                            Description = "Internação para avaliação diagnóstica - Maria Clara Oliveira",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Em avalia��o multidisciplinar.",
+                            Observation = "Em avaliação multidisciplinar.",
                             PatientId = 4L,
                             StartDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3699,7 +3700,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F41.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o psiqui�trica breve - Gabriel Santos",
+                            Description = "Internação psiquiátrica breve - Gabriel Santos",
                             Enable = true,
                             EndDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -3714,12 +3715,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F32.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Observa��o cl�nica - Gabriel Santos",
+                            Description = "Observação clínica - Gabriel Santos",
                             Enable = true,
                             EndDate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Estabiliza��o do humor ap�s ajuste medicamentoso.",
+                            Observation = "Estabilização do humor após ajuste medicamentoso.",
                             PatientId = 5L,
                             StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3729,11 +3730,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F90.0",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o para avalia��o diagn�stica - Gabriel Santos",
+                            Description = "Internação para avaliação diagnóstica - Gabriel Santos",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Em avalia��o multidisciplinar.",
+                            Observation = "Em avaliação multidisciplinar.",
                             PatientId = 5L,
                             StartDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3743,7 +3744,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F41.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o psiqui�trica breve - Laura Carolina Costa",
+                            Description = "Internação psiquiátrica breve - Laura Carolina Costa",
                             Enable = true,
                             EndDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -3758,12 +3759,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F32.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Observa��o cl�nica - Laura Carolina Costa",
+                            Description = "Observação clínica - Laura Carolina Costa",
                             Enable = true,
                             EndDate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Estabiliza��o do humor ap�s ajuste medicamentoso.",
+                            Observation = "Estabilização do humor após ajuste medicamentoso.",
                             PatientId = 6L,
                             StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3773,11 +3774,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F90.0",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o para avalia��o diagn�stica - Laura Carolina Costa",
+                            Description = "Internação para avaliação diagnóstica - Laura Carolina Costa",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Em avalia��o multidisciplinar.",
+                            Observation = "Em avaliação multidisciplinar.",
                             PatientId = 6L,
                             StartDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3787,7 +3788,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F41.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o psiqui�trica breve - Diego Rafael Almeida",
+                            Description = "Internação psiquiátrica breve - Diego Rafael Almeida",
                             Enable = true,
                             EndDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -3802,12 +3803,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F32.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Observa��o cl�nica - Diego Rafael Almeida",
+                            Description = "Observação clínica - Diego Rafael Almeida",
                             Enable = true,
                             EndDate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Estabiliza��o do humor ap�s ajuste medicamentoso.",
+                            Observation = "Estabilização do humor após ajuste medicamentoso.",
                             PatientId = 7L,
                             StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3817,11 +3818,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F90.0",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o para avalia��o diagn�stica - Diego Rafael Almeida",
+                            Description = "Internação para avaliação diagnóstica - Diego Rafael Almeida",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Em avalia��o multidisciplinar.",
+                            Observation = "Em avaliação multidisciplinar.",
                             PatientId = 7L,
                             StartDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3831,7 +3832,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F41.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o psiqui�trica breve - Helena Beatriz Nogueira",
+                            Description = "Internação psiquiátrica breve - Helena Beatriz Nogueira",
                             Enable = true,
                             EndDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -3846,12 +3847,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F32.1",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Observa��o cl�nica - Helena Beatriz Nogueira",
+                            Description = "Observação clínica - Helena Beatriz Nogueira",
                             Enable = true,
                             EndDate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Estabiliza��o do humor ap�s ajuste medicamentoso.",
+                            Observation = "Estabilização do humor após ajuste medicamentoso.",
                             PatientId = 8L,
                             StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -3861,17 +3862,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             CID = "F90.0",
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Interna��o para avalia��o diagn�stica - Helena Beatriz Nogueira",
+                            Description = "Internação para avaliação diagnóstica - Helena Beatriz Nogueira",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Observation = "Em avalia��o multidisciplinar.",
+                            Observation = "Em avaliação multidisciplinar.",
                             PatientId = 8L,
                             StartDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientInfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientInfoTag", b =>
                 {
                     b.Property<long>("InfoTagId")
                         .HasColumnType("bigint");
@@ -4010,7 +4011,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientMedicationInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientMedicationInformation", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -4090,14 +4091,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 1L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Ansiol�tico - Tiago Thales Mendes",
+                            Description = "Ansiolítico - Tiago Thales Mendes",
                             Dosage = "0,5 mg",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MainDrug = "Clonazepam",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 1L,
-                            Posology = "1 comprimido � noite",
+                            Posology = "1 comprimido à noite",
                             StartDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4112,7 +4113,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Sertralina",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 1L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4128,7 +4129,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Metilfenidato",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 1L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4136,14 +4137,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 4L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Ansiol�tico - Ana Luiza Ferreira",
+                            Description = "Ansiolítico - Ana Luiza Ferreira",
                             Dosage = "0,5 mg",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MainDrug = "Clonazepam",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 2L,
-                            Posology = "1 comprimido � noite",
+                            Posology = "1 comprimido à noite",
                             StartDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4158,7 +4159,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Sertralina",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 2L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4174,7 +4175,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Metilfenidato",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 2L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4182,14 +4183,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 7L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Ansiol�tico - Jos� Henrique Silva",
+                            Description = "Ansiolítico - José Henrique Silva",
                             Dosage = "0,5 mg",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MainDrug = "Clonazepam",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 3L,
-                            Posology = "1 comprimido � noite",
+                            Posology = "1 comprimido à noite",
                             StartDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4197,14 +4198,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 8L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Antidepressivo - Jos� Henrique Silva",
+                            Description = "Antidepressivo - José Henrique Silva",
                             Dosage = "50 mg",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MainDrug = "Sertralina",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 3L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4212,7 +4213,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 9L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Estimulante - Jos� Henrique Silva",
+                            Description = "Estimulante - José Henrique Silva",
                             Dosage = "10 mg",
                             Enable = true,
                             EndDate = new DateTime(2025, 6, 20, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -4220,7 +4221,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Metilfenidato",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 3L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4228,14 +4229,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 10L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Ansiol�tico - Maria Clara Oliveira",
+                            Description = "Ansiolítico - Maria Clara Oliveira",
                             Dosage = "0,5 mg",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MainDrug = "Clonazepam",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 4L,
-                            Posology = "1 comprimido � noite",
+                            Posology = "1 comprimido à noite",
                             StartDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4250,7 +4251,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Sertralina",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 4L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4266,7 +4267,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Metilfenidato",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 4L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4274,14 +4275,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 13L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Ansiol�tico - Gabriel Santos",
+                            Description = "Ansiolítico - Gabriel Santos",
                             Dosage = "0,5 mg",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MainDrug = "Clonazepam",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 5L,
-                            Posology = "1 comprimido � noite",
+                            Posology = "1 comprimido à noite",
                             StartDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4296,7 +4297,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Sertralina",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 5L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4312,7 +4313,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Metilfenidato",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 5L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4320,14 +4321,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 16L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Ansiol�tico - Laura Carolina Costa",
+                            Description = "Ansiolítico - Laura Carolina Costa",
                             Dosage = "0,5 mg",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MainDrug = "Clonazepam",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 6L,
-                            Posology = "1 comprimido � noite",
+                            Posology = "1 comprimido à noite",
                             StartDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4342,7 +4343,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Sertralina",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 6L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4358,7 +4359,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Metilfenidato",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 6L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4366,14 +4367,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 19L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Ansiol�tico - Diego Rafael Almeida",
+                            Description = "Ansiolítico - Diego Rafael Almeida",
                             Dosage = "0,5 mg",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MainDrug = "Clonazepam",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 7L,
-                            Posology = "1 comprimido � noite",
+                            Posology = "1 comprimido à noite",
                             StartDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4388,7 +4389,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Sertralina",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 7L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4404,7 +4405,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Metilfenidato",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 7L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4412,14 +4413,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Id = 22L,
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Ansiol�tico - Helena Beatriz Nogueira",
+                            Description = "Ansiolítico - Helena Beatriz Nogueira",
                             Dosage = "0,5 mg",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             MainDrug = "Clonazepam",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 8L,
-                            Posology = "1 comprimido � noite",
+                            Posology = "1 comprimido à noite",
                             StartDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4434,7 +4435,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Sertralina",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 8L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -4450,12 +4451,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             MainDrug = "Metilfenidato",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             PatientId = 8L,
-                            Posology = "1 comprimido pela manh�",
+                            Posology = "1 comprimido pela manhã",
                             StartDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientNotificationMessage", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientNotificationMessage", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -4529,7 +4530,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Lembrete: sua consulta est� agendada para amanh� �s 10h. (Tiago Thales Mendes)",
+                            MessagePatient = "Lembrete: sua consulta está agendada para amanhã às 10h. (Tiago Thales Mendes)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4544,7 +4545,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Por favor, confirme a presen�a na sess�o da pr�xima semana. (Tiago Thales Mendes)",
+                            MessagePatient = "Por favor, confirme a presença na sessão da próxima semana. (Tiago Thales Mendes)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4558,7 +4559,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Nova mensagem do seu profissional de sa�de dispon�vel. (Tiago Thales Mendes)",
+                            MessagePatient = "Nova mensagem do seu profissional de saúde disponível. (Tiago Thales Mendes)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = false,
                             PatientId = 1L
@@ -4571,7 +4572,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Lembrete: sua consulta est� agendada para amanh� �s 10h. (Ana Luiza Ferreira)",
+                            MessagePatient = "Lembrete: sua consulta está agendada para amanhã às 10h. (Ana Luiza Ferreira)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4586,7 +4587,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Por favor, confirme a presen�a na sess�o da pr�xima semana. (Ana Luiza Ferreira)",
+                            MessagePatient = "Por favor, confirme a presença na sessão da próxima semana. (Ana Luiza Ferreira)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4600,7 +4601,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Nova mensagem do seu profissional de sa�de dispon�vel. (Ana Luiza Ferreira)",
+                            MessagePatient = "Nova mensagem do seu profissional de saúde disponível. (Ana Luiza Ferreira)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = false,
                             PatientId = 2L
@@ -4613,7 +4614,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Lembrete: sua consulta est� agendada para amanh� �s 10h. (Jos� Henrique Silva)",
+                            MessagePatient = "Lembrete: sua consulta está agendada para amanhã às 10h. (José Henrique Silva)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4628,7 +4629,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Por favor, confirme a presen�a na sess�o da pr�xima semana. (Jos� Henrique Silva)",
+                            MessagePatient = "Por favor, confirme a presença na sessão da próxima semana. (José Henrique Silva)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4642,7 +4643,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Nova mensagem do seu profissional de sa�de dispon�vel. (Jos� Henrique Silva)",
+                            MessagePatient = "Nova mensagem do seu profissional de saúde disponível. (José Henrique Silva)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = false,
                             PatientId = 3L
@@ -4655,7 +4656,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Lembrete: sua consulta est� agendada para amanh� �s 10h. (Maria Clara Oliveira)",
+                            MessagePatient = "Lembrete: sua consulta está agendada para amanhã às 10h. (Maria Clara Oliveira)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4670,7 +4671,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Por favor, confirme a presen�a na sess�o da pr�xima semana. (Maria Clara Oliveira)",
+                            MessagePatient = "Por favor, confirme a presença na sessão da próxima semana. (Maria Clara Oliveira)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4684,7 +4685,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Nova mensagem do seu profissional de sa�de dispon�vel. (Maria Clara Oliveira)",
+                            MessagePatient = "Nova mensagem do seu profissional de saúde disponível. (Maria Clara Oliveira)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = false,
                             PatientId = 4L
@@ -4697,7 +4698,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Lembrete: sua consulta est� agendada para amanh� �s 10h. (Gabriel Santos)",
+                            MessagePatient = "Lembrete: sua consulta está agendada para amanhã às 10h. (Gabriel Santos)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4712,7 +4713,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Por favor, confirme a presen�a na sess�o da pr�xima semana. (Gabriel Santos)",
+                            MessagePatient = "Por favor, confirme a presença na sessão da próxima semana. (Gabriel Santos)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4726,7 +4727,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Nova mensagem do seu profissional de sa�de dispon�vel. (Gabriel Santos)",
+                            MessagePatient = "Nova mensagem do seu profissional de saúde disponível. (Gabriel Santos)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = false,
                             PatientId = 5L
@@ -4739,7 +4740,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Lembrete: sua consulta est� agendada para amanh� �s 10h. (Laura Carolina Costa)",
+                            MessagePatient = "Lembrete: sua consulta está agendada para amanhã às 10h. (Laura Carolina Costa)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4754,7 +4755,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Por favor, confirme a presen�a na sess�o da pr�xima semana. (Laura Carolina Costa)",
+                            MessagePatient = "Por favor, confirme a presença na sessão da próxima semana. (Laura Carolina Costa)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4768,7 +4769,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Nova mensagem do seu profissional de sa�de dispon�vel. (Laura Carolina Costa)",
+                            MessagePatient = "Nova mensagem do seu profissional de saúde disponível. (Laura Carolina Costa)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = false,
                             PatientId = 6L
@@ -4781,7 +4782,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Lembrete: sua consulta est� agendada para amanh� �s 10h. (Diego Rafael Almeida)",
+                            MessagePatient = "Lembrete: sua consulta está agendada para amanhã às 10h. (Diego Rafael Almeida)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4796,7 +4797,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Por favor, confirme a presen�a na sess�o da pr�xima semana. (Diego Rafael Almeida)",
+                            MessagePatient = "Por favor, confirme a presença na sessão da próxima semana. (Diego Rafael Almeida)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4810,7 +4811,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Nova mensagem do seu profissional de sa�de dispon�vel. (Diego Rafael Almeida)",
+                            MessagePatient = "Nova mensagem do seu profissional de saúde disponível. (Diego Rafael Almeida)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = false,
                             PatientId = 7L
@@ -4823,7 +4824,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Lembrete: sua consulta est� agendada para amanh� �s 10h. (Helena Beatriz Nogueira)",
+                            MessagePatient = "Lembrete: sua consulta está agendada para amanhã às 10h. (Helena Beatriz Nogueira)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4838,7 +4839,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Por favor, confirme a presen�a na sess�o da pr�xima semana. (Helena Beatriz Nogueira)",
+                            MessagePatient = "Por favor, confirme a presença na sessão da próxima semana. (Helena Beatriz Nogueira)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = true,
                             NotifiedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4852,14 +4853,14 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             Enable = true,
                             IsReaded = false,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            MessagePatient = "Nova mensagem do seu profissional de sa�de dispon�vel. (Helena Beatriz Nogueira)",
+                            MessagePatient = "Nova mensagem do seu profissional de saúde disponível. (Helena Beatriz Nogueira)",
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             Notified = false,
                             PatientId = 8L
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientRecord", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientRecord", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -4928,11 +4929,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 1L,
-                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terap�utico iniciado.",
+                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terapêutico iniciado.",
                             AnnotationDate = new DateTime(2024, 2, 5, 14, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Sess�o inicial - Tiago Thales Mendes",
+                            Description = "Sessão inicial - Tiago Thales Mendes",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4956,11 +4957,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 3L,
-                            Annotation = "Sinais compat�veis com TDAH adulto. Encaminhado para avalia��o complementar.",
+                            Annotation = "Sinais compatíveis com TDAH adulto. Encaminhado para avaliação complementar.",
                             AnnotationDate = new DateTime(2025, 1, 18, 11, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Avalia��o diagn�stica - Tiago Thales Mendes",
+                            Description = "Avaliação diagnóstica - Tiago Thales Mendes",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4970,11 +4971,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 4L,
-                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terap�utico iniciado.",
+                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terapêutico iniciado.",
                             AnnotationDate = new DateTime(2024, 2, 5, 14, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Sess�o inicial - Ana Luiza Ferreira",
+                            Description = "Sessão inicial - Ana Luiza Ferreira",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -4998,11 +4999,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 6L,
-                            Annotation = "Sinais compat�veis com TDAH adulto. Encaminhado para avalia��o complementar.",
+                            Annotation = "Sinais compatíveis com TDAH adulto. Encaminhado para avaliação complementar.",
                             AnnotationDate = new DateTime(2025, 1, 18, 11, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Avalia��o diagn�stica - Ana Luiza Ferreira",
+                            Description = "Avaliação diagnóstica - Ana Luiza Ferreira",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5012,11 +5013,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 7L,
-                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terap�utico iniciado.",
+                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terapêutico iniciado.",
                             AnnotationDate = new DateTime(2024, 2, 5, 14, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Sess�o inicial - Jos� Henrique Silva",
+                            Description = "Sessão inicial - José Henrique Silva",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5030,7 +5031,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                             AnnotationDate = new DateTime(2024, 5, 15, 16, 30, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Acompanhamento - Jos� Henrique Silva",
+                            Description = "Acompanhamento - José Henrique Silva",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5040,11 +5041,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 9L,
-                            Annotation = "Sinais compat�veis com TDAH adulto. Encaminhado para avalia��o complementar.",
+                            Annotation = "Sinais compatíveis com TDAH adulto. Encaminhado para avaliação complementar.",
                             AnnotationDate = new DateTime(2025, 1, 18, 11, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Avalia��o diagn�stica - Jos� Henrique Silva",
+                            Description = "Avaliação diagnóstica - José Henrique Silva",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5054,11 +5055,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 10L,
-                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terap�utico iniciado.",
+                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terapêutico iniciado.",
                             AnnotationDate = new DateTime(2024, 2, 5, 14, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Sess�o inicial - Maria Clara Oliveira",
+                            Description = "Sessão inicial - Maria Clara Oliveira",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5082,11 +5083,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 12L,
-                            Annotation = "Sinais compat�veis com TDAH adulto. Encaminhado para avalia��o complementar.",
+                            Annotation = "Sinais compatíveis com TDAH adulto. Encaminhado para avaliação complementar.",
                             AnnotationDate = new DateTime(2025, 1, 18, 11, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Avalia��o diagn�stica - Maria Clara Oliveira",
+                            Description = "Avaliação diagnóstica - Maria Clara Oliveira",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5096,11 +5097,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 13L,
-                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terap�utico iniciado.",
+                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terapêutico iniciado.",
                             AnnotationDate = new DateTime(2024, 2, 5, 14, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Sess�o inicial - Gabriel Santos",
+                            Description = "Sessão inicial - Gabriel Santos",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5124,11 +5125,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 15L,
-                            Annotation = "Sinais compat�veis com TDAH adulto. Encaminhado para avalia��o complementar.",
+                            Annotation = "Sinais compatíveis com TDAH adulto. Encaminhado para avaliação complementar.",
                             AnnotationDate = new DateTime(2025, 1, 18, 11, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Avalia��o diagn�stica - Gabriel Santos",
+                            Description = "Avaliação diagnóstica - Gabriel Santos",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5138,11 +5139,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 16L,
-                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terap�utico iniciado.",
+                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terapêutico iniciado.",
                             AnnotationDate = new DateTime(2024, 2, 5, 14, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Sess�o inicial - Laura Carolina Costa",
+                            Description = "Sessão inicial - Laura Carolina Costa",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5166,11 +5167,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 18L,
-                            Annotation = "Sinais compat�veis com TDAH adulto. Encaminhado para avalia��o complementar.",
+                            Annotation = "Sinais compatíveis com TDAH adulto. Encaminhado para avaliação complementar.",
                             AnnotationDate = new DateTime(2025, 1, 18, 11, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Avalia��o diagn�stica - Laura Carolina Costa",
+                            Description = "Avaliação diagnóstica - Laura Carolina Costa",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5180,11 +5181,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 19L,
-                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terap�utico iniciado.",
+                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terapêutico iniciado.",
                             AnnotationDate = new DateTime(2024, 2, 5, 14, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Sess�o inicial - Diego Rafael Almeida",
+                            Description = "Sessão inicial - Diego Rafael Almeida",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5208,11 +5209,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 21L,
-                            Annotation = "Sinais compat�veis com TDAH adulto. Encaminhado para avalia��o complementar.",
+                            Annotation = "Sinais compatíveis com TDAH adulto. Encaminhado para avaliação complementar.",
                             AnnotationDate = new DateTime(2025, 1, 18, 11, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Avalia��o diagn�stica - Diego Rafael Almeida",
+                            Description = "Avaliação diagnóstica - Diego Rafael Almeida",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5222,11 +5223,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 22L,
-                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terap�utico iniciado.",
+                            Annotation = "Paciente relatou sintomas de ansiedade generalizada. Plano terapêutico iniciado.",
                             AnnotationDate = new DateTime(2024, 2, 5, 14, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Sess�o inicial - Helena Beatriz Nogueira",
+                            Description = "Sessão inicial - Helena Beatriz Nogueira",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5250,11 +5251,11 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         new
                         {
                             Id = 24L,
-                            Annotation = "Sinais compat�veis com TDAH adulto. Encaminhado para avalia��o complementar.",
+                            Annotation = "Sinais compatíveis com TDAH adulto. Encaminhado para avaliação complementar.",
                             AnnotationDate = new DateTime(2025, 1, 18, 11, 0, 0, 0, DateTimeKind.Utc),
                             CreatedDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             CreatedUserId = 2L,
-                            Description = "Avalia��o diagn�stica - Helena Beatriz Nogueira",
+                            Description = "Avaliação diagnóstica - Helena Beatriz Nogueira",
                             Enable = true,
                             LastAccessDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
                             ModifyDate = new DateTime(2025, 3, 4, 12, 0, 0, 0, DateTimeKind.Utc),
@@ -5263,7 +5264,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.RoleGroup", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.RoleGroup", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5380,7 +5381,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.RoleGroupUser", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.RoleGroupUser", b =>
                 {
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -5409,7 +5410,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Schedule.ScheduleCalendar", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Schedule.ScheduleCalendar", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5480,7 +5481,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ScheduleBatch", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ScheduleBatch", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5555,7 +5556,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Specialty", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Specialty", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5603,7 +5604,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 1L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Psicologia Cl�nica",
+                            Description = "Psicologia Clínica",
                             Enable = true,
                             Language = "pt-BR",
                             LastAccessDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -5663,7 +5664,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         {
                             Id = 7L,
                             CreatedDate = new DateTime(2026, 8, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Psicologia do tr�nsito",
+                            Description = "Psicologia do trânsito",
                             Enable = true,
                             Language = "pt-BR",
                             LastAccessDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -5671,7 +5672,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.User", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5802,7 +5803,7 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                         });
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.UserTokenSession", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.UserTokenSession", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -5859,37 +5860,37 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "latin1");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.AuditDataEntityLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.AuditDataEntityLog", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "UserAudited")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "UserAudited")
                         .WithMany()
                         .HasForeignKey("UserAuditedId");
 
                     b.Navigation("UserAudited");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.AuditDataSelectiveEntityLog", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.AuditDataSelectiveEntityLog", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "UserAudited")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "UserAudited")
                         .WithMany()
                         .HasForeignKey("UserAuditedId");
 
                     b.Navigation("UserAudited");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.InfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.InfoTag", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
@@ -5900,34 +5901,34 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("ModifyUser");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Leaves", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Leaves", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId");
 
                     b.Navigation("Medical");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Medical", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Medical", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany("MedicalsCreateds")
                         .HasForeignKey("CreatedUserId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany("MedicalModifies")
                         .HasForeignKey("ModifyUserId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Office", "Office")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Office", "Office")
                         .WithMany("Medicals")
                         .HasForeignKey("OfficeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "User")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "User")
                         .WithMany("MedicalsUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -5941,23 +5942,23 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalCalendar", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalCalendar", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId");
 
@@ -5970,19 +5971,19 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalFile", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalFile", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
@@ -5993,9 +5994,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("ModifyUser");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalSettings", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalSettings", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany("MedicalSettings")
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6004,15 +6005,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Medical");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.MedicalSpecialty", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.MedicalSpecialty", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany("MedicalSpecialties")
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Specialty", "Specialty")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Specialty", "Specialty")
                         .WithMany("MedicalSpecialties")
                         .HasForeignKey("SpecialtyId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -6023,9 +6024,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Specialty");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRecord", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationRecord", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.MedicalCalendar", "MedicalCalendar")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.MedicalCalendar", "MedicalCalendar")
                         .WithMany()
                         .HasForeignKey("MedicalCalendarId")
                         .OnDelete(DeleteBehavior.ClientCascade);
@@ -6033,9 +6034,9 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("MedicalCalendar");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.NotificationRule", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.NotificationRule", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6044,25 +6045,25 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Medical");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Patient", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Patient", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Gender", "Gender")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Gender", "Gender")
                         .WithMany("Patients")
                         .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany("Patienties")
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
@@ -6075,17 +6076,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("ModifyUser");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientAdditionalInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientAdditionalInformation", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientAdditionalInformations")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6098,17 +6099,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientFile", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientFile", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6121,17 +6122,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientHospitalizationInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientHospitalizationInformation", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientHospitalizationInformations")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6144,15 +6145,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientInfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientInfoTag", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.InfoTag", "InfoTag")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.InfoTag", "InfoTag")
                         .WithMany("PatientInfoTags")
                         .HasForeignKey("InfoTagId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientInfoTags")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -6163,17 +6164,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientMedicationInformation", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientMedicationInformation", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientMedicationInformations")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6186,17 +6187,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientNotificationMessage", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientNotificationMessage", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6209,17 +6210,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.PatientRecord", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.PatientRecord", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany("PatientRecords")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6232,15 +6233,15 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.RoleGroupUser", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.RoleGroupUser", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.RoleGroup", "RoleGroup")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.RoleGroup", "RoleGroup")
                         .WithMany("UserRoleGroups")
                         .HasForeignKey("RoleGroupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "User")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "User")
                         .WithMany("UserRoleGroups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -6251,23 +6252,23 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.ScheduleBatch", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.ScheduleBatch", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "CreatedUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "ModifyUser")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "ModifyUser")
                         .WithMany()
                         .HasForeignKey("ModifyUserId");
 
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Patient", "Patient")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId");
 
@@ -6280,37 +6281,37 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.User", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.User", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.Medical", "Medical")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.Medical", "Medical")
                         .WithMany()
                         .HasForeignKey("MedicalId");
 
                     b.Navigation("Medical");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.UserTokenSession", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.UserTokenSession", b =>
                 {
-                    b.HasOne("SmartDigitalPsico.Domain.ModelEntity.User", "User")
+                    b.HasOne("SmartDigitalPsico.Domain.EntityModels.User", "User")
                         .WithOne("TokenSession")
-                        .HasForeignKey("SmartDigitalPsico.Domain.ModelEntity.UserTokenSession", "UserId")
+                        .HasForeignKey("SmartDigitalPsico.Domain.EntityModels.UserTokenSession", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Gender", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Gender", b =>
                 {
                     b.Navigation("Patients");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.InfoTag", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.InfoTag", b =>
                 {
                     b.Navigation("PatientInfoTags");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Medical", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Medical", b =>
                 {
                     b.Navigation("MedicalSettings");
 
@@ -6319,12 +6320,12 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("Patienties");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Office", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Office", b =>
                 {
                     b.Navigation("Medicals");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Patient", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Patient", b =>
                 {
                     b.Navigation("PatientAdditionalInformations");
 
@@ -6337,17 +6338,17 @@ namespace SmartDigitalPsico.Data.Migrations.MySql
                     b.Navigation("PatientRecords");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.RoleGroup", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.RoleGroup", b =>
                 {
                     b.Navigation("UserRoleGroups");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.Specialty", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.Specialty", b =>
                 {
                     b.Navigation("MedicalSpecialties");
                 });
 
-            modelBuilder.Entity("SmartDigitalPsico.Domain.ModelEntity.User", b =>
+            modelBuilder.Entity("SmartDigitalPsico.Domain.EntityModels.User", b =>
                 {
                     b.Navigation("MedicalModifies");
 

@@ -1,8 +1,8 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.Extensions.Logging.Abstractions;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Gender.GET;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Mapper;
-using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Domain.Test.Mapper;
 
@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Test.Mapper;
 public class AutoMapperProfileTests
 {
     private static MapperConfiguration CreateConfiguration() =>
-        new(config => config.AddProfile<AutoMapperProfile>(), NullLoggerFactory.Instance);
+        new(config => config.AddMaps(typeof(AutoMapperProfile)), NullLoggerFactory.Instance);
 
     [Test]
     public void AutoMapperProfile_RegisteredProfile_CreatesMapper()

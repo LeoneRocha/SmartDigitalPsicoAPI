@@ -1,14 +1,13 @@
-using FluentValidation;
+﻿using FluentValidation;
 using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.DTO.Audit.GET;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.Audit;
 
@@ -21,7 +20,7 @@ public class AuditDataSelectiveEntityLogServiceTests
     public async Task Save_CreateSucceeds_CompletesWithoutLoggingError()
     {
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var sharedConfig = new Mock<ISharedDependenciesConfig>();
         sharedConfig.SetupGet(x => x.Logger).Returns(logger.Object);
         var service = new SuccessfulAuditDataSelectiveEntityLogService(
@@ -48,7 +47,7 @@ public class AuditDataSelectiveEntityLogServiceTests
     public async Task Save_CreateThrows_LogsInformationAndError()
     {
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
         var sharedConfig = new Mock<ISharedDependenciesConfig>();
         sharedConfig.SetupGet(x => x.Logger).Returns(logger.Object);
         var service = new ThrowingAuditDataSelectiveEntityLogService(
@@ -81,8 +80,8 @@ public class AuditDataSelectiveEntityLogServiceTests
         {
         }
 
-        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(IEntityDtoAdd item)
-            => Task.FromResult(new ServiceResponse<GetAuditDataSelectiveEntityLogDto> { Success = true });
+        public override Task<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
+            => Task.FromResult(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetAuditDataSelectiveEntityLogDto> { Success = true });
     }
 
     private sealed class ThrowingAuditDataSelectiveEntityLogService : AuditDataSelectiveEntityLogService
@@ -97,7 +96,8 @@ public class AuditDataSelectiveEntityLogServiceTests
         {
         }
 
-        public override Task<ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(IEntityDtoAdd item)
+        public override Task<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
             => throw new InvalidOperationException("create-fail");
     }
 }
+

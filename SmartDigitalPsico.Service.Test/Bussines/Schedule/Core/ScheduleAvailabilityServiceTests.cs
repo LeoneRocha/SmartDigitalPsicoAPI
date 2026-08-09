@@ -1,9 +1,8 @@
-using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Service.Bussines.Schedule.Core.Queries;
+﻿using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Core;
 
 [TestFixture]
@@ -16,7 +15,7 @@ public class ScheduleAvailabilityServiceTests
     {
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>(MockBehavior.Strict);
-        var service = new ScheduleAvailabilityService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleAvailabilityService(repository.Object, Mock.Of<IAppLogger>());
         var day = DateTime.UtcNow.Date.AddDays(3);
         var request = new ScheduleGradeRequest
         {
@@ -59,7 +58,7 @@ public class ScheduleAvailabilityServiceTests
     {
         // Arrange
         var repository = new Mock<IScheduleCalendarRepository>(MockBehavior.Strict);
-        var service = new ScheduleAvailabilityService(repository.Object, Mock.Of<ILogger>());
+        var service = new ScheduleAvailabilityService(repository.Object, Mock.Of<IAppLogger>());
         var request = new ScheduleGradeRequest();
 
         // Act

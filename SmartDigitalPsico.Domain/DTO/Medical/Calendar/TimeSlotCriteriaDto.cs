@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar;
+﻿using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {

@@ -1,5 +1,4 @@
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure.Report;
+﻿using SmartDigitalPsico.Domain.Interfaces.Common;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {
@@ -9,20 +8,20 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class ReportServiceConfig : IReportServiceConfig
-    { 
-        public IExcelGeneratorService ExcelGeneratorService { get; }
-        public IPdfReportService PdfReportService { get; } 
+    {
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService ExcelGeneratorService { get; }
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService PdfReportService { get; }
 
         /// <summary>
         /// Método ReportServiceConfig: executa a operação ReportServiceConfig.
         /// </summary>
         public ReportServiceConfig(
-            IExcelGeneratorService excelGeneratorService,
-            IPdfReportService pdfReportService
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService excelGeneratorService,
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService pdfReportService
             )
         {
             ExcelGeneratorService = excelGeneratorService;
-            PdfReportService = pdfReportService; 
+            PdfReportService = pdfReportService;
         }
     }
 }

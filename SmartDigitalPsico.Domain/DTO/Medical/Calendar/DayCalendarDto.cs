@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
+﻿namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {
     /// <summary>
     /// Classe responsável por DayCalendarDto.
@@ -9,6 +9,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
     {
         public DateTime Date { get; set; }
         public bool IsPast { get; set; }
-        public TimeSlotDto[] TimeSlots { get; set; } = []; 
+        public TimeSlotDto[] TimeSlots { get; set; } = [];
     }
 }

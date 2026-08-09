@@ -1,13 +1,14 @@
-using Moq;
+﻿using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.General;
+
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.General;
 
@@ -29,7 +30,7 @@ public class MedicalCalenderNotificationServiceTests
 
         // Assert
         context.SendNotification.Verify(x => x.SendNotificationAsync(
-            It.IsAny<DataNotificationTemplateVO>(),
+            It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
             ENotificationServiceType.Email,
             It.Is<Dictionary<string, string>>(d => d["MedicalName"] == "Dr. Test")), Times.Once);
     }
@@ -218,13 +219,13 @@ public class MedicalCalenderNotificationServiceTests
     private static void SetupTemplate(NotificationContext context, string tag)
     {
         context.Templates.Setup(x => x.GetNotificationTemplatesAsync(tag))
-            .ReturnsAsync(new ServiceResponse<GetNotificationTemplateDto>
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
             {
                 Success = true,
                 Data = new GetNotificationTemplateDto { Subject = "Subject", Body = "<p>Body</p>", TemplateKey = tag }
             });
         context.SendNotification.Setup(x => x.SendNotificationAsync(
-                It.IsAny<DataNotificationTemplateVO>(),
+                It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
                 It.IsAny<ENotificationServiceType>(),
                 It.IsAny<Dictionary<string, string>>()))
             .Returns(Task.CompletedTask);

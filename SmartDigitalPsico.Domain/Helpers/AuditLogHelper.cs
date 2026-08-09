@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
-using SmartDigitalPsico.Domain.DTO.Domains.AddDTOs;
+﻿using Newtonsoft.Json;
+using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {
@@ -42,7 +42,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static string SerializeObject(object dataAuditLog, string[] propertiesToIgnore)
         {
             var jsonSettings = GetJsonSettings();
-            jsonSettings.ContractResolver = new IgnorableSerializerContractResolver(propertiesToIgnore);
+            jsonSettings.ContractResolver = new SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(propertiesToIgnore);
             if (dataAuditLog != null)
                 return JsonConvert.SerializeObject(dataAuditLog, jsonSettings);
 
@@ -104,13 +104,13 @@ namespace SmartDigitalPsico.Domain.Helpers
 
                 currentObject = propInfo.GetValue(currentObject)!;
             }
-            var result = currentObject as string; 
+            var result = currentObject as string;
             if (!string.IsNullOrEmpty(result))
             {
                 return result;
-            } 
+            }
             return string.Empty;
-        } 
+        }
         private static string GetKeyValues(object obj)
         {
             var result = string.Empty;
@@ -144,7 +144,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         public static T DeepClone<T>(T obj, string[] propertiesToIgnore)
         {
             var jsonSettings = GetJsonSettings();
-            jsonSettings.ContractResolver = new IgnorableSerializerContractResolver(propertiesToIgnore);
+            jsonSettings.ContractResolver = new SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(propertiesToIgnore);
 
             var json = JsonConvert.SerializeObject(obj, jsonSettings);
             return JsonConvert.DeserializeObject<T>(json)!;

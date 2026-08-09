@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Events;
+﻿using SmartDigitalPsico.Domain.Events;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Notification
 {

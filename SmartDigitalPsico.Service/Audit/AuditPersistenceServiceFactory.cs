@@ -1,8 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Audit;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
-namespace SmartDigitalPsico.Service.Audit
+using SmartDigitalPsico.Domain.Interfaces.Audit;
+namespace SmartDigitalPsico.Service
 {
     /// <summary>
     /// Classe responsável por AuditPersistenceServiceFactory.

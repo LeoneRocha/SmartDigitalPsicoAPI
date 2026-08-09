@@ -1,14 +1,14 @@
-using Microsoft.Extensions.Configuration;
-using AwesomeAssertions;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Contracts;
-using SmartDigitalPsico.Service.DataEntity.Principals;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Service.Test.TestSupport;
+
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
 
@@ -159,7 +159,7 @@ public class MedicalFileServiceTests
         var context = new MedicalFileServiceContext();
 
         // Act
-        Action act = () => context.Service.Update(new SmartDigitalPsico.Domain.DTO.Domains.UpdateDTOs.UpdateGenderDto());
+        Action act = () => context.Service.Update(new SmartDigitalPsico.Domain.DTO.Gender.UPDATE.UpdateGenderDto());
 
         // Assert
         act.Should().Throw<NotImplementedException>();
@@ -175,7 +175,7 @@ public class MedicalFileServiceTests
         var dto = new AddMedicalFileDto { MedicalId = 9, Description = "Laudo", FileDetails = CreateFormFile() };
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<MedicalFile>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
-        context.FilePersistor.Setup(x => x.PersistFile(It.IsAny<Microsoft.AspNetCore.Http.IFormFile>(), It.IsAny<FileBase>(), "medicalfiles", "9"))
+        context.FilePersistor.Setup(x => x.PersistFile(It.IsAny<Microsoft.AspNetCore.Http.IFormFile>(), It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts.FileBase>(), "medicalfiles", "9"))
             .ReturnsAsync("stored/laudo.pdf");
         context.Repository.Setup(x => x.Create(It.IsAny<MedicalFile>())).ReturnsAsync((MedicalFile f) => { f.Id = 33; return f; });
 
@@ -197,7 +197,7 @@ public class MedicalFileServiceTests
         var context = new MedicalFileServiceContext();
         var fileEntity = new MedicalFile { Id = 40, MedicalId = 9 };
         context.Repository.Setup(x => x.FindByID(40)).ReturnsAsync(fileEntity);
-        context.FilePersistor.Setup(x => x.DownloadFileById(It.IsAny<FileBase>(), "9"))
+        context.FilePersistor.Setup(x => x.DownloadFileById(It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts.FileBase>(), "9"))
             .ReturnsAsync(new MedicalFile { FileData = new byte[] { 9, 8, 7 } });
 
         // Act
@@ -216,7 +216,7 @@ public class MedicalFileServiceTests
         var context = new MedicalFileServiceContext();
         var fileEntity = new MedicalFile { Id = 45, MedicalId = 9 };
         context.Repository.Setup(x => x.FindByID(45)).ReturnsAsync(fileEntity);
-        context.FilePersistor.Setup(x => x.DeleteFile(It.IsAny<FileBase>(), "9")).ReturnsAsync(true);
+        context.FilePersistor.Setup(x => x.DeleteFile(It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts.FileBase>(), "9")).ReturnsAsync(true);
         context.Repository.Setup(x => x.Delete(45)).ReturnsAsync(true);
 
         // Act
@@ -235,7 +235,7 @@ public class MedicalFileServiceTests
         var context = new MedicalFileServiceContext();
         var fileEntity = new MedicalFile { Id = 46, MedicalId = 9 };
         context.Repository.Setup(x => x.FindByID(46)).ReturnsAsync(fileEntity);
-        context.FilePersistor.Setup(x => x.DeleteFile(It.IsAny<FileBase>(), "9")).ReturnsAsync(false);
+        context.FilePersistor.Setup(x => x.DeleteFile(It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts.FileBase>(), "9")).ReturnsAsync(false);
 
         // Act
         var result = await context.Service.Delete(46);
@@ -262,7 +262,7 @@ public class MedicalFileServiceTests
         public ServiceTestContext Context { get; } = new();
         public Mock<IMedicalFileRepository> Repository { get; } = new();
         public Mock<IValidator<MedicalFile>> Validator { get; } = new();
-        public Mock<IFileManager> FilePersistor { get; } = new();
+        public Mock<IFileManagerService> FilePersistor { get; } = new();
         public MedicalFileService Service { get; }
 
         public MedicalFileServiceContext(string? resourcesTemp = null)

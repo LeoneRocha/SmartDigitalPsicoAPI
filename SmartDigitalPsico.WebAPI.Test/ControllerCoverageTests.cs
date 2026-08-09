@@ -1,28 +1,26 @@
-using Microsoft.AspNetCore.Http;
+﻿using System.Reflection;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
-using SmartDigitalPsico.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.DTO;
-using SmartDigitalPsico.Domain.DTO.Medical;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Data.Context.Interface;
-using SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains;
+using SmartDigitalPsico.Domain.DTO.Common;
+using SmartDigitalPsico.Domain.DTO.Medical.GET;
+using SmartDigitalPsico.Domain.DTO.Specialty.GET;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Specialty;
 using SmartDigitalPsico.WebAPI.Configure;
-using System.Reflection;
-using System.Collections;
-
+using SmartDigitalPsico.WebAPI.Controllers.v1;
 namespace SmartDigitalPsico.WebAPI.Test;
 
 [TestFixture]
@@ -86,7 +84,7 @@ public class ControllerCoverageTests
         };
         var controller = new SpecialtyController(
             service.Object,
-            Options.Create(new AuthConfigurationDto()))
+            Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto()))
         {
             ControllerContext = new ControllerContext { HttpContext = httpContext }
         };
@@ -356,9 +354,9 @@ public class ControllerCoverageTests
                 Success = false,
                 Unauthorized = true
             });
-        var controller = new SmartDigitalPsico.WebAPI.Controllers.v1.Principals.MedicalController(
+        var controller = new SmartDigitalPsico.WebAPI.Controllers.v1.MedicalController(
             service.Object,
-            Options.Create(new AuthConfigurationDto()))
+            Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto()))
         {
             ControllerContext = new ControllerContext
             {
@@ -685,7 +683,7 @@ public class ControllerCoverageTests
 
     private sealed class EmptyCulturesController : GlobalizationCulturesController
     {
-        protected override List<CultureDisplayDto> GetCultures() => [];
+        protected override List<global::SmartDigitalPsico.Core.SDK.Domain.DTO.CultureDisplayDto> GetCultures() => [];
     }
 
     private sealed class MissingVersionInformationController : AppInformationVersionProductController

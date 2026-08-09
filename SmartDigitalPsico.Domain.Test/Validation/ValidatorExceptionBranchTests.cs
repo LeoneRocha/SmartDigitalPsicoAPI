@@ -1,10 +1,10 @@
+﻿using System.Reflection;
 using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Validation.PatientValidations;
-using SmartDigitalPsico.Domain.Validation.Principals;
-using SmartDigitalPsico.Domain.Validation.SystemDomains;
-using System.Reflection;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Domain.Test.Validation;
 

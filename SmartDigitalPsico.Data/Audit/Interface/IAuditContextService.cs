@@ -1,5 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Domain.ModelEntity;
+﻿using Microsoft.EntityFrameworkCore;
+
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Data.Audit.Interface
 {

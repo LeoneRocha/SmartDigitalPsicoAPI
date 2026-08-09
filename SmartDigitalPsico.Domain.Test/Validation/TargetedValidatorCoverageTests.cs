@@ -1,19 +1,15 @@
+﻿using System.Reflection;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Repository.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
-using SmartDigitalPsico.Domain.Validation.DTO;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
-using SmartDigitalPsico.Domain.Validation.Principals;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
-using System.Reflection;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Domain.Test.Validation;
 
@@ -100,8 +96,13 @@ public sealed class TargetedValidatorCoverageTests
         var validator = new MedicalCalendarValidator(medicalRepository.Object, userRepository.Object, scheduleRepository.Object);
         var calendar = new MedicalCalendar
         {
-            MedicalId = medical.Id, PatientId = 2, CreatedUserId = 3, ModifyUserId = 3,
-            StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceDays = [DayOfWeek.Monday]
+            MedicalId = medical.Id,
+            PatientId = 2,
+            CreatedUserId = 3,
+            ModifyUserId = 3,
+            StartDateTime = monday,
+            EndDateTime = monday.AddHours(1),
+            RecurrenceDays = [DayOfWeek.Monday]
         };
 
         // Act

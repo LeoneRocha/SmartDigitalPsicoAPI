@@ -1,16 +1,26 @@
-using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Collection;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
-using SmartDigitalPsico.Service.DataEntity.General;
-using SmartDigitalPsico.Service.DataEntity.Principals;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
+using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.Leaves;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
+using SmartDigitalPsico.Domain.Interfaces.Office;
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
+using SmartDigitalPsico.Domain.Interfaces.Specialty;
+using SmartDigitalPsico.Domain.Interfaces.User;
+
+using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity;
 
@@ -62,8 +72,8 @@ public class RemainingDataEntityServiceTests
             new PatientMedicationInformationService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientMedicationInformationRepository>(), Mock.Of<IValidator<PatientMedicationInformation>>()),
             new PatientHospitalizationInformationService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientHospitalizationInformationRepository>(), Mock.Of<IValidator<PatientHospitalizationInformation>>()),
             new PatientAdditionalInformationService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientAdditionalInformationRepository>(), Mock.Of<IUserRepository>(), Mock.Of<IValidator<PatientAdditionalInformation>>()),
-            new MedicalFileService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IMedicalFileRepository>(), Mock.Of<IValidator<MedicalFile>>(), Mock.Of<IFileManager>()),
-            new PatientFileService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientFileRepository>(), Mock.Of<IValidator<PatientFile>>(), Mock.Of<IFileManager>(), Mock.Of<IPatientRepository>())
+            new MedicalFileService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IMedicalFileRepository>(), Mock.Of<IValidator<MedicalFile>>(), Mock.Of<IFileManagerService>()),
+            new PatientFileService(dependencies.Services, dependencies.Config, dependencies.Repositories, Mock.Of<IPatientFileRepository>(), Mock.Of<IValidator<PatientFile>>(), Mock.Of<IFileManagerService>(), Mock.Of<IPatientRepository>())
         };
 
         // Assert
@@ -79,7 +89,7 @@ public class RemainingDataEntityServiceTests
         var dependencies = new Dependencies();
         var templates = new Mock<INotificationTemplateService>();
         templates.Setup(value => value.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new SmartDigitalPsico.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Domains.GetDTOs.GetNotificationTemplateDto>());
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Notification.GET.GetNotificationTemplateDto>());
         dependencies.ServicesMock.SetupGet(value => value.NotificationTemplateService).Returns(templates.Object);
         var service = new MedicalCalenderNotificationService(dependencies.Services);
 
@@ -99,7 +109,7 @@ public class RemainingDataEntityServiceTests
 
         public Dependencies()
         {
-            var cache = new Mock<ICacheService>();
+            var cache = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService>();
             ServicesMock.SetupGet(value => value.CacheService).Returns(cache.Object);
             Services = ServicesMock.Object;
 
@@ -109,8 +119,8 @@ public class RemainingDataEntityServiceTests
             Repositories = repositories.Object;
 
             var config = new Mock<ISharedDependenciesConfig>();
-            config.SetupGet(value => value.Mapper).Returns(Mock.Of<IMapper>());
-            config.SetupGet(value => value.Logger).Returns(Mock.Of<ILogger>());
+            config.SetupGet(value => value.Mapper).Returns(Mock.Of<IAppMapper>());
+            config.SetupGet(value => value.Logger).Returns(Mock.Of<IAppLogger>());
             config.SetupGet(value => value.PolicyConfig).Returns(new ResiliencePolicyConfig());
             Config = config.Object;
         }

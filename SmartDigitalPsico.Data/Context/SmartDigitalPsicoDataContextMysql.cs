@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Context.Configure;
-using SmartDigitalPsico.Domain.Enuns;
 
 namespace SmartDigitalPsico.Data.Context
 {
@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Data.Context
     /// Responsabilidade: contexto EF Core / configuração de dados.
     /// Relação: usado pelos repositórios da camada Data.
     /// </summary>
-    public class SmartDigitalPsicoDataContextMySql : EntityDataContext
+    public class SmartDigitalPsicoDataContextMySql : EntityDataSmartDigitalPsicoContext
     {
         private readonly AuditContextInterceptor? _auditInterceptor;
         /// <summary>
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Data.Context
         /// Método OnConfiguring: executa a operação OnConfiguring.
         /// </summary>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {  
+        {
             if (_auditInterceptor != null)
             {
                 optionsBuilder.AddInterceptors(_auditInterceptor);
@@ -52,7 +52,7 @@ namespace SmartDigitalPsico.Data.Context
             //Configure FLUENT API 
             ConfigurationEntitiesHelper.AddConfigurationEntitiesManually(modelBuilder, ETypeDataBase.Mysql);
             ConfigurationEntitiesHelper.AddConfigurationEntities(modelBuilder, ETypeDataBase.Mysql);
-             
+
             base.OnModelCreating(modelBuilder);
         }
     }

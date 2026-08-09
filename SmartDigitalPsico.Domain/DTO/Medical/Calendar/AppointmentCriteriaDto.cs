@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
+﻿namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {
     /// <summary>
     /// Classe responsável por AppointmentCriteriaDto.
@@ -7,5 +7,5 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
     /// </summary>
     public class AppointmentCriteriaDto : CalendarCriteriaDtoWithPatientIdBase
     {
-    } 
+    }
 }

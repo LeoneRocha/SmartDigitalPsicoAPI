@@ -1,18 +1,13 @@
-using AwesomeAssertions;
+﻿using System.Globalization;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Domains.GetDTOs;
-using SmartDigitalPsico.Domain.Interfaces;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.Interfaces.Service;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.DataEntity.SystemDomains;
-using SmartDigitalPsico.Service.Infrastructure.CacheManager;
+using SmartDigitalPsico.Domain.DTO.Application.GET;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Application;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Service.Test.TestSupport;
-using System.Globalization;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
 
@@ -112,7 +107,7 @@ public class ApplicationLanguageServiceTests
         context.Repository.Setup(x => x.Create(It.IsAny<ApplicationLanguage>())).ReturnsAsync((ApplicationLanguage a) => { a.Id = 9; return a; });
 
         // Act
-        await context.Service.Save(new SmartDigitalPsico.Domain.DTO.Domains.AddDTOs.AddApplicationLanguageDto
+        await context.Service.Save(new SmartDigitalPsico.Domain.DTO.Application.ADD.AddApplicationLanguageDto
         {
             Language = "en-US",
             LanguageKey = "key",
@@ -149,9 +144,9 @@ public class ApplicationLanguageServiceTests
         var context = new ApplicationLanguageServiceContext();
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
         context.Cache.Setup(x => x.GetSlidingExpiration()).Returns(DateTime.UtcNow.AddMinutes(30));
-        context.Cache.Setup(x => x.TryGet(It.IsAny<string>(), out It.Ref<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
+        context.Cache.Setup(x => x.TryGet(It.IsAny<string>(), out It.Ref<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
             .Returns(false);
-        context.Cache.Setup(x => x.Set(It.IsAny<string>(), It.IsAny<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>())).Returns(true);
+        context.Cache.Setup(x => x.Set(It.IsAny<string>(), It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>())).Returns(true);
         context.Repository.Setup(x => x.FindAll()).ReturnsAsync([new ApplicationLanguage { Id = 1, Language = "pt-BR", LanguageKey = "k", LanguageValue = "v", ResourceKey = "SharedResource" }]);
 
         // Act
@@ -163,7 +158,7 @@ public class ApplicationLanguageServiceTests
             result.Success.Should().BeTrue();
             result.Data.Should().ContainSingle();
         }
-        context.Cache.Verify(x => x.Set("FindAll_GetApplicationLanguageVO", It.IsAny<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>()), Times.Once);
+        context.Cache.Verify(x => x.Set("FindAll_GetApplicationLanguageVO", It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>()), Times.Once);
     }
 
     // Cenário: FindAll com cache habilitado e dados já presentes.
@@ -173,8 +168,8 @@ public class ApplicationLanguageServiceTests
     {
         // Arrange
         var context = new ApplicationLanguageServiceContext();
-        var cached = new ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
-            new ServiceResponse<List<GetApplicationLanguageDto>> { Data = [new GetApplicationLanguageDto { Id = 99 }], Success = true },
+        var cached = new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
+            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetApplicationLanguageDto>> { Data = [new GetApplicationLanguageDto { Id = 99 }], Success = true },
             "FindAll_GetApplicationLanguageVO",
             DateTime.UtcNow.AddMinutes(30));
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
@@ -197,8 +192,8 @@ public class ApplicationLanguageServiceTests
         // Arrange
         var context = new ApplicationLanguageServiceContext();
         var culture = CultureInfo.CurrentCulture.Name;
-        var cached = new ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
-            new ServiceResponse<List<GetApplicationLanguageDto>>
+        var cached = new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
+            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetApplicationLanguageDto>>
             {
                 Data =
                 [
@@ -228,8 +223,8 @@ public class ApplicationLanguageServiceTests
     {
         // Arrange
         var context = new ApplicationLanguageServiceContext();
-        var cached = new ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
-            new ServiceResponse<List<GetApplicationLanguageDto>>
+        var cached = new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
+            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetApplicationLanguageDto>>
             {
                 Data =
                 [
@@ -354,9 +349,9 @@ public class ApplicationLanguageServiceTests
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
         context.Cache.Setup(x => x.Exists<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO")).Returns(false);
         context.Cache.Setup(x => x.GetSlidingExpiration()).Returns(DateTime.UtcNow.AddMinutes(30));
-        context.Cache.Setup(x => x.Set(It.IsAny<string>(), It.IsAny<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>())).Returns(true);
+        context.Cache.Setup(x => x.Set(It.IsAny<string>(), It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>())).Returns(true);
         context.Cache.Setup(x => x.Remove<GetApplicationLanguageDto>("FindAll_GetApplicationLanguageVO")).Returns(true);
-        context.Cache.Setup(x => x.TryGet(It.IsAny<string>(), out It.Ref<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
+        context.Cache.Setup(x => x.TryGet(It.IsAny<string>(), out It.Ref<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
             .Returns(false);
         context.Repository.Setup(x => x.ExistLanguage(It.IsAny<string>(), "CacheRefresh", "SharedResource")).ReturnsAsync(false);
         context.Repository.Setup(x => x.ExistLanguage("en-US", "CacheRefresh", "SharedResource")).ReturnsAsync(false);
@@ -389,12 +384,12 @@ public class ApplicationLanguageServiceTests
     }
 
     private static void SetupTryGetCacheHit(
-        Mock<ICacheService> cache,
+        Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService> cache,
         string key,
-        ServiceResponseCacheVO<List<GetApplicationLanguageDto>> cached)
+        global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>> cached)
     {
-        cache.Setup(x => x.TryGet(key, out It.Ref<ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
-            .Returns((string _, out ServiceResponseCacheVO<List<GetApplicationLanguageDto>> value) =>
+        cache.Setup(x => x.TryGet(key, out It.Ref<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>>.IsAny))
+            .Returns((string _, out global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>> value) =>
             {
                 value = cached;
                 return true;
@@ -405,7 +400,7 @@ public class ApplicationLanguageServiceTests
     {
         public ServiceTestContext Context { get; } = new();
         public Mock<IApplicationLanguageRepository> Repository => Context.ApplicationLanguageRepository;
-        public Mock<ICacheService> Cache => Context.Cache;
+        public Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService> Cache => Context.Cache;
         public Mock<IValidator<ApplicationLanguage>> Validator { get; } = new();
         public ApplicationLanguageService Service { get; }
 

@@ -1,28 +1,22 @@
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
-using System.Text.Json;
-using Moq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.DTO.Schedule;
-using SmartDigitalPsico.Domain.DTO.Security;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.Report;
-using SmartDigitalPsico.Domain.Security;
-using SmartDigitalPsico.Domain.Validation.Contratcs;
-using SmartDigitalPsico.Domain.Validation.PatientValidations.ListValidator;
-using SmartDigitalPsico.Domain.Validation.Principals.Calendar;
-using SmartDigitalPsico.Domain.Validation.Principals.Schedule;
-using SmartDigitalPsico.Domain.Validation.Schedule;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
+using Microsoft.IdentityModel.Tokens;
+using Moq;
+using Newtonsoft.Json;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Security;
+using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Helpers.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
+using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Domain.Test.Coverage;
 
@@ -269,13 +263,13 @@ public class DomainBranchFinalPushTests
         }
     }
 
-    // Cenário: IgnorableSerializerContractResolver com PropertyName nulo e propriedade ignorada.
+    // Cenário: SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver com PropertyName nulo e propriedade ignorada.
     // Objetivo: cobrir CreateProperty ramos.
     [Test]
     public void IgnorableSerializerContractResolver_NullAndIgnoredPropertyNames_CoverBranches()
     {
         // Arrange
-        var resolver = new IgnorableSerializerContractResolver(["Secret"]);
+        var resolver = new SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(["Secret"]);
         var settings = new JsonSerializerSettings { ContractResolver = resolver };
         var json = JsonConvert.SerializeObject(new FinalRow { Label = "x", Public = "y", Secret = "z" }, settings);
         resolver.ApplyIgnoreRulesForTests(new Newtonsoft.Json.Serialization.JsonProperty { PropertyName = "Secret" });
@@ -311,7 +305,7 @@ public class DomainBranchFinalPushTests
             LogAppHelper.ForceNullHostEnvironmentForTests = true;
             var info = LogAppHelper.GetInformationVersionProduct();
 
-        // Assert
+            // Assert
             // Act
             using (Assert.EnterMultipleScope())
             {
@@ -337,7 +331,7 @@ public class DomainBranchFinalPushTests
     public void TokenService_GetPrincipalFromExpiredToken_InvalidAlg_Throws()
     {
         // Arrange
-        var config = new TokenConfigurationDto
+        var config = new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
         {
             Issuer = "issuer",
             Audience = "audience",
@@ -363,7 +357,7 @@ public class DomainBranchFinalPushTests
         act.Should().Throw<SecurityTokenException>();
     }
 
-    // Cenário: LogAppHelper, EnumDescriptionConverter e RecurrenceMaterializer com ramos finais.
+    // Cenário: LogAppHelper, SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter e RecurrenceMaterializer com ramos finais.
     // Objetivo: fechar branches restantes de assembly, enum e recorrência.
     [Test]
     public void DomainBranchFinalGaps_LogAppValidatorsRecurrenceEnum_CloseRemainingBranches()
@@ -377,7 +371,7 @@ public class DomainBranchFinalPushTests
             LogAppHelper.ProductAssemblyOverrideForTests = null;
             LogAppHelper.EntryAssemblyProviderForTests = () => null;
             LogAppHelper.EntryAssemblyFallbackForTests = () => typeof(DomainBranchFinalPushTests).Assembly;
-        // Act
+            // Act
             // Assert
             LogAppHelper.GetAssemblyVersion().Should().NotBeNullOrEmpty();
 
@@ -385,15 +379,15 @@ public class DomainBranchFinalPushTests
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", null);
             LogAppHelper.GetInformationVersionProduct().EnvironmentName.Should().Be("Undefined");
 
-            var converter = new EnumDescriptionConverter<FinalDescribedEnum>();
+            var converter = new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>();
             var bytes = Encoding.UTF8.GetBytes("\"Human\"");
             var reader = new Utf8JsonReader(bytes);
             reader.Read();
             converter.Read(ref reader, typeof(FinalDescribedEnum), new JsonSerializerOptions()).Should().Be(FinalDescribedEnum.Value);
 
-            var fromDescription = typeof(EnumDescriptionConverter<FinalDescribedEnum>)
+            var fromDescription = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
                 .GetMethod("TryGetEnumValueFromDescription", BindingFlags.NonPublic | BindingFlags.Static)!;
-            var fromName = typeof(EnumDescriptionConverter<FinalDescribedEnum>)
+            var fromName = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
                 .GetMethod("TryGetEnumValueFromName", BindingFlags.NonPublic | BindingFlags.Static)!;
             var otherField = typeof(OtherDescribedEnum).GetField(nameof(OtherDescribedEnum.Value))!;
             ((bool)fromDescription.Invoke(null, [otherField, "OtherHuman", null])!).Should().BeFalse();
@@ -402,17 +396,25 @@ public class DomainBranchFinalPushTests
             var monday = DateTime.UtcNow.Date.AddDays(50).AddHours(9);
             RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
             {
-                StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily,
-                RecurrenceCount = 2, MaxOccurrences = 10
+                StartDateTime = monday,
+                EndDateTime = monday.AddHours(1),
+                RecurrenceType = ERecurrenceCalendarType.Daily,
+                RecurrenceCount = 2,
+                MaxOccurrences = 10
             }).Count.Should().BeGreaterThan(1);
             RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
             {
-                StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily,
-                RecurrenceEndDate = monday.AddDays(2), MaxOccurrences = 10
+                StartDateTime = monday,
+                EndDateTime = monday.AddHours(1),
+                RecurrenceType = ERecurrenceCalendarType.Daily,
+                RecurrenceEndDate = monday.AddDays(2),
+                MaxOccurrences = 10
             }).Count.Should().BeGreaterThan(1);
             RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
             {
-                StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily,
+                StartDateTime = monday,
+                EndDateTime = monday.AddHours(1),
+                RecurrenceType = ERecurrenceCalendarType.Daily,
                 MaxOccurrences = 2
             }).Should().ContainSingle();
 
@@ -445,16 +447,27 @@ public class DomainBranchFinalPushTests
         var start = DateTime.UtcNow.Date.AddHours(10);
         var badTimed = new ScheduleCalendarItem
         {
-            Title = "Bad", StartDateTime = start.AddHours(2), EndDateTime = start.AddHours(1), IsAllDay = false
+            Title = "Bad",
+            StartDateTime = start.AddHours(2),
+            EndDateTime = start.AddHours(1),
+            IsAllDay = false
         };
         var noEnd = new ScheduleCalendarItem
         {
-            Title = "No end", StartDateTime = start, EndDateTime = null, IsAllDay = false
+            Title = "No end",
+            StartDateTime = start,
+            EndDateTime = null,
+            IsAllDay = false
         };
         var badMedical = new MedicalCalendar
         {
-            Title = "Bad", StartDateTime = start.AddHours(2), EndDateTime = start.AddHours(1), IsAllDay = false,
-            Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceCount = 0
+            Title = "Bad",
+            StartDateTime = start.AddHours(2),
+            EndDateTime = start.AddHours(1),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceCount = 0
         };
 
         // Act
@@ -466,19 +479,35 @@ public class DomainBranchFinalPushTests
         var medicalRepo = new Mock<IMedicalRepository>();
         medicalRepo.Setup(x => x.FindByID(5)).ReturnsAsync(new Medical
         {
-            Id = 5, WorkingDays = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday],
-            StartWorkingTime = TimeSpan.FromHours(8), EndWorkingTime = TimeSpan.FromHours(18)
+            Id = 5,
+            WorkingDays = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday],
+            StartWorkingTime = TimeSpan.FromHours(8),
+            EndWorkingTime = TimeSpan.FromHours(18)
         });
         var itemValidator = new ScheduleItemValidator(medicalRepo.Object);
         (await itemValidator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "Early", StartDateTime = start.Date.AddHours(6), EndDateTime = start.Date.AddHours(7),
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "Early",
+            StartDateTime = start.Date.AddHours(6),
+            EndDateTime = start.Date.AddHours(7),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         })).IsValid.Should().BeFalse();
         (await itemValidator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 0, PatientId = 1, Title = "No end", StartDateTime = start, EndDateTime = null,
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 0,
+            PatientId = 1,
+            Title = "No end",
+            StartDateTime = start,
+            EndDateTime = null,
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         })).Errors.Should().NotContain(e => e.ErrorCode.Contains("StartDateTime.LessThan"));
     }
 
@@ -489,7 +518,7 @@ public class DomainBranchFinalPushTests
     {
         // Arrange
         var medicalRepo = new Mock<IMedicalRepository>();
-        var entityRepo = new Mock<IEntityBaseRepository<MedicalCalendar>>();
+        var entityRepo = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
         var userRepo = new Mock<IUserRepository>();
         userRepo.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Medical = new Medical { Id = 5 } });
         var validator = new TestMedicalBaseValidator(medicalRepo.Object, entityRepo.Object, userRepo.Object);
@@ -533,7 +562,7 @@ public class DomainBranchFinalPushTests
             LogAppHelper.EntryAssemblyProviderForTests = null;
             LogAppHelper.EntryAssemblyFallbackForTests = null;
             LogAppHelper.ForceNullEntryAssemblyForTests = true;
-        // Act
+            // Act
             // Assert
             LogAppHelper.GetAssemblyVersion().Should().NotBeNullOrEmpty();
         }
@@ -545,7 +574,7 @@ public class DomainBranchFinalPushTests
             LogAppHelper.EntryAssemblyFallbackForTests = previousFallback;
         }
 
-        var addHeader = typeof(ExcelGeneratorOpenXmlAdapter)
+        var addHeader = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter)
             .GetMethod("AddHeaderRow", BindingFlags.NonPublic | BindingFlags.Static)!;
         var sheet = new DocumentFormat.OpenXml.Spreadsheet.SheetData();
         addHeader.Invoke(null, [null, new List<string>(), sheet]);
@@ -560,7 +589,7 @@ public class DomainBranchFinalPushTests
     {
         // Arrange
         const string secret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
-        var service = new TokenService(new TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
+        var service = new TokenService(new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto { Secret = secret, Issuer = "i", Audience = "a", Minutes = 1 });
         var token = service.GenerateAccessToken([new Claim("sub", "1")]);
         // Act
         // Assert
@@ -586,7 +615,7 @@ public class DomainBranchFinalPushTests
         try
         {
             TokenService.TokenHandlerFactoryForTests = () => new NonJwtTokenHandler();
-            var service = new TokenService(new TokenConfigurationDto
+            var service = new TokenService(new SmartDigitalPsico.Core.SDK.Domain.DTO.Security.TokenConfigurationDto
             {
                 Secret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
                 Issuer = "i",
@@ -613,7 +642,7 @@ public class DomainBranchFinalPushTests
         // Arrange
         var medicalRepo = new Mock<IMedicalRepository>();
         medicalRepo.Setup(x => x.Exists(It.IsAny<long>())).ReturnsAsync(true);
-        var entityRepo = new Mock<IEntityBaseRepository<MedicalCalendar>>();
+        var entityRepo = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar>>();
         entityRepo.Setup(x => x.Exists(It.IsAny<long>())).ReturnsAsync(false);
         var userRepo = new Mock<IUserRepository>();
         userRepo.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, Medical = new Medical { Id = 5 } });
@@ -647,18 +676,39 @@ public class DomainBranchFinalPushTests
         var start = DateTime.UtcNow.Date.AddHours(10);
         var inHours = await validator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "Ok", StartDateTime = start, EndDateTime = start.AddHours(1),
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "Ok",
+            StartDateTime = start,
+            EndDateTime = start.AddHours(1),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         });
         var outOfHours = await validator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "Late", StartDateTime = start.Date.AddHours(20), EndDateTime = start.Date.AddHours(21),
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "Late",
+            StartDateTime = start.Date.AddHours(20),
+            EndDateTime = start.Date.AddHours(21),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         });
         var endPastWorking = await validator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "Long", StartDateTime = start, EndDateTime = start.Date.AddHours(20),
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "Long",
+            StartDateTime = start,
+            EndDateTime = start.Date.AddHours(20),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         });
         // Act
         // Assert
@@ -703,7 +753,7 @@ public class DomainBranchFinalPushTests
         existingNullEnd.IsValid.Should().BeTrue();
     }
 
-    // Cenário: EnumDescriptionConverter, RecurrenceMaterializer e LogAppHelper finais.
+    // Cenário: SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter, RecurrenceMaterializer e LogAppHelper finais.
     // Objetivo: fechar branches restantes de descrição, recorrência e assembly.
     [Test]
     public void EnumConverter_RecurrenceAndLogApp_FinalBranches()
@@ -712,7 +762,7 @@ public class DomainBranchFinalPushTests
         LogAppHelper.EntryAssemblyProviderForTests = () => typeof(DomainBranchFinalPushTests).Assembly;
         try
         {
-        // Act
+            // Act
             // Assert
             LogAppHelper.GetAssemblyVersion().Should().NotBeNullOrEmpty();
         }
@@ -721,10 +771,10 @@ public class DomainBranchFinalPushTests
             LogAppHelper.EntryAssemblyProviderForTests = null;
         }
 
-        var converter = new EnumDescriptionConverter<FinalDescribedEnum>();
-        var fromDescription = typeof(EnumDescriptionConverter<FinalDescribedEnum>)
+        var converter = new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>();
+        var fromDescription = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
             .GetMethod("TryGetEnumValueFromDescription", BindingFlags.NonPublic | BindingFlags.Static)!;
-        var fromName = typeof(EnumDescriptionConverter<FinalDescribedEnum>)
+        var fromName = typeof(SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<FinalDescribedEnum>)
             .GetMethod("TryGetEnumValueFromName", BindingFlags.NonPublic | BindingFlags.Static)!;
         var field = typeof(FinalDescribedEnum).GetField(nameof(FinalDescribedEnum.Value))!;
         var argsDesc = new object?[] { field, "Wrong", null };
@@ -738,17 +788,27 @@ public class DomainBranchFinalPushTests
         var monday = DateTime.UtcNow.Date.AddDays(40).AddHours(9);
         RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily,
-            RecurrenceCount = 2, RecurrenceEndDate = monday.AddDays(3), MaxOccurrences = 10
+            StartDateTime = monday,
+            EndDateTime = monday.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Daily,
+            RecurrenceCount = 2,
+            RecurrenceEndDate = monday.AddDays(3),
+            MaxOccurrences = 10
         }).Count.Should().BeGreaterThan(1);
         RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily, MaxOccurrences = 2
+            StartDateTime = monday,
+            EndDateTime = monday.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Daily,
+            MaxOccurrences = 2
         }).Should().ContainSingle();
         RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Weekly,
-            RecurrenceDays = [monday.DayOfWeek], MaxOccurrences = 10
+            StartDateTime = monday,
+            EndDateTime = monday.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Weekly,
+            RecurrenceDays = [monday.DayOfWeek],
+            MaxOccurrences = 10
         }).Should().ContainSingle();
     }
 
@@ -789,9 +849,9 @@ public class DomainBranchFinalPushTests
         public string Secret { get; init; } = string.Empty;
     }
 
-    private sealed class TestMedicalBaseValidator : SmartDigitalPsico.Domain.Validation.Base.MedicalBaseValidator<MedicalCalendar>
+    private sealed class TestMedicalBaseValidator : SmartDigitalPsico.Domain.Validation.MedicalBaseValidator<MedicalCalendar>
     {
-        public TestMedicalBaseValidator(IMedicalRepository medicalRepository, IEntityBaseRepository<MedicalCalendar> entityRepository, IUserRepository userRepository)
+        public TestMedicalBaseValidator(IMedicalRepository medicalRepository, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalCalendar> entityRepository, IUserRepository userRepository)
             : base(medicalRepository, entityRepository, userRepository) { }
     }
 

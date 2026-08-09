@@ -1,9 +1,9 @@
+﻿using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using Serilog;
-using SmartDigitalPsico.Domain.AppException;
+using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Helpers;
-using System.Diagnostics;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
 
@@ -32,7 +32,7 @@ public class LogAppHelperTests
         // Cenário: exceções de aviso e erro são registradas.
         // Objetivo: encaminhar cada tipo ao nível Serilog correto.
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
 
         // Act
         LogAppHelper.LogException(logger.Object, new AppWarningException("warning"), "API");
@@ -64,7 +64,7 @@ public class LogAppHelperTests
         // Cenário: métodos encapsuladores recebem logger.
         // Objetivo: delegar logs de informação e erro.
         // Arrange
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<IAppLogger>();
 
         // Act
         LogAppHelper.LogInfo(logger.Object, "Value {Value}", 1);

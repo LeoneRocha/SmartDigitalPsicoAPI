@@ -1,11 +1,7 @@
-using Moq;
-using SmartDigitalPsico.Domain.Interfaces.Service.Schedule;
-using SmartDigitalPsico.Domain.ModelEntity.Schedule;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical;
-using SmartDigitalPsico.Service.Bussines.Schedule.Implementations.Medical.Actions;
+﻿using Moq;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Service.Test.TestSupport;
-
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical.Actions;
 
 [TestFixture]
@@ -27,7 +23,7 @@ public class MedicalScheduleFindServiceTests
             SubjectKey = MedicalScheduleKeys.ForPatient(1),
             ScheduleData = [new ScheduleCalendarItem { StartDateTime = DateTime.UtcNow, Title = "Consulta" }]
         };
-        query.Setup(x => x.GetByIdAsync(12)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?> { Success = true, Data = package });
+        query.Setup(x => x.GetByIdAsync(12)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Success = true, Data = package });
         var service = new MedicalScheduleFindService(ctx.HostSupport, query.Object);
 
         // Act
@@ -49,7 +45,7 @@ public class MedicalScheduleFindServiceTests
         // Arrange
         var ctx = new MedicalScheduleTestContext();
         var query = new Mock<IScheduleQueryService>();
-        query.Setup(x => x.GetByIdAsync(404)).ReturnsAsync(new ServiceResponse<ScheduleCalendar?> { Success = false });
+        query.Setup(x => x.GetByIdAsync(404)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Success = false });
         var service = new MedicalScheduleFindService(ctx.HostSupport, query.Object);
 
         // Act

@@ -1,17 +1,15 @@
-using SmartDigitalPsico.Data.Context.Configure.Mock;
-using SmartDigitalPsico.Data.Repository.Principals;
+﻿using SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-using SmartDigitalPsico.Domain.ModelEntity;
-using SmartDigitalPsico.Domain.Resiliency;
-
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
     public class MedicalRepositoryTests : BaseTests
     {
-        private MedicalRepository? _entityRepository; 
+        private MedicalRepository? _entityRepository;
 
         [SetUp]
         public override void Setup()
@@ -27,16 +25,16 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
 
             var mockDataListOffices = OfficeMockData.GetMock().AsQueryable();
             var mockDataListSpecialty = SpecialtyMockData.GetMock().AsQueryable();
-             
+
             var mockDataList2 = MedicalMockHelper.GetMockFromBogus().Take(3).AsQueryable();
-             
+
             var mockDataListMedicalSpecialties = MedicalSpecialtyMockData.GetMock().Take(3).AsQueryable();
             // Arrange
             _mockContext = new SmartDigitalPsicoDataContextTest();
             _mockContext.Users.AddRange(mockDataListUser);
             _mockContext.Medicals.AddRange(mockDataListMedical);
             _mockContext.Genders.AddRange(mockDataListGender);
-              
+
             _mockContext.Offices.AddRange(mockDataListOffices);
             _mockContext.Specialties.AddRange(mockDataListSpecialty);
             _mockContext.SaveChanges();
@@ -82,15 +80,15 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new MedicalRepository(_mockContext);
 
-            var mockData  = MedicalMockHelper.GetMock().AsQueryable().First();
-             
-            var accreditation = mockData.Accreditation; 
+            var mockData = MedicalMockHelper.GetMock().AsQueryable().First();
+
+            var accreditation = mockData.Accreditation;
 
             // Act
             var result = await _entityRepository.Exists(accreditation);
 
             // Assert
-            Assert.That(result, Is.True);  
+            Assert.That(result, Is.True);
         }
 
         // Cenário: existe um médico com office e especialidades associadas.
@@ -113,7 +111,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Medical>());
-                Assert.That(result.Id, Is.EqualTo(mockData.Id)); 
+                Assert.That(result.Id, Is.EqualTo(mockData.Id));
                 Assert.That(result.CreatedUser, Is.Not.Null);
                 Assert.That(result.Office, Is.Not.Null);
                 Assert.That(result.MedicalSpecialties, Is.Not.Null);
@@ -150,7 +148,6 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-
         // Cenário: existe um médico com e-mail conhecido.
         // Objetivo: retornar o Medical correspondente ao e-mail informado.
         [Test]
@@ -172,10 +169,9 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<Medical>());
                 Assert.That(result?.Id, Is.EqualTo(mockData.Id));
-                Assert.That(result?.Email, Is.EqualTo(mockData.Email)); 
+                Assert.That(result?.Email, Is.EqualTo(mockData.Email));
             }
         }
-
 
     }
 }

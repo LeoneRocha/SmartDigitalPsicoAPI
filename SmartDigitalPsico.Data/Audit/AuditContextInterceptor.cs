@@ -1,8 +1,8 @@
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Data.Audit.Interface;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Domain.ModelEntity;
 
 namespace SmartDigitalPsico.Data.Audit
 {
@@ -71,7 +71,7 @@ namespace SmartDigitalPsico.Data.Audit
                     {
                         context.Set<AuditDataEntityLog>().AddRange(newEntries);
                         return await base.SavingChangesAsync(eventData, result, cancellationToken);
-                    } 
+                    }
                 }
                 else
                 {

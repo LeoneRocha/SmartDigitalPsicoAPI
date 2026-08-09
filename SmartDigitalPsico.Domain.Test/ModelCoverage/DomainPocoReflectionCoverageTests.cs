@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.User;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Domain.DTO.User.GET;
 using SmartDigitalPsico.Domain.Hypermedia;
-using SmartDigitalPsico.Domain.Hypermedia.Abstract;
-using SmartDigitalPsico.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Test.ModelCoverage;
@@ -180,9 +179,9 @@ public class DomainPocoReflectionCoverageTests
         // Act
         var user = enricher.CanEnrich(typeof(GetUserDto));
         var list = enricher.CanEnrich(typeof(List<GetUserDto>));
-        var response = enricher.CanEnrich(typeof(ServiceResponse<GetUserDto>));
-        var responseList = enricher.CanEnrich(typeof(ServiceResponse<List<GetUserDto>>));
-        var paged = enricher.CanEnrich(typeof(PagedSearchVO<GetUserDto>));
+        var response = enricher.CanEnrich(typeof(SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetUserDto>));
+        var responseList = enricher.CanEnrich(typeof(SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetUserDto>>));
+        var paged = enricher.CanEnrich(typeof(SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Utils.PagedSearchVO<GetUserDto>));
         var unsupported = enricher.CanEnrich(typeof(string));
 
         // Assert
@@ -208,9 +207,9 @@ public class DomainPocoReflectionCoverageTests
         {
             new GetUserDto(),
             new List<GetUserDto> { new() },
-            new ServiceResponse<GetUserDto> { Data = new GetUserDto() },
-            new ServiceResponse<List<GetUserDto>> { Data = [new GetUserDto()] },
-            new PagedSearchVO<GetUserDto> { List = [new GetUserDto()] }
+            new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetUserDto> { Data = new GetUserDto() },
+            new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetUserDto>> { Data = [new GetUserDto()] },
+            new SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Utils.PagedSearchVO<GetUserDto> { List = [new GetUserDto()] }
         }.Select(CriarContextoDeResultado).ToList();
 
         // Act
@@ -244,7 +243,7 @@ public class DomainPocoReflectionCoverageTests
         {
             nonOk.Should().BeFalse();
             compatible.Should().BeTrue();
-            action.Should().Throw<SmartDigitalPsico.Domain.AppException.AppWarningException>();
+            action.Should().Throw<SmartDigitalPsico.Core.SDK.Domain.AppException.AppWarningException>();
         }
     }
 
@@ -270,9 +269,9 @@ public class DomainPocoReflectionCoverageTests
     public void PagedSearchVO_CenarioPaginacaoPadraoEResolvida_RetornaValoresEsperados()
     {
         // Arrange
-        var defaultPaged = new PagedSearchVO<GetUserDto>();
-        var configuredPaged = new PagedSearchVO<GetUserDto>(3, 25, "Name", "asc", new Dictionary<string, object>());
-        var shortConstructorPaged = new PagedSearchVO<GetUserDto>(4, "Name", "desc");
+        var defaultPaged = new SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Utils.PagedSearchVO<GetUserDto>();
+        var configuredPaged = new SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Utils.PagedSearchVO<GetUserDto>(3, 25, "Name", "asc", new Dictionary<string, object>());
+        var shortConstructorPaged = new SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Utils.PagedSearchVO<GetUserDto>(4, "Name", "desc");
 
         // Act
         var defaultPage = defaultPaged.GetCurrentPage();
@@ -301,10 +300,10 @@ public class DomainPocoReflectionCoverageTests
         var expiration = DateTime.UtcNow.AddMinutes(5);
 
         // Act
-        var emptyCache = new ServiceResponseCacheVO<string>();
-        var cache = new ServiceResponseCacheVO<string>("conteúdo", "chave", expiration);
-        var copiedCache = new ServiceResponseCacheVO<string>(
-            new ServiceResponse<string> { Data = "origem", Success = false, Message = "mensagem" },
+        var emptyCache = new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>();
+        var cache = new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>("conteúdo", "chave", expiration);
+        var copiedCache = new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>(
+            new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<string> { Data = "origem", Success = false, Message = "mensagem" },
             "chave-origem",
             expiration);
         var token = new TokenVO(true, "criado", "expira", "acesso", "renovação");
@@ -325,7 +324,7 @@ public class DomainPocoReflectionCoverageTests
     }
 
     private static readonly string[] NamespaceCoverageSegments =
-        ["DTO", "VO", "ModelEntity", "TableEntity", "Hypermedia", "Enuns", "Contracts", "DependeciesCollection"];
+        ["DTO", "VO", "EntityModels", "TableEntity", "Hypermedia", "Enuns", "Contracts", "DependeciesCollection"];
 
     private static bool EhAlvoDeCobertura(Type type)
     {
@@ -470,7 +469,7 @@ public class DomainPocoReflectionCoverageTests
         return new ResultExecutingContext(actionContext, new List<IFilterMetadata>(), actionResult, new object());
     }
 
-    private sealed class EnriquecedorDeTeste : ContentResponseEnricher<GetUserDto>
+    private sealed class EnriquecedorDeTeste : SmartDigitalPsico.Core.SDK.Domain.Hypermedia.ContentResponseEnricher<GetUserDto>
     {
         public int ModelosEnriquecidos { get; private set; }
 

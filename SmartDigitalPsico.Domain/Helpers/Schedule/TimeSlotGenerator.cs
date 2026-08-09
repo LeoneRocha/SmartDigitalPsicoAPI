@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Helpers.Schedule
+﻿namespace SmartDigitalPsico.Domain.Helpers.Schedule
 {
     /// <summary>
     /// Classe responsável por TimeSlotWindow.

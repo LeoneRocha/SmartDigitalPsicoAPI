@@ -1,7 +1,7 @@
+﻿using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Domain.ModelEntity;
 
-namespace SmartDigitalPsico.Service.Audit
+namespace SmartDigitalPsico.Service
 {
     /// <summary>
     /// Classe responsável por AuditPersistenceDataBaseService.
@@ -9,12 +9,12 @@ namespace SmartDigitalPsico.Service.Audit
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class AuditPersistenceDataBaseService : IAuditPersistenceService
-    { 
+    {
         /// <summary>
         /// Método AuditPersistenceDataBaseService: executa a operação AuditPersistenceDataBaseService.
         /// </summary>
         public AuditPersistenceDataBaseService()
-        {            
+        {
         }
         /// <summary>
         /// Método SaveAuditEntries: cria ou persiste um novo registro/recurso.
@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Service.Audit
         public async Task SaveAuditEntry(AuditDataSelectiveEntityLog auditEntry)
         {
             await Task.Run(() =>
-            { 
+            {
             });
         }
     }

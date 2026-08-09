@@ -1,6 +1,4 @@
-using System.ComponentModel;
-using System.Text.Json;
-using SmartDigitalPsico.Domain.Helpers;
+﻿using System.Text.Json;
 
 namespace SmartDigitalPsico.Domain.Test.Helper;
 
@@ -26,7 +24,7 @@ public class SerializationHelpersTests
     {
         // Arrange
         var options = new JsonSerializerOptions();
-        options.Converters.Add(new EnumDescriptionConverter<DescribedEnum>());
+        options.Converters.Add(new SmartDigitalPsico.Core.SDK.Domain.Helpers.EnumDescriptionConverter<DescribedEnum>());
         // Act
         var serializedDescription = JsonSerializer.Serialize(DescribedEnum.Value, options);
         var serializedName = JsonSerializer.Serialize(DescribedEnum.Plain, options);
@@ -49,7 +47,7 @@ public class SerializationHelpersTests
     public void IgnorableSerializerContractResolver_IgnoredProperty_ExcludesItFromJson()
     {
         // Arrange
-        var resolver = new IgnorableSerializerContractResolver(["Ignore"]);
+        var resolver = new SmartDigitalPsico.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver(["Ignore"]);
         // Act
         var json = Newtonsoft.Json.JsonConvert.SerializeObject(new SerializableModel(), new Newtonsoft.Json.JsonSerializerSettings { ContractResolver = resolver });
         // Assert

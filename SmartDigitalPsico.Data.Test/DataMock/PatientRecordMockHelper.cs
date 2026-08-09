@@ -1,6 +1,5 @@
 ﻿using Bogus;
-using SmartDigitalPsico.Domain.ModelEntity;
-
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class PatientRecordMockHelper
@@ -17,7 +16,7 @@ namespace SmartDigitalPsico.Data.Test.DataMock
             var data1 = faker.Generate();
             data1.PatientId = 1;
             var data2 = faker.Generate();
-            data2.PatientId = 1; 
+            data2.PatientId = 1;
             var data3 = faker.Generate();
             data3.PatientId = 2;
 

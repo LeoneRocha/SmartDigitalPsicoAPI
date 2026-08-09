@@ -1,8 +1,7 @@
-using Serilog;
+﻿using Serilog;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Interfaces.Infrastructure;
+using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.WebJob.Configure;
-
 namespace SmartDigitalPsico.WebJob
 {
     public static class Program
@@ -84,8 +83,9 @@ namespace SmartDigitalPsico.WebJob
             Func<IHost, Task>? continuousHostRunner = null,
             Serilog.Core.Logger? loggerOverride = null)
         {
-            var logger = loggerOverride ?? _logger
+            var serilog = loggerOverride ?? _logger
                 ?? throw new InvalidOperationException("WebJob logger was not configured.");
+            var logger = new SmartDigitalPsico.Core.SDK.Infrastructure.Logging.SerilogAppLoggerAdapter(serilog);
             var configuration = host.Services.GetRequiredService<IConfiguration>();
             var executionMode = configuration.GetValue<string>("JobSettings:ExecutionMode", "OneTime");
 

@@ -1,0 +1,47 @@
+﻿using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Enuns;
+
+namespace SmartDigitalPsico.Data.Context.Mock
+{
+    /// <summary>
+    /// Classe responsável por MedicalMockData.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// </summary>
+    public static class MedicalMockData
+    {
+        /// <summary>
+        /// Método GetMock: consulta e retorna dados.
+        /// </summary>
+        public static Medical[] GetMock()
+        {
+            var newAddMedical = new Medical
+            {
+                Id = 1,
+                Name = "Dr. Gabriel Monteiro",
+                Email = "medical@sistemas.com",
+                CreatedDate = MockSeedDates.SeedUtc,
+                Enable = true,
+                LastAccessDate = MockSeedDates.SeedUtc,
+                ModifyDate = MockSeedDates.SeedUtc,
+                Accreditation = "123456",
+                TypeAccreditation = ETypeAccreditation.CRM,
+                OfficeId = 1,
+                CreatedUserId = 1,
+                StartWorkingTime = new TimeSpan(6, 0, 0),
+                EndWorkingTime = new TimeSpan(20, 0, 0),
+                PatientIntervalTimeMinutes = 60,
+                WorkingDays = [
+                    DayOfWeek.Monday,
+                    DayOfWeek.Tuesday,
+                    DayOfWeek.Wednesday,
+                    DayOfWeek.Thursday,
+                    DayOfWeek.Friday,
+                    DayOfWeek.Saturday]
+            };
+            return [
+                 newAddMedical
+            ];
+        }
+    }
+}
