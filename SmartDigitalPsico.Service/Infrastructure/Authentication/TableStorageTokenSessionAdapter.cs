@@ -1,9 +1,8 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Azure;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
-
-using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service
 {

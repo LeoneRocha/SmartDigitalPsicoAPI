@@ -1,10 +1,9 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-using FileData = SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts.FileData;
-
-using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using FileData = SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts.FileData;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
