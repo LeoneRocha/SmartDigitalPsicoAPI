@@ -1,19 +1,13 @@
-using SmartDigitalPsico.Service;
 using FluentValidation.Results;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-                                
+
 [TestFixture]
 public class MedicalScheduleHostSupportTests
 {

@@ -6,10 +6,9 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Thin Medical facade: sets scoped user context and delegates to action services.
     /// </summary>
     public class MedicalScheduleCalendarHost : IScheduleCalendarFacade

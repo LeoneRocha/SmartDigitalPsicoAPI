@@ -1,10 +1,9 @@
 using SmartDigitalPsico.Domain.Helpers.Medical;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Medical implementation of schedule key/tenant policy for Core engines and validators.
     /// </summary>
     public sealed class MedicalScheduleKeyPolicy : IScheduleKeyPolicy

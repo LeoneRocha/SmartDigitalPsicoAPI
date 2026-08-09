@@ -58,6 +58,6 @@ namespace SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager
         {
             _memoryCache.Remove(cacheKey);
             return true;
-        }   
+        }
     }
 }

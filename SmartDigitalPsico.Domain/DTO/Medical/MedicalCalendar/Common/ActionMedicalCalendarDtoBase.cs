@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common
 
         #region Columns  
         public long? CreatedUserId { get; set; }
-        public long? ModifyUserId { get; set; } 
+        public long? ModifyUserId { get; set; }
         #endregion Columns  
     }
 
@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public abstract class GetMedicalCalendarDtoBase : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBase
-    { 
+    {
         #region Columns  
         public string Title { get; set; } = string.Empty;
         public DateTime StartDateTime { get; set; }
@@ -35,7 +35,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common
         public EStatusCalendar Status { get; set; }
         public string ColorCategoryHexa { get; set; } = string.Empty;
         public bool IsPushedCalendar { get; set; }
-        public string TimeZone { get; set; } = string.Empty;         
+        public string TimeZone { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DayOfWeek[] RecurrenceDays { get; set; } = [];

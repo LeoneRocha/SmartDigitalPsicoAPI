@@ -1,21 +1,15 @@
-using SmartDigitalPsico.Service;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical.Actions;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-                                
+
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+
 [TestFixture]
 public class MedicalScheduleDeleteServiceTests
 {

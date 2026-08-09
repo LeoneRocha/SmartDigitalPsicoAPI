@@ -1,5 +1,4 @@
 using Moq;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Validation;
 using System.Reflection;
 

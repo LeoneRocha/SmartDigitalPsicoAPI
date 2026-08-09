@@ -1,9 +1,8 @@
-using SmartDigitalPsico.Service;
 using System.Reflection;
 using Moq;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
-                                
+
 [TestFixture]
 public class ServiceAssemblyMethodSmokeTests
 {

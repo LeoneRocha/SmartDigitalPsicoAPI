@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.
     /// </summary>
-    public class StorageQueueService : IStorageQueueContract 
+    public class StorageQueueService : IStorageQueueContract
     {
         private readonly IStorageQueueContract _storageQueueRepository;
 

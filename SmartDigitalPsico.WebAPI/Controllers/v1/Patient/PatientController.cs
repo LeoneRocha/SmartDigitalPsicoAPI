@@ -12,7 +12,7 @@ using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 {
-    [ApiController] 
+    [ApiController]
     [Authorize("Bearer")]
     [Route("api/patient/v1/[controller]")]
 
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindAll(medicalId));
-        } 
+        }
 
         [HttpPost("Search")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
@@ -57,7 +57,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.PatientSearch(patientSearchCriteriaDto));
         }
-         
+
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
@@ -87,7 +87,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// </summary>
         public async Task<ActionResult<ServiceResponse<GetPatientDto>>> Update(UpdatePatientDto UpdateEntity)
         {
-            this.setUserIdCurrent(); await base.SetCurrentCulture();            
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(UpdateEntity);
             if (response.Data == null)
             {

@@ -1,41 +1,16 @@
-using SmartDigitalPsico.Service;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Gender.GET;
-using SmartDigitalPsico.Domain.DTO.Office.GET;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
-using SmartDigitalPsico.Domain.DTO.Leaves.GET;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
-using SmartDigitalPsico.Domain.DTO.Audit.GET;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using System.Globalization;
-
-using SmartDigitalPsico.Domain.DTO.Application.ADD;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                
+
 [TestFixture]
 public class ApplicationLanguageServiceTests
 {

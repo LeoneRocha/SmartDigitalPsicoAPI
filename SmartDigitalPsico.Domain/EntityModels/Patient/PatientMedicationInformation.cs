@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
     public class PatientMedicationInformation : EntityBase, IEntityBaseLogUser, IEntityPatientBase
-    { 
+    {
         #region Columns          
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }

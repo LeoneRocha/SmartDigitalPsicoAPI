@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por BackgroundJobService.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.

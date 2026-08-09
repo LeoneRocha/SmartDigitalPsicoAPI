@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por PdfReportService.
     /// Responsabilidade: geração de relatórios.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.

@@ -1,22 +1,9 @@
-using SmartDigitalPsico.Service;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Gender.GET;
-using SmartDigitalPsico.Domain.DTO.Office.GET;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
-using SmartDigitalPsico.Domain.DTO.Leaves.GET;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Application.GET;
-using SmartDigitalPsico.Domain.DTO.Audit.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.ADD;
-using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.Common;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
@@ -25,15 +12,11 @@ using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                
+
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
+
 
 [TestFixture]
 public class MedicalServiceTests

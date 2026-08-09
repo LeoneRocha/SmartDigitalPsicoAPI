@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Audit

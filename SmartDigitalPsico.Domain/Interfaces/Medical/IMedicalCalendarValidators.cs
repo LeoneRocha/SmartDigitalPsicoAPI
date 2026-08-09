@@ -1,9 +1,6 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
-using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 using SmartDigitalPsico.Domain.EntityModels;
 

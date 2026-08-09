@@ -6,7 +6,7 @@ using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service
 {
-                                                                    /// <summary>
+    /// <summary>
     /// Classe responsável por ReportBaseService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Service
         protected readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService _cacheService;
         protected readonly IAppLogger _logger;
         protected readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig _policyConfig;
-         
+
         /// <summary>
         /// Método ReportBaseService: executa a operação ReportBaseService.
         /// </summary>
@@ -50,6 +50,6 @@ namespace SmartDigitalPsico.Service
         public void SetUserId(long id)
         {
             UserId = id;
-        }  
+        }
     }
 }

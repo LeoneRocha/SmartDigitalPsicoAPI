@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 

@@ -30,4 +30,4 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity
         /// </summary>
         Task DeleteAsync(string partitionKey, string rowKey);
     }
-} 
+}

@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -44,7 +43,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .FirstOrDefaultAsync(p => p.Login.ToLower().Trim().Equals(login.ToLower().Trim()));
 
             return userResult;
-        } 
+        }
 
         /// <summary>
         /// Método UserExists: executa a operação UserExists.
@@ -68,11 +67,11 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.UserRoleGroups)
                 .ThenInclude(e => e.RoleGroup)
                 .Include(e => e.Medical)
-                .ThenInclude(m => m.Office)  
+                .ThenInclude(m => m.Office)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
-        } 
-      
+        }
+
         /// <summary>
         /// Método FindByEmail: consulta e retorna dados.
         /// </summary>
@@ -85,7 +84,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .FirstOrDefaultAsync(p => p.Email.ToLower().Trim().Equals(value.ToLower().Trim()));
 
             return userResult;
-        } 
+        }
         /// <summary>
         /// Método RefreshUserInfo: executa a operação RefreshUserInfo.
         /// </summary>
@@ -107,10 +106,10 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         /// </summary>
         public override async Task<bool> Delete(long id)
         {
-            var result = await _dataset.Include(x=> x.UserRoleGroups).SingleOrDefaultAsync(p => p.Id.Equals(id));
+            var result = await _dataset.Include(x => x.UserRoleGroups).SingleOrDefaultAsync(p => p.Id.Equals(id));
             if (result != null)
             {
-                result.UserRoleGroups.Clear();  
+                result.UserRoleGroups.Clear();
                 _dataset.Remove(result);
                 await _context.SaveChangesAsync();
             }

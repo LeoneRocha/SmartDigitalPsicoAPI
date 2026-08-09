@@ -1,7 +1,5 @@
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Domain.Validation;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.User;
@@ -22,7 +20,7 @@ namespace SmartDigitalPsico.Domain.Validation
         /// Método MedicalFileValidator: executa a operação MedicalFileValidator.
         /// </summary>
         public MedicalFileValidator(IConfiguration configuration, IMedicalFileRepository entityRepository, IMedicalRepository medicalRepository, IUserRepository userRepository) : base(medicalRepository, entityRepository, userRepository)
-        {  
+        {
             #region Columns
             RuleFor(entity => entity.Description)
                 .MaximumLength(255)

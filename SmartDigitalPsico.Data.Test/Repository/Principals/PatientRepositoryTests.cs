@@ -2,7 +2,6 @@ using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -223,8 +222,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(listResult, Is.Not.Null);
-                Assert.That(listResult, Is.InstanceOf<List<Patient>>()); 
-                Assert.That(listResult, Has.Count.EqualTo(4)); 
+                Assert.That(listResult, Is.InstanceOf<List<Patient>>());
+                Assert.That(listResult, Has.Count.EqualTo(4));
                 Assert.That(listResult[0].MedicalId, Is.EqualTo(mockData.MedicalId));
                 Assert.That(listResult[0].Medical, Is.Not.Null);
                 Assert.That(listResult[0].Gender, Is.Not.Null);

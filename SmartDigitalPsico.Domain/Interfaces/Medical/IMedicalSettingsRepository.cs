@@ -1,7 +1,3 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
-using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Medical
@@ -11,7 +7,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.Medical
     /// Responsabilidade: repositório de persistência.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public interface IMedicalSettingsRepository  : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalSettings>
-    { 
+    public interface IMedicalSettingsRepository : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<MedicalSettings>
+    {
     }
 }

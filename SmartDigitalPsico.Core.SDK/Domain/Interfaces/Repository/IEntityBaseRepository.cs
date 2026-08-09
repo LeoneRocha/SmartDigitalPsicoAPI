@@ -64,6 +64,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
         /// <summary>
         /// Método GetCount: consulta e retorna dados.
         /// </summary>
-        Task<int> GetCount(Expression<Func<T, bool>> predicate); 
+        Task<int> GetCount(Expression<Func<T, bool>> predicate);
     }
 }

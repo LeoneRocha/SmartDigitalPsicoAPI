@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
     /// Relação: referenciado por Domain, Service e WebAPI.
     /// </summary>
     public static class CalendarKeyConstants
-    { 
+    {
         public const string CalendarRegistred = "Calendar_Registred";
         public const string CalendarUpdated = "Calendar_Updated";
         public const string CalendarSuccess = "Calendar_Success";

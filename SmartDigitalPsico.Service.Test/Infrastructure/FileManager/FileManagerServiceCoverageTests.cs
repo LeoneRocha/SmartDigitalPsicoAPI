@@ -1,17 +1,14 @@
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.FileManager;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-                                
+
 [TestFixture]
 public class FileManagerServiceCoverageTests
 {

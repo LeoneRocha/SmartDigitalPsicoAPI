@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Data.Context.Configure
         public static void AddConfigurationEntitiesManually(ModelBuilder modelBuilder, ETypeDataBase eDataBaseType)
         {
             modelBuilder.ApplyConfiguration(new ApplicationCacheLogConfiguration(eDataBaseType));
-            modelBuilder.ApplyConfiguration(new ApplicationConfigSettingConfiguration(eDataBaseType)); 
+            modelBuilder.ApplyConfiguration(new ApplicationConfigSettingConfiguration(eDataBaseType));
         }
         /// <summary>
         /// Método AddConfigurationEntities: cria ou persiste um novo registro/recurso.
@@ -29,8 +29,8 @@ namespace SmartDigitalPsico.Data.Context.Configure
             List<Type> manuallyConfiguredTypes = new List<Type>
             {
                 typeof(ApplicationCacheLogConfiguration),
-                typeof(ApplicationConfigSettingConfiguration) 
-            }; 
+                typeof(ApplicationConfigSettingConfiguration)
+            };
             modelBuilder.AddConfigurationEntities(eDataBaseType, Assembly.GetExecutingAssembly(), manuallyConfiguredTypes);
         }
     }

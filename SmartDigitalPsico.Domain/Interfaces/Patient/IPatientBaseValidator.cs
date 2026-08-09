@@ -1,5 +1,3 @@
-using PatientEntity = SmartDigitalPsico.Domain.EntityModels.Patient;
-
 namespace SmartDigitalPsico.Domain.Interfaces.Patient
 {
     /// <summary>

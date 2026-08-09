@@ -7,6 +7,6 @@ namespace SmartDigitalPsico.Domain.DTO.Notification.UPDATE
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class UpdateNotificationRulesDto : LeavesBaseDto
-    { 
+    {
     }
-} 
+}

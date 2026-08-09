@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
     /// </summary>
     public interface ICacheRepository
     {
-        bool TryGet<T>(string cacheKey, out T? value) ;
+        bool TryGet<T>(string cacheKey, out T? value);
         bool Set<T>(string cacheKey, T value);
         /// <summary>
         /// Método Remove: remove ou cancela um registro/recurso.

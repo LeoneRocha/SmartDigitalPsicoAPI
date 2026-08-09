@@ -12,7 +12,7 @@ namespace SmartDigitalPsico.Domain.VO
         /// </summary>
         public TokenVO()
         {
-        } 
+        }
         /// <summary>
         /// Método SmartDigitalPsico.Core.SDK.Domain.VO.TokenVO: mapeia ou transforma dados entre modelos.
         /// </summary>

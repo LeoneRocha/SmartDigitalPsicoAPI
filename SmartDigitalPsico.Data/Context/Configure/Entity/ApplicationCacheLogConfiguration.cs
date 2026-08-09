@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -18,8 +17,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
         /// <summary>
         /// Método ApplicationCacheLogConfiguration: executa a operação ApplicationCacheLogConfiguration.
         /// </summary>
-        public ApplicationCacheLogConfiguration(ETypeDataBase eTypeDataBase) :base(eTypeDataBase) { }
-         
+        public ApplicationCacheLogConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
+
         /// <summary>
         /// Método Configure: configura estado ou dependencias.
         /// </summary>

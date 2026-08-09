@@ -13,11 +13,11 @@ namespace SmartDigitalPsico.Domain.EntityModels
         /// Método Specialty: executa a operação Specialty.
         /// </summary>
         public Specialty()
-        { 
+        {
             MedicalSpecialties = new List<MedicalSpecialty>();
         }
         public string Description { get; set; } = string.Empty;
-        public string Language { get; set; } = string.Empty; 
+        public string Language { get; set; } = string.Empty;
         public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
     }
 }

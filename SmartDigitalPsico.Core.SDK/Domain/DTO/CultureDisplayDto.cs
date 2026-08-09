@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.DTO
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class CultureDisplayDto  
+    public class CultureDisplayDto
     {
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;

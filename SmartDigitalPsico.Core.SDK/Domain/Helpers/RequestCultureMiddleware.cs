@@ -31,8 +31,8 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
                 var cultureInfo = new CultureInfo(requestedCulture);
                 CultureInfo.CurrentCulture = cultureInfo;
                 CultureInfo.CurrentUICulture = cultureInfo;
-            } 
+            }
             await _next.Invoke(context);
         }
-    } 
+    }
 }

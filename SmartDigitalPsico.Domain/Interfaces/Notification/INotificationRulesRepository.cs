@@ -1,5 +1,4 @@
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -17,4 +16,4 @@ namespace SmartDigitalPsico.Domain.Interfaces.Notification
         /// </summary>
         Task<NotificationRule[]> GetNotificationRulesAsync(ENotificationType notificationType, bool isEnabled, long medicalId);
     }
-} 
+}

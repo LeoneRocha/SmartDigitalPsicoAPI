@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security
         /// <summary>
         /// Método Decrypt: executa a operação Decrypt.
         /// </summary>
-        string Decrypt(string cipherTextBase64); 
+        string Decrypt(string cipherTextBase64);
         /// <summary>
         /// Método Decrypt: executa a operação Decrypt.
         /// </summary>

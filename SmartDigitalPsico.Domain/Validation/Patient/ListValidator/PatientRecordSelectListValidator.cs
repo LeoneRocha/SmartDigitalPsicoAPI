@@ -1,5 +1,4 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -11,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Validation
     /// Responsabilidade: validador FluentValidation de regras de negócio.
     /// Relação: invocado pelos Services antes da persistência.
     /// </summary>
-    public class PatientRecordSelectListValidator   
+    public class PatientRecordSelectListValidator
              : BasePatientSelectListValidator<PatientRecord>
     {
         /// <summary>

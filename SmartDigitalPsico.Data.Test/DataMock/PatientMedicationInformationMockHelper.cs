@@ -1,12 +1,11 @@
 ﻿using Bogus;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class PatientMedicationInformationMockHelper
-    {   
+    {
         public static PatientMedicationInformation[] GetMockFromBogus()
         {
             var faker = new Faker<PatientMedicationInformation>("pt_BR")
@@ -27,6 +26,6 @@ namespace SmartDigitalPsico.Data.Test.DataMock
             data3.PatientId = 2;
 
             return [data1, data2, data3];
-        } 
+        }
     }
-} 
+}

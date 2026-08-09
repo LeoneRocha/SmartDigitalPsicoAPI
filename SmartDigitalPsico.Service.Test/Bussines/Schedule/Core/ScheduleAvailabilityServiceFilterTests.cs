@@ -1,16 +1,12 @@
-using SmartDigitalPsico.Service;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using Serilog;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Core;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-                                
+
 [TestFixture]
 public class ScheduleAvailabilityServiceFilterTests
 {

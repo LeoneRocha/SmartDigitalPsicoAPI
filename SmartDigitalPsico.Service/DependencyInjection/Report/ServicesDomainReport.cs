@@ -4,10 +4,9 @@ using SmartDigitalPsico.Domain.DependeciesCollection;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
-using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Service.DependencyInjection.Report
 {
-                                    /// <summary>
+    /// <summary>
     /// Factories de relatório no Core; serviços Excel/Pdf/Patient no host.
     /// </summary>
     public static class ServicesDomainReport

@@ -18,9 +18,6 @@ using SmartDigitalPsico.Data.Repository.Schedule;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
-using SmartDigitalPsico.Domain.DTO.Patient.ADD;
-using SmartDigitalPsico.Domain.DTO.Patient.GET;
-using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 

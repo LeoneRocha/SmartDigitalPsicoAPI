@@ -1,5 +1,4 @@
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Leaves;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -18,6 +17,6 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         /// </summary>
         public LeavesRepository(IEntityDataContext context) : base(context) { }
 
-       
+
     }
 }

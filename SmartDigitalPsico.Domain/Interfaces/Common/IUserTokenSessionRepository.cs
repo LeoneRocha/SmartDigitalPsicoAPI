@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Common
@@ -21,4 +19,4 @@ namespace SmartDigitalPsico.Domain.Interfaces.Common
         /// </summary>
         Task SaveSessionAsync(UserTokenSession session);
     }
-} 
+}

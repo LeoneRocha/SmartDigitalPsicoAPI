@@ -1,9 +1,8 @@
-using SmartDigitalPsico.Service;
 using Microsoft.Extensions.Configuration;
 using Moq;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Report;
-                                
+
 [TestFixture]
 public class ExcelGeneratorServiceTests
 {

@@ -18,6 +18,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service
         /// <summary>
         /// Método IsEnable: executa a operação IsEnable.
         /// </summary>
-        bool IsEnable(); 
+        bool IsEnable();
     }
 }

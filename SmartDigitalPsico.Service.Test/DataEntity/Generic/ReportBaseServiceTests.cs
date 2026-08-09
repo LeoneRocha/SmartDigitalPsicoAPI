@@ -1,17 +1,14 @@
-using SmartDigitalPsico.Service;
 using FluentValidation;
 using Moq;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Gender;
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Generic;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-                                
+
+using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
+
 [TestFixture]
 public class ReportBaseServiceTests
 {

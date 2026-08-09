@@ -7,5 +7,5 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
     /// </summary>
     public class AppointmentCriteriaDto : CalendarCriteriaDtoWithPatientIdBase
     {
-    } 
+    }
 }

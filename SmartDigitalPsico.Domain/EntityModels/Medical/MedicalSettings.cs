@@ -20,5 +20,5 @@ namespace SmartDigitalPsico.Domain.EntityModels
         #region Relationship
         public required Medical Medical { get; set; }
         #endregion Relationship
-    } 
+    }
 }

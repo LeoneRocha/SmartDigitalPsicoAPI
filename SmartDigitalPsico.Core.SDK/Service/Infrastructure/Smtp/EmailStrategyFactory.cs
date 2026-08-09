@@ -32,7 +32,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp
                 case EEmailStrategyType.ThirdParty:
                     return new ThirdPartyEmailStrategy();
                 default:
-                    throw new ArgumentException("Invalid strategy type"); 
+                    throw new ArgumentException("Invalid strategy type");
             }
         }
     }

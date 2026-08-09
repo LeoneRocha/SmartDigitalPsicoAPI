@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.VO
         public DataNotificationTemplateVO(string subject, string body)
         {
             Subject = subject;
-            Body = body;            
+            Body = body;
             ToEmails = new List<string>();
             ToPhoneNumbers = new List<string>();
         }
@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.VO
         /// <summary>
         /// Método DataNotificationTemplateVO: executa a operação DataNotificationTemplateVO.
         /// </summary>
-        public DataNotificationTemplateVO( )
+        public DataNotificationTemplateVO()
         {
             ToEmails = new List<string>();
             ToPhoneNumbers = new List<string>();

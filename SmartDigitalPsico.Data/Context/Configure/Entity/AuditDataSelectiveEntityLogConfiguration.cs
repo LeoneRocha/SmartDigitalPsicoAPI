@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -85,7 +84,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             if (ETypeDataBase == ETypeDataBase.Mysql)
             {
                 // Index FOR MYSQL  
-                builder.HasIndex(p => new { p.TableName, p.Operation, p.AuditDate, p.UserAuditedId })                   
+                builder.HasIndex(p => new { p.TableName, p.Operation, p.AuditDate, p.UserAuditedId })
                    .HasDatabaseName("Idx_TableName_Operation_AuditDate_UserAuditedId")
                    .IsUnique(false);
             }

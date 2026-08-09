@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
     /// Relação: usado por Services e Domain para regras compartilhadas.
     /// </summary>
     public static class CultureDateTimeHelper
-    {   
+    {
         private static List<CultureInfo> getCulturesEnable()
         {
             List<CultureInfo> list = new List<CultureInfo>();
@@ -67,8 +67,8 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
         /// Método GetNameAndCulture: consulta e retorna dados.
         /// </summary>
         public static string GetNameAndCulture(string localizedStringKeyName)
-        {  
-            return $"{localizedStringKeyName}"; 
+        {
+            return $"{localizedStringKeyName}";
         }
         /// <summary>
         /// Método GetKeyLocalizationRecordFormat: consulta e retorna dados.
@@ -82,7 +82,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
         {
             string result = "NotFoundLocalization";
             try
-            {  
+            {
                 var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
                 string message = localizer.GetString(findKey);
 

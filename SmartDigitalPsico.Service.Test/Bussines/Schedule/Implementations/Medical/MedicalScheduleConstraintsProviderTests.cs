@@ -1,12 +1,9 @@
-using SmartDigitalPsico.Service;
 using Moq;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-                                
+
 [TestFixture]
 public class MedicalScheduleConstraintsProviderTests
 {

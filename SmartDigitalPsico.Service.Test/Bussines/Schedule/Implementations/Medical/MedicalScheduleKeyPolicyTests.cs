@@ -1,9 +1,5 @@
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-                                
+
 [TestFixture]
 public class MedicalScheduleKeyPolicyTests
 {

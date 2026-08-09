@@ -1,15 +1,5 @@
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
-using SmartDigitalPsico.Domain.DTO.Office.GET;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
-using SmartDigitalPsico.Domain.DTO.Leaves.GET;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Application.GET;
-using SmartDigitalPsico.Domain.DTO.Audit.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
@@ -21,7 +11,7 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.GET
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class GetPatientDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBase, ISupportsHyperMedia
-    { 
+    {
         #region Relationship     
         public GetMedicalDto Medical { get; set; } = new GetMedicalDto();
         public GetGenderDto Gender { get; set; } = new GetGenderDto();

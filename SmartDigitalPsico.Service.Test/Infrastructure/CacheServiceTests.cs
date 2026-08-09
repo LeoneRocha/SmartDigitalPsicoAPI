@@ -1,10 +1,9 @@
-using SmartDigitalPsico.Service;
 using Microsoft.Extensions.Options;
 using Moq;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
-                                
+
 [TestFixture]
 public class CacheServiceTests
 {

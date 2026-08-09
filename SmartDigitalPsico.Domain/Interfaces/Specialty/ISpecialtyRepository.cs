@@ -1,8 +1,4 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using SpecialtyEntity = SmartDigitalPsico.Domain.EntityModels.Specialty;
-
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Specialty
 {

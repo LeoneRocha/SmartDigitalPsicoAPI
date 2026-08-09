@@ -1,9 +1,7 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Contracts
-{ 
+{
     /// <summary>
     /// Classe responsável por Record.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
@@ -12,7 +10,7 @@ namespace SmartDigitalPsico.Domain.Contracts
     public class Record<T>
     {
         public long UserIdLogged { get; set; }
-        public User LoggedInUser { get; set; } = new User();        
-        public T RecordEntity { get; set; } = default!; 
+        public User LoggedInUser { get; set; } = new User();
+        public T RecordEntity { get; set; } = default!;
     }
 }

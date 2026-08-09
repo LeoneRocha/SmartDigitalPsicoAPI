@@ -4,8 +4,6 @@ using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Patient.Common;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -17,7 +15,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                                                    /// <summary>
+    /// <summary>
     /// Classe responsável por PatientAdditionalInformationService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
@@ -188,11 +186,11 @@ namespace SmartDigitalPsico.Service
                 }
                 response.Data = _mapper.Map<GetPatientAdditionalInformationDto>(entityResponse);
                 response.Success = true;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterFind, GeneralLanguageMenssageConstants.RegisterFind); 
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterFind, GeneralLanguageMenssageConstants.RegisterFind);
             }
             catch (Exception)
             {
-                response.Success = false;                
+                response.Success = false;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
             }
             return response;

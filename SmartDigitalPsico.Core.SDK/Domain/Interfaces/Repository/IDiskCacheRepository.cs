@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
     /// Responsabilidade: repositório de persistência.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public interface IDiskCacheRepository  
+    public interface IDiskCacheRepository
     {
         public Task<KeyValuePair<bool, T>> TryGetAsync<T>(string cacheKey) where T : new();
 

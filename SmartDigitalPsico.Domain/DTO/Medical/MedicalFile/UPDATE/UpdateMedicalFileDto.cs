@@ -7,6 +7,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class UpdateMedicalFileDto : FileBaseIdDto
-    {  
+    {
     }
 }

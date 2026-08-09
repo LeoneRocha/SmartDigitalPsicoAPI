@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
         protected readonly ICacheService _cacheService;
         protected readonly IAppLogger _logger;
         protected readonly IResiliencePolicyConfig _policyConfig;
-        
+
 
         /// <summary>
         /// Operação EntityBaseService: executa a operação EntityBaseService.
@@ -42,13 +42,13 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
     IValidator<TEntity> entityValidator
 )
         {
-    _mapper = mapper;
-    _logger = logger;
-    _cacheService = cacheService;
-    _policyConfig = policyConfig;
-    _entityRepository = entityRepository;
-    _entityValidator = entityValidator;
-}
+            _mapper = mapper;
+            _logger = logger;
+            _cacheService = cacheService;
+            _policyConfig = policyConfig;
+            _entityRepository = entityRepository;
+            _entityValidator = entityValidator;
+        }
         /// <summary>
         /// Operação SetUserId: configura estado ou dependencias.
         /// </summary>

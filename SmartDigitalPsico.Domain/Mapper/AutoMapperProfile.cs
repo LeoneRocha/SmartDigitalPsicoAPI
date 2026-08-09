@@ -1,5 +1,4 @@
 using AutoMapper;
-using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Domain.DTO.Gender.ADD;
 using SmartDigitalPsico.Domain.DTO.Office.ADD;
 using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
@@ -27,12 +26,10 @@ using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.Common;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE;
@@ -42,11 +39,9 @@ using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.DTO.Report.Entity;
-using SmartDigitalPsico.Domain.DTO.User.ADD;
 using SmartDigitalPsico.Domain.DTO.User.GET;
 using SmartDigitalPsico.Domain.DTO.User.UPDATE;
 using SmartDigitalPsico.Domain.DTO.User.Common;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 using SmartDigitalPsico.Domain.EntityModels;
@@ -60,7 +55,7 @@ namespace SmartDigitalPsico.Domain.Mapper
     /// </summary>
     public class AutoMapperProfile : Profile
     {
-        
+
         /// <summary>
         /// Operação AutoMapperProfile: executa a operação AutoMapperProfile.
         /// </summary>
@@ -124,7 +119,7 @@ namespace SmartDigitalPsico.Domain.Mapper
 
             CreateMap<MedicalCalendar, AppointmentDto>()
             .ForMember(dest => dest.MedicalName, opt => opt.MapFrom(src => src.Medical!.Name));
-             
+
             #endregion  MedicalCalendar
 
             #region Gender

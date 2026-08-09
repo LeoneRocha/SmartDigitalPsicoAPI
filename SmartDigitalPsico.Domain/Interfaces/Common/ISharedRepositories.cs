@@ -14,6 +14,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Common
         IApplicationLanguageRepository ApplicationLanguageRepository { get; }
 
         IApplicationConfigSettingRepository ApplicationConfigSettingRepository { get; }
-         
+
     }
 }

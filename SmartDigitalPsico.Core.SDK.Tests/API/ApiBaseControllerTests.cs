@@ -38,7 +38,7 @@ public class ApiBaseControllerTests
     private sealed class TestApiBaseController(IOptions<AuthConfigurationDto> options) : ApiBaseController(options)
     {
         public long GetCurrentUserId() => GetUserIdCurrent();
-        
+
     }
 }
 

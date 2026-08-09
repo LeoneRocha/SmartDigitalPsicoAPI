@@ -1,11 +1,8 @@
-using SmartDigitalPsico.Service;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -13,8 +10,7 @@ using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-                                
+
 [TestFixture]
 public class InfrastructureMethodCoverageGapTests
 {

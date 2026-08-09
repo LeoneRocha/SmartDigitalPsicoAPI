@@ -9,13 +9,13 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
     public class PatientFile : FileBase, IEntityBaseLogUser, IEntityPatientBase
-    { 
+    {
         #region Relationship 
-        public Patient? Patient { get; set; }  
+        public Patient? Patient { get; set; }
         public long PatientId { get; set; }
         public User? CreatedUser { get; set; }
         public User? ModifyUser { get; set; }
-        public long? CreatedUserId { get; set; }         
+        public long? CreatedUserId { get; set; }
         public long? ModifyUserId { get; set; }
         #endregion Relationship 
     }

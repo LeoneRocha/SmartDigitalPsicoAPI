@@ -4,7 +4,7 @@ using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service.DependencyInjection.Authentication
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por ServicesDomainAuthentication.
     /// Responsabilidade: configuração de startup/DI da aplicação.
     /// Relação: registra serviços no container e configura o pipeline.

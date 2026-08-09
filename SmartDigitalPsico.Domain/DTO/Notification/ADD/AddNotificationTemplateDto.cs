@@ -8,5 +8,5 @@ namespace SmartDigitalPsico.Domain.DTO.Notification.ADD
     /// </summary>
     public class AddNotificationTemplateDto : NotificationTemplateBaseDto, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd
     {
-    } 
+    }
 }

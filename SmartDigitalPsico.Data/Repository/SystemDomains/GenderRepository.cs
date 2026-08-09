@@ -1,5 +1,4 @@
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Gender;
 using SmartDigitalPsico.Domain.EntityModels;

@@ -1,12 +1,9 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
-using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
@@ -18,7 +15,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                                                    /// <summary>
+    /// <summary>
     /// Classe responsável por PatientFileService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
@@ -37,7 +34,7 @@ namespace SmartDigitalPsico.Service
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
-            IPatientFileRepository entityRepository,           
+            IPatientFileRepository entityRepository,
             IValidator<PatientFile> entityValidator,
             IFileManagerService filePersistor,
             IPatientRepository patientRepository
@@ -111,7 +108,7 @@ namespace SmartDigitalPsico.Service
             var fileEntity = await ((IPatientFileRepository)_entityRepository).FindByID(fileId);
 
             #region Relationship
-              
+
             Patient patient = await _patientRepository.FindByID(fileEntity.PatientId);
 
             #endregion Relationship
@@ -149,19 +146,19 @@ namespace SmartDigitalPsico.Service
                 response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                 response.Success = false;
                 response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
-                 
+
                 return response;
             }
 
             if (listResult.Count == 0)
             {
                 response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);               
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
                 return response;
             }
             response.Data = listResult.Select(c => _mapper.Map<GetPatientFileDto>(c)).ToList();
             response.Success = true;
-            response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound); 
+            response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             return response;
 
         }
@@ -193,7 +190,7 @@ namespace SmartDigitalPsico.Service
                 }
                 response.Data = _mapper.Map<GetPatientFileDto>(entityResponse);
                 response.Success = true;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);                
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             }
             catch (Exception)
             {

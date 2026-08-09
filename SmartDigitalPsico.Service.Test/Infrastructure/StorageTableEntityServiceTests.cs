@@ -1,8 +1,7 @@
-using SmartDigitalPsico.Service;
 using Moq;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
-                                
+
 [TestFixture]
 public class StorageTableEntityServiceTests
 {

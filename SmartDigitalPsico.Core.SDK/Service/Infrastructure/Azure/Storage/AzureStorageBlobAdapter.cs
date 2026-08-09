@@ -158,6 +158,6 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage
             BlobClient blobClient = containerClient.GetBlobClient(blobName);
 
             await blobClient.DeleteIfExistsAsync();
-        } 
+        }
     }
 }

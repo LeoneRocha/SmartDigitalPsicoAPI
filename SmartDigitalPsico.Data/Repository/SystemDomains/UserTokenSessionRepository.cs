@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -23,7 +22,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         /// Método GetSessionAsync: consulta e retorna dados.
         /// </summary>
         public async Task<UserTokenSession?> GetSessionAsync(long userId)
-        { 
+        {
             return await ((SmartDigitalPsico.Data.Context.EntityDataSmartDigitalPsicoContext)_context).UserTokenSessions.FirstOrDefaultAsync(ts => ts.UserId == userId);
         }
 

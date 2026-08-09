@@ -5,7 +5,7 @@ namespace SmartDigitalPsico.Domain.DTO.Application.ADD
     /// Responsabilidade: DTO de transferência de dados entre camadas da API.
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
-    public class AddApplicationLanguageDto: SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomainAdd
+    public class AddApplicationLanguageDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomainAdd
     {
         public string LanguageKey { get; set; } = string.Empty;
         public string LanguageValue { get; set; } = string.Empty;

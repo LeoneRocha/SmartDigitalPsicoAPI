@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.DTO.User.ADD;
 using SmartDigitalPsico.Domain.DTO.User.GET;
-using SmartDigitalPsico.Domain.DTO.User.UPDATE;
 using SmartDigitalPsico.Domain.DTO.User.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.User;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
 {
-    [ApiController]    
+    [ApiController]
     [Route("api/[controller]/v1")]
     /// <summary>
     /// Classe responsável por AuthController.
@@ -48,7 +46,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
         /// </summary>
         public async Task<ActionResult<ServiceResponse<GetUserAuthenticatedDto>>> Authenticate(UserLoginDto request)
         {
-            var response = await _userService.Login(request.Login, request.Password);             
+            var response = await _userService.Login(request.Login, request.Password);
             if (!response.Success)
             {
                 return Unauthorized(response);
@@ -77,9 +75,9 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
         /// Método Refresh: executa a operação Refresh.
         /// </summary>
         public IActionResult Refresh([FromBody] SmartDigitalPsico.Domain.VO.TokenVO tokenVo)
-        { 
+        {
             return NoContent();
-        } 
+        }
         [HttpGet]
         [Route("revoke")]
         [Authorize("Bearer")]
@@ -87,7 +85,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Auth
         /// Método Revoke: executa a operação Revoke.
         /// </summary>
         public IActionResult Revoke()
-        { 
+        {
             return NoContent();
         }
 

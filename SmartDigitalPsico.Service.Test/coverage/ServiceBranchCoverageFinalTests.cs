@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Service;
 using System.Globalization;
 using System.Reflection;
 using FluentValidation;
@@ -12,32 +11,12 @@ using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.Infrastructure;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using SmartDigitalPsico.Domain.DTO.Gender.ADD;
-using SmartDigitalPsico.Domain.DTO.Office.ADD;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
-using SmartDigitalPsico.Domain.DTO.Leaves.ADD;
-using SmartDigitalPsico.Domain.DTO.Specialty.ADD;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
-using SmartDigitalPsico.Domain.DTO.Application.ADD;
-using SmartDigitalPsico.Domain.DTO.Audit.ADD;
-
-using SmartDigitalPsico.Domain.DTO.Audit.GET;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
@@ -45,15 +24,10 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                
+
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+
 [TestFixture]
 public class ServiceBranchCoverageFinalTests
 {

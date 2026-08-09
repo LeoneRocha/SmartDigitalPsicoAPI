@@ -1,11 +1,4 @@
 using Newtonsoft.Json;
-using SmartDigitalPsico.Domain.DTO.Gender.ADD;
-using SmartDigitalPsico.Domain.DTO.Office.ADD;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
-using SmartDigitalPsico.Domain.DTO.Leaves.ADD;
-using SmartDigitalPsico.Domain.DTO.Specialty.ADD;
-using SmartDigitalPsico.Domain.DTO.Notification.ADD;
-using SmartDigitalPsico.Domain.DTO.Application.ADD;
 using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 namespace SmartDigitalPsico.Domain.Helpers
@@ -111,13 +104,13 @@ namespace SmartDigitalPsico.Domain.Helpers
 
                 currentObject = propInfo.GetValue(currentObject)!;
             }
-            var result = currentObject as string; 
+            var result = currentObject as string;
             if (!string.IsNullOrEmpty(result))
             {
                 return result;
-            } 
+            }
             return string.Empty;
-        } 
+        }
         private static string GetKeyValues(object obj)
         {
             var result = string.Empty;

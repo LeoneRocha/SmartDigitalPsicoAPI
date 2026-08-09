@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
     public class PatientRecord : EntityBase, IEntityBaseLogUser, IEntityPatientBase
-    { 
+    {
         #region Columns 
         public string Description { get; set; } = string.Empty;
         public string Annotation { get; set; } = string.Empty;
@@ -24,7 +24,7 @@ namespace SmartDigitalPsico.Domain.EntityModels
         public User? ModifyUser { get; set; }
         public long? CreatedUserId { get; set; }
         public long? ModifyUserId { get; set; }
-        
+
         public string TableStorageRowKey { get; set; } = string.Empty;
         #endregion Relationship
     }

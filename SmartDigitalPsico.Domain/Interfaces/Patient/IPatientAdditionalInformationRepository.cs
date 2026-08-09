@@ -1,7 +1,3 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
-using PatientEntity = SmartDigitalPsico.Domain.EntityModels.Patient;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Patient

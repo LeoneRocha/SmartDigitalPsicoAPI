@@ -2,7 +2,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Data.Test.DataMock;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -31,8 +30,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.CacheManager
                 PathCache = "./ResourcesTempCache",
                 AbsoluteExpirationInHours = 1,
                 AbsoluteExpirationInMinutes = 30,
-                SlidingExpirationInMinutes = 15 
-            }; 
+                SlidingExpirationInMinutes = 15
+            };
             var mockOptions = new Mock<IOptions<SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.CacheConfigurationDto>>();
             mockOptions.Setup(o => o.Value).Returns(cacheConfig);
 

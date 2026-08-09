@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.GET
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class GetPatientRecordDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBase, ISupportsHyperMedia
-    { 
+    {
         #region Relationship  
         public GetPatientDto Patient { get; set; } = new GetPatientDto();
         #endregion Relationship

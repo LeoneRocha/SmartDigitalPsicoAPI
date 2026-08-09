@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
     /// Relação: usado em entidades, DTOs e regras de negócio.
     /// </summary>
     public enum ETypeApiCredential
-    { 
+    {
         [Description("JSON Web Token - Bearer")]
         Jwt = 0,
 
@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
         GoogleCloudIdentity = 2,
 
         [Description("AWS IAM Identity Center")]
-        AWSIdentity = 3, 
+        AWSIdentity = 3,
     }
 }
 

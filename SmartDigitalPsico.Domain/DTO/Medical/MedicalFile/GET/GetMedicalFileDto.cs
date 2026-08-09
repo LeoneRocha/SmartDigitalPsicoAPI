@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET
         public GetMedicalDto Medical { get; set; } = new GetMedicalDto();
 
         #endregion Relationship
-        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>(); 
+        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
         public FileStream? DataFileStream { get; set; }
         public string FileUrl { get; set; } = string.Empty;
     }

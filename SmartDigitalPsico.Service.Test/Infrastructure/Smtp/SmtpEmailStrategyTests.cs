@@ -1,7 +1,5 @@
-using SmartDigitalPsico.Service;
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Smtp;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-                                
+
 [TestFixture]
 public class SmtpEmailStrategyTests
 {

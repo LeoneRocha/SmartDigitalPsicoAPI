@@ -1,8 +1,4 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using LeavesEntity = SmartDigitalPsico.Domain.EntityModels.Leaves;
-
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Leaves
 {
@@ -12,6 +8,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Leaves
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public interface ILeavesRepository : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<LeavesEntity>
-    { 
+    {
     }
-} 
+}

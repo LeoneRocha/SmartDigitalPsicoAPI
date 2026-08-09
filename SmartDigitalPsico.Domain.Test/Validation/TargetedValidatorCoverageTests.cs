@@ -97,8 +97,13 @@ public sealed class TargetedValidatorCoverageTests
         var validator = new MedicalCalendarValidator(medicalRepository.Object, userRepository.Object, scheduleRepository.Object);
         var calendar = new MedicalCalendar
         {
-            MedicalId = medical.Id, PatientId = 2, CreatedUserId = 3, ModifyUserId = 3,
-            StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceDays = [DayOfWeek.Monday]
+            MedicalId = medical.Id,
+            PatientId = 2,
+            CreatedUserId = 3,
+            ModifyUserId = 3,
+            StartDateTime = monday,
+            EndDateTime = monday.AddHours(1),
+            RecurrenceDays = [DayOfWeek.Monday]
         };
 
         // Act

@@ -1,15 +1,9 @@
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Service;
-
-using SmartDigitalPsico.Domain.Interfaces.Common;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-                                
+
 [TestFixture]
 public class InfrastructureFactoryTests
 {

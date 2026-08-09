@@ -6,6 +6,6 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
     public class AuditDataEntityLog : AuditDataEntityLogBase
-    { 
+    {
     }
 }

@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Data.Context.Configure.Mock
@@ -9,8 +7,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
     /// Responsabilidade: configuração de startup/DI da aplicação.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public static class RoleGroupUserMockData  
-    { 
+    public static class RoleGroupUserMockData
+    {
         /// <summary>
         /// Método GetMock: consulta e retorna dados.
         /// </summary>

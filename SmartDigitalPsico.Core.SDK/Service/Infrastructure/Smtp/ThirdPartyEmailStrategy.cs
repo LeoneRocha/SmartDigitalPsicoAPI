@@ -19,4 +19,4 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp
             await Task.CompletedTask;
         }
     }
-} 
+}

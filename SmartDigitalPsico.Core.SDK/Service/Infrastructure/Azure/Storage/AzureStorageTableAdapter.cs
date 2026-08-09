@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage
         public AzureStorageTableAdapter(IConfiguration configuration, string tableName)
         {
             string storageConnectionString = configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty;
-            
+
             if (!string.IsNullOrEmpty(storageConnectionString))
             {
                 var serviceClient = new TableServiceClient(storageConnectionString);
@@ -108,4 +108,4 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage
             await _tableClient.DeleteEntityAsync(partitionKey, rowKey);
         }
     }
-} 
+}

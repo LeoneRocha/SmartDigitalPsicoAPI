@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Domain.DTO.Leaves.Common
     public abstract class LeavesBaseDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain
     {
         public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; } 
+        public DateTime? EndDate { get; set; }
         public bool IsRecurring { get; set; }
     }
 }

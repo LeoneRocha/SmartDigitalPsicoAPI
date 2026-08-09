@@ -1,5 +1,4 @@
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -10,8 +9,8 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
     /// Responsabilidade: configuração de startup/DI da aplicação.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
-    public static class MedicalMockData  
-    { 
+    public static class MedicalMockData
+    {
         /// <summary>
         /// Método GetMock: consulta e retorna dados.
         /// </summary>
@@ -31,7 +30,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Mock
                 OfficeId = 1,
                 CreatedUserId = 1,
                 StartWorkingTime = new TimeSpan(6, 0, 0),
-                EndWorkingTime = new TimeSpan(20, 0, 0),   
+                EndWorkingTime = new TimeSpan(20, 0, 0),
                 PatientIntervalTimeMinutes = 60,
                 WorkingDays = [
                     DayOfWeek.Monday,

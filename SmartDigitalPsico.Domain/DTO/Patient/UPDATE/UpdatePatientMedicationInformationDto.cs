@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.UPDATE
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string Dosage { get; set; } = string.Empty;  
+        public string Dosage { get; set; } = string.Empty;
         public string Posology { get; set; } = string.Empty;
         public string MainDrug { get; set; } = string.Empty;
         #endregion Columns 

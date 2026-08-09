@@ -3,10 +3,9 @@ using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por ScheduleDeleteService.
     /// Responsabilidade: módulo de agendamento (Schedule).
     /// Relação: orquestra Core Schedule e contratos Medical do Domain.

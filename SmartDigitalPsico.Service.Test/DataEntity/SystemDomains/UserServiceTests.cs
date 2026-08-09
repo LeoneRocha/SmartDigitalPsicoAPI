@@ -1,32 +1,13 @@
-using SmartDigitalPsico.Service;
 using System.Security.Claims;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Gender.GET;
-using SmartDigitalPsico.Domain.DTO.Office.GET;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
-using SmartDigitalPsico.Domain.DTO.Leaves.GET;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Application.GET;
-using SmartDigitalPsico.Domain.DTO.Audit.GET;
-using SmartDigitalPsico.Domain.DTO.User.ADD;
-using SmartDigitalPsico.Domain.DTO.User.GET;
 using SmartDigitalPsico.Domain.DTO.User.UPDATE;
 using SmartDigitalPsico.Domain.DTO.User.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -34,13 +15,10 @@ using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                
+
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+
 [TestFixture]
 public class UserServiceTests
 {

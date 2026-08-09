@@ -56,7 +56,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency
                     case "DefaultRetryPolicy":
                         return DefaultRetryPolicy;
                     case "CustomRetryPolicy":
-                        return CustomRetryPolicy(policyConfig); 
+                        return CustomRetryPolicy(policyConfig);
                     default:
                         throw new InvalidOperationException("Invalid policy name");
                 }

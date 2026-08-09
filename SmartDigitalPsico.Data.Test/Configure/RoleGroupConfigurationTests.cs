@@ -2,7 +2,6 @@
 using SmartDigitalPsico.Data.Context.Configure.Entity;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 

@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Data.Context
         /// Método OnConfiguring: executa a operação OnConfiguring.
         /// </summary>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {  
+        {
             if (_auditInterceptor != null)
             {
                 optionsBuilder.AddInterceptors(_auditInterceptor);
@@ -52,7 +52,7 @@ namespace SmartDigitalPsico.Data.Context
             //Configure FLUENT API 
             ConfigurationEntitiesHelper.AddConfigurationEntitiesManually(modelBuilder, ETypeDataBase.Mysql);
             ConfigurationEntitiesHelper.AddConfigurationEntities(modelBuilder, ETypeDataBase.Mysql);
-             
+
             base.OnModelCreating(modelBuilder);
         }
     }

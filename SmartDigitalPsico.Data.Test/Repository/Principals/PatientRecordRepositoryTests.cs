@@ -3,7 +3,6 @@ using SmartDigitalPsico.Data.Repository.Principals;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -78,11 +77,11 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         {
             // Arrange 
             var mockDataPatient = PatientMockHelper.GetMock().Take(1).AsQueryable().First();
-             
+
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
             _entityRepository = new PatientRecordRepository(_mockContext);
-             
+
             // Act
             var result = await _entityRepository.FindAllByPatient(mockDataPatient.Id);
 
@@ -99,7 +98,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
         // Objetivo: retornar o registro pelo ID com navegação carregada.
         [Test]
         public async Task FindByID_ExistingId_ReturnsPatientRecord()
-        { 
+        {
             // Arrange
             // Inicialize  Repository
             _mockContext = _mockContext ?? new SmartDigitalPsicoDataContextTest();
@@ -120,7 +119,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<PatientRecord>());
                 Assert.That(result.Id, Is.EqualTo(mockData.Id));
-                Assert.That(result.Patient, Is.Not.Null);                
+                Assert.That(result.Patient, Is.Not.Null);
                 Assert.That(result.CreatedUser, Is.Not.Null);
             }
         }

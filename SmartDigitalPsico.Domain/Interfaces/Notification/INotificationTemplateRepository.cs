@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Notification
@@ -16,4 +14,4 @@ namespace SmartDigitalPsico.Domain.Interfaces.Notification
         /// </summary>
         Task<NotificationTemplate?> GetNotificationTemplateAsync(string templateKey, string language);
     }
-} 
+}

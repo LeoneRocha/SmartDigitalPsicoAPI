@@ -1,22 +1,20 @@
-using SmartDigitalPsico.Service;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.EntityModels;
-using SmartDigitalPsico.Service;
 
 namespace SmartDigitalPsico.Service.Test.Report.Entity;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-                                
+
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+
 [TestFixture]
 public class PatientReportServiceTests
 {

@@ -1,5 +1,4 @@
 ﻿using SmartDigitalPsico.Data.Context.Configure.Mock;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 

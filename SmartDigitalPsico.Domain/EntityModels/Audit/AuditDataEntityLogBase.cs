@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Responsabilidade: entidade de domínio persistida via EF Core.
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
-    public abstract class AuditDataEntityLogBase : EntityBase 
+    public abstract class AuditDataEntityLogBase : EntityBase
     {
         /// <summary>
         /// Método AuditDataEntityLogBase: executa a operação AuditDataEntityLogBase.

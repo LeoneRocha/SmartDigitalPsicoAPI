@@ -11,4 +11,4 @@ namespace SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP
         public string Message { get; set; } = string.Empty;
         public List<string> ToEmails { get; set; } = new List<string>();
     }
-} 
+}

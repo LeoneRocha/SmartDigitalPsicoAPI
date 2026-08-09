@@ -1,12 +1,11 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por AuditPersistenceLogService.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
@@ -32,7 +31,7 @@ namespace SmartDigitalPsico.Service
                 _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID} | Date: {Date}",
                     auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
             }
-        } 
+        }
         /// <summary>
         /// Método SaveAuditEntry: cria ou persiste um novo registro/recurso.
         /// </summary>

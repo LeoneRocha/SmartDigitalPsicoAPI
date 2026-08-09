@@ -135,7 +135,11 @@ public class ScheduleHelpersTests
         var start = new DateTime(2025, 1, 31, 9, 0, 0);
         RecurrenceMaterializeRequest Request(ERecurrenceCalendarType type) => new()
         {
-            StartDateTime = start, EndDateTime = start.AddHours(1), RecurrenceType = type, RecurrenceCount = 2, MaxOccurrences = 10
+            StartDateTime = start,
+            EndDateTime = start.AddHours(1),
+            RecurrenceType = type,
+            RecurrenceCount = 2,
+            MaxOccurrences = 10
         };
         // Act
         var none = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest { StartDateTime = start, EndDateTime = start.AddHours(1) });
@@ -187,22 +191,35 @@ public class ScheduleHelpersTests
         // Act
         var dailyFiltered = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = start, EndDateTime = start.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily,
-            RecurrenceDays = [DayOfWeek.Monday], RecurrenceEndDate = start.AddDays(8), MaxOccurrences = 10
+            StartDateTime = start,
+            EndDateTime = start.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Daily,
+            RecurrenceDays = [DayOfWeek.Monday],
+            RecurrenceEndDate = start.AddDays(8),
+            MaxOccurrences = 10
         });
         var weekly = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = start, EndDateTime = start.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Weekly,
-            RecurrenceDays = [DayOfWeek.Monday, DayOfWeek.Wednesday], RecurrenceCount = 3, MaxOccurrences = 10
+            StartDateTime = start,
+            EndDateTime = start.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Weekly,
+            RecurrenceDays = [DayOfWeek.Monday, DayOfWeek.Wednesday],
+            RecurrenceCount = 3,
+            MaxOccurrences = 10
         });
         var monthlyFiltered = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = start, EndDateTime = start.AddHours(-1), RecurrenceType = ERecurrenceCalendarType.Monthly,
-            RecurrenceDays = [DayOfWeek.Tuesday], RecurrenceCount = 1
+            StartDateTime = start,
+            EndDateTime = start.AddHours(-1),
+            RecurrenceType = ERecurrenceCalendarType.Monthly,
+            RecurrenceDays = [DayOfWeek.Tuesday],
+            RecurrenceCount = 1
         });
         var yearlySingle = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = start, EndDateTime = start.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Yearly
+            StartDateTime = start,
+            EndDateTime = start.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Yearly
         });
 
         // Assert
@@ -300,11 +317,15 @@ public class ScheduleHelpersTests
         // Act
         var parallel = TimeSlotGenerator.Generate(new TimeSlotWindow
         {
-            Date = date, StartWorkingTime = TimeSpan.Zero, EndWorkingTime = TimeSpan.FromDays(1), Interval = TimeSpan.FromHours(1)
+            Date = date,
+            StartWorkingTime = TimeSpan.Zero,
+            EndWorkingTime = TimeSpan.FromDays(1),
+            Interval = TimeSpan.FromHours(1)
         }, [], date.AddHours(-1));
         var oversized = TimeSlotGenerator.Generate(new TimeSlotWindow
         {
-            Date = date, Interval = TimeSpan.FromDays(2)
+            Date = date,
+            Interval = TimeSpan.FromDays(2)
         }, [], date);
 
         // Assert
@@ -329,18 +350,23 @@ public class ScheduleHelpersTests
         // Act
         var daily = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = wednesday, EndDateTime = wednesday.AddHours(1),
-            RecurrenceType = ERecurrenceCalendarType.Daily, RecurrenceDays = [DayOfWeek.Thursday]
+            StartDateTime = wednesday,
+            EndDateTime = wednesday.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Daily,
+            RecurrenceDays = [DayOfWeek.Thursday]
         });
         var weekly = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = wednesday, EndDateTime = wednesday.AddHours(1),
-            RecurrenceType = ERecurrenceCalendarType.Weekly, RecurrenceDays = [DayOfWeek.Thursday],
+            StartDateTime = wednesday,
+            EndDateTime = wednesday.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Weekly,
+            RecurrenceDays = [DayOfWeek.Thursday],
             RecurrenceCount = 1
         });
         var monthly = RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = wednesday, EndDateTime = wednesday.AddHours(1),
+            StartDateTime = wednesday,
+            EndDateTime = wednesday.AddHours(1),
             RecurrenceType = ERecurrenceCalendarType.Monthly
         });
 

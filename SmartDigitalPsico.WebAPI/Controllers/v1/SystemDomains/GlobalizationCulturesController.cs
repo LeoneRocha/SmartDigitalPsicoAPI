@@ -25,12 +25,12 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         {
         }
 
-        [HttpGet("GetCultures")] 
+        [HttpGet("GetCultures")]
         /// <summary>
         /// Método Get: consulta e retorna dados.
         /// </summary>
         public async Task<ActionResult<List<SmartDigitalPsico.Core.SDK.Domain.DTO.CultureDisplayDto>>> Get()
-        { 
+        {
             await Task.FromResult(0);
             var response = GetCultures();
             if (response.Count <= 0)

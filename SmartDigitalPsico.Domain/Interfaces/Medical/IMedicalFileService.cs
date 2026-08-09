@@ -1,12 +1,6 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
-using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-
-using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 using SmartDigitalPsico.Domain.EntityModels;
 

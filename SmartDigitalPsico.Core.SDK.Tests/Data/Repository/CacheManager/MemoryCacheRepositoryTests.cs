@@ -29,8 +29,8 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Repository.CacheManager
                 PathCache = "./ResourcesTempCache",
                 AbsoluteExpirationInHours = 1,
                 AbsoluteExpirationInMinutes = 30,
-                SlidingExpirationInMinutes = 15 
-            }; 
+                SlidingExpirationInMinutes = 15
+            };
             var mockOptions = new Mock<IOptions<CacheConfigurationDto>>();
             mockOptions.Setup(o => o.Value).Returns(cacheConfig);
 

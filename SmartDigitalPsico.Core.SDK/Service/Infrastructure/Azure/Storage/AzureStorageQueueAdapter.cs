@@ -12,13 +12,13 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage
     /// </summary>
     public class AzureStorageQueueAdapter : IStorageQueueContract
     {
-        private readonly QueueClient? _queueClient; 
+        private readonly QueueClient? _queueClient;
 
         /// <summary>
         /// Método AzureStorageQueueAdapter: executa a operação AzureStorageQueueAdapter.
         /// </summary>
         public AzureStorageQueueAdapter(IConfiguration configuration, string queueName)
-        { 
+        {
             string conBSC = configuration.GetSection("StorageServices:AzureStorage")["ConnectionString"] ?? string.Empty;
             if (!string.IsNullOrEmpty(conBSC))
             {
@@ -73,4 +73,4 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage
             await _queueClient.DeleteMessageAsync(messageId, popReceipt);
         }
     }
-} 
+}

@@ -63,7 +63,7 @@ public sealed class BranchCoverageHundredPercentTests
             var info = LogAppHelper.GetInformationVersionProduct();
             var version = LogAppHelper.GetAssemblyVersion();
 
-        // Act
+            // Act
             // Assert
             using (Assert.EnterMultipleScope())
             {
@@ -420,7 +420,7 @@ public sealed class BranchCoverageHundredPercentTests
         try
         {
             var info = LogAppHelper.GetInformationVersionProduct();
-        // Act
+            // Act
             // Assert
             info.Name.Should().Contain("SmartDigitalPsico.Domain.Test");
         }

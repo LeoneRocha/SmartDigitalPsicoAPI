@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
@@ -13,8 +12,6 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.User;
 namespace SmartDigitalPsico.Service.Test.TestSupport;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-                                
 /// <summary>
 /// Contexto compartilhado de dependências mockadas para os testes comportamentais de Service.
 /// Usa o AutoMapperProfile real (via IAppMapper) para evitar centenas de Setups manuais.

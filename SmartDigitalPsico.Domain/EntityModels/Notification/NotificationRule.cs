@@ -21,5 +21,5 @@ namespace SmartDigitalPsico.Domain.EntityModels
         public string Description { get; set; } = string.Empty;
         public string Language { get; set; } = string.Empty;
         public ENotificationType NotificationType { get; set; }
-    } 
+    }
 }

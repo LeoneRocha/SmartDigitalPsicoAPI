@@ -16,15 +16,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Newtonsoft.Json;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Domain.DTO.User.ADD;
 using SmartDigitalPsico.Domain.DTO.User.GET;
-using SmartDigitalPsico.Domain.DTO.User.UPDATE;
-using SmartDigitalPsico.Domain.DTO.User.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
@@ -888,8 +882,14 @@ public class DomainRemainingCoverageTests
         var outsideHours = await InvokeBoolAsync(criteriaValidator, "BeWithinWorkingHours", new ScheduleCriteriaDto { MedicalId = 1, AppointmentDateTime = appointment, TimeZone = "UTC" }, CancellationToken.None);
         var itemValid = await itemValidator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "x", StartDateTime = start, EndDateTime = start.AddHours(1),
-            Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = []
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "x",
+            StartDateTime = start,
+            EndDateTime = start.AddHours(1),
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = []
         });
         var nullRepoDays = await InvokeBoolAsync(itemValidator, "BeInWorkingDays", new ScheduleItem { MedicalId = 5, PatientId = 1, StartDateTime = start, EndDateTime = start.AddHours(1) });
         var nullRepoHours = await InvokeBoolAsync(itemValidator, "BeInWorkingHours", new ScheduleItem { MedicalId = 5, PatientId = 1, StartDateTime = start, EndDateTime = start.AddHours(1) });

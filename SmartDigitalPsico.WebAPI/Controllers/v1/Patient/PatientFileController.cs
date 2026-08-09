@@ -5,14 +5,13 @@ using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
-using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
 {
-    [ApiController] 
+    [ApiController]
     [Authorize("Bearer")]
     [Route("api/patient/v1/[controller]")]
 
@@ -31,7 +30,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// </summary>
         public PatientFileController(IPatientFileService entityService
             , IOptions<AuthConfigurationDto> configurationAuth
-            , IConfiguration configuration) 
+            , IConfiguration configuration)
             : base(configurationAuth)
         {
             _entityService = entityService;
@@ -79,7 +78,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             return Ok(response);
         }
 
-        [HttpGet("Download/{id}")]        
+        [HttpGet("Download/{id}")]
         /// <summary>
         /// Método DownloadFileById: executa a operação DownloadFileById.
         /// </summary>
@@ -102,7 +101,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             ServiceResponse<GetPatientFileDto> response = new ServiceResponse<GetPatientFileDto>();
 
             try
-            { 
+            {
                 var addEntity = new AddPatientFileDto() { PatientId = newEntity.PatientId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };
                 response.Data = null;
                 response.Success = await _entityService.PostFileAsync(addEntity);
@@ -118,7 +117,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             {
                 response.Message = $"Upload fail";
                 return BadRequest(response);
-            } 
-        } 
+            }
+        }
     }
 }

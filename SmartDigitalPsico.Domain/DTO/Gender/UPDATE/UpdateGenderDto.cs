@@ -6,6 +6,6 @@ namespace SmartDigitalPsico.Domain.DTO.Gender.UPDATE
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class UpdateGenderDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain
-    { 
+    {
     }
 }

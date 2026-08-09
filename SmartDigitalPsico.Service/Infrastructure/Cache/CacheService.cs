@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 
@@ -8,7 +7,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Bridge de produto sobre CacheService do Core — adiciona ApplicationCacheLog.
     /// DI deve registrar este tipo (não o Core direto) para manter auditoria de cache.
     /// </summary>

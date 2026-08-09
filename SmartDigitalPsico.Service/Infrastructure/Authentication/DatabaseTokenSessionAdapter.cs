@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por DatabaseTokenSessionAdapter.
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.
@@ -15,9 +15,9 @@ namespace SmartDigitalPsico.Service
         /// <summary>
         /// Método DatabaseTokenSessionAdapter: executa a operação DatabaseTokenSessionAdapter.
         /// </summary>
-        public DatabaseTokenSessionAdapter(IUserTokenSessionRepository  userTokenSessionRepository)
+        public DatabaseTokenSessionAdapter(IUserTokenSessionRepository userTokenSessionRepository)
         {
-             _userTokenSessionRepository = userTokenSessionRepository;
+            _userTokenSessionRepository = userTokenSessionRepository;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace SmartDigitalPsico.Service
         /// Método SaveSessionAsync: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task SaveSessionAsync(UserTokenSession userTokenSession)
-        { 
+        {
             await _userTokenSessionRepository.SaveSessionAsync(userTokenSession);
         }
     }

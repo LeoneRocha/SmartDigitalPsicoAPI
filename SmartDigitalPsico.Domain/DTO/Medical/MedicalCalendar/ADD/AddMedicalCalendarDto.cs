@@ -8,6 +8,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD
     /// </summary>
     public class AddMedicalCalendarDto : ActionMedicalCalendarDtoBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd
     {
-       
+
     }
 }

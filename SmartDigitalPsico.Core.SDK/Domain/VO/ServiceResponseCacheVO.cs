@@ -14,7 +14,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.VO
         /// Método ServiceResponseCacheVO: executa a operação ServiceResponseCacheVO.
         /// </summary>
         public ServiceResponseCacheVO()
-        { 
+        {
         }
         /// <summary>
         /// Método ServiceResponseCacheVO: executa a operação ServiceResponseCacheVO.

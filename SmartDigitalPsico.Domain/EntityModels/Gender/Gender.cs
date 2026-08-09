@@ -18,6 +18,6 @@ namespace SmartDigitalPsico.Domain.EntityModels
         }
         public string Description { get; set; } = string.Empty;
         public string Language { get; set; } = string.Empty;
-        public ICollection<Patient> Patients { get; set; } 
+        public ICollection<Patient> Patients { get; set; }
     }
 }

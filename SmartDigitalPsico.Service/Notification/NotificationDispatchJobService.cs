@@ -1,17 +1,9 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Constants;
-using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Office.UPDATE;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Leaves.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Specialty.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Events;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 
@@ -23,7 +15,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por NotificationDispatchJobService.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
@@ -90,7 +82,7 @@ namespace SmartDigitalPsico.Service
             await UpdateRecordsSended(updatedRecords);
 
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, processedCount);
-             
+
             stopwatch.Stop();
             _logger.Information("NotificationDispatchJobService - ProcessPendingNotificationsAsync : Finished at: {Time}  Duration:  {DurationTime}", SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
         }
@@ -102,7 +94,7 @@ namespace SmartDigitalPsico.Service
                 var updateDto = MapToUpdateDto(record);
                 await _notificationRecordsService.Update(updateDto);
                 LogInformation(NotificationDispatchConstants.RecordUpdated, record.Id);
-            } 
+            }
         }
 
         private static NotificationRecord[] FilterPendingRecords(NotificationRecord[] records, DateTime currentUtc)
@@ -110,7 +102,7 @@ namespace SmartDigitalPsico.Service
             return records
                 .Where(record =>
                     record.NotificationRules != null &&
-                    record.NotificationRules.Any(rule => !rule.IsSent && rule.ScheduledSendTime <= currentUtc)  
+                    record.NotificationRules.Any(rule => !rule.IsSent && rule.ScheduledSendTime <= currentUtc)
                 )
                 .ToArray();
         }

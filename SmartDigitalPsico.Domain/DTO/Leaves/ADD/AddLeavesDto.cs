@@ -8,5 +8,5 @@ namespace SmartDigitalPsico.Domain.DTO.Leaves.ADD
     /// </summary>
     public class AddLeavesDto : LeavesBaseDto, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd
     {
-    } 
+    }
 }

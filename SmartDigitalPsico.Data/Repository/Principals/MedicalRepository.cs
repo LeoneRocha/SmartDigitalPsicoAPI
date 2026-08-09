@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -84,7 +83,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .Include(e => e.MedicalSpecialties)
                 .ThenInclude(ms => ms.Specialty)
                 .Include(e => e.CreatedUser)
-                .Where(p => p.Accreditation == normalizedAccreditation).ToListAsync())                
+                .Where(p => p.Accreditation == normalizedAccreditation).ToListAsync())
                 .Find(p => p.Accreditation.Equals(normalizedAccreditation, StringComparison.OrdinalIgnoreCase));
 
             return entityResult;

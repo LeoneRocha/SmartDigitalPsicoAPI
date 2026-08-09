@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.DTO.Notification.Common
@@ -11,7 +9,7 @@ namespace SmartDigitalPsico.Domain.DTO.Notification.Common
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public abstract class NotificationRecordsBaseDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain
-    {  
+    {
         /// <summary>
         /// Schedule UniqueToken as Guid (opaque; no FK to schedule tables).
         /// </summary>
@@ -46,7 +44,7 @@ namespace SmartDigitalPsico.Domain.DTO.Notification.Common
         public DateTime EventDate { get; set; }
 
         public DateTime CreatedDate { get; set; }
-         
+
         public DateTime ModifyDate { get; set; }
     }
 }

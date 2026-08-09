@@ -8,9 +8,9 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class ReportServiceConfig : IReportServiceConfig
-    { 
+    {
         public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService ExcelGeneratorService { get; }
-        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService PdfReportService { get; } 
+        public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService PdfReportService { get; }
 
         /// <summary>
         /// Método ReportServiceConfig: executa a operação ReportServiceConfig.
@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
             )
         {
             ExcelGeneratorService = excelGeneratorService;
-            PdfReportService = pdfReportService; 
+            PdfReportService = pdfReportService;
         }
     }
 }

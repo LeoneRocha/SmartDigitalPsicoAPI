@@ -33,7 +33,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp
                 Body = emailMessage.Message,
                 IsBodyHtml = true,
                 From = new MailAddress(_smtpSettings.SenderEmail, _smtpSettings.SenderName)
-            }; 
+            };
 
             foreach (var toEmail in emailMessage.ToEmails)
             {

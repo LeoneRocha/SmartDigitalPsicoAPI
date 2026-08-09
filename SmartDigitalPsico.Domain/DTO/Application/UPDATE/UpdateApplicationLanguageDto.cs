@@ -6,9 +6,9 @@ namespace SmartDigitalPsico.Domain.DTO.Application.UPDATE
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class UpdateApplicationLanguageDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain
-    { 
-        public string LanguageKey { get; set; } = string.Empty;         
-        public string LanguageValue { get; set; } = string.Empty;         
+    {
+        public string LanguageKey { get; set; } = string.Empty;
+        public string LanguageValue { get; set; } = string.Empty;
         public string ResourceKey { get; set; } = string.Empty;
     }
 }

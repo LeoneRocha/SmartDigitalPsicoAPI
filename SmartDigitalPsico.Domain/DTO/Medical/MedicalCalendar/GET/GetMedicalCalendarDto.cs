@@ -1,11 +1,5 @@
-using SmartDigitalPsico.Domain.DTO.Patient.ADD;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
-using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Patient.Common;
-using SmartDigitalPsico.Domain.DTO.User.ADD;
 using SmartDigitalPsico.Domain.DTO.User.GET;
-using SmartDigitalPsico.Domain.DTO.User.UPDATE;
-using SmartDigitalPsico.Domain.DTO.User.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
@@ -25,7 +19,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET
         public GetUserDto? CreatedUser { get; set; } = new GetUserDto();
         public GetUserDto? ModifyUser { get; set; } = new GetUserDto();
         #endregion Relationship
-         
-        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>(); 
+
+        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
     }
 }

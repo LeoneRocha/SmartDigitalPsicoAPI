@@ -1,5 +1,4 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -12,13 +11,13 @@ namespace SmartDigitalPsico.Domain.Validation
     /// Relação: invocado pelos Services antes da persistência.
     /// </summary>
     public class PatientFileSelectListValidator : BasePatientSelectListValidator<PatientFile>
-    { 
+    {
         /// <summary>
         /// Método PatientFileSelectListValidator: executa a operação PatientFileSelectListValidator.
         /// </summary>
         public PatientFileSelectListValidator(IUserRepository userRepository)
             : base(userRepository)
-        { 
+        {
 
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)

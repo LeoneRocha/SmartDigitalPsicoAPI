@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Caching.Memory;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -91,7 +90,7 @@ namespace SmartDigitalPsico.Data.Audit
             var minDateAauditEntrie = auditEntriesInput.Min(x => x.AuditDate).AddMinutes(-2);
             List<string> tableNames = auditEntriesInput.Select(x => x.TableName).Distinct().ToList();
             List<string> operations = auditEntriesInput.Select(x => x.Operation).Distinct().ToList();
-            List<string> keyValues = auditEntriesInput.Select(x => x.KeyValue).Distinct().ToList(); 
+            List<string> keyValues = auditEntriesInput.Select(x => x.KeyValue).Distinct().ToList();
             var cacheKey = $"AuditEntries";
 
             List<AuditDataEntityLog> cachedEntriesOut;

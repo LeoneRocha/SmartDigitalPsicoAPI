@@ -4,7 +4,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por NotificationPlatformServiceFactory.
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.

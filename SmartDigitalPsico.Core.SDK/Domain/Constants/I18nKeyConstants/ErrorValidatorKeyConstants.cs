@@ -6,7 +6,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
     /// Relação: referenciado por Domain, Service e WebAPI.
     /// </summary>
     public static class ErrorValidatorKeyConstants
-    { 
+    {
         public const string AccreditationNull = "ErrorValidator_Accreditation_Null";
         public const string AccreditationUnique = "ErrorValidator_Accreditation_Unique";
         public const string AnnotationDateNull = "ErrorValidator_AnnotationDate_Null";

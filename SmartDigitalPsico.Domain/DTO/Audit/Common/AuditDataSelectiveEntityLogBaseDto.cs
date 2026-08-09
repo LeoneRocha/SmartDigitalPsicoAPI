@@ -1,7 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.User.ADD;
 using SmartDigitalPsico.Domain.DTO.User.GET;
-using SmartDigitalPsico.Domain.DTO.User.UPDATE;
-using SmartDigitalPsico.Domain.DTO.User.Common;
 
 namespace SmartDigitalPsico.Domain.DTO.Audit.Common
 {
@@ -26,4 +23,4 @@ namespace SmartDigitalPsico.Domain.DTO.Audit.Common
         public GetUserDto? UserAudited { get; set; }
         public long? UserAuditedId { get; set; }
     }
-} 
+}

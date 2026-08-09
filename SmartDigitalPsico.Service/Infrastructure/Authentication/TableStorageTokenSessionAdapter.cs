@@ -1,6 +1,5 @@
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Azure;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -8,7 +7,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por TableStorageTokenSessionAdapter.
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.

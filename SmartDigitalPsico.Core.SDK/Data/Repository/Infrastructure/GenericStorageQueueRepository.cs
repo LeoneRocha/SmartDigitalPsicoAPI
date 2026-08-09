@@ -43,4 +43,4 @@ namespace SmartDigitalPsico.Core.SDK.Data.Repository.Infrastructure
             await _storageQueueAdapter.EnqueueMessageAsync(message);
         }
     }
-} 
+}

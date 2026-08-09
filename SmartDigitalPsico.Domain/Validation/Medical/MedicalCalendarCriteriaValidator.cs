@@ -1,6 +1,5 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using System.Data.SqlTypes;
 
 using SmartDigitalPsico.Domain.Interfaces.User;

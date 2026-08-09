@@ -10,12 +10,12 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
     public class PatientAdditionalInformation : EntityBase, IEntityBaseLogUser, IEntityPatientBase
-    { 
+    {
         #region Columns         
-        public string FollowUp_Psychiatric { get; set; } = string.Empty; 
+        public string FollowUp_Psychiatric { get; set; } = string.Empty;
         public string FollowUp_Neurological { get; set; } = string.Empty;
         #endregion Columns 
-        
+
         #region Relationship
         public Patient? Patient { get; set; }
         public long PatientId { get; set; }

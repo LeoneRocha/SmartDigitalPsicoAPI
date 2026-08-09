@@ -96,9 +96,9 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Validation.Helper
             var parts = message.Split('|');
             if (parts.Length > 2)
             {
-                var template = parts[1]; 
+                var template = parts[1];
                 var values = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Skip(parts, 2));
-                
+
                 var replacedMessage = template;
                 if (values.Length > 0)
                 {

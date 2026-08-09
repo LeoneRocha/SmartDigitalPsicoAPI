@@ -1,22 +1,7 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.DTO.Gender.GET;
-using SmartDigitalPsico.Domain.DTO.Office.GET;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
-using SmartDigitalPsico.Domain.DTO.Leaves.GET;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
 using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Domain.DTO.Gender.ADD;
-using SmartDigitalPsico.Domain.DTO.Office.ADD;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
-using SmartDigitalPsico.Domain.DTO.Leaves.ADD;
-using SmartDigitalPsico.Domain.DTO.Specialty.ADD;
-using SmartDigitalPsico.Domain.DTO.Notification.ADD;
-using SmartDigitalPsico.Domain.DTO.Application.ADD;
 using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
@@ -25,7 +10,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por AuditDataSelectiveEntityLogService.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.

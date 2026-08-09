@@ -3,9 +3,6 @@ using Microsoft.Extensions.Localization;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 using SmartDigitalPsico.Domain.Helpers;
-
-using SmartDigitalPsico.Domain.Interfaces.Application;
-using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Domain.Test.Helper;
 
 [TestFixture]
@@ -14,7 +11,7 @@ public class GeneralHelpersTests
     private sealed class OrderedModel
     {
         [SmartDigitalPsico.Core.SDK.Domain.Helpers.Order(2)] public string Second { get; set; } = "second";
-        [System.ComponentModel.Description("Nome exibido")] [SmartDigitalPsico.Core.SDK.Domain.Helpers.Order(1)] public string First { get; set; } = "first";
+        [System.ComponentModel.Description("Nome exibido")][SmartDigitalPsico.Core.SDK.Domain.Helpers.Order(1)] public string First { get; set; } = "first";
         public string Ignored { get; set; } = "ignored";
     }
     private sealed class AuditEntryModel

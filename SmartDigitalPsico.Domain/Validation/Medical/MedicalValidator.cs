@@ -1,5 +1,4 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -104,7 +103,7 @@ namespace SmartDigitalPsico.Domain.Validation
                     if (existingEnity != null)
                     {
                         return false;
-                    } 
+                    }
                 }
                 else
                 {

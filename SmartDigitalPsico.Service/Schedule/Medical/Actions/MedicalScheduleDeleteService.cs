@@ -1,9 +1,6 @@
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -13,7 +10,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por MedicalScheduleDeleteService.
     /// Responsabilidade: módulo de agendamento (Schedule).
     /// Relação: orquestra Core Schedule e contratos Medical do Domain.

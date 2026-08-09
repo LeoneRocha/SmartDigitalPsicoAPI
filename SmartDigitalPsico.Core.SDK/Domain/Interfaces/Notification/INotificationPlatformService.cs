@@ -12,6 +12,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification
         /// <summary>
         /// Método SendAsync: dispara notificação ou comunicação.
         /// </summary>
-        Task SendAsync(DataNotificationTemplateVO template, Dictionary<string, string> tokens); 
+        Task SendAsync(DataNotificationTemplateVO template, Dictionary<string, string> tokens);
     }
 }

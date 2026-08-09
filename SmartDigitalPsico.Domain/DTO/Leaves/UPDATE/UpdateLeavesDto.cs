@@ -7,6 +7,6 @@ namespace SmartDigitalPsico.Domain.DTO.Leaves.UPDATE
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class UpdateLeavesDto : LeavesBaseDto
-    { 
+    {
     }
 }

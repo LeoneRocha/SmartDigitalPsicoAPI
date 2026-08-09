@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Report
         public async Task Generate(ReportPageContentDto content, string filePath)
         {
             await Task.Run(() => GeneratePDF(content, filePath));
-        } 
+        }
         private static void GeneratePDF(ReportPageContentDto content, string filePath)
         {
             var document = CreateDocument(content);

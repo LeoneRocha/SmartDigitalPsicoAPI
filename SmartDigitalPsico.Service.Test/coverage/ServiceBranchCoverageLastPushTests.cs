@@ -1,9 +1,7 @@
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using System.Globalization;
 using System.Reflection;
 using System.Security.Claims;
-using AutoMapper;
 using Azure;
 using Azure.Data.Tables;
 using FluentValidation;
@@ -12,45 +10,16 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
-using SmartDigitalPsico.Domain.DTO.Office.GET;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
-using SmartDigitalPsico.Domain.DTO.Leaves.GET;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Application.GET;
-using SmartDigitalPsico.Domain.DTO.Audit.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
-using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 using SmartDigitalPsico.Domain.DTO.Gender.ADD;
-using SmartDigitalPsico.Domain.DTO.Office.ADD;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
-using SmartDigitalPsico.Domain.DTO.Leaves.ADD;
-using SmartDigitalPsico.Domain.DTO.Specialty.ADD;
-using SmartDigitalPsico.Domain.DTO.Notification.ADD;
-using SmartDigitalPsico.Domain.DTO.Application.ADD;
-using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -60,15 +29,10 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                
+
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
+
 [TestFixture]
 public class ServiceBranchCoverageLastPushTests
 {
@@ -1058,7 +1022,7 @@ public class ServiceBranchCoverageLastPushTests
         {
             emptySide.Should().Contain("NotFoundLocalizationButInsertedDefault");
             keepSide.Should().Be("PREVIOUS");
-                        renewed.Authenticated.Should().BeTrue();
+            renewed.Authenticated.Should().BeTrue();
             renewed.AccessToken.Should().Be("new-a");
             // null RefreshTokenExpiryTime: !HasValue rejects refresh
             renewedNullExpiry.Authenticated.Should().BeFalse();

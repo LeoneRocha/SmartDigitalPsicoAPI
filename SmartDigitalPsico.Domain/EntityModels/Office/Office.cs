@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Domain.EntityModels
         {
             Medicals = new List<Medical>();
         }
-        public string Description { get; set; } = string.Empty;                 
+        public string Description { get; set; } = string.Empty;
         public string Language { get; set; } = "en";
         public ICollection<Medical> Medicals { get; set; }
     }

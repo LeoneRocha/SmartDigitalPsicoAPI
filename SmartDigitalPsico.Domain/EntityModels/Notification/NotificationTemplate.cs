@@ -9,11 +9,11 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
     public class NotificationTemplate : EntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseDomains
-    {  
+    {
         public string Description { get; set; } = string.Empty;
         public string Language { get; set; } = string.Empty;
         public string Subject { get; set; } = string.Empty;
-        public string Body { get; set; } = string.Empty; 
+        public string Body { get; set; } = string.Empty;
         /// <summary>
         /// Stable lookup key for this template (e.g. AppointmentScheduledSuccess).
         /// </summary>

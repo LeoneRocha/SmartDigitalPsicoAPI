@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
                 // Exportando as chaves
                 var publicKey = rsa.ExportParameters(false);
                 var privateKey = rsa.ExportParameters(true);
-                  
+
                 // Retornando o objeto com as chaves
                 return new RsaCryptoDto
                 {

@@ -1,29 +1,17 @@
-using SmartDigitalPsico.Service;
 using Microsoft.Extensions.Configuration;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
-using SmartDigitalPsico.Domain.DTO.Common;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
-
-using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-                                
+
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+
 [TestFixture]
 public class MedicalFileServiceTests
 {

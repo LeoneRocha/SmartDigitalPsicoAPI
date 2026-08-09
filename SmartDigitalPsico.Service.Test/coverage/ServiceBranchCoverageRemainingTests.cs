@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Service;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Configuration;
@@ -29,20 +28,6 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.Infrastructure;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using System.Globalization;
@@ -51,15 +36,12 @@ using System.Security.Claims;
 using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                
+
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
+
 [TestFixture]
 public class ServiceBranchCoverageRemainingTests
 {

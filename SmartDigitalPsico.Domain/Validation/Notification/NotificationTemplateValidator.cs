@@ -1,5 +1,4 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using System.Text.RegularExpressions;
 
 using SmartDigitalPsico.Domain.EntityModels;

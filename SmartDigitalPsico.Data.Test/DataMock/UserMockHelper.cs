@@ -1,5 +1,4 @@
 using Bogus;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
 
 using SmartDigitalPsico.Domain.EntityModels;
@@ -34,7 +33,7 @@ namespace SmartDigitalPsico.Data.Test.DataMock
             user1.MedicalId = 1;
             var user2 = faker.Generate();
             user2.Role = "Medical";
-            user2.MedicalId = 1; 
+            user2.MedicalId = 1;
 
             var user3 = faker.Generate();
 

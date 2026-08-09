@@ -1,36 +1,11 @@
 using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Domain.DTO.Leaves.Common;
 using SmartDigitalPsico.Domain.DTO.Notification.Common;
-using SmartDigitalPsico.Domain.DTO.Application.Common;
-using SmartDigitalPsico.Domain.DTO.Audit.Common;
-using SmartDigitalPsico.Domain.DTO.Gender.GET;
-using SmartDigitalPsico.Domain.DTO.Office.GET;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
-using SmartDigitalPsico.Domain.DTO.Leaves.GET;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Application.GET;
-using SmartDigitalPsico.Domain.DTO.Audit.GET;
-using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Office.UPDATE;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Leaves.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Specialty.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Domain.DTO.Gender.ADD;
-using SmartDigitalPsico.Domain.DTO.Office.ADD;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
-using SmartDigitalPsico.Domain.DTO.Leaves.ADD;
-using SmartDigitalPsico.Domain.DTO.Specialty.ADD;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
-using SmartDigitalPsico.Domain.DTO.Application.ADD;
-using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -39,7 +14,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                                                        /// <summary>
+    /// <summary>
     /// Classe responsável por NotificationRecordsService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
@@ -86,22 +61,22 @@ namespace SmartDigitalPsico.Service
 
             NotificationRecord? entityUpdate = await ((INotificationRecordsRepository)_entityRepository).FindByID(dto.Id);
             if (entityUpdate != null)
-            {   
+            {
                 entityUpdate.NotificationRules = dto.NotificationRules;
                 entityUpdate.NextScheduledSendTime = dto.NextScheduledSendTime;
                 entityUpdate.FinalSendDate = dto.FinalSendDate;
                 entityUpdate.EventDate = dto.EventDate;
                 entityUpdate.TokenId = dto.TokenId;
                 entityUpdate.Enable = dto.Enable;
-                entityUpdate.IsCompleted = dto.IsCompleted;               
-               
+                entityUpdate.IsCompleted = dto.IsCompleted;
+
                 // Atualiza as datas e o usuário modificador
                 entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
 
                 response = await base.Validate(entityUpdate);
 
                 if (response.Success)
-                {  
+                {
                     NotificationRecord entityResponse = await ((INotificationRecordsRepository)_entityRepository).Update(entityUpdate);
 
                     response.Data = _mapper.Map<GetNotificationRecordsDto>(entityResponse);
@@ -133,7 +108,7 @@ namespace SmartDigitalPsico.Service
                 {
                     await ProcessSingleMedicalCalendarAsync(medicalCalendar, dto);
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 _logger.Error(ex, "Error at CreateOrUpdateNotificationRecordsAsync");
@@ -161,7 +136,7 @@ namespace SmartDigitalPsico.Service
 
         private static NotificationRuleStatus[] GenerateNotificationRulesDtos(NotificationRule[] notificationRules, MedicalCalendar medicalCalendar)
         {
-            var currentTime  = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
+            var currentTime = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
 
             return notificationRules
                 .Select(nr => new NotificationRuleStatus
@@ -256,11 +231,11 @@ namespace SmartDigitalPsico.Service
                     return adjustedStartDateTime.AddMonths(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue);
                 case EIntervalNotificationType.Years:
                     return adjustedStartDateTime.AddYears(notificationRule.IsBefore ? -notificationRule.IntervalValue : notificationRule.IntervalValue);
-                default: 
+                default:
                     return adjustedStartDateTime;
             }
         }
-         
+
         private static int GetTimeZoneOffset(string timeZone)
         {
             // Implementação simplificada, ajustar conforme necessidade
@@ -279,10 +254,10 @@ namespace SmartDigitalPsico.Service
 
             var minScheduledLocal = dto.NotificationRules
                 .Where(r => !r.IsSent)
-                .Min(r => r.ScheduledSendTime);            
+                .Min(r => r.ScheduledSendTime);
 
             return minScheduledLocal;
-        } 
+        }
 
         /// <summary>
         /// Método GetPendingNotificationsAsync: consulta e retorna dados.

@@ -1,14 +1,11 @@
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using AutoMapper;
 using Moq;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Authentication;
-                                
+
 [TestFixture]
 public class TableStorageTokenSessionAdapterTests
 {

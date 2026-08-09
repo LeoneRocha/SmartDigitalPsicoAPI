@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia
     {
         public string Rel { get; set; } = string.Empty;
 
-        private string href = string.Empty; 
+        private string href = string.Empty;
         public string Href
         {
             get

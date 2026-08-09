@@ -6,6 +6,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Notification
     /// Relação: implementado nas camadas Data/Service.
     /// </summary>
     public interface IWhatsAppService : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService
-    { 
+    {
     }
 }

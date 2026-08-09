@@ -12,5 +12,5 @@ namespace SmartDigitalPsico.Domain.DTO.Common
         /// Método RefDto: executa a operação RefDto.
         /// </summary>
         public RefDto(T value) => Value = value;
-    } 
+    }
 }

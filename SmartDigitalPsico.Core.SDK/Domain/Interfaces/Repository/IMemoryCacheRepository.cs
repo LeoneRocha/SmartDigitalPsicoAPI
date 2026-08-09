@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
     public interface IMemoryCacheRepository : ICacheRepository
     {
 
-       bool Set<T>(string cacheKey, T value, MemoryCacheEntryOptions memoryCacheEntryOptions);
+        bool Set<T>(string cacheKey, T value, MemoryCacheEntryOptions memoryCacheEntryOptions);
 
     }
 

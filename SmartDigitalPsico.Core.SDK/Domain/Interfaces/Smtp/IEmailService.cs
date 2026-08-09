@@ -8,6 +8,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp
     /// Relação: implementado nas camadas Data/Service.
     /// </summary>
     public interface IEmailService : INotificationPlatformService
-    { 
+    {
     }
 }

@@ -1,8 +1,4 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using UserEntity = SmartDigitalPsico.Domain.EntityModels.User;
-
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.User
 {
@@ -24,7 +20,7 @@ namespace SmartDigitalPsico.Domain.Interfaces.User
         /// <summary>
         /// Método RefreshUserInfo: executa a operação RefreshUserInfo.
         /// </summary>
-        Task<UserEntity> RefreshUserInfo(UserEntity user); 
+        Task<UserEntity> RefreshUserInfo(UserEntity user);
         /// <summary>
         /// Método UserExists: executa a operação UserExists.
         /// </summary>

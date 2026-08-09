@@ -8,8 +8,8 @@ namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public abstract class EntityDtoBaseDomainAdd : IEntityDtoAdd
-    { 
-        public string Description { get; set; } = string.Empty;  
+    {
+        public string Description { get; set; } = string.Empty;
         public string Language { get; set; } = "en";
     }
 }

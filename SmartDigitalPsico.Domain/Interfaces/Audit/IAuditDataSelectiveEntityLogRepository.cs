@@ -1,5 +1,3 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Audit
@@ -10,6 +8,6 @@ namespace SmartDigitalPsico.Domain.Interfaces.Audit
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public interface IAuditDataSelectiveEntityLogRepository : SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<AuditDataSelectiveEntityLog>
-    { 
+    {
     }
 }

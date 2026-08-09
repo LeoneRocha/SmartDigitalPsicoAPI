@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         /// </summary>
         public SharedServices(
             SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService cacheService,
-            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService cryptoService, 
+            SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService cryptoService,
             IServiceProvider serviceProvider
         )
         {

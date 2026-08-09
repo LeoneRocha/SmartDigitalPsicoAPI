@@ -10,6 +10,6 @@ namespace SmartDigitalPsico.Domain.DTO.Notification.GET
     /// </summary>
     public class GetNotificationRulesDto : NotificationRulesBaseDto, ISupportsHyperMedia
     {
-        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>(); 
+        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
     }
 }

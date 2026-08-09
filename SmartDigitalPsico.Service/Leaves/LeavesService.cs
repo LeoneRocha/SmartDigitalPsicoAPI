@@ -8,7 +8,7 @@ using SmartDigitalPsico.Domain.Interfaces.Leaves;
 using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Service
 {
-        /// <summary>
+    /// <summary>
     /// Classe responsável por LeavesService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Service
             IValidator<Leaves> entityValidator
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
-        { 
-        }  
+        {
+        }
     }
 }

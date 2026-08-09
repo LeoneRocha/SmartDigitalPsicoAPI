@@ -1,7 +1,7 @@
 ﻿using SmartDigitalPsico.Data.Tests.Context;
 
 namespace SmartDigitalPsico.Data.Test.Configure
-{ 
+{
     public abstract class BaseTests
     {
         protected SmartDigitalPsicoDataContextTest? _mockContext;
@@ -21,6 +21,6 @@ namespace SmartDigitalPsico.Data.Test.Configure
                 _mockContext.Database.EnsureDeleted();
                 _mockContext.Dispose();
             }
-        } 
+        }
     }
 }

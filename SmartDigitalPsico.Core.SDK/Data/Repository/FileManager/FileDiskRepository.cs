@@ -28,7 +28,7 @@ namespace SmartDigitalPsico.Core.SDK.Data.Repository.FileManager
                 result = await SaveFileFromByte(item);
             }
             return result;
-        } 
+        }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0018:Path traversal", Justification = "Path is validated and sanitized")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:Path traversal", Justification = "Path is validated and sanitized")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "S6549:roslyn.sonaranalyzer.security.cs:S6549", Justification = "Path is validated and sanitized")]

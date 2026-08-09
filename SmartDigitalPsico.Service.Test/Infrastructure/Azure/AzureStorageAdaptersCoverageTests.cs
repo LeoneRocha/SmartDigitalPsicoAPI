@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Service;
 using Azure;
 using Azure.Data.Tables;
 using Azure.Storage;
@@ -13,7 +12,7 @@ using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Azure;
-                                
+
 [TestFixture]
 public class AzureStorageAdaptersCoverageTests
 {

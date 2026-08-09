@@ -16,13 +16,13 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
         public IApplicationLanguageRepository ApplicationLanguageRepository { get; }
         public IApplicationConfigSettingRepository ApplicationConfigSettingRepository { get; }
 
-     
+
 
         /// <summary>
         /// Método SharedRepositories: executa a operação SharedRepositories.
         /// </summary>
         public SharedRepositories(
-            IUserRepository userRepository, 
+            IUserRepository userRepository,
             IApplicationLanguageRepository applicationLanguageRepository,
             IApplicationConfigSettingRepository applicationConfigSettingRepository,
             INotificationTemplateRepository notificationTemplateRepository)
@@ -30,7 +30,7 @@ namespace SmartDigitalPsico.Domain.DependeciesCollection
             UserRepository = userRepository;
             ApplicationLanguageRepository = applicationLanguageRepository;
             ApplicationConfigSettingRepository = applicationConfigSettingRepository;
-         
+
         }
     }
 }

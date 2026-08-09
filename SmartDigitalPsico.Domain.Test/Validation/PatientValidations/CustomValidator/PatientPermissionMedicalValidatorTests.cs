@@ -1,5 +1,4 @@
 using Bogus;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Validation;
 
 using SmartDigitalPsico.Domain.EntityModels;

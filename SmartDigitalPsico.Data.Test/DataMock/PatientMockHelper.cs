@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -19,7 +18,7 @@ namespace SmartDigitalPsico.Data.Test.DataMock
             var faker = new Faker<Patient>("pt_BR")
                 .RuleFor(p => p.CreatedUserId, 2)
                 .RuleFor(p => p.MedicalId, 1)
-                .RuleFor(p => p.GenderId, f => f.Random.Long(1, 2))                
+                .RuleFor(p => p.GenderId, f => f.Random.Long(1, 2))
                 .RuleFor(p => p.Name, f => f.Person.FirstName)
                 .RuleFor(p => p.Email, f => f.Person.Email)
                 .RuleFor(p => p.DateOfBirth, f => f.Person.DateOfBirth)

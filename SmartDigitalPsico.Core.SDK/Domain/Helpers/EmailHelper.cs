@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
     public static class EmailHelper
     {
         private const string TokenPattern = "[{{{0}}}]";
-         
+
         /// <summary>
         /// Método ReplaceTokens: executa a operação ReplaceTokens.
         /// </summary>

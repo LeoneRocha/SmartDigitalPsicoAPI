@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -34,7 +33,7 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
             builder.Property(e => e.Description).HasMaxLength(50).HasColumnType("varchar(50)");
             builder.Property(e => e.Language).HasMaxLength(10).HasColumnType("varchar(10)");
 
-            builder.HasData(GenderMockData.GetMock()); 
+            builder.HasData(GenderMockData.GetMock());
         }
     }
 }

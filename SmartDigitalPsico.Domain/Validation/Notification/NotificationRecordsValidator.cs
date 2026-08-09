@@ -1,5 +1,4 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Validation
@@ -15,7 +14,7 @@ namespace SmartDigitalPsico.Domain.Validation
         /// Método NotificationRecordsValidator: executa a operação NotificationRecordsValidator.
         /// </summary>
         public NotificationRecordsValidator()
-        { 
+        {
             RuleFor(x => x.TokenId)
                 .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.NotificationRecordsValidator.NotificationRecord.TokenId.NotEmpty")
@@ -53,7 +52,7 @@ namespace SmartDigitalPsico.Domain.Validation
                     .WithMessage("NotificationRecords_FinalSendDate_Validator_Invalid|FinalSendDate must be equal to or later than CreatedDate.");
             });
         }
-    } 
+    }
     /// <summary>
     /// Classe responsável por NotificationRuleStatusValidator.
     /// Responsabilidade: validador FluentValidation de regras de negócio.

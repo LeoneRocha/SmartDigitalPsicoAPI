@@ -10,7 +10,7 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.ADD
     {
         #region Relationship   
         public long OfficeId { get; set; }
-        public List<long> SpecialtiesIds { get; set; } = new List<long>(); 
+        public List<long> SpecialtiesIds { get; set; } = new List<long>();
         #endregion Relationship 
     }
 }

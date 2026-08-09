@@ -6,6 +6,6 @@ namespace SmartDigitalPsico.Domain.DTO.Office.UPDATE
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class UpdateOfficeDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBaseDomain
-    { 
+    {
     }
 }

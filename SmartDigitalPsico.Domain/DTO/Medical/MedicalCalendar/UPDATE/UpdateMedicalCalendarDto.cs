@@ -8,6 +8,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE
     /// </summary>
     public class UpdateMedicalCalendarDto : ActionMedicalCalendarDtoBase
     {
-        public bool IsUpdate { get; set; }        
-    } 
+        public bool IsUpdate { get; set; }
+    }
 }

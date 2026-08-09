@@ -7,6 +7,6 @@ namespace SmartDigitalPsico.Domain.DTO.Notification.ADD
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class AddNotificationRecordsDto : NotificationRecordsBaseDto, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd
-    { 
+    {
     }
 }

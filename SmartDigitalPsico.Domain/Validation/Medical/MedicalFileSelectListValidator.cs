@@ -1,6 +1,5 @@
 using FluentValidation;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -20,7 +19,7 @@ namespace SmartDigitalPsico.Domain.Validation
         /// </summary>
         public MedicalFileSelectListValidator(IUserRepository userRepository)
            : base(userRepository)
-        {  
+        {
             RuleFor(recordsList => recordsList.UserIdLogged)
                 .MustAsync(HasPermissionAsync)
                 .WithErrorCode("SmartDigitalPsico.MedicalFileSelectListValidator.MedicalFile.UserIdLogged.Must")

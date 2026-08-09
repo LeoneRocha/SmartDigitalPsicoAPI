@@ -1,6 +1,4 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Domain.Validation;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
@@ -174,7 +172,7 @@ namespace SmartDigitalPsico.Domain.Validation
         private async Task<bool> UniqueEmail(Patient entity, string value)
         {
             try
-            { 
+            {
                 if (!await _entityRepository.Exists(entity.Id))
                 {
 
@@ -193,7 +191,7 @@ namespace SmartDigitalPsico.Domain.Validation
                     {
                         return false;
                     }
-                } 
+                }
             }
             catch (Exception)
             {
@@ -201,7 +199,7 @@ namespace SmartDigitalPsico.Domain.Validation
             }
             return true;
         }
-         
+
         private static bool beValidAge(DateTime date)
         {
             int currentYear = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().Year;

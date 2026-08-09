@@ -3,9 +3,6 @@ using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
@@ -18,7 +15,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Shared Medical host context (user, i18n, validation helpers). Scoped per request.
     /// </summary>
     public class MedicalScheduleHostSupport

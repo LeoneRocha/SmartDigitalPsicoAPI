@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Data.Context.Interface
-{ 
+{
 
     public interface IEntityDataSmartDigitalPsicoContext : SmartDigitalPsico.Core.SDK.Data.Context.Interface.IEntityDataContext
     {

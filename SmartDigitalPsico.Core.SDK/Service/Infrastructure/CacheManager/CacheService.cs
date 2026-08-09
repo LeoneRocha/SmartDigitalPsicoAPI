@@ -89,7 +89,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager
         }
 
         public bool Exists<T>(string? cacheKey) where T : class, new()
-        { 
+        {
             bool result = false;
             try
             {

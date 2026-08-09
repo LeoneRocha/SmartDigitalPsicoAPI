@@ -6,8 +6,8 @@ namespace SmartDigitalPsico.Domain.DTO.Patient.UPDATE
     /// Relação: usado por Controllers, Services e Validators.
     /// </summary>
     public class UpdatePatientFileDto : SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts.EntityDtoBase
-    { 
-        public string Description { get; set; } = string.Empty;          
+    {
+        public string Description { get; set; } = string.Empty;
         public string FilePath { get; set; } = string.Empty;
     }
 }

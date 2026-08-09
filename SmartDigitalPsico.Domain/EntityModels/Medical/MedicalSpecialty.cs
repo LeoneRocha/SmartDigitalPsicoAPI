@@ -6,7 +6,7 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
     public class MedicalSpecialty
-    { 
+    {
         public Medical? Medical { get; set; }
         public long MedicalId { get; set; }
 

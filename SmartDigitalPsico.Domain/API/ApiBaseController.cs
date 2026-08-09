@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using System.Globalization;
 

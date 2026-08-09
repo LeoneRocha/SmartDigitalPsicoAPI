@@ -17,7 +17,7 @@ namespace SmartDigitalPsico.Domain.DTO.User.ADD
         public string Password { get; set; } = string.Empty;
         #region Columns  
         public string Role { get; set; } = string.Empty;
-        public bool Admin { get; set; } 
+        public bool Admin { get; set; }
         public string Language { get; set; } = string.Empty;
         public string TimeZone { get; set; } = string.Empty;
         #endregion Columns 

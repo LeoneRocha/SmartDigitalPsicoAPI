@@ -11,7 +11,7 @@ using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// ORM do produto (contexts MySQL/SQL Server + interceptor de auditoria).
     /// </summary>
     public static class ServiceCollectionConfigureOrm

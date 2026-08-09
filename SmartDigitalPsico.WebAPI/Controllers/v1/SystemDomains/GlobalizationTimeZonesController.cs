@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// </summary>
         public GlobalizationTimeZonesController()
         {
-        } 
+        }
         [HttpGet("GetTimeZones")]
         /// <summary>
         /// Método Get: consulta e retorna dados.

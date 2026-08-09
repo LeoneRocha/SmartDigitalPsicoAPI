@@ -3,7 +3,7 @@ using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por ExcelGeneratorService.
     /// Responsabilidade: geração de relatórios.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.

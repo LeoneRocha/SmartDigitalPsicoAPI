@@ -41,7 +41,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Security
         public string Encrypt(string keyBase64, string plainText)
         {
             return executeEncrypt(keyBase64, plainText);
-        } 
+        }
         /// <summary>
         /// Método Decrypt: executa a operação Decrypt.
         /// </summary>

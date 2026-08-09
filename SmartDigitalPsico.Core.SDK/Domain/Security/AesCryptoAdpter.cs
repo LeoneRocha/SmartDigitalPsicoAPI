@@ -25,8 +25,8 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Security
         /// <summary>
         /// Método AesCryptoAdpter: executa a operação AesCryptoAdpter.
         /// </summary>
-        public AesCryptoAdpter(string base64Key, string base64IV)   
-        { 
+        public AesCryptoAdpter(string base64Key, string base64IV)
+        {
             _key = Convert.FromBase64String(base64Key);
             _iv = Convert.FromBase64String(base64IV);
         }
@@ -92,7 +92,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Security
             catch (Exception)
             {
                 return string.Empty;
-            } 
+            }
         }
     }
 }

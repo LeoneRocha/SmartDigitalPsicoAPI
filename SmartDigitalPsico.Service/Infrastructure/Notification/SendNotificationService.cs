@@ -4,7 +4,7 @@ using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por SendNotificationService.
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.

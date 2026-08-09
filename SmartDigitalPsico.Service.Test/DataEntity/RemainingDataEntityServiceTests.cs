@@ -1,25 +1,8 @@
-using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using AutoMapper;
 using FluentValidation;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using Serilog;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service;
-
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Leaves;
@@ -33,15 +16,14 @@ using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity;
-    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                
+
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
+using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
+using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
+
 [TestFixture]
 public class RemainingDataEntityServiceTests
 {

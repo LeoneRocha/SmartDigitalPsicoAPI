@@ -26,7 +26,7 @@ namespace SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager
             _repositoryFileDisk = repositoryFileDisk;
             _cacheConfig = cacheConfig.Value;
 
-        } 
+        }
 
         public async Task<bool> SetAsync<T>(string cacheKey, T value)
         {

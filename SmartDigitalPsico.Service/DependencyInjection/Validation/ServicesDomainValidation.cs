@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Service.DependencyInjection.Validation
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por ServicesDomainValidation.
     /// Responsabilidade: configuração de startup/DI da aplicação.
     /// Relação: registra serviços no container e configura o pipeline.

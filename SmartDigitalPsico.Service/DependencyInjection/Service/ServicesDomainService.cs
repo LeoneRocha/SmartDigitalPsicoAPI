@@ -6,7 +6,6 @@ using System.Reflection;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Service.DependencyInjection.Service
 {
     /// <summary>

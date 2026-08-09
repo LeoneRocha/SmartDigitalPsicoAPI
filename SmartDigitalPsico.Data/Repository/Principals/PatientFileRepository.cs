@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -25,7 +24,7 @@ namespace SmartDigitalPsico.Data.Repository.Principals
         public async override Task<PatientFile> FindByID(long id)
         {
 #pragma warning disable CS8602
-            return await _dataset 
+            return await _dataset
                 .Include(e => e.Patient)
                 .ThenInclude(e => e.Medical)
                 .ThenInclude(e => e.User)
@@ -47,4 +46,4 @@ namespace SmartDigitalPsico.Data.Repository.Principals
                 .ToListAsync();
         }
     }
-} 
+}

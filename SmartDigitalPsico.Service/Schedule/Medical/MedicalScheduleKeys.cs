@@ -1,9 +1,7 @@
 using SmartDigitalPsico.Domain.Helpers.Medical;
-
-using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Medical implementation façade for schedule keys/tenant — Core receives only opaque values.
     /// </summary>
     public static class MedicalScheduleKeys

@@ -11,7 +11,6 @@ using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
-using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Service.DependencyInjection.Audit;
 using SmartDigitalPsico.Service.DependencyInjection.Authentication;
 using SmartDigitalPsico.Service.DependencyInjection.NoSql;
@@ -21,7 +20,7 @@ using SmartDigitalPsico.Service.DependencyInjection.Service;
 using SmartDigitalPsico.Service.DependencyInjection.Validation;
 namespace SmartDigitalPsico.Service.DependencyInjection.Orchestrator
 {
-                                    /// <summary>
+    /// <summary>
     /// Orquestra DI de domínio do produto + blocos Core.SDK reutilizáveis.
     /// </summary>
     public static class ServiceCollectionConfigureServicesDomain

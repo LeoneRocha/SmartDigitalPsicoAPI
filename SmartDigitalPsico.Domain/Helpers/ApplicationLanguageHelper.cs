@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Domain.Helpers
             var parts = message.Split('|');
             if (parts.Length > 2)
             {
-                var template = parts[1]; 
+                var template = parts[1];
                 var values = parts.Skip(2).ToArray(); // Incluindo chave e mensagem principal
                 var replacedMessage = ReplaceTokens(template, values);
                 var result = $"{parts[0]}|{replacedMessage}";
@@ -39,7 +39,7 @@ namespace SmartDigitalPsico.Domain.Helpers
                 {
                     result = result.Replace(placeholder, values[i]);
                 }
-            } 
+            }
             return result;
         }
     }

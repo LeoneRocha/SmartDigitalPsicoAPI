@@ -9,7 +9,7 @@ using SmartDigitalPsico.Domain.Interfaces.Gender;
 
 namespace SmartDigitalPsico.Service
 {
-                                                                        /// <summary>
+    /// <summary>
     /// Classe responsável por GenderService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
@@ -74,12 +74,12 @@ namespace SmartDigitalPsico.Service
             {
                 response.Data = _mapper.Map<GetGenderDto>(entityResponse);
                 response.Success = true;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);                 
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             }
             else
             {
                 response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound); 
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
             }
             return response;
         }
@@ -98,7 +98,7 @@ namespace SmartDigitalPsico.Service
             {
                 response.Success = false;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
-                 
+
                 return response;
             }
             Gender entityUpdate = await ((IGenderRepository)_entityRepository).FindByID(dto.Id);
@@ -114,7 +114,7 @@ namespace SmartDigitalPsico.Service
 
                 response.Data = _mapper.Map<GetGenderDto>(entityResponse);
                 response.Success = true;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);                
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
             }
             return response;
         }

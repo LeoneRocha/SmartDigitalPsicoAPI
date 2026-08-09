@@ -50,10 +50,10 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
             return repositories.ToArray();
         }
 
-    /// <summary>
-    /// Método RegisterInterfaces: cria ou persiste um novo registro/recurso.
-    /// </summary>
-    public static void RegisterInterfaces(IServiceCollection services, string[] classSuffixes, List<Type> ignoredInterfaces, Assembly[] assemblies)
+        /// <summary>
+        /// Método RegisterInterfaces: cria ou persiste um novo registro/recurso.
+        /// </summary>
+        public static void RegisterInterfaces(IServiceCollection services, string[] classSuffixes, List<Type> ignoredInterfaces, Assembly[] assemblies)
         {
             var interfaceInfos = GetInterfaces(classSuffixes, assemblies);
 

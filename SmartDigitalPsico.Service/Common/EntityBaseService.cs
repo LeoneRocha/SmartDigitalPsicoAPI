@@ -4,8 +4,8 @@ using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service
-{ 
-                                                                    /// <summary>
+{
+    /// <summary>
     /// Bridge de produto sobre EntityBaseService do Core — injeta i18n via IApplicationLanguageService.
     /// Serviços de domínio devem herdar este tipo. Base canônica: SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic.EntityBaseService.
     /// </summary>

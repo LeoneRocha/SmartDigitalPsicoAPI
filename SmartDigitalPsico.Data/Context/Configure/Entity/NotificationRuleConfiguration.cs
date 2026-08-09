@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using EIntervalNotificationType = SmartDigitalPsico.Core.SDK.Domain.Enuns.EIntervalNotificationType;
 using ENotificationServiceType = SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType;
 using ENotificationType = SmartDigitalPsico.Domain.Enuns.ENotificationType;
@@ -61,11 +60,11 @@ namespace SmartDigitalPsico.Data.Context.Configure.Entity
 
             // Relationship  
             builder.HasOne(e => e.Medical).WithMany().HasForeignKey(e => e.MedicalId);
-             
+
             // Indexes (using Fluent API)
             builder.HasIndex(e => e.MedicalId).HasDatabaseName("IX_NotificationRules_MedicalId");
 
             builder.HasData(NotificationRulesMockData.GetMock());
         }
-    } 
-} 
+    }
+}

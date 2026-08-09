@@ -6,7 +6,7 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por TokenSessionPersistenceFactory.
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.
@@ -32,17 +32,17 @@ namespace SmartDigitalPsico.Service
             {
                 case ETokenSessionPersistenceType.DataBase:
                     var serviceRepo = _serviceProvider.GetService<IUserTokenSessionRepository>();
-                    return new DatabaseTokenSessionAdapter(serviceRepo!); 
+                    return new DatabaseTokenSessionAdapter(serviceRepo!);
                 case ETokenSessionPersistenceType.AzureStorageTable:
                     var mapper = _serviceProvider.GetService<IAppMapper>();
 
                     var serviceStorage = _serviceProvider.GetService<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
-                    
+
                     return new TableStorageTokenSessionAdapter(mapper!, serviceStorage!);
 
                 default:
                     throw new ArgumentException("Invalid adapter type");
-            } 
-        } 
+            }
+        }
     }
 }

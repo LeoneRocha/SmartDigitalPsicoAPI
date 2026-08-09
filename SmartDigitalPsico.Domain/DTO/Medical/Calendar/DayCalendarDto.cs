@@ -9,6 +9,6 @@ namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
     {
         public DateTime Date { get; set; }
         public bool IsPast { get; set; }
-        public TimeSlotDto[] TimeSlots { get; set; } = []; 
+        public TimeSlotDto[] TimeSlots { get; set; } = [];
     }
 }

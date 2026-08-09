@@ -1,20 +1,8 @@
-using SmartDigitalPsico.Service;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using Serilog;
-using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Office.UPDATE;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Leaves.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Specialty.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Audit.UPDATE;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
-
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
@@ -22,14 +10,10 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Notification;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                
+
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+
 [TestFixture]
 public class NotificationDispatchJobServiceTests
 {

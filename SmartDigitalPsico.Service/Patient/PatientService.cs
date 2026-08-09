@@ -5,7 +5,6 @@ using SmartDigitalPsico.Domain.DTO.Patient.ADD;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -17,7 +16,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                                                        /// <summary>
+    /// <summary>
     /// Classe responsável por PatientService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
@@ -33,8 +32,8 @@ namespace SmartDigitalPsico.Service
             ISharedServices sharedServices,
             ISharedDependenciesConfig sharedDependenciesConfig,
             ISharedRepositories sharedRepositories,
-            IPatientRepository entityRepository,           
-            IValidator<Patient> entityValidator           
+            IPatientRepository entityRepository,
+            IValidator<Patient> entityValidator
             )
             : base(sharedServices, sharedDependenciesConfig, sharedRepositories, entityRepository, entityValidator)
         {
@@ -134,7 +133,7 @@ namespace SmartDigitalPsico.Service
                 {
                     Patient entityResponse = await ((IPatientRepository)_entityRepository).Update(entityUpdate);
                     response.Data = _mapper.Map<GetPatientDto>(entityResponse);
-                    response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);                     
+                    response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
                 }
             }
             return response;
@@ -154,12 +153,12 @@ namespace SmartDigitalPsico.Service
             if (patientFinded == null)
             {
                 response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);                
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
                 return response;
             }
             response.Data = _mapper.Map<GetPatientDto>(patientFinded);
             response.Success = true;
-            response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);            
+            response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             return response;
 
         }
@@ -236,11 +235,11 @@ namespace SmartDigitalPsico.Service
             if (listResult.Count == 0)
             {
                 response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);   
+                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
                 return response;
             }
             response.Data = listResult.Select(c => _mapper.Map<GetPatientDto>(c))
-                .OrderBy(e=> e.Name)
+                .OrderBy(e => e.Name)
                 .ToList();
 
             response.Success = true;
@@ -269,20 +268,20 @@ namespace SmartDigitalPsico.Service
                 {
                     response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
                     response.Success = false;
-                    response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);                    
+                    response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                     return response;
                 }
                 response.Data = _mapper.Map<GetPatientDto>(entityResponse);
-                response.Success = true; 
+                response.Success = true;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             }
             catch (Exception)
             {
-                response.Success = false; 
+                response.Success = false;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
             }
             return response;
-        } 
+        }
     }
 }
 

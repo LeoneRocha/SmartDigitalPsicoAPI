@@ -14,8 +14,8 @@ namespace SmartDigitalPsico.Domain.DTO.Notification.Common
         public EIntervalNotificationType IntervalType { get; set; }
         public short IntervalValue { get; set; }
         public bool IsBefore { get; set; }
-        public ENotificationServiceType[] ENotificationServiceType { get; set; } = [];       
-        
+        public ENotificationServiceType[] ENotificationServiceType { get; set; } = [];
+
     }
 }
- 
+

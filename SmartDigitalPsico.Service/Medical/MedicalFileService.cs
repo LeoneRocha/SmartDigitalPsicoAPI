@@ -2,13 +2,9 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
-using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
@@ -20,7 +16,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {
-                                                                    /// <summary>
+    /// <summary>
     /// Classe responsável por MedicalFileService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
@@ -96,19 +92,19 @@ namespace SmartDigitalPsico.Service
             if (!validationResult.IsValid)
             {
                 response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
-                response.Success = false; 
+                response.Success = false;
                 response.Message = await base.GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                 return response;
             }
 
             if (listResult.Count == 0)
             {
-                response.Success = false; 
-                response.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound); 
+                response.Success = false;
+                response.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
                 return response;
             }
             response.Data = listResult.Select(c => _mapper.Map<GetMedicalFileDto>(c)).ToList();
-            response.Success = true;  
+            response.Success = true;
             response.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
 
             return response;

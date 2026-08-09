@@ -1,5 +1,4 @@
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Office;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -16,6 +15,6 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
         /// <summary>
         /// Método OfficeRepository: executa a operação OfficeRepository.
         /// </summary>
-        public OfficeRepository(IEntityDataContext context) : base(context) { } 
+        public OfficeRepository(IEntityDataContext context) : base(context) { }
     }
 }

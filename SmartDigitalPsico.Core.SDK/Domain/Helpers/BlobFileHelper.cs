@@ -16,7 +16,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
         public static BlobHttpHeaders GetBlobHeadersAzure(FileBase file)
         {
             var headers = new BlobHttpHeaders();
-            headers.ContentType = file.FileContentType; 
+            headers.ContentType = file.FileContentType;
             return headers;
         }
     }

@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure
     /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
     /// Relação: suporta Services e jobs de background.
     /// </summary>
-    public class StorageTableRepositoryFactory : IStorageTableRepositoryFactory 
+    public class StorageTableRepositoryFactory : IStorageTableRepositoryFactory
     {
         private readonly IConfiguration _configuration;
         /// <summary>

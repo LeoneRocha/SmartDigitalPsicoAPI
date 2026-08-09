@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.VO
-{ 
+{
 
     /// <summary>
     /// Classe responsável por ErrorResponse.
@@ -36,8 +36,8 @@ namespace SmartDigitalPsico.Core.SDK.Domain.VO
         [XmlIgnore]
         [JsonIgnore]
         [SwaggerIgnore]
-        [IgnoreDataMember]     
+        [IgnoreDataMember]
         public string FullMessage { get; set; } = string.Empty;
-    } 
+    }
 
 }

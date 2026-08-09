@@ -1,7 +1,7 @@
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Audit
-{ 
+{
     /// <summary>
     /// Interface (contrato) responsável por IAuditPersistenceServiceFactory.
     /// Responsabilidade: contrato de abstração do domínio.

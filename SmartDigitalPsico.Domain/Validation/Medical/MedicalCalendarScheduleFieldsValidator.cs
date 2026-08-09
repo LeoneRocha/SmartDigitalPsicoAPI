@@ -1,5 +1,4 @@
 using FluentValidation;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -17,7 +16,7 @@ namespace SmartDigitalPsico.Domain.Validation
         public MedicalCalendarScheduleFieldsValidator()
         {
             RuleFor(e => e.Title)
-                .NotEmpty() 
+                .NotEmpty()
                 .WithErrorCode("SmartDigitalPsico.MedicalCalendarScheduleFieldsValidator.MedicalCalendar.Title.NotEmpty")
                 .WithMessage("Title_Validator_IsRequired_Key|Title is required.")
                 .MaximumLength(100)

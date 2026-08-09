@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
     /// Relação: usado em entidades, DTOs e regras de negócio.
     /// </summary>
     public enum ETypeLocationCache
-    { 
+    {
         [Description("Local Salvamento em Disco HD/SSD")]
         Disk = 0,
 

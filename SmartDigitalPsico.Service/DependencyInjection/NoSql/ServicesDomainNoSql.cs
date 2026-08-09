@@ -4,7 +4,7 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.DependencyInjection.NoSql
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por ServicesDomainNoSql.
     /// Responsabilidade: configuração de startup/DI da aplicação.
     /// Relação: registra serviços no container e configura o pipeline.

@@ -65,7 +65,7 @@ namespace SmartDigitalPsico.Domain.Validation
             {
                 if (entity?.Id == 0)
                 {
-                    long idUser = createdUserId.GetValueOrDefault();  
+                    long idUser = createdUserId.GetValueOrDefault();
                     var userMedical = await _userRepository.FindByID(idUser);
                     //Usuario for medico e o id do medico of mesmo do usuario permite a criacao
                     if (userMedical.Medical != null && entity.MedicalId == userMedical.Medical.Id)
@@ -95,7 +95,7 @@ namespace SmartDigitalPsico.Domain.Validation
             {
                 if (entity?.Id > 0)
                 {
-                    long idUser = modifyUserId.GetValueOrDefault();  
+                    long idUser = modifyUserId.GetValueOrDefault();
                     var userMedical = await _userRepository.FindByID(idUser);
                     //Usuario for medico e o id do medico of mesmo do usuario permite a edicao
                     if (userMedical.Medical != null && entity.MedicalId == userMedical.Medical.Id)

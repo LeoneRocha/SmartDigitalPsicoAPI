@@ -88,8 +88,8 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
         {
             // Lógica para formatar a data e hora de acordo com a cultura fornecida
             return DateTime.Parse(dateTime.ToString(dateTimeFormatInfo), dateTimeFormatInfo);
-        }  
-       
+        }
+
         /// <summary>
         /// Método ApplyTimeZone: executa a operação ApplyTimeZone.
         /// </summary>

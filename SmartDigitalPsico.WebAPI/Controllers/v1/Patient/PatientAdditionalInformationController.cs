@@ -6,7 +6,6 @@ using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Patient;
@@ -33,7 +32,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
         private void setUserIdCurrent()
         {
-            _entityService.SetUserId(base.GetUserIdCurrent()); 
+            _entityService.SetUserId(base.GetUserIdCurrent());
         }
 
         [HttpGet("FindAll")]

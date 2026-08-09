@@ -1,8 +1,4 @@
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
 using RoleGroupEntity = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.RoleGroup
 {

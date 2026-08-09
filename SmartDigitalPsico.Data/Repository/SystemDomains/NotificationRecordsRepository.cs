@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -64,7 +63,7 @@ namespace SmartDigitalPsico.Data.Repository.SystemDomains
             await _context.SaveChangesAsync();
             return true;
         }
-         
+
         /// <summary>
         /// Método DeleteAllByTokenAsync: remove ou cancela um registro/recurso.
         /// </summary>

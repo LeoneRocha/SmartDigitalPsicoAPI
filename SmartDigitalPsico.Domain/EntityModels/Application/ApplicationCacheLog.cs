@@ -8,9 +8,9 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
     public class ApplicationCacheLog : EntityBase
-    { 
-        public DateTime DateTimeSlidingExpiration { get; set; }         
-        public string CacheId { get; set; } = string.Empty;          
+    {
+        public DateTime DateTimeSlidingExpiration { get; set; }
+        public string CacheId { get; set; } = string.Empty;
         public string CacheKey { get; set; } = string.Empty;
     }
 }

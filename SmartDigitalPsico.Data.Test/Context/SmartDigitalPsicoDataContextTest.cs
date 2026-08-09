@@ -2,7 +2,7 @@
 using SmartDigitalPsico.Data.Context;
 
 namespace SmartDigitalPsico.Data.Tests.Context
-{  
+{
     public class SmartDigitalPsicoDataContextTest : SmartDigitalPsicoDataContextMySql
     {
         public ModelBuilder? ModelBuilder { get; private set; }
@@ -23,5 +23,5 @@ namespace SmartDigitalPsico.Data.Tests.Context
         {
             optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
         }
-    } 
+    }
 }

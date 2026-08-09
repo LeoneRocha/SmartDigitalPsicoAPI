@@ -6,13 +6,12 @@ using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.DTO.Medical.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
 {
-    [ApiController] 
+    [ApiController]
     [Authorize("Bearer")]
     [Route("api/medical/v1/[controller]")]
 

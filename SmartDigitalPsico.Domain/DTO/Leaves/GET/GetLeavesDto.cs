@@ -10,6 +10,6 @@ namespace SmartDigitalPsico.Domain.DTO.Leaves.GET
     /// </summary>
     public class GetLeavesDto : LeavesBaseDto, ISupportsHyperMedia
     {
-        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>(); 
+        public List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink> Links { get; set; } = new List<SmartDigitalPsico.Core.SDK.Domain.Hypermedia.HyperMediaLink>();
     }
 }

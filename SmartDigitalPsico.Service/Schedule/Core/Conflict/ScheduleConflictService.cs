@@ -7,10 +7,9 @@ using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Classe responsável por ScheduleConflictService.
     /// Responsabilidade: módulo de agendamento (Schedule).
     /// Relação: orquestra Core Schedule e contratos Medical do Domain.

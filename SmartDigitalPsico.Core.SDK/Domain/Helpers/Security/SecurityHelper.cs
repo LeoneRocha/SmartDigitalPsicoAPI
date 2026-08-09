@@ -81,6 +81,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Helpers.Security
 
             Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
             return Convert.TryFromBase64String(base64, buffer, out _);
-        } 
+        }
     }
 }

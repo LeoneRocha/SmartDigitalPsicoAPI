@@ -1,10 +1,7 @@
-using SmartDigitalPsico.Service;
 using FluentValidation;
 using Moq;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
@@ -12,9 +9,6 @@ using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.TestSupport;
-    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-                                
 /// <summary>
 /// Contexto compartilhado para os testes comportamentais dos serviços de agenda médica (Medical Schedule Actions).
 /// Centraliza os mocks de baixo nível (repositórios, validators, notificações) reaproveitando o ServiceTestContext.

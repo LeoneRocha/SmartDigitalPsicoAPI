@@ -7,7 +7,7 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 namespace SmartDigitalPsico.Service
 {
-                                    /// <summary>
+    /// <summary>
     /// Serviço de arquivos: orquestra disco, banco e Azure Blob.
     /// </summary>
     public class FileManagerService : IFileManagerService

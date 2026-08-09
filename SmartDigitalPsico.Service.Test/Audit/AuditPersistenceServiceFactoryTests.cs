@@ -6,7 +6,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Service.DependencyInjection.Audit;
 namespace SmartDigitalPsico.Service.Test.Audit;
-                                
+
 [TestFixture]
 public class AuditPersistenceServiceFactoryTests
 {

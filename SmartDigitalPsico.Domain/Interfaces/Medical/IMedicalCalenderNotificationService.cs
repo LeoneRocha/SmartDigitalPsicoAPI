@@ -1,7 +1,4 @@
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
-using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 
 using SmartDigitalPsico.Domain.EntityModels;
 

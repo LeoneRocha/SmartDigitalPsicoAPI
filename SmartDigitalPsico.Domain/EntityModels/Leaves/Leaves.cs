@@ -7,7 +7,7 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Responsabilidade: entidade de domínio persistida via EF Core.
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
-    public class Leaves : EntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseDomains 
+    public class Leaves : EntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseDomains
     {
         #region Relationship  
         public Medical? Medical { get; set; }

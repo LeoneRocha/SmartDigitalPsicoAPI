@@ -307,7 +307,7 @@ public class DomainBranchFinalPushTests
             LogAppHelper.ForceNullHostEnvironmentForTests = true;
             var info = LogAppHelper.GetInformationVersionProduct();
 
-        // Assert
+            // Assert
             // Act
             using (Assert.EnterMultipleScope())
             {
@@ -373,7 +373,7 @@ public class DomainBranchFinalPushTests
             LogAppHelper.ProductAssemblyOverrideForTests = null;
             LogAppHelper.EntryAssemblyProviderForTests = () => null;
             LogAppHelper.EntryAssemblyFallbackForTests = () => typeof(DomainBranchFinalPushTests).Assembly;
-        // Act
+            // Act
             // Assert
             LogAppHelper.GetAssemblyVersion().Should().NotBeNullOrEmpty();
 
@@ -398,17 +398,25 @@ public class DomainBranchFinalPushTests
             var monday = DateTime.UtcNow.Date.AddDays(50).AddHours(9);
             RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
             {
-                StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily,
-                RecurrenceCount = 2, MaxOccurrences = 10
+                StartDateTime = monday,
+                EndDateTime = monday.AddHours(1),
+                RecurrenceType = ERecurrenceCalendarType.Daily,
+                RecurrenceCount = 2,
+                MaxOccurrences = 10
             }).Count.Should().BeGreaterThan(1);
             RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
             {
-                StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily,
-                RecurrenceEndDate = monday.AddDays(2), MaxOccurrences = 10
+                StartDateTime = monday,
+                EndDateTime = monday.AddHours(1),
+                RecurrenceType = ERecurrenceCalendarType.Daily,
+                RecurrenceEndDate = monday.AddDays(2),
+                MaxOccurrences = 10
             }).Count.Should().BeGreaterThan(1);
             RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
             {
-                StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily,
+                StartDateTime = monday,
+                EndDateTime = monday.AddHours(1),
+                RecurrenceType = ERecurrenceCalendarType.Daily,
                 MaxOccurrences = 2
             }).Should().ContainSingle();
 
@@ -441,16 +449,27 @@ public class DomainBranchFinalPushTests
         var start = DateTime.UtcNow.Date.AddHours(10);
         var badTimed = new ScheduleCalendarItem
         {
-            Title = "Bad", StartDateTime = start.AddHours(2), EndDateTime = start.AddHours(1), IsAllDay = false
+            Title = "Bad",
+            StartDateTime = start.AddHours(2),
+            EndDateTime = start.AddHours(1),
+            IsAllDay = false
         };
         var noEnd = new ScheduleCalendarItem
         {
-            Title = "No end", StartDateTime = start, EndDateTime = null, IsAllDay = false
+            Title = "No end",
+            StartDateTime = start,
+            EndDateTime = null,
+            IsAllDay = false
         };
         var badMedical = new MedicalCalendar
         {
-            Title = "Bad", StartDateTime = start.AddHours(2), EndDateTime = start.AddHours(1), IsAllDay = false,
-            Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceCount = 0
+            Title = "Bad",
+            StartDateTime = start.AddHours(2),
+            EndDateTime = start.AddHours(1),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceCount = 0
         };
 
         // Act
@@ -462,19 +481,35 @@ public class DomainBranchFinalPushTests
         var medicalRepo = new Mock<IMedicalRepository>();
         medicalRepo.Setup(x => x.FindByID(5)).ReturnsAsync(new Medical
         {
-            Id = 5, WorkingDays = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday],
-            StartWorkingTime = TimeSpan.FromHours(8), EndWorkingTime = TimeSpan.FromHours(18)
+            Id = 5,
+            WorkingDays = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday],
+            StartWorkingTime = TimeSpan.FromHours(8),
+            EndWorkingTime = TimeSpan.FromHours(18)
         });
         var itemValidator = new ScheduleItemValidator(medicalRepo.Object);
         (await itemValidator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "Early", StartDateTime = start.Date.AddHours(6), EndDateTime = start.Date.AddHours(7),
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "Early",
+            StartDateTime = start.Date.AddHours(6),
+            EndDateTime = start.Date.AddHours(7),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         })).IsValid.Should().BeFalse();
         (await itemValidator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 0, PatientId = 1, Title = "No end", StartDateTime = start, EndDateTime = null,
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 0,
+            PatientId = 1,
+            Title = "No end",
+            StartDateTime = start,
+            EndDateTime = null,
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         })).Errors.Should().NotContain(e => e.ErrorCode.Contains("StartDateTime.LessThan"));
     }
 
@@ -529,7 +564,7 @@ public class DomainBranchFinalPushTests
             LogAppHelper.EntryAssemblyProviderForTests = null;
             LogAppHelper.EntryAssemblyFallbackForTests = null;
             LogAppHelper.ForceNullEntryAssemblyForTests = true;
-        // Act
+            // Act
             // Assert
             LogAppHelper.GetAssemblyVersion().Should().NotBeNullOrEmpty();
         }
@@ -643,18 +678,39 @@ public class DomainBranchFinalPushTests
         var start = DateTime.UtcNow.Date.AddHours(10);
         var inHours = await validator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "Ok", StartDateTime = start, EndDateTime = start.AddHours(1),
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "Ok",
+            StartDateTime = start,
+            EndDateTime = start.AddHours(1),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         });
         var outOfHours = await validator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "Late", StartDateTime = start.Date.AddHours(20), EndDateTime = start.Date.AddHours(21),
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "Late",
+            StartDateTime = start.Date.AddHours(20),
+            EndDateTime = start.Date.AddHours(21),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         });
         var endPastWorking = await validator.ValidateAsync(new ScheduleItem
         {
-            MedicalId = 5, PatientId = 1, Title = "Long", StartDateTime = start, EndDateTime = start.Date.AddHours(20),
-            IsAllDay = false, Status = EStatusCalendar.Confirmed, TimeZone = "UTC", RecurrenceDays = null!
+            MedicalId = 5,
+            PatientId = 1,
+            Title = "Long",
+            StartDateTime = start,
+            EndDateTime = start.Date.AddHours(20),
+            IsAllDay = false,
+            Status = EStatusCalendar.Confirmed,
+            TimeZone = "UTC",
+            RecurrenceDays = null!
         });
         // Act
         // Assert
@@ -708,7 +764,7 @@ public class DomainBranchFinalPushTests
         LogAppHelper.EntryAssemblyProviderForTests = () => typeof(DomainBranchFinalPushTests).Assembly;
         try
         {
-        // Act
+            // Act
             // Assert
             LogAppHelper.GetAssemblyVersion().Should().NotBeNullOrEmpty();
         }
@@ -734,17 +790,27 @@ public class DomainBranchFinalPushTests
         var monday = DateTime.UtcNow.Date.AddDays(40).AddHours(9);
         RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily,
-            RecurrenceCount = 2, RecurrenceEndDate = monday.AddDays(3), MaxOccurrences = 10
+            StartDateTime = monday,
+            EndDateTime = monday.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Daily,
+            RecurrenceCount = 2,
+            RecurrenceEndDate = monday.AddDays(3),
+            MaxOccurrences = 10
         }).Count.Should().BeGreaterThan(1);
         RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Daily, MaxOccurrences = 2
+            StartDateTime = monday,
+            EndDateTime = monday.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Daily,
+            MaxOccurrences = 2
         }).Should().ContainSingle();
         RecurrenceMaterializer.Materialize(new RecurrenceMaterializeRequest
         {
-            StartDateTime = monday, EndDateTime = monday.AddHours(1), RecurrenceType = ERecurrenceCalendarType.Weekly,
-            RecurrenceDays = [monday.DayOfWeek], MaxOccurrences = 10
+            StartDateTime = monday,
+            EndDateTime = monday.AddHours(1),
+            RecurrenceType = ERecurrenceCalendarType.Weekly,
+            RecurrenceDays = [monday.DayOfWeek],
+            MaxOccurrences = 10
         }).Should().ContainSingle();
     }
 

@@ -34,5 +34,5 @@ namespace SmartDigitalPsico.Domain.Validation
                 item.StartDateTime < newItem.EndDateTime &&
                 newItem.StartDateTime < item.EndDateTime);
         }
-    } 
+    }
 }

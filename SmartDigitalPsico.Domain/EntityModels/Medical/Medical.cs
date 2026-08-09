@@ -40,7 +40,7 @@ namespace SmartDigitalPsico.Domain.EntityModels
         public long? ModifyUserId { get; set; }
         public ICollection<Patient> Patienties { get; set; }
 
-        public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; } 
+        public ICollection<MedicalSpecialty> MedicalSpecialties { get; set; }
         public ICollection<MedicalSettings> MedicalSettings { get; set; }
         #endregion Relationship
     }

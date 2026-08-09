@@ -8,7 +8,7 @@ namespace SmartDigitalPsico.Domain.EntityModels
     /// Responsabilidade: entidade de domínio persistida via EF Core.
     /// Relação: mapeada no Data Context e usada pelos repositórios.
     /// </summary>
-    public class NotificationRecord : EntityBase 
+    public class NotificationRecord : EntityBase
     {
         /// <summary>
         /// Opaque schedule token (ScheduleCalendar.UniqueToken as Guid). No FK to schedule tables.
@@ -43,5 +43,5 @@ namespace SmartDigitalPsico.Domain.EntityModels
         public DateTime? ActualSendTime { get; set; }
         public bool IsSent { get; set; }
         public ENotificationServiceType[] NotificationMethods { get; set; } = [];
-    } 
+    }
 }

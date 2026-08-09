@@ -14,7 +14,7 @@ namespace SmartDigitalPsico.Domain.Validation
     {
         private readonly string[] _permittedExtensions;
         private readonly string[] _permittedContentTypes;
-       
+
         /// <summary>
         /// Método FileValidator: executa a operação FileValidator.
         /// </summary>

@@ -12,6 +12,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        IStorageQueueContract Create(EStorageAdapterType eStorageAdapterType, string queueName); 
+        IStorageQueueContract Create(EStorageAdapterType eStorageAdapterType, string queueName);
     }
 }

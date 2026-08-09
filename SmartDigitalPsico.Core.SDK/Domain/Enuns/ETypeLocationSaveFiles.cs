@@ -11,7 +11,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
     {
         [Description("Local Salvamento em Banco de dados")]
         DataBase = 0,
-        
+
         [Description("Local Salvamento em Disco HD/SSD")]
         Disk = 1,
 
@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
         CloudStorageAzure = 2,
 
         [Description("Local Salvamento em Cloud Storage AWS")]
-        CloudStorageAWS = 3, 
+        CloudStorageAWS = 3,
     }
 }
 
