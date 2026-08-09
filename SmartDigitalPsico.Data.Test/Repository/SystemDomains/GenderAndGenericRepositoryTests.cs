@@ -1,13 +1,13 @@
-using Bogus;
+﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context.Configure.Mock;
-using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 using System.Linq.Expressions;
 
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Data.Repository;
 
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {

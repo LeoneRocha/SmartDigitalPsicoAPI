@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using SmartDigitalPsico.Data.Context.Configure.Entity;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
+using SmartDigitalPsico.Data.Repository;
 namespace SmartDigitalPsico.Data.Test.Infrastructure;
 
 [TestFixture]

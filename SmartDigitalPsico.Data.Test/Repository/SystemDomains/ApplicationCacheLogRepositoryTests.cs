@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Repository.SystemDomains;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;

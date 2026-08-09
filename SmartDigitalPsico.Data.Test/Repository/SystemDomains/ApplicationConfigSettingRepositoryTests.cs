@@ -1,5 +1,5 @@
-using SmartDigitalPsico.Data.Context.Configure.Mock;
-using SmartDigitalPsico.Data.Repository.SystemDomains;
+﻿using SmartDigitalPsico.Data.Context.Configure.Mock;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
 

@@ -6,6 +6,7 @@ using SmartDigitalPsico.Data.Test.Configure;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
+using SmartDigitalPsico.Data.Repository;
 namespace SmartDigitalPsico.Data.Test.Audit;
 
 [TestFixture]

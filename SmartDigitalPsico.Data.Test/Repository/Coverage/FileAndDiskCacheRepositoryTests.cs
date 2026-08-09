@@ -1,6 +1,7 @@
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 using Microsoft.Extensions.Options;
 
+using SmartDigitalPsico.Data.Repository;
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 
 [TestFixture]

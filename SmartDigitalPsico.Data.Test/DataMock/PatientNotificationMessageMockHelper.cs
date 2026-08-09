@@ -1,7 +1,8 @@
-﻿using Bogus;
+using Bogus;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
+using SmartDigitalPsico.Data.Repository;
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class PatientNotificationMessageMockHelper

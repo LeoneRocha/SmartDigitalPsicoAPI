@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Data.Repository.Schedule;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
+using SmartDigitalPsico.Data.Repository;
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 
 [TestFixture]

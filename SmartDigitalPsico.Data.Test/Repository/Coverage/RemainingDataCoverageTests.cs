@@ -13,9 +13,6 @@ using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure;
-using SmartDigitalPsico.Data.Repository.Principals;
-using SmartDigitalPsico.Data.Repository.Schedule;
-using SmartDigitalPsico.Data.Repository.SystemDomains;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
@@ -24,6 +21,7 @@ using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
+using SmartDigitalPsico.Data.Repository;
 
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 
@@ -47,8 +45,8 @@ public class RemainingDataCoverageTests : BaseTests
             Directory.Delete(_temporaryDirectory, recursive: true);
     }
 
-    // CenÃ¡rio: Save com FileData nulo e Exists/Get para arquivo inexistente.
-    // Objetivo: retornar false/vazio nos caminhos de miss e save invÃ¡lido.
+    // Cenário: Save com FileData nulo e Exists/Get para arquivo inexistente.
+    // Objetivo: retornar false/vazio nos caminhos de miss e save inválido.
     [Test]
     public async Task FileDiskRepository_SaveNullDataAndExistsMiss_ReturnExpectedResults()
     {
@@ -72,7 +70,7 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // CenÃ¡rio: arquivo de cache existe mas desserializa para valor default (null).
+    // Cenário: arquivo de cache existe mas desserializa para valor default (null).
     // Objetivo: tratar como miss no TryGetAsync.
     [Test]
     public async Task DiskCacheRepository_DefaultDeserializedValue_ReturnsMiss()
@@ -94,8 +92,8 @@ public class RemainingDataCoverageTests : BaseTests
         result.Key.Should().BeFalse();
     }
 
-    // CenÃ¡rio: linguagem solicitada ausente e template inexistente.
-    // Objetivo: fazer fallback para pt-BR ou retornar null quando nÃ£o houver match.
+    // Cenário: linguagem solicitada ausente e template inexistente.
+    // Objetivo: fazer fallback para pt-BR ou retornar null quando não houver match.
     [Test]
     public async Task NotificationTemplate_FallbackLanguage_ReturnsPtBrOrFirst()
     {
@@ -118,7 +116,7 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // CenÃ¡rio: FindByIDs recebe lista nula.
+    // Cenário: FindByIDs recebe lista nula.
     // Objetivo: retornar lista vazia sem consultar o contexto.
     [Test]
     public async Task RoleGroupRepository_NullIds_ReturnsEmptyList()
@@ -133,7 +131,7 @@ public class RemainingDataCoverageTests : BaseTests
         result.Should().BeEmpty();
     }
 
-    // CenÃ¡rio: arquivo em pasta combinada e caminho direto.
+    // Cenário: arquivo em pasta combinada e caminho direto.
     // Objetivo: cobrir Exists, Get e Delete pelos ramos de caminho.
     [Test]
     public async Task FileDiskRepository_ExistsAndGetPathBranches_AreCovered()
@@ -201,7 +199,7 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // CenÃ¡rio: JSON longo e propriedades de usuÃ¡rio existentes/ausentes.
+    // Cenário: JSON longo e propriedades de usuário existentes/ausentes.
     // Objetivo: cobrir TruncateAuditJson, OnBeforeSaveChanges e GetUserId.
     [Test]
     public void AuditContextService_UserIdPropertyBranches_CoversGetUserIdPaths()
@@ -265,7 +263,7 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // CenÃ¡rio: cache em disco com payload JSON vÃ¡lido.
+    // Cenário: cache em disco com payload JSON válido.
     // Objetivo: retornar hit com valor desserializado.
     [Test]
     public async Task DiskCacheRepository_ValidDeserializedPayload_ReturnsHit()
@@ -291,7 +289,7 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // CenÃ¡rio: operaÃ§Ãµes de fila com adapter mockado.
+    // Cenário: operações de fila com adapter mockado.
     // Objetivo: delegar Enqueue, Dequeue e Delete ao contrato de storage.
     [Test]
     public async Task GenericStorageQueueRepository_DelegatesQueueOperations()
@@ -311,8 +309,8 @@ public class RemainingDataCoverageTests : BaseTests
         adapter.Verify(value => value.DeleteMessageAsync("id", "receipt"), Times.Once);
     }
 
-    // CenÃ¡rio: construÃ§Ã£o do repositÃ³rio com contexto vÃ¡lido.
-    // Objetivo: garantir instanciaÃ§Ã£o de MedicalSettingsRepository.
+    // Cenário: construção do repositório com contexto válido.
+    // Objetivo: garantir instanciação de MedicalSettingsRepository.
     [Test]
     public void MedicalSettingsRepository_ContextProvided_CreatesInstance()
     {
@@ -326,8 +324,8 @@ public class RemainingDataCoverageTests : BaseTests
         repository.Should().NotBeNull();
     }
 
-    // CenÃ¡rio: Configure da EntityBaseConfiguration abstrata de teste.
-    // Objetivo: lanÃ§ar NotImplementedException.
+    // Cenário: Configure da EntityBaseConfiguration abstrata de teste.
+    // Objetivo: lançar NotImplementedException.
     [Test]
     public void EntityBaseConfiguration_Configure_ThrowsNotImplemented()
     {
@@ -341,7 +339,7 @@ public class RemainingDataCoverageTests : BaseTests
         act.Should().Throw<NotImplementedException>();
     }
 
-    // CenÃ¡rio: construtores apenas com DbContextOptions para SqlServer e MySql.
+    // Cenário: construtores apenas com DbContextOptions para SqlServer e MySql.
     // Objetivo: construir modelos de entidade sem interceptor.
     [Test]
     public async Task ContextOptionsOnlyConstructors_BuildModels()
@@ -363,7 +361,7 @@ public class RemainingDataCoverageTests : BaseTests
         await mysql.DisposeAsync();
     }
 
-    // CenÃ¡rio: idioma existente e idioma ausente no repositÃ³rio.
+    // Cenário: idioma existente e idioma ausente no repositório.
     // Objetivo: retornar true/false conforme ExistLanguage.
     [Test]
     public async Task ApplicationLanguage_ExistLanguage_ReturnsMatchingFlag()
@@ -383,7 +381,7 @@ public class RemainingDataCoverageTests : BaseTests
         missing.Should().BeFalse();
     }
 
-    // CenÃ¡rio: template habilitado na linguagem solicitada.
+    // Cenário: template habilitado na linguagem solicitada.
     // Objetivo: retornar o template exato sem fallback.
     [Test]
     public async Task NotificationTemplate_MatchingLanguage_ReturnsExactTemplate()
@@ -406,7 +404,7 @@ public class RemainingDataCoverageTests : BaseTests
         result!.Language.Should().Be("en-US");
     }
 
-    // CenÃ¡rio: agenda com SubjectKey especÃ­fico a partir de uma data.
+    // Cenário: agenda com SubjectKey específico a partir de uma data.
     // Objetivo: filtrar GetByTokenFromStartAsync pelo subject correto.
     [Test]
     public async Task ScheduleCalendar_GetByTokenFromStart_FiltersSubjectKey()
@@ -436,7 +434,7 @@ public class RemainingDataCoverageTests : BaseTests
         other.Should().BeEmpty();
     }
 
-    // CenÃ¡rio: paciente com grafo de medical/gender e critÃ©rio de busca.
+    // Cenário: paciente com grafo de medical/gender e critério de busca.
     // Objetivo: retornar detalhes projetados e resultados de PatientSearch.
     [Test]
     public async Task PatientRepository_DetailsAndSearch_ReturnProjectedResults()
@@ -461,7 +459,7 @@ public class RemainingDataCoverageTests : BaseTests
         search.Should().OnlyContain(item => item.MedicalId == 0 || item.Id > 0);
     }
 
-    // CenÃ¡rio: login inexistente, refresh miss e deletes vÃ¡lidos/invÃ¡lidos.
+    // Cenário: login inexistente, refresh miss e deletes válidos/inválidos.
     // Objetivo: cobrir caminhos negativos de UserRepository.
     [Test]
     public async Task UserRepository_DeleteAndNegativePaths_AreCovered()
@@ -484,7 +482,7 @@ public class RemainingDataCoverageTests : BaseTests
         deleteMissing.Should().BeTrue();
     }
 
-    // CenÃ¡rio: exclusÃ£o por path direto e misses de cache (bytes nulos/json null).
+    // Cenário: exclusão por path direto e misses de cache (bytes nulos/json null).
     // Objetivo: cobrir Delete de arquivo direto e TryGetAsync em falha.
     [Test]
     public async Task FileDiskRepository_DeletesDirectFilePathAndCacheMissBranches()
@@ -520,7 +518,7 @@ public class RemainingDataCoverageTests : BaseTests
         (await cache.TryGetAsync<CachePayload>("missing")).Key.Should().BeFalse();
     }
 
-    // CenÃ¡rio: mutaÃ§Ã£o concorrente do buffer durante Save/verificaÃ§Ã£o.
+    // Cenário: mutação concorrente do buffer durante Save/verificação.
     // Objetivo: detectar escrita corrompida via InvalidOperationException.
     [Test]
     public async Task FileDiskRepository_DetectsCorruptedWriteDuringVerification()
@@ -568,8 +566,8 @@ public class RemainingDataCoverageTests : BaseTests
         failure.Should().BeOfType<InvalidOperationException>();
     }
 
-    // CenÃ¡rio: Exists indica true mas o lookup posterior nÃ£o encontra o usuÃ¡rio.
-    // Objetivo: RefreshUserInfo retornar usuÃ¡rio vazio (Id 0).
+    // Cenário: Exists indica true mas o lookup posterior não encontra o usuário.
+    // Objetivo: RefreshUserInfo retornar usuário vazio (Id 0).
     [Test]
     public async Task UserRepository_RefreshUserInfo_WhenLookupMissesAfterExists_ReturnsEmptyUser()
     {
@@ -654,7 +652,7 @@ public class RemainingDataCoverageTests : BaseTests
         persistence.Verify(service => service.SaveAuditEntries(It.IsAny<IEnumerable<AuditDataEntityLog>>()), Times.AtLeastOnce);
     }
 
-    // CenÃ¡rio: alteraÃ§Ãµes em Patient, Schedule e JSON longo com omit/truncate.
+    // Cenário: alterações em Patient, Schedule e JSON longo com omit/truncate.
     // Objetivo: cobrir sanitize, truncate, user audit e GetNewEntries.
     [Test]
     public void AuditContextService_CoversUserSanitizeAndTruncateBranches()
@@ -741,7 +739,7 @@ public class RemainingDataCoverageTests : BaseTests
         service.GetNewEntries(_mockContext, [current]).Should().ContainSingle();
     }
 
-    // CenÃ¡rio: lacunas finais em FileDisk, Audit e Schedule (null/blank/open-end).
+    // Cenário: lacunas finais em FileDisk, Audit e Schedule (null/blank/open-end).
     // Objetivo: cobrir ramos restantes de truncate, sanitize, Get e agenda.
     [Test]
     public async Task FinalDataBranchGaps_FileAuditSchedulePaths_AreCovered()
@@ -849,7 +847,7 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // CenÃ¡rio: caminho combinado inexistente e FilePath apontando ao arquivo real.
+    // Cenário: caminho combinado inexistente e FilePath apontando ao arquivo real.
     // Objetivo: cobrir o ramo else de Get por path direto.
     [Test]
     public async Task FileDiskRepository_GetDirectPathWhenCombinedMissing_CoversElseBranch()
@@ -866,7 +864,7 @@ public class RemainingDataCoverageTests : BaseTests
         fromDirect.Should().Equal(3, 4, 5);
     }
 
-    // CenÃ¡rio: payload JSON vÃ¡lido e nÃ£o-default no cache em disco.
+    // Cenário: payload JSON válido e não-default no cache em disco.
     // Objetivo: retornar hit com o valor desserializado.
     [Test]
     public async Task DiskCacheRepository_ValidNonDefaultPayload_ReturnsHitWithValue()
@@ -892,7 +890,7 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // CenÃ¡rio: itens com EndDateTime nulo e janelas fora/dentro do conflito.
+    // Cenário: itens com EndDateTime nulo e janelas fora/dentro do conflito.
     // Objetivo: cobrir filtros de HasConflict/GetItems/GetItem com bordas nullable.
     [Test]
     public async Task ScheduleCalendarRepository_NullableEndDateTimeEdges_CoverConflictFilters()
@@ -969,7 +967,7 @@ public class RemainingDataCoverageTests : BaseTests
         }
     }
 
-    // CenÃ¡rio: FindByID/FindAsync com expressÃ£o de Include (Gender).
+    // Cenário: FindByID/FindAsync com expressão de Include (Gender).
     // Objetivo: retornar paciente com includes aplicados.
     [Test]
     public async Task GenericRepository_FindMethods_UseIncludeExpressions()

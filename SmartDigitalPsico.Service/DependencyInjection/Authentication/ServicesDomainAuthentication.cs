@@ -1,6 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
-using SmartDigitalPsico.Data.Repository.SystemDomains;
-
+﻿using Microsoft.Extensions.DependencyInjection;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service.DependencyInjection.Authentication
 {

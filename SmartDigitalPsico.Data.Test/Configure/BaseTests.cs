@@ -1,5 +1,6 @@
-﻿using SmartDigitalPsico.Data.Tests.Context;
+using SmartDigitalPsico.Data.Tests.Context;
 
+using SmartDigitalPsico.Data.Repository;
 namespace SmartDigitalPsico.Data.Test.Configure
 {
     public abstract class BaseTests
