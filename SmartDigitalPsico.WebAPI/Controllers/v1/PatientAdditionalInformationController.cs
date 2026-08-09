@@ -1,32 +1,32 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Application.GET;
-using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Domain.DTO.Application.ADD;
 
-using SmartDigitalPsico.Domain.Interfaces.Application;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
-    [Route("api/[controller]/v1")]
+    [Route("api/patient/v1/[controller]")]
+
     /// <summary>
-    /// Classe responsável por ApplicationConfigSettingController.
+    /// Classe responsável por PatientAdditionalInformationController.
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class ApplicationConfigSettingController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class PatientAdditionalInformationController : Domain.API.ApiBaseController
     {
-        private readonly IApplicationConfigSettingService _entityService;
+        private readonly IPatientAdditionalInformationService _entityService;
         /// <summary>
-        /// Método ApplicationConfigSettingController: executa a operação ApplicationConfigSettingController.
+        /// Método PatientAdditionalInformationController: executa a operação PatientAdditionalInformationController.
         /// </summary>
-        public ApplicationConfigSettingController(IApplicationConfigSettingService entityService
-            , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        public PatientAdditionalInformationController(IPatientAdditionalInformationService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -38,20 +38,20 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
-        /// Método Get: consulta e retorna dados.
+        /// Método FindAll: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<List<GetApplicationConfigSettingDto>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetPatientAdditionalInformationDto>>>> FindAll(int patientId)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            var result = _entityService.FindAll();
-            return Ok(await result);
+            return Ok(await _entityService.FindAllByPatient(patientId));
         }
+
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método FindByID: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetPatientAdditionalInformationDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindByID(id));
@@ -62,7 +62,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> Create(AddApplicationConfigSettingDto newEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientAdditionalInformationDto>>> Create(AddPatientAdditionalInformationDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.Create(newEntity));
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> Update(UpdateApplicationConfigSettingDto updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientAdditionalInformationDto>>> Update(UpdatePatientAdditionalInformationDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(updateEntity);
@@ -85,6 +85,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método Delete: remove ou cancela um registro/recurso.
         /// </summary>
@@ -92,11 +93,11 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Delete(id);
-            if (response.Data)
+            if (response.Success)
             {
-                return NotFound(response);
+                return Ok(response);
             }
-            return Ok(response);
+            return NotFound(response);
         }
     }
 }

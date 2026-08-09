@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
@@ -9,25 +9,25 @@ using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Patient;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
     [Route("api/patient/v1/[controller]")]
 
     /// <summary>
-    /// Classe responsável por PatientRecordController.
+    /// Classe responsável por PatientMedicationInformationController.
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class PatientRecordController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class PatientMedicationInformationController : Domain.API.ApiBaseController
     {
-        private readonly IPatientRecordService _entityService;
+        private readonly IPatientMedicationInformationService _entityService;
 
         /// <summary>
-        /// Método PatientRecordController: executa a operação PatientRecordController.
+        /// Método PatientMedicationInformationController: executa a operação PatientMedicationInformationController.
         /// </summary>
-        public PatientRecordController(IPatientRecordService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        public PatientMedicationInformationController(IPatientMedicationInformationService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -35,12 +35,13 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         {
             _entityService.SetUserId(base.GetUserIdCurrent());
         }
+
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método FindAll: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<List<GetPatientRecordDto>>>> FindAll(int patientId)
+        public async Task<ActionResult<ServiceResponse<List<GetPatientMedicationInformationDto>>>> FindAll(int patientId)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindAllByPatient(patientId));
@@ -51,7 +52,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// <summary>
         /// Método FindByID: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetPatientRecordDto>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetPatientMedicationInformationDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindByID(id));
@@ -62,7 +63,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetPatientRecordDto>>> Create(AddPatientRecordDto newEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientMedicationInformationDto>>> Create(AddPatientMedicationInformationDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.Create(newEntity));
@@ -73,7 +74,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetPatientRecordDto>>> Update(UpdatePatientRecordDto updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientMedicationInformationDto>>> Update(UpdatePatientMedicationInformationDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(updateEntity);
@@ -83,6 +84,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             }
             return Ok(response);
         }
+
         [HttpDelete("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
@@ -98,5 +100,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             }
             return NotFound(response);
         }
+
     }
 }

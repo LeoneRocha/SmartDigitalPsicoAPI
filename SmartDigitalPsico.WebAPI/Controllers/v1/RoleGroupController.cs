@@ -1,32 +1,33 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Patient.ADD;
-using SmartDigitalPsico.Domain.DTO.Patient.GET;
-using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
 
-using SmartDigitalPsico.Domain.Interfaces.Patient;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
+using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
-    [Route("api/patient/v1/[controller]")]
-
+    [Route("api/[controller]/v1")]
     /// <summary>
-    /// Classe responsável por PatientAdditionalInformationController.
+    /// Classe responsável por RoleGroupController.
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class PatientAdditionalInformationController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class RoleGroupController : Domain.API.ApiBaseController
     {
-        private readonly IPatientAdditionalInformationService _entityService;
+        private readonly IRoleGroupService _entityService;
+
         /// <summary>
-        /// Método PatientAdditionalInformationController: executa a operação PatientAdditionalInformationController.
+        /// Método RoleGroupController: executa a operação RoleGroupController.
         /// </summary>
-        public PatientAdditionalInformationController(IPatientAdditionalInformationService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        public RoleGroupController(IRoleGroupService entityService
+             , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -34,16 +35,15 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         {
             _entityService.SetUserId(base.GetUserIdCurrent());
         }
-
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
-        /// Método FindAll: consulta e retorna dados.
+        /// Método Get: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<List<GetPatientAdditionalInformationDto>>>> FindAll(int patientId)
+        public async Task<ActionResult<ServiceResponse<List<GetRoleGroupDto>>>> Get()
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            return Ok(await _entityService.FindAllByPatient(patientId));
+            return Ok(await _entityService.FindAll());
         }
 
         [HttpGet("{id}")]
@@ -51,7 +51,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// <summary>
         /// Método FindByID: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetPatientAdditionalInformationDto>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetRoleGroupDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindByID(id));
@@ -62,10 +62,15 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetPatientAdditionalInformationDto>>> Create(AddPatientAdditionalInformationDto newEntity)
+        public async Task<ActionResult<ServiceResponse<GetRoleGroupDto>>> Create(AddRoleGroupDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            return Ok(await _entityService.Create(newEntity));
+            var response = await _entityService.Create(newEntity);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut]
@@ -73,7 +78,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetPatientAdditionalInformationDto>>> Update(UpdatePatientAdditionalInformationDto updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetRoleGroupDto>>> Update(UpdateRoleGroupDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(updateEntity);
@@ -85,7 +90,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
 
         [HttpDelete("{id}")]
-        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método Delete: remove ou cancela um registro/recurso.
         /// </summary>
@@ -93,11 +97,11 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Delete(id);
-            if (response.Success)
+            if (!response.Success)
             {
-                return Ok(response);
+                return NotFound(response);
             }
-            return NotFound(response);
+            return Ok(response);
         }
     }
 }

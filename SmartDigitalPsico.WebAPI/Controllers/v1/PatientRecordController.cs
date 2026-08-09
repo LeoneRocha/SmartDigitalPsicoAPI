@@ -1,33 +1,33 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Domain.DTO.Notification.ADD;
 
-using SmartDigitalPsico.Domain.Interfaces.Notification;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
-    [Route("api/[controller]/v1")]
+    [Route("api/patient/v1/[controller]")]
+
     /// <summary>
-    /// Classe responsável por NotificationRulesController.
+    /// Classe responsável por PatientRecordController.
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class NotificationRulesController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class PatientRecordController : Domain.API.ApiBaseController
     {
-        private readonly INotificationRulesService _entityService;
+        private readonly IPatientRecordService _entityService;
 
         /// <summary>
-        /// Método NotificationRulesController: executa a operação NotificationRulesController.
+        /// Método PatientRecordController: executa a operação PatientRecordController.
         /// </summary>
-        public NotificationRulesController(INotificationRulesService entityService
-             , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        public PatientRecordController(IPatientRecordService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -38,17 +38,12 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
-        /// Método Get: consulta e retorna dados.
+        /// Método FindAll: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<List<GetNotificationRulesDto>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetPatientRecordDto>>>> FindAll(int patientId)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            var response = await _entityService.FindAll();
-            if (response.Data == null)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
+            return Ok(await _entityService.FindAllByPatient(patientId));
         }
 
         [HttpGet("{id}")]
@@ -56,15 +51,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método FindByID: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetNotificationRulesDto>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetPatientRecordDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            var response = await _entityService.FindByID(id);
-            if (response.Data == null)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
+            return Ok(await _entityService.FindByID(id));
         }
 
         [HttpPost]
@@ -72,15 +62,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetNotificationRulesDto>>> Create(AddNotificationRulesDto newEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientRecordDto>>> Create(AddPatientRecordDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            var response = await _entityService.Create(newEntity);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
+            return Ok(await _entityService.Create(newEntity));
         }
 
         [HttpPut]
@@ -88,7 +73,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetNotificationRulesDto>>> Update(UpdateNotificationRulesDto updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientRecordDto>>> Update(UpdatePatientRecordDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(updateEntity);
@@ -98,8 +83,8 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
             }
             return Ok(response);
         }
-
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método Delete: remove ou cancela um registro/recurso.
         /// </summary>
@@ -107,11 +92,11 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Delete(id);
-            if (!response.Success)
+            if (response.Success)
             {
-                return NotFound(response);
+                return Ok(response);
             }
-            return Ok(response);
+            return NotFound(response);
         }
     }
 }

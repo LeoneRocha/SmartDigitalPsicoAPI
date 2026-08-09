@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
@@ -9,7 +9,7 @@ using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
@@ -20,7 +20,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class MedicalFileController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class MedicalFileController : Domain.API.ApiBaseController
     {
         private readonly IMedicalFileService _entityService;
         private readonly IConfiguration _configuration;

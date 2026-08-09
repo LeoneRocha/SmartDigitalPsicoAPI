@@ -1,33 +1,33 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Medical.ADD;
-using SmartDigitalPsico.Domain.DTO.Medical.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Specialty.GET;
+using SmartDigitalPsico.Domain.DTO.Specialty.UPDATE;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Specialty.ADD;
 
-using SmartDigitalPsico.Domain.Interfaces.Medical;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
+using SmartDigitalPsico.Domain.Interfaces.Specialty;
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
-    [Route("api/medical/v1/[controller]")]
-
+    [Route("api/[controller]/v1")]
     /// <summary>
-    /// Classe responsável por MedicalController.
+    /// Classe responsável por SpecialtyController.
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class MedicalController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class SpecialtyController : Domain.API.ApiBaseController
     {
-        private readonly IMedicalService _entityService;
+        private readonly ISpecialtyService _entityService;
+
         /// <summary>
-        /// Método MedicalController: executa a operação MedicalController.
+        /// Método SpecialtyController: executa a operação SpecialtyController.
         /// </summary>
-        public MedicalController(IMedicalService entityService
-            , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        public SpecialtyController(ISpecialtyService entityService
+             , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -35,22 +35,17 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         {
             _entityService.SetUserId(base.GetUserIdCurrent());
         }
-
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
-        /// Método FindAll: consulta e retorna dados.
+        /// Método Get: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<List<GetMedicalDto>>>> FindAll()
+        public async Task<ActionResult<ServiceResponse<List<GetSpecialtyDto>>>> Get()
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.FindAll();
-            if (!response.Success)
+            if (response.Data == null)
             {
-                if (response.Unauthorized)
-                {
-                    return Unauthorized(response);
-                }
                 return BadRequest(response);
             }
             return Ok(response);
@@ -61,13 +56,13 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         /// <summary>
         /// Método FindByID: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetMedicalDto>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetSpecialtyDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.FindByID(id);
-            if (!response.Success)
+            if (response.Data == null)
             {
-                return BadRequest(response);
+                return NotFound(response);
             }
             return Ok(response);
         }
@@ -77,7 +72,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetMedicalDto>>> Create(AddMedicalDto newEntity)
+        public async Task<ActionResult<ServiceResponse<GetSpecialtyDto>>> Create(AddSpecialtyDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Create(newEntity);
@@ -93,10 +88,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetMedicalDto>>> Update(UpdateMedicalDto UpdateEntity)
+        public async Task<ActionResult<ServiceResponse<GetSpecialtyDto>>> Update(UpdateSpecialtyDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            var response = await _entityService.Update(UpdateEntity);
+            var response = await _entityService.Update(updateEntity);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -105,7 +100,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         }
 
         [HttpDelete("{id}")]
-        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método Delete: remove ou cancela um registro/recurso.
         /// </summary>
@@ -113,12 +107,11 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Delete(id);
-            if (response.Data)
+            if (!response.Success)
             {
                 return NotFound(response);
             }
             return Ok(response);
         }
-
     }
 }

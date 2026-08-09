@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
@@ -11,7 +11,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class MedicalCalendarController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class MedicalCalendarController : Domain.API.ApiBaseController
     {
         private readonly IScheduleCalendarFacade _scheduleAdapter;
 

@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     /// </summary>
     public class GlobalizationCulturesController : ControllerBase
     {
-        protected virtual List<SmartDigitalPsico.Core.SDK.Domain.DTO.CultureDisplayDto> GetCultures()
+        protected virtual List<Core.SDK.Domain.DTO.CultureDisplayDto> GetCultures()
         {
             return SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultures();
         }
@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método Get: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<List<SmartDigitalPsico.Core.SDK.Domain.DTO.CultureDisplayDto>>> Get()
+        public async Task<ActionResult<List<Core.SDK.Domain.DTO.CultureDisplayDto>>> Get()
         {
             await Task.FromResult(0);
             var response = GetCultures();

@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.DTO.Common;
 
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Route("api/[controller]/v1")]

@@ -1,33 +1,34 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Application.GET;
-using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using SmartDigitalPsico.Domain.DTO.Application.ADD;
 
-using SmartDigitalPsico.Domain.Interfaces.Application;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
+using SmartDigitalPsico.Domain.Interfaces.Patient;
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
-    [Route("api/[controller]/v1")]
+    [Route("api/patient/v1/[controller]")]
+
     /// <summary>
-    /// Classe responsável por ApplicationLanguageController.
+    /// Classe responsável por PatientController.
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class ApplicationLanguageController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class PatientController : Domain.API.ApiBaseController
     {
-        private readonly IApplicationLanguageService _entityService;
+        private readonly IPatientService _entityService;
 
         /// <summary>
-        /// Método ApplicationLanguageController: executa a operação ApplicationLanguageController.
+        /// Método PatientController: executa a operação PatientController.
         /// </summary>
-        public ApplicationLanguageController(IApplicationLanguageService entityService
-             , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        public PatientController(IPatientService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -38,20 +39,31 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
-        /// Método Get: consulta e retorna dados.
+        /// Método FindAll: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<List<GetApplicationLanguageDto>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetPatientDto>>>> FindAll(long medicalId)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            var result = _entityService.FindAll();
-            return Ok(await result);
+            return Ok(await _entityService.FindAll(medicalId));
         }
+
+        [HttpPost("Search")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
+        /// <summary>
+        /// Método PatientSearch: executa a operação PatientSearch.
+        /// </summary>
+        public async Task<ActionResult<ServiceResponse<List<GetPatientDto>>>> PatientSearch(PatientSearchCriteriaDto patientSearchCriteriaDto)
+        {
+            this.setUserIdCurrent(); await base.SetCurrentCulture();
+            return Ok(await _entityService.PatientSearch(patientSearchCriteriaDto));
+        }
+
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método FindByID: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetApplicationLanguageDto>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetPatientDto>>> FindByID(long id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindByID(id));
@@ -62,15 +74,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetApplicationLanguageDto>>> Create(AddApplicationLanguageDto newEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientDto>>> Create(AddPatientDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            var response = await _entityService.Create(newEntity);
-            if (response.Data == null)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
+            return Ok(await _entityService.Create(newEntity));
         }
 
         [HttpPut]
@@ -78,10 +85,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetApplicationLanguageDto>>> Update(UpdateApplicationLanguageDto updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetPatientDto>>> Update(UpdatePatientDto UpdateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            var response = await _entityService.Update(updateEntity);
+            var response = await _entityService.Update(UpdateEntity);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -90,6 +97,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         }
 
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método Delete: remove ou cancela um registro/recurso.
         /// </summary>
@@ -97,11 +105,12 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Delete(id);
-            if (!response.Data)
+            if (response.Data)
             {
                 return NotFound(response);
             }
             return Ok(response);
         }
+
     }
 }

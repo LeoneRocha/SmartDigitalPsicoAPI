@@ -1,32 +1,32 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Patient.ADD;
-using SmartDigitalPsico.Domain.DTO.Patient.GET;
-using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
+using SmartDigitalPsico.Domain.DTO.Application.GET;
+using SmartDigitalPsico.Domain.DTO.Application.UPDATE;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Application.ADD;
 
-using SmartDigitalPsico.Domain.Interfaces.Patient;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
+using SmartDigitalPsico.Domain.Interfaces.Application;
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
-    [Route("api/patient/v1/[controller]")]
-
+    [Route("api/[controller]/v1")]
     /// <summary>
-    /// Classe responsável por PatientNotificationMessageController.
+    /// Classe responsável por ApplicationConfigSettingController.
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class PatientNotificationMessageController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class ApplicationConfigSettingController : Domain.API.ApiBaseController
     {
-        private readonly IPatientNotificationMessageService _entityService;
+        private readonly IApplicationConfigSettingService _entityService;
         /// <summary>
-        /// Método PatientNotificationMessageController: executa a operação PatientNotificationMessageController.
+        /// Método ApplicationConfigSettingController: executa a operação ApplicationConfigSettingController.
         /// </summary>
-        public PatientNotificationMessageController(IPatientNotificationMessageService entityService, IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
+        public ApplicationConfigSettingController(IApplicationConfigSettingService entityService
+            , IOptions<AuthConfigurationDto> configurationAuth) : base(configurationAuth)
         {
             _entityService = entityService;
         }
@@ -38,20 +38,20 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         [HttpGet("FindAll")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
-        /// Método FindAll: consulta e retorna dados.
+        /// Método Get: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<List<GetPatientNotificationMessageVO>>>> FindAll(int patientId)
+        public async Task<ActionResult<ServiceResponse<List<GetApplicationConfigSettingDto>>>> Get()
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
-            return Ok(await _entityService.FindAllByPatient(patientId));
+            var result = _entityService.FindAll();
+            return Ok(await result);
         }
-
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método FindByID: consulta e retorna dados.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetPatientNotificationMessageVO>>> FindByID(int id)
+        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> FindByID(int id)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.FindByID(id));
@@ -62,7 +62,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// <summary>
         /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetPatientNotificationMessageVO>>> Create(AddPatientNotificationMessageDto newEntity)
+        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> Create(AddApplicationConfigSettingDto newEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             return Ok(await _entityService.Create(newEntity));
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         /// <summary>
         /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
-        public async Task<ActionResult<ServiceResponse<GetPatientNotificationMessageVO>>> Update(UpdatePatientNotificationMessageDto updateEntity)
+        public async Task<ActionResult<ServiceResponse<GetApplicationConfigSettingDto>>> Update(UpdateApplicationConfigSettingDto updateEntity)
         {
             this.setUserIdCurrent(); await base.SetCurrentCulture();
             var response = await _entityService.Update(updateEntity);
@@ -85,7 +85,6 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
         }
 
         [HttpDelete("{id}")]
-        [TypeFilter(typeof(HyperMediaFilterrAttribute))]
         /// <summary>
         /// Método Delete: remove ou cancela um registro/recurso.
         /// </summary>
@@ -99,6 +98,5 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Patient
             }
             return Ok(response);
         }
-
     }
 }

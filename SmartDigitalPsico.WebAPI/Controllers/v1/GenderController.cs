@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
@@ -9,7 +9,7 @@ using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Gender.ADD;
 
 using SmartDigitalPsico.Domain.Interfaces.Gender;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class GenderController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class GenderController : Domain.API.ApiBaseController
     {
         private readonly IGenderService _entityService;
         /// <summary>

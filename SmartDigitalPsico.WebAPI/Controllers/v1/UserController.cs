@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
@@ -8,7 +8,7 @@ using SmartDigitalPsico.Domain.DTO.User.UPDATE;
 using SmartDigitalPsico.Domain.DTO.User.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Interfaces.User;
-namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
+namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {
     [ApiController]
     [Authorize("Bearer")]
@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1.Principals
     /// Responsabilidade: controller HTTP da WebAPI.
     /// Relação: expõe endpoints REST e delega para Services/Facades.
     /// </summary>
-    public class UserController : SmartDigitalPsico.Domain.API.ApiBaseController
+    public class UserController : Domain.API.ApiBaseController
     {
         private readonly IUserService _entityService;
 

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -16,12 +16,12 @@ using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.WebAPI.Controllers.v1.SystemDomains;
+using SmartDigitalPsico.WebAPI.Controllers.v1;
 using SmartDigitalPsico.WebAPI.Configure;
 using System.Reflection;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
-using SmartDigitalPsico.Domain.Interfaces.Specialty;
+using SmartDigitalPsico.Domain.Interfaces.Specialty; 
 namespace SmartDigitalPsico.WebAPI.Test;
 
 [TestFixture]
@@ -355,7 +355,7 @@ public class ControllerCoverageTests
                 Success = false,
                 Unauthorized = true
             });
-        var controller = new SmartDigitalPsico.WebAPI.Controllers.v1.Principals.MedicalController(
+        var controller = new SmartDigitalPsico.WebAPI.Controllers.v1.MedicalController(
             service.Object,
             Options.Create(new SmartDigitalPsico.Core.SDK.Domain.DTO.Domains.AuthConfigurationDto()))
         {
