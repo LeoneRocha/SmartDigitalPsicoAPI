@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Repository.SystemDomains;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
-namespace SmartDigitalPsico.Service
+namespace SmartDigitalPsico.Service.DependencyInjection.Authentication
 {
                                     /// <summary>
     /// Classe responsável por ServicesDomainAuthentication.

@@ -2,9 +2,9 @@ using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Service;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Service.DependencyInjection.Audit;
 namespace SmartDigitalPsico.Service.Test.Audit;
                                 
 [TestFixture]

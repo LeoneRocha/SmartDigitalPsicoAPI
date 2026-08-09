@@ -2,7 +2,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Domain.Validation;
 
-namespace SmartDigitalPsico.Service
+namespace SmartDigitalPsico.Service.DependencyInjection.Validation
 {
                                     /// <summary>
     /// Classe responsável por ServicesDomainValidation.

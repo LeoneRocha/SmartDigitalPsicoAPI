@@ -7,7 +7,7 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.EntityModels;
-namespace SmartDigitalPsico.Service
+namespace SmartDigitalPsico.Service.DependencyInjection.Service
 {
     /// <summary>
     /// Classe responsável por ServicesDomainService.
@@ -35,31 +35,31 @@ namespace SmartDigitalPsico.Service
         private static void RegisterManuallyAddedServices(IServiceCollection services)
         {
             // Bridge host: Core CacheService + ApplicationCacheLog (auditoria de produto).
-            services.AddScoped<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService, CacheService>();
+            services.AddScoped<Core.SDK.Domain.Interfaces.Service.ICacheService, CacheService>();
             services.AddScoped<INotificationPlatformServiceFactory, NotificationPlatformServiceFactory>();
             services.AddScoped<IFileManagerService, FileManagerService>();
 
             // Schedule Core — write / read / conflict (CQRS-ready)
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleConflictService, ScheduleConflictService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleCreateService, ScheduleCreateService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleUpdateService, ScheduleUpdateService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleDeleteService, ScheduleDeleteService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleQueryService, ScheduleQueryService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleAvailabilityService, ScheduleAvailabilityService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleAppointmentQueryService, ScheduleAppointmentQueryService>();
+            services.AddScoped<IScheduleConflictService, ScheduleConflictService>();
+            services.AddScoped<IScheduleCreateService, ScheduleCreateService>();
+            services.AddScoped<IScheduleUpdateService, ScheduleUpdateService>();
+            services.AddScoped<IScheduleDeleteService, ScheduleDeleteService>();
+            services.AddScoped<IScheduleQueryService, ScheduleQueryService>();
+            services.AddScoped<IScheduleAvailabilityService, ScheduleAvailabilityService>();
+            services.AddScoped<IScheduleAppointmentQueryService, ScheduleAppointmentQueryService>();
 
             // Medical host — support + action services + thin facade
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleKeyPolicy, MedicalScheduleKeyPolicy>();
+            services.AddScoped<IScheduleKeyPolicy, MedicalScheduleKeyPolicy>();
             services.AddScoped<MedicalScheduleNotificationAdapter>();
             services.AddScoped<MedicalScheduleConstraintsProvider>();
             services.AddScoped<MedicalScheduleHostSupport>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleCalendarFindService, MedicalScheduleFindService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleCalendarCreateService, MedicalScheduleCreateService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleCalendarUpdateService, MedicalScheduleUpdateService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleCalendarDeleteService, MedicalScheduleDeleteService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleCalendarGradeService, MedicalScheduleGradeService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleCalendarAppointmentService, MedicalScheduleAppointmentService>();
-            services.AddScoped<SmartDigitalPsico.Domain.Interfaces.Schedule.IScheduleCalendarFacade, MedicalScheduleCalendarHost>();
+            services.AddScoped<IScheduleCalendarFindService, MedicalScheduleFindService>();
+            services.AddScoped<IScheduleCalendarCreateService, MedicalScheduleCreateService>();
+            services.AddScoped<IScheduleCalendarUpdateService, MedicalScheduleUpdateService>();
+            services.AddScoped<IScheduleCalendarDeleteService, MedicalScheduleDeleteService>();
+            services.AddScoped<IScheduleCalendarGradeService, MedicalScheduleGradeService>();
+            services.AddScoped<IScheduleCalendarAppointmentService, MedicalScheduleAppointmentService>();
+            services.AddScoped<IScheduleCalendarFacade, MedicalScheduleCalendarHost>();
         }
         private static void RegisterServices(IServiceCollection services)
         {
@@ -72,11 +72,11 @@ namespace SmartDigitalPsico.Service
 
             var ignoredInterfaces = new List<Type>
             {
-                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ICryptoService),
+                typeof(Core.SDK.Domain.Interfaces.Security.ICryptoService),
                 typeof(IEmailService),
-                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.ITokenService),
+                typeof(Core.SDK.Domain.Interfaces.ITokenService),
                 typeof(IAuditContextService),
-                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service.ICacheService),
+                typeof(Core.SDK.Domain.Interfaces.Service.ICacheService),
                 typeof(INotificationPlatformServiceFactory),
                 typeof(IFileManagerService)
             };

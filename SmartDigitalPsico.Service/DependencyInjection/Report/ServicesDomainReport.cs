@@ -5,7 +5,7 @@ using SmartDigitalPsico.Domain.DependeciesCollection;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.EntityModels;
-namespace SmartDigitalPsico.Service
+namespace SmartDigitalPsico.Service.DependencyInjection.Report
 {
                                     /// <summary>
     /// Factories de relatório no Core; serviços Excel/Pdf/Patient no host.
@@ -16,8 +16,8 @@ namespace SmartDigitalPsico.Service
         {
             services.AddCoreReportInfrastructure();
 
-            services.AddScoped<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService, ExcelGeneratorService>();
-            services.AddScoped<SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService, PdfReportService>();
+            services.AddScoped<Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService, ExcelGeneratorService>();
+            services.AddScoped<Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService, PdfReportService>();
 
             services.AddScoped<IPatientReportService, PatientReportService>();
             services.AddScoped<IReportServiceConfig, ReportServiceConfig>();

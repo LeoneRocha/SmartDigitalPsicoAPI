@@ -9,7 +9,7 @@ using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.EntityModels;
 
-namespace SmartDigitalPsico.Service
+namespace SmartDigitalPsico.Service.DependencyInjection.Audit
 {
                                     /// <summary>
     /// Classe responsável por ServicesDomainAudit.

@@ -3,7 +3,7 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.Repository;
 using System.Reflection;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
-namespace SmartDigitalPsico.Service
+namespace SmartDigitalPsico.Service.DependencyInjection.Repository
 {
                                     /// <summary>
     /// DI de repositórios: bloco cache/blob no Core + scan de produto.
@@ -29,10 +29,10 @@ namespace SmartDigitalPsico.Service
 
             var ignoredInterfaces = new List<Type>
             {
-                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository),
-                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository),
-                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository),
-                typeof(SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter),
+                typeof(Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository),
+                typeof(Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository),
+                typeof(Core.SDK.Domain.Interfaces.Repository.IFileDiskRepository),
+                typeof(Core.SDK.Domain.Interfaces.Infrastructure.IStorageBlobAdapter),
                 typeof(IUserTokenSessionRepository)
             };
 

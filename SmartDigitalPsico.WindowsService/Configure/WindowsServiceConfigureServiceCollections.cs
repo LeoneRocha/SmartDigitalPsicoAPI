@@ -5,6 +5,7 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.Mapping;
 using SmartDigitalPsico.Domain.Mapper;
 
 using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service.DependencyInjection.Orchestrator;
 namespace SmartDigitalPsico.WindowsService.Configure
 {
     /// <summary>

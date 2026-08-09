@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
@@ -20,6 +19,14 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Service.DependencyInjection.Audit;
+using SmartDigitalPsico.Service.DependencyInjection.Authentication;
+using SmartDigitalPsico.Service.DependencyInjection.NoSql;
+using SmartDigitalPsico.Service.DependencyInjection.Orchestrator;
+using SmartDigitalPsico.Service.DependencyInjection.Report;
+using SmartDigitalPsico.Service.DependencyInjection.Repository;
+using SmartDigitalPsico.Service.DependencyInjection.Service;
+using SmartDigitalPsico.Service.DependencyInjection.Validation;
 namespace SmartDigitalPsico.Service.Test.Configure;
     using User = global::SmartDigitalPsico.Domain.EntityModels.User;
                                 
