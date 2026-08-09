@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Context.Configure.Entity;
 using SmartDigitalPsico.Data.Tests.Context;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
 using SmartDigitalPsico.Data.Repository;
+using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Tests.Configure
 {
     [TestFixture]

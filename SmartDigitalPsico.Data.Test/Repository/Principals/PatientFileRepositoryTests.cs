@@ -1,10 +1,11 @@
-Ôªøusing SmartDigitalPsico.Data.Repository;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
+using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
@@ -47,7 +48,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
-        // Cen√°rio: existem arquivos de paciente persistidos no contexto.
+        // Cen·rio: existem arquivos de paciente persistidos no contexto.
         // Objetivo: retornar todos os PatientFile cadastrados.
         [Test]
         public async Task FindAll_ExistingRecords_ReturnsAllRecords()
@@ -74,7 +75,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen√°rio: existe um paciente com arquivos associados.
+        // Cen·rio: existe um paciente com arquivos associados.
         // Objetivo: retornar apenas os PatientFile do paciente informado.
         [Test]
         public async Task FindAllByPatient_ExistingPatient_ReturnsMatchingRecords()
@@ -100,7 +101,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen√°rio: existe um PatientFile com ID conhecido.
+        // Cen·rio: existe um PatientFile com ID conhecido.
         // Objetivo: retornar o arquivo correspondente ao ID informado.
         [Test]
         public async Task FindByID_ExistingId_ReturnsPatientFile()

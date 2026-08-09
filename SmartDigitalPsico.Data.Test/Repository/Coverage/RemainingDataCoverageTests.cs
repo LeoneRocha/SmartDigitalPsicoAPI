@@ -23,6 +23,7 @@ using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 using SmartDigitalPsico.Data.Repository;
 
+using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 
 [TestFixture]

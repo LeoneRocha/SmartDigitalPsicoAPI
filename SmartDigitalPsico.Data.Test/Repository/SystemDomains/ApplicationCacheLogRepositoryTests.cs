@@ -1,4 +1,4 @@
-Ôªøusing Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
@@ -6,6 +6,7 @@ using SmartDigitalPsico.Data.Tests.Context;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
+using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
@@ -30,7 +31,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
-        // Cen√°rio: logs de cache persistidos no contexto de teste.
+        // Cen·rio: logs de cache persistidos no contexto de teste.
         // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
         public async Task FindAll_ExistingLogs_ReturnsAllRecords()
@@ -57,7 +58,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cen√°rio: exclus√£o de um log de cache por CacheKey existente.
+        // Cen·rio: exclus„o de um log de cache por CacheKey existente.
         // Objetivo: garantir que Delete remova o registro correspondente.
         [Test]
         public async Task Delete_ExistingCacheKey_RemovesEntity()

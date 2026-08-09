@@ -1,10 +1,11 @@
-Ôªøusing SmartDigitalPsico.Data.Repository;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
+using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
@@ -42,7 +43,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
-        // Cen√°rio: pacientes persistidos no contexto de teste.
+        // Cen·rio: pacientes persistidos no contexto de teste.
         // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
         public async Task FindAll_ExistingPatients_ReturnsAllRecords()
@@ -65,7 +66,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen√°rio: busca de paciente por CPF existente.
+        // Cen·rio: busca de paciente por CPF existente.
         // Objetivo: garantir que FindByPatient retorne o paciente correspondente.
         [Test]
         public async Task FindByPatient_ByCpf_ReturnsPatient()
@@ -94,7 +95,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen√°rio: busca de paciente por RG existente.
+        // Cen·rio: busca de paciente por RG existente.
         // Objetivo: garantir que FindByPatient retorne o paciente correspondente.
         [Test]
         public async Task FindByPatient_ByRg_ReturnsPatient()
@@ -123,7 +124,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen√°rio: busca de paciente por e-mail existente via FindByPatient.
+        // Cen·rio: busca de paciente por e-mail existente via FindByPatient.
         // Objetivo: garantir que FindByPatient retorne o paciente correspondente.
         [Test]
         public async Task FindByPatient_ByEmail_ReturnsPatient()
@@ -152,8 +153,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen√°rio: busca por Id de paciente existente.
-        // Objetivo: garantir que FindByID retorne o paciente com navega√ß√µes.
+        // Cen·rio: busca por Id de paciente existente.
+        // Objetivo: garantir que FindByID retorne o paciente com navegaÁıes.
         [Test]
         public async Task FindByID_ExistingId_ReturnsPatient()
         {
@@ -179,7 +180,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen√°rio: busca por e-mail de paciente existente.
+        // Cen·rio: busca por e-mail de paciente existente.
         // Objetivo: garantir que FindByEmail retorne o paciente correspondente.
         [Test]
         public async Task FindByEmail_ExistingEmail_ReturnsPatient()
@@ -203,8 +204,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen√°rio: listagem de pacientes por MedicalId existente.
-        // Objetivo: garantir que FindAllByMedicalId retorne a lista com navega√ß√µes.
+        // Cen·rio: listagem de pacientes por MedicalId existente.
+        // Objetivo: garantir que FindAllByMedicalId retorne a lista com navegaÁıes.
         [Test]
         public async Task FindAllByMedicalId_ExistingMedicalId_ReturnsPatients()
         {

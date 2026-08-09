@@ -1,10 +1,11 @@
-Ôªøusing SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Data.Context.Mock;
 using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
+using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
@@ -29,7 +30,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
-        // Cen√°rio: existem role groups persistidos no contexto.
+        // Cen·rio: existem role groups persistidos no contexto.
         // Objetivo: retornar a lista completa via FindAll.
         [Test]
         public async Task FindAll_WhenDataExists_ReturnsAllRoleGroups()
@@ -55,7 +56,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cen√°rio: busca por um subconjunto de IDs existentes.
+        // Cen·rio: busca por um subconjunto de IDs existentes.
         // Objetivo: retornar apenas os role groups correspondentes.
         [Test]
         public async Task FindByIDs_MatchingIds_ReturnsMatchingRoleGroups()
@@ -79,7 +80,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cen√°rio: lista de IDs nula.
+        // Cen·rio: lista de IDs nula.
         // Objetivo: cobrir retorno antecipado de FindByIDs.
         [Test]
         public async Task FindByIDs_NullIds_ReturnsEmptyList()
