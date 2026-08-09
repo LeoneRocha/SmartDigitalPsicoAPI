@@ -1,9 +1,9 @@
+﻿using System.Text.Json.Serialization;
 using AutoMapper.Configuration.Annotations;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
-using System.Text.Json.Serialization;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET
 {

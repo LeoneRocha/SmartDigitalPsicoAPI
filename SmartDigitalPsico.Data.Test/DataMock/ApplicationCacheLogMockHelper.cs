@@ -1,7 +1,4 @@
-using SmartDigitalPsico.Domain.EntityModels;
-
-using SmartDigitalPsico.Data.Repository;
-using SmartDigitalPsico.Data.Context.Configure;
+﻿using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class ApplicationCacheLogMockHelper

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping
 {
     /// <summary>
     /// Abstração de mapeamento objeto-objeto. Consumidores devem depender desta interface

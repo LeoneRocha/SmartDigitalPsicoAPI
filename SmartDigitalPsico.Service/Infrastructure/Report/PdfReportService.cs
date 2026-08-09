@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Helpers;
+﻿using SmartDigitalPsico.Domain.Helpers;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service

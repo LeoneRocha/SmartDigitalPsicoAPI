@@ -1,20 +1,19 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
+using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Domain.DTO.Gender.ADD;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
 using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
-using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
-
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Gender;
 
-namespace SmartDigitalPsico.Service.Test.DataEntity.Generic;
-
 using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
+
+namespace SmartDigitalPsico.Service.Test.DataEntity.Generic;
 
 [TestFixture]
 public class EntityBaseServiceTests

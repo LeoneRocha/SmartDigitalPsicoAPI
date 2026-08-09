@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace SmartDigitalPsico.Domain.DTO.Report.Entity
 {

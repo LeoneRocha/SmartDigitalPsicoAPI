@@ -1,7 +1,7 @@
-using SmartDigitalPsico.Core.SDK.Domain.Security;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using SmartDigitalPsico.Core.SDK.Domain.Security;
 
 namespace SmartDigitalPsico.Domain.Test.Security;
 

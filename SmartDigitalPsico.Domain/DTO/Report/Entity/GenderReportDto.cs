@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Report.Common;
+﻿using SmartDigitalPsico.Domain.DTO.Report.Common;
 
 namespace SmartDigitalPsico.Domain.DTO.Report.Entity
 {

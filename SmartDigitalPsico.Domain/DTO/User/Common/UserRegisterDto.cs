@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.User.ADD;
+﻿using SmartDigitalPsico.Domain.DTO.User.ADD;
 namespace SmartDigitalPsico.Domain.DTO.User.Common
 {
     /// <summary>

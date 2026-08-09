@@ -1,24 +1,24 @@
+﻿using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
-using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
-using SmartDigitalPsico.Domain.DTO.User.ADD;
-using SmartDigitalPsico.Domain.DTO.User.GET;
-using SmartDigitalPsico.Domain.DTO.User.UPDATE;
-using SmartDigitalPsico.Domain.DTO.User.Common;
-using ENotificationServiceType = SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using System.Data;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+using SmartDigitalPsico.Domain.Constants;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
+using SmartDigitalPsico.Domain.DTO.User.ADD;
+using SmartDigitalPsico.Domain.DTO.User.Common;
+using SmartDigitalPsico.Domain.DTO.User.GET;
+using SmartDigitalPsico.Domain.DTO.User.UPDATE;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.EntityModels;
+using ENotificationServiceType = SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType;
 
 namespace SmartDigitalPsico.Service
 {

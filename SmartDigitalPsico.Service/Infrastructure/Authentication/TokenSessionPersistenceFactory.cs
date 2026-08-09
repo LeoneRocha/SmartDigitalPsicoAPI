@@ -1,9 +1,8 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
-
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>

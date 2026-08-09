@@ -1,4 +1,4 @@
-using Moq;
+﻿using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 

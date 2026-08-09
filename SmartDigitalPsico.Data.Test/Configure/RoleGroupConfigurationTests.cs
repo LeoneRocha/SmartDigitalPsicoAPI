@@ -1,11 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using SmartDigitalPsico.Data.Tests.Context;
+Ôªøusing Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-
-using SmartDigitalPsico.Domain.EntityModels;
-
-using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Context.Configure;
+using SmartDigitalPsico.Data.Tests.Context;
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Tests.Configure
 {
     [TestFixture]
@@ -20,8 +17,8 @@ namespace SmartDigitalPsico.Data.Tests.Configure
             _roleGroupConfiguration = new RoleGroupConfiguration(ETypeDataBase.Mysql);
         }
 
-        // Cen·rio: o contexto de testes È inicializado com ModelBuilder.
-        // Objetivo: garantir que a criaÁ„o do modelo n„o lanÁa exceÁ„o.
+        // Cen√°rio: o contexto de testes √© inicializado com ModelBuilder.
+        // Objetivo: garantir que a cria√ß√£o do modelo n√£o lan√ßa exce√ß√£o.
         [Test]
         public void InitializeContext_ValidSetup_DoesNotThrow()
         {
@@ -39,8 +36,8 @@ namespace SmartDigitalPsico.Data.Tests.Configure
             }
         }
 
-        // Cen·rio: ModelBuilder v·lido obtido a partir do contexto de testes.
-        // Objetivo: configurar a entidade RoleGroup sem lanÁar exceÁ„o.
+        // Cen√°rio: ModelBuilder v√°lido obtido a partir do contexto de testes.
+        // Objetivo: configurar a entidade RoleGroup sem lan√ßar exce√ß√£o.
         [Test]
         public void Configure_ValidModelBuilder_DoesNotThrow()
         {

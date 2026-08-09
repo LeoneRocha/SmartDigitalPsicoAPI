@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Validation

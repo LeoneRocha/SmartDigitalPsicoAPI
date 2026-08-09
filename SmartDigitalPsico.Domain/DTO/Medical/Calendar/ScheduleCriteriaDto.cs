@@ -1,6 +1,6 @@
+﻿using System.Text.Json.Serialization;
 using AutoMapper.Configuration.Annotations;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using System.Text.Json.Serialization;
 
 namespace SmartDigitalPsico.Domain.DTO.Medical.Calendar
 {

@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.User.GET;
+﻿using SmartDigitalPsico.Domain.DTO.User.GET;
 
 namespace SmartDigitalPsico.Domain.DTO.Audit.Common
 {

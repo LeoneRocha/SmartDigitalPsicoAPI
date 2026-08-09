@@ -1,7 +1,7 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts
 {

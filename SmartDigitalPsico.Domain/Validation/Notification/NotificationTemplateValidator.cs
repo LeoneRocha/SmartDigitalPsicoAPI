@@ -1,6 +1,5 @@
+﻿using System.Text.RegularExpressions;
 using FluentValidation;
-using System.Text.RegularExpressions;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Validation

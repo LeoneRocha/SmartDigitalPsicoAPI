@@ -1,18 +1,18 @@
-using Moq;
+﻿using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
-using SmartDigitalPsico.Domain.Enuns;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
+
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Notification;
-
-using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
 
 [TestFixture]
 public class NotificationDispatchJobServiceTests

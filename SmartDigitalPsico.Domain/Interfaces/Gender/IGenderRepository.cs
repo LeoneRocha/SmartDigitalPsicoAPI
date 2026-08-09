@@ -1,4 +1,4 @@
-using GenderEntity = SmartDigitalPsico.Domain.EntityModels.Gender;
+﻿using GenderEntity = SmartDigitalPsico.Domain.EntityModels.Gender;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Gender
 {

@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.DTO.User.GET;
-using SmartDigitalPsico.Domain.DTO.User.Common;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-
+using SmartDigitalPsico.Domain.DTO.User.Common;
+using SmartDigitalPsico.Domain.DTO.User.GET;
 using SmartDigitalPsico.Domain.Interfaces.User;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {

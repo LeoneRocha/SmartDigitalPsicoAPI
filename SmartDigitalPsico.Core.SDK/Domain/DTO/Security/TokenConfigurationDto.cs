@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Security
 {

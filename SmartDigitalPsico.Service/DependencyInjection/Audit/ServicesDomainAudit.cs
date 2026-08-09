@@ -2,11 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
-using SmartDigitalPsico.Domain.Validation;
-
-using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Data.Repository;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Audit;
+using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Service.DependencyInjection.Audit
 {

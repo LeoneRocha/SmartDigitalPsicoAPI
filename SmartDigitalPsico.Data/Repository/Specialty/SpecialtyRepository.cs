@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using System.Data;
-
-using SmartDigitalPsico.Domain.Interfaces.Specialty;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Specialty;
 
 namespace SmartDigitalPsico.Data.Repository
 {

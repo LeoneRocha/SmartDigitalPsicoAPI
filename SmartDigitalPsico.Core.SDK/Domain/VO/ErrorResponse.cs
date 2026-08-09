@@ -1,8 +1,8 @@
-using AutoMapper.Configuration.Annotations;
-using Swashbuckle.AspNetCore.Annotations;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
+using AutoMapper.Configuration.Annotations;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.VO
 {

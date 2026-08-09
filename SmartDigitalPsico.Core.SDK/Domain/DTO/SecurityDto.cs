@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Security
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Security
 {
     /// <summary>
     /// Classe responsável por SecurityDto.

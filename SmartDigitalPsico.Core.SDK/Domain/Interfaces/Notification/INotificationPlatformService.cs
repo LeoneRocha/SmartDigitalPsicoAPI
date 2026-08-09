@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.VO;
+﻿using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification
 {

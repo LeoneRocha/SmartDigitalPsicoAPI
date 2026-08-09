@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Common

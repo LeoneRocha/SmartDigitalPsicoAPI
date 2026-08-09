@@ -1,23 +1,22 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.User.UPDATE;
-using SmartDigitalPsico.Domain.DTO.User.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.DTO.User.Common;
+using SmartDigitalPsico.Domain.DTO.User.UPDATE;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Common;
+using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
-using SmartDigitalPsico.Domain.Interfaces.Common;
-using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
-using SmartDigitalPsico.Domain.EntityModels;
+using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
-
-using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
 
 [TestFixture]
 public class UserServiceTests

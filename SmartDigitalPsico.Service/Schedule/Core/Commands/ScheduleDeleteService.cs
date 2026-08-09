@@ -1,7 +1,6 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
 {

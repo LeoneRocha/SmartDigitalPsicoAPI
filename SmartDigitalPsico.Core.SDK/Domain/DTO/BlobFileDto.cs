@@ -1,4 +1,4 @@
-using Azure.Storage.Blobs.Models;
+﻿using Azure.Storage.Blobs.Models;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.DTO
 {

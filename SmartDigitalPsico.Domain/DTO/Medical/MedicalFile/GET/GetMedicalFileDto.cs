@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
 using SmartDigitalPsico.Domain.DTO.Common;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;

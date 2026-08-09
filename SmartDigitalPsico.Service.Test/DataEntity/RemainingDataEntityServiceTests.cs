@@ -1,8 +1,9 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using FluentValidation;
+﻿using FluentValidation;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Leaves;
@@ -13,16 +14,15 @@ using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.Interfaces.Specialty;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.EntityModels;
+
+using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity;
-
-using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
-using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
-using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
-using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 [TestFixture]
 public class RemainingDataEntityServiceTests

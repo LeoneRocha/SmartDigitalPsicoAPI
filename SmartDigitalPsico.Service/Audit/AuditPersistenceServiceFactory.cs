@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;

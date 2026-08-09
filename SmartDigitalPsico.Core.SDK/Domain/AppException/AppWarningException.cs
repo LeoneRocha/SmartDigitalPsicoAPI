@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.AppException
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.AppException
 {
     /// <summary>
     /// Classe responsável por AppWarningException.

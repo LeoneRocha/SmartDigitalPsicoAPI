@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.TableEntityNoSQL;
+﻿using SmartDigitalPsico.Core.SDK.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity
 {

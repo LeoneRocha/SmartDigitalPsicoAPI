@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Constants
+﻿namespace SmartDigitalPsico.Domain.Constants
 {
     /// <summary>
     /// Rich HTML email bodies (card layout).

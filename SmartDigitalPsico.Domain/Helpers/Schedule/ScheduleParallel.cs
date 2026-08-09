@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Helpers.Schedule
+﻿namespace SmartDigitalPsico.Domain.Helpers.Schedule
 {
     /// <summary>
     /// Opções de paralelismo CPU para o módulo Schedule.

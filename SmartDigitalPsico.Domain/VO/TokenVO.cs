@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.VO
+﻿namespace SmartDigitalPsico.Domain.VO
 {
     /// <summary>
     /// Classe responsável por SmartDigitalPsico.Core.SDK.Domain.VO.TokenVO.

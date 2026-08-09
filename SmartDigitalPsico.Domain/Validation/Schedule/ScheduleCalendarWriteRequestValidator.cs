@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 
 namespace SmartDigitalPsico.Domain.Validation

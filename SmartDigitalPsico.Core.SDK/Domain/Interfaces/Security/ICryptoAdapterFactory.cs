@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security
 {

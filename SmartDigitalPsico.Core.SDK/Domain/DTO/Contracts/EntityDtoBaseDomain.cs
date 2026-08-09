@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts
 {
     /// <summary>
     /// Classe responsável por EntityDtoBaseDomain.

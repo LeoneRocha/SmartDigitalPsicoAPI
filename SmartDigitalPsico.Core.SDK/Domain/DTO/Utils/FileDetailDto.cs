@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Utils
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Utils
 {
     /// <summary>
     /// Classe responsável por FileDetailDto.

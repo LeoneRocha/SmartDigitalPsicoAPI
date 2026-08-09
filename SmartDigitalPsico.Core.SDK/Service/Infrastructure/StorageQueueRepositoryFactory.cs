@@ -1,8 +1,8 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Core.SDK.Data.Repository.Infrastructure;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
+using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage;
 
 namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure
 {

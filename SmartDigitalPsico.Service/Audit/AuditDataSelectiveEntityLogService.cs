@@ -1,12 +1,11 @@
-using FluentValidation;
-using SmartDigitalPsico.Domain.DTO.Audit.GET;
-using SmartDigitalPsico.Domain.Helpers;
+﻿using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Audit.ADD;
-
+using SmartDigitalPsico.Domain.DTO.Audit.GET;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.Interfaces.Common;
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {

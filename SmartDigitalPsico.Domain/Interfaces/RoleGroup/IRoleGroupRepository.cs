@@ -1,4 +1,4 @@
-using RoleGroupEntity = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+﻿using RoleGroupEntity = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
 
 namespace SmartDigitalPsico.Domain.Interfaces.RoleGroup
 {

@@ -1,4 +1,4 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Helpers.Security

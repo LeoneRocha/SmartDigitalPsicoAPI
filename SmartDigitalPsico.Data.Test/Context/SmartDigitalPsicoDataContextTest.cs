@@ -1,8 +1,5 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Context;
-
-using SmartDigitalPsico.Data.Repository;
-using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Tests.Context
 {
     public class SmartDigitalPsicoDataContextTest : SmartDigitalPsicoDataContextMySql

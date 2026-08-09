@@ -1,4 +1,4 @@
-using Azure;
+﻿using Azure;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity
 {

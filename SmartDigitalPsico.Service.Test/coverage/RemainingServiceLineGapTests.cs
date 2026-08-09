@@ -1,16 +1,15 @@
-using System.Reflection;
+﻿using System.Reflection;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
 using SmartDigitalPsico.Domain.DTO.Notification.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service.Test.Infrastructure;
-using SmartDigitalPsico.Service.Test.TestSupport;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -18,13 +17,14 @@ using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Service.Test.Infrastructure;
+using SmartDigitalPsico.Service.Test.TestSupport;
+
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
-
-using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
 
 [TestFixture]
 public class RemainingServiceLineGapTests

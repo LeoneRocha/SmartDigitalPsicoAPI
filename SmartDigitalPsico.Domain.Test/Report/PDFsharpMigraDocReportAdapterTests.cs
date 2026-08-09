@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Test.Report;
+﻿namespace SmartDigitalPsico.Domain.Test.Report;
 
 [TestFixture]
 public class PDFsharpMigraDocReportAdapterTests

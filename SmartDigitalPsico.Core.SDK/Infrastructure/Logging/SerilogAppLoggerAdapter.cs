@@ -1,4 +1,4 @@
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;

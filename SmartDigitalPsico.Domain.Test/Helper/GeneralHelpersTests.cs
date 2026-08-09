@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;

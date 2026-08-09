@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;

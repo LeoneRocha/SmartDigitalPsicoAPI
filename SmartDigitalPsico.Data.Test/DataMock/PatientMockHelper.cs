@@ -1,11 +1,7 @@
-using Bogus;
+﻿using Bogus;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-
-using SmartDigitalPsico.Domain.EntityModels;
-
-using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Context.Mock;
-using SmartDigitalPsico.Data.Context.Configure;
+using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Data.Test.DataMock
 {
     public class PatientMockHelper

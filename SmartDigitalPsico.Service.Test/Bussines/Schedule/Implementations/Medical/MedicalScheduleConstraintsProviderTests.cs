@@ -1,4 +1,4 @@
-using Moq;
+﻿using Moq;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 

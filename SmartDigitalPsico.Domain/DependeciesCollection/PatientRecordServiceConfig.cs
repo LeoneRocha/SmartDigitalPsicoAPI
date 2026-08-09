@@ -1,9 +1,8 @@
-using FluentValidation;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
-
+﻿using FluentValidation;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
-using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Domain.DependeciesCollection
 {

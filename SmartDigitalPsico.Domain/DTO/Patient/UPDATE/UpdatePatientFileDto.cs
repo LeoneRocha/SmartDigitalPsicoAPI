@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Patient.UPDATE
+﻿namespace SmartDigitalPsico.Domain.DTO.Patient.UPDATE
 {
     /// <summary>
     /// Classe responsável por UpdatePatientFileDto.

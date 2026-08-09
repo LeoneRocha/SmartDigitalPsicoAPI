@@ -1,10 +1,9 @@
-using FluentValidation;
+﻿using FluentValidation;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Helpers.Medical;
-
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Validation
 {

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Common
+﻿namespace SmartDigitalPsico.Domain.DTO.Common
 {
     /// <summary>
     /// Classe responsável por FileBaseDto.

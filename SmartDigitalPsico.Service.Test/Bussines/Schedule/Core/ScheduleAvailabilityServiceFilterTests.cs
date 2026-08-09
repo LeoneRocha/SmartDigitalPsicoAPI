@@ -1,9 +1,8 @@
-using Moq;
+﻿using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
+using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Core;
 

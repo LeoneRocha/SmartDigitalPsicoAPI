@@ -1,17 +1,16 @@
-using Moq;
+﻿using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.EntityModels;
+
+using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.General;
-
-using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
 
 [TestFixture]
 public class MedicalCalenderNotificationServiceTests

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Application.Common
+﻿namespace SmartDigitalPsico.Domain.DTO.Application.Common
 {
     /// <summary>
     /// Classe responsável por AppConfigurationSettingDto.

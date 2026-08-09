@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;

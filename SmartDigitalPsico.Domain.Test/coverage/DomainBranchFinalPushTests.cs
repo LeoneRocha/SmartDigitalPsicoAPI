@@ -1,24 +1,22 @@
-using SmartDigitalPsico.Core.SDK.Domain.Security;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
-using System.Text.Json;
-using Moq;
-using Newtonsoft.Json;
-using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Helpers;
-using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-
-using SmartDigitalPsico.Domain.Validation;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
+using System.Text.Json;
+using Microsoft.IdentityModel.Tokens;
+using Moq;
+using Newtonsoft.Json;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Security;
+using SmartDigitalPsico.Domain.Contracts;
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Helpers;
+using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Domain.Test.Coverage;
 

@@ -1,3 +1,4 @@
+﻿using System.Globalization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -7,7 +8,6 @@ using Moq;
 using SmartDigitalPsico.Core.SDK.API;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using System.Globalization;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.API;
 

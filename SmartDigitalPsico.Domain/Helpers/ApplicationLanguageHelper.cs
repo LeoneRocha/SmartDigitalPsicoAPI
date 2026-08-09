@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Helpers
+﻿namespace SmartDigitalPsico.Domain.Helpers
 {
     /// <summary>
     /// Classe responsável por ApplicationLanguageHelper.

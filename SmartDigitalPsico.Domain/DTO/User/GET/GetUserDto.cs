@@ -1,6 +1,6 @@
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
 
 namespace SmartDigitalPsico.Domain.DTO.User.GET
 {

@@ -1,10 +1,10 @@
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
+using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
-using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using System.Text;
-using System.Text.Json;
 
 namespace SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager
 {

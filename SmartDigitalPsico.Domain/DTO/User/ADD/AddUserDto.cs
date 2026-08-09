@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.User.ADD
+﻿namespace SmartDigitalPsico.Domain.DTO.User.ADD
 {
     /// <summary>
     /// Classe responsável por AddUserDto.

@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.DTO.Report.Entity;
+﻿using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.DTO.Report.Entity;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Patient
 {

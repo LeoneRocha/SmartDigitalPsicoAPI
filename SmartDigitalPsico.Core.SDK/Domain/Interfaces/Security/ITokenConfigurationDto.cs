@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security
 {
     /// <summary>
     /// Interface (contrato) responsável por ITokenConfigurationDto.

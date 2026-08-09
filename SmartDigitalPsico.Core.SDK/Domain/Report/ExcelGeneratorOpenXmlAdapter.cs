@@ -1,10 +1,10 @@
+﻿using System.Text;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
-using System.Text;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Report
 {

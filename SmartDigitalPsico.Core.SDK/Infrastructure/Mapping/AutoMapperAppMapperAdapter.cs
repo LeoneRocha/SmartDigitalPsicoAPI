@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 
 namespace SmartDigitalPsico.Core.SDK.Infrastructure.Mapping

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.Common;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {

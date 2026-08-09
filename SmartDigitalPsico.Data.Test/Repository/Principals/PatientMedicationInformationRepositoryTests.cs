@@ -1,12 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+Ôªøusing Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-
 using SmartDigitalPsico.Domain.EntityModels;
-
-using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
@@ -47,7 +44,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
-        // Cen·rio: existem informaÁıes de medicaÁ„o persistidas no contexto.
+        // Cen√°rio: existem informa√ß√µes de medica√ß√£o persistidas no contexto.
         // Objetivo: retornar todas as PatientMedicationInformation cadastradas.
         [Test]
         public async Task FindAll_ExistingRecords_ReturnsAllRecords()
@@ -71,7 +68,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen·rio: existe um paciente com informaÁıes de medicaÁ„o associadas.
+        // Cen√°rio: existe um paciente com informa√ß√µes de medica√ß√£o associadas.
         // Objetivo: retornar apenas as PatientMedicationInformation do paciente informado.
         [Test]
         public async Task FindAllByPatient_ExistingPatient_ReturnsMatchingRecords()
@@ -95,8 +92,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen·rio: existe uma PatientMedicationInformation com paciente, mÈdico e usu·rio criador.
-        // Objetivo: retornar o registro pelo ID com navegaÁ„o carregada.
+        // Cen√°rio: existe uma PatientMedicationInformation com paciente, m√©dico e usu√°rio criador.
+        // Objetivo: retornar o registro pelo ID com navega√ß√£o carregada.
         [Test]
         public async Task FindByID_ExistingId_ReturnsPatientMedicationInformation()
         {

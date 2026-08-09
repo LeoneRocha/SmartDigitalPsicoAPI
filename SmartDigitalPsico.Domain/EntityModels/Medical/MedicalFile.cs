@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
+﻿using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.Domain.EntityModels

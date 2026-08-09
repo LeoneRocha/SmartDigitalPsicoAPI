@@ -1,4 +1,4 @@
-using PdfSharp.Fonts;
+﻿using PdfSharp.Fonts;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Report;
 

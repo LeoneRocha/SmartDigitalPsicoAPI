@@ -1,5 +1,4 @@
-using SmartDigitalPsico.Domain.VO;
-using System.Collections;
+﻿using System.Collections;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.User.GET;
-using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Domain.DTO.User.GET;
+using SmartDigitalPsico.Domain.Hypermedia;
+using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Test.ModelCoverage;
 

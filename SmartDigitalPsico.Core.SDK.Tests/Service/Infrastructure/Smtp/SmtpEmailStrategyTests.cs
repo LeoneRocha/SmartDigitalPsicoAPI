@@ -1,5 +1,5 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 namespace SmartDigitalPsico.Core.SDK.Tests.Infrastructure.Smtp;
 
 [TestFixture]

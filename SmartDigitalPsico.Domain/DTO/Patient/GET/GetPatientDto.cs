@@ -1,7 +1,7 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.GET
 {

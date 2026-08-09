@@ -1,9 +1,9 @@
+﻿using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Helpers;
-using System.Diagnostics;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
 

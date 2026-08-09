@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
+﻿using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
 
 using RoleGroupEntity = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
 

@@ -1,4 +1,4 @@
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Validation.Helper

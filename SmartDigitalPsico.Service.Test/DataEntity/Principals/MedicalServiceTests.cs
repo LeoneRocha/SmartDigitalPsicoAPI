@@ -1,22 +1,20 @@
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
-using SmartDigitalPsico.Service.Test.TestSupport;
-
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Specialty;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Service.Test.TestSupport;
 
-namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
-
-using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
 using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
+namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
 
 [TestFixture]
 public class MedicalServiceTests

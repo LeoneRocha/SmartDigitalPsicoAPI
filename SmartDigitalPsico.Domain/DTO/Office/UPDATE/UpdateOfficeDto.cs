@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Office.UPDATE
+﻿namespace SmartDigitalPsico.Domain.DTO.Office.UPDATE
 {
     /// <summary>
     /// Classe responsável por UpdateOfficeDto.

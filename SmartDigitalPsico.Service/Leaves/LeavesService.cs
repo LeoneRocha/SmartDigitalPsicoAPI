@@ -1,11 +1,9 @@
-using FluentValidation;
+﻿using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Leaves.GET;
-
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Leaves;
-
-using SmartDigitalPsico.Domain.EntityModels;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>

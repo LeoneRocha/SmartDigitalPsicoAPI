@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Notification.Common
+﻿namespace SmartDigitalPsico.Domain.DTO.Notification.Common
 {
     /// <summary>
     /// Classe responsável por NotificationTemplateBaseDto.

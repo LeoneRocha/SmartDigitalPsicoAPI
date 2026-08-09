@@ -1,12 +1,12 @@
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
-using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical.Actions;
 
 [TestFixture]

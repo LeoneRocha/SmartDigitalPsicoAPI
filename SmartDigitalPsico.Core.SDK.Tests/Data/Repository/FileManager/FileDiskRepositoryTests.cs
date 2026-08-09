@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Data.Repository.FileManager;
+﻿using SmartDigitalPsico.Core.SDK.Data.Repository.FileManager;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Data.Repository.FileManager;

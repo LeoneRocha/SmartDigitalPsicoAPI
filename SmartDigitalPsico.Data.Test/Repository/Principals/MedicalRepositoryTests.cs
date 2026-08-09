@@ -1,12 +1,9 @@
-using SmartDigitalPsico.Data.Context.Mock;
+Ôªøusing SmartDigitalPsico.Data.Context.Mock;
 using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-
 using SmartDigitalPsico.Domain.EntityModels;
-
-using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
@@ -49,7 +46,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
-        // Cen·rio: existem mÈdicos persistidos no contexto.
+        // Cen√°rio: existem m√©dicos persistidos no contexto.
         // Objetivo: retornar todos os Medical cadastrados.
         [Test]
         public async Task FindAll_ExistingRecords_ReturnsAllRecords()
@@ -73,8 +70,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen·rio: existe um mÈdico com accreditation conhecida.
-        // Objetivo: retornar true quando a accreditation j· estiver cadastrada.
+        // Cen√°rio: existe um m√©dico com accreditation conhecida.
+        // Objetivo: retornar true quando a accreditation j√° estiver cadastrada.
         [Test]
         public async Task Exists_WithExistingAccreditation_ReturnsTrue()
         {
@@ -94,8 +91,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             Assert.That(result, Is.True);
         }
 
-        // Cen·rio: existe um mÈdico com office e especialidades associadas.
-        // Objetivo: retornar o Medical pelo ID com navegaÁ„o carregada.
+        // Cen√°rio: existe um m√©dico com office e especialidades associadas.
+        // Objetivo: retornar o Medical pelo ID com navega√ß√£o carregada.
         [Test]
         public async Task FindByID_ExistingId_ReturnsMedical()
         {
@@ -122,8 +119,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen·rio: existe um mÈdico com accreditation conhecida.
-        // Objetivo: retornar o Medical correspondente ‡ accreditation informada.
+        // Cen√°rio: existe um m√©dico com accreditation conhecida.
+        // Objetivo: retornar o Medical correspondente √† accreditation informada.
         [Test]
         public async Task FindByAccreditation_ExistingAccreditation_ReturnsMedical()
         {
@@ -151,7 +148,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen·rio: existe um mÈdico com e-mail conhecido.
+        // Cen√°rio: existe um m√©dico com e-mail conhecido.
         // Objetivo: retornar o Medical correspondente ao e-mail informado.
         [Test]
         public async Task FindByEmail_ExistingEmail_ReturnsMedical()

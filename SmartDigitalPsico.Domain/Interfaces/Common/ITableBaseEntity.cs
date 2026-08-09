@@ -1,4 +1,4 @@
-using Azure;
+﻿using Azure;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Common
 {

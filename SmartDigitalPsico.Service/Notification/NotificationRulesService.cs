@@ -1,11 +1,10 @@
-using FluentValidation;
+﻿using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Enuns;
-
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {

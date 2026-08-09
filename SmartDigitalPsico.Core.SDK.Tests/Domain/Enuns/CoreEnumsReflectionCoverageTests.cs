@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Domain.Enuns;
 

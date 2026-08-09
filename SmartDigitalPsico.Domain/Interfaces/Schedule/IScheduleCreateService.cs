@@ -1,6 +1,6 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Schedule
 {

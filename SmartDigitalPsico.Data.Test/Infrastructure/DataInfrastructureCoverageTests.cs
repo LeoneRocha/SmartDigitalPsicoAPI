@@ -1,10 +1,8 @@
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Migrations;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-
-using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Infrastructure;
 

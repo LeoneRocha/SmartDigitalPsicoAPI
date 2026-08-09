@@ -13,7 +13,7 @@
 
 ## Comandos `dotnet format`
 
-### Corrigir automaticamente (modo fix)
+### Corrigir automaticamente (modo manual)
 
 ```bash
 dotnet format SmartDigitalPsicoAPI.sln --diagnostics IDE0005 IDE0055 IDE0065 --severity info
@@ -23,32 +23,10 @@ dotnet format SmartDigitalPsicoAPI.sln --diagnostics IDE0005 IDE0055 IDE0065 --s
 - Ordena os `using` (`System.*` primeiro)
 - Garante que `using` fique fora do namespace
 
-### Verificar sem alterar (modo CI / code review)
+### Verificar sem alterar (modo verificação)
 
 ```bash
 dotnet format SmartDigitalPsicoAPI.sln --diagnostics IDE0005 IDE0055 IDE0065 --severity info --verify-no-changes
-```
-
-Falha com exit-code != 0 se houver alguma diferença — ideal para pipelines CI/CD.
-
----
-
-## Pré-build automático (`Directory.Build.targets`)
-
-O arquivo `Directory.Build.targets` na raiz da solution configura a execução automática.
-
-### Comportamento padrão
-
-| Ambiente | Modo | Ativado por |
-|---|---|---|
-| **Local (dev)** | Fix (corrige os arquivos) | `dotnet build -p:RunDotnetFormat=true` |
-| **CI/CD** (`CI=true` ou `TF_BUILD=True`) | Verify (falha se houver diff) | Automático |
-
-### Forçar localmente
-
-```bash
-# Roda o format antes do build e corrige os arquivos
-dotnet build -p:RunDotnetFormat=true
 ```
 
 ---
@@ -76,4 +54,3 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 | Arquivo | Função |
 |---|---|
 | `.editorconfig` | Regras IDE0005, IDE0055, IDE0065, ordenação |
-| `Directory.Build.targets` | Pré-build automático com `dotnet format` |

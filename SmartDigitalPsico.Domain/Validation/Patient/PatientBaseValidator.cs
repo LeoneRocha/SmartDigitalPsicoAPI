@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 namespace SmartDigitalPsico.Domain.Validation

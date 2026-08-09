@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 
 using SmartDigitalPsico.Domain.Interfaces.Notification;

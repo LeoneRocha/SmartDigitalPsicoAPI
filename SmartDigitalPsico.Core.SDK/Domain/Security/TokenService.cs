@@ -1,10 +1,10 @@
-using Microsoft.IdentityModel.Tokens;
-using SmartDigitalPsico.Core.SDK.Domain.DTO.Security;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Security
 {

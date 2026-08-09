@@ -1,9 +1,9 @@
+﻿using System.Collections;
+using System.Reflection;
 using Bogus;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using System.Collections;
-using System.Reflection;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace SmartDigitalPsico.Domain.Test.Validation;

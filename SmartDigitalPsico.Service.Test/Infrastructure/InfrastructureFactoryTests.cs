@@ -1,7 +1,7 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
 
 [TestFixture]

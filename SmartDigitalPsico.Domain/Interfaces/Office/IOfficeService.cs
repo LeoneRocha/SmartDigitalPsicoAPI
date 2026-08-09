@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Office.GET;
+﻿using SmartDigitalPsico.Domain.DTO.Office.GET;
 
 using OfficeEntity = SmartDigitalPsico.Domain.EntityModels.Office;
 

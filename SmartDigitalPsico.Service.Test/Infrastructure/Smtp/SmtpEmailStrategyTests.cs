@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Service.Test.Infrastructure.Smtp;
+﻿namespace SmartDigitalPsico.Service.Test.Infrastructure.Smtp;
 
 [TestFixture]
 public class SmtpEmailStrategyTests

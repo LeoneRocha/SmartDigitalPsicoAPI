@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
 using SmartDigitalPsico.Domain.DTO.Notification.Common;
 namespace SmartDigitalPsico.Domain.DTO.Notification.GET

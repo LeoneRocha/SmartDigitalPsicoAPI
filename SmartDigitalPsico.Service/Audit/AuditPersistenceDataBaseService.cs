@@ -1,5 +1,5 @@
+﻿using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {

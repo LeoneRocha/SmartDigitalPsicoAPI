@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Domain.Resiliency;

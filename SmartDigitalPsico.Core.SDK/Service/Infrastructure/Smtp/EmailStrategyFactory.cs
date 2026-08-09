@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 
 namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp

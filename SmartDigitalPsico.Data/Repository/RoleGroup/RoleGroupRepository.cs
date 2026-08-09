@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-
-using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 
 namespace SmartDigitalPsico.Data.Repository
 {

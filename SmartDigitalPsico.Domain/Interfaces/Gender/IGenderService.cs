@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Gender.GET;
+﻿using SmartDigitalPsico.Domain.DTO.Gender.GET;
 
 using GenderEntity = SmartDigitalPsico.Domain.EntityModels.Gender;
 

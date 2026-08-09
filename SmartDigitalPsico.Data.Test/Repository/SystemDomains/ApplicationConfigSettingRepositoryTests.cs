@@ -1,11 +1,8 @@
-using SmartDigitalPsico.Data.Context.Mock;
+Ôªøusing SmartDigitalPsico.Data.Context.Mock;
 using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
-
 using SmartDigitalPsico.Domain.EntityModels;
-
-using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
@@ -30,7 +27,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
-        // Cen·rio: configuraÁ„o de aplicaÁ„o persistida no contexto de teste.
+        // Cen√°rio: configura√ß√£o de aplica√ß√£o persistida no contexto de teste.
         // Objetivo: garantir que FindAll retorne o registro cadastrado.
         [Test]
         public async Task FindAll_ExistingSettings_ReturnsAllRecords()

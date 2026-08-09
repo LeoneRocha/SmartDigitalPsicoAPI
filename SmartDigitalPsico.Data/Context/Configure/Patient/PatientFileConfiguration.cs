@@ -1,27 +1,26 @@
-using Microsoft.EntityFrameworkCore;
+Ôªøusing Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-
-using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Data.Context.Configure
 {
     /// <summary>
-    /// Classe respons·vel por PatientFileConfiguration.
-    /// Responsabilidade: configuraÁ„o de startup/DI da aplicaÁ„o.
-    /// RelaÁ„o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Classe respons√°vel por PatientFileConfiguration.
+    /// Responsabilidade: configura√ß√£o de startup/DI da aplica√ß√£o.
+    /// Rela√ß√£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class PatientFileConfiguration : SmartDigitalPsico.Core.SDK.Data.Context.Configure.EntityBaseConfiguration<PatientFile>
     {
         /// <summary>
-        /// MÈtodo PatientFileConfiguration: executa a operaÁ„o PatientFileConfiguration.
+        /// M√©todo PatientFileConfiguration: executa a opera√ß√£o PatientFileConfiguration.
         /// </summary>
         public PatientFileConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         /// <summary>
-        /// MÈtodo Configure: configura estado ou dependencias.
+        /// M√©todo Configure: configura estado ou dependencias.
         /// </summary>
         public override void Configure(EntityTypeBuilder<PatientFile> builder)
         {

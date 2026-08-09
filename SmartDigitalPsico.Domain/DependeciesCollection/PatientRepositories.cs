@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Interfaces.Common;
+﻿using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 

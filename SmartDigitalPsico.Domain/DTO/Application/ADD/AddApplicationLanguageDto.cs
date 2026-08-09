@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Application.ADD
+﻿namespace SmartDigitalPsico.Domain.DTO.Application.ADD
 {
     /// <summary>
     /// Classe responsável por AddApplicationLanguageDto.

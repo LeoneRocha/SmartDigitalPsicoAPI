@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+﻿using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 
 namespace SmartDigitalPsico.Domain.DTO.Schedule.GET
 {

@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using Microsoft.Extensions.Localization;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.DTO;

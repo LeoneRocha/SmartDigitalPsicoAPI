@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants
 {
     /// <summary>
     /// Formatos de content-type padrão para links hypermedia.

@@ -1,10 +1,9 @@
-using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+﻿using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Domain.Validation;
-
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Core;
 
 [TestFixture]

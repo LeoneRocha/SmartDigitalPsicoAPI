@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Enuns
+﻿namespace SmartDigitalPsico.Domain.Enuns
 {
     /// <summary>
     /// Enumeração responsável por ENotificationType.

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Validation
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Validation
 {
     /// <summary>
     /// FluentValidation error-code convention:

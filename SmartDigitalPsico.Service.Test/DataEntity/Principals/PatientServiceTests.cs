@@ -1,19 +1,17 @@
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
-using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
-using SmartDigitalPsico.Service.Test.TestSupport;
-
+using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Service.Test.TestSupport;
+
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
-
-using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
-
 
 [TestFixture]
 public class PatientServiceTests

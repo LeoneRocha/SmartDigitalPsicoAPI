@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
 {
     /// <summary>
     /// Tipos de recorrência de calendário/agenda.

@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp
 {

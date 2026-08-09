@@ -1,4 +1,4 @@
-using UserEntity = SmartDigitalPsico.Domain.EntityModels.User;
+﻿using UserEntity = SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Domain.Interfaces.User
 {

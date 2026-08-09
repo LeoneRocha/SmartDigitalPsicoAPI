@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 namespace SmartDigitalPsico.Domain.DTO.Schedule.Common

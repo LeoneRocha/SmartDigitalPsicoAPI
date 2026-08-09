@@ -1,9 +1,8 @@
-using SmartDigitalPsico.Domain.DTO.Patient.GET;
-using SmartDigitalPsico.Domain.DTO.User.GET;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
-
+﻿using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.DTO.User.GET;
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET
 {
     /// <summary>

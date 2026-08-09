@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Helpers.Schedule
+﻿namespace SmartDigitalPsico.Domain.Helpers.Schedule
 {
     /// <summary>
     /// Generic schedule key utilities for Core engines — no product/tenant defaults.

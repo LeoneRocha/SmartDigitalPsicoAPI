@@ -1,6 +1,5 @@
+﻿using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Enuns;
-
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.DTO.Notification.Common
 {

@@ -1,13 +1,12 @@
-using SmartDigitalPsico.Core.SDK.Domain.AppException;
+﻿using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Validation;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
-
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Domain.Validation;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>

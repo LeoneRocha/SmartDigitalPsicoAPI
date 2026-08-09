@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Moq;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Report;

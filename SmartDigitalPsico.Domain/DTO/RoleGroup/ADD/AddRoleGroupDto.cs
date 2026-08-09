@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.RoleGroup.ADD
+﻿namespace SmartDigitalPsico.Domain.DTO.RoleGroup.ADD
 {
     /// <summary>
     /// Classe responsável por AddRoleGroupDto.

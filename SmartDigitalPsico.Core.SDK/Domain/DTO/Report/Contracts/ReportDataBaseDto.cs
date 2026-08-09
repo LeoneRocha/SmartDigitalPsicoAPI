@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report.Contracts
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report.Contracts
 {
     /// <summary>
     /// Classe responsável por ReportDataBaseDto.

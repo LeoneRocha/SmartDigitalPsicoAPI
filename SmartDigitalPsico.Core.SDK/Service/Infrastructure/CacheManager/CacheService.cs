@@ -1,10 +1,10 @@
+﻿using System.Globalization;
+using System.Reflection;
 using Microsoft.Extensions.Options;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
-using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using System.Globalization;
-using System.Reflection;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager

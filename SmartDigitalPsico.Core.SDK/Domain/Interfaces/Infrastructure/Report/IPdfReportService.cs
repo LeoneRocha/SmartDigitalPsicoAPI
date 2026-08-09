@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
+﻿using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report
 {

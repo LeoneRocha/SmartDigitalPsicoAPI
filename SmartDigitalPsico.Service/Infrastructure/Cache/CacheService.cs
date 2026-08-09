@@ -1,9 +1,8 @@
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
-
-using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Application;
 
 namespace SmartDigitalPsico.Service
 {

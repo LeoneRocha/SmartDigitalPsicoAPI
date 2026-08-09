@@ -1,5 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Reflection;
 using System.Security.Claims;
 using Azure;
@@ -9,29 +8,28 @@ using FluentValidation.Results;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
+using SmartDigitalPsico.Domain.DTO.Gender.ADD;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Test.TestSupport;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
-using SmartDigitalPsico.Domain.DTO.Gender.ADD;
-
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
+using SmartDigitalPsico.Domain.VO;
+using SmartDigitalPsico.Service.Test.TestSupport;
+using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
+using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
-
-using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
 
 [TestFixture]
 public class ServiceBranchCoverageLastPushTests

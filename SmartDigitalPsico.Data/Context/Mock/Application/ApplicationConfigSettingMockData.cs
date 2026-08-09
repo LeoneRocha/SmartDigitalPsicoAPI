@@ -1,6 +1,5 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Constants;
-
+﻿using SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Data.Context.Mock

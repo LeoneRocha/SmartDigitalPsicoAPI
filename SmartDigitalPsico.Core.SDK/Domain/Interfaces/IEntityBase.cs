@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces
 {
     /// <summary>
     /// Interface (contrato) responsável por IEntityBase.

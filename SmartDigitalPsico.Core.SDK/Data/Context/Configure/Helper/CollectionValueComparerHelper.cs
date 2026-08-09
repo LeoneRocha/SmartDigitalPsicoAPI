@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 
 namespace SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper

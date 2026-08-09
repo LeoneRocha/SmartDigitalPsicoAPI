@@ -1,17 +1,16 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using SmartDigitalPsico.Core.SDK.Domain.Constants;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {

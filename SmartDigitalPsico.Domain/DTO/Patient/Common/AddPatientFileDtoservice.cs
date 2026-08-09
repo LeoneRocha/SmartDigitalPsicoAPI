@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace SmartDigitalPsico.Domain.DTO.Patient.Common
 {

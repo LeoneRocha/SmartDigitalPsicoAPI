@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Repository.Generic;
 using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 

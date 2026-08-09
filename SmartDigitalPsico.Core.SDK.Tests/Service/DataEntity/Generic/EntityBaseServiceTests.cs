@@ -1,10 +1,10 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.VO;

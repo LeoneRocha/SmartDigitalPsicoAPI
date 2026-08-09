@@ -1,9 +1,8 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
 using SmartDigitalPsico.Domain.Helpers;
-using DateHelper = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper;
-
 using SmartDigitalPsico.Domain.Interfaces.Common;
+using DateHelper = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper;
 namespace SmartDigitalPsico.WindowsService
 {
     /// <summary>

@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters
 {

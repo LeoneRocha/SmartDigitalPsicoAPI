@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Audit.Common;
+﻿using SmartDigitalPsico.Domain.DTO.Audit.Common;
 namespace SmartDigitalPsico.Domain.DTO.Audit.ADD
 {
     /// <summary>

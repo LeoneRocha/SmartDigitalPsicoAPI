@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Interfaces.Patient
+﻿namespace SmartDigitalPsico.Domain.Interfaces.Patient
 {
     /// <summary>
     /// Interface (contrato) responsável por IPatientBaseValidator.

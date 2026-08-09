@@ -1,9 +1,7 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.Json;
 using Azure.Storage.Blobs.Models;
-using SmartDigitalPsico.Domain.Contracts;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -15,24 +13,25 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Newtonsoft.Json;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
+using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.DTO.User.GET;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
-using TextJson = System.Text.Json.JsonSerializer;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
-using SmartDigitalPsico.Domain.Validation;
-
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Validation;
+using TextJson = System.Text.Json.JsonSerializer;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
 

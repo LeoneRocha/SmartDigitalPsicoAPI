@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
 
 namespace SmartDigitalPsico.Core.SDK.Data.Repository.Infrastructure
 {

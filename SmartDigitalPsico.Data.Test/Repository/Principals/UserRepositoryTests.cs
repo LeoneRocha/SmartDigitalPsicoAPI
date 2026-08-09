@@ -1,12 +1,9 @@
-using SmartDigitalPsico.Data.Context.Mock;
+﻿using SmartDigitalPsico.Data.Context.Mock;
 using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-
 using SmartDigitalPsico.Domain.EntityModels;
-
-using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.Principals
 {
     [TestFixture]
@@ -55,7 +52,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             _mockContext.SaveChanges();
         }
 
-        // Cen�rio: usu�rios persistidos no contexto de teste.
+        // Cenário: usuários persistidos no contexto de teste.
         // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
         public async Task FindAll_ExistingUsers_ReturnsAllRecords()
@@ -78,8 +75,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen�rio: busca por login de usu�rio administrador.
-        // Objetivo: garantir que FindByLogin retorne o usu�rio sem Medical.
+        // Cenário: busca por login de usuário administrador.
+        // Objetivo: garantir que FindByLogin retorne o usuário sem Medical.
         [Test]
         public async Task FindByLogin_AdminUser_ReturnsUserWithoutMedical()
         {
@@ -102,8 +99,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen�rio: busca por login de usu�rio m�dico.
-        // Objetivo: garantir que FindByLogin retorne o usu�rio com Medical.
+        // Cenário: busca por login de usuário médico.
+        // Objetivo: garantir que FindByLogin retorne o usuário com Medical.
         [Test]
         public async Task FindByLogin_MedicalUser_ReturnsUserWithMedical()
         {
@@ -126,7 +123,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen�rio: verifica��o de exist�ncia por login cadastrado.
+        // Cenário: verificação de existência por login cadastrado.
         // Objetivo: garantir que UserExists retorne true.
         [Test]
         public async Task UserExists_ExistingLogin_ReturnsTrue()
@@ -144,8 +141,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             Assert.That(result, Is.True);
         }
 
-        // Cen�rio: busca por Id de usu�rio existente.
-        // Objetivo: garantir que FindByID retorne o usu�rio com RoleGroups.
+        // Cenário: busca por Id de usuário existente.
+        // Objetivo: garantir que FindByID retorne o usuário com RoleGroups.
         [Test]
         public async Task FindByID_ExistingId_ReturnsUser()
         {
@@ -168,8 +165,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen�rio: busca por e-mail de usu�rio existente.
-        // Objetivo: garantir que FindByEmail retorne o usu�rio correspondente.
+        // Cenário: busca por e-mail de usuário existente.
+        // Objetivo: garantir que FindByEmail retorne o usuário correspondente.
         [Test]
         public async Task FindByEmail_ExistingEmail_ReturnsUser()
         {
@@ -192,7 +189,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.Principals
             }
         }
 
-        // Cen�rio: atualiza��o de informa��es de usu�rio existente.
+        // Cenário: atualização de informações de usuário existente.
         // Objetivo: garantir que RefreshUserInfo persista o nome atualizado.
         [Test]
         public async Task RefreshUserInfo_UserExists_ReturnsUpdatedUser()

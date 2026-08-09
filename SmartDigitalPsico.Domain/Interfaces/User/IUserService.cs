@@ -1,7 +1,6 @@
-using SmartDigitalPsico.Domain.DTO.User.GET;
+﻿using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.User.Common;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
-
+using SmartDigitalPsico.Domain.DTO.User.GET;
 using UserEntity = SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Domain.Interfaces.User

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.TableEntityNoSQL
+﻿namespace SmartDigitalPsico.Domain.TableEntityNoSQL
 {
     /// <summary>
     /// Classe responsável por PatientRecordTableEntity.

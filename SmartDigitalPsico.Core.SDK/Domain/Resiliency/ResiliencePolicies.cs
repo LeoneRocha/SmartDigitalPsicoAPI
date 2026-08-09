@@ -1,7 +1,7 @@
+﻿using System.Data;
 using Polly;
 using Polly.Retry;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-using System.Data;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency
 {

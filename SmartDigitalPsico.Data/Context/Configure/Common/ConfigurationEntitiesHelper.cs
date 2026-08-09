@@ -1,7 +1,7 @@
+﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using System.Reflection;
 
 namespace SmartDigitalPsico.Data.Context.Configure
 {

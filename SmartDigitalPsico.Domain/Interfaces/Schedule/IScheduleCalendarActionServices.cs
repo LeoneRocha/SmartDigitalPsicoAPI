@@ -1,8 +1,8 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
+using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Schedule
 {

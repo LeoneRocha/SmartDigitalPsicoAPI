@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Interfaces.Application;
+﻿using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Common

@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 
 using SmartDigitalPsico.Domain.Interfaces.Patient;

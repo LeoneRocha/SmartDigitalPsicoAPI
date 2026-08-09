@@ -1,15 +1,12 @@
+ï»¿using System.Linq.Expressions;
 using Bogus;
 using Microsoft.EntityFrameworkCore;
+using SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Test.DataMock;
 using SmartDigitalPsico.Data.Tests.Context;
-using System.Linq.Expressions;
-
 using SmartDigitalPsico.Domain.EntityModels;
-using SmartDigitalPsico.Data.Repository;
-using SmartDigitalPsico.Data.Context.Mock;
-
-using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
@@ -34,7 +31,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
-        // Cenário: criação de um novo gênero com dados válidos.
+        // CenÃ¡rio: criaÃ§Ã£o de um novo gÃªnero com dados vÃ¡lidos.
         // Objetivo: garantir que Create persista a entidade no contexto.
         [Test]
         public async Task Create_ValidGender_PersistsEntity()
@@ -61,7 +58,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cenário: tentativa de criar gênero com Id já existente.
+        // CenÃ¡rio: tentativa de criar gÃªnero com Id jÃ¡ existente.
         // Objetivo: garantir que Create lance InvalidOperationException.
         [Test]
         public void Create_DuplicateId_ThrowsInvalidOperationException()
@@ -87,7 +84,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             });
         }
 
-        // Cenário: criação de gênero com dados gerados por Bogus.
+        // CenÃ¡rio: criaÃ§Ã£o de gÃªnero com dados gerados por Bogus.
         // Objetivo: garantir que Create persista entidade gerada dinamicamente.
         [Test]
         public async Task Create_BogusGeneratedGender_PersistsEntity()
@@ -116,7 +113,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cenário: gêneros persistidos no contexto de teste.
+        // CenÃ¡rio: gÃªneros persistidos no contexto de teste.
         // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
         public async Task FindAll_ExistingGenders_ReturnsAllRecords()
@@ -142,7 +139,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cenário: busca por Id de gênero existente.
+        // CenÃ¡rio: busca por Id de gÃªnero existente.
         // Objetivo: garantir que FindByID retorne a entidade correspondente.
         [Test]
         public async Task FindByID_ExistingId_ReturnsGender()
@@ -167,8 +164,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cenário: atualização de descrição de um gênero existente.
-        // Objetivo: garantir que Update persista as alterações corretamente.
+        // CenÃ¡rio: atualizaÃ§Ã£o de descriÃ§Ã£o de um gÃªnero existente.
+        // Objetivo: garantir que Update persista as alteraÃ§Ãµes corretamente.
         [Test]
         public async Task Update_ExistingGender_UpdatesDescription()
         {
@@ -199,7 +196,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cenário: atualização de gênero inexistente.
+        // CenÃ¡rio: atualizaÃ§Ã£o de gÃªnero inexistente.
         // Objetivo: garantir que Update lance InvalidOperationException.
         [Test]
         public void Update_NonExistingGender_ThrowsInvalidOperationException()
@@ -219,7 +216,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             Assert.ThrowsAsync<InvalidOperationException>(async () => await _entityRepository.Update(nonExistingGender));
         }
 
-        // Cenário: exclusão de um gênero existente por Id.
+        // CenÃ¡rio: exclusÃ£o de um gÃªnero existente por Id.
         // Objetivo: garantir que Delete remova a entidade do contexto.
         [Test]
         public async Task Delete_ExistingId_RemovesEntity()
@@ -246,7 +243,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cenário: alternância de Enable em um gênero existente.
+        // CenÃ¡rio: alternÃ¢ncia de Enable em um gÃªnero existente.
         // Objetivo: garantir que EnableOrDisable inverta o estado e retorne true.
         [Test]
         public async Task EnableOrDisable_UpdatesEntityAndReturnsTrue()
@@ -274,8 +271,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cenário: verificação de existência de gênero já cadastrado.
-        // Objetivo: garantir que Exists retorne true para Id válido.
+        // CenÃ¡rio: verificaÃ§Ã£o de existÃªncia de gÃªnero jÃ¡ cadastrado.
+        // Objetivo: garantir que Exists retorne true para Id vÃ¡lido.
         [Test]
         public async Task Exists_EntityExists_ReturnsTrue()
         {
@@ -295,8 +292,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             Assert.That(result, Is.True);
         }
 
-        // Cenário: verificação de existência por Id de gênero cadastrado.
-        // Objetivo: garantir que FindExistsByID não lance exceção.
+        // CenÃ¡rio: verificaÃ§Ã£o de existÃªncia por Id de gÃªnero cadastrado.
+        // Objetivo: garantir que FindExistsByID nÃ£o lance exceÃ§Ã£o.
         [Test]
         public async Task FindExistsByID_EntityExists_ReturnsNoException()
         {
@@ -319,7 +316,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             });
         }
 
-        // Cenário: filtro customizado por predicado de Id.
+        // CenÃ¡rio: filtro customizado por predicado de Id.
         // Objetivo: garantir que FindByCustomWhere retorne a lista filtrada.
         [Test]
         public async Task FindByCustomWhere_MatchingPredicate_ReturnsFilteredList()
@@ -347,8 +344,8 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cenário: filtro customizado com includes de Patients.
-        // Objetivo: garantir que FindByCustomWhereWithIncludes carregue as navegações.
+        // CenÃ¡rio: filtro customizado com includes de Patients.
+        // Objetivo: garantir que FindByCustomWhereWithIncludes carregue as navegaÃ§Ãµes.
         [Test]
         public async Task FindByCustomWhereWithIncludes_MatchingPredicate_ReturnsListWithIncludes()
         {
@@ -384,7 +381,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cenário: contagem de gêneros que satisfazem um predicado.
+        // CenÃ¡rio: contagem de gÃªneros que satisfazem um predicado.
         // Objetivo: garantir que GetCount retorne a quantidade esperada.
         [Test]
         public async Task GetCount_MatchingPredicate_ReturnsExpectedCount()

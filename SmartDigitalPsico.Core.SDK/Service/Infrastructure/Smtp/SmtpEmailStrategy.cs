@@ -1,7 +1,7 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 
 namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp
 {

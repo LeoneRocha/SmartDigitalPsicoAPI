@@ -1,13 +1,12 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Queue;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Smtp;
-using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Domain.DependeciesCollection;
-
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;

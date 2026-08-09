@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Specialty.ADD
+﻿namespace SmartDigitalPsico.Domain.DTO.Specialty.ADD
 {
     /// <summary>
     /// Classe responsável por AddSpecialtyDto.

@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
+﻿using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
 
 namespace SmartDigitalPsico.Domain.DTO.User.Common
 {

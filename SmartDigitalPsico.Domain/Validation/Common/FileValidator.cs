@@ -1,7 +1,7 @@
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.Configuration;
-using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
+using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Domain.Validation
 {

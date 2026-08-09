@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
 {
     [AttributeUsage(AttributeTargets.Property)]
     /// <summary>

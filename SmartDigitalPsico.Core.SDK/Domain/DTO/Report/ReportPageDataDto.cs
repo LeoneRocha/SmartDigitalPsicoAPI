@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.DTO.Report.Contracts;
+﻿using SmartDigitalPsico.Core.SDK.Domain.DTO.Report.Contracts;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report

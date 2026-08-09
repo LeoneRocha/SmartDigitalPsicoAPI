@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
 {
     /// <summary>
     /// Destinos de persistência de auditoria.

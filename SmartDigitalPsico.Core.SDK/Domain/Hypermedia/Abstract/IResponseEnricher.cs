@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract
 {

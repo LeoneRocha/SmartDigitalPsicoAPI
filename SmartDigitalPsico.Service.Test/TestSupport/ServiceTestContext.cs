@@ -1,16 +1,15 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using SmartDigitalPsico.Core.SDK.Infrastructure.Mapping;
-using SmartDigitalPsico.Domain.Mapper;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
-
+using SmartDigitalPsico.Core.SDK.Infrastructure.Mapping;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.Mapper;
 namespace SmartDigitalPsico.Service.Test.TestSupport;
 /// <summary>
 /// Contexto compartilhado de dependências mockadas para os testes comportamentais de Service.

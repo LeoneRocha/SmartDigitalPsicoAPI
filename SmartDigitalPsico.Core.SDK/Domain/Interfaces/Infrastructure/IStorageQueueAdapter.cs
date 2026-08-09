@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure
 {
     /// <summary>
     /// Interface (contrato) responsável por IStorageQueueContract.

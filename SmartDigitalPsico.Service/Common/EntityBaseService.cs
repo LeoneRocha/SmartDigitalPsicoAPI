@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Report.Common
+﻿namespace SmartDigitalPsico.Domain.DTO.Report.Common
 {
     /// <summary>
     /// Classe responsável por EntityDtoBaseDomainReportDto.

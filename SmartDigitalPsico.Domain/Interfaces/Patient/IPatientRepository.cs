@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Patient.Common;
+﻿using SmartDigitalPsico.Domain.DTO.Patient.Common;
 
 using PatientEntity = SmartDigitalPsico.Domain.EntityModels.Patient;
 

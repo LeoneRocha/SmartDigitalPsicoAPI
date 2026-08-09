@@ -1,26 +1,25 @@
-using Microsoft.EntityFrameworkCore;
+Ôªøusing Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-
-using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Data.Context.Configure
 {
     /// <summary>
-    /// Classe respons·vel por ApplicationConfigSettingConfiguration.
-    /// Responsabilidade: configuraÁ„o de startup/DI da aplicaÁ„o.
-    /// RelaÁ„o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Classe respons√°vel por ApplicationConfigSettingConfiguration.
+    /// Responsabilidade: configura√ß√£o de startup/DI da aplica√ß√£o.
+    /// Rela√ß√£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class ApplicationConfigSettingConfiguration : SmartDigitalPsico.Core.SDK.Data.Context.Configure.EntityBaseConfiguration<ApplicationConfigSetting>
     {
         /// <summary>
-        /// MÈtodo ApplicationConfigSettingConfiguration: executa a operaÁ„o ApplicationConfigSettingConfiguration.
+        /// M√©todo ApplicationConfigSettingConfiguration: executa a opera√ß√£o ApplicationConfigSettingConfiguration.
         /// </summary>
         public ApplicationConfigSettingConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
         /// <summary>
-        /// MÈtodo Configure: configura estado ou dependencias.
+        /// M√©todo Configure: configura estado ou dependencias.
         /// </summary>
         public override void Configure(EntityTypeBuilder<ApplicationConfigSetting> builder)
         {

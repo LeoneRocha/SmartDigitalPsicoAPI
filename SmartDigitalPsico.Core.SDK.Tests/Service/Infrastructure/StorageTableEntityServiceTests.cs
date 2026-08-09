@@ -1,4 +1,4 @@
-using Moq;
+﻿using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity;
 using SmartDigitalPsico.Core.SDK.Domain.TableEntityNoSQL;

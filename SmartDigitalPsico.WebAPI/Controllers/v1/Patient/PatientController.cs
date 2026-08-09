@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
+using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using SmartDigitalPsico.Domain.DTO.Patient.UPDATE;
-using SmartDigitalPsico.Domain.DTO.Patient.Common;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
-
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {

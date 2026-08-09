@@ -1,39 +1,37 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using SmartDigitalPsico.Core.SDK.Domain.Security;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using FluentValidation.Results;
-using ValidationFailure = FluentValidation.Results.ValidationFailure;
-using Moq;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using Microsoft.Extensions.Localization;
+using Microsoft.IdentityModel.Tokens;
+using Moq;
 using Newtonsoft.Json;
+using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
+using SmartDigitalPsico.Core.SDK.Domain.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Validation;
+using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
-
-using SmartDigitalPsico.Core.SDK.Domain.Validation;
-using SmartDigitalPsico.Domain.Validation;
-using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
-using SmartDigitalPsico.Domain.Test.Report;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
-using TextJson = System.Text.Json.JsonSerializer;
-
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Test.Report;
+using SmartDigitalPsico.Domain.Validation;
+using TextJson = System.Text.Json.JsonSerializer;
+using ValidationFailure = FluentValidation.Results.ValidationFailure;
 
 namespace SmartDigitalPsico.Domain.Test.Coverage;
 

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO
 {
     /// <summary>
     /// Classe responsável por CultureDisplayDto.

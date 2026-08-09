@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Gender.UPDATE
+﻿namespace SmartDigitalPsico.Domain.DTO.Gender.UPDATE
 {
     /// <summary>
     /// Classe responsável por UpdateGenderDto.

@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report;
 using SmartDigitalPsico.Core.SDK.Service.Infrastructure.Report;
 

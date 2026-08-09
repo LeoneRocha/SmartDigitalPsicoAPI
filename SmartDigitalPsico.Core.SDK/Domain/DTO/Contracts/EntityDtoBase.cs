@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts
 {

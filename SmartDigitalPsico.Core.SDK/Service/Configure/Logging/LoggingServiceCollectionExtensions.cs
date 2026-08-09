@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
 
 namespace SmartDigitalPsico.Core.SDK.Service.Configure.Logging

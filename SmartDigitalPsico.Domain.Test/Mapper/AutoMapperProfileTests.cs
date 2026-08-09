@@ -1,9 +1,8 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.Extensions.Logging.Abstractions;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
-using SmartDigitalPsico.Domain.Mapper;
-
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Mapper;
 
 namespace SmartDigitalPsico.Domain.Test.Mapper;
 

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.EntityModels
+﻿namespace SmartDigitalPsico.Domain.EntityModels
 {
     /// <summary>
     /// Classe responsável por AuditDataSelectiveEntityLog.

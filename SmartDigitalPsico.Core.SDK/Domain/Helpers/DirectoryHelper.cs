@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
 {

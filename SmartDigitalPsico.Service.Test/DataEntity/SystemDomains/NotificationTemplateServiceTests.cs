@@ -1,12 +1,11 @@
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
 using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
-using SmartDigitalPsico.Service.Test.TestSupport;
-
-using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Notification;
+using SmartDigitalPsico.Service.Test.TestSupport;
 
 namespace SmartDigitalPsico.Service.Test.DataEntity.SystemDomains;
 

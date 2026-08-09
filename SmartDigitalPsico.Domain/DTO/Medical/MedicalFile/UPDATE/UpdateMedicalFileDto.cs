@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Common;
+﻿using SmartDigitalPsico.Domain.DTO.Common;
 namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.UPDATE
 {
     /// <summary>

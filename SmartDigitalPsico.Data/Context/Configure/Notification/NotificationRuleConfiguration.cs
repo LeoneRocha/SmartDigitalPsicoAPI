@@ -1,30 +1,29 @@
-using Microsoft.EntityFrameworkCore;
+Ôªøusing Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Data.Context.Mock;
+using SmartDigitalPsico.Domain.EntityModels;
 using EIntervalNotificationType = SmartDigitalPsico.Core.SDK.Domain.Enuns.EIntervalNotificationType;
 using ENotificationServiceType = SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType;
 using ENotificationType = SmartDigitalPsico.Domain.Enuns.ENotificationType;
 
-using SmartDigitalPsico.Domain.EntityModels;
-using SmartDigitalPsico.Data.Context.Mock;
-
 namespace SmartDigitalPsico.Data.Context.Configure
 {
     /// <summary>
-    /// Classe respons·vel por NotificationRuleConfiguration.
-    /// Responsabilidade: configuraÁ„o de startup/DI da aplicaÁ„o.
-    /// RelaÁ„o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Classe respons√°vel por NotificationRuleConfiguration.
+    /// Responsabilidade: configura√ß√£o de startup/DI da aplica√ß√£o.
+    /// Rela√ß√£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class NotificationRuleConfiguration : SmartDigitalPsico.Core.SDK.Data.Context.Configure.EntityBaseConfiguration<NotificationRule>
     {
         /// <summary>
-        /// MÈtodo NotificationRuleConfiguration: executa a operaÁ„o NotificationRuleConfiguration.
+        /// M√©todo NotificationRuleConfiguration: executa a opera√ß√£o NotificationRuleConfiguration.
         /// </summary>
         public NotificationRuleConfiguration(ETypeDataBase eTypeDataBase) : base(eTypeDataBase) { }
 
         /// <summary>
-        /// MÈtodo Configure: configura estado ou dependencias.
+        /// M√©todo Configure: configura estado ou dependencias.
         /// </summary>
         public override void Configure(EntityTypeBuilder<NotificationRule> builder)
         {

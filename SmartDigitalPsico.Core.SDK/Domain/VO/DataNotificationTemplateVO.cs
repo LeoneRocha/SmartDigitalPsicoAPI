@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.VO
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.VO
 {
     /// <summary>
     /// Classe responsável por DataNotificationTemplateVO.

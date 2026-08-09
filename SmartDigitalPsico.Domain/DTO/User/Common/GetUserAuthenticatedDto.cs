@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
+﻿using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
 using SmartDigitalPsico.Domain.VO;
 
 namespace SmartDigitalPsico.Domain.DTO.User.Common

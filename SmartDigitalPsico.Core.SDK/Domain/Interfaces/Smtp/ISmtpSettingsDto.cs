@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp
 {
     /// <summary>
     /// Interface (contrato) responsável por ISmtpSettingsDto.

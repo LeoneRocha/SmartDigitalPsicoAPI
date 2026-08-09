@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
 {
     /// <summary>
     /// Classe responsável por GeneralLanguageKeyConstants.

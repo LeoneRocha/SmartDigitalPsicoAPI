@@ -1,11 +1,10 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
-
-using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
+using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.FileManager;
 

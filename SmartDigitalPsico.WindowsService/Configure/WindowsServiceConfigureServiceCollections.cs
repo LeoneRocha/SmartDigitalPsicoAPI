@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Service.Configure.AppSettings;
+﻿using SmartDigitalPsico.Core.SDK.Service.Configure.AppSettings;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Caching;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Logging;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Mapping;

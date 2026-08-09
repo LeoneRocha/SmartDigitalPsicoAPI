@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Helpers.Medical;
+﻿using SmartDigitalPsico.Domain.Helpers.Medical;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>

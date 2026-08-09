@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Application.GET;
+﻿using SmartDigitalPsico.Domain.DTO.Application.GET;
 
 using SmartDigitalPsico.Domain.EntityModels;
 

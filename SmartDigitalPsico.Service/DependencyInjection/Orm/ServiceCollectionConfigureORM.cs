@@ -1,12 +1,12 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using SmartDigitalPsico.Data.Audit;
-using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Service.Configure.AppSettings;
+using SmartDigitalPsico.Data.Audit;
+using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Service

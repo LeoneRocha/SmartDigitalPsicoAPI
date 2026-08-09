@@ -1,13 +1,9 @@
+﻿using System.Reflection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System.Reflection;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Test.Configure;
-
 using SmartDigitalPsico.Domain.EntityModels;
-
-using SmartDigitalPsico.Data.Repository;
-using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Audit;
 
 [TestFixture]

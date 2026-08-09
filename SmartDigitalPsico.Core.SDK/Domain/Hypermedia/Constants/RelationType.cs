@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants
 {
     /// <summary>
     /// Constantes de relation type para hypermedia/HATEOAS.

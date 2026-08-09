@@ -1,4 +1,4 @@
-using SpecialtyEntity = SmartDigitalPsico.Domain.EntityModels.Specialty;
+﻿using SpecialtyEntity = SmartDigitalPsico.Domain.EntityModels.Specialty;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Specialty
 {

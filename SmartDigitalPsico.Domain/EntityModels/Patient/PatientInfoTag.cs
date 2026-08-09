@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Interfaces.Patient;
+﻿using SmartDigitalPsico.Domain.Interfaces.Patient;
 
 namespace SmartDigitalPsico.Domain.EntityModels
 {

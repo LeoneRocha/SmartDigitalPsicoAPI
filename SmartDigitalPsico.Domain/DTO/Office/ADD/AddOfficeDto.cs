@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Office.ADD
+﻿namespace SmartDigitalPsico.Domain.DTO.Office.ADD
 {
     /// <summary>
     /// Classe responsável por AddOfficeDto.

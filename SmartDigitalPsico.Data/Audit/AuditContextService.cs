@@ -1,10 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Caching.Memory;
 using SmartDigitalPsico.Data.Audit.Interface;
-using SmartDigitalPsico.Domain.Helpers;
-
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Data.Audit
 {

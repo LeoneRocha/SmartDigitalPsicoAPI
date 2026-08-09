@@ -1,6 +1,5 @@
+﻿using SmartDigitalPsico.Domain.DTO.Notification.Common;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Notification.Common;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Notification

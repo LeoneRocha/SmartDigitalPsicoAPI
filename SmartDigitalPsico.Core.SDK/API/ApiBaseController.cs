@@ -1,8 +1,8 @@
+﻿using System.Globalization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using System.Globalization;
-using System.Security.Claims;
 
 namespace SmartDigitalPsico.Core.SDK.API
 {

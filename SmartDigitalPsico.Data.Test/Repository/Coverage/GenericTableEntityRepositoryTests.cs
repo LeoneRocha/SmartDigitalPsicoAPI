@@ -1,7 +1,4 @@
-using Moq;
-
-using SmartDigitalPsico.Data.Repository;
-using SmartDigitalPsico.Data.Context.Configure;
+﻿using Moq;
 namespace SmartDigitalPsico.Data.Test.Repository.Coverage;
 
 [TestFixture]

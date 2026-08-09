@@ -1,10 +1,9 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-using SmartDigitalPsico.Domain.DTO.Schedule.Common;
-using SmartDigitalPsico.Domain.Helpers.Schedule;
-using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-
+using SmartDigitalPsico.Domain.DTO.Schedule.Common;
+using SmartDigitalPsico.Domain.EntityModels.Schedule;
+using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
 {

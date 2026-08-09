@@ -1,7 +1,6 @@
 ﻿using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-
-using SmartDigitalPsico.Domain.Interfaces.Leaves;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Leaves;
 
 namespace SmartDigitalPsico.Data.Repository
 {

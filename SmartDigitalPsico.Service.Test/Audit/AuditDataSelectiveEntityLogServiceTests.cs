@@ -1,16 +1,15 @@
-using FluentValidation;
+﻿using FluentValidation;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
-
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Domain.Interfaces.Common;
-using SmartDigitalPsico.Domain.EntityModels;
+
+using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 
 namespace SmartDigitalPsico.Service.Test.Audit;
-
-using User = global::SmartDigitalPsico.Domain.EntityModels.User;
-using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
 
 [TestFixture]
 public class AuditDataSelectiveEntityLogServiceTests

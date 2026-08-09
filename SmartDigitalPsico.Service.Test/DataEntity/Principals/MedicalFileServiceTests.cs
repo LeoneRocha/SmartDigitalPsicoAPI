@@ -1,16 +1,16 @@
-using Microsoft.Extensions.Configuration;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
-using SmartDigitalPsico.Service.Test.TestSupport;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
-using SmartDigitalPsico.Domain.EntityModels;
-
-namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
+using SmartDigitalPsico.Service.Test.TestSupport;
 
 using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+
+namespace SmartDigitalPsico.Service.Test.DataEntity.Principals;
 
 [TestFixture]
 public class MedicalFileServiceTests

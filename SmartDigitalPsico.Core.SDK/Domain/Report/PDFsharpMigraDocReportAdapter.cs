@@ -1,10 +1,10 @@
+﻿using System.Reflection;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report;
-using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
-using System.Reflection;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Report
 {

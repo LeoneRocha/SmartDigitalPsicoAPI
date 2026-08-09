@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Application.UPDATE
+﻿namespace SmartDigitalPsico.Domain.DTO.Application.UPDATE
 {
     /// <summary>
     /// Classe responsável por UpdateApplicationConfigSettingDto.

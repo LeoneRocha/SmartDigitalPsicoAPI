@@ -1,7 +1,7 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Contracts
 {

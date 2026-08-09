@@ -1,7 +1,6 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalFile.GET;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
-
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Medical

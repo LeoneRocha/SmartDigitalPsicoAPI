@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Schedule.Common
+﻿namespace SmartDigitalPsico.Domain.DTO.Schedule.Common
 {
     /// <summary>
     /// Generic owner working-profile for Core grade/availability (no Medical coupling).

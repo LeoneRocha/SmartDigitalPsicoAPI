@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency
 {
     /// <summary>
     /// Configuração de política de resiliência (retry) ligada a appsettings.

@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.DTO.Medical.GET;
+﻿using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants;
+using SmartDigitalPsico.Domain.DTO.Medical.GET;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.Medical
 {

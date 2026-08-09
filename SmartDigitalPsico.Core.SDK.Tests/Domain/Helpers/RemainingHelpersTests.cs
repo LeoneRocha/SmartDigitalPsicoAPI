@@ -1,10 +1,10 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using Newtonsoft.Json;
+using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
 using SmartDigitalPsico.Core.SDK.Domain.Security;
 using JsonSerializer = System.Text.Json.JsonSerializer;
-using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.Domain.Helpers;
 

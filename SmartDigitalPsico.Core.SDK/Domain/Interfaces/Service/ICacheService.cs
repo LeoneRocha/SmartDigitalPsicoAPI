@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service
 {
     /// <summary>
     /// Interface (contrato) responsável por ICacheService.

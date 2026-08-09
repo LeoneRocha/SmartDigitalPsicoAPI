@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract
 {
     /// <summary>
     /// Interface (contrato) responsável por ISupportsHyperMedia.

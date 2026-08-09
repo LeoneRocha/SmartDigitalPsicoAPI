@@ -1,4 +1,4 @@
-using OfficeEntity = SmartDigitalPsico.Domain.EntityModels.Office;
+﻿using OfficeEntity = SmartDigitalPsico.Domain.EntityModels.Office;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Office
 {

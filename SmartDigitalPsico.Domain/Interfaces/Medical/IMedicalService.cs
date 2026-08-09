@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Medical.GET;
+﻿using SmartDigitalPsico.Domain.DTO.Medical.GET;
 
 using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
 

@@ -1,7 +1,7 @@
+﻿using System.Security.Cryptography;
+using System.Text;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Security
 {

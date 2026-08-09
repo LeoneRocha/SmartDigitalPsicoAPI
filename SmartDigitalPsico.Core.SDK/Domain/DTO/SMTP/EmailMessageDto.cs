@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP
 {
     /// <summary>
     /// Classe responsável por EmailMessageDto.

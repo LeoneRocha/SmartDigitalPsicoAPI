@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
 {

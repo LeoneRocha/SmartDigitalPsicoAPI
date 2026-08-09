@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Interfaces.Common
+﻿namespace SmartDigitalPsico.Domain.Interfaces.Common
 {
     /// <summary>
     /// Interface (contrato) responsável por IBackgroundJobService.

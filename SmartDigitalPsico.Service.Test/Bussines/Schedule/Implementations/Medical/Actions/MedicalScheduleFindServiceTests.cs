@@ -1,8 +1,7 @@
-using Moq;
+﻿using Moq;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service.Test.TestSupport;
-
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
+using SmartDigitalPsico.Service.Test.TestSupport;
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical.Actions;
 
 [TestFixture]

@@ -1,7 +1,6 @@
-using SmartDigitalPsico.Domain.DTO.Patient.GET;
+﻿using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
-
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
 using PatientEntity = SmartDigitalPsico.Domain.EntityModels.Patient;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Patient

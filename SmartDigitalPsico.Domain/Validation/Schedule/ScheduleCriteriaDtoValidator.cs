@@ -1,7 +1,6 @@
-using FluentValidation;
-using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
+﻿using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-
+using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;

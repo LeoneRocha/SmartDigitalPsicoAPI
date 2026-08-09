@@ -1,7 +1,6 @@
-using FluentValidation;
-
-using SmartDigitalPsico.Domain.Interfaces.Medical;
+﻿using FluentValidation;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Medical;
 
 namespace SmartDigitalPsico.Domain.Validation
 {

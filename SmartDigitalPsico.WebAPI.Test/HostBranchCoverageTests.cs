@@ -1,11 +1,11 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+using SmartDigitalPsico.Data.Context;
 using SmartDigitalPsico.WebAPI.Configure;
 
 namespace SmartDigitalPsico.WebAPI.Test;

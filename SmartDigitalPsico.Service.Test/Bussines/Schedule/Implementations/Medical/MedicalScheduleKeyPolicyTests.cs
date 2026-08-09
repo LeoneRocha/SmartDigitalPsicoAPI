@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
+﻿namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
 
 [TestFixture]
 public class MedicalScheduleKeyPolicyTests

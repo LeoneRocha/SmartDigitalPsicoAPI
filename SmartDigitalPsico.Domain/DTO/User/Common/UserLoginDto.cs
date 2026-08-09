@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.User.Common
+﻿namespace SmartDigitalPsico.Domain.DTO.User.Common
 {
     /// <summary>
     /// Classe responsável por UserLoginDto.

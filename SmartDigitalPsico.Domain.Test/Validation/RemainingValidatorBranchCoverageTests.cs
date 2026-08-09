@@ -1,9 +1,8 @@
-using Moq;
+﻿using Moq;
 using SmartDigitalPsico.Domain.Contracts;
-using SmartDigitalPsico.Domain.Validation;
-
-using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Domain.Test.Validation;
 

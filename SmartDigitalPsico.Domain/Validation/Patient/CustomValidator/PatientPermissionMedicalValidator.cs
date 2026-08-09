@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.Constants;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.EntityModels;

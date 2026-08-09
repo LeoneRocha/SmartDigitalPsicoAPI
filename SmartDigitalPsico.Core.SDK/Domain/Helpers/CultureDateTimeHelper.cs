@@ -1,7 +1,7 @@
+﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using Microsoft.Extensions.Localization;
 using SmartDigitalPsico.Core.SDK.Domain.DTO;
-using System.Collections.ObjectModel;
-using System.Globalization;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
 {

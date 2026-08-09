@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Constants
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Constants
 {
     /// <summary>
     /// Classe responsável por ValidatorConstants.

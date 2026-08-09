@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common
+﻿namespace SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common
 {
     /// <summary>
     /// Classe responsável por DeleteMedicalCalendarDto.

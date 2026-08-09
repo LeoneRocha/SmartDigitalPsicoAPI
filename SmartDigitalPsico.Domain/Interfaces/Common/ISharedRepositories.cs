@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.Interfaces.Application;
+﻿using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.User;
 
 namespace SmartDigitalPsico.Domain.Interfaces.Common

@@ -1,7 +1,6 @@
 ﻿using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-
-using SmartDigitalPsico.Domain.Interfaces.Gender;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Gender;
 
 namespace SmartDigitalPsico.Data.Repository
 {

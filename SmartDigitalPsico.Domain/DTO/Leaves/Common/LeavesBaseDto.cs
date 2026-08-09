@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Leaves.Common
+﻿namespace SmartDigitalPsico.Domain.DTO.Leaves.Common
 {
     /// <summary>
     /// Classe responsável por LeavesBaseDto.

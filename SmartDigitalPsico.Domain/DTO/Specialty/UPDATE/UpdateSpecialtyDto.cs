@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Specialty.UPDATE
+﻿namespace SmartDigitalPsico.Domain.DTO.Specialty.UPDATE
 {
     /// <summary>
     /// Classe responsável por UpdateSpecialtyDto.

@@ -1,10 +1,9 @@
-using SmartDigitalPsico.Core.SDK.Domain.Constants;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
 using SmartDigitalPsico.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
-
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
 {

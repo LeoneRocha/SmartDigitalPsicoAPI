@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Data.Repository.CacheManager;
 using SmartDigitalPsico.Core.SDK.Data.Repository.FileManager;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;

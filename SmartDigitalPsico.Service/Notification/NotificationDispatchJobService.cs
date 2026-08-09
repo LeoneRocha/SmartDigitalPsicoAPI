@@ -1,17 +1,16 @@
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Events;
 using SmartDigitalPsico.Domain.Helpers;
-using System.Collections.Concurrent;
-using System.Diagnostics;
-
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {

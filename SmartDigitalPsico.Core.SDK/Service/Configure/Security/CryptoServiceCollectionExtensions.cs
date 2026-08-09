@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
 using SmartDigitalPsico.Core.SDK.Domain.Security;
 

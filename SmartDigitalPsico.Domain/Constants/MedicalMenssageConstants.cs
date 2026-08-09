@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Constants
+﻿namespace SmartDigitalPsico.Domain.Constants
 {
     /// <summary>
     /// Mensagens i18n específicas de Medical (produto).

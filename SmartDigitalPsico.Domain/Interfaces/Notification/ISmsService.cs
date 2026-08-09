@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Interfaces.Notification
+﻿namespace SmartDigitalPsico.Domain.Interfaces.Notification
 {
     /// <summary>
     /// Interface (contrato) responsável por ISmsService.

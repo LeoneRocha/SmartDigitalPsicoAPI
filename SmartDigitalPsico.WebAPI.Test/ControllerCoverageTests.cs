@@ -1,27 +1,26 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Reflection;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
-using SmartDigitalPsico.Domain.DTO.Common;
-using SmartDigitalPsico.Domain.DTO.Medical.GET;
+using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Data.Context;
-using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
-using SmartDigitalPsico.WebAPI.Controllers.v1;
-using SmartDigitalPsico.WebAPI.Configure;
-using System.Reflection;
-
+using SmartDigitalPsico.Domain.DTO.Common;
+using SmartDigitalPsico.Domain.DTO.Medical.GET;
+using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
-using SmartDigitalPsico.Domain.Interfaces.Specialty; 
+using SmartDigitalPsico.Domain.Interfaces.Specialty;
+using SmartDigitalPsico.WebAPI.Configure;
+using SmartDigitalPsico.WebAPI.Controllers.v1;
 namespace SmartDigitalPsico.WebAPI.Test;
 
 [TestFixture]

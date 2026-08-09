@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
-using SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.RoleGroup.ADD;
-
+using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
+using SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE;
 using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {

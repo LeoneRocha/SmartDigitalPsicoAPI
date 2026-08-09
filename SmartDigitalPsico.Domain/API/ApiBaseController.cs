@@ -1,10 +1,9 @@
+﻿using System.Globalization;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using System.Globalization;
-
-using SmartDigitalPsico.Domain.Interfaces.User;
+using SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.User;
 
 namespace SmartDigitalPsico.Domain.API
 {

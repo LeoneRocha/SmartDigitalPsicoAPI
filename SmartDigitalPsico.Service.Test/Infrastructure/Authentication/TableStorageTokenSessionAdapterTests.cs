@@ -1,8 +1,7 @@
+﻿using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using Moq;
-using SmartDigitalPsico.Domain.TableEntityNoSQL;
-
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Authentication;
 

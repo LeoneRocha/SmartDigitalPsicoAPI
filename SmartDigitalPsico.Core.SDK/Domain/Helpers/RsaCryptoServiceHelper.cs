@@ -1,5 +1,5 @@
+﻿using System.Security.Cryptography;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Security;
-using System.Security.Cryptography;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
 {

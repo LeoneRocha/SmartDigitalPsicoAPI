@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts
 {
     /// <summary>
     /// Classe responsável por FileData.

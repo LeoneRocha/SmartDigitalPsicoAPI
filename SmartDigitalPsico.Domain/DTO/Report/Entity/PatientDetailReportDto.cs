@@ -1,6 +1,6 @@
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 namespace SmartDigitalPsico.Domain.DTO.Report.Entity
 {

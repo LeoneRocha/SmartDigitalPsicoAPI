@@ -1,11 +1,8 @@
-using SmartDigitalPsico.Data.Context.Mock;
+Ôªøusing SmartDigitalPsico.Data.Context.Mock;
 using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Data.Test.Configure;
 using SmartDigitalPsico.Data.Tests.Context;
-
 using SmartDigitalPsico.Domain.EntityModels;
-
-using SmartDigitalPsico.Data.Context.Configure;
 namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
 {
     [TestFixture]
@@ -30,7 +27,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             _mockContext.SaveChanges();
         }
 
-        // Cen·rio: idiomas de aplicaÁ„o persistidos no contexto de teste.
+        // Cen√°rio: idiomas de aplica√ß√£o persistidos no contexto de teste.
         // Objetivo: garantir que FindAll retorne todos os registros cadastrados.
         [Test]
         public async Task FindAll_ExistingLanguages_ReturnsAllRecords()
@@ -56,7 +53,7 @@ namespace SmartDigitalPsico.Data.Test.Repository.SystemDomains
             }
         }
 
-        // Cen·rio: busca por language, languageKey e resourceKey existentes.
+        // Cen√°rio: busca por language, languageKey e resourceKey existentes.
         // Objetivo: garantir que Find retorne o registro correspondente.
         [Test]
         public async Task Find_ValidKeys_ReturnsLanguage()

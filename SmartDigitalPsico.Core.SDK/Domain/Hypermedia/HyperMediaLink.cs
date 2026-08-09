@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia
 {

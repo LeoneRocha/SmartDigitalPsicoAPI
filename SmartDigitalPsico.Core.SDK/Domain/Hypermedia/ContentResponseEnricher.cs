@@ -1,3 +1,5 @@
+﻿using System.Collections.Concurrent;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -5,8 +7,6 @@ using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Utils;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using System.Collections.Concurrent;
-using System.Text;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia
 {

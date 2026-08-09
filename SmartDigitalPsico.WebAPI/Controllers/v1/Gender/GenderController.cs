@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Gender.GET;
-using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Gender.ADD;
-
+using SmartDigitalPsico.Domain.DTO.Gender.GET;
+using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
 using SmartDigitalPsico.Domain.Interfaces.Gender;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {

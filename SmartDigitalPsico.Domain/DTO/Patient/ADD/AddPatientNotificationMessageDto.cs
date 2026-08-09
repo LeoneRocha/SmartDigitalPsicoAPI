@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Patient.ADD
+﻿namespace SmartDigitalPsico.Domain.DTO.Patient.ADD
 {
     /// <summary>
     /// Classe responsável por AddPatientNotificationMessageDto.

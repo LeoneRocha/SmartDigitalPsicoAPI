@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
 {
     /// <summary>
     /// Níveis de log da aplicação (independente do provedor Serilog).

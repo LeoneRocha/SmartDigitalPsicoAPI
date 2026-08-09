@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE
+﻿namespace SmartDigitalPsico.Domain.DTO.RoleGroup.UPDATE
 {
     /// <summary>
     /// Classe responsável por UpdateRoleGroupDto.

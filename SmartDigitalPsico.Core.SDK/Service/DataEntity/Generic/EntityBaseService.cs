@@ -1,3 +1,4 @@
+﻿using System.Linq.Expressions;
 using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
@@ -8,7 +9,6 @@ using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
-using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
 {

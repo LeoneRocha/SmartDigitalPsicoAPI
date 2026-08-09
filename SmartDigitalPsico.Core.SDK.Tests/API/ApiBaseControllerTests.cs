@@ -1,9 +1,9 @@
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.API;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using System.Security.Claims;
 
 namespace SmartDigitalPsico.Core.SDK.Tests.API;
 

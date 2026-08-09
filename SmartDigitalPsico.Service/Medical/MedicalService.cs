@@ -1,19 +1,18 @@
-using FluentValidation;
-using SmartDigitalPsico.Domain.Constants;
+﻿using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Medical.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.GET;
 using SmartDigitalPsico.Domain.DTO.Medical.UPDATE;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Domain.Validation;
-using SmartDigitalPsico.Core.SDK.Domain.VO;
-
+using SmartDigitalPsico.Domain.DTO.Specialty.GET;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Specialty;
 using SmartDigitalPsico.Domain.Interfaces.User;
-using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Validation;
 
 namespace SmartDigitalPsico.Service
 {

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
+using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
-
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.WebAPI.Controllers.v1
 {

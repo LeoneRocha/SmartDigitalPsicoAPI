@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.VO
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.VO
 {
     /// <summary>
     /// Interface (contrato) responsável por IServiceResponse.

@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Gender.ADD
+﻿namespace SmartDigitalPsico.Domain.DTO.Gender.ADD
 {
     /// <summary>
     /// Classe responsável por AddGenderDto.

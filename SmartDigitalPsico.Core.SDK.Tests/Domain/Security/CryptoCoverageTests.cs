@@ -1,4 +1,4 @@
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;

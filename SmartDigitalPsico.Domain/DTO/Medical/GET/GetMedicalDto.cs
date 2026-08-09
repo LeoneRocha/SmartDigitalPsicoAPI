@@ -1,9 +1,8 @@
-using SmartDigitalPsico.Domain.DTO.Office.GET;
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
-using SmartDigitalPsico.Domain.DTO.Patient.GET;
-using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
-
+﻿using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
 using SmartDigitalPsico.Domain.DTO.Medical.Common;
+using SmartDigitalPsico.Domain.DTO.Office.GET;
+using SmartDigitalPsico.Domain.DTO.Patient.GET;
+using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 namespace SmartDigitalPsico.Domain.DTO.Medical.GET
 {
     /// <summary>

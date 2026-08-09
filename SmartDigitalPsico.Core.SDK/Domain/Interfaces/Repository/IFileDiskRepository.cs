@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
+﻿using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
 {

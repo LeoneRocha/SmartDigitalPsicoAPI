@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Interfaces.Schedule
+﻿namespace SmartDigitalPsico.Domain.Interfaces.Schedule
 {
     /// <summary>
     /// Adapter-supplied schedule key policy. Core engines receive only opaque TenantKey/OwnerKey/SubjectKey.

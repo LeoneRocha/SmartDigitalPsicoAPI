@@ -1,10 +1,10 @@
+﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Core.SDK.Domain.Contracts;
 using SmartDigitalPsico.Core.SDK.Domain.Helpers;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
-using System.Linq.Expressions;
 
 namespace SmartDigitalPsico.Core.SDK.Data.Repository.Generic
 {

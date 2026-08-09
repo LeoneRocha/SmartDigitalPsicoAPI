@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.Test.Validation;
+﻿namespace SmartDigitalPsico.Domain.Test.Validation;
 
 [TestFixture]
 public sealed class ValidatorCoverageTests

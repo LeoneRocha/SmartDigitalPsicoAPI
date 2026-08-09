@@ -1,6 +1,6 @@
+﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.DTO;
-using System.Reflection;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
 {

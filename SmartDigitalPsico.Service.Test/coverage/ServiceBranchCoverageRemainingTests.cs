@@ -1,3 +1,6 @@
+﻿using System.Globalization;
+using System.Reflection;
+using System.Security.Claims;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Configuration;
@@ -30,17 +33,13 @@ using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service.Test.Infrastructure;
 using SmartDigitalPsico.Service.Test.TestSupport;
-using System.Globalization;
-using System.Reflection;
-using System.Security.Claims;
+using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
 using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
-
-namespace SmartDigitalPsico.Service.Test.Coverage;
-
-using User = global::SmartDigitalPsico.Domain.EntityModels.User;
 using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
 using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
+using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+
+namespace SmartDigitalPsico.Service.Test.Coverage;
 
 [TestFixture]
 public class ServiceBranchCoverageRemainingTests

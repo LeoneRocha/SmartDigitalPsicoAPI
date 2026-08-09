@@ -1,12 +1,11 @@
+﻿using System.Globalization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
-using System.Globalization;
-using System.Security.Claims;
-
-using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.User;
 
 namespace SmartDigitalPsico.Domain.Test.API;
 

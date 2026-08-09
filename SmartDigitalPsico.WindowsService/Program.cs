@@ -1,4 +1,4 @@
-using Serilog;
+﻿using Serilog;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.WindowsService.Configure;
 

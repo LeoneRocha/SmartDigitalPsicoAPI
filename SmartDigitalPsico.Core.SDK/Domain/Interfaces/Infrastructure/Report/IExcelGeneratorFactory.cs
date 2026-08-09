@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report
 {
     /// <summary>
     /// Interface (contrato) responsável por IExcelGeneratorFactory.

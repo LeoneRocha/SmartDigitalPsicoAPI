@@ -1,5 +1,5 @@
+﻿using SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
-using SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP;
 
 namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp
 {

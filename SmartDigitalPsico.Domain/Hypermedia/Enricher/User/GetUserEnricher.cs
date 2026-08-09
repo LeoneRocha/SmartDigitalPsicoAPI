@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using SmartDigitalPsico.Domain.DTO.User.GET;
+﻿using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants;
+using SmartDigitalPsico.Domain.DTO.User.GET;
 
 namespace SmartDigitalPsico.Domain.Hypermedia.Enricher.User
 {

@@ -1,16 +1,15 @@
-using FluentValidation;
+﻿using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
-using SmartDigitalPsico.Domain.DTO.Notification.Common;
-using SmartDigitalPsico.Domain.DTO.Notification.GET;
-using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
-
+using SmartDigitalPsico.Domain.DTO.Notification.Common;
+using SmartDigitalPsico.Domain.DTO.Notification.GET;
+using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
-using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service
 {

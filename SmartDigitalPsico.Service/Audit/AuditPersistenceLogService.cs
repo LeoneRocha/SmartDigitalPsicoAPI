@@ -1,7 +1,6 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
-
-using SmartDigitalPsico.Domain.Interfaces.Audit;
+﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.Interfaces.Audit;
 
 namespace SmartDigitalPsico.Service
 {

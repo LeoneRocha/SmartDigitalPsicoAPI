@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
 

@@ -1,7 +1,6 @@
+﻿using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
-using FluentValidation;
-
 using SmartDigitalPsico.Domain.Interfaces.Application;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service

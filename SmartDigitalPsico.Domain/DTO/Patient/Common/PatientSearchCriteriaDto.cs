@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Domain.DTO.Patient.Common
+﻿namespace SmartDigitalPsico.Domain.DTO.Patient.Common
 {
     /// <summary>
     /// Classe responsável por PatientSearchCriteriaDto.

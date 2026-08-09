@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Domain.DTO.Specialty.GET;
+﻿using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 
 using SpecialtyEntity = SmartDigitalPsico.Domain.EntityModels.Specialty;
 

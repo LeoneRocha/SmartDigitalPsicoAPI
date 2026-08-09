@@ -1,4 +1,4 @@
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
+﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
 {
     /// <summary>
     /// Interface (contrato) responsável por ICacheRepository.
