@@ -3,8 +3,8 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.Caching;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Logging;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Mapping;
 using SmartDigitalPsico.Domain.Mapper;
-using SmartDigitalPsico.Service.Configure;
-using SmartDigitalPsico.Service.Configure.Domain;
+using SmartDigitalPsico.Service.DependencyInjection;
+using SmartDigitalPsico.Service.DependencyInjection.Domain;
 
 namespace SmartDigitalPsico.WindowsService.Configure
 {

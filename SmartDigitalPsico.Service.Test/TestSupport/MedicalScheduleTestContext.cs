@@ -1,10 +1,10 @@
-using SmartDigitalPsico.Service.Audit;
+using SmartDigitalPsico.Service;
 using FluentValidation;
 using Moq;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service.Schedule.Medical;
+using SmartDigitalPsico.Service;
 
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
@@ -12,15 +12,9 @@ using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.TestSupport;
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-
+    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+                                
 /// <summary>
 /// Contexto compartilhado para os testes comportamentais dos serviços de agenda médica (Medical Schedule Actions).
 /// Centraliza os mocks de baixo nível (repositórios, validators, notificações) reaproveitando o ServiceTestContext.

@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Service.Common;
 using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Domain.Contracts;
@@ -18,17 +17,9 @@ using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
 
-namespace SmartDigitalPsico.Service.Patient
+namespace SmartDigitalPsico.Service
 {
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                    /// <summary>
+                                                                    /// <summary>
     /// Classe responsável por PatientReportService.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
     /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.

@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Service.Audit;
+using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using System.Globalization;
 using System.Reflection;
@@ -29,20 +29,20 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Schedule.Core.Commands;
-using SmartDigitalPsico.Service.Schedule.Core.Conflict;
-using SmartDigitalPsico.Service.Schedule.Core.Queries;
-using SmartDigitalPsico.Service.Schedule.Medical;
-using SmartDigitalPsico.Service.Patient;
-using SmartDigitalPsico.Service.Medical;
-using SmartDigitalPsico.Service.Application;
-using SmartDigitalPsico.Service.Gender;
-using SmartDigitalPsico.Service.Leaves;
-using SmartDigitalPsico.Service.Notification;
-using SmartDigitalPsico.Service.Office;
-using SmartDigitalPsico.Service.RoleGroup;
-using SmartDigitalPsico.Service.Specialty;
-using SmartDigitalPsico.Service.User;
+using SmartDigitalPsico.Service.Core.Commands;
+using SmartDigitalPsico.Service.Core.Conflict;
+using SmartDigitalPsico.Service.Core.Queries;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
+using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service.Test.TestSupport;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using MedicalEntity = SmartDigitalPsico.Domain.EntityModels.Medical;
@@ -63,15 +63,15 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Coverage;
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-
+    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+    using RoleGroup = global::SmartDigitalPsico.Domain.EntityModels.RoleGroup;
+    using Gender = global::SmartDigitalPsico.Domain.EntityModels.Gender;
+    using Leaves = global::SmartDigitalPsico.Domain.EntityModels.Leaves;
+    using Office = global::SmartDigitalPsico.Domain.EntityModels.Office;
+    using Specialty = global::SmartDigitalPsico.Domain.EntityModels.Specialty;
+                                
 [TestFixture]
 public class ServiceBranchCoverageLastPushTests
 {

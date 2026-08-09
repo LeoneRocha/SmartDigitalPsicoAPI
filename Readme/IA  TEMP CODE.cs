@@ -13,7 +13,7 @@ using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Validation.Helper;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Common;
+using SmartDigitalPsico.Service;
 
 using SmartDigitalPsico.Domain.DTO.Schedule.ADD;
 using SmartDigitalPsico.Domain.DTO.Schedule.GET;

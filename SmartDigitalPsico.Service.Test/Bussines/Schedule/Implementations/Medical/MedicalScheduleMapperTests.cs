@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Service.Audit;
+using SmartDigitalPsico.Service;
 using Bogus;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
@@ -9,20 +9,14 @@ using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service.Schedule.Medical;
+using SmartDigitalPsico.Service;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
 namespace SmartDigitalPsico.Service.Test.Bussines.Schedule.Implementations.Medical;
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-
+    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+                                
 [TestFixture]
 public class MedicalScheduleMapperTests
 {

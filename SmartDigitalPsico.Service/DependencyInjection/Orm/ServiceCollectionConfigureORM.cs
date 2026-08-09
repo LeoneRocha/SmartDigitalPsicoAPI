@@ -9,17 +9,9 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Service.Configure.AppSettings;
 using SmartDigitalPsico.Domain.Helpers;
 
-namespace SmartDigitalPsico.Service.Configure
+namespace SmartDigitalPsico.Service
 {
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-    /// <summary>
+                                    /// <summary>
     /// ORM do produto (contexts MySQL/SQL Server + interceptor de auditoria).
     /// </summary>
     public static class ServiceCollectionConfigureOrm

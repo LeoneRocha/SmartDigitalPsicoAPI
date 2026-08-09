@@ -11,8 +11,8 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Hypermedia;
 using SmartDigitalPsico.Domain.Mapper;
-using SmartDigitalPsico.Service.Configure;
-using SmartDigitalPsico.Service.Configure.Domain;
+using SmartDigitalPsico.Service.DependencyInjection;
+using SmartDigitalPsico.Service.DependencyInjection.Domain;
 
 namespace SmartDigitalPsico.WebAPI.Configure
 {

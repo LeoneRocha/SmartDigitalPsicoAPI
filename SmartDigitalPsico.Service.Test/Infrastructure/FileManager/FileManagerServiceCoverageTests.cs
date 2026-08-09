@@ -1,25 +1,18 @@
-using SmartDigitalPsico.Service.Audit;
+using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Service.Infrastructure.FileManager;
+using SmartDigitalPsico.Service.FileManager;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.FileManager;
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-
+    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+                                
 [TestFixture]
 public class FileManagerServiceCoverageTests
 {

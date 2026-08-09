@@ -1,4 +1,4 @@
-using SmartDigitalPsico.Service.Audit;
+using SmartDigitalPsico.Service;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -10,18 +10,13 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
 using SmartDigitalPsico.Domain.EntityModels;
-using SmartDigitalPsico.Service.Patient;
+using SmartDigitalPsico.Service;
 
 namespace SmartDigitalPsico.Service.Test.Report.Entity;
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-
+    using User = global::SmartDigitalPsico.Domain.EntityModels.User;
+    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+    using Medical = global::SmartDigitalPsico.Domain.EntityModels.Medical;
+                                
 [TestFixture]
 public class PatientReportServiceTests
 {

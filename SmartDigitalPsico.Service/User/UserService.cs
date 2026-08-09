@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Service.Common;
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
@@ -31,22 +30,14 @@ using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
 
-namespace SmartDigitalPsico.Service.User
+namespace SmartDigitalPsico.Service
 {
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                        /// <summary>
+                                                                        /// <summary>
     /// Classe responsável por UserService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class UserService : SmartDigitalPsico.Service.Common.EntityBaseService<User, GetUserDto>, IUserService
+    public class UserService : SmartDigitalPsico.Service.EntityBaseService<User, GetUserDto>, IUserService
     {
         private readonly IRoleGroupRepository _roleGroupRepository;
         private readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security.ITokenConfigurationDto _configurationToken;

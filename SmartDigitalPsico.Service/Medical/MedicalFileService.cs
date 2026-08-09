@@ -1,4 +1,3 @@
-using SmartDigitalPsico.Service.Common;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -19,22 +18,14 @@ using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.User;
 using SmartDigitalPsico.Domain.EntityModels;
 
-namespace SmartDigitalPsico.Service.Medical
+namespace SmartDigitalPsico.Service
 {
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-                                    /// <summary>
+                                                                    /// <summary>
     /// Classe responsável por MedicalFileService.
     /// Responsabilidade: serviço de entidade de negócio.
     /// Relação: orquestra repositórios, validators e mapeamentos.
     /// </summary>
-    public class MedicalFileService : SmartDigitalPsico.Service.Common.EntityBaseService<MedicalFile, GetMedicalFileDto>, IMedicalFileService
+    public class MedicalFileService : SmartDigitalPsico.Service.EntityBaseService<MedicalFile, GetMedicalFileDto>, IMedicalFileService
     {
         private readonly IConfiguration _configuration;
         private readonly IFileManagerService _filePersistor;

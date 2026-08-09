@@ -1,22 +1,15 @@
-using SmartDigitalPsico.Service.Audit;
+using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Service.Infrastructure.Notification;
+using SmartDigitalPsico.Service;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service.Test.Infrastructure;
-    using User = SmartDigitalPsico.Domain.EntityModels.User;
-    using Patient = SmartDigitalPsico.Domain.EntityModels.Patient;
-    using Medical = SmartDigitalPsico.Domain.EntityModels.Medical;
-    using RoleGroup = SmartDigitalPsico.Domain.EntityModels.RoleGroup;
-    using Gender = SmartDigitalPsico.Domain.EntityModels.Gender;
-    using Leaves = SmartDigitalPsico.Domain.EntityModels.Leaves;
-    using Office = SmartDigitalPsico.Domain.EntityModels.Office;
-    using Specialty = SmartDigitalPsico.Domain.EntityModels.Specialty;
-
+    using Patient = global::SmartDigitalPsico.Domain.EntityModels.Patient;
+                                
 [TestFixture]
 public class InfrastructureFactoryTests
 {
