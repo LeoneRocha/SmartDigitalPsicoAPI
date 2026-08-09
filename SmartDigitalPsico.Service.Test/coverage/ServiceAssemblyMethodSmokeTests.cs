@@ -13,7 +13,7 @@ public class ServiceAssemblyMethodSmokeTests
     public async Task ConcreteServiceTypes_PublicMethods_CanBeInvokedWithMockedDependencies()
     {
         // Arrange
-        var assembly = typeof(SmartDigitalPsico.Service.Common.EntityBaseService<,>).Assembly;
+        var assembly = typeof(SmartDigitalPsico.Service.EntityBaseService<,>).Assembly;
         var concreteTypes = assembly.GetTypes()
             .Where(type => type.IsClass && type.IsPublic && !type.IsAbstract && !type.ContainsGenericParameters)
             .Where(type => type.Namespace is not null && type.Namespace.StartsWith("SmartDigitalPsico.Service", StringComparison.Ordinal))

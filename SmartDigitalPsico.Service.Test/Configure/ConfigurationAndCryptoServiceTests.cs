@@ -17,8 +17,6 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.Smtp;
 using SmartDigitalPsico.Core.SDK.API;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Service.DependencyInjection;
-using SmartDigitalPsico.Service.DependencyInjection.Domain;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.User;
@@ -198,7 +196,7 @@ public class ConfigurationAndCryptoServiceTests
     {
         var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.StorageTableRepositoryFactory(BuildConfiguration());
         var logger = new Mock<IAppLogger>();
-        var audit = new SmartDigitalPsico.Service.Audit.AuditPersistenceLogService(logger.Object);
+        var audit = new SmartDigitalPsico.Service.AuditPersistenceLogService(logger.Object);
 
         var table = factory.Create<UserTokenSessionTableEntity>(
             SmartDigitalPsico.Core.SDK.Domain.Enuns.EStorageAdapterType.Azure, $"t{Guid.NewGuid():N}"[..10]);

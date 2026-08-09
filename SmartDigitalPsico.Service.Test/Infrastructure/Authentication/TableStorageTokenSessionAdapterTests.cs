@@ -4,7 +4,6 @@ using AutoMapper;
 using Moq;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
-using SmartDigitalPsico.Service.Authentication;
 
 using SmartDigitalPsico.Domain.EntityModels;
 

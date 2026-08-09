@@ -17,8 +17,6 @@ using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service.Core.Conflict;
-using SmartDigitalPsico.Service.Core.Queries;
 using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service;
@@ -391,7 +389,7 @@ public class RemainingServiceLineGapTests
         };
         disk.Setup(x => x.TryGetAsync<ExpirableCacheEntry>("valid-data"))
             .ReturnsAsync(new KeyValuePair<bool, ExpirableCacheEntry>(true, entry));
-        var service = new SmartDigitalPsico.Service.Infrastructure.Cache.CacheService(
+        var service = new SmartDigitalPsico.Service.CacheService(
             Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>(),
             disk.Object,
             Mock.Of<IApplicationCacheLogRepository>(),

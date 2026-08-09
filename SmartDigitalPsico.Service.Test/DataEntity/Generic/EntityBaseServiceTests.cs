@@ -412,7 +412,7 @@ public class EntityBaseServiceTests
     }
 
     // Cenário: Delete/Update/FindAll/FindByID/GetCount/EnableOrDisable/Validate falham por política.
-    // Objetivo: cobrir todos os blocos catch do SmartDigitalPsico.Service.Common.EntityBaseService.
+    // Objetivo: cobrir todos os blocos catch do SmartDigitalPsico.Service.EntityBaseService.
     [Test]
     public async Task MutationAndQueryMethods_InvalidPolicy_ReturnGenericFailures()
     {
@@ -520,7 +520,7 @@ public class EntityBaseServiceTests
         }
     }
 
-    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.Common.EntityBaseService<Gender, GetGenderDto>
+    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.EntityBaseService<Gender, GetGenderDto>
     {
         public ProbeEntityBaseService(
             ISharedServices sharedServices,

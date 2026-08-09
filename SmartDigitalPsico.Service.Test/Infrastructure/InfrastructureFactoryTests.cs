@@ -199,7 +199,7 @@ public class InfrastructureFactoryTests
         services.AddSingleton(Mock.Of<IAppMapper>());
         services.AddSingleton(Mock.Of<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<SmartDigitalPsico.Domain.TableEntityNoSQL.UserTokenSessionTableEntity>>());
         using var provider = services.BuildServiceProvider();
-        var factory = new SmartDigitalPsico.Service.Infrastructure.Authentication.TokenSessionPersistenceFactory(provider);
+        var factory = new SmartDigitalPsico.Service.TokenSessionPersistenceFactory(provider);
 
         var database = factory.Create(ETokenSessionPersistenceType.DataBase);
         var table = factory.Create(ETokenSessionPersistenceType.AzureStorageTable);
@@ -209,8 +209,8 @@ public class InfrastructureFactoryTests
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            database.Should().BeOfType<SmartDigitalPsico.Service.Infrastructure.Authentication.DatabaseTokenSessionAdapter>();
-            table.Should().BeOfType<SmartDigitalPsico.Service.Infrastructure.Authentication.TableStorageTokenSessionAdapter>();
+            database.Should().BeOfType<SmartDigitalPsico.Service.DatabaseTokenSessionAdapter>();
+            table.Should().BeOfType<SmartDigitalPsico.Service.TableStorageTokenSessionAdapter>();
         }
     }
 
@@ -222,7 +222,7 @@ public class InfrastructureFactoryTests
         // Arrange
 
         // Act
-        var factory = new SmartDigitalPsico.Service.Infrastructure.Authentication.TokenSessionPersistenceFactory(
+        var factory = new SmartDigitalPsico.Service.TokenSessionPersistenceFactory(
             new ServiceCollection().BuildServiceProvider());
 
         var action = () => factory.Create((ETokenSessionPersistenceType)999);

@@ -13,9 +13,6 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service.Core.Commands;
-using SmartDigitalPsico.Service.Core.Conflict;
-using SmartDigitalPsico.Service.Core.Queries;
 using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service;
@@ -221,7 +218,7 @@ public class ServiceBranchCoverageFinalTests
     }
 
     // Cenário: cache em disco com expiração MinValue, props nulas e TryGet expirado.
-    // Objetivo: fechar ramos restantes de SmartDigitalPsico.Service.Infrastructure.Cache.CacheService.
+    // Objetivo: fechar ramos restantes de SmartDigitalPsico.Service.CacheService.
     [Test]
     public void CacheService_DiskEdgeBranches_CoverRemaining()
     {
@@ -662,7 +659,7 @@ public class ServiceBranchCoverageFinalTests
         logger.Verify(x => x.Error(It.IsAny<Exception>(), "Error writing log"), Times.Once);
     }
 
-    private static SmartDigitalPsico.Service.Infrastructure.Cache.CacheService CreateCache(
+    private static SmartDigitalPsico.Service.CacheService CreateCache(
         global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache type,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>? memory = null!,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>? disk = null!,

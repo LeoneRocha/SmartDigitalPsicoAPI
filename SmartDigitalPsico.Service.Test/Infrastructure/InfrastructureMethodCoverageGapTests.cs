@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
-using SmartDigitalPsico.Service.Authentication;
 using SmartDigitalPsico.Service;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
@@ -159,7 +158,7 @@ public class InfrastructureMethodCoverageGapTests
             .ReturnsAsync(new KeyValuePair<bool, CacheValue>(false, null!));
         disk.Setup(x => x.TryGetAsync<CacheValue>("null-value"))
             .ReturnsAsync(new KeyValuePair<bool, CacheValue>(true, null!));
-        var service = new SmartDigitalPsico.Service.Infrastructure.Cache.CacheService(
+        var service = new SmartDigitalPsico.Service.CacheService(
             Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>(),
             disk.Object,
             Mock.Of<IApplicationCacheLogRepository>(),

@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service.DependencyInjection.Domain;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 namespace SmartDigitalPsico.Service.Test.Audit;

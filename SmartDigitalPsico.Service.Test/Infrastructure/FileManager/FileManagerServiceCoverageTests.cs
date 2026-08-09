@@ -4,7 +4,6 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Service.FileManager;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.EntityModels;

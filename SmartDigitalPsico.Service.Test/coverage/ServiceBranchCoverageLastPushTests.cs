@@ -29,9 +29,6 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.VO;
-using SmartDigitalPsico.Service.Core.Commands;
-using SmartDigitalPsico.Service.Core.Conflict;
-using SmartDigitalPsico.Service.Core.Queries;
 using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service;
@@ -76,7 +73,7 @@ namespace SmartDigitalPsico.Service.Test.Coverage;
 public class ServiceBranchCoverageLastPushTests
 {
     // Cenário: Cache TryGet lança com out null e com valor; Set com CacheId.ToString nulo; Exists sem expiração.
-    // Objetivo: fechar ??/ternários restantes de SmartDigitalPsico.Service.Infrastructure.Cache.CacheService.
+    // Objetivo: fechar ??/ternários restantes de SmartDigitalPsico.Service.CacheService.
     [Test]
     public void CacheService_CatchNullOutAndPropValues_CoverRemaining()
     {
@@ -912,7 +909,7 @@ public class ServiceBranchCoverageLastPushTests
         var logs = new Mock<IApplicationCacheLogRepository>();
         disk.Setup(x => x.SetAsync(It.IsAny<string>(), It.IsAny<CachePropsNullToString>())).ReturnsAsync(true);
         logs.Setup(x => x.Create(It.IsAny<ApplicationCacheLog>())).ReturnsAsync(new ApplicationCacheLog());
-        var memoryNullService = new SmartDigitalPsico.Service.Infrastructure.Cache.CacheService(
+        var memoryNullService = new SmartDigitalPsico.Service.CacheService(
             memoryNull,
             disk.Object,
             logs.Object,
@@ -923,7 +920,7 @@ public class ServiceBranchCoverageLastPushTests
                 AbsoluteExpirationInHours = 1,
                 SlidingExpirationInMinutes = 5
             }));
-        var memoryKeepService = new SmartDigitalPsico.Service.Infrastructure.Cache.CacheService(
+        var memoryKeepService = new SmartDigitalPsico.Service.CacheService(
             memoryKeep,
             disk.Object,
             logs.Object,
@@ -1116,7 +1113,7 @@ public class ServiceBranchCoverageLastPushTests
     private static SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity> CreateTableAdapterWithClient(TableClient client)
         => new SmartDigitalPsico.Core.SDK.Service.Infrastructure.Azure.Storage.AzureStorageTableAdapter<UserTokenSessionTableEntity>(client);
 
-    private static SmartDigitalPsico.Service.Infrastructure.Cache.CacheService CreateCache(
+    private static SmartDigitalPsico.Service.CacheService CreateCache(
         global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache type,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>? memory = null!,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>? disk = null!,
@@ -1192,7 +1189,7 @@ public class ServiceBranchCoverageLastPushTests
         public Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository<Gender>> Repository { get; } = new();
         public Mock<IValidator<Gender>> Validator { get; } = new();
         public Mock<IAppMapper> Mapper { get; } = new();
-        public SmartDigitalPsico.Service.Common.EntityBaseService<Gender, GetGenderDto> Service { get; }
+        public SmartDigitalPsico.Service.EntityBaseService<Gender, GetGenderDto> Service { get; }
 
         public EntityBaseProbeContext()
         {
@@ -1205,7 +1202,7 @@ public class ServiceBranchCoverageLastPushTests
                     RetryCount = 1,
                     RetryDelayInSeconds = 0
                 });
-            Service = new SmartDigitalPsico.Service.Common.EntityBaseService<Gender, GetGenderDto>(
+            Service = new SmartDigitalPsico.Service.EntityBaseService<Gender, GetGenderDto>(
                 Shared.SharedServices,
                 Shared.Config,
                 Shared.SharedRepositories,
@@ -1281,7 +1278,7 @@ public class ServiceBranchCoverageLastPushTests
         }
     }
 
-    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.Common.EntityBaseService<Gender, GetGenderDto>
+    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.EntityBaseService<Gender, GetGenderDto>
     {
         public ProbeEntityBaseService(
             ISharedServices sharedServices,

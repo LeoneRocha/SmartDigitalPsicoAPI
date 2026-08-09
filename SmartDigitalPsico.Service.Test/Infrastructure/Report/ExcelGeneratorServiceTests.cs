@@ -1,7 +1,6 @@
 using SmartDigitalPsico.Service;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Service.Report;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Report;
                                 

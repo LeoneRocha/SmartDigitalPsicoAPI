@@ -86,8 +86,8 @@ public class CacheServiceTests
             });
 
         // Act
-        await SmartDigitalPsico.Service.Infrastructure.Cache.CacheService.SaveDataToCache("result", 42, cache.Object);
-        var result = await SmartDigitalPsico.Service.Infrastructure.Cache.CacheService.GetDataFromCache<int>(cache.Object, "result");
+        await SmartDigitalPsico.Service.CacheService.SaveDataToCache("result", 42, cache.Object);
+        var result = await SmartDigitalPsico.Service.CacheService.GetDataFromCache<int>(cache.Object, "result");
 
         // Assert
         result.Data.Should().Be(42);
@@ -217,7 +217,7 @@ public class CacheServiceTests
         }
     }
 
-    private static SmartDigitalPsico.Service.Infrastructure.Cache.CacheService Create(
+    private static SmartDigitalPsico.Service.CacheService Create(
         global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache type,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>? memory = null,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>? disk = null,

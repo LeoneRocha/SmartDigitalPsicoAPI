@@ -2,7 +2,6 @@ using SmartDigitalPsico.Service;
 using Moq;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service.Actions;
 using SmartDigitalPsico.Service.Test.TestSupport;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;

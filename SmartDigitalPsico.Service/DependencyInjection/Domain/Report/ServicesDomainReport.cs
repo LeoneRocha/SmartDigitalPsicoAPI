@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Report;
 using SmartDigitalPsico.Domain.DependeciesCollection;
-using SmartDigitalPsico.Service.Report;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Patient;

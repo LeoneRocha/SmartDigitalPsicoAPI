@@ -30,11 +30,7 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 using SmartDigitalPsico.Domain.Validation;
 using SmartDigitalPsico.Domain.VO;
 using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service.Core.Commands;
-using SmartDigitalPsico.Service.Core.Conflict;
-using SmartDigitalPsico.Service.Core.Queries;
 using SmartDigitalPsico.Service;
-using SmartDigitalPsico.Service.Actions;
 using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service;
 using SmartDigitalPsico.Service;
@@ -1188,7 +1184,7 @@ public class ServiceBranchCoverageRemainingTests
     }
 
     // Cenário: Cache TryGet exception, value null e checkCacheIsValid temData false.
-    // Objetivo: fechar ramos restantes de SmartDigitalPsico.Service.Infrastructure.Cache.CacheService.
+    // Objetivo: fechar ramos restantes de SmartDigitalPsico.Service.CacheService.
     [Test]
     public void CacheService_ExceptionNullValueAndInvalidDate_CoverBranches()
     {
@@ -1673,7 +1669,7 @@ public class ServiceBranchCoverageRemainingTests
         }
     }
 
-    private static SmartDigitalPsico.Service.Infrastructure.Cache.CacheService CreateCache(
+    private static SmartDigitalPsico.Service.CacheService CreateCache(
         global::SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeLocationCache type,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>? memory = null!,
         Mock<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IDiskCacheRepository>? disk = null!,
@@ -1743,7 +1739,7 @@ public class ServiceBranchCoverageRemainingTests
         }
     }
 
-    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.Common.EntityBaseService<Gender, GetGenderDto>
+    private sealed class ProbeEntityBaseService : SmartDigitalPsico.Service.EntityBaseService<Gender, GetGenderDto>
     {
         public ProbeEntityBaseService(
             ISharedServices sharedServices,
