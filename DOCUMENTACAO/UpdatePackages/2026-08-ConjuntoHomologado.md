@@ -9,20 +9,20 @@
 
 ## 1. NuGet Aplicado ([Directory.Packages.props](file:///c:/git/SMARTDIGITALPSICO/SmartDigitalPsicoAPI/Directory.Packages.props))
 
-### Bloco A — Plataforma .NET 10 (patch alinhado 10.0.10)
+### Bloco A — Plataforma .NET 10 (patch alinhado 10.0.11)
 
-Todos os pacotes de plataforma ASP.NET Core e Microsoft.Extensions permanecem consolidados no patch **10.0.10**:
+Todos os pacotes de plataforma ASP.NET Core e Microsoft.Extensions foram atualizados de forma coesa para o patch **10.0.11**:
 
-| Pacote | Versão Aplicada | Latest NuGet | Observações |
-| ------ | --------------- | ------------ | ----------- |
-| `Microsoft.AspNetCore.Authentication.JwtBearer` | **10.0.10** | 10.0.10 | Estável |
-| `Microsoft.AspNetCore.Mvc.Testing` | **10.0.10** | 10.0.10 | Estável |
-| `Microsoft.Extensions.Caching.Memory` | **10.0.10** | 10.0.10 | Estável |
-| `Microsoft.Extensions.Configuration.FileExtensions` | **10.0.10** | 10.0.10 | Estável |
-| `Microsoft.Extensions.Configuration.Json` | **10.0.10** | 10.0.10 | Estável |
-| `Microsoft.Extensions.Hosting` | **10.0.10** | 10.0.10 | Estável |
-| `Microsoft.Extensions.Hosting.WindowsServices` | **10.0.10** | 10.0.10 | Estável |
-| `Microsoft.Extensions.Identity.Core` | **10.0.10** | 10.0.10 | Estável |
+| Pacote | Versão Anterior | Versão Aplicada | Latest NuGet | Observações |
+| ------ | --------------- | --------------- | ------------ | ----------- |
+| `Microsoft.AspNetCore.Authentication.JwtBearer` | 10.0.10 | **10.0.11** | 10.0.11 | Estável |
+| `Microsoft.AspNetCore.Mvc.Testing` | 10.0.10 | **10.0.11** | 10.0.11 | Estável |
+| `Microsoft.Extensions.Caching.Memory` | 10.0.10 | **10.0.11** | 10.0.11 | Estável |
+| `Microsoft.Extensions.Configuration.FileExtensions` | 10.0.10 | **10.0.11** | 10.0.11 | Estável |
+| `Microsoft.Extensions.Configuration.Json` | 10.0.10 | **10.0.11** | 10.0.11 | Estável |
+| `Microsoft.Extensions.Hosting` | 10.0.10 | **10.0.11** | 10.0.11 | Estável |
+| `Microsoft.Extensions.Hosting.WindowsServices` | 10.0.10 | **10.0.11** | 10.0.11 | Estável |
+| `Microsoft.Extensions.Identity.Core` | 10.0.10 | **10.0.11** | 10.0.11 | Estável |
 
 ---
 
@@ -33,7 +33,7 @@ Todos os pacotes de plataforma ASP.NET Core e Microsoft.Extensions permanecem co
 
 | Pacote | Versão Anterior | Versão Aplicada | Latest NuGet | Justificativa se != latest |
 | ------ | --------------- | --------------- | ------------ | -------------------------- |
-| `Microsoft.EntityFrameworkCore` (7 pacotes) | 9.0.18 | **9.0.18** | 10.0.10 | Pomelo oficial ainda sem release estável 10.x para EF Core 10 |
+| `Microsoft.EntityFrameworkCore` (7 pacotes) | 9.0.18 | **9.0.18** | 10.0.11 | Pomelo oficial ainda sem release estável 10.x para EF Core 10 |
 | `Pomelo.EntityFrameworkCore.MySql` | 9.0.0 | **9.0.0** | 9.0.0 | Latest oficial compatível com EF Core 9 |
 | `Microsoft.Data.SqlClient` | 6.1.6 | **6.1.6** | 6.1.6 | Override transitivo seguro para SQL Server |
 | `SQLitePCLRaw.bundle_e_sqlite3` | 3.0.5 | **3.0.5** | 3.0.5 | Override transitivo de segurança (GHSA-2m69-gcr7-jv3q) |
@@ -67,13 +67,13 @@ Todos os pacotes de plataforma ASP.NET Core e Microsoft.Extensions permanecem co
 | `Newtonsoft.Json` | 13.0.4 | **13.0.4** | 13.0.4 | Estável |
 | `Polly` / `Polly.Core` | 8.7.0 | **8.7.0** | 8.7.0 | Estável |
 | `Bogus` | 35.6.5 | **35.6.5** | 35.6.5 | Estável |
-| `HtmlSanitizer` | 9.1.982 | **9.1.982** | 9.2.995 | Estável com AngleSharp 1.7.0 |
-| `AngleSharp` | 1.7.0 | **1.7.0** | 1.7.0 | Override de segurança |
+| `HtmlSanitizer` | 9.1.982 | **9.2.995** | 9.2.995 | Atualização estável de minor |
+| `AngleSharp` | 1.7.0 | **1.7.1** | 1.7.1 | Atualizado conforme exigência do HtmlSanitizer |
 | `AngleSharp.Css` | 1.0.1 | **1.0.1** | 1.0.1 | Estável |
 | `DocumentFormat.OpenXml` | 3.5.1 | **3.5.1** | 3.5.1 | Estável |
 | `DocumentFormat.OpenXml.Framework` | 3.5.1 | **3.5.1** | 3.5.1 | Estável |
 | `PDFsharp` / `PDFsharp-MigraDoc` | 6.2.4 | **6.2.4** | 6.2.4 | Estável |
-| `QuestPDF` | 2026.7.2 | **2026.7.2** | 2026.7.2 | Estável |
+| `QuestPDF` | 2026.7.2 | **2026.7.3** | 2026.7.3 | Atualização de patch |
 | `Microsoft.VisualStudio.Azure.Containers.Tools.Targets` | 1.23.0 | **1.23.0** | 1.23.0 | Estável |
 | `Microsoft.Azure.WebJobs` / `Core` | 3.0.47 | **3.0.47** | 3.0.47 | Estável |
 | `Microsoft.Azure.WebJobs.Extensions` | 5.2.1 | **5.2.1** | 5.2.1 | Estável |
@@ -81,7 +81,7 @@ Todos os pacotes de plataforma ASP.NET Core e Microsoft.Extensions permanecem co
 | `Azure.Monitor.OpenTelemetry.AspNetCore` | 1.6.0 | **1.6.0** | 1.6.0 | Estável |
 | `Azure.Storage.Blobs` | 12.29.1 | **12.29.1** | 12.29.1 | Estável |
 | `Azure.Storage.Queues` | 12.27.1 | **12.27.1** | 12.27.1 | Estável |
-| `Azure.Data.Tables` | 12.11.0 | **12.11.0** | 12.11.0 | Estável |
+| `Azure.Data.Tables` | 12.11.0 | **12.12.0** | 12.12.0 | Atualização de minor |
 
 ---
 
@@ -89,13 +89,13 @@ Todos os pacotes de plataforma ASP.NET Core e Microsoft.Extensions permanecem co
 
 | Pacote | Versão Anterior | Versão Aplicada | Latest NuGet | Justificativa se != latest |
 | ------ | --------------- | --------------- | ------------ | -------------------------- |
-| `Microsoft.NET.Test.Sdk` | 18.8.1 | **18.8.1** | 18.9.0 | Estável com VSTest / NUnit |
+| `Microsoft.NET.Test.Sdk` | 18.8.1 | **18.9.0** | 18.9.0 | Atualização estável com VSTest / NUnit |
 | `NUnit` | 4.6.1 | **4.6.1** | 4.6.1 | Estável |
 | `NUnit3TestAdapter` | 6.2.0 | **6.2.0** | 6.2.0 | Estável |
 | `NUnit.Analyzers` | 4.14.0 | **4.14.0** | 4.14.0 | Estável |
 | `Moq` | 4.20.72 | **4.20.72** | 4.20.72 | Estável |
 | `Moq.EntityFrameworkCore` | 9.0.0.10 | **9.0.0.10** | 10.0.0.2 | **Pin deliberado** — segue EF Core 9 (Bloco B) |
-| `AwesomeAssertions` | 9.5.0 | **9.5.0** | 9.6.0 | Estável |
+| `AwesomeAssertions` | 9.5.0 | **9.6.0** | 9.6.0 | Atualização estável |
 | `coverlet.collector` | 10.0.1 | **10.0.1** | 10.0.1 | Estável |
 | `coverlet.msbuild` | 10.0.1 | **10.0.1** | 10.0.1 | Estável |
 | `System.IdentityModel.Tokens.Jwt` | 8.22.0 | **8.22.0** | 8.22.0 | Estável |
