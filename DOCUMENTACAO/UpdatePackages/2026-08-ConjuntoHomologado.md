@@ -1,7 +1,7 @@
 # Conjunto Homologado — Ciclo 2026-08 (Governança e Homologação NuGet .NET 10)
 
 **Data:** 2026-08-22  
-**Guia base:** [GuiaGenericoAtualizacaoPacotes.md](file:///c:/git/SMARTDIGITALPSICO/SmartDigitalPsicoAPI/DOCUMENTACAO/UpdatePackages/GuiaGenericoAtualizacaoPacotes.md)  
+**Guia base:** [GuiaGenericoAtualizacaoPacotesNet.md](file:///c:/git/SMARTDIGITALPSICO/SmartDigitalPsicoAPI/DOCUMENTACAO/UpdatePackages/GuiaGenericoAtualizacaoPacotesNet.md)  
 **Solução:** [SmartDigitalPsicoAPI.sln](file:///c:/git/SMARTDIGITALPSICO/SmartDigitalPsicoAPI/SmartDigitalPsicoAPI.sln)  
 **Escopo:** Backend .NET 10 (`Directory.Packages.props`)  
 

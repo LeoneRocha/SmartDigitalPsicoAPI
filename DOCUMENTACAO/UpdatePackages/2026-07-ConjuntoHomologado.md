@@ -1,7 +1,7 @@
 # Conjunto Homologado — Ciclo 2026-07 (Migração .NET 10 + Central Package Management)
 
 **Data:** 2026-07-31  
-**Guia base:** [GuiaGenericoAtualizacaoPacotes.md](file:///c:/git/SMARTDIGITALPSICO/SmartDigitalPsicoAPI/DOCUMENTACAO/UpdatePackages/GuiaGenericoAtualizacaoPacotes.md)  
+**Guia base:** [GuiaGenericoAtualizacaoPacotesNet.md](file:///c:/git/SMARTDIGITALPSICO/SmartDigitalPsicoAPI/DOCUMENTACAO/UpdatePackages/GuiaGenericoAtualizacaoPacotesNet.md)  
 **Solução:** [SmartDigitalPsicoAPI.sln](file:///c:/git/SMARTDIGITALPSICO/SmartDigitalPsicoAPI/SmartDigitalPsicoAPI.sln)  
 **Escopo:** Backend .NET (`Directory.Packages.props` / TFM `net10.0`)  
 
