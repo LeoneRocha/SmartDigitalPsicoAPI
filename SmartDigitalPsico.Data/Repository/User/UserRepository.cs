@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.User;
@@ -65,8 +65,7 @@ namespace SmartDigitalPsico.Data.Repository
             return await _dataset
                 .Include(e => e.UserRoleGroups)
                 .ThenInclude(e => e.RoleGroup)
-                .Include(e => e.Medical)
-                .ThenInclude(m => m.Office)
+                .Include(e => e.Medical.Office)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
         }

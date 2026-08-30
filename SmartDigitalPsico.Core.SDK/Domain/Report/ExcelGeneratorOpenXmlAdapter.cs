@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -31,7 +31,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Report
                 WorkbookPart workbookPart = CreateWorkbookPart(document);
 
                 // Add Sheets to the Workbook.
-                workbookPart.Workbook.AppendChild(new Sheets());
+                workbookPart.Workbook!.AppendChild(new Sheets());
 
                 AddWorkbookStyles(workbookPart);
                 uint sheetIndex = 1;
@@ -87,7 +87,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Report
             if (workbookPart != null)
             {
                 //Clone the MergeCells object before inserting it.
-                if (mergeCells != null)
+                if (mergeCells != null && worksheetPart.Worksheet != null)
                 {
                     MergeCells clonedMergeCells = (MergeCells)mergeCells.CloneNode(true);
                     // Insert a MergeCells object into the specified position.  
@@ -97,7 +97,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Report
                         worksheetPart.Worksheet.InsertAfter(clonedMergeCells, worksheetPart.Worksheet.Elements<SheetData>().First());
                 }
 
-                Sheets sheetsInWorkbook = workbookPart.Workbook.GetFirstChild<Sheets>()!;
+                Sheets sheetsInWorkbook = workbookPart.Workbook!.GetFirstChild<Sheets>()!;
 
                 Sheet sheet = new Sheet()
                 {
@@ -115,7 +115,7 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Report
             ArgumentNullException.ThrowIfNull(rows);
             ArgumentNullException.ThrowIfNull(propertiesToIgnore);
 
-            var sheetDataElement = worksheetPart.Worksheet.GetFirstChild<SheetData>()!;
+            var sheetDataElement = worksheetPart.Worksheet!.GetFirstChild<SheetData>()!;
 
             // Adiciona a linha de cabeçalho
             AddHeaderRow(rows[0], propertiesToIgnore, sheetDataElement);
@@ -134,12 +134,12 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Report
             int columnCount = rows[0].GetType().GetProperties().Count(p => !propertiesToIgnore.Contains(p.Name));
             string endColumn = GetExcelColumnName(columnCount);
             AutoFilter autoFilter = new AutoFilter() { Reference = $"A1:{endColumn}1" };
-            worksheetPart.Worksheet.Append(autoFilter);
+            worksheetPart.Worksheet!.Append(autoFilter);
         }
 
         private static void AddBestFit(WorksheetPart worksheetPart)
         {
-            foreach (Column column in worksheetPart.Worksheet.Descendants<Column>())
+            foreach (Column column in worksheetPart.Worksheet!.Descendants<Column>())
             {
                 column.BestFit = true;
             }

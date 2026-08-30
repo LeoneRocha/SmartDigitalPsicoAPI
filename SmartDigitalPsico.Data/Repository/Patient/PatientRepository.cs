@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
 using SmartDigitalPsico.Domain.EntityModels;
@@ -44,10 +44,8 @@ namespace SmartDigitalPsico.Data.Repository
         {
 #pragma warning disable CS8602
             return await _dataset
-                .Include(e => e.Medical)
                 .Include(e => e.Gender)
-                .Include(e => e.Medical)
-                .ThenInclude(e => e.User)
+                .Include(e => e.Medical.User)
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
@@ -73,8 +71,7 @@ namespace SmartDigitalPsico.Data.Repository
             return await _dataset
                 .AsNoTracking()
                .Include(e => e.Gender)
-               .Include(e => e.Medical)
-               .ThenInclude(e => e.User)
+               .Include(e => e.Medical.User)
                .Include(e => e.CreatedUser)
                .Where(p => p.MedicalId == medicalId)
                .ToListAsync();
@@ -88,8 +85,7 @@ namespace SmartDigitalPsico.Data.Repository
             Patient entityResponse = await _dataset
                 .AsNoTracking()
                 .AsSplitQuery()
-                .Include(p => p.Medical)
-                .ThenInclude(e => e!.User)
+                .Include(p => p.Medical!.User)
                 .Include(p => p.CreatedUser)
                 .Include(p => p.ModifyUser)
                 .Include(p => p.Gender)
