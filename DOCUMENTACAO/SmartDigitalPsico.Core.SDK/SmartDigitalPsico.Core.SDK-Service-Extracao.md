@@ -1,36 +1,36 @@
-# SmartCoreHub.Core.SDK — Extração de genéricos de `SmartCoreHub.Service`
+﻿# SmartDigitalPsico.Core.SDK — Extração de genéricos de `SmartDigitalPsico.Service`
 
 **Versão:** 1.1  
 **Data:** 2026-07-16  
-**Status:** Concluído — lotes 0–6 implementados (banda ASP.NET net8/net10; hosts usam extensions do SDK direto + `SmartCoreHubDocumentationOptions` de marca; GenericService permanece no host)  
-**Escopo exclusivo:** `backend/Implementations/SmartCoreHub.Service` → tipos genéricos/reutilizáveis para `SmartCoreHub.Core.SDK`
+**Status:** Concluído — lotes 0–6 implementados (banda ASP.NET net8/net10; hosts usam extensions do SDK direto + `SmartDigitalPsicoDocumentationOptions` de marca; GenericService permanece no host)  
+**Escopo exclusivo:** `SmartDigitalPsico.Service` → tipos genéricos/reutilizáveis para `SmartDigitalPsico.Core.SDK`
 
 **Documentos base (histórico já concluído):**
-- [SmartCoreHub.Core.SDK-Especificacao.md](./SmartCoreHub.Core.SDK-Especificacao.md)
-- [SmartCoreHub.Core.SDK-MigracaoGenericos.md](./SmartCoreHub.Core.SDK-MigracaoGenericos.md) (genéricos pesados: EF/Dapper/cache/Azure)
-- [SmartCoreHub.Core.SDK-Extracao-Pendencias.md](./SmartCoreHub.Core.SDK-Extracao-Pendencias.md) (lotes 1–6 concluídos; **Grupo F** = banda ASP.NET — origem deste plano)
-- [SmartCoreHub.Core.SDK-Remocao-Shims.md](./SmartCoreHub.Core.SDK-Remocao-Shims.md)
-- README do pacote: [`backend/Core/SmartCoreHub.Core.SDK/README.md`](../../../../backend/Core/SmartCoreHub.Core.SDK/README.md)
+- [SmartDigitalPsico.Core.SDK-Especificacao.md](./SmartDigitalPsico.Core.SDK-Especificacao.md)
+- [SmartDigitalPsico.Core.SDK-MigracaoGenericos.md](./SmartDigitalPsico.Core.SDK-MigracaoGenericos.md) (genéricos pesados: EF/Dapper/cache/Azure)
+- [SmartDigitalPsico.Core.SDK-Extracao-Pendencias.md](./SmartDigitalPsico.Core.SDK-Extracao-Pendencias.md) (lotes 1–6 concluídos; **Grupo F** = banda ASP.NET — origem deste plano)
+- [SmartDigitalPsico.Core.SDK-Remocao-Shims.md](./SmartDigitalPsico.Core.SDK-Remocao-Shims.md)
+- README do pacote: [`SmartDigitalPsico.Core.SDK/README.md`](../../../../SmartDigitalPsico.Core.SDK/README.md)
 
 ---
 
 ## 1. Objetivo
 
-As iniciativas anteriores centralizaram no `SmartCoreHub.Core.SDK` os genéricos de Domain/Infrastructure e vários tipos leves de Service (`TokenHelper`, `IpAddressHelper` sem HttpContext, `UserContextServiceBase`, `IGenericService`, `CacheService`, `ApiKeyAuthenticationSettings`, etc.).
+As iniciativas anteriores centralizaram no `SmartDigitalPsico.Core.SDK` os genéricos de Domain/Infrastructure e vários tipos leves de Service (`TokenHelper`, `IpAddressHelper` sem HttpContext, `UserContextServiceBase`, `IGenericService`, `CacheService`, `ApiKeyAuthenticationSettings`, etc.).
 
-Este documento cobre **apenas** o que ainda permanece em `SmartCoreHub.Service` e é **genérico o bastante** para reuso por outras APIs/SDKs — com foco explícito nos itens abaixo:
+Este documento cobre **apenas** o que ainda permanece em `SmartDigitalPsico.Service` e é **genérico o bastante** para reuso por outras APIs/SDKs — com foco explícito nos itens abaixo:
 
 | Item citado | Situação pós-implementação (2026-07-16) |
 | ----------- | --------------------------- |
 | `ApiKeyAuthenticationOptions` | **Movido** para `Core.SDK.Service.API.Authentication` |
-| Extensions `SmartCoreHub.Service.API.DI` | Núcleo genérico no SDK; Service só guarda branding (`SmartCoreHubDocumentationOptions`) e composição de host |
+| Extensions `SmartDigitalPsico.Service.API.DI` | Núcleo genérico no SDK; Service só guarda branding (`SmartDigitalPsicoDocumentationOptions`) e composição de host |
 | `BaseApiController` | **Movido** para `Core.SDK.Service.API.Generic` |
 | `LogAppHelper` | **Movido** para `Core.SDK.Service.API.Helpers` (`IAppLogger` + overload Serilog) |
 | `IpAddressHelper` (HttpContext) | **Movido** para `AspNetIpAddressHelper` no SDK |
 | `JwtTokenService` / `IJwtTokenService` | Wrapper `User` no Service; `IJwtAccessTokenService` claims-based no SDK |
 | `GenericService<TEntity>` | **Permanece** em Service (FluentValidation) — contrato `IGenericService` já no SDK |
 
-> **Fora de escopo:** Domain, Infrastructure, Localization.SDK, entidades de produto, validators FluentValidation, `SmartCoreHubDbContext`, repositórios de domínio.
+> **Fora de escopo:** Domain, Infrastructure, Localization.SDK, entidades de produto, validators FluentValidation, `SmartDigitalPsicoDataContext`, repositórios de domínio.
 
 ---
 
@@ -41,7 +41,7 @@ Este documento cobre **apenas** o que ainda permanece em `SmartCoreHub.Service` 
 | 1 | **Banda ASP.NET no Core.SDK** | **Aprovada neste plano** (eleva o antigo Grupo F de Extracao-Pendencias). Tipos genéricos com `Microsoft.AspNetCore.*` entram no NuGet único, **somente** em TFMs `net8.0`/`net10.0` (`Compile Remove` + `FrameworkReference`/`PackageReference` condicionais). |
 | 2 | **FluentValidation** | **Não entra** no Core.SDK (reconfirmado). Consequência: implementação `GenericService<T>` **fica** em Service. |
 | 3 | **Um NuGet** | Sem pacote satélite `.AspNetCore`. Mesmo padrão de EF/Dapper/Redis. |
-| 4 | **Parametrização de marca** | Antes de mover Swagger/OpenAPI/CORS/Scalar/ReDoc/RapiDoc: extrair títulos, contact, nomes de política CORS para opções (`OpenApiDocumentationOptions`, `CorsPolicyOptions`, etc.). Zero string hardcoded “SmartCoreHub” no SDK. |
+| 4 | **Parametrização de marca** | Antes de mover Swagger/OpenAPI/CORS/Scalar/ReDoc/RapiDoc: extrair títulos, contact, nomes de política CORS para opções (`OpenApiDocumentationOptions`, `CorsPolicyOptions`, etc.). Zero string hardcoded “SmartDigitalPsico” no SDK. |
 | 5 | **Serilog** | Preferir `IAppLogger` no SDK. Onde `LogContext`/`ILogger` Serilog for inevitável (ex.: CorrelationId), dep Serilog **condicional** net8/net10 — mesmo padrão de `SerilogAdapter`. |
 | 6 | **Sem shims Obsolete** | Substituição direta: migrar consumidores → deletar original. Monorepo é o único consumidor. |
 | 7 | **Identificador `long`** | Inalterado. Esta iniciativa **não** toca entidades EF → gate EF **não** é obrigatório (exceto se algum lote futuro tocar model). |
@@ -51,14 +51,14 @@ Este documento cobre **apenas** o que ainda permanece em `SmartCoreHub.Service` 
 
 ```mermaid
 flowchart TB
-  subgraph svc [SmartCoreHub.Service - hoje]
+  subgraph svc [SmartDigitalPsico.Service - hoje]
     Dup["Lote 0: duplicados residuais AppConfigConstants / ConfigurationHelper"]
     Asp["Grupo S1: ASP.NET puro BaseApiController Options IpAddress HttpContext middlewares"]
     Di["Grupo S2: DI docs CORS performance genéricos"]
     Ref["Grupo S3: refactor JwtTokenService LogAppHelper"]
     Stay["Grupo S4: STAY - GenericService Handler ApiKey composição Localization Imp"]
   end
-  Core[SmartCoreHub.Core.SDK net8/net10]
+  Core[SmartDigitalPsico.Core.SDK net8/net10]
   Dup -->|"deletar após apontar consumidores"| Core
   Asp -->|"MOVE"| Core
   Di -->|"REFACTOR-THEN-MOVE"| Core
@@ -107,7 +107,7 @@ flowchart TB
 | **Ação** | Mover Options; manter `ApiKeyAuthenticationSettings` como DTO sem ASP.NET (TFMs leves). Opcional: factory/mapper Settings ↔ Options. |
 | **Bloqueio** | Banda ASP.NET (§2.1). Handler (`ApiKeyAuthenticationHandler`) **fica** em Service (feature: `ITokenValidationService`, métricas, Application). |
 
-#### B) Extensions `SmartCoreHub.Service.API.DI`
+#### B) Extensions `SmartDigitalPsico.Service.API.DI`
 
 | Arquivo | Classificação | Destino / nota |
 | ------- | ------------- | -------------- |
@@ -119,7 +119,7 @@ flowchart TB
 | `RapiDocExtensions.cs` | **REFACTOR-THEN-MOVE** | Dep RapiDoc condicional |
 | `ApiPerformanceExtensions.cs` | **SPLIT** | MOVE: compressão, Kestrel, ThreadPool, JSON, rate limit base. STAY/injetável: `ExtractTokenPrefix` (formato `_` de 4 partes = ApiKey produto); `ApplyMySqlPoolingDefaults` já delega a helper SDK |
 | `ServiceCollectionLogExtensions.cs` | **STAY** (wiring) | Só registra `SerilogAdapter` + `AddSdkCaching` — composição do host |
-| `DatabaseExtensions.cs` | **SPLIT** | Extrair `AddMultiProviderDbContext<TContext>(…)` genérico; host fecha `TContext = SmartCoreHubDbContext` + migrations assembly |
+| `DatabaseExtensions.cs` | **SPLIT** | Extrair `AddMultiProviderDbContext<TContext>(…)` genérico; host fecha `TContext = SmartDigitalPsicoDataContext` + migrations assembly |
 | `AuthenticationExtensions.cs` | **SPLIT** | Ver §4.2 (duplicados) + STAY do `AddJwtAuthentication` completo |
 | `ServiceCollectionExtensions.cs` | **STAY** | Scan Domain/Infrastructure; services de produto |
 | `ServiceCollectionExtensionsComplex.cs` | **STAY** | Factories User/Tenant/Application + FluentValidation |
@@ -137,7 +137,7 @@ flowchart TB
 | **Classificação** | **MOVE** |
 | **Justificativa** | Zero referência a Domain/entidades. Helpers de claims, IP remoto, roles, `ErrorResponse`, `LogError` — reutilizável por qualquer API do monorepo (e futuras). |
 | **Destino** | `Core.SDK/Service/API/Generic/BaseApiController.cs` |
-| **Consumidores** | Controllers em `SmartCoreHub.API`, `SmartCoreHub.Localization.API`, MCP, testes |
+| **Consumidores** | Controllers em `SmartDigitalPsico.WebAPI`, `SmartDigitalPsico.WebAPI`, MCP, testes |
 
 #### D) `LogAppHelper` + `AppInformationVersionProductDto`
 
@@ -227,7 +227,7 @@ Risco baixo; pode ser PR isolado antes da banda ASP.NET.
 ## 5. Destinos sugeridos no Core.SDK (layout)
 
 ```text
-backend/Core/SmartCoreHub.Core.SDK/
+SmartDigitalPsico.Core.SDK/
 ├── Service/
 │   ├── API/
 │   │   ├── Authentication/     # ApiKeyAuthenticationOptions (+ Settings já existe)
@@ -266,7 +266,7 @@ flowchart TD
 
 - [x] Unificar `AppConfigConstants` (resolver typo Jon/Json); consumidores → SDK; deletar cópia em Service.
 - [x] Substituir `#region GENERIC` por `ConfigurationHelper` do SDK; deletar métodos duplicados.
-- [x] **Aceite:** `rg` sem `SmartCoreHub.Service.API.DI.AppConfigConstants`; build + testes verdes.
+- [x] **Aceite:** `rg` sem `SmartDigitalPsico.Service.API.DI.AppConfigConstants`; build + testes verdes.
 
 ### Lote 1 — Scaffolding banda ASP.NET no Core.SDK
 
@@ -294,7 +294,7 @@ flowchart TD
 - [x] Extrair options (`OpenApiDocumentationOptions`, `CorsHostingOptions`, `ApiPerformanceOptions`).
 - [x] Mover Cors, Swagger, OpenApi, Scalar, Redoc, RapiDoc (deps condicionais).
 - [x] Split `ApiPerformanceExtensions`: núcleo no SDK; partição de rate limit / token prefix injetável pelo host.
-- [x] Host passa options com marca SmartCoreHub.
+- [x] Host passa options com marca SmartDigitalPsico.
 - [x] **Aceite:** `/swagger`, Scalar/ReDoc/RapiDoc, CORS e rate limit com comportamento observável idêntico.
 
 ### Lote 5 — LogAppHelper + JWT claims
@@ -306,7 +306,7 @@ flowchart TD
 
 ### Lote 6 — Database genérico + fechamento
 
-- [x] Extrair `AddConfiguredDbContext<TContext>` (provider-neutral) para o SDK; `AddDatabase` Service fecha `SmartCoreHubDbContext`.
+- [x] Extrair `AddConfiguredDbContext<TContext>` (provider-neutral) para o SDK; `AddDatabase` Service fecha `SmartDigitalPsicoDataContext`.
 - [x] Greps de aceite (§7.2); atualizar README do Core.SDK e banner nos docs FEITOS.
 - [x] Validação completa (§7.1).
 - [x] Status deste documento → Concluído.
@@ -322,8 +322,8 @@ flowchart TD
 
 ### 7.1 Por lote
 
-- [ ] `dotnet build SmartCoreHub.sln -c Release -m:1` — 0 erros
-- [ ] `dotnet test SmartCoreHub.sln -c Release --no-build -m:1` — 0 falhas; contagem ≥ baseline
+- [ ] `dotnet build SmartDigitalPsicoAPI.sln -c Release -m:1` — 0 erros
+- [ ] `dotnet test SmartDigitalPsicoAPI.sln -c Release --no-build -m:1` — 0 falhas; contagem ≥ baseline
 - [ ] `Core.SDK.Tests` Coverlet linhas ≥ 90% nos módulos tocados
 - [ ] Console + smoke NuGet verdes
 - [ ] APIs locais `/health` 200; startup sem erro de DI
@@ -333,20 +333,20 @@ flowchart TD
 ### 7.2 Greps de aceite (Lote 6)
 
 ```powershell
-cd C:\git\repos\SmartCoreHub\backend
+cd c:\git\SMARTDIGITALPSICO\SmartDigitalPsicoAPI
 
 # Tipos movidos nao devem existir mais em Service (ajuste namespaces apos implementacao)
-rg "namespace SmartCoreHub.Service.API.Generic" -g "BaseApiController.cs"
-rg "class ApiKeyAuthenticationOptions" Implementations/SmartCoreHub.Service -g "*.cs"
-rg "class LogAppHelper" Implementations/SmartCoreHub.Service -g "*.cs"
-rg "ResolveClientIp|ResolveAuditIp" Implementations/SmartCoreHub.Service -g "*.cs"
+rg "namespace SmartDigitalPsico.Service.API.Generic" -g "BaseApiController.cs"
+rg "class ApiKeyAuthenticationOptions" Implementations/SmartDigitalPsico.Service -g "*.cs"
+rg "class LogAppHelper" Implementations/SmartDigitalPsico.Service -g "*.cs"
+rg "ResolveClientIp|ResolveAuditIp" Implementations/SmartDigitalPsico.Service -g "*.cs"
 
 # Duplicados Lote 0
-rg "class AppConfigConstants" Implementations/SmartCoreHub.Service -g "*.cs"
-rg "GetSectionApp|GetConnectionStringApp|GetValueStringConfiguration" Implementations/SmartCoreHub.Service -g "*.cs"
+rg "class AppConfigConstants" Implementations/SmartDigitalPsico.Service -g "*.cs"
+rg "GetSectionApp|GetConnectionStringApp|GetValueStringConfiguration" Implementations/SmartDigitalPsico.Service -g "*.cs"
 
 # GenericService permanece (esperado)
-rg "abstract class GenericService" Implementations/SmartCoreHub.Service -g "*.cs"
+rg "abstract class GenericService" Implementations/SmartDigitalPsico.Service -g "*.cs"
 ```
 
 ---
@@ -356,7 +356,7 @@ rg "abstract class GenericService" Implementations/SmartCoreHub.Service -g "*.cs
 | Risco | Mitigação |
 | ----- | --------- |
 | NuGet Core.SDK puxar ASP.NET em consumidores netstandard | `Compile Remove` + refs só net8/net10 |
-| Títulos Swagger/CORS “SmartCoreHub” vazarem no SDK | Options obrigatórias no Lote 4; host injeta marca |
+| Títulos Swagger/CORS “SmartDigitalPsico” vazarem no SDK | Options obrigatórias no Lote 4; host injeta marca |
 | CorrelationId acoplado a Serilog | Dep condicional ou abstração; preferir não forçar Serilog em todos os hosts |
 | `JwtTokenService` quebrar auth ao refactorar claims | Wrapper thin no Service; testes de AuthenticationService existentes |
 | Rate limit mudar partição (token prefix) | Manter callback injetável no host; defaults documentados |
@@ -380,7 +380,7 @@ rg "abstract class GenericService" Implementations/SmartCoreHub.Service -g "*.cs
 
 ## 10. Relação com Extracao-Pendencias (Grupo F)
 
-O **Grupo F** de [Extracao-Pendencias.md](./SmartCoreHub.Core.SDK-Extracao-Pendencias.md) §7 listava estes itens como “fase futura/opcional”. Este documento **substitui aquele registro** como plano executável focado em Service:
+O **Grupo F** de [Extracao-Pendencias.md](./SmartDigitalPsico.Core.SDK-Extracao-Pendencias.md) §7 listava estes itens como “fase futura/opcional”. Este documento **substitui aquele registro** como plano executável focado em Service:
 
 | Grupo F (antigo) | Aqui |
 | ---------------- | ---- |

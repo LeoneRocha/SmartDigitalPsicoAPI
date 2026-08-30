@@ -1,35 +1,37 @@
-# SmartCoreHub.Localization.SDK — Isolamento sem SmartCoreHub.Core.SDK
+﻿# SmartDigitalPsico.Localization.SDK — Isolamento sem SmartDigitalPsico.Core.SDK
+
+> **⚠️ Não aplicável ao SmartDigitalPsico:** este documento descreve uma iniciativa do ecossistema **SmartCoreHub** (pacote `Localization.SDK` separado). No **SmartDigitalPsico**, a localização está integrada em `SmartDigitalPsico.Core.SDK/Service/Configure/Localization/` e não existe pacote `Localization.SDK` independente. Mantido como referência histórica da migração.
 
 **Versão:** 1.1  
 **Data:** 2026-07-13  
-**Status:** Implementado — fases A–D executadas; Localization.SDK sem referência a Core.SDK  
-**Estratégia travada:** vendor/copy do subset leve para dentro do Localization.SDK (pacote **auto-isolado**, zero dependência NuGet de Core.SDK)
+**Status:** Referência histórica (SmartCoreHub) — N/A no SmartDigitalPsico  
+**Estratégia travada (SmartCoreHub):** vendor/copy do subset leve para dentro do Localization.SDK (pacote **auto-isolado**, zero dependência NuGet de Core.SDK)
 
 **Documentos relacionados:**
-- [README do Localization.SDK](../../../../backend/SDKs/SmartCoreHub.Localization.SDK/README.md) (auto-isolado — sem Core)
-- [README NuGet do Core.SDK](../../../../backend/Core/SmartCoreHub.Core.SDK/README.md)
-- [Remoção de shims (Lote 7)](../SmartCoreHub.Core.SDK/SmartCoreHub.Core.SDK-Remocao-Shims.md) — origem do acoplamento histórico
-- [README do Core.SDK](../../../../backend/Core/SmartCoreHub.Core.SDK/README.md) (tipos antes em `Others/` agora em Domain/Infrastructure/Service)
+- [README do Localization.SDK](../../../../SDKs/SmartDigitalPsico.Localization.SDK/README.md) (auto-isolado — sem Core)
+- [README NuGet do Core.SDK](../../../../SmartDigitalPsico.Core.SDK/README.md)
+- [Remoção de shims (Lote 7)](../SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK-Remocao-Shims.md) — origem do acoplamento histórico
+- [README do Core.SDK](../../../../SmartDigitalPsico.Core.SDK/README.md) (tipos antes em `Others/` agora em Domain/Infrastructure/Service)
 
 ---
 
 ## 0. Objetivo e critério de aceite
 
-Tornar o pacote **`SmartCoreHub.Localization.SDK`** independente de **`SmartCoreHub.Core.SDK`**, para que clientes externos consumam **um único** packageId de produto (além das dependências Microsoft.Extensions já declaradas pelo Localization).
+Tornar o pacote **`SmartDigitalPsico.Localization.SDK`** independente de **`SmartDigitalPsico.Core.SDK`**, para que clientes externos consumam **um único** packageId de produto (além das dependências Microsoft.Extensions já declaradas pelo Localization).
 
 ### Critérios de aceite (não negociáveis)
 
 | # | Critério |
 |---|----------|
-| 1 | [`SmartCoreHub.Localization.SDK.csproj`](../../../../backend/SDKs/SmartCoreHub.Localization.SDK/SmartCoreHub.Localization.SDK.csproj) **sem** `ProjectReference` e **sem** `PackageReference` a `SmartCoreHub.Core.SDK` |
-| 2 | `dotnet pack` do Localization: metadados NuGet / `.nuspec` **sem** dependência `SmartCoreHub.Core.SDK` em qualquer TFM |
-| 3 | Cliente: `dotnet add package SmartCoreHub.Localization.SDK` não puxa Core.SDK nem o grafo heavy (EF/Dapper/Redis/Mongo/Cosmos/Azure) |
-| 4 | Código-fonte e superfície pública do Localization **não** exportam nem referenciam tipos `SmartCoreHub.Core.SDK.*` |
-| 5 | Build Release + testes `SmartCoreHub.Localization.SDK.Tests` verdes; smoke `ConsoleTest` / `ConsoleTest.Nuget` OK |
+| 1 | [`SmartDigitalPsico.Localization.SDK.csproj`](../../../../SDKs/SmartDigitalPsico.Localization.SDK/SmartDigitalPsico.Localization.SDK.csproj) **sem** `ProjectReference` e **sem** `PackageReference` a `SmartDigitalPsico.Core.SDK` |
+| 2 | `dotnet pack` do Localization: metadados NuGet / `.nuspec` **sem** dependência `SmartDigitalPsico.Core.SDK` em qualquer TFM |
+| 3 | Cliente: `dotnet add package SmartDigitalPsico.Localization.SDK` não puxa Core.SDK nem o grafo heavy (EF/Dapper/Redis/Mongo/Cosmos/Azure) |
+| 4 | Código-fonte e superfície pública do Localization **não** exportam nem referenciam tipos `SmartDigitalPsico.Core.SDK.*` |
+| 5 | Build Release + testes `SmartDigitalPsico.Localization.SDK.Tests` verdes; smoke `ConsoleTest` / `ConsoleTest.Nuget` OK |
 
 ### Fora de escopo
 
-- Criar pacote `SmartCoreHub.Core.SDK.Light` (ainda seria **dois** pacotes para o cliente Localization).
+- Criar pacote `SmartDigitalPsico.Core.SDK.Light` (ainda seria **dois** pacotes para o cliente Localization).
 - ILRepack / ILMerge.
 - Alterar o Core.SDK usado pelo monólito (`Domain` / `Infrastructure` / `Service` / APIs).
 - Residual Export (`ExportFileType` / `FileType`).
@@ -40,13 +42,13 @@ Tornar o pacote **`SmartCoreHub.Localization.SDK`** independente de **`SmartCore
 
 ### 1.1 Como o acoplamento surgiu
 
-No **Lote 7** da remoção de shims ([Remocao-Shims](../SmartCoreHub.Core.SDK/SmartCoreHub.Core.SDK-Remocao-Shims.md)), o Localization.SDK deixou de ter tipos locais (`IApiErrorMapper`, `IAuthHeaderProvider`, `ICacheProvider`, `MemoryCacheProvider`) e passou a consumir os equivalentes canônicos do Core. Isso unificou fonte no monorepo, mas **publicou** Core.SDK como dependência transitiva do pacote Localization.
+No **Lote 7** da remoção de shims ([Remocao-Shims](../SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK-Remocao-Shims.md)), o Localization.SDK deixou de ter tipos locais (`IApiErrorMapper`, `IAuthHeaderProvider`, `ICacheProvider`, `MemoryCacheProvider`) e passou a consumir os equivalentes canônicos do Core. Isso unificou fonte no monorepo, mas **publicou** Core.SDK como dependência transitiva do pacote Localization.
 
 ### 1.2 Referência de projeto
 
 ```xml
-<!-- backend/SDKs/SmartCoreHub.Localization.SDK/SmartCoreHub.Localization.SDK.csproj -->
-<ProjectReference Include="..\..\Core\SmartCoreHub.Core.SDK\SmartCoreHub.Core.SDK.csproj" />
+<!-- SDKs/SmartDigitalPsico.Localization.SDK/SmartDigitalPsico.Localization.SDK.csproj -->
+<ProjectReference Include="..\..\SmartDigitalPsico.Core.SDK\SmartDigitalPsico.Core.SDK.csproj" />
 ```
 
 - Sem `PrivateAssets` / sem filtro light.
@@ -87,13 +89,13 @@ ConsoleTest / ConsoleTest.Nuget: **não** referenciam Core diretamente (só Loca
 
 | # | Tipo atual (Core.SDK) | Namespace Core | Destino proposto (Localization.SDK) | Notas |
 |---|----------------------|----------------|-------------------------------------|-------|
-| 1 | `IAuthHeaderProvider` | `Others.Service.Http.Abstractions` | `SmartCoreHub.Localization.SDK.Abstractions.IAuthHeaderProvider` | Assinatura: `ValueTask ApplyAsync(HttpRequestMessage, CancellationToken)` |
+| 1 | `IAuthHeaderProvider` | `Others.Service.Http.Abstractions` | `SmartDigitalPsico.Localization.SDK.Abstractions.IAuthHeaderProvider` | Assinatura: `ValueTask ApplyAsync(HttpRequestMessage, CancellationToken)` |
 | 2 | `IApiErrorMapper` | `Others.Service.Http.Abstractions` | `…Abstractions.IApiErrorMapper` | `Exception Map(HttpStatusCode, string?)` |
 | 3 | `ApiKeyAuthOptions` | `Others.Service.Http.Authentication` | Fundir em `Authentication/` ou `Http/Authentication/` local | Propriedades ApiKey / HeaderName |
 | 4 | `ApiKeyAuthHeaderProvider` (Core) | idem | **Absorver** no `Authentication.ApiKeyAuthHeaderProvider` Localization (hoje é wrapper fino) | Evitar dual-type; throw → `LocalizationAuthenticationException` direto |
-| 5 | `Headers` | `Others.Service.API.Headers` | `SmartCoreHub.Localization.SDK.Http.Headers` (ou `…API.Headers`) | No mínimo `AuthToken`, `AcceptLanguage` (demais constantes opcionais) |
-| 6 | `UnauthorizedException` | `Others.Exceptions` | **Eliminar** no Localization: mapear falta de ApiKey direto para `LocalizationAuthenticationException` | Evita trazer `SmartCoreHubSdkException` |
-| 7 | `ILightweightCacheProvider` | `Others.Infrastructure.Caching` | `SmartCoreHub.Localization.SDK.Caching.ILightweightCacheProvider` | Mesma API Get/Set/Delete/Clear |
+| 5 | `Headers` | `Others.Service.API.Headers` | `SmartDigitalPsico.Localization.SDK.Http.Headers` (ou `…API.Headers`) | No mínimo `AuthToken`, `AcceptLanguage` (demais constantes opcionais) |
+| 6 | `UnauthorizedException` | `Others.Exceptions` | **Eliminar** no Localization: mapear falta de ApiKey direto para `LocalizationAuthenticationException` | Evita trazer `SmartDigitalPsicoSdkException` |
+| 7 | `ILightweightCacheProvider` | `Others.Infrastructure.Caching` | `SmartDigitalPsico.Localization.SDK.Caching.ILightweightCacheProvider` | Mesma API Get/Set/Delete/Clear |
 | 8 | `LightweightMemoryCacheProvider` | `…Caching.Providers` | `…Caching.LightweightMemoryCacheProvider` (ou `MemoryCacheProvider`) | Depende de `Microsoft.Extensions.Caching.Memory` (já no csproj Localization) |
 
 Tipos Core **não** usados pelo Localization (Domain, EF, Dapper, Redis, Mongo, Cosmos, Azure, Result/Guard completo, etc.) **não** entram no vendor.
@@ -121,7 +123,7 @@ flowchart LR
 | Tema | Decisão |
 |------|--------|
 | Estratégia | **Vendor/copy** do subset #1–#8 (adaptado) **dentro** do Localization.SDK |
-| Namespaces | `SmartCoreHub.Localization.SDK.*` — nunca `SmartCoreHub.Core.SDK.*` |
+| Namespaces | `SmartDigitalPsico.Localization.SDK.*` — nunca `SmartDigitalPsico.Core.SDK.*` |
 | Core.SDK no monorepo | Continua canônico para host/APIs/outros consumidores |
 | Shims Obsolete | **Não** recriar cascas Obsolete apontando para Core; tipos Localization são de primeira classe |
 | Pacote Light | **Rejeitado** (dois packageIds para o cliente) |
@@ -143,12 +145,12 @@ Checklist de arquivos a criar/adaptar:
 - [x] `Caching/LightweightMemoryCacheProvider.cs` (copiar lógica Core; namespace Localization)
 - [x] `Http/Headers.cs` (constantes usadas)
 - [x] Refatorar `Authentication/ApiKeyAuthHeaderProvider.cs`: implementação **direta** (sem `_inner` Core); em ApiKey ausente → `LocalizationAuthenticationException`
-- [x] Remover necessidade de `UnauthorizedException` / `SmartCoreHubSdkException` / `ApiKeyAuthOptions` Core (options locais se ainda úteis)
+- [x] Remover necessidade de `UnauthorizedException` / `SmartDigitalPsicoSdkException` / `ApiKeyAuthOptions` Core (options locais se ainda úteis)
 
 Sugestão de layout final:
 
 ```text
-SmartCoreHub.Localization.SDK/
+SmartDigitalPsico.Localization.SDK/
 ├── Abstractions/          # ILocalization* + IAuthHeaderProvider + IApiErrorMapper
 ├── Authentication/   # ApiKeyAuthHeaderProvider (+ options locais se preciso)
 ├── Caching/          # ILightweightCacheProvider + LightweightMemoryCacheProvider
@@ -158,13 +160,13 @@ SmartCoreHub.Localization.SDK/
 └── Extensions/
 ```
 
-Remover todos os `using SdkX = SmartCoreHub.Core.SDK…`.
+Remover todos os `using SdkX = SmartDigitalPsico.Core.SDK…`.
 
 ### Fase B — Remover acoplamento de build/pack
 
 - [x] Remover `ProjectReference` a Core.SDK do `.csproj`
 - [x] Atualizar produção + testes (usings / `implements`)
-- [x] `rg "SmartCoreHub\.Core\.SDK" -g "*.cs" backend/SDKs/SmartCoreHub.Localization.SDK*` → **0** hits
+- [x] `rg "SmartDigitalPsico\.Core\.SDK" -g "*.cs" SDKs/SmartDigitalPsico.Localization.SDK*` → **0** hits
 - [x] Confirmar Tests / ConsoleTest ainda restauram sem Core
 
 ### Fase C — Breaking change e documentação
@@ -173,37 +175,37 @@ Remover todos os `using SdkX = SmartCoreHub.Core.SDK…`.
 
 | Antes (pós Lote 7) | Depois (isolamento) |
 |--------------------|---------------------|
-| Tipos públicos / DI tipados em `SmartCoreHub.Core.SDK.*` | Tipos em `SmartCoreHub.Localization.SDK.Abstractions` / `.Caching` |
+| Tipos públicos / DI tipados em `SmartDigitalPsico.Core.SDK.*` | Tipos em `SmartDigitalPsico.Localization.SDK.Abstractions` / `.Caching` |
 | Dependência NuGet transitiva Core.SDK | Removida |
 
 Atualizar:
 
-- [x] [`backend/SDKs/SmartCoreHub.Localization.SDK/README.md`](../../../../backend/SDKs/SmartCoreHub.Localization.SDK/README.md) — remover “Dependência Core”; exemplos com usings Localization; nova tabela breaking
-- [x] Nota em [Remocao-Shims § Lote 7](../SmartCoreHub.Core.SDK/SmartCoreHub.Core.SDK-Remocao-Shims.md): Lote 7 unificou no Core; **este documento** re-isola o pacote público Localization (intencional para NuGet)
-- [x] Linha no [README Core.SDK](../../../../backend/Core/SmartCoreHub.Core.SDK/README.md) — Localization.SDK **não** é consumidor NuGet obrigatório do Core
+- [x] [`SDKs/SmartDigitalPsico.Localization.SDK/README.md`](../../../../SDKs/SmartDigitalPsico.Localization.SDK/README.md) — remover “Dependência Core”; exemplos com usings Localization; nova tabela breaking
+- [x] Nota em [Remocao-Shims § Lote 7](../SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK-Remocao-Shims.md): Lote 7 unificou no Core; **este documento** re-isola o pacote público Localization (intencional para NuGet)
+- [x] Linha no [README Core.SDK](../../../../SmartDigitalPsico.Core.SDK/README.md) — Localization.SDK **não** é consumidor NuGet obrigatório do Core
 
 ### Fase D — Validação
 
 ```powershell
 cd backend
 
-rg "SmartCoreHub\.Core\.SDK" -g "*.cs" SDKs\SmartCoreHub.Localization.SDK SDKs\SmartCoreHub.Localization.SDK.Tests
+rg "SmartDigitalPsico\.Core\.SDK" -g "*.cs" SDKs\SmartDigitalPsico.Localization.SDK SDKs\SmartDigitalPsico.Localization.SDK.Tests
 
-dotnet build SDKs\SmartCoreHub.Localization.SDK\SmartCoreHub.Localization.SDK.csproj -c Release
-dotnet test SDKs\SmartCoreHub.Localization.SDK.Tests\SmartCoreHub.Localization.SDK.Tests.csproj -c Release
-dotnet pack SDKs\SmartCoreHub.Localization.SDK\SmartCoreHub.Localization.SDK.csproj -c Release -o artifacts\nuget
+dotnet build SDKs\SmartDigitalPsico.Localization.SDK\SmartDigitalPsico.Localization.SDK.csproj -c Release
+dotnet test SDKs\SmartDigitalPsico.Localization.SDK.Tests\SmartDigitalPsico.Localization.SDK.Tests.csproj -c Release
+dotnet pack SDKs\SmartDigitalPsico.Localization.SDK\SmartDigitalPsico.Localization.SDK.csproj -c Release -o artifacts\nuget
 
-# Inspecionar o .nupkg (nuspec / dependencies): zero SmartCoreHub.Core.SDK
+# Inspecionar o .nupkg (nuspec / dependencies): zero SmartDigitalPsico.Core.SDK
 ```
 
 Smoke:
 
 ```powershell
-dotnet run --project SDKs\SmartCoreHub.Localization.SDK.ConsoleTest\SmartCoreHub.Localization.SDK.ConsoleTest.csproj -c Release
+dotnet run --project SDKs\SmartDigitalPsico.Localization.SDK.ConsoleTest\SmartDigitalPsico.Localization.SDK.ConsoleTest.csproj -c Release
 # ConsoleTest.Nuget: atualizar PackageVersion se necessário e rodar com feed local
 ```
 
-Aceite Fase D: 0 erros build; 0 falhas testes Localization; pack sem Core; rg vazio. **Validado 2026-07-13/14:** build Release OK; 37 testes OK; nuspec sem `SmartCoreHub.Core.SDK`; ConsoleTest requer API remota (timeout de rede ≠ regressão de isolamento).
+Aceite Fase D: 0 erros build; 0 falhas testes Localization; pack sem Core; rg vazio. **Validado 2026-07-13/14:** build Release OK; 37 testes OK; nuspec sem `SmartDigitalPsico.Core.SDK`; ConsoleTest requer API remota (timeout de rede ≠ regressão de isolamento).
 
 ### Fase E — Controle de drift
 

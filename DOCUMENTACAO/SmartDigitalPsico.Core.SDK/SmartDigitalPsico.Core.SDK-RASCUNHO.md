@@ -1,18 +1,18 @@
-# SmartCoreHub.Core.SDK — Especificação
+﻿# SmartDigitalPsico.Core.SDK — Especificação
 
-> **Banner — rascunho obsoleto:** este documento é o **draft inicial** e **contradiz** o estado atual (pastas `CORE/` vs `backend/Core/`, API pública imaginada, “Core puro”). Use como artefato histórico apenas. Fonte de verdade: [Especificacao.md](./SmartCoreHub.Core.SDK-Especificacao.md), [MigracaoGenericos.md](./SmartCoreHub.Core.SDK-MigracaoGenericos.md) e [`README.md`](../../../../backend/Core/SmartCoreHub.Core.SDK/README.md) do pacote.
+> **Banner — rascunho obsoleto:** este documento é o **draft inicial** importado do SmartCoreHub e **contradiz** o estado atual do SmartDigitalPsico. Use como artefato histórico apenas. Fonte de verdade: [Especificacao.md](./SmartDigitalPsico.Core.SDK-Especificacao.md) e [README do pacote](../../SmartDigitalPsico.Core.SDK/README.md).
 >
-> **Complemento (2026-07-15):** extrações pendentes pós-migração executadas — ver [Extracao-Pendencias.md](./SmartCoreHub.Core.SDK-Extracao-Pendencias.md).
+> **Complemento (2026-07-15):** extrações pendentes pós-migração executadas — ver [Extracao-Pendencias.md](./SmartDigitalPsico.Core.SDK-Extracao-Pendencias.md).
 
 Status: Draft (obsoleto)
 
-Este documento especifica o projeto `SmartCoreHub.Core.SDK`, uma Class Library .NET alojada em `CORE/SmartCoreHub.Core.SDK` destinada a centralizar classes genéricas, helpers e contratos reutilizáveis.
+Este documento especifica o projeto `SmartDigitalPsico.Core.SDK`, uma Class Library .NET alojada em `CORE/SmartDigitalPsico.Core.SDK` destinada a centralizar classes genéricas, helpers e contratos reutilizáveis.
 
 ## 1. Objetivo
 
 - Fornecer uma biblioteca modular e versionada via NuGet com primitivas de `Domain`, infraestrutura genérica, serviços utilitários e helpers.
 - Reduzir duplicação entre projetos internos e ofertar contratos estáveis para consumidores.
-- Seguir as mesmas convenções de empacotamento e publicação adotadas por `SmartCoreHub.Localization.SDK`.
+- Seguir as mesmas convenções de empacotamento e publicação adotadas por `SmartDigitalPsico.Localization.SDK`.
 
 ## 2. Escopo
 
@@ -21,21 +21,21 @@ Este documento especifica o projeto `SmartCoreHub.Core.SDK`, uma Class Library .
 
 ## 3. Estrutura do projeto
 
-- `CORE/SmartCoreHub.Core.SDK/` — projeto Class Library.
+- `CORE/SmartDigitalPsico.Core.SDK/` — projeto Class Library.
   - `src/Domain/` — `EntityBase`, `ValueObject`, `DomainEvent`.
   - `src/Infrastructure/` — `BaseRepository<T>`, `UnitOfWork`, `LoggerHelper`.
   - `src/Services/` — `GenericService<T>`, `ValidationService`, `NotificationService`.
   - `src/Helpers/` — `ConfigHelper`, `StringHelper`, `DateTimeHelper`, `Result<T>`.
 
-- `CORE/SmartCoreHub.Core.SDK.Tests/` — projeto de testes unitários (xUnit ou NUnit), com cobertura focal em helpers, serviços genéricos e infra.
+- `CORE/SmartDigitalPsico.Core.SDK.Tests/` — projeto de testes unitários (xUnit ou NUnit), com cobertura focal em helpers, serviços genéricos e infra.
 
 ## 4. API pública e contratos
 
 - Namespaces públicos devem ser estáveis e versionados semanticamente:
-  - `SmartCoreHub.Core.SDK.Domain`
-  - `SmartCoreHub.Core.SDK.Infrastructure`
-  - `SmartCoreHub.Core.SDK.Services`
-  - `SmartCoreHub.Core.SDK.Helpers`
+  - `SmartDigitalPsico.Core.SDK.Domain`
+  - `SmartDigitalPsico.Core.SDK.Infrastructure`
+  - `SmartDigitalPsico.Core.SDK.Services`
+  - `SmartDigitalPsico.Core.SDK.Helpers`
 
 - Contratos mínimos:
   - `EntityBase` — `Guid Id` (ou `long Id` conforme padrão do repositório), `DateTime CreatedAt`, `DateTime? UpdatedAt`, `bool IsActive`.
@@ -50,7 +50,7 @@ Este documento especifica o projeto `SmartCoreHub.Core.SDK`, uma Class Library .
 
 ## 6. Services
 
-- `GenericService<T>`: orquestra regras comuns + chamadas ao repositório. Deve depender de interfaces (`IRepository<T>`, `IUnitOfWork`, `ISmartCoreHubMapper`) e não de implementações concretas.
+- `GenericService<T>`: orquestra regras comuns + chamadas ao repositório. Deve depender de interfaces (`IRepository<T>`, `IUnitOfWork`, `IAppMapper`) e não de implementações concretas.
 - `ValidationService`: validações reutilizáveis (p.ex. `EnsureNotNullOrWhitespace`, `EnsureMaxLength`, `ValidateResourceKeyPrefix` — reutilizar regras existentes no repo quando aplicável).
 - `NotificationService`: pub/sub local simples; interface para integrar com message bus externo se necessário.
 
@@ -68,9 +68,9 @@ Este documento especifica o projeto `SmartCoreHub.Core.SDK`, uma Class Library .
 
 ## 9. Publicação e CI/CD
 
-- Empacotar como `PackageId = SmartCoreHub.Core.SDK` (ou outra convenção aprovada pela equipe).
+- Empacotar como `PackageId = SmartDigitalPsico.Core.SDK` (ou outra convenção aprovada pela equipe).
 - Incluir metadados no `.csproj`: `Authors`, `RepositoryUrl`, `PackageLicenseExpression`, `Company`.
-- Reaproveitar pipeline de build/publish usado por `SmartCoreHub.Localization.SDK` (ver `Documentation/Features/SDK/` para exemplos de pipeline). O pipeline deve executar: build, test, pack, sign (se aplicável), push para feed interno.
+- Reaproveitar pipeline de build/publish usado por `SmartDigitalPsico.Localization.SDK` (ver `Documentation/Features/SDK/` para exemplos de pipeline). O pipeline deve executar: build, test, pack, sign (se aplicável), push para feed interno.
 
 ## 10. Segurança e boas práticas
 
@@ -84,7 +84,7 @@ Este documento especifica o projeto `SmartCoreHub.Core.SDK`, uma Class Library .
 
 ## 12. Rascunho de tarefas iniciais
 
-1. Criar projetos `.csproj` em `CORE/SmartCoreHub.Core.SDK` e `CORE/SmartCoreHub.Core.SDK.Tests`.
+1. Criar projetos `.csproj` em `CORE/SmartDigitalPsico.Core.SDK` e `CORE/SmartDigitalPsico.Core.SDK.Tests`.
 2. Implementar `EntityBase`, `ValueObject`, `Result<T>` e `StringHelper` com testes.
 3. Implementar `BaseRepository<T>` e um provider in-memory para testes.
 4. Criar pipeline CI sem publicação automática (apenas build+test) inicialmente.
@@ -93,17 +93,17 @@ Este documento especifica o projeto `SmartCoreHub.Core.SDK`, uma Class Library .
 
 Referências:
 
-- `Documentation/Features/SDK/SmartCoreHub.Localization.SDK-Requisitos.md` (para convenções de publicação e pipeline)
+- `Documentation/Features/SDK/SmartDigitalPsico.Localization.SDK-Requisitos.md` (para convenções de publicação e pipeline)
 - `PROJECT_GUIDELINES.md` (regras gerais do repositório)
 
 
-# SmartCoreHub.Core.SDK — Especificação Completa
+# SmartDigitalPsico.Core.SDK — Especificação Completa
 
 Status: Draft
 
 ## Objetivo
 
-Criar uma nova Class Library chamada `SmartCoreHub.Core.SDK` responsável por centralizar componentes reutilizáveis entre todos os projetos SmartCoreHub.
+Criar uma nova Class Library chamada `SmartDigitalPsico.Core.SDK` responsável por centralizar componentes reutilizáveis entre todos os projetos SmartDigitalPsico.
 
 IMPORTANTE:
 
@@ -113,12 +113,12 @@ IMPORTANTE:
 * Criar uma nova SDK independente.
 * Todo código deve ser genérico e reutilizável.
 * O objetivo é reduzir duplicação futura.
-* O projeto deve ser empacotado como NuGet seguindo exatamente o mesmo padrão utilizado em `SmartCoreHub.Localization.SDK`.
+* O projeto deve ser empacotado como NuGet seguindo exatamente o mesmo padrão utilizado em `SmartDigitalPsico.Localization.SDK`.
 
 Antes de iniciar a implementação:
 
 * Ler obrigatoriamente `PROJECT_GUIDELINES.md`.
-* Analisar a estrutura e configuração do projeto `SmartCoreHub.Localization.SDK`.
+* Analisar a estrutura e configuração do projeto `SmartDigitalPsico.Localization.SDK`.
 * Replicar padrões de:
 
   * Package metadata
@@ -135,7 +135,7 @@ Antes de iniciar a implementação:
 
 ```text
 CORE/
- ├─ SmartCoreHub.Core.SDK/
+ ├─ SmartDigitalPsico.Core.SDK/
  │   ├─ Domain/
  │   ├─ Infrastructure/
  │   ├─ Services/
@@ -154,7 +154,7 @@ CORE/
  │   ├─ Specifications/
  │   └─ Abstractions/
  │
- └─ SmartCoreHub.Core.SDK.Tests/
+ └─ SmartDigitalPsico.Core.SDK.Tests/
 ```
 
 ---
@@ -497,7 +497,7 @@ IsTest
 Criar abstração:
 
 ```csharp
-ISmartCoreHubMapper
+IAppMapper
 ```
 
 Compatível com:
@@ -541,7 +541,7 @@ Headers
 Criar projeto:
 
 ```text
-SmartCoreHub.Core.SDK.Tests
+SmartDigitalPsico.Core.SDK.Tests
 ```
 
 Utilizar:
@@ -568,7 +568,7 @@ Meta:
 
 # NuGet
 
-Replicar exatamente a configuração utilizada por SmartCoreHub.Localization.SDK:
+Replicar exatamente a configuração utilizada por SmartDigitalPsico.Localization.SDK:
 
 * PackageId
 * Authors
@@ -601,8 +601,8 @@ Replicar exatamente a configuração utilizada por SmartCoreHub.Localization.SDK
 # Tarefas Iniciais
 
 1. Ler PROJECT_GUIDELINES.md.
-2. Analisar SmartCoreHub.Localization.SDK.
-3. Criar solução SmartCoreHub.Core.SDK.
+2. Analisar SmartDigitalPsico.Localization.SDK.
+3. Criar solução SmartDigitalPsico.Core.SDK.
 4. Criar projeto de testes.
 5. Configurar empacotamento NuGet.
 6. Implementar Domain Foundation.
@@ -625,7 +625,7 @@ Abaixo, transformei e melhorei o seu rascunho em um **Prompt/Especificação de 
 
 ---
 
-# 📑 SmartCoreHub.Core.SDK — Especificação Técnica de Engenharia
+# 📑 SmartDigitalPsico.Core.SDK — Especificação Técnica de Engenharia
 
 **Status:** Pronto para Implementação (Cursor IA)
 
@@ -633,8 +633,8 @@ Abaixo, transformei e melhorei o seu rascunho em um **Prompt/Especificação de 
 
 > ⚠️ **PREMISSA CRÍTICA (NÃO NEGOCIÁVEL):**
 > * **NÃO** mova, altere ou remova código de nenhum projeto existente na Solution.
-> * Trata-se de um projeto **100% NOVO** e isolado em `CORE/SmartCoreHub.Core.SDK`.
-> * Antes de escrever código, o Cursor deve analisar o arquivo `PROJECT_GUIDELINES.md` e o `.csproj` de `SmartCoreHub.Localization.SDK` para clonar estritamente as configurações de metadados, implicit usings, nullable contexts e empacotamento NuGet.
+> * Trata-se de um projeto **100% NOVO** e isolado em `CORE/SmartDigitalPsico.Core.SDK`.
+> * Antes de escrever código, o Cursor deve analisar o arquivo `PROJECT_GUIDELINES.md` e o `.csproj` de `SmartDigitalPsico.Localization.SDK` para clonar estritamente as configurações de metadados, implicit usings, nullable contexts e empacotamento NuGet.
 > 
 > 
 
@@ -642,12 +642,12 @@ Abaixo, transformei e melhorei o seu rascunho em um **Prompt/Especificação de 
 
 ## 1. Estrutura de Arquivos e Namespaces
 
-O projeto deve seguir estritamente a convenção de nomenclatura `SmartCoreHub.Core.SDK.[Módulo]`. A estrutura de pastas no disco deve mapear os namespaces:
+O projeto deve seguir estritamente a convenção de nomenclatura `SmartDigitalPsico.Core.SDK.[Módulo]`. A estrutura de pastas no disco deve mapear os namespaces:
 
 ```text
 CORE/
- ├─ SmartCoreHub.Core.SDK/
- │   ├─ SmartCoreHub.Core.SDK.csproj
+ ├─ SmartDigitalPsico.Core.SDK/
+ │   ├─ SmartDigitalPsico.Core.SDK.csproj
  │   ├─ Abstractions/          # Interfaces base globais
  │   ├─ Domain/                # Primitivas DDD (Entity, ValueObject, AggregateRoot)
  │   ├─ Infrastructure/        # Contratos de Persistência e Transação
@@ -658,8 +658,8 @@ CORE/
  │   ├─ Common/                # Result Pattern, Errors, Exceptions, Constants
  │   └─ Logging/               # Abstrações e Enriquecedores de Log
  │
- └─ SmartCoreHub.Core.SDK.Tests/
-     ├─ SmartCoreHub.Core.SDK.Tests.csproj
+ └─ SmartDigitalPsico.Core.SDK.Tests/
+     ├─ SmartDigitalPsico.Core.SDK.Tests.csproj
      └─ [Módulo]/              # Testes espelhando a estrutura do projeto principal
 
 ```
@@ -675,7 +675,7 @@ Para garantir que o Cursor utilize padrões modernos e performáticos, utilize o
 Substituir o lançamento de exceções de fluxo por um Result Pattern fortemente tipado e performático.
 
 ```csharp
-namespace SmartCoreHub.Core.SDK.Common;
+namespace SmartDigitalPsico.Core.SDK.Common;
 
 public record Error(string Code, string Message, Dictionary<string, object>? Metadata = null);
 
@@ -718,7 +718,7 @@ public class Result<T> : Result
 Suporte completo a DDD com tipos imutáveis e controle de ciclo de vida.
 
 ```csharp
-namespace SmartCoreHub.Core.SDK.Domain;
+namespace SmartDigitalPsico.Core.SDK.Domain;
 
 public interface IEntity { Guid Id { get; } }
 
@@ -769,7 +769,7 @@ public abstract class ValueObject
 Componente defensivo para evitar dados inconsistentes logo na entrada de construtores ou métodos.
 
 ```csharp
-namespace SmartCoreHub.Core.SDK.Validation;
+namespace SmartDigitalPsico.Core.SDK.Validation;
 
 public static class Guard
 {
@@ -834,14 +834,14 @@ O Cursor deve implementar as seguintes classes utilitárias e métodos específi
 
 ### 3.4 Abstrações de Infra (Mappers & Caching)
 
-* **`ISmartCoreHubMapper`**: Interface genérica contendo `TDestination Map<TSource, TDestination>(TSource source)`. Sem dependência de bibliotecas terceiras no Core SDK (A aplicação final injetará a implementação concreta via Mapster ou AutoMapper).
+* **`IAppMapper`**: Interface genérica contendo `TDestination Map<TSource, TDestination>(TSource source)`. Sem dependência de bibliotecas terceiras no Core SDK (A aplicação final injetará a implementação concreta via Mapster ou AutoMapper).
 * **`ICacheProvider`**: Interface assíncrona pura para operações `GetAsync<T>`, `SetAsync<T>`, `RemoveAsync`. Fornecer uma implementação padrão `MemoryCacheProvider` interna utilizando `IMemoryCache`.
 
 ---
 
 ## 4. Estratégia de Testes Unitários
 
-O projeto `SmartCoreHub.Core.SDK.Tests` deve ser criado utilizando:
+O projeto `SmartDigitalPsico.Core.SDK.Tests` deve ser criado utilizando:
 
 * **Framework:** `xUnit`
 * **Biblioteca de Asserts:** `FluentAssertions`
@@ -863,7 +863,7 @@ O projeto `SmartCoreHub.Core.SDK.Tests` deve ser criado utilizando:
 
 ## 5. Configuração do `.csproj` e NuGet (Configuração Espelho)
 
-O arquivo `SmartCoreHub.Core.SDK.csproj` deve clonar exatamente as propriedades do SDK de localização da empresa. Certifique-se de configurar:
+O arquivo `SmartDigitalPsico.Core.SDK.csproj` deve clonar exatamente as propriedades do SDK de localização da empresa. Certifique-se de configurar:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -877,10 +877,10 @@ O arquivo `SmartCoreHub.Core.SDK.csproj` deve clonar exatamente as propriedades 
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>SmartCoreHub.Core.SDK</PackageId>
+    <PackageId>SmartDigitalPsico.Core.SDK</PackageId>
     <Authors>SuaEmpresa / Core Team</Authors>
-    <Company>SmartCoreHub</Company>
-    <Description>Biblioteca centralizadora de primitivas de domínio, helpers e utilitários reaproveitáveis da arquitetura SmartCoreHub.</Description>
+    <Company>SmartDigitalPsico</Company>
+    <Description>Biblioteca centralizadora de primitivas de domínio, helpers e utilitários reaproveitáveis da arquitetura SmartDigitalPsico.</Description>
     <PackageTags>core;sdk;shared;helpers;ddd;result-pattern</PackageTags>
     <RepositoryUrl>https://github.com/seu-repositorio/smartcorehub-backend</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -899,7 +899,7 @@ O arquivo `SmartCoreHub.Core.SDK.csproj` deve clonar exatamente as propriedades 
 
 *Instrução para o Cursor: Execute as etapas uma por uma, validando o build e criando os testes unitários da etapa correspondente antes de avançar.*
 
-* [ ] **Passo 1:** Analisar `PROJECT_GUIDELINES.md` e as configurações do projeto `SmartCoreHub.Localization.SDK`.
+* [ ] **Passo 1:** Analisar `PROJECT_GUIDELINES.md` e as configurações do projeto `SmartDigitalPsico.Localization.SDK`.
 * [ ] **Passo 2:** Criar a estrutura de diretórios e os dois projetos `.csproj` vazios com as configurações descritas na Seção 5.
 * [ ] **Passo 3:** Implementar o módulo `Common` (`Result`, `Error`, `Exceptions`) + Testes Unitários.
 * [ ] **Passo 4:** Implementar o módulo `Domain` (`EntityBase`, `ValueObject`, `AuditableEntity`) + Testes Unitários.

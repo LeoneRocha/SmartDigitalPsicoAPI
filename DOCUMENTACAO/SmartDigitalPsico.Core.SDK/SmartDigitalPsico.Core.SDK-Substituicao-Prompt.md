@@ -1,18 +1,18 @@
- 
+﻿ 
 
-## Prompt — Migração Completa para SmartCoreHub.Core.SDK
+## Prompt — Migração Completa para SmartDigitalPsico.Core.SDK
 
-> **Banner:** prompt **concluído / supersedido**. Genéricos consolidados no NuGet único; shims removidos. Ver [MigracaoGenericos.md](./SmartCoreHub.Core.SDK-MigracaoGenericos.md) e [Remocao-Shims.md](./SmartCoreHub.Core.SDK-Remocao-Shims.md). Não reexecutar este prompt como se a migração ainda estivesse pendente.
+> **Banner:** prompt **concluído / supersedido**. Genéricos consolidados no NuGet único; shims removidos. Ver [MigracaoGenericos.md](./SmartDigitalPsico.Core.SDK-MigracaoGenericos.md) e [Remocao-Shims.md](./SmartDigitalPsico.Core.SDK-Remocao-Shims.md). Não reexecutar este prompt como se a migração ainda estivesse pendente.
 >
-> **Complemento (2026-07-15):** extrações pendentes pós-migração executadas — ver [Extracao-Pendencias.md](./SmartCoreHub.Core.SDK-Extracao-Pendencias.md).
+> **Complemento (2026-07-15):** extrações pendentes pós-migração executadas — ver [Extracao-Pendencias.md](./SmartDigitalPsico.Core.SDK-Extracao-Pendencias.md).
 
-**Título:** Migração de Interfaces, Classes Genéricas, Repositórios, Adapters e Providers para SmartCoreHub.Core.SDK
+**Título:** Migração de Interfaces, Classes Genéricas, Repositórios, Adapters e Providers para SmartDigitalPsico.Core.SDK
 
 **Objetivo:**  
-- Revisar o documento **SmartCoreHub.Core.SDK-Substituicao.md**.  
-- Criar no `SmartCoreHub.Core.SDK` todas as **interfaces, classes genéricas, repositórios, adapters e providers** que ainda não existem.  
+- Revisar o documento **SmartDigitalPsico.Core.SDK-Substituicao.md**.  
+- Criar no `SmartDigitalPsico.Core.SDK` todas as **interfaces, classes genéricas, repositórios, adapters e providers** que ainda não existem.  
 - Obsoletar e aliasar os tipos originais em `Domain`, `Infrastructure` e `Service`.  
-- Ajustar os projetos em `backend/Implementations` para consumir diretamente o SDK.  
+- Ajustar os projetos em `Implementations` para consumir diretamente o SDK.  
 - Validar build, testes e integração sem regressão funcional.  
 - Validar EF Core com seed + migration para garantir integridade.
 
@@ -43,7 +43,7 @@
 
 4. **Validação de build e testes**  
    - Restaurar dependências e compilar solução completa.  
-   - Executar testes unitários e `SmartCoreHub.Core.SDK.Tests` com cobertura ≥ 90%.  
+   - Executar testes unitários e `SmartDigitalPsico.Core.SDK.Tests` com cobertura ≥ 90%.  
    - Replicar/adaptar testes dos tipos migrados para o SDK.
 
 5. **Validação de integração**  
@@ -68,7 +68,7 @@
 
 ### Checklist final
 
-- Todas as **interfaces, classes genéricas, repositórios, adapters e providers** implementadas no `SmartCoreHub.Core.SDK`.  
+- Todas as **interfaces, classes genéricas, repositórios, adapters e providers** implementadas no `SmartDigitalPsico.Core.SDK`.  
 - Projetos em `Implementations` consumindo diretamente o SDK.  
 - `[Obsolete]` aplicado com alias/shim nos originais.  
 - Build completo sem erros ou warnings inesperados.  

@@ -1,26 +1,26 @@
-# SmartCoreHub.Core.SDK — Implementação de Genéricos, Adapters e Providers no Core
+﻿# SmartDigitalPsico.Core.SDK — Implementação de Genéricos, Adapters e Providers no Core
 
-> **Complemento (2026-07-15):** as extrações pendentes identificadas após esta iniciativa (duplicados remanescentes, genéricos não catalogados e lacunas de implementação) foram executadas — ver [Extracao-Pendencias.md](./SmartCoreHub.Core.SDK-Extracao-Pendencias.md).
+> **Complemento (2026-07-15):** as extrações pendentes identificadas após esta iniciativa (duplicados remanescentes, genéricos não catalogados e lacunas de implementação) foram executadas — ver [Extracao-Pendencias.md](./SmartDigitalPsico.Core.SDK-Extracao-Pendencias.md).
 
 **Versão:** 1.6
 **Data:** 2026-07-13
-**Status:** 🟢 Consolidado — **um único NuGet** `SmartCoreHub.Core.SDK`; shims `SCH_MIG_GEN_*` removidos (ver [Remocao-Shims](./SmartCoreHub.Core.SDK-Remocao-Shims.md)); pacotes companheiros descontinuados
+**Status:** 🟢 Consolidado — **um único NuGet** `SmartDigitalPsico.Core.SDK`; shims `SCH_MIG_GEN_*` removidos (ver [Remocao-Shims](./SmartDigitalPsico.Core.SDK-Remocao-Shims.md)); pacotes companheiros descontinuados
 **Documentos base:**
-- [SmartCoreHub.Core.SDK-Substituicao.md](./SmartCoreHub.Core.SDK-Substituicao.md) (v1.4 — substituição de tipos genéricos **concluída**)
-- [SmartCoreHub.Core.SDK-Remocao-Shims.md](./SmartCoreHub.Core.SDK-Remocao-Shims.md) (lotes 1–7 **concluídos**)
-- [SmartCoreHub.Core.SDK-Substituicao-Prompt.md](./SmartCoreHub.Core.SDK-Substituicao-Prompt.md)
-- [SmartCoreHub.Core.SDK-Especificacao.md](./SmartCoreHub.Core.SDK-Especificacao.md)
-- [SmartCoreHub.Core.SDK-PlanoImplementacao.md](./SmartCoreHub.Core.SDK-PlanoImplementacao.md)
+- [SmartDigitalPsico.Core.SDK-Substituicao.md](./SmartDigitalPsico.Core.SDK-Substituicao.md) (v1.4 — substituição de tipos genéricos **concluída**)
+- [SmartDigitalPsico.Core.SDK-Remocao-Shims.md](./SmartDigitalPsico.Core.SDK-Remocao-Shims.md) (lotes 1–7 **concluídos**)
+- [SmartDigitalPsico.Core.SDK-Substituicao-Prompt.md](./SmartDigitalPsico.Core.SDK-Substituicao-Prompt.md)
+- [SmartDigitalPsico.Core.SDK-Especificacao.md](./SmartDigitalPsico.Core.SDK-Especificacao.md)
+- [SmartDigitalPsico.Core.SDK-PlanoImplementacao.md](./SmartDigitalPsico.Core.SDK-PlanoImplementacao.md)
 
 ### Decisões de implementação (v1.6)
 
 | Tema | Decisão |
 | ---- | -------- |
-| Empacotamento | **Um** `PackageId=SmartCoreHub.Core.SDK`. Pacotes satélites (`.Dapper`, `.EntityFrameworkCore`, `.Caching.*`, etc.) **removidos**. |
+| Empacotamento | **Um** `PackageId=SmartDigitalPsico.Core.SDK`. Pacotes satélites (`.Dapper`, `.EntityFrameworkCore`, `.Caching.*`, etc.) **removidos**. |
 | TFMs | Multi-target mantido; ordem **`net8.0;net10.0;net6.0;netstandard2.1;netstandard2.0`** (net8 primeiro para design-time no VS). Impls pesadas compilam só em **net8.0/net10.0** (`Compile Remove` + `PackageReference` condicionais). |
 | Layout Dapper | `Infrastructure/Dapper/Generic` + `Persistence` (pasta `Companion` removida). Paths canônicos no Core, não em Implementations. |
 | FluentValidation | Core.SDK **não** referencia FluentValidation; guards leves/`Guard`. |
-| Connection factory | Contrato e consumidores usam `ISmartCoreHubDataBaseConnectionFactory` do Core; shim Domain **removido**. |
+| Connection factory | Contrato e consumidores usam `ISmartDigitalPsicoDataBaseConnectionFactory` do Core; shim Domain **removido**. |
 | Nome tipográfico | Mantém-se `DapperAdpterGenericRepository`. |
 | DiagnosticIds / shims | Lotes 1–7 concluídos — 0 shims `SCH_MIG_GEN_*` ativos. Residual: Export `FileType`. |
 | `GenericService<T>` | **N/A** — permanece em Service. |
@@ -30,7 +30,7 @@
 
 ## 0. Objetivo
 
-**Implementar no ecossistema `SmartCoreHub.Core.SDK` o `GenericRepository` e os demais tipos genéricos, adapters e providers**, centralizando implementações reutilizáveis em uma fonte única, para que qualquer projeto (backend, SDKs de feature e futuros consumidores) reaproveite a mesma implementação em vez de duplicá-la.
+**Implementar no ecossistema `SmartDigitalPsico.Core.SDK` o `GenericRepository` e os demais tipos genéricos, adapters e providers**, centralizando implementações reutilizáveis em uma fonte única, para que qualquer projeto (backend, SDKs de feature e futuros consumidores) reaproveite a mesma implementação em vez de duplicá-la.
 
 Em concreto, este documento define como levar para o Core:
 
@@ -40,7 +40,7 @@ Em concreto, este documento define como levar para o Core:
 - **Adapters de nuvem:** `AzureBlobStorageAdapter`, `AzureQueueStorageAdapter`, `AzureTableStorageAdapter` e suas factories.
 - **Serviço genérico:** avaliar a base agnóstica de `GenericService<T>`.
 
-**Princípio de centralização:** toda implementação **genérica e reutilizável** (não específica de domínio) tem **fonte única** no pacote packable [`SmartCoreHub.Core.SDK`](../../../../backend/Core/SmartCoreHub.Core.SDK/SmartCoreHub.Core.SDK.csproj) — **um NuGet**.
+**Princípio de centralização:** toda implementação **genérica e reutilizável** (não específica de domínio) tem **fonte única** no pacote packable [`SmartDigitalPsico.Core.SDK`](../../../../SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.csproj) — **um NuGet**.
 
 > **v1.4 — Correção:** a abordagem de “pacotes companheiros” (satélites por dependência pesada) foi **desistida**. Interfaces **e** implementações (EF, Dapper, Redis, Mongo, Cosmos, Azure) ficam no mesmo `.csproj`. Dependências pesadas só entram nos TFMs `net8.0`/`net10.0`; TFMs antigos (`netstandard`/`net6`) continuam com tipos leves.
 
@@ -48,15 +48,15 @@ Em concreto, este documento define como levar para o Core:
 
 ## 1. Contexto e motivação
 
-A iniciativa anterior ([Substituicao.md](./SmartCoreHub.Core.SDK-Substituicao.md) v1.4) centralizou no `Core.SDK` os tipos **genéricos leves**: entidades base (`LongEntityBase`), interfaces (`IGenericRepository<T>`, `IClock`, `IAppLogger`, contratos de cache/NoSql/cloud), value objects, DTOs comuns, helpers e o `Result`/`Guard`/exceptions.
+A iniciativa anterior ([Substituicao.md](./SmartDigitalPsico.Core.SDK-Substituicao.md) v1.4) centralizou no `Core.SDK` os tipos **genéricos leves**: entidades base (`EntityBase`), interfaces (`IGenericRepository<T>`, `IClock`, `IAppLogger`, contratos de cache/NoSql/cloud), value objects, DTOs comuns, helpers e o `Result`/`Guard`/exceptions.
 
-A especificação original falava em *"Core puro"* sem EF/Dapper. Em **v1.4/v1.5** essa regra foi **flexibilizada**: interfaces **e** implementações pesadas (EF, Dapper, Redis, Mongo, Cosmos, Azure) vivem no **mesmo** NuGet `SmartCoreHub.Core.SDK`, com deps condicionais só em `net8.0`/`net10.0`. A ideia de **pacotes companheiros** (satélites) foi **desistida** — ver §3-ALT (histórico).
+A especificação original falava em *"Core puro"* sem EF/Dapper. Em **v1.4/v1.5** essa regra foi **flexibilizada**: interfaces **e** implementações pesadas (EF, Dapper, Redis, Mongo, Cosmos, Azure) vivem no **mesmo** NuGet `SmartDigitalPsico.Core.SDK`, com deps condicionais só em `net8.0`/`net10.0`. A ideia de **pacotes companheiros** (satélites) foi **desistida** — ver §3-ALT (histórico).
 
-**Estado pós-shims (v1.6):** consumidores (`Infrastructure`, DI, testes) usam tipos Core diretamente; cascas `SCH_MIG_GEN_*` removidas ([Remocao-Shims](./SmartCoreHub.Core.SDK-Remocao-Shims.md)).
+**Estado pós-shims (v1.6):** consumidores (`Infrastructure`, DI, testes) usam tipos Core diretamente; cascas `SCH_MIG_GEN_*` removidas ([Remocao-Shims](./SmartDigitalPsico.Core.SDK-Remocao-Shims.md)).
 
 ### 1.1 Regra de identificador (mantida)
 
-Todas as entidades EF continuam usando **`long Id` / `LongEntityBase`**. Esta migração **não** altera tipo de chave, **não** troca `long` por `Guid`, e **não** gera migration de schema por efeito colateral. A única migration prevista é a **migration de validação** descrita na §7 (seed mínimo + `add` + `database update`).
+Todas as entidades EF continuam usando **`long Id` / `EntityBase`**. Esta migração **não** altera tipo de chave, **não** troca `long` por `Guid`, e **não** gera migration de schema por efeito colateral. A única migration prevista é a **migration de validação** descrita na §7 (seed mínimo + `add` + `database update`).
 
 ---
 
@@ -65,12 +65,12 @@ Todas as entidades EF continuam usando **`long Id` / `LongEntityBase`**. Esta mi
 | Regra | Descrição |
 | ----- | --------- |
 | **Não apagar prematuramente** | (histórico) Durante a transição, originais ficavam como shim; **hoje** as cascas `SCH_MIG_GEN_*` já foram removidas — ver Remocao-Shims. |
-| **Centralizar o genérico** | Toda implementação genérica vive no **único** pacote `SmartCoreHub.Core.SDK`. |
-| **Manter o específico** | Repositórios de domínio, `SmartCoreHubDbContext`, EF configs, seed, middlewares ASP.NET e validators de negócio **permanecem** em `Implementations`. |
-| **Um NuGet** | `PackageId=SmartCoreHub.Core.SDK`. Deps pesadas (EF, Dapper, Redis, Mongo, Cosmos, Azure) só em TFMs `net8.0`/`net10.0`. |
+| **Centralizar o genérico** | Toda implementação genérica vive no **único** pacote `SmartDigitalPsico.Core.SDK`. |
+| **Manter o específico** | Repositórios de domínio, `SmartDigitalPsicoDataContext`, EF configs, seed, middlewares ASP.NET e validators de negócio **permanecem** em `Implementations`. |
+| **Um NuGet** | `PackageId=SmartDigitalPsico.Core.SDK`. Deps pesadas (EF, Dapper, Redis, Mongo, Cosmos, Azure) só em TFMs `net8.0`/`net10.0`. |
 | **Sem pacotes satélite** | Não criar `.Dapper` / `.EntityFrameworkCore` / `.Caching.*` / `.Cloud.Azure` / `.NoSql.Mongo` como projetos NuGet separados. |
 | **Build obrigatório** | Após **cada lote**, executar build da solução e corrigir todos os erros antes de continuar. |
-| **Testes preservados e replicados** | Todo teste do tipo migrado continua no projeto original e é replicado/adaptado em `SmartCoreHub.Core.SDK.Tests`. |
+| **Testes preservados e replicados** | Todo teste do tipo migrado continua no projeto original e é replicado/adaptado em `SmartDigitalPsico.Core.SDK.Tests`. |
 | **Cobertura mínima 90%** | Módulos migrados alcançam cobertura de linhas ≥ 90% (Coverlet). |
 | **Validação de integração** | Build .NET + Docker, testes unitários, console/NuGet smoke tests, APIs e health checks. |
 | **Validação EF Core** | Seed mínimo + `dotnet ef migrations add` + `dotnet ef database update`, provando que o EF não quebrou (§7). |
@@ -82,41 +82,41 @@ Todas as entidades EF continuam usando **`long Id` / `LongEntityBase`**. Esta mi
 
 ```mermaid
 flowchart TB
-  subgraph core [SmartCoreHub.Core.SDK - unico NuGet]
+  subgraph core [SmartDigitalPsico.Core.SDK - unico NuGet]
     Light[TFMs leves: interfaces + DiskCache + helpers]
     Heavy[net8/net10: EF Dapper Redis Mongo Cosmos Azure]
   end
   subgraph impl [Implementations - especifico]
-    INF[SmartCoreHub.Infrastructure]
+    INF[SmartDigitalPsico.Data]
   end
   INF -->|ProjectReference unico| core
 ```
 
-### 3.1 Estrutura de projetos (`backend/Core/`)
+### 3.1 Estrutura de projetos (`Core/`)
 
 ```text
-backend/Core/
-├── SmartCoreHub.Core.SDK/              # UNICO pacote NuGet — interfaces + impls
+Core/
+├── SmartDigitalPsico.Core.SDK/              # UNICO pacote NuGet — interfaces + impls
 │   ├── Infrastructure/Dapper/Generic/       # DapperAdpterGenericRepository + Internal/
 │   ├── Infrastructure/Dapper/Persistence/  # RepositoryImplementationFactory
 │   ├── Infrastructure/EntityFrameworkCore/
 │   ├── Infrastructure/Caching/Providers/{Redis,Mongo,Cosmos,Disk...}
 │   ├── Infrastructure/NoSql/Mongo/
 │   └── Infrastructure/Cloud/Azure/
-├── SmartCoreHub.Core.SDK.Tests/
-├── SmartCoreHub.Core.SDK.ConsoleTest/
-└── SmartCoreHub.Core.SDK.ConsoleTest.Nuget/
+├── SmartDigitalPsico.Core.SDK.Tests/
+├── SmartDigitalPsico.Core.SDK.ConsoleTest/
+└── SmartDigitalPsico.Core.SDK.ConsoleTest.Nuget/
 ```
 
-> Dockerfiles devem copiar **somente** `Core/SmartCoreHub.Core.SDK/SmartCoreHub.Core.SDK.csproj` antes do restore.
+> Dockerfiles devem copiar **somente** `SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.csproj` antes do restore.
 
 > **IDE (Visual Studio):** se o dropdown de framework do projeto estiver em `netstandard`/`net6`, as impls pesadas ficam com `Compile Remove` e aparecem excluídas no Solution Explorer. Com **net8.0** (primeiro em `TargetFrameworks`) elas aparecem vinculadas.
 
 ### 3.2 Convenção de consumo por `Implementations`
 
-1. Infrastructure/Service referenciam **apenas** `SmartCoreHub.Core.SDK`.
+1. Infrastructure/Service referenciam **apenas** `SmartDigitalPsico.Core.SDK`.
 2. Cascas `[Obsolete]` `SCH_MIG_GEN_*` em Domain/Infrastructure foram **removidas** — usar tipos Core diretamente (namespaces públicos do pacote).
-3. Repositórios de domínio herdam `GenericRepository<T>` do Core (namespace `SmartCoreHub.Core.SDK.EntityFrameworkCore.Repositories`).
+3. Repositórios de domínio herdam `GenericRepository<T>` do Core (namespace `SmartDigitalPsico.Core.SDK.EntityFrameworkCore.Repositories`).
 
 ---
 
@@ -185,10 +185,10 @@ backend/Core/
 
 ## 5. Itens que **permanecem** em `Implementations` (não migram)
 
-- `SmartCoreHubDbContext`, `SmartCoreHubDbContextFactory`, EF configs (`Data/Configurations/**`), seed (`DataSeed/**`), migrations.
+- `SmartDigitalPsicoDataContext`, `SmartDigitalPsicoDataContextFactory`, EF configs (`Data/Configurations/**`), seed (`DataSeed/**`), migrations.
 - Repositórios de domínio: `UserRepository`, `ApplicationRepository`, `TenantRepository`, `PlanRepository`, `BillingEventRepository`, `CloudConfigurationRepository`, `ApplicationTokenRepository`, `ApplicationConfigurationRepository`, `ApplicationPlanSubscriptionRepository`, `DailyUsageMetricRepository`, `TokenAuditRepository`, `FileExportHistoryRepository`, `AuditLogRepository` (passam a herdar a base genérica do companheiro).
 - Repositórios Dapper específicos: `ApplicationDapperRepository`, `ApplicationTokenDapperRepository`, `DailyUsageMetricDapperRepository`, `TokenAuditDapperRepository`.
-- `SmartCoreHubDataBaseConnectionFactory` (implementa contrato do SDK), `SerilogAdapter`, `AutoMapperAdapter`.
+- `SmartDigitalPsicoDataBaseConnectionFactory` (implementa contrato do SDK), `SerilogAdapter`, `AutoMapperAdapter`.
 - DI: `InfrastructureCachingServiceCollectionExtensions`, composição da aplicação.
 - Validators FluentValidation de regra de negócio; `BaseApiController` e middlewares ASP.NET.
 
@@ -200,42 +200,42 @@ backend/Core/
 
 ### Fase 0 — Documentação e scaffolding
 - [x] Este documento revisado (v1.2/1.3 — decisões FluentValidation→Guard, connection factory Core, destino NoSql.Mongo, paths corrigidos).
-- [x] Criar os projetos companheiros vazios (`.csproj`) em `backend/Core/` com multi-targeting adequado (net8.0/net10.0; netstandard onde a dependência permitir).
-- [x] Adicionar `ProjectReference` ao `SmartCoreHub.Core.SDK` em cada companheiro.
-- [x] Registrar os novos projetos em `backend/SmartCoreHub.sln` (pasta virtual **Core**).
+- [x] Criar os projetos companheiros vazios (`.csproj`) em `Core/` com multi-targeting adequado (net8.0/net10.0; netstandard onde a dependência permitir).
+- [x] Adicionar `ProjectReference` ao `SmartDigitalPsico.Core.SDK` em cada companheiro.
+- [x] Registrar os novos projetos em `SmartDigitalPsicoAPI.sln` (pasta virtual **Core**).
 - [x] Adicionar versões dos pacotes pesados em `Directory.Packages.props` (se ainda não centralizadas) — já centralizadas.
 - [x] Build da solução verde.
 
-### Fase 1 — `SmartCoreHub.Core.SDK.Dapper` *(histórico — pacote satélite consolidado no NuGet único)*
+### Fase 1 — `SmartDigitalPsico.Core.SDK.Dapper` *(histórico — pacote satélite consolidado no NuGet único)*
 - [x] Mover `DapperAdpterGenericRepository<T>` para o pacote (implementa `IGenericRepository<T>` do Core).
 - [x] Mover `RepositoryImplementationFactory` (implementa `IRepositoryImplementationFactory` do Core).
-- [x] Ajustar dependências: `ISmartCoreHubDataBaseConnectionFactory` (contrato do Core), `DatabaseDialectResolver`/`SqlIdentifierRegexHelper` (Core).
+- [x] Ajustar dependências: `ISmartDigitalPsicoDataBaseConnectionFactory` (contrato do Core), `DatabaseDialectResolver`/`SqlIdentifierRegexHelper` (Core).
 - [x] Substituir os validators FluentValidation internos por guardas leves — sem acoplar FluentValidation ao pacote.
 - [x] Shim `[Obsolete]` no `Infrastructure` apontando ao pacote; consumidores atualizados.
-- [x] `SmartCoreHub.Core.SDK.Dapper.Tests` com testes replicados.
+- [x] `SmartDigitalPsico.Core.SDK.Dapper.Tests` com testes replicados.
 - [x] Portões de build/testes do lote.
 
-### Fase 2 — `SmartCoreHub.Core.SDK.EntityFrameworkCore`
-- [x] Mover `GenericRepository<T>` (EF) para o pacote (`where TEntity : LongEntityBase`, recebe `DbContext` + `IAppLogger`).
+### Fase 2 — `SmartDigitalPsico.Core.SDK.EntityFrameworkCore`
+- [x] Mover `GenericRepository<T>` (EF) para o pacote (`where TEntity : EntityBase`, recebe `DbContext` + `IAppLogger`).
 - [x] Implementar `EfUnitOfWork` concreto sobre `DbContext`.
 - [x] Repositórios de domínio em `Infrastructure` passam a herdar `GenericRepository<T>` do pacote.
 - [x] Shim `[Obsolete]` (`SCH_MIG_GEN_EF`).
 - [x] `...EntityFrameworkCore.Tests` com EF InMemory; cobertura ≥ 90%.
 - [x] Portões de build/testes do lote.
 
-### Fase 3 — `SmartCoreHub.Core.SDK.Caching.Redis`
+### Fase 3 — `SmartDigitalPsico.Core.SDK.Caching.Redis`
 - [x] Mover `RedisCacheProvider` (implementa `ICacheProvider` do Core).
 - [x] DI de Infrastructure passa a resolver o provider do pacote.
 - [x] Testes unitários (construção/validação) em `.Caching.Redis.Tests`; integração Docker opcional.
 - [x] Shim `SCH_MIG_GEN_REDIS` + `NoWarn` em Infrastructure.
 
-### Fase 4 — `SmartCoreHub.Core.SDK.Caching.Mongo` + `.NoSql.Mongo`
+### Fase 4 — `SmartDigitalPsico.Core.SDK.Caching.Mongo` + `.NoSql.Mongo`
 - [x] Mover `MongoDbCacheProvider` (+ `MongoCacheDocument`) para `.Caching.Mongo`.
 - [x] Mover `MongoPersistenceAdapter`, `MongoPersistenceAdapterFactory`, `IMongoPersistenceAdapterFactory`, `NoSqlPersistenceAdapterProviderFactory` (+ interface provider) para `.NoSql.Mongo`.
 - [x] Shim `SCH_MIG_GEN_MONGOCACHE` / `SCH_MIG_GEN_NOSQLMONGO` / DI atualizados; testes unitários.
 - [x] Portões de build/testes do lote.
 
-### Fase 5 — `SmartCoreHub.Core.SDK.Caching.Cosmos`
+### Fase 5 — `SmartDigitalPsico.Core.SDK.Caching.Cosmos`
 - [x] Mover `AzureCosmosDbCacheProvider` (implementa `ICacheProvider` do Core).
 - [x] DI atualizado; testes unitários; shim `SCH_MIG_GEN_COSMOS`.
 - [x] Build do pacote companheiro OK.
@@ -245,7 +245,7 @@ backend/Core/
 - [x] Shim/DI; testes em `Core.SDK.Tests`.
 - [x] Portões de build.
 
-### Fase 7 — `SmartCoreHub.Core.SDK.Cloud.Azure`
+### Fase 7 — `SmartDigitalPsico.Core.SDK.Cloud.Azure`
 - [x] Mover `AzureBlobStorageAdapter`, `AzureQueueStorageAdapter`, `AzureTableStorageAdapter` + `AzureDataTablesClient`/`IAzureTableClient`.
 - [x] Mover `BlobStorageAdapterFactory`, `QueueStorageAdapterFactory`, `TableStorageAdapterFactory`.
 - [x] Shims/DI; `...Cloud.Azure.Tests`.
@@ -253,12 +253,12 @@ backend/Core/
 
 ### Fase 8 — `GenericService<TEntity>` base agnóstica (opcional)
 - [x] Avaliado: **não migrar** — classe depende de FluentValidation + validators Domain + `IGenericService` em Domain (não é agnóstica o bastante para Core puro sem acoplamento).
-- [x] Documentado como N/A; permanece em `SmartCoreHub.Service`.
+- [x] Documentado como N/A; permanece em `SmartDigitalPsico.Service`.
 
 ### Fase 9 — Corte e consolidação
-- [x] Shims de transição removidos nos lotes 1–7 ([Remocao-Shims](./SmartCoreHub.Core.SDK-Remocao-Shims.md)); residual Export `FileType` intencional.
-- [x] Dockerfiles atualizados com `COPY` dos `.csproj` companheiros **antes** do `dotnet restore` (API, Localization.API, `backend/Dockerfile`).
-- [x] `dotnet build SmartCoreHub.sln -c Release` verde após consolidação.
+- [x] Shims de transição removidos nos lotes 1–7 ([Remocao-Shims](./SmartDigitalPsico.Core.SDK-Remocao-Shims.md)); residual Export `FileType` intencional.
+- [x] Dockerfiles atualizados com `COPY` dos `.csproj` companheiros **antes** do `dotnet restore` (API, Localization.API, `Dockerfile`).
+- [x] `dotnet build SmartDigitalPsicoAPI.sln -c Release` verde após consolidação.
 - [x] §9 (rastreamento) e status do documento atualizados (v1.3).
 
 ---
@@ -269,15 +269,15 @@ backend/Core/
 
 ### 7.1 Passos
 
-1. **Alterar um seed mínimo** (não destrutivo) em `backend/Implementations/SmartCoreHub.Infrastructure/DataSeed/**` — por exemplo, adicionar/ajustar um registro mock idempotente (ou uma coluna de exemplo já mapeada), sem mudar tipo de chave.
+1. **Alterar um seed mínimo** (não destrutivo) em `SmartDigitalPsico.Data/DataSeed/**` — por exemplo, adicionar/ajustar um registro mock idempotente (ou uma coluna de exemplo já mapeada), sem mudar tipo de chave.
 2. **Gerar a migration de validação:**
 
 ```powershell
-cd C:\git\repos\SmartCoreHub\backend
+cd c:\git\SMARTDIGITALPSICO\SmartDigitalPsicoAPI
 
 dotnet ef migrations add ValidacaoMigracaoGenericos `
-  --project Implementations\SmartCoreHub.Infrastructure\SmartCoreHub.Infrastructure.csproj `
-  --startup-project APIs\SmartCoreHub.API\SmartCoreHub.API.csproj
+  --project Implementations\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj `
+  --startup-project SmartDigitalPsico.WebAPI\SmartDigitalPsico.WebAPI.csproj
 ```
 
 3. **Inspecionar o arquivo gerado**: deve conter **apenas** o seed/alteração intencional. Se aparecer diff inesperado de schema (ex.: troca de `long`→`Guid`, drop/recreate de índice, alteração de FK), é **regressão** — abortar e corrigir.
@@ -285,8 +285,8 @@ dotnet ef migrations add ValidacaoMigracaoGenericos `
 
 ```powershell
 dotnet ef database update `
-  --project Implementations\SmartCoreHub.Infrastructure\SmartCoreHub.Infrastructure.csproj `
-  --startup-project APIs\SmartCoreHub.API\SmartCoreHub.API.csproj
+  --project Implementations\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj `
+  --startup-project SmartDigitalPsico.WebAPI\SmartDigitalPsico.WebAPI.csproj
 ```
 
 5. **Confirmar consistência**: `dotnet ef migrations list` mostra a nova migration como aplicada; a API sobe e `/health` responde 200; nenhuma exceção de EF/DI no startup.
@@ -295,16 +295,16 @@ dotnet ef database update `
 ```powershell
 # reverter o banco para a migration anterior
 dotnet ef database update <MigrationAnterior> `
-  --project Implementations\SmartCoreHub.Infrastructure\SmartCoreHub.Infrastructure.csproj `
-  --startup-project APIs\SmartCoreHub.API\SmartCoreHub.API.csproj
+  --project Implementations\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj `
+  --startup-project SmartDigitalPsico.WebAPI\SmartDigitalPsico.WebAPI.csproj
 
 # remover a migration de validação do código
 dotnet ef migrations remove `
-  --project Implementations\SmartCoreHub.Infrastructure\SmartCoreHub.Infrastructure.csproj `
-  --startup-project APIs\SmartCoreHub.API\SmartCoreHub.API.csproj
+  --project Implementations\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj `
+  --startup-project SmartDigitalPsico.WebAPI\SmartDigitalPsico.WebAPI.csproj
 ```
 
-> Existe o utilitário `Implementations/SmartCoreHub.Infrastructure/manage-migrations.ps1` (`add`/`update`/`remove`/`list`/`script`) que encapsula esses comandos.
+> Existe o utilitário `Implementations/SmartDigitalPsico.Data/manage-migrations.ps1` (`add`/`update`/`remove`/`list`/`script`) que encapsula esses comandos.
 
 ### 7.2 Critérios de aceite do gate EF
 
@@ -320,11 +320,11 @@ dotnet ef migrations remove `
 **Por lote (mínimo) — histórico; lotes concluídos:**
 - [x] Projeto/pacote alterado compila.
 - [x] Testes diretamente relacionados passam.
-- [x] Testes replicados/adaptados em `SmartCoreHub.Core.SDK.Tests` (companheiros deprecados).
+- [x] Testes replicados/adaptados em `SmartDigitalPsico.Core.SDK.Tests` (companheiros deprecados).
 - [x] Nenhum warning novo sem análise.
 
 **Por fase (conclusão) — consolidado no NuGet único + remoção de shims:**
-- [x] `dotnet build SmartCoreHub.sln -c Release` verde.
+- [x] `dotnet build SmartDigitalPsicoAPI.sln -c Release` verde.
 - [x] `dotnet test` / APIs / Docker `/health` validados pós-migração e pós-shims.
 - [x] Cobertura de linhas ≥ 90% (Coverlet) do Core.SDK.
 - [x] Console test `ProjectReference` + smoke NuGet `PackageReference`.
@@ -342,7 +342,7 @@ dotnet ef migrations remove `
 
 | Item | Status |
 | ---- | ------ |
-| Impls genéricas no `SmartCoreHub.Core.SDK` (net8/net10) | ✅ |
+| Impls genéricas no `SmartDigitalPsico.Core.SDK` (net8/net10) | ✅ |
 | Pacotes satélite removidos da solution/disco | ✅ |
 | Infrastructure/Service só referenciam Core.SDK | ✅ |
 | Dockerfiles com 1 COPY do Core.SDK.csproj | ✅ |
@@ -367,7 +367,7 @@ Fases 0–9 da v1.3 foram executadas via satélites e depois **consolidadas no N
 
 ### 9.3c Changelog v1.4
 
-- **Correção de arquitetura:** um único NuGet `SmartCoreHub.Core.SDK`; satélites deletados.
+- **Correção de arquitetura:** um único NuGet `SmartDigitalPsico.Core.SDK`; satélites deletados.
 - Código Dapper/EF/cache/NoSql/Azure movido para pastas sob `Core.SDK/Infrastructure/*` com `Compile Remove` fora de net8/net10.
 - Dockerfiles: removidos COPYs dos companions.
 - Consumidores atualizados para `ProjectReference` único ao Core.SDK.
@@ -393,8 +393,8 @@ Fases 0–9 da v1.3 foram executadas via satélites e depois **consolidadas no N
 
 ## 11. Resumo de decisão
 
-- **Alvo:** implementações genéricas centralizadas no **único** pacote NuGet `SmartCoreHub.Core.SDK`.
+- **Alvo:** implementações genéricas centralizadas no **único** pacote NuGet `SmartDigitalPsico.Core.SDK`.
 - **Como:** multi-TFM com deps pesadas condicionais (`net8.0`/`net10.0`); sem satélites.
 - **Específico permanece:** `DbContext`, repos de domínio, seed, EF configs, middlewares, validators de negócio.
-- **Identificador:** `long Id`/`LongEntityBase` inalterado.
-- **Pós-shims:** tipos canônicos nos namespaces `SmartCoreHub.Core.SDK.*`; ver [README do pacote](../../../../backend/Core/SmartCoreHub.Core.SDK/README.md).
+- **Identificador:** `long Id`/`EntityBase` inalterado.
+- **Pós-shims:** tipos canônicos nos namespaces `SmartDigitalPsico.Core.SDK.*`; ver [README do pacote](../../../../SmartDigitalPsico.Core.SDK/README.md).

@@ -1,25 +1,25 @@
-# SmartCoreHub.Core.SDK — Levantamento e plano de remoção dos shims Obsolete
+﻿# SmartDigitalPsico.Core.SDK — Levantamento e plano de remoção dos shims Obsolete
 
-> **Complemento (2026-07-15):** as extrações pendentes identificadas após esta iniciativa (duplicados remanescentes, genéricos não catalogados e lacunas de implementação) foram executadas — ver [Extracao-Pendencias.md](./SmartCoreHub.Core.SDK-Extracao-Pendencias.md).
+> **Complemento (2026-07-15):** as extrações pendentes identificadas após esta iniciativa (duplicados remanescentes, genéricos não catalogados e lacunas de implementação) foram executadas — ver [Extracao-Pendencias.md](./SmartDigitalPsico.Core.SDK-Extracao-Pendencias.md).
 
 **Versão:** 1.2  
 **Data:** 2026-07-13  
 **Status:** Concluído — Lotes 1–7 implementados; residual: shim de serialização Export (`ExportFileType` / `ExportCriteriaDto.FileType`)  
 **Documentos relacionados:**
-- [SmartCoreHub.Core.SDK-MigracaoGenericos.md](./SmartCoreHub.Core.SDK-MigracaoGenericos.md) (v1.5 — consolidação NuGet único)
-- [SmartCoreHub.Core.SDK-Substituicao.md](./SmartCoreHub.Core.SDK-Substituicao.md) (v1.4 — shims `SCH_MIGR_*` leves já removidos)
-- [Localization.SDK — Isolamento sem Core.SDK](./SmartCoreHub.Localization.SDK-Isolamento-Core.md) (plano: pacote Localization auto-isolado; reverte acoplamento NuGet do Lote 7)
+- [SmartDigitalPsico.Core.SDK-MigracaoGenericos.md](./SmartDigitalPsico.Core.SDK-MigracaoGenericos.md) (v1.5 — consolidação NuGet único)
+- [SmartDigitalPsico.Core.SDK-Substituicao.md](./SmartDigitalPsico.Core.SDK-Substituicao.md) (v1.4 — shims `SCH_MIGR_*` leves já removidos)
+- [Localization.SDK — Isolamento sem Core.SDK](./SmartDigitalPsico.Localization.SDK-Isolamento-Core.md) (plano: pacote Localization auto-isolado; reverte acoplamento NuGet do Lote 7)
 
 ---
 
 ## 0. Objetivo desta etapa
 
-> **Estado atual (2026-07):** documento **histórico executado**. Lotes 1–7 estão feitos; o código canônico é `SmartCoreHub.Core.SDK`. Residual intencional: apenas serialização Export (`ExportFileType` / `ExportCriteriaDto.FileType`). As seções abaixo preservam o levantamento e o plano usados na execução.
+> **Estado atual (2026-07):** documento **histórico executado**. Lotes 1–7 estão feitos; o código canônico é `SmartDigitalPsico.Core.SDK`. Residual intencional: apenas serialização Export (`ExportFileType` / `ExportCriteriaDto.FileType`). As seções abaixo preservam o levantamento e o plano usados na execução.
 
 Produzir o **levantamento rastreável** e o **plano executável** para:
 
 1. Remover as **cascas/shims** `[Obsolete]` com `DiagnosticId = SCH_MIG_GEN_*` em `Domain`/`Infrastructure`.
-2. Substituir **todas as referências** (produção, DI, testes) pelos tipos canônicos em `SmartCoreHub.Core.SDK`.
+2. Substituir **todas as referências** (produção, DI, testes) pelos tipos canônicos em `SmartDigitalPsico.Core.SDK`.
 3. Remover `NoWarn SCH_MIG_GEN_*` dos `.csproj`.
 4. Validar com build da solução, testes, APIs locais (sem Docker) e `docker compose`.
 
@@ -35,8 +35,8 @@ Critérios cumulativos para entrar no alvo:
 
 - Comentário XML: `Shim de compatibilidade. Use …`
 - Atributo: `[Obsolete(..., false, DiagnosticId = "SCH_MIG_GEN_…")]`
-- Localização: `backend/Implementations/SmartCoreHub.Domain` ou `…/SmartCoreHub.Infrastructure`
-- Substituto explícito em `SmartCoreHub.Core.SDK.*`
+- Localização: `SmartDigitalPsico.Domain` ou `…/SmartDigitalPsico.Data`
+- Substituto explícito em `SmartDigitalPsico.Core.SDK.*`
 
 | DiagnosticId | Qtde | Área |
 |--------------|------|------|
@@ -57,13 +57,13 @@ Critérios cumulativos para entrar no alvo:
 |-------|------|--------|
 | Localization.SDK → Core.SDK (sem `SCH_MIG_GEN_*`) | 4 | Breaking change público de NuGet — major version |
 | Localization/Export legado (`ExportFileType`, etc.) | 4 | Não ligado à migração Core.SDK genéricos |
-| Aliases `using SdkX = SmartCoreHub.Core.SDK.…` | ~40+ arquivos | Convenção de convivência; **não são shims** |
+| Aliases `using SdkX = SmartDigitalPsico.Core.SDK.…` | ~40+ arquivos | Convenção de convivência; **não são shims** |
 
 ### 1.3 O que NÃO é shim
 
-- Tipos canônicos em `backend/Core/SmartCoreHub.Core.SDK` (fonte única; **0** `[Obsolete]` migratórios).
+- Tipos canônicos em `SmartDigitalPsico.Core.SDK` (fonte única; **0** `[Obsolete]` migratórios).
 - `MemoryCacheProvider` em Infrastructure (implementação host-specific que implementa SDK `ICacheProvider` diretamente).
-- Repositórios de domínio EF que **já** herdam `SmartCoreHub.Core.SDK.EntityFrameworkCore.Repositories.GenericRepository<T>` (maioria).
+- Repositórios de domínio EF que **já** herdam `SmartDigitalPsico.Core.SDK.EntityFrameworkCore.Repositories.GenericRepository<T>` (maioria).
 - Aliases `Sdk*` em DI/testes.
 
 ```mermaid
@@ -78,7 +78,7 @@ flowchart TB
     Export[4 Obsolete Export legado]
     Alias[Aliases Sdk]
   end
-  Gen --> Core[SmartCoreHub.Core.SDK tipos canônicos]
+  Gen --> Core[SmartDigitalPsico.Core.SDK tipos canônicos]
   LocSdk --> Core
 ```
 
@@ -97,20 +97,20 @@ Padrões de casca:
 
 | # | Arquivo | Símbolo | Tipo | Substituto Core.SDK | Risco |
 |---|---------|---------|------|---------------------|-------|
-| 1 | [`Domain/Data/ISmartCoreHubDataBaseConnectionFactory.cs`](../../../../backend/Implementations/SmartCoreHub.Domain/Data/ISmartCoreHubDataBaseConnectionFactory.cs) | `ISmartCoreHubDataBaseConnectionFactory` | interface-ponte | `SmartCoreHub.Core.SDK.Domain.Data.ISmartCoreHubDataBaseConnectionFactory` | Alto |
+| 1 | [`Domain/Data/ISmartDigitalPsicoDataBaseConnectionFactory.cs`](../../../../SmartDigitalPsico.Domain/Data/ISmartDigitalPsicoDataBaseConnectionFactory.cs) | `ISmartDigitalPsicoDataBaseConnectionFactory` | interface-ponte | `SmartDigitalPsico.Core.SDK.Domain.Data.ISmartDigitalPsicoDataBaseConnectionFactory` | Alto |
 
 ### 2.2 `SCH_MIG_GEN_DAPPER` (2)
 
 | # | Arquivo | Símbolo | Tipo | Substituto Core.SDK | Risco |
 |---|---------|---------|------|---------------------|-------|
-| 2 | [`Infrastructure/Dapper/Generic/DapperAdpterGenericRepository.cs`](../../../../backend/Implementations/SmartCoreHub.Infrastructure/Dapper/Generic/DapperAdpterGenericRepository.cs) | `DapperAdpterGenericRepository<TEntity>` | herança | `SmartCoreHub.Core.SDK.Dapper.Generic.DapperAdpterGenericRepository<TEntity>` | Alto |
-| 3 | [`Infrastructure/Dapper/Persistence/RepositoryImplementationFactory.cs`](../../../../backend/Implementations/SmartCoreHub.Infrastructure/Dapper/Persistence/RepositoryImplementationFactory.cs) | `RepositoryImplementationFactory` | herança | `SmartCoreHub.Core.SDK.Dapper.Persistence.RepositoryImplementationFactory` | Alto |
+| 2 | [`Infrastructure/Dapper/Generic/DapperAdpterGenericRepository.cs`](../../../../SmartDigitalPsico.Data/Dapper/Generic/DapperAdpterGenericRepository.cs) | `DapperAdpterGenericRepository<TEntity>` | herança | `SmartDigitalPsico.Core.SDK.Dapper.Generic.DapperAdpterGenericRepository<TEntity>` | Alto |
+| 3 | [`Infrastructure/Dapper/Persistence/RepositoryImplementationFactory.cs`](../../../../SmartDigitalPsico.Data/Dapper/Persistence/RepositoryImplementationFactory.cs) | `RepositoryImplementationFactory` | herança | `SmartDigitalPsico.Core.SDK.Dapper.Persistence.RepositoryImplementationFactory` | Alto |
 
 ### 2.3 `SCH_MIG_GEN_EF` (1)
 
 | # | Arquivo | Símbolo | Tipo | Substituto Core.SDK | Risco |
 |---|---------|---------|------|---------------------|-------|
-| 4 | [`Infrastructure/Repositories/GenericRepository.cs`](../../../../backend/Implementations/SmartCoreHub.Infrastructure/Repositories/GenericRepository.cs) | `GenericRepository<TEntity>` | herança | `SmartCoreHub.Core.SDK.EntityFrameworkCore.Repositories.GenericRepository<TEntity>` | Médio-Alto |
+| 4 | [`Infrastructure/Repositories/GenericRepository.cs`](../../../../SmartDigitalPsico.Data/Repositories/GenericRepository.cs) | `GenericRepository<TEntity>` | herança | `SmartDigitalPsico.Core.SDK.EntityFrameworkCore.Repositories.GenericRepository<TEntity>` | Médio-Alto |
 
 ### 2.4 `SCH_MIG_GEN_AZURE` (14)
 
@@ -163,13 +163,13 @@ Padrões de casca:
 
 | Projeto | Arquivo | IDs |
 |---------|---------|-----|
-| Domain | [`SmartCoreHub.Domain.csproj`](../../../../backend/Implementations/SmartCoreHub.Domain/SmartCoreHub.Domain.csproj) | `CONN`, `AZURE` |
-| Infrastructure | [`SmartCoreHub.Infrastructure.csproj`](../../../../backend/Implementations/SmartCoreHub.Infrastructure/SmartCoreHub.Infrastructure.csproj) | todos os 9 |
-| Service | [`SmartCoreHub.Service.csproj`](../../../../backend/Implementations/SmartCoreHub.Service/SmartCoreHub.Service.csproj) | todos os 9 |
-| Infrastructure.Tests | [`SmartCoreHub.Infrastructure.Tests.csproj`](../../../../backend/Implementations/SmartCoreHub.Infrastructure.Tests/SmartCoreHub.Infrastructure.Tests.csproj) | todos os 9 |
+| Domain | [`SmartDigitalPsico.Domain.csproj`](../../../../SmartDigitalPsico.Domain/SmartDigitalPsico.Domain.csproj) | `CONN`, `AZURE` |
+| Infrastructure | [`SmartDigitalPsico.Data.csproj`](../../../../SmartDigitalPsico.Data/SmartDigitalPsico.Data.csproj) | todos os 9 |
+| Service | [`SmartDigitalPsico.Service.csproj`](../../../../SmartDigitalPsico.Service/SmartDigitalPsico.Service.csproj) | todos os 9 |
+| Infrastructure.Tests | [`SmartDigitalPsico.Data.Tests.csproj`](../../../../SmartDigitalPsico.Data.Tests/SmartDigitalPsico.Data.Tests.csproj) | todos os 9 |
 
 - **Não há** `#pragma warning disable SCH_MIG_*` no código.
-- **Não há** `SCH_MIG_*` global em [`Directory.Build.props`](../../../../backend/Directory.Build.props).
+- **Não há** `SCH_MIG_*` global em [`Directory.Build.props`](../../../../Directory.Build.props).
 
 ---
 
@@ -192,8 +192,8 @@ Padrões de casca:
 
 | Arquivo | Situação atual | Ação futura |
 |---------|----------------|-------------|
-| [`ServiceCollectionExtensions.cs`](../../../../backend/Implementations/SmartCoreHub.Service/API/DI/ServiceCollectionExtensions.cs) | L66 registra **SDK** `DapperAdpterGenericRepository<>`; L84–85 registra **Domain + SDK** connection factory; L86 usa factory SDK | Remover registro Domain; manter só SDK |
-| `SmartCoreHubDataBaseConnectionFactory.cs` | Implementa Domain + SDK | Implementar só SDK |
+| [`ServiceCollectionExtensions.cs`](../../../../SmartDigitalPsico.Service/API/DI/ServiceCollectionExtensions.cs) | L66 registra **SDK** `DapperAdpterGenericRepository<>`; L84–85 registra **Domain + SDK** connection factory; L86 usa factory SDK | Remover registro Domain; manter só SDK |
+| `SmartDigitalPsicoDataBaseConnectionFactory.cs` | Implementa Domain + SDK | Implementar só SDK |
 | `ApplicationTokenDapperRepository.cs` | Herda shim Infra Dapper | Herdar SDK |
 | `TokenAuditDapperRepository.cs` | idem | Herdar SDK |
 | `DailyUsageMetricDapperRepository.cs` | idem | Herdar SDK |
@@ -222,7 +222,7 @@ Padrões de casca:
 
 | Arquivo | Situação | Ação |
 |---------|----------|------|
-| [`InfrastructureCachingServiceCollectionExtensions.cs`](../../../../backend/Implementations/SmartCoreHub.Infrastructure/Caching/DependencyInjection/InfrastructureCachingServiceCollectionExtensions.cs) | Cache providers Redis/Disk/Mongo/Cosmos já são SDK; **NoSql factories ainda registram shims** (L76–77) | Registrar factories SDK |
+| [`InfrastructureCachingServiceCollectionExtensions.cs`](../../../../SmartDigitalPsico.Data/Caching/DependencyInjection/InfrastructureCachingServiceCollectionExtensions.cs) | Cache providers Redis/Disk/Mongo/Cosmos já são SDK; **NoSql factories ainda registram shims** (L76–77) | Registrar factories SDK |
 | `MongoDbCacheProvider.cs` (shim) | Ctor usa interface NoSql shim | Deletar após migrar testes |
 | Testes `MongoPersistenceAdapter*`, `NoSqlPersistenceAdapterProviderFactoryTests`, `MongoDbCacheProviderTests`, `InfrastructureCachingServiceCollectionExtensionsTests` | Referenciam namespaces Infra | SDK |
 
@@ -292,24 +292,24 @@ Cada lote: migrar referências → deletar cascas → reduzir `NoWarn` → `dotn
 **Deletar:** `Infrastructure/Repositories/GenericRepository.cs`  
 **NoWarn:** remover `SCH_MIG_GEN_EF`
 
-**Aceite:** zero `SmartCoreHub.Infrastructure.Repositories.GenericRepository` (exceto namespaces de repos concretos de domínio).
+**Aceite:** zero `SmartDigitalPsico.Data.Repositories.GenericRepository` (exceto namespaces de repos concretos de domínio).
 
 ### Lote 3 — Dapper + connection factory
 
 **Migrar:**
 - 3 repos Dapper (+ `ApplicationDapperRepository`, `ApplicationLanguageMaintenanceRepository`)
 - Mocks/testes listados em §3.2
-- DI: remover `AddScoped<ISmartCoreHubDataBaseConnectionFactory>` Domain; manter só SDK
-- `SmartCoreHubDataBaseConnectionFactory`: implementar só interface SDK
+- DI: remover `AddScoped<ISmartDigitalPsicoDataBaseConnectionFactory>` Domain; manter só SDK
+- `SmartDigitalPsicoDataBaseConnectionFactory`: implementar só interface SDK
 
 **Deletar:**
 - Shim Dapper `DapperAdpterGenericRepository`
 - Shim `RepositoryImplementationFactory`
-- Shim Domain `ISmartCoreHubDataBaseConnectionFactory`
+- Shim Domain `ISmartDigitalPsicoDataBaseConnectionFactory`
 
 **NoWarn:** remover `SCH_MIG_GEN_DAPPER`, `SCH_MIG_GEN_CONN`
 
-**Aceite:** zero `using SmartCoreHub.Domain.Data` apontando à factory obsoleta; zero herança do shim Dapper Infra.
+**Aceite:** zero `using SmartDigitalPsico.Domain.Data` apontando à factory obsoleta; zero herança do shim Dapper Infra.
 
 ### Lote 4 — NoSql Mongo + Mongo cache
 
@@ -320,7 +320,7 @@ Cada lote: migrar referências → deletar cascas → reduzir `NoWarn` → `dotn
 **Deletar:** 5 shims `NOSQLMONGO` + shim `MongoDbCacheProvider`  
 **NoWarn:** remover `SCH_MIG_GEN_NOSQLMONGO`, `SCH_MIG_GEN_MONGOCACHE`
 
-**Aceite:** DI e testes resolvem apenas `SmartCoreHub.Core.SDK.NoSql.Mongo.*` e `Caching.Mongo.MongoDbCacheProvider`.
+**Aceite:** DI e testes resolvem apenas `SmartDigitalPsico.Core.SDK.NoSql.Mongo.*` e `Caching.Mongo.MongoDbCacheProvider`.
 
 ### Lote 5 — Azure (maior superfície)
 
@@ -334,7 +334,7 @@ Cada lote: migrar referências → deletar cascas → reduzir `NoWarn` → `dotn
 **NoWarn:** remover `SCH_MIG_GEN_AZURE`
 
 **Aceite:**
-- Zero `using SmartCoreHub.Domain.Interfaces.Cloud` para adapters/factories obsoletos
+- Zero `using SmartDigitalPsico.Domain.Interfaces.Cloud` para adapters/factories obsoletos
 - Zero tipos em `Infrastructure.Cloud` / `Infrastructure.Cloud.Azure` que sejam shims
 - Cloud services resolvem via DI com interfaces SDK (smoke startup)
 
@@ -346,17 +346,17 @@ Cada lote: migrar referências → deletar cascas → reduzir `NoWarn` → `dotn
 2. Buscas obrigatórias:
 
 ```powershell
-cd C:\git\repos\SmartCoreHub\backend
+cd c:\git\SMARTDIGITALPSICO\SmartDigitalPsicoAPI
 rg "SCH_MIG_GEN_" -g "*.{cs,csproj,props,targets}"
 rg "Shim de compatibilidade" -g "*.cs"
-rg "\[Obsolete\(\"Use SmartCoreHub\.Core\.SDK" -g "*.cs"
+rg "\[Obsolete\(\"Use SmartDigitalPsico\.Core\.SDK" -g "*.cs"
 ```
 
 **Aceite:** zero matches nos critérios acima (exceto documentação histórica).
 
 ### Lote 7 — Localization.SDK (major version — **concluído**)
 
-Removidos do pacote `SmartCoreHub.Localization.SDK` (breaking change público):
+Removidos do pacote `SmartDigitalPsico.Localization.SDK` (breaking change público):
 
 | Shim removido | Substituto Core.SDK |
 |---------------|---------------------|
@@ -367,7 +367,7 @@ Removidos do pacote `SmartCoreHub.Localization.SDK` (breaking change público):
 
 Host interno já usava aliases `Sdk*`; README do pacote documenta o breaking change.
 
-> **Follow-up (não reabre Lote 7):** o pacote NuGet público do Localization **não** deve forçar `SmartCoreHub.Core.SDK` nos clientes. Ver plano de re-isolamento por vendor/copy: [SmartCoreHub.Localization.SDK-Isolamento-Core.md](./SmartCoreHub.Localization.SDK-Isolamento-Core.md).
+> **Follow-up (não reabre Lote 7):** o pacote NuGet público do Localization **não** deve forçar `SmartDigitalPsico.Core.SDK` nos clientes. Ver plano de re-isolamento por vendor/copy: [SmartDigitalPsico.Localization.SDK-Isolamento-Core.md](./SmartDigitalPsico.Localization.SDK-Isolamento-Core.md).
 
 **Também removido (apêndice Export — item morto):** `IExportFormatter` em Domain (`ILocalizationExportContracts.cs`). Continua residual: `ExportFileType` + `ExportCriteriaDto.FileType` (bind JSON legado).
 
@@ -390,13 +390,13 @@ Host já usa Core via aliases. Zero usings a trocar no monorepo para Lote 7.
 
 ### B. Histórico `SCH_MIGR_*`
 
-Removido do código nos lotes PR-1…PR-8 da substituição de tipos leves. Registro em [SmartCoreHub.Core.SDK-Substituicao.md](./SmartCoreHub.Core.SDK-Substituicao.md). **Não reintroduzir.**
+Removido do código nos lotes PR-1…PR-8 da substituição de tipos leves. Registro em [SmartDigitalPsico.Core.SDK-Substituicao.md](./SmartDigitalPsico.Core.SDK-Substituicao.md). **Não reintroduzir.**
 
 ---
 
 ## 6. Plano completo de validação (futura execução)
 
-Workdir base: `C:\git\repos\SmartCoreHub\backend`.
+Workdir base: `c:\git\SMARTDIGITALPSICO\SmartDigitalPsicoAPI`.
 
 ### 6.1 Pré-condições conhecidas
 
@@ -410,14 +410,14 @@ Workdir base: `C:\git\repos\SmartCoreHub\backend`.
 ### 6.2 Build de todos os projetos
 
 ```powershell
-cd C:\git\repos\SmartCoreHub\backend
+cd c:\git\SMARTDIGITALPSICO\SmartDigitalPsicoAPI
 
 # Pre-pack (evita race ConsoleTest.Nuget)
-dotnet pack Core\SmartCoreHub.Core.SDK\SmartCoreHub.Core.SDK.csproj -c Release `
-  -o Core\SmartCoreHub.Core.SDK\bin\packages /p:PackageVersion=0.0.0-local
+dotnet pack SmartDigitalPsico.Core.SDK\SmartDigitalPsico.Core.SDK.csproj -c Release `
+  -o SmartDigitalPsico.Core.SDK\bin\packages /p:PackageVersion=0.0.0-local
 
-dotnet restore SmartCoreHub.sln
-dotnet build SmartCoreHub.sln -c Release -m:1
+dotnet restore SmartDigitalPsicoAPI.sln
+dotnet build SmartDigitalPsicoAPI.sln -c Release -m:1
 ```
 
 **Critério:** **0 erros** (avisos CS1591/xUnit pré-existentes OK).
@@ -425,7 +425,7 @@ dotnet build SmartCoreHub.sln -c Release -m:1
 ### 6.3 Testes de todos os projetos
 
 ```powershell
-dotnet test SmartCoreHub.sln -c Release --no-build -m:1 --logger "console;verbosity=minimal"
+dotnet test SmartDigitalPsicoAPI.sln -c Release --no-build -m:1 --logger "console;verbosity=minimal"
 ```
 
 Projetos de teste (10): Core.SDK.Tests, Domain.Tests, Infrastructure.Tests, Service.Tests, API.Tests, Localization.API.Tests, Mcp.Tests, Localization.API.Mcp.Tests, Localization.SDK.Tests, CloudClientSDK.Tests.
@@ -435,19 +435,19 @@ Projetos de teste (10): Core.SDK.Tests, Domain.Tests, Infrastructure.Tests, Serv
 Opcional Coverlet Core.SDK (≥90% linhas):
 
 ```powershell
-dotnet test Core\SmartCoreHub.Core.SDK.Tests\SmartCoreHub.Core.SDK.Tests.csproj -c Release --no-build `
+dotnet test SmartDigitalPsico.Core.SDK.Tests\SmartDigitalPsico.Core.SDK.Tests.csproj -c Release --no-build `
   /p:CollectCoverage=true /p:Threshold=90 /p:ThresholdType=line /p:ThresholdStat=total
 ```
 
 ### 6.4 Pack / smoke SDK
 
 ```powershell
-dotnet pack Core\SmartCoreHub.Core.SDK\SmartCoreHub.Core.SDK.csproj -c Release --no-build -o artifacts\nuget
-dotnet pack SDKs\SmartCoreHub.Localization.SDK\SmartCoreHub.Localization.SDK.csproj -c Release -o artifacts\nuget
-dotnet pack SDKs\SmartCoreHub.ClientSDK\SmartCoreHub.CloudClientSDK.csproj -c Release -o artifacts\nuget
+dotnet pack SmartDigitalPsico.Core.SDK\SmartDigitalPsico.Core.SDK.csproj -c Release --no-build -o artifacts\nuget
+dotnet pack SDKs\SmartDigitalPsico.Localization.SDK\SmartDigitalPsico.Localization.SDK.csproj -c Release -o artifacts\nuget
+dotnet pack SDKs\SmartDigitalPsico.ClientSDK\SmartDigitalPsico.CloudClientSDK.csproj -c Release -o artifacts\nuget
 
-dotnet run --project Core\SmartCoreHub.Core.SDK.ConsoleTest\SmartCoreHub.Core.SDK.ConsoleTest.csproj -c Release
-dotnet run --project Core\SmartCoreHub.Core.SDK.ConsoleTest.Nuget\SmartCoreHub.Core.SDK.ConsoleTest.Nuget.csproj -c Release `
+dotnet run --project SmartDigitalPsico.Core.SDK.ConsoleTest\SmartDigitalPsico.Core.SDK.ConsoleTest.csproj -c Release
+dotnet run --project SmartDigitalPsico.Core.SDK.ConsoleTest.Nuget\SmartDigitalPsico.Core.SDK.ConsoleTest.Nuget.csproj -c Release `
   /p:SkipEnsureCoreSdkNuGetPackage=true
 ```
 
@@ -455,22 +455,22 @@ dotnet run --project Core\SmartCoreHub.Core.SDK.ConsoleTest.Nuget\SmartCoreHub.C
 
 ```powershell
 # Opcional para /ready = 200
-cd C:\git\repos\SmartCoreHub
+cd C:\git\repos\SmartDigitalPsico
 docker compose up -d mysql
 
-cd C:\git\repos\SmartCoreHub\backend
-$env:ConnectionStrings__DefaultConnection = "Server=localhost;Port=3306;Database=SmartCoreHub;Uid=smartcloud;Pwd=smartcloud123;"
+cd c:\git\SMARTDIGITALPSICO\SmartDigitalPsicoAPI
+$env:ConnectionStrings__DefaultConnection = "Server=localhost;Port=3306;Database=SmartDigitalPsico;Uid=smartcloud;Pwd=smartcloud123;"
 $env:DatabaseProvider = "MySQL"
 $env:TokenConfigurations__Secret = "ThisIsATemporarySecretKeyForLocalDockerTestingOnly1234567890"
 
 # Terminais separados
-dotnet run --project APIs\SmartCoreHub.API\SmartCoreHub.API.csproj -c Release
-dotnet run --project APIs\SmartCoreHub.Localization.API\SmartCoreHub.Localization.API.csproj -c Release
+dotnet run --project SmartDigitalPsico.WebAPI\SmartDigitalPsico.WebAPI.csproj -c Release
+dotnet run --project SmartDigitalPsico.WebAPI\SmartDigitalPsico.WebAPI.csproj -c Release
 ```
 
 | API | HTTP | HTTPS |
 |-----|------|-------|
-| SmartCoreHub.API | `http://localhost:53815` | `https://localhost:53814` |
+| SmartDigitalPsico.WebAPI | `http://localhost:53815` | `https://localhost:53814` |
 | Localization.API | `http://localhost:61116` | `https://localhost:61115` |
 
 ```powershell
@@ -487,14 +487,14 @@ Invoke-WebRequest http://localhost:61116/health/ready
 
 ```powershell
 dotnet ef migrations list `
-  --project Implementations\SmartCoreHub.Infrastructure\SmartCoreHub.Infrastructure.csproj `
-  --startup-project APIs\SmartCoreHub.API\SmartCoreHub.API.csproj
+  --project Implementations\SmartDigitalPsico.Data\SmartDigitalPsico.Data.csproj `
+  --startup-project SmartDigitalPsico.WebAPI\SmartDigitalPsico.WebAPI.csproj
 ```
 
 ### 6.6 Docker Compose — build e run
 
 ```powershell
-cd C:\git\repos\SmartCoreHub\backend
+cd c:\git\SMARTDIGITALPSICO\SmartDigitalPsicoAPI
 docker compose build
 docker compose up -d
 
@@ -513,7 +513,7 @@ Invoke-WebRequest http://localhost:8081/health   # Localization :8081
 Para readiness 200 em cenário “full”:
 
 ```powershell
-cd C:\git\repos\SmartCoreHub
+cd C:\git\repos\SmartDigitalPsico
 docker compose up -d mysql
 # garantir ConnectionStrings apontando ao host/rede MySQL do compose usado pelas APIs
 ```
@@ -522,8 +522,8 @@ docker compose up -d mysql
 
 | Área | Critério |
 |------|----------|
-| Compilação | `dotnet build SmartCoreHub.sln -c Release -m:1` → 0 erros |
-| Testes | `dotnet test SmartCoreHub.sln` → 0 falhas |
+| Compilação | `dotnet build SmartDigitalPsicoAPI.sln -c Release -m:1` → 0 erros |
+| Testes | `dotnet test SmartDigitalPsicoAPI.sln` → 0 falhas |
 | Shims | 0 `SCH_MIG_GEN_*` em `.cs`/`.csproj`; 0 “Shim de compatibilidade” em código |
 | DI | APIs sobem; sem falha de resolução; cloud/cache/Dapper paths OK |
 | Health | `/health` 200 local e Docker |
