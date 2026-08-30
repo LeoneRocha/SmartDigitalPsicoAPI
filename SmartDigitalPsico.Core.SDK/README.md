@@ -96,6 +96,16 @@ dotnet test SmartDigitalPsico.Core.SDK.Tests\SmartDigitalPsico.Core.SDK.Tests.cs
 
 ## Documentação
 
-Documentação detalhada em [`DOCUMENTACAO/SmartDigitalPsico.Core.SDK/`](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/README.md).
+Documentação técnica completa em [`DOCUMENTACAO/SmartDigitalPsico.Core.SDK/`](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/):
 
-Os documentos de migração (`Substituicao`, `MigracaoGenericos`, `Remocao-Shims`, etc.) descrevem o histórico de extração/adaptação a partir do template SmartCoreHub e servem como referência arquitetural.
+- [Levantamento do SDK](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.Levantamento.md)
+- [Especificação - API](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.Especificacao.API.md)
+- [Especificação - Data](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.Especificacao.Data.md)
+- [Especificação - Domain](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.Especificacao.Domain.md)
+- [Especificação - Service](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.Especificacao.Service.md)
+- [Plano de Implementação Geral](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.PlanoImplementacao.md)
+- [Plano de Implementação - API](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.PlanoImplementacao.API.md)
+- [Plano de Implementação - Data](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.PlanoImplementacao.Data.md)
+- [Plano de Implementação - Domain](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.PlanoImplementacao.Domain.md)
+- [Plano de Implementação - Service](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.PlanoImplementacao.Service.md)
+- [Progresso e Status](../DOCUMENTACAO/SmartDigitalPsico.Core.SDK/SmartDigitalPsico.Core.SDK.Progresso.md)
