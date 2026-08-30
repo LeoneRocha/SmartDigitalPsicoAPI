@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
@@ -25,9 +25,7 @@ namespace SmartDigitalPsico.Data.Repository
 #pragma warning disable CS8602
             return await _dataset
                 .AsNoTracking()
-                .Include(e => e.Patient)
-                .ThenInclude(e => e.Medical)
-                .ThenInclude(e => e.User)
+                .Include(e => e.Patient.Medical.User)
                 .Include(e => e.CreatedUser)
                 .Where(x => x.Patient != null && x.Patient.Id == patientId).ToListAsync();
 #pragma warning restore CS8602
@@ -40,9 +38,7 @@ namespace SmartDigitalPsico.Data.Repository
         {
 #pragma warning disable CS8602
             return await _dataset
-                .Include(e => e.Patient)
-                .ThenInclude(e => e.Medical)
-                .ThenInclude(e => e.User)
+                .Include(e => e.Patient.Medical.User)
                 .Include(e => e.CreatedUser)
                 .FirstAsync(p => p.Id.Equals(id));
 #pragma warning restore CS8602
