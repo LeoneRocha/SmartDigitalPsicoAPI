@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.Constants;
@@ -57,7 +57,7 @@ namespace SmartDigitalPsico.Service
 
             LogInformation(NotificationDispatchConstants.StartingProcessing);
             var pendingRecords = await _notificationRecordsService.GetPendingNotificationsAsync();
-            var currentUtc = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            var currentUtc = DateHelper.GetDateTimeNowFromUtc();
 
             var filteredRecords = FilterPendingRecords(pendingRecords, currentUtc);
             int totalRecords = filteredRecords.Length;
@@ -83,7 +83,7 @@ namespace SmartDigitalPsico.Service
             LogInformation(NotificationDispatchConstants.ProcessingCompleted, processedCount);
 
             stopwatch.Stop();
-            _logger.Information("NotificationDispatchJobService - ProcessPendingNotificationsAsync : Finished at: {Time}  Duration:  {DurationTime}", SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
+            _logger.Information("NotificationDispatchJobService - ProcessPendingNotificationsAsync : Finished at: {Time}  Duration:  {DurationTime}", DateHelper.GetDateTimeNowToLog(), LogAppHelper.GetDurationStopwatch(stopwatch));
         }
 
         private async Task UpdateRecordsSended(ConcurrentBag<NotificationRecord> updatedRecords)
@@ -187,7 +187,7 @@ namespace SmartDigitalPsico.Service
                 IsCompleted = record.IsCompleted,
                 FinalSendDate = record.FinalSendDate,
                 CreatedDate = record.CreatedDate,
-                ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc(),
+                ModifyDate = DateHelper.GetDateTimeNowFromUtc(),
                 Description = string.Empty,
                 Enable = record.Enable,
                 EventDate = record.EventDate,

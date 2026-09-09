@@ -1,17 +1,15 @@
 ﻿using System.Security.Cryptography;
+using SmartCoreHub.Core.SDK.Common.Attributes;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Security
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Security;
+
+/// <summary>
+/// Casca DTO RSA — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.Security.RsaCryptoDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando RsaCryptoDto em SmartCoreHub.Core.SDK.")]
+public class RsaCryptoDto : SmartCoreHub.Core.SDK.Domain.DTOs.Security.RsaCryptoDto
 {
-    /// <summary>
-    /// Classe responsável por RsaCryptoDto.
-    /// Responsabilidade: segurança e autenticação.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public class RsaCryptoDto
-    {
-        public RSAParameters PublicKey { get; set; }
-        public RSAParameters PrivateKey { get; set; }
-        public string PublicKeyBase64 { get; set; } = string.Empty;
-        public string PrivateKeyBase64 { get; set; } = string.Empty;
-    }
 }

@@ -1,17 +1,16 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report;
+
+/// <summary>
+/// Contrato fábrica PDF — surface SDP com enum <c>Enuns</c>.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportAdapterFactory",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Espelho de contrato; Create usa EPdfReportComponentType em Domain.Enuns.")]
+public interface IPdfReportAdapterFactory
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IPdfReportAdapterFactory.
-    /// Responsabilidade: geração de relatórios.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface IPdfReportAdapterFactory
-    {
-        /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        IPdfReportAdapter Create(EPdfReportComponentType ePdfReportComponentType);
-    }
+    IPdfReportAdapter Create(EPdfReportComponentType ePdfReportComponentType);
 }

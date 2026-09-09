@@ -1,12 +1,17 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Resiliency;
+
+/// <summary>
+/// Casca: POCO de resiliência — herda SCH e satisfaz iface SDP.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Infrastructure.Resilience.ResiliencePolicyConfig",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando ResiliencePolicyConfig em SmartCoreHub.Core.SDK.")]
+public class ResiliencePolicyConfig
+    : SmartCoreHub.Core.SDK.Infrastructure.Resilience.ResiliencePolicyConfig,
+      IResiliencePolicyConfig
 {
-    /// <summary>
-    /// Configuração de política de resiliência (retry) ligada a appsettings.
-    /// </summary>
-    public class ResiliencePolicyConfig : Interfaces.IResiliencePolicyConfig
-    {
-        public string PolicyName { get; set; } = string.Empty;
-        public int RetryCount { get; set; }
-        public int RetryDelayInSeconds { get; set; }
-    }
 }

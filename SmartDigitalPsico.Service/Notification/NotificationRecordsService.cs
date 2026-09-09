@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -70,7 +70,7 @@ namespace SmartDigitalPsico.Service
                 entityUpdate.IsCompleted = dto.IsCompleted;
 
                 // Atualiza as datas e o usuário modificador
-                entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
 
                 response = await base.Validate(entityUpdate);
 
@@ -135,7 +135,7 @@ namespace SmartDigitalPsico.Service
 
         private static NotificationRuleStatus[] GenerateNotificationRulesDtos(NotificationRule[] notificationRules, MedicalCalendar medicalCalendar)
         {
-            var currentTime = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
+            var currentTime = DateHelper.ApplyTimeZone(DateTime.UtcNow, medicalCalendar.TimeZone);
 
             return notificationRules
                 .Select(nr => new NotificationRuleStatus
@@ -165,7 +165,7 @@ namespace SmartDigitalPsico.Service
                 TokenId = ParseTokenId(medicalCalendar.TokenRecurrence),
                 NotificationRules = notificationRulesDtos,
                 IsCompleted = isCompleted,
-                FinalSendDate = isCompleted ? (DateTime?)SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null
+                FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
             };
         }
 
@@ -193,7 +193,7 @@ namespace SmartDigitalPsico.Service
                         TokenId = tokenId,
                         NotificationRules = notificationRecordDto.NotificationRules,
                         IsCompleted = isCompleted,
-                        FinalSendDate = isCompleted ? (DateTime?)SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null
+                        FinalSendDate = isCompleted ? (DateTime?)DateHelper.GetDateTimeNowFromUtc() : null
                     };
 
                     await Update(updateNotificationRecordDto);

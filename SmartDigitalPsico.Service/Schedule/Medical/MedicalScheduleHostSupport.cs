@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
@@ -106,7 +106,7 @@ namespace SmartDigitalPsico.Service
             entity.CreatedUserId = UserId;
             entity.PatientId = item.PatientId;
             entity.MedicalId = item.MedicalId;
-            entity.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entity.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
             entity.ModifyDate = entity.CreatedDate;
             entity.LastAccessDate = entity.CreatedDate;
             if (string.IsNullOrWhiteSpace(entity.TokenRecurrence))

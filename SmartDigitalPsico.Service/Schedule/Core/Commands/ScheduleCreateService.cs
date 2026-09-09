@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
@@ -86,7 +86,7 @@ namespace SmartDigitalPsico.Service
                     return conflict;
 
                 // DB depois do processamento de conflito (CPU)
-                var now = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                var now = DateHelper.GetDateTimeNowFromUtc();
                 var (startPeriod, endPeriod) = ComputePeriod(request.Items);
                 var entity = new ScheduleCalendar
                 {

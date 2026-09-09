@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using Newtonsoft.Json;
-using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartCoreHub.Core.SDK.Common.Exceptions;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;

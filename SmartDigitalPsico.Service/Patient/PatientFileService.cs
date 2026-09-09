@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
@@ -83,9 +83,9 @@ namespace SmartDigitalPsico.Service
 
                 #endregion Relationship
 
-                entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
                 entityAdd.Enable = true;
 
                 entityAdd.CreatedUserId = UserId;

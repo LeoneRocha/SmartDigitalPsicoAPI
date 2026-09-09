@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
@@ -107,7 +107,7 @@ namespace SmartDigitalPsico.Service
             entityUpdate.Language = dto.Language;
 
             response = await Validate(entityUpdate);
-            entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
             if (response.Success)
             {
                 Gender entityResponse = await ((IGenderRepository)_entityRepository).Update(entityUpdate);

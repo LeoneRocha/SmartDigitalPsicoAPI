@@ -1,18 +1,24 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.DTO.Report.Contracts;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SchEnums = SmartCoreHub.Core.SDK.Domain.Enums;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
+
+/// <summary>
+/// Casca ReportPageDataDto — herda SCH; <see cref="PageType"/> permanece na surface <c>Domain.Enuns</c>.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.Report.ReportPageDataDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca ReportPageDataDto; PageType espelha Enuns↔Enums via cast (int).")]
+public class ReportPageDataDto : SmartCoreHub.Core.SDK.Domain.DTOs.Report.ReportPageDataDto
 {
     /// <summary>
-    /// Classe responsável por ReportPageDataDto.
-    /// Responsabilidade: geração de relatórios.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Surface SDP (<c>Domain.Enuns</c>); sincroniza com a propriedade base SCH (<c>Domain.Enums</c>).
     /// </summary>
-    public class ReportPageDataDto : ReportDataBaseDto
+    public new EReportPageType PageType
     {
-        public EReportPageType PageType { get; set; }
-        public string FooterTitle { get; set; } = "Page ";
-        public float FontSizeDefaultTextStyle { get; set; } = 12;
-        public float FontSizeHeader { get; set; } = 36;
+        get => (EReportPageType)(int)base.PageType;
+        set => base.PageType = (SchEnums.EReportPageType)(int)value;
     }
 }

@@ -3,29 +3,30 @@
 namespace SmartDigitalPsico.Domain.Helpers
 {
     /// <summary>
-    /// Helper de appsettings: genéricos delegam ao Core; seções de produto permanecem aqui.
+    /// Helper de appsettings: genéricos/seções Core delegam ao SCH (NuGet 20260909.1825.0);
+    /// seções de produto permanecem aqui.
     /// </summary>
     public static class ConfigurationAppSettingsHelper
     {
         #region GENERIC
         public static IConfiguration GetSectionApp(IConfiguration? configuration, string sectionName)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.ConfigurationSectionHelper.GetSectionApp(configuration, sectionName);
+            => ConfigurationSectionHelper.GetSectionApp(configuration, sectionName);
 
         public static string GetConnectionStringApp(IConfiguration? configuration, string connectionName)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.ConfigurationSectionHelper.GetConnectionStringApp(configuration, connectionName);
+            => ConfigurationSectionHelper.GetConnectionStringApp(configuration, connectionName);
 
         public static string GetValueStringConfiguration(IConfiguration? configuration, string configurationName)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.ConfigurationSectionHelper.GetValueStringConfiguration(configuration, configurationName);
+            => ConfigurationSectionHelper.GetValueStringConfiguration(configuration, configurationName);
         #endregion GENERIC
 
         public static IConfiguration GetCacheConfiguration(IConfiguration? configuration)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetCacheConfiguration(configuration);
+            => AppSettingsConfigurationHelperSch.GetCacheConfiguration(configuration);
 
         public static IConfiguration GetAuthConfiguration(IConfiguration? configuration)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetAuthConfiguration(configuration);
+            => AppSettingsConfigurationHelperSch.GetAuthConfiguration(configuration);
 
         public static IConfiguration GetTokenConfigurations(IConfiguration? configuration)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetTokenConfigurations(configuration);
+            => AppSettingsConfigurationHelperSch.GetTokenConfigurations(configuration);
 
         public static string GetConnectionStringMySQL(IConfiguration? configuration)
             => GetConnectionStringApp(configuration, "SmartDigitalPsicoDBConnectionMySQL");
@@ -34,19 +35,19 @@ namespace SmartDigitalPsico.Domain.Helpers
             => GetConnectionStringApp(configuration, "SmartDigitalPsicoDBConnectionSQLServer");
 
         public static IConfiguration GetDataBaseConfigurations(IConfiguration? configuration)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetDataBaseConfigurations(configuration);
+            => AppSettingsConfigurationHelperSch.GetDataBaseConfigurations(configuration);
 
         public static string GetAppSettingsResourcesTemp(IConfiguration? configuration)
             => GetValueStringConfiguration(configuration, "AppSettings:ResourcesTemp");
 
         public static IConfiguration GetIResiliencePolicyConfig(IConfiguration configuration)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetResiliencePolicyConfig(configuration);
+            => AppSettingsConfigurationHelperSch.GetResiliencePolicyConfig(configuration);
 
         public static IConfiguration GetLocationSaveFileConfigurationVO(IConfiguration configuration)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetLocationSaveFileConfiguration(configuration);
+            => AppSettingsConfigurationHelperSch.GetLocationSaveFileConfiguration(configuration);
 
         public static IConfiguration GetSmtpSettings(IConfiguration configuration)
-            => SmartDigitalPsico.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper.GetSmtpSettings(configuration);
+            => AppSettingsConfigurationHelperSch.GetSmtpSettings(configuration);
 
         public static string[] GetAllowedFileExtensions(IConfiguration configuration)
             => configuration.GetSection("AppSettings:AllowedFileExtensions").Get<string[]>() ?? [];

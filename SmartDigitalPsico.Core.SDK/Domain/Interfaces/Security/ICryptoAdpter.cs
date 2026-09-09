@@ -1,19 +1,14 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
+
+/// <summary>
+/// Casca: adapter crypto (typo Adpter preservado) — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Interfaces.Security.ICryptoAdpter",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando ICryptoAdpter em SmartCoreHub.Core.SDK.")]
+public interface ICryptoAdpter : SmartCoreHub.Core.SDK.Domain.Interfaces.Security.ICryptoAdpter
 {
-    /// <summary>
-    /// Interface (contrato) responsável por ICryptoAdpter.
-    /// Responsabilidade: segurança e autenticação.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface ICryptoAdpter
-    {
-        /// <summary>
-        /// Método Encrypt: executa a operação Encrypt.
-        /// </summary>
-        byte[] Encrypt(string plainText);
-        /// <summary>
-        /// Método Decrypt: executa a operação Decrypt.
-        /// </summary>
-        string Decrypt(byte[] cipherText);
-    }
 }

@@ -1,31 +1,36 @@
 ﻿using Microsoft.Extensions.Configuration;
+using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Helpers;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca: seções padrão de appsettings — delega a SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.AppSettingsConfigurationHelper",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando AppSettingsConfigurationHelper ao SCH.")]
+public static class AppSettingsConfigurationHelper
 {
-    /// <summary>
-    /// Seções padrão de appsettings reutilizáveis entre hosts API.
-    /// </summary>
-    public static class AppSettingsConfigurationHelper
-    {
-        public static IConfiguration GetCacheConfiguration(IConfiguration? configuration)
-            => ConfigurationSectionHelper.GetSectionApp(configuration, "CacheConfiguration");
+    public static IConfiguration GetCacheConfiguration(IConfiguration? configuration)
+        => Sch.AppSettingsConfigurationHelper.GetCacheConfiguration(configuration);
 
-        public static IConfiguration GetAuthConfiguration(IConfiguration? configuration)
-            => ConfigurationSectionHelper.GetSectionApp(configuration, "AuthConfiguration");
+    public static IConfiguration GetAuthConfiguration(IConfiguration? configuration)
+        => Sch.AppSettingsConfigurationHelper.GetAuthConfiguration(configuration);
 
-        public static IConfiguration GetTokenConfigurations(IConfiguration? configuration)
-            => ConfigurationSectionHelper.GetSectionApp(configuration, "TokenConfigurations");
+    public static IConfiguration GetTokenConfigurations(IConfiguration? configuration)
+        => Sch.AppSettingsConfigurationHelper.GetTokenConfigurations(configuration);
 
-        public static IConfiguration GetDataBaseConfigurations(IConfiguration? configuration)
-            => ConfigurationSectionHelper.GetSectionApp(configuration, "DataBaseConfigurations");
+    public static IConfiguration GetDataBaseConfigurations(IConfiguration? configuration)
+        => Sch.AppSettingsConfigurationHelper.GetDataBaseConfigurations(configuration);
 
-        public static IConfiguration GetResiliencePolicyConfig(IConfiguration configuration)
-            => ConfigurationSectionHelper.GetSectionApp(configuration, "ResiliencePolicyConfig");
+    public static IConfiguration GetResiliencePolicyConfig(IConfiguration configuration)
+        => Sch.AppSettingsConfigurationHelper.GetResiliencePolicyConfig(configuration);
 
-        public static IConfiguration GetLocationSaveFileConfiguration(IConfiguration configuration)
-            => ConfigurationSectionHelper.GetSectionApp(configuration, "LocationSaveFileConfigurationVO");
+    public static IConfiguration GetLocationSaveFileConfiguration(IConfiguration configuration)
+        => Sch.AppSettingsConfigurationHelper.GetLocationSaveFileConfiguration(configuration);
 
-        public static IConfiguration GetSmtpSettings(IConfiguration configuration)
-            => ConfigurationSectionHelper.GetSectionApp(configuration, "SmtpSettings");
-    }
+    public static IConfiguration GetSmtpSettings(IConfiguration configuration)
+        => Sch.AppSettingsConfigurationHelper.GetSmtpSettings(configuration);
 }

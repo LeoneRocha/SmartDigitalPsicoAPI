@@ -1,14 +1,23 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.DTO.Report.Contracts;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
+
+/// <summary>
+/// Casca ReportWorkbookDataDto — herda SCH; <see cref="Sheets"/> tipado SDP (List invariante).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.Report.ReportWorkbookDataDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca ReportWorkbookDataDto; Sheets List&lt;ReportSheetDataDto&gt; SDP sincroniza base SCH.")]
+public class ReportWorkbookDataDto : SmartCoreHub.Core.SDK.Domain.DTOs.Report.ReportWorkbookDataDto
 {
     /// <summary>
-    /// Classe responsável por ReportWorkbookDataDto.
-    /// Responsabilidade: geração de relatórios.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// Surface SDP; sincroniza <c>base.Sheets</c> (List invariante).
     /// </summary>
-    public class ReportWorkbookDataDto : ReportContentBaseDto
+    public new List<ReportSheetDataDto> Sheets
     {
-        public List<ReportSheetDataDto> Sheets { get; set; } = new List<ReportSheetDataDto>();
+        get => base.Sheets.ConvertAll(static p => (ReportSheetDataDto)p);
+        set => base.Sheets = (value ?? new List<ReportSheetDataDto>())
+            .ConvertAll(static p => (SmartCoreHub.Core.SDK.Domain.DTOs.Report.ReportSheetDataDto)p);
     }
 }

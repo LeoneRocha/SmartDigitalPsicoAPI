@@ -1,4 +1,4 @@
-﻿using Azure;
+using Azure;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -48,7 +48,7 @@ namespace SmartDigitalPsico.Service
             addToken.ETag = ETag.All;
 
             var tableFounded = await _storageTableService.GetByIdAsync(addToken.PartitionKey, addToken.RowKey);
-            if (tableFounded != null && tableFounded.ExpiresAt <= SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc())
+            if (tableFounded != null && tableFounded.ExpiresAt <= DateHelper.GetDateTimeNowFromUtc())
             {
                 await _storageTableService.DeleteAsync(addToken.PartitionKey, addToken.RowKey);
             }

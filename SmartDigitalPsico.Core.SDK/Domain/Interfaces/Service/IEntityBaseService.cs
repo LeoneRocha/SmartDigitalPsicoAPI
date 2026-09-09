@@ -1,4 +1,5 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.VO;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service
 {
@@ -6,6 +7,15 @@ namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service
     /// Contrato CRUD genérico (máx. 2 parâmetros de tipo — Sonar S2436).
     /// Add/Update usam IEntityDtoAdd / IEntityDto para não multiplicar genéricos.
     /// </summary>
+    /// <remarks>
+    /// Espelho documentado de SCH <c>IEntityBaseService</c> (D5 KeepBoth vs GenericService).
+    /// Retorno usa <see cref="ServiceResponse{T}"/> SDP (Success/Errors) — sem herança de iface SCH
+    /// (ServiceResponse / IEntityDto / IEntityBase divergem).
+    /// </remarks>
+    [SdkWrappedSource(
+        targetType: "SmartCoreHub.Core.SDK.Domain.Abstractions.IEntityBaseService`2",
+        targetPackage: "SmartCoreHub.Core.SDK",
+        description: "Espelho IEntityBaseService; ServiceResponse/IEntity* SDP — KeepBoth vs GenericService.")]
     public interface IEntityBaseService<TEntity, TEntityResult>
     {
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartCoreHub.Core.SDK.Common.Exceptions;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.VO;

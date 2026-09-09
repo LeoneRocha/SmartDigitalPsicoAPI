@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -39,7 +39,7 @@ namespace SmartDigitalPsico.Service
         public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var dto = (UpdateNotificationTemplateDto)item;
-            dto.Body = SmartDigitalPsico.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
+            dto.Body = SmartCoreHub.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
 
             return await base.Update(dto);
         }
@@ -49,7 +49,7 @@ namespace SmartDigitalPsico.Service
         public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             var dto = (AddNotificationTemplateDto)item;
-            dto.Body = SmartDigitalPsico.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
+            dto.Body = SmartCoreHub.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
             return await base.Create(dto);
         }
 

@@ -1,15 +1,15 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report;
+
+/// <summary>
+/// Contrato fábrica Excel — surface SDP.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorFactory",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Espelho de contrato IExcelGeneratorFactory.")]
+public interface IExcelGeneratorFactory
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IExcelGeneratorFactory.
-    /// Responsabilidade: geração de relatórios.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface IExcelGeneratorFactory
-    {
-        /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        IExcelGenerator Create();
-    }
+    IExcelGenerator Create();
 }

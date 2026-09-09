@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
@@ -39,8 +39,8 @@ namespace SmartDigitalPsico.Data.Repository
         /// </summary>
         public async Task<NotificationRecord[]> GetPendingNotificationsAsync()
         {
-            var currentDateUtc = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().Date;
-            var currentDateUtcDay1Plus = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().Date.AddDays(1);
+            var currentDateUtc = DateHelper.GetDateTimeNowFromUtc().Date;
+            var currentDateUtcDay1Plus = DateHelper.GetDateTimeNowFromUtc().Date.AddDays(1);
 
             return await _dataset
                 .Where(nr => !nr.IsCompleted

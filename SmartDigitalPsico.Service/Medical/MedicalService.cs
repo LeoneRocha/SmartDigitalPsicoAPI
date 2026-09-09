@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -61,9 +61,9 @@ namespace SmartDigitalPsico.Service
 
             #endregion Relationship
 
-            entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
             entityAdd.CreatedUserId = UserId;
             entityAdd.Enable = true;
 
@@ -75,7 +75,7 @@ namespace SmartDigitalPsico.Service
             if (response.Success)
             {
 
-                entityAdd.SecurityKey = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey();
+                entityAdd.SecurityKey = AesKeyGeneratorHelper.GenerateKey();
                 Medical entityResponse = await ((IMedicalRepository)_entityRepository).Create(entityAdd);
 
                 entityResponse.MedicalSpecialties = new List<MedicalSpecialty>();
@@ -118,8 +118,8 @@ namespace SmartDigitalPsico.Service
 
                 #endregion Relationship
 
-                entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityUpdate.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
                 entityUpdate.ModifyUserId = UserId;
 
                 #region Columns
@@ -141,7 +141,7 @@ namespace SmartDigitalPsico.Service
                 if (response.Success)
                 {
                     if (string.IsNullOrEmpty(entityUpdate.SecurityKey))
-                        entityUpdate.SecurityKey = SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.AesKeyGeneratorHelper.GenerateKey();
+                        entityUpdate.SecurityKey = AesKeyGeneratorHelper.GenerateKey();
 
                     Medical entityResponse = await ((IMedicalRepository)_entityRepository).Update(entityUpdate);
 

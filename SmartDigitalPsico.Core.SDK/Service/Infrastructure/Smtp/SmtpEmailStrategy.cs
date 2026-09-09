@@ -1,52 +1,22 @@
-﻿using System.Net;
-using System.Net.Mail;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 
-namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp
+namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp;
+
+/// <summary>
+/// Casca SMTP strategy — herda SCH; expõe IEmailStrategy SDP.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Service.Email.SmtpEmailStrategy",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando SmtpEmailStrategy; bridge IEmailStrategy SDP.")]
+public class SmtpEmailStrategy : SmartCoreHub.Core.SDK.Service.Email.SmtpEmailStrategy, IEmailStrategy
 {
-    /// <summary>
-    /// Classe responsável por SmtpEmailStrategy.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: suporta Services e jobs de background.
-    /// </summary>
-    public class SmtpEmailStrategy : IEmailStrategy
+    public SmtpEmailStrategy(ISmtpSettingsDto smtpSettings) : base(smtpSettings)
     {
-        private readonly ISmtpSettingsDto _smtpSettings;
-
-        /// <summary>
-        /// Método SmtpEmailStrategy: executa a operação SmtpEmailStrategy.
-        /// </summary>
-        public SmtpEmailStrategy(ISmtpSettingsDto smtpSettings)
-        {
-            _smtpSettings = smtpSettings;
-        }
-
-        /// <summary>
-        /// Método SendEmailAsync: dispara notificação ou comunicação.
-        /// </summary>
-        public async Task SendEmailAsync(EmailMessageDto emailMessage)
-        {
-            var mailMessage = new MailMessage
-            {
-                Subject = emailMessage.Subject,
-                Body = emailMessage.Message,
-                IsBodyHtml = true,
-                From = new MailAddress(_smtpSettings.SenderEmail, _smtpSettings.SenderName)
-            };
-
-            foreach (var toEmail in emailMessage.ToEmails)
-            {
-                mailMessage.To.Add(new MailAddress(toEmail));
-            }
-
-            using var client = new SmtpClient(_smtpSettings.Server, _smtpSettings.Port)
-            {
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password),
-                EnableSsl = true
-            };
-            await client.SendMailAsync(mailMessage);
-        }
     }
+
+    Task IEmailStrategy.SendEmailAsync(EmailMessageDto emailMessage)
+        => base.SendEmailAsync(emailMessage);
 }

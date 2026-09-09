@@ -1,108 +1,38 @@
-﻿using System.Globalization;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Helpers;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca: helpers de data/hora — delega a <see cref="Sch.DateHelper"/>.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando para DateHelper em SmartCoreHub.Core.SDK.")]
+public static class DateHelper
 {
-    /// <summary>
-    /// Classe responsável por DateHelper.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
-    /// </summary>
-    public static class DateHelper
-    {
-        private static readonly string dateFormat = "dd/MM/yyyy HH:mm:ss";
+    public static string ConvertSecondsToTimeString(double seconds)
+        => Sch.DateHelper.ConvertSecondsToTimeString(seconds);
 
-        /// <summary>
-        /// Método ConvertSecondsToTimeString: mapeia ou transforma dados entre modelos.
-        /// </summary>
-        public static string ConvertSecondsToTimeString(double seconds)
-        {
-            TimeSpan time = TimeSpan.FromSeconds(seconds);
-            return time.ToString(@"hh\:mm\:ss");
-        }
+    public static string GetDateTimeCustomFormat(DateTime dateInput)
+        => Sch.DateHelper.GetDateTimeCustomFormat(dateInput);
 
-        /// <summary>
-        /// Método GetDateTimeCustomFormat: consulta e retorna dados.
-        /// </summary>
-        public static string GetDateTimeCustomFormat(DateTime dateInput)
-        {
-            var cultureInfo = CultureInfo.InvariantCulture;
-            return dateInput.ToString(dateFormat, cultureInfo);
-        }
+    public static void SetCulture(string cultureName = "pt-BR")
+        => Sch.DateHelper.SetCulture(cultureName);
 
-        /// <summary>
-        /// Método SetCulture: configura estado ou dependencias.
-        /// </summary>
-        public static void SetCulture(string cultureName = "pt-BR")
-        {
-            var cultureInfo = new CultureInfo(cultureName);
-            // Set the culture of the current thread
-            Thread.CurrentThread.CurrentCulture = cultureInfo;
+    public static DateTime GetDateTimeNowBrazil()
+        => Sch.DateHelper.GetDateTimeNowBrazil();
 
-            // Set the UI culture of the current thread
-            Thread.CurrentThread.CurrentUICulture = cultureInfo;
-        }
-        /// <summary>
-        /// Método GetDateTimeNowBrazil: consulta e retorna dados.
-        /// </summary>
-        public static DateTime GetDateTimeNowBrazil()
-        {
-            return ApplyTimeZone(GetDateTimeNowFromUtc(), "E. South America Standard Time");
-        }
+    public static DateTime GetDateTimeNowToLog()
+        => Sch.DateHelper.GetDateTimeNowToLog();
 
-        /// <summary>
-        /// Método GetDateTimeNowToLog: consulta e retorna dados.
-        /// </summary>
-        public static DateTime GetDateTimeNowToLog()
-        {
-            return GetDateTimeNowBrazil();
-        }
+    public static DateTime GetDateTimeNowFromUtc()
+        => Sch.DateHelper.GetDateTimeNowFromUtc();
 
-        /// <summary>
-        /// Método GetDateTimeNowFromUtc: consulta e retorna dados.
-        /// </summary>
-        public static DateTime GetDateTimeNowFromUtc()
-        {
-            return DateTime.UtcNow;
-        }
-        /// <summary>
-        /// Método GetDateTimeNowWithTimeZone: consulta e retorna dados.
-        /// </summary>
-        public static DateTime GetDateTimeNowWithTimeZone(string timeZoneId)
-        {
-            DateTime dateResult = GetDateTimeNowWithCurrentCulture();
+    public static DateTime GetDateTimeNowWithTimeZone(string timeZoneId)
+        => Sch.DateHelper.GetDateTimeNowWithTimeZone(timeZoneId);
 
-            if (!string.IsNullOrEmpty(timeZoneId))
-            {
-                dateResult = ApplyTimeZone(GetDateTimeNowFromUtc(), timeZoneId);
-            }
-            return dateResult;
-        }
-        private static DateTime GetDateTimeNowWithCurrentCulture()
-        {
-            var cultureInfo = CultureInfo.CurrentCulture;
-            var dateTimeFormatInfo = cultureInfo.DateTimeFormat;
-            return GetDateTimeWithCulture(GetDateTimeNowFromUtc(), dateTimeFormatInfo);
-        }
-
-        private static DateTime GetDateTimeWithCulture(DateTime dateTime, DateTimeFormatInfo dateTimeFormatInfo)
-        {
-            // Lógica para formatar a data e hora de acordo com a cultura fornecida
-            return DateTime.Parse(dateTime.ToString(dateTimeFormatInfo), dateTimeFormatInfo);
-        }
-
-        /// <summary>
-        /// Método ApplyTimeZone: executa a operação ApplyTimeZone.
-        /// </summary>
-        public static DateTime ApplyTimeZone(DateTime dateTime, string timeZoneId)
-        {
-            // Obter o fuso horário a partir do ID
-            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
-
-            // Converter a data e hora para o fuso horário especificado
-            DateTime dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZone);
-
-            return dateTimeWithTimeZone;
-        }
-
-    }
+    public static DateTime ApplyTimeZone(DateTime dateTime, string timeZoneId)
+        => Sch.DateHelper.ApplyTimeZone(dateTime, timeZoneId);
 }

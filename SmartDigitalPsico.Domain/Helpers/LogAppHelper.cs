@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartCoreHub.Core.SDK.Common.Exceptions;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Domain.DTO.Common;
 
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.Domain.Helpers
         /// </summary>
         public static void LogException(IAppLogger logger, Exception ex, string logType)
         {
-            var message = $"{logType}-LEVEL: {ex.Message} at: {SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog()}";
+            var message = $"{logType}-LEVEL: {ex.Message} at: {SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog()}";
             if (ex is AppWarningException)
             {
                 message = message.Replace("-LEVEL:", "-Warning:");

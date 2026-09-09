@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Cascas [SdkWrappedSource] / Obsolete SDP_MIGRATED: reduzir ruído CS0618 até hosts migrarem FQN. -->
+    <NoWarn>$(NoWarn);CS0618;CS0612;S1133;S1874</NoWarn>
+  </PropertyGroup>
+</Project>

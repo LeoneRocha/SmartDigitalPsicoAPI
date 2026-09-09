@@ -1,4 +1,4 @@
-﻿using Moq;
+using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
@@ -42,7 +42,7 @@ public class TableStorageTokenSessionAdapterTests
         mapper.Setup(x => x.Map<UserTokenSessionTableEntity>(It.IsAny<UserTokenSession>()))
             .Returns(new UserTokenSessionTableEntity());
         var adapter = new TableStorageTokenSessionAdapter(mapper.Object, storage.Object);
-        var session = new UserTokenSession { UserId = 7, RefreshToken = "new-rt", ExpiresAt = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(1) };
+        var session = new UserTokenSession { UserId = 7, RefreshToken = "new-rt", ExpiresAt = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(1) };
 
         // Act
         await adapter.SaveSessionAsync(session);
@@ -63,7 +63,7 @@ public class TableStorageTokenSessionAdapterTests
         {
             PartitionKey = "UserTokenSession",
             RowKey = "8",
-            ExpiresAt = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddHours(-1)
+            ExpiresAt = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddHours(-1)
         };
         var storage = new Mock<SmartDigitalPsico.Core.SDK.Domain.Interfaces.TableEntity.IStorageTableContract<UserTokenSessionTableEntity>>();
         storage.Setup(x => x.GetByIdAsync("UserTokenSession", "8")).ReturnsAsync(expired);
@@ -75,7 +75,7 @@ public class TableStorageTokenSessionAdapterTests
         var adapter = new TableStorageTokenSessionAdapter(mapper.Object, storage.Object);
 
         // Act
-        await adapter.SaveSessionAsync(new UserTokenSession { UserId = 8, RefreshToken = "rt", ExpiresAt = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(1) });
+        await adapter.SaveSessionAsync(new UserTokenSession { UserId = 8, RefreshToken = "rt", ExpiresAt = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(1) });
 
         // Assert
         storage.Verify(x => x.DeleteAsync("UserTokenSession", "8"), Times.Once);

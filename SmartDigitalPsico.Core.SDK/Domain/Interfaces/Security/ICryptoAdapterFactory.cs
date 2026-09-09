@@ -1,17 +1,17 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
+
+/// <summary>
+/// Contrato fábrica crypto — surface SDP com enum <c>Enuns</c> (não herda SCH por divergência Enuns/Enums).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Interfaces.Security.ICryptoAdapterFactory",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Espelho de contrato; Create usa ECryptoServiceType em Domain.Enuns.")]
+public interface ICryptoAdapterFactory
 {
-    /// <summary>
-    /// Interface (contrato) responsável por ICryptoAdapterFactory.
-    /// Responsabilidade: segurança e autenticação.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface ICryptoAdapterFactory
-    {
-        /// <summary>
-        /// Método Create: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        ICryptoAdpter Create(ECryptoServiceType cryptoServiceType, string key, string ivOrPublicKey);
-    }
+    ICryptoAdpter Create(ECryptoServiceType cryptoServiceType, string key, string ivOrPublicKey);
 }

@@ -1,14 +1,14 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report.Contracts
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report.Contracts;
+
+/// <summary>
+/// Casca ReportContentBaseDto — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.Report.Contracts.ReportContentBaseDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando ReportContentBaseDto em SmartCoreHub.Core.SDK.")]
+public abstract class ReportContentBaseDto : SmartCoreHub.Core.SDK.Domain.DTOs.Report.Contracts.ReportContentBaseDto
 {
-    /// <summary>
-    /// Classe responsável por ReportContentBaseDto.
-    /// Responsabilidade: contrato compartilhado entre camadas.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public abstract class ReportContentBaseDto
-    {
-        public string Title { get; set; } = string.Empty;
-        public string FileName { get; set; } = string.Empty;
-        public string FolderOutput { get; set; } = string.Empty;
-    }
 }

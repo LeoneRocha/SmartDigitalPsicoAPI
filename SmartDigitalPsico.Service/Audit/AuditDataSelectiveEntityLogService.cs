@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Audit.ADD;
 using SmartDigitalPsico.Domain.DTO.Audit.GET;
@@ -58,7 +58,7 @@ namespace SmartDigitalPsico.Service
                 if (auditEntry != null)
                 {
                     _logger.Information(" Entity Edited | Table: {Table} | Operation: {Operation} | KeyValue: {KeyValues} | UserID: {UserID}| User Name: {UserAuditedLogin} | Date: {Date}",
-                      auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, auditEntry.UserAuditedLogin, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
+                      auditEntry.TableName, auditEntry.Operation, auditEntry.KeyValue, auditEntry.UserAuditedId ?? 0, auditEntry.UserAuditedLogin, DateHelper.GetDateTimeCustomFormat(auditEntry.AuditDate));
                 }
                 _sharedDependenciesConfig.Logger.Error(ex, "Error writing log");
             }

@@ -1,84 +1,24 @@
 ﻿using Microsoft.Extensions.Configuration;
+using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Helpers;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca: helpers de diretório — delega a <see cref="Sch.DirectoryHelper"/>.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.DirectoryHelper",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando para DirectoryHelper em SmartCoreHub.Core.SDK.")]
+public static class DirectoryHelper
 {
-    /// <summary>
-    /// Classe responsável por DirectoryHelper.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
-    /// </summary>
-    public static class DirectoryHelper
-    {
-        /// <summary>
-        /// Método GetDiretoryTemp: consulta e retorna dados.
-        /// </summary>
-        public static string GetDiretoryTemp(IConfiguration configuration)
-        {
-            string resourcesTemp = configuration?["AppSettings:ResourcesTemp"] ?? string.Empty;
-            return GetDiretory(resourcesTemp);
-        }
+    public static string GetDiretoryTemp(IConfiguration configuration)
+        => Sch.DirectoryHelper.GetDiretoryTemp(configuration);
 
-        /// <summary>
-        /// Método GetDiretory: consulta e retorna dados.
-        /// </summary>
-        public static string GetDiretory(string pathCreate)
-        {
-            string pathResult;
-            // Verifica se o caminho é absoluto
-            if (Path.IsPathFullyQualified(pathCreate))
-            {
-                pathResult = pathCreate;
-            }
-            else
-            {
-                pathCreate = pathCreate.Replace(".", "");
+    public static string GetDiretory(string pathCreate)
+        => Sch.DirectoryHelper.GetDiretory(pathCreate);
 
-                string currentDir = Directory.GetCurrentDirectory();
-                string[] dirs = pathCreate.Split('/');
-                pathResult = Path.Combine(currentDir, dirs[0]);
-                for (int i = 1; i < dirs.Length; i++)
-                {
-                    pathResult = Path.Combine(pathResult, dirs[i]);
-                }
-            }
-            // Verifica se o diretório existe, se não, cria o diretório
-            if (!Directory.Exists(pathResult))
-            {
-                Directory.CreateDirectory(pathResult);
-            }
-            return pathResult;
-
-        }
-
-        /// <summary>
-        /// Método GetPathSaveCache: consulta e retorna dados.
-        /// </summary>
-        public static string GetPathSaveCache(string pathCache)
-        {
-            string pathToSaveCache;
-            // Verifica se o caminho é absoluto
-            if (Path.IsPathFullyQualified(pathCache))
-            {
-                pathToSaveCache = pathCache;
-            }
-            else
-            {
-                pathCache = pathCache.Replace(".", "");
-                string currentDir = Directory.GetCurrentDirectory();
-                string[] dirs = pathCache.Split('/');
-                pathToSaveCache = Path.Combine(currentDir, dirs[0]);
-                for (int i = 1; i < dirs.Length; i++)
-                {
-                    pathToSaveCache = Path.Combine(pathToSaveCache, dirs[i]);
-                }
-            }
-            // Verifica se o diretório existe, se não, cria o diretório
-            if (!Directory.Exists(pathToSaveCache))
-            {
-                Directory.CreateDirectory(pathToSaveCache);
-            }
-            return pathToSaveCache;
-        }
-
-    }
+    public static string GetPathSaveCache(string pathCache)
+        => Sch.DirectoryHelper.GetPathSaveCache(pathCache);
 }

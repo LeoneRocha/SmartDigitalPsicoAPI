@@ -1,4 +1,4 @@
-﻿using Azure;
+using Azure;
 using Azure.Data.Tables;
 using Azure.Storage;
 using Azure.Storage.Blobs;
@@ -8,7 +8,7 @@ using Azure.Storage.Queues.Models;
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartCoreHub.Core.SDK.Common.Exceptions;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Azure;

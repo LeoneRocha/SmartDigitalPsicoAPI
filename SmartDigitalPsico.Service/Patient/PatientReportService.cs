@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
@@ -124,7 +124,7 @@ namespace SmartDigitalPsico.Service
         {
             var reportPDF = new Core.SDK.Domain.DTO.Report.ReportPageContentDto()
             {
-                FileName = $"PatientDetailReport_{data.Id}_{SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
+                FileName = $"PatientDetailReport_{data.Id}_{DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 FolderOutput = "Reports_PDF",
                 Title = "Report Patient",
                 Pages = new List<Core.SDK.Domain.DTO.Report.ReportPageDataDto>()
@@ -146,7 +146,7 @@ namespace SmartDigitalPsico.Service
             var reportExcel = new Core.SDK.Domain.DTO.Report.ReportWorkbookDataDto()
             {
                 FolderOutput = "Reports",
-                FileName = $"PatientDetailReport_{data.Id}_{SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
+                FileName = $"PatientDetailReport_{data.Id}_{DateHelper.GetDateTimeNowBrazil().ToString("yyyyMMdd")}",
                 Sheets = new List<Core.SDK.Domain.DTO.Report.ReportSheetDataDto>
         {
             new Core.SDK.Domain.DTO.Report.ReportSheetDataDto { Order = 1, Name = "Patient", Rows = reportPatient,
@@ -175,7 +175,7 @@ namespace SmartDigitalPsico.Service
                     var responseFile = await GenerateFileReport(responseData.Data, eReportOutputType);
 
                     //Copy Temp folder 
-                    var folderOuput = Path.Combine(SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_config.SharedDependenciesConfig.Configuration), responseFile.Item2);
+                    var folderOuput = Path.Combine(DirectoryHelper.GetDiretoryTemp(_config.SharedDependenciesConfig.Configuration), responseFile.Item2);
                     folderOuput = SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.NormalizePath(folderOuput);
 
                     await SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.CopyFile(responseFile.Item1, folderOuput);

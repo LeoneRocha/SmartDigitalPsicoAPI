@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
@@ -434,8 +434,8 @@ namespace SmartDigitalPsico.Service
         public static AppointmentDto[] ToAppointmentDtos(ScheduleCalendarItem[] items, long medicalId, string medicalName)
         {
             var currentTime = items.Length == 0
-                ? SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc()
-                : SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc(), items[0].TimeZone);
+                ? DateHelper.GetDateTimeNowFromUtc()
+                : DateHelper.ApplyTimeZone(DateHelper.GetDateTimeNowFromUtc(), items[0].TimeZone);
 
             return items
                 .Select(i => new AppointmentDto

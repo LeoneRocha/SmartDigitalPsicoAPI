@@ -1,13 +1,17 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SchEnums = SmartCoreHub.Core.SDK.Domain.Enums;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Enuns;
+
+/// <summary>
+/// Casca enum espelho de estratégia de e-mail.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Enums.EEmailStrategyType",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Enum espelho com valores idênticos a EEmailStrategyType em SmartCoreHub.Core.SDK.")]
+public enum EEmailStrategyType
 {
-    /// <summary>
-    /// Enumeração responsável por EEmailStrategyType.
-    /// Responsabilidade: valores enumerados do domínio.
-    /// Relação: usado em entidades, DTOs e regras de negócio.
-    /// </summary>
-    public enum EEmailStrategyType
-    {
-        Smtp = 0,
-        ThirdParty = 1
-    }
+    Smtp = (int)SchEnums.EEmailStrategyType.Smtp,
+    ThirdParty = (int)SchEnums.EEmailStrategyType.ThirdParty,
 }

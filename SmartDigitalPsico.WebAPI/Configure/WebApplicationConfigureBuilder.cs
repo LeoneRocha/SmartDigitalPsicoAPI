@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
@@ -69,12 +69,12 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
                 LogAppHelper.PrintLogInformationVersionProduct(new SmartDigitalPsico.Core.SDK.Infrastructure.Logging.SerilogAppLoggerAdapter(_logger));
 
-                _logger.Information("Web API Loading at: {Time}", SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+                _logger.Information("Web API Loading at: {Time}", DateHelper.GetDateTimeNowToLog());
                 (applicationRunner ?? (currentApplication => currentApplication.Run()))(app);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Web API Error Loading at: {Message} at: {Time}", ex.Message, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Web API Error Loading at: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
                 throw new InvalidOperationException("Web API failed during startup or configuration.", ex);
             }
         }
@@ -100,7 +100,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             app.UseHttpsRedirection();
 
-            string diretorioTemp = SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(configuration);
+            string diretorioTemp = DirectoryHelper.GetDiretoryTemp(configuration);
 
             app.UseStaticFiles(new StaticFileOptions()
             {

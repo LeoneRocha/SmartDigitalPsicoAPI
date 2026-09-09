@@ -19,6 +19,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Core.SDK.Domain.Security;
 using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
@@ -27,6 +28,7 @@ using SmartDigitalPsico.Core.SDK.Service.Configure.AppSettings;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Caching;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Cors;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Documentation;
+using SmartDigitalPsico.Core.SDK.Service.Configure.EntityBase;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Localization;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Logging;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Mapping;
@@ -53,7 +55,8 @@ public class CoreConfigureServiceCollectionTests
         services.AddCoreSwagger("Core.SDK.Tests", "test", "1.0.0");
         services.AddCoreEndpointsApiExplorer();
         services.AddCoreMvcControllers();
-        services.AddCoreRequestLocalization();
+        services.AddCoreLocalization();
+        services.AddCoreEntityBaseService();
         services.AddCoreLogging(new LoggerConfiguration().CreateLogger());
         services.AddCoreJwtBearer(new TokenConfigurationDto
         {
@@ -68,6 +71,8 @@ public class CoreConfigureServiceCollectionTests
         services.Should().Contain(x => x.ServiceType == typeof(IAppLogger));
         services.Should().Contain(x => x.ServiceType == typeof(IConfigureOptions<RequestLocalizationOptions>));
         services.Should().Contain(x => x.ServiceType == typeof(AutoMapper.IMapper));
+        services.Should().Contain(x => x.ServiceType == typeof(IEntityBaseService<,>));
+        services.Should().Contain(x => x.ServiceType == typeof(IResiliencePolicyConfig));
     }
 
     [Test]

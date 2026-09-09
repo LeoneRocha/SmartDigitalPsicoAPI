@@ -41,7 +41,7 @@
     <!-- Bloco D — Azure e utilitários -->
     <PackageVersion Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.6.0" />
     <PackageVersion Include="Azure.Identity" Version="1.21.0" />
-    <PackageVersion Include="Azure.Storage.Blobs" Version="12.29.1" />
+    <PackageVersion Include="Azure.Storage.Blobs" Version="12.29.2" />
     <PackageVersion Include="Azure.Storage.Queues" Version="12.27.1" />
     <PackageVersion Include="Azure.Data.Tables" Version="12.12.0" />
     <PackageVersion Include="AutoMapper" Version="16.2.0" />
@@ -51,10 +51,10 @@
     <PackageVersion Include="Polly" Version="8.7.0" />
     <PackageVersion Include="Polly.Core" Version="8.7.0" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
-    <PackageVersion Include="HtmlSanitizer" Version="9.2.995" />
+    <PackageVersion Include="HtmlSanitizer" Version="9.2.1039" />
     <!-- Override transitivo HtmlSanitizer AngleSharp (histórico GHSA em 0.17.x) -->
-    <PackageVersion Include="AngleSharp" Version="1.7.1" />
-    <PackageVersion Include="AngleSharp.Css" Version="1.0.1" />
+    <PackageVersion Include="AngleSharp" Version="1.7.2" />
+    <PackageVersion Include="AngleSharp.Css" Version="1.0.2" />
     <PackageVersion Include="DocumentFormat.OpenXml" Version="3.5.1" />
     <PackageVersion Include="DocumentFormat.OpenXml.Framework" Version="3.5.1" />
     <PackageVersion Include="PDFsharp" Version="6.2.4" />
@@ -76,5 +76,7 @@
     <PackageVersion Include="coverlet.msbuild" Version="10.0.1" />
     <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.22.0" />
+    <!-- SDP-CASCA — NuGet oficial nuget.org (Gate NuGet OK mantenedor) -->
+    <PackageVersion Include="SmartCoreHub.Core.SDK" Version="20260909.1825.0" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
@@ -65,7 +65,7 @@ namespace SmartDigitalPsico.Service
             {
                 var fileName = response.Data.FileName ?? string.Empty;
                 await SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.GetFromByteSaveTemp(response.Data.FileData, fileName, _configuration);
-                response.Data.FileUrl = SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.GetFilePath(SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), fileName);
+                response.Data.FileUrl = SmartDigitalPsico.Core.SDK.Domain.Helpers.FileHelper.GetFilePath(DirectoryHelper.GetDiretoryTemp(_configuration), fileName);
             }
             return response;
         }
@@ -141,9 +141,9 @@ namespace SmartDigitalPsico.Service
                 entityAdd.FileName = entity.FilePath;
                 entityAdd.MedicalId = entity.MedicalId;
 
-                entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
                 entityAdd.Enable = true;
 
                 entityAdd.CreatedUserId = UserId;

@@ -1,9 +1,9 @@
-﻿using System.Text;
+using System.Text;
 using Bogus;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartCoreHub.Core.SDK.Common.Exceptions;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
 

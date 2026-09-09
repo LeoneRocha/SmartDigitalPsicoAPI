@@ -1,31 +1,17 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
-{
-    /// <summary>
-    /// Classe responsável por EmailHelper.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
-    /// </summary>
-    public static class EmailHelper
-    {
-        private const string TokenPattern = "[{{{0}}}]";
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Service.Email;
 
-        /// <summary>
-        /// Método ReplaceTokens: executa a operação ReplaceTokens.
-        /// </summary>
-        public static string ReplaceTokens(string template, Dictionary<string, string> tokens)
-        {
-            if (tokens != null && tokens.Count > 0)
-            {
-                foreach (var token in tokens)
-                {
-                    var tokenKey = string.Format(TokenPattern, token.Key);
-                    if (template.Contains(tokenKey))
-                    {
-                        template = template.Replace(tokenKey, token.Value);
-                    }
-                }
-            }
-            return template;
-        }
-    }
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca EmailHelper — delega SCH ReplaceTokens.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Service.Email.EmailHelper",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando para EmailHelper em SmartCoreHub.Core.SDK.")]
+public static class EmailHelper
+{
+    public static string ReplaceTokens(string template, Dictionary<string, string> tokens)
+        => Sch.EmailHelper.ReplaceTokens(template, tokens);
 }

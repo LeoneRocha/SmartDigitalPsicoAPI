@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
@@ -45,7 +45,7 @@ namespace SmartDigitalPsico.Domain.Validation
                 .WithMessage("PatientId_Validator_GreaterThan_Key|Patient ID must be greater than {0}.|0");
 
             RuleFor(x => x.AppointmentDateTime)
-                .GreaterThanOrEqualTo(SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc())
+                .GreaterThanOrEqualTo(SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc())
                 .WithErrorCode("SmartDigitalPsico.ScheduleCriteriaDtoValidator.ScheduleCriteriaDto.AppointmentDateTime.GreaterThanOrEqualTo")
                 .WithMessage("AppointmentDateTime_Validator_GreaterThanOrEqualTo_Key|Appointment date and time must be greater than or equal to the current time.");
 
@@ -105,7 +105,7 @@ namespace SmartDigitalPsico.Domain.Validation
             {
                 return false;
             }
-            var currentTime = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, appointment.TimeZone);
+            var currentTime = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, appointment.TimeZone);
             var timeUntilAppointment = appointment.StartDateTime - currentTime;
             var isWithinCancellationWindow = timeUntilAppointment.TotalHours >= 12;
             var resultRule = (appointment.Status == EStatusCalendar.Confirmed || appointment.Status == EStatusCalendar.PendingConfirmation) && isWithinCancellationWindow;
@@ -142,7 +142,7 @@ namespace SmartDigitalPsico.Domain.Validation
 
         private static async Task<bool> BeAtLeast23HoursInAdvance(ScheduleCriteriaDto criteria, CancellationToken cancellationToken)
         {
-            var currentTime = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc(), criteria.TimeZone);
+            var currentTime = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc(), criteria.TimeZone);
             var resultRule = await Task.FromResult((criteria.AppointmentDateTime - currentTime).TotalHours >= 23);
             return resultRule;
         }

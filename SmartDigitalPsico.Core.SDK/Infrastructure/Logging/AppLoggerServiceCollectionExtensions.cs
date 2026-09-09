@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 
 namespace SmartDigitalPsico.Core.SDK.Infrastructure.Logging
@@ -6,6 +7,10 @@ namespace SmartDigitalPsico.Core.SDK.Infrastructure.Logging
     /// <summary>
     /// Extensões DI para registrar IAppLogger sobre Serilog.
     /// </summary>
+    [SdkWrappedSource(
+        targetType: "SmartCoreHub.Core.SDK.Infrastructure.Logging.AppLoggerServiceCollectionExtensions.AddAppLogger",
+        targetPackage: "SmartCoreHub.Core.SDK",
+        description: "AddAppLogger → IAppLogger SDP (SCH registra ISdpAppLogger).")]
     public static class AppLoggerServiceCollectionExtensions
     {
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -48,9 +48,9 @@ namespace SmartDigitalPsico.Service
 
             #region Set default fields for bussines
 
-            entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
             #endregion Set default fields for bussines
 
@@ -88,8 +88,8 @@ namespace SmartDigitalPsico.Service
             {
                 #region Set default fields for bussines
 
-                entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityUpdate.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
                 #endregion Set default fields for bussines
 

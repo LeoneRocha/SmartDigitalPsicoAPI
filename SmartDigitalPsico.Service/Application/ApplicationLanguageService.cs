@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -136,7 +136,7 @@ namespace SmartDigitalPsico.Service
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "GetLocalization: {Message} at: {Time}", ex.Message, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "GetLocalization: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
 
             return resultLocalization;
@@ -175,9 +175,9 @@ namespace SmartDigitalPsico.Service
             try
             {
                 ApplicationLanguage entityAdd = _mapper.Map<ApplicationLanguage>(item);
-                entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
                 entityAdd.Enable = true;
 
                 if (response.Success)
@@ -188,7 +188,7 @@ namespace SmartDigitalPsico.Service
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+                _logger.Error(ex, "Create: {Message} at: {Time}", ex.Message, DateHelper.GetDateTimeNowToLog());
             }
         }
 
