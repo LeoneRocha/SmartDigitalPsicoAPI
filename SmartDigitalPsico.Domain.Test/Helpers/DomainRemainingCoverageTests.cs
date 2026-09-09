@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.Json;
 using Azure.Storage.Blobs.Models;
@@ -986,7 +986,8 @@ public class DomainRemainingCoverageTests
         // CustomSheetView must be a direct child for Elements<CustomSheetView>() to find it.
         worksheetPart.Worksheet = new Worksheet(new SheetData(), new CustomSheetView());
         var mergeCells = new MergeCells(new MergeCell { Reference = new StringValue("A1:B1") });
-        var method = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter).GetMethod("AddSheetToWorkbook", BindingFlags.NonPublic | BindingFlags.Static)!;
+        var targetType = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter);
+        var method = (targetType.BaseType ?? targetType).GetMethod("AddSheetToWorkbook", BindingFlags.NonPublic | BindingFlags.Static)!;
         method.Invoke(null, [workbookPart, worksheetPart, "Custom", 1u, mergeCells]);
         worksheetPart.Worksheet.Elements<MergeCells>().Should().ContainSingle();
         workbookPart.Workbook.Save();
@@ -1015,7 +1016,8 @@ public class DomainRemainingCoverageTests
         var worksheet = worksheetPart.Worksheet;
         worksheet.Should().NotBeNull();
         worksheet!.InsertAt(new Columns(new Column { Min = 1, Max = 1, Width = 10 }), 0);
-        var method = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter).GetMethod("AddBestFit", BindingFlags.NonPublic | BindingFlags.Static)!;
+        var targetType = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter);
+        var method = (targetType.BaseType ?? targetType).GetMethod("AddBestFit", BindingFlags.NonPublic | BindingFlags.Static)!;
         method.Invoke(null, [worksheetPart]);
         worksheet.Descendants<Column>().Should().OnlyContain(column => column.BestFit!.Value);
         worksheet.Save();

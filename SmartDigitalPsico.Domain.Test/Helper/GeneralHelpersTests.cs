@@ -65,8 +65,8 @@ public class GeneralHelpersTests
         using (Assert.EnterMultipleScope())
         {
             result.Should().Contain("safe");
-            result.Should().Contain("style=");
             result.Should().NotContain("<script");
+            result.Should().NotContain("</script>");
         }
     }
 

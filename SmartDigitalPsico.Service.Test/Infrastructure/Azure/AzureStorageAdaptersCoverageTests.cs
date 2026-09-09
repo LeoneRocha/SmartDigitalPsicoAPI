@@ -247,8 +247,8 @@ public class AzureStorageAdaptersCoverageTests
                 File.Exists(downloadPath).Should().BeTrue();
             }
 
-            Assert.ThrowsAsync<AppWarningException>(async () => await sut.CreateContainerIfNotExists(""));
-            Assert.ThrowsAsync<AppWarningException>(async () => await sut.CreateContainerIfNotExists(new string('a', 64)));
+            Assert.ThrowsAsync<SmartDigitalPsico.Core.SDK.Domain.AppException.AppWarningException>(async () => await sut.CreateContainerIfNotExists(""));
+            Assert.ThrowsAsync<SmartDigitalPsico.Core.SDK.Domain.AppException.AppWarningException>(async () => await sut.CreateContainerIfNotExists(new string('a', 64)));
             Assert.ThrowsAsync<ArgumentException>(async () => await sut.GetFileStorageUrlPublic("", "b"));
             Assert.ThrowsAsync<ArgumentException>(async () => await sut.GetFileStorageUrlPublic("c", ""));
         }
