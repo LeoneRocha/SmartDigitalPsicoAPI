@@ -17,9 +17,9 @@ using SmartDigitalPsico.Service.DependencyInjection.Orchestrator;
 namespace SmartDigitalPsico.WebAPI.Configure
 {
     /// <summary>
-    /// Classe responsável por WebApplicationConfigureServiceCollections.
-    /// Responsabilidade: configuração de startup/DI da aplicação.
-    /// Relação: registra serviços no container e configura o pipeline.
+    /// Startup DI WebAPI — usa aliases <c>AddCore*</c> da casca SDP (SDP-AJUSTE SA.2).
+    /// Não chamar SCH <c>CoreServiceCollectionExtensions.AddCore*</c> diretamente (registraria tipos SCH).
+    /// Helpers SCH via <c>GlobalUsings.Core.cs</c> (DateHelper, DirectoryHelper, …).
     /// </summary>
     public static class WebApplicationConfigureServiceCollections
     {
@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
                 description: "API REST do Smart Digital Psico para gestão clínica, agenda, pacientes e configurações do sistema.",
                 version: LogAppHelper.GetAssemblyVersion());
 
-            services.AddCoreMapper(typeof(AutoMapperProfile));
+            services.AddCoreMapping(typeof(AutoMapperProfile));
 
             ServiceCollectionConfigureServicesDomain.Configure(services, configuration);
 
@@ -52,7 +52,7 @@ namespace SmartDigitalPsico.WebAPI.Configure
 
             services.AddCoreLogging(_logger);
 
-            services.AddCoreRequestLocalization();
+            services.AddCoreLocalization();
 
             services.AddCoreEndpointsApiExplorer();
         }

@@ -1,23 +1,15 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartCoreHub.Core.SDK.Infrastructure.Caching.Local;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
+
+/// <summary>
+/// Casca ICacheService — herda <see cref="ILocalCacheService"/> (nome SDP estável).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Infrastructure.Caching.Local.ILocalCacheService",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Alias SDP de ILocalCacheService (não confundir com ICacheService canônico SCH Domain).")]
+public interface ICacheService : ILocalCacheService
 {
-    /// <summary>
-    /// Interface (contrato) responsável por ICacheService.
-    /// Responsabilidade: contrato de serviço de negócio.
-    /// Relação: implementado na camada Service e consumido pelos Controllers.
-    /// </summary>
-    public interface ICacheService
-    {
-        bool Exists<T>(string? cacheKey) where T : class, new();
-        bool TryGet<T>(string? cacheKey, out T value) where T : class, new();
-        bool Set<T>(string? cacheKey, T value);
-        bool Remove<T>(string? cacheKey);
-        /// <summary>
-        /// Método GetSlidingExpiration: consulta e retorna dados.
-        /// </summary>
-        DateTime GetSlidingExpiration();
-        /// <summary>
-        /// Método IsEnable: executa a operação IsEnable.
-        /// </summary>
-        bool IsEnable();
-    }
 }

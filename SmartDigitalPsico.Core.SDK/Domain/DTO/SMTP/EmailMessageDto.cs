@@ -1,14 +1,14 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP;
+
+/// <summary>
+/// Casca EmailMessageDto — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.Email.EmailMessageDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando EmailMessageDto em SmartCoreHub.Core.SDK.")]
+public class EmailMessageDto : SmartCoreHub.Core.SDK.Domain.DTOs.Email.EmailMessageDto
 {
-    /// <summary>
-    /// Classe responsável por EmailMessageDto.
-    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
-    /// Relação: usado por Controllers, Services e Validators.
-    /// </summary>
-    public class EmailMessageDto
-    {
-        public string Subject { get; set; } = string.Empty;
-        public string Message { get; set; } = string.Empty;
-        public List<string> ToEmails { get; set; } = new List<string>();
-    }
 }

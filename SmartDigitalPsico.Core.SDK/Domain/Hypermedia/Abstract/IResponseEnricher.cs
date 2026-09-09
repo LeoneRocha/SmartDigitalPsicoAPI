@@ -1,21 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
+using SmartCoreHub.Core.SDK.Common.Attributes;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract
+namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Abstract;
+
+/// <summary>
+/// Contrato enricher HATEOAS — espelho SCH (sem herança para permitir impl explícita local).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Hypermedia.Abstract.IResponseEnricher",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Espelho de contrato ASP.NET ResultExecutingContext.")]
+public interface IResponseEnricher
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IResponseEnricher.
-    /// Responsabilidade: suporte a hypermedia/HATEOAS nas respostas.
-    /// Relação: usado pelos Controllers na serialização.
-    /// </summary>
-    public interface IResponseEnricher
-    {
-        /// <summary>
-        /// Método CanEnrich: executa a operação CanEnrich.
-        /// </summary>
-        bool CanEnrich(ResultExecutingContext context);
-        /// <summary>
-        /// Método Enrich: executa a operação Enrich.
-        /// </summary>
-        Task Enrich(ResultExecutingContext context);
-    }
+    bool CanEnrich(ResultExecutingContext context);
+    Task Enrich(ResultExecutingContext context);
 }

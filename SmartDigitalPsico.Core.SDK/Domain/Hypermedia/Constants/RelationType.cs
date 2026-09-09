@@ -1,18 +1,24 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Hypermedia.Constants;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Constants;
+
+/// <summary>
+/// Casca RelationType — forward SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Hypermedia.Constants.RelationType",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper forward const RelationType.")]
+public static class RelationType
 {
-    /// <summary>
-    /// Constantes de relation type para hypermedia/HATEOAS.
-    /// </summary>
-    public static class RelationType
-    {
-        public const string self = "self";
-        public const string post = "post";
-        public const string put = "put";
-        public const string delete = "delete";
-        public const string patch = "patch";
-        public const string next = "next";
-        public const string previous = "previous";
-        public const string first = "first";
-        public const string last = "last";
-    }
+    public const string self = Sch.RelationType.self;
+    public const string post = Sch.RelationType.post;
+    public const string put = Sch.RelationType.put;
+    public const string delete = Sch.RelationType.delete;
+    public const string patch = Sch.RelationType.patch;
+    public const string next = Sch.RelationType.next;
+    public const string previous = Sch.RelationType.previous;
+    public const string first = Sch.RelationType.first;
+    public const string last = Sch.RelationType.last;
 }

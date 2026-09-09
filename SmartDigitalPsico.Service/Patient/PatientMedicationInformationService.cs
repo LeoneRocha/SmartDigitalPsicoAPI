@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -54,9 +54,9 @@ namespace SmartDigitalPsico.Service
 
             #endregion
 
-            entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
             ServiceResponse<GetPatientMedicationInformationDto> response = await base.Validate(entityAdd);
 
@@ -78,8 +78,8 @@ namespace SmartDigitalPsico.Service
             var dto = (UpdatePatientMedicationInformationDto)item;
             PatientMedicationInformation entityUpdate = await ((IPatientMedicationInformationRepository)_entityRepository).FindByID(dto.Id);
 
-            entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityUpdate.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
             entityUpdate.ModifyUserId = UserId;
 

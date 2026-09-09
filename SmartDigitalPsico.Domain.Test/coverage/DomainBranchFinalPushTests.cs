@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
@@ -574,7 +574,8 @@ public class DomainBranchFinalPushTests
             LogAppHelper.EntryAssemblyFallbackForTests = previousFallback;
         }
 
-        var addHeader = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter)
+        var targetType = typeof(SmartDigitalPsico.Core.SDK.Domain.Report.ExcelGeneratorOpenXmlAdapter);
+        var addHeader = (targetType.BaseType ?? targetType)
             .GetMethod("AddHeaderRow", BindingFlags.NonPublic | BindingFlags.Static)!;
         var sheet = new DocumentFormat.OpenXml.Spreadsheet.SheetData();
         addHeader.Invoke(null, [null, new List<string>(), sheet]);

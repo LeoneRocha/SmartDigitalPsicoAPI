@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Helpers.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
@@ -96,14 +96,14 @@ namespace SmartDigitalPsico.Domain.Validation
         private async Task<bool> BeFutureDateTime(long userId, DateTime dateTime)
         {
             var user = await _userRepository.FindByID(userId);
-            var dateCurrent = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
+            var dateCurrent = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
             return dateTime > dateCurrent;
         }
 
         private async Task<bool> BeFutureDateTime(long userId, DateTime? dateTime)
         {
             var user = await _userRepository.FindByID(userId);
-            var dateCurrent = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
+            var dateCurrent = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(DateTime.UtcNow, user.TimeZone);
             return dateTime.HasValue && dateTime.Value > dateCurrent;
         }
 

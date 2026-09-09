@@ -1,14 +1,14 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.DTO.Report.Contracts;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
+
+/// <summary>
+/// Casca ReportSheetDataDto — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.Report.ReportSheetDataDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando ReportSheetDataDto em SmartCoreHub.Core.SDK.")]
+public class ReportSheetDataDto : SmartCoreHub.Core.SDK.Domain.DTOs.Report.ReportSheetDataDto
 {
-    /// <summary>
-    /// Classe responsável por ReportSheetDataDto.
-    /// Responsabilidade: geração de relatórios.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public class ReportSheetDataDto : ReportDataBaseDto
-    {
-        public List<string> MergeCellReferences { get; set; } = new List<string>();
-    }
 }

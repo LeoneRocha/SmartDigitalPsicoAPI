@@ -1,8 +1,9 @@
-﻿using System.Data;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using FluentValidation;
 using Microsoft.Extensions.Options;
+using SmartCoreHub.Core.SDK.Common.Exceptions;
 using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
@@ -103,9 +104,9 @@ namespace SmartDigitalPsico.Service
 
             entityAdd.PasswordHash = passwordHash;
             entityAdd.PasswordSalt = passwordSalt;
-            entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
             entityAdd.Role = "Pending";
             entityAdd.Admin = false;
 
@@ -152,7 +153,7 @@ namespace SmartDigitalPsico.Service
                 }
                 entityUpdate.Role = updateUser.Role;
 
-                entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
 
                 if (updateUser.MedicalId > 0)
                     entityUpdate.MedicalId = updateUser.MedicalId;
@@ -200,9 +201,9 @@ namespace SmartDigitalPsico.Service
 
             entityAdd.PasswordHash = passwordHash;
             entityAdd.PasswordSalt = passwordSalt;
-            entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
             entityAdd.Role = userRegisterVO.Role;
 
             List<RoleGroup> roleGroups = await _roleGroupRepository.FindByIDs(userRegisterVO.RoleGroupsIds.ToList());
@@ -293,13 +294,13 @@ namespace SmartDigitalPsico.Service
 
             user.RefreshToken = refreshToken;
 
-            DateTime refreshTokenExpiryTime = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(_configurationToken.DaysToExpiry);
+            DateTime refreshTokenExpiryTime = DateHelper.GetDateTimeNowFromUtc().AddDays(_configurationToken.DaysToExpiry);
 
             user.RefreshTokenExpiryTime = refreshTokenExpiryTime;
 
             await ((IUserRepository)_entityRepository).RefreshUserInfo(user);
 
-            DateTime createDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            DateTime createDate = DateHelper.GetDateTimeNowFromUtc();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
 
             UserTokenSession? tokenSession = await _tokenSessionService.GetSessionAsync(user.Id);
@@ -361,7 +362,7 @@ namespace SmartDigitalPsico.Service
 
                     if (user.RefreshToken != refreshToken ||
                         !user.RefreshTokenExpiryTime.HasValue ||
-                        user.RefreshTokenExpiryTime.Value <= SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc())
+                        user.RefreshTokenExpiryTime.Value <= DateHelper.GetDateTimeNowFromUtc())
                         return new SmartDigitalPsico.Domain.VO.TokenVO();
 
                     accessToken = _tokenService.GenerateAccessToken(principal.Claims);
@@ -372,7 +373,7 @@ namespace SmartDigitalPsico.Service
                 }
             }
 
-            DateTime createDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            DateTime createDate = DateHelper.GetDateTimeNowFromUtc();
             DateTime expirationDate = createDate.AddMinutes(_configurationToken.Minutes);
 
             return new SmartDigitalPsico.Domain.VO.TokenVO(
@@ -411,7 +412,7 @@ namespace SmartDigitalPsico.Service
                 entityUpdate.PasswordSalt = passwordSalt;
             }
 
-            entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
 
             response = await base.Validate(entityUpdate);
 

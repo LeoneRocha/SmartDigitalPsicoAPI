@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -59,9 +59,9 @@ namespace SmartDigitalPsico.Service
 
             #endregion
 
-            entityAdd.CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityAdd.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.CreatedDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityAdd.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
             ServiceResponse<GetPatientNotificationMessageVO> response = await base.Validate(entityAdd);
 
@@ -85,8 +85,8 @@ namespace SmartDigitalPsico.Service
             var dto = (UpdatePatientNotificationMessageDto)item;
             PatientNotificationMessage entityUpdate = await ((IPatientNotificationMessageRepository)_entityRepository).FindByID(dto.Id);
 
-            entityUpdate.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-            entityUpdate.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+            entityUpdate.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
 
             entityUpdate.ModifyUserId = UserId;
 
@@ -95,10 +95,10 @@ namespace SmartDigitalPsico.Service
             entityUpdate.MessagePatient = dto.Message;
 
             entityUpdate.IsReaded = dto.IsReaded;
-            entityUpdate.ReadingDate = dto.IsReaded ? SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null;
+            entityUpdate.ReadingDate = dto.IsReaded ? DateHelper.GetDateTimeNowFromUtc() : null;
 
             entityUpdate.Notified = dto.Notified;
-            entityUpdate.NotifiedDate = dto.Notified ? SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() : null;
+            entityUpdate.NotifiedDate = dto.Notified ? DateHelper.GetDateTimeNowFromUtc() : null;
 
             #endregion Columns
 

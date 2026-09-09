@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Reflection;
 using System.Security.Claims;
 using Azure;
@@ -946,7 +946,7 @@ public class ServiceBranchCoverageLastPushTests
         {
             Id = 77,
             RefreshToken = "good-refresh",
-            RefreshTokenExpiryTime = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(3)
+            RefreshTokenExpiryTime = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().AddDays(3)
         };
         userCtx.TokenService.Setup(x => x.GetPrincipalFromExpiredToken("acc77")).Returns(principal);
         userCtx.Context.UserRepository.Setup(x => x.FindByID(77)).ReturnsAsync(user);

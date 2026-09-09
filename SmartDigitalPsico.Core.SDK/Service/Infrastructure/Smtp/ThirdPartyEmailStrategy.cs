@@ -1,22 +1,18 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.SMTP;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 
-namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp
+namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.Smtp;
+
+/// <summary>
+/// Casca ThirdParty stub — herda SCH; bridge IEmailStrategy SDP.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Service.Email.ThirdPartyEmailStrategy",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando ThirdPartyEmailStrategy; bridge IEmailStrategy SDP.")]
+public class ThirdPartyEmailStrategy : SmartCoreHub.Core.SDK.Service.Email.ThirdPartyEmailStrategy, IEmailStrategy
 {
-    /// <summary>
-    /// Classe responsável por ThirdPartyEmailStrategy.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: suporta Services e jobs de background.
-    /// </summary>
-    public class ThirdPartyEmailStrategy : IEmailStrategy
-    {
-        /// <summary>
-        /// Método SendEmailAsync: dispara notificação ou comunicação.
-        /// </summary>
-        public async Task SendEmailAsync(EmailMessageDto emailMessage)
-        {
-            // Implementação para enviar e-mail via um serviço de terceiros
-            await Task.CompletedTask;
-        }
-    }
+    Task IEmailStrategy.SendEmailAsync(EmailMessageDto emailMessage)
+        => base.SendEmailAsync(emailMessage);
 }

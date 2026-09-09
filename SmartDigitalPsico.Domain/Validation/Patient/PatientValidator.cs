@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
 using SmartDigitalPsico.Domain.Interfaces.Patient;
@@ -201,7 +201,7 @@ namespace SmartDigitalPsico.Domain.Validation
 
         private static bool beValidAge(DateTime date)
         {
-            int currentYear = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().Year;
+            int currentYear = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc().Year;
             int dobYear = date.Year;
 
             if (dobYear <= currentYear && dobYear > (currentYear - 130))

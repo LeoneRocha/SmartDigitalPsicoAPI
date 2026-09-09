@@ -1,80 +1,34 @@
 ﻿using System.Security.Cryptography;
+using SmartCoreHub.Core.SDK.Common.Attributes;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Security;
+using Sch = SmartCoreHub.Core.SDK.Domain.Helpers;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca RSA helpers — delega SCH; mapeia <see cref="RsaCryptoDto"/> SDP.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.RsaCryptoServiceHelper",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando para RsaCryptoServiceHelper em SmartCoreHub.Core.SDK.")]
+public static class RsaCryptoServiceHelper
 {
-    /// <summary>
-    /// Classe responsável por RsaCryptoServiceHelper.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
-    /// </summary>
-    public static class RsaCryptoServiceHelper
+    public static RsaCryptoDto GenerateKeys(RSAEncryptionPadding rsaSize)
     {
-        /// <summary>
-        /// Método GenerateKeys: executa a operação GenerateKeys.
-        /// </summary>
-        public static RsaCryptoDto GenerateKeys(RSAEncryptionPadding rsaSize)
+        var sch = Sch.RsaCryptoServiceHelper.GenerateKeys(rsaSize);
+        return new RsaCryptoDto
         {
-            using (var rsa = RSA.Create())
-            {
-                // Exportando as chaves
-                var publicKey = rsa.ExportParameters(false);
-                var privateKey = rsa.ExportParameters(true);
-
-                // Retornando o objeto com as chaves
-                return new RsaCryptoDto
-                {
-                    PrivateKey = privateKey,
-                    PrivateKeyBase64 = ConvertToBase64(privateKey),
-                    PublicKey = publicKey,
-                    PublicKeyBase64 = ConvertToBase64(publicKey),
-                };
-            }
-        }
-
-        /// <summary>
-        /// Método ConvertToBase64: mapeia ou transforma dados entre modelos.
-        /// </summary>
-        public static string ConvertToBase64(RSAParameters rsaParameters)
-        {
-            using (var ms = new System.IO.MemoryStream())
-            {
-                using (var writer = new System.IO.BinaryWriter(ms))
-                {
-                    writer.Write(rsaParameters.Modulus ?? []);
-                    writer.Write(rsaParameters.Exponent ?? []);
-                }
-                return Convert.ToBase64String(ms.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Método ConvertFromBase64: mapeia ou transforma dados entre modelos.
-        /// </summary>
-        public static RSAParameters ConvertFromBase64(string base64String, RSAEncryptionPadding rsaSize)
-        {
-            var bytes = Convert.FromBase64String(base64String);
-            using (var ms = new System.IO.MemoryStream(bytes))
-            {
-                using (var reader = new System.IO.BinaryReader(ms))
-                {
-                    var rsaParameters = new RSAParameters
-                    {
-                        Modulus = reader.ReadBytes(getSizeRSA(rsaSize)), // Tamanho típico do módulo RSA
-                        Exponent = reader.ReadBytes(3)   // Tamanho típico do expoente RSA
-                    };
-                    return rsaParameters;
-                }
-            }
-        }
-
-        private static int getSizeRSA(RSAEncryptionPadding rsaSize)
-        {
-            if (rsaSize == RSAEncryptionPadding.OaepSHA3_256)
-            {
-                return 256;
-            }
-            return 256;
-        }
+            PublicKey = sch.PublicKey,
+            PrivateKey = sch.PrivateKey,
+            PublicKeyBase64 = sch.PublicKeyBase64,
+            PrivateKeyBase64 = sch.PrivateKeyBase64,
+        };
     }
+
+    public static string ConvertToBase64(RSAParameters rsaParameters)
+        => Sch.RsaCryptoServiceHelper.ConvertToBase64(rsaParameters);
+
+    public static RSAParameters ConvertFromBase64(string base64Key, RSAEncryptionPadding padding)
+        => Sch.RsaCryptoServiceHelper.ConvertFromBase64(base64Key, padding);
 }

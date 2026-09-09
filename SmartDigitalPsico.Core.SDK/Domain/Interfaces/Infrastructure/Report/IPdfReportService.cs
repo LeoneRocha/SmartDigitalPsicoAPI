@@ -1,17 +1,16 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report;
+
+/// <summary>
+/// Contrato serviço PDF de orquestração — surface SDP.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Interfaces.Infrastructure.Report.IPdfReportService",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Espelho de contrato IPdfReportService.")]
+public interface IPdfReportService
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IPdfReportService.
-    /// Responsabilidade: geração de relatórios.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface IPdfReportService
-    {
-        /// <summary>
-        /// Método Generate: executa a operação Generate.
-        /// </summary>
-        Task<string> Generate(ReportPageContentDto content);
-    }
+    Task<string> Generate(ReportPageContentDto content);
 }

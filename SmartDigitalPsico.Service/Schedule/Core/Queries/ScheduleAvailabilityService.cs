@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
@@ -89,7 +89,7 @@ namespace SmartDigitalPsico.Service
             ScheduleCalendarItem[] items,
             TimeSpan interval)
         {
-            var nowLocal = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowWithTimeZone(request.TimeZone);
+            var nowLocal = DateHelper.GetDateTimeNowWithTimeZone(request.TimeZone);
             var dateActual = nowLocal.Date;
 
             var busy = items
@@ -235,7 +235,7 @@ namespace SmartDigitalPsico.Service
 
             if (request.Mode == ScheduleGradeMode.AvailableOnly)
             {
-                var dateCurrent = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                var dateCurrent = DateHelper.GetDateTimeNowFromUtc();
                 result = result
                     .Select(day => new ScheduleDayDto
                     {

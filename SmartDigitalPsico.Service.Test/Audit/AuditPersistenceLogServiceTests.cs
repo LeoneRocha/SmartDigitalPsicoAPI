@@ -1,4 +1,4 @@
-﻿using Moq;
+using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 
 using SmartDigitalPsico.Domain.EntityModels;
@@ -18,8 +18,8 @@ public class AuditPersistenceLogServiceTests
         var service = new AuditPersistenceLogService(logger.Object);
         var entries = new[]
         {
-            new AuditDataEntityLog { TableName = "Patient", Operation = "Update", KeyValue = "1", UserAuditedId = 9, AuditDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() },
-            new AuditDataEntityLog { TableName = "Medical", Operation = "Insert", KeyValue = "2", AuditDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() }
+            new AuditDataEntityLog { TableName = "Patient", Operation = "Update", KeyValue = "1", UserAuditedId = 9, AuditDate = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() },
+            new AuditDataEntityLog { TableName = "Medical", Operation = "Insert", KeyValue = "2", AuditDate = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() }
         };
 
         // Act
@@ -45,7 +45,7 @@ public class AuditPersistenceLogServiceTests
             Operation = "Delete",
             KeyValue = "55",
             UserAuditedId = 3,
-            AuditDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc()
+            AuditDate = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc()
         };
 
         // Act

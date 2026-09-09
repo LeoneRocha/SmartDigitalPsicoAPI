@@ -1,4 +1,5 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartCoreHub.Core.SDK.Common.Exceptions;
+using ExceptionHandler = SmartDigitalPsico.Core.SDK.Domain.AppException.ExceptionHandler;
 
 namespace SmartDigitalPsico.Domain.Test.AppException;
 
@@ -46,7 +47,7 @@ public class AppExceptionTests
     }
 
     // Cenário: Exceções de aviso são construídas com diferentes sobrecargas.
-    // Objetivo: Preservar mensagem e exceção interna.
+    // Objetivo: Preservar mensagem e exceção interna (FQN SCH via using).
     [Test]
     public void AppWarningException_Constructors_ReturnExpectedExceptionState()
     {

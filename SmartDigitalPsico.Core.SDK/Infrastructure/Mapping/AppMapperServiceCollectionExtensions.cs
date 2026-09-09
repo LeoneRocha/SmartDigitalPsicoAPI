@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 
 namespace SmartDigitalPsico.Core.SDK.Infrastructure.Mapping
@@ -6,6 +7,10 @@ namespace SmartDigitalPsico.Core.SDK.Infrastructure.Mapping
     /// <summary>
     /// Extensões DI para registrar IAppMapper sobre AutoMapper.
     /// </summary>
+    [SdkWrappedSource(
+        targetType: "SmartCoreHub.Core.SDK.Infrastructure.Mapping.AppMapperServiceCollectionExtensions.AddAppMapper",
+        targetPackage: "SmartCoreHub.Core.SDK",
+        description: "AddAppMapper → IAppMapper SDP.")]
     public static class AppMapperServiceCollectionExtensions
     {
         /// <summary>

@@ -1,20 +1,14 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
+
+/// <summary>
+/// Casca: contrato de cache em disco — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Infrastructure.Caching.Local.IDiskCacheRepository",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando IDiskCacheRepository em SmartCoreHub.Core.SDK.")]
+public interface IDiskCacheRepository : SmartCoreHub.Core.SDK.Infrastructure.Caching.Local.IDiskCacheRepository
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IDiskCacheRepository.
-    /// Responsabilidade: repositório de persistência.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface IDiskCacheRepository
-    {
-        public Task<KeyValuePair<bool, T>> TryGetAsync<T>(string cacheKey) where T : new();
-
-        /// <summary>
-        /// Método RemoveAsync: remove ou cancela um registro/recurso.
-        /// </summary>
-        public Task<bool> RemoveAsync(string cacheKey);
-
-        public Task<bool> SetAsync<T>(string cacheKey, T value);
-    }
-
 }

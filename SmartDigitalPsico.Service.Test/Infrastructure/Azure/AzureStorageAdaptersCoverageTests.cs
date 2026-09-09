@@ -1,4 +1,4 @@
-﻿using Azure;
+using Azure;
 using Azure.Data.Tables;
 using Azure.Storage;
 using Azure.Storage.Blobs;
@@ -8,7 +8,7 @@ using Azure.Storage.Queues.Models;
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.AppException;
+using SmartCoreHub.Core.SDK.Common.Exceptions;
 using SmartDigitalPsico.Domain.TableEntityNoSQL;
 
 namespace SmartDigitalPsico.Service.Test.Infrastructure.Azure;
@@ -247,8 +247,8 @@ public class AzureStorageAdaptersCoverageTests
                 File.Exists(downloadPath).Should().BeTrue();
             }
 
-            Assert.ThrowsAsync<AppWarningException>(async () => await sut.CreateContainerIfNotExists(""));
-            Assert.ThrowsAsync<AppWarningException>(async () => await sut.CreateContainerIfNotExists(new string('a', 64)));
+            Assert.ThrowsAsync<SmartDigitalPsico.Core.SDK.Domain.AppException.AppWarningException>(async () => await sut.CreateContainerIfNotExists(""));
+            Assert.ThrowsAsync<SmartDigitalPsico.Core.SDK.Domain.AppException.AppWarningException>(async () => await sut.CreateContainerIfNotExists(new string('a', 64)));
             Assert.ThrowsAsync<ArgumentException>(async () => await sut.GetFileStorageUrlPublic("", "b"));
             Assert.ThrowsAsync<ArgumentException>(async () => await sut.GetFileStorageUrlPublic("c", ""));
         }

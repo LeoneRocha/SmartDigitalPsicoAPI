@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
 
@@ -26,7 +26,7 @@ public class DirectoryHelperTests
         var path = Path.Combine(_tempPath, "absolute");
 
         // Act
-        var result = SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretory(path);
+        var result = SmartCoreHub.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretory(path);
 
         // Assert
         result.Should().Be(path);
@@ -45,7 +45,7 @@ public class DirectoryHelperTests
             .Build();
 
         // Act
-        var result = SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(configuration);
+        var result = SmartCoreHub.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(configuration);
 
         // Assert
         result.Should().Be(path);
@@ -61,7 +61,7 @@ public class DirectoryHelperTests
         var path = Path.Combine(_tempPath, "cache");
 
         // Act
-        var result = SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetPathSaveCache(path);
+        var result = SmartCoreHub.Core.SDK.Domain.Helpers.DirectoryHelper.GetPathSaveCache(path);
 
         // Assert
         result.Should().Be(path);
@@ -81,8 +81,8 @@ public class DirectoryHelperTests
         try
         {
             // Act
-            var directory = SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretory("./files/nested");
-            var cache = SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetPathSaveCache("./cache/nested");
+            var directory = SmartCoreHub.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretory("./files/nested");
+            var cache = SmartCoreHub.Core.SDK.Domain.Helpers.DirectoryHelper.GetPathSaveCache("./cache/nested");
 
             // Assert
             directory.Should().Be(Path.Combine(_tempPath, "files", "nested"));

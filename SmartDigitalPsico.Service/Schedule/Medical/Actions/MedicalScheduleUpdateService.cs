@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -69,8 +69,8 @@ namespace SmartDigitalPsico.Service
                 entity.Id = package.Id;
                 entity.CreatedUserId = _support.UserId;
                 entity.ModifyUserId = _support.UserId;
-                entity.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
-                entity.LastAccessDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                entity.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
+                entity.LastAccessDate = DateHelper.GetDateTimeNowFromUtc();
                 entity.TokenRecurrence = package.UniqueToken;
 
                 var validation = await _support.ValidateEntityAsync(entity);

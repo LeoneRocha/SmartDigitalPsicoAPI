@@ -13,6 +13,11 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <!-- SDP-CASCA: canônico SmartCoreHub.Core.SDK nuget.org 20260909.1825.0 -->
+  <ItemGroup>
+    <PackageReference Include="SmartCoreHub.Core.SDK" />
+  </ItemGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="SmartDigitalPsico.Domain.Test" />
     <InternalsVisibleTo Include="SmartDigitalPsico.Core.SDK.Tests" />

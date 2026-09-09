@@ -1,17 +1,16 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.DTO.Report;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure.Report;
+
+/// <summary>
+/// Contrato serviço Excel de orquestração — surface SDP.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Interfaces.Infrastructure.Report.IExcelGeneratorService",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Espelho de contrato IExcelGeneratorService.")]
+public interface IExcelGeneratorService
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IExcelGeneratorService.
-    /// Responsabilidade: geração de relatórios.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface IExcelGeneratorService
-    {
-        /// <summary>
-        /// Método Generate: executa a operação Generate.
-        /// </summary>
-        Task<string> Generate(ReportWorkbookDataDto workbook);
-    }
+    Task<string> Generate(ReportWorkbookDataDto workbook);
 }

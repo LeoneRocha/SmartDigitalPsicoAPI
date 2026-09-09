@@ -1,30 +1,21 @@
-﻿using System.ComponentModel;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SchEnums = SmartCoreHub.Core.SDK.Domain.Enums;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
+namespace SmartDigitalPsico.Core.SDK.Domain.Enuns;
+
+/// <summary>
+/// Casca enum espelho de localização de cache (namespace SDP <c>Enuns</c> + nomes históricos MongoDB/Cosmo).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Enums.ETypeLocationCache",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Enum espelho; valores int idênticos (MongoDB↔MongoDb, AzureCosmoDB↔AzureCosmosDb).")]
+public enum ETypeLocationCache
 {
-    /// <summary>
-    /// Enumeração responsável por ETypeLocationCache.
-    /// Responsabilidade: valores enumerados do domínio.
-    /// Relação: usado em entidades, DTOs e regras de negócio.
-    /// </summary>
-    public enum ETypeLocationCache
-    {
-        [Description("Local Salvamento em Disco HD/SSD")]
-        Disk = 0,
-
-        [Description("Local Salvamento em Memory")]
-        Memory = 1,
-
-        [Description("Local Salvamento em MongoDB")]
-        MongoDB = 2,
-
-        [Description("Local Salvamento em Azure Storage")]
-        AzureStorage = 3,
-
-        [Description("Local Salvamento em Azure Cosmo DB")]
-        AzureCosmoDB = 4,
-
-        [Description("Local Salvamento em Azure Redis")]
-        AzureRedis = 5,
-    }
+    Disk = (int)SchEnums.ETypeLocationCache.Disk,
+    Memory = (int)SchEnums.ETypeLocationCache.Memory,
+    MongoDB = (int)SchEnums.ETypeLocationCache.MongoDb,
+    AzureStorage = (int)SchEnums.ETypeLocationCache.AzureStorage,
+    AzureCosmoDB = (int)SchEnums.ETypeLocationCache.AzureCosmosDb,
+    AzureRedis = (int)SchEnums.ETypeLocationCache.AzureRedis,
 }

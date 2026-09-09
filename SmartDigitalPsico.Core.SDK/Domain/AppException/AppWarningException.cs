@@ -1,31 +1,25 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.AppException
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.AppException;
+
+/// <summary>
+/// Casca AppWarningException — herda SCH Common.Exceptions (namespace SDP estável).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Common.Exceptions.AppWarningException",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando AppWarningException em SmartCoreHub.Core.SDK.")]
+public class AppWarningException : SmartCoreHub.Core.SDK.Common.Exceptions.AppWarningException
 {
-    /// <summary>
-    /// Classe responsável por AppWarningException.
-    /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public class AppWarningException : Exception
+    public AppWarningException()
     {
-        /// <summary>
-        /// Método AppWarningException: executa a operação AppWarningException.
-        /// </summary>
-        public AppWarningException()
-        {
-        }
+    }
 
-        /// <summary>
-        /// Método AppWarningException: executa a operação AppWarningException.
-        /// </summary>
-        public AppWarningException(string? message) : base(message)
-        {
-        }
+    public AppWarningException(string? message) : base(message)
+    {
+    }
 
-        /// <summary>
-        /// Método AppWarningException: executa a operação AppWarningException.
-        /// </summary>
-        public AppWarningException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
+    public AppWarningException(string? message, Exception? innerException) : base(message, innerException)
+    {
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using FluentValidation;
+using SmartCoreHub.Core.SDK.Common.Attributes;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
@@ -16,6 +17,16 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
     /// Classe responsável por EntityBaseService (máx. 2 genéricos — Sonar S2436).
     /// DTOs Add/Update via IEntityDtoAdd/IEntityDto; repositório tipado como SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository&lt;TEntity&gt;.
     /// </summary>
+    /// <remarks>
+    /// <b>Retenção Onda 4:</b> não herda SCH <c>EntityBaseService</c> — divergência de
+    /// <c>ServiceResponse</c>, <c>IAppLogger</c> vs <c>ISdpAppLogger</c>,
+    /// <c>IEntityBase</c>/<c>IEntityBaseRepository</c>/<c>IAppMapper</c> SDP, e D5 KeepBoth vs GenericService.
+    /// Lógica local alinhada ao SCH; unificação completa aguarda fachadas canônicas (Onda 5+).
+    /// </remarks>
+    [SdkWrappedSource(
+        targetType: "SmartCoreHub.Core.SDK.Service.Services.Generic.EntityBaseService`2",
+        targetPackage: "SmartCoreHub.Core.SDK",
+        description: "Retenção documentada — impl local; ServiceResponse/IAppLogger/IEntity* SDP (KeepBoth).")]
     public class EntityBaseService<TEntity, TEntityResult>
         : IEntityBaseService<TEntity, TEntityResult>
         where TEntity : SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBaseLog

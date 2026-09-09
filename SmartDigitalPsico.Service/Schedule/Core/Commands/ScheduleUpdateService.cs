@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
@@ -69,7 +69,7 @@ namespace SmartDigitalPsico.Service
                 if (conflict != null)
                     return conflict;
 
-                var now = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                var now = DateHelper.GetDateTimeNowFromUtc();
                 entity.Enable = request.Enable;
                 entity.ModifyDate = now;
                 entity.LastAccessDate = now;
@@ -152,7 +152,7 @@ namespace SmartDigitalPsico.Service
                     newStatus = entry.Status;
                 }
 
-                package.ModifyDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc();
+                package.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
                 await _repository.Update(package);
 
                 response.Success = true;

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Service.Configure.EntityBase;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Queue;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Security;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Smtp;
@@ -20,7 +21,8 @@ using SmartDigitalPsico.Service.DependencyInjection.Validation;
 namespace SmartDigitalPsico.Service.DependencyInjection.Orchestrator
 {
     /// <summary>
-    /// Orquestra DI de domínio do produto + blocos Core.SDK reutilizáveis.
+    /// Orquestra DI de domínio do produto + blocos Core.SDK (SDP-AJUSTE SA.2).
+    /// <c>AddCore*</c> = casca SDP Configure (não SCH raw). Ver <c>HostConfigureBridge</c>.
     /// </summary>
     public static class ServiceCollectionConfigureServicesDomain
     {
@@ -31,6 +33,9 @@ namespace SmartDigitalPsico.Service.DependencyInjection.Orchestrator
             ServicesDomainService.AddDependenciesManually(services);
 
             addDependenciesSingleton(services);
+
+            // Open-generic EntityBaseService SDP (retenção) + default resilience — alinhado SCH AddCoreEntityBaseService.
+            services.AddCoreEntityBaseService();
 
             ServicesDomainValidation.AddDependencies(services);
 

@@ -9,9 +9,7 @@ using SmartDigitalPsico.Service.DependencyInjection.Orchestrator;
 namespace SmartDigitalPsico.WindowsService.Configure
 {
     /// <summary>
-    /// Classe responsável por WindowsServiceConfigureServiceCollections.
-    /// Responsabilidade: configuração de startup/DI da aplicação.
-    /// Relação: registra serviços no container e configura o pipeline.
+    /// Startup DI WindowsService — aliases AddCore* casca SDP (SCH-aligned).
     /// </summary>
     public static class WindowsServiceConfigureServiceCollections
     {
@@ -22,7 +20,7 @@ namespace SmartDigitalPsico.WindowsService.Configure
         {
             services.AddCoreAppSettings(configuration);
             services.AddCoreCaching();
-            services.AddCoreMapper(typeof(AutoMapperProfile));
+            services.AddCoreMapping(typeof(AutoMapperProfile));
 
             ServiceCollectionConfigureServicesDomain.Configure(services, configuration);
 

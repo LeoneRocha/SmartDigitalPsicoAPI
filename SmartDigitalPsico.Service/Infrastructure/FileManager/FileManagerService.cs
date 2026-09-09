@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
@@ -36,7 +36,7 @@ namespace SmartDigitalPsico.Service
             string folderDest = string.Empty;
             if (fileData != null)
             {
-                string pathDomainBussines = Path.Combine(SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
+                string pathDomainBussines = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
                 folderDest = Path.Combine(pathDomainBussines, folderContainer, folderIdentity);
                 string pathSave = GetFilePath(folderContainer, folderIdentity, fileData.FileName);
 
@@ -112,14 +112,14 @@ namespace SmartDigitalPsico.Service
 
         private string GetFilePath(string folderContainer, string folderIdentity, string fileName)
         {
-            string pathDomainBussines = Path.Combine(SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
+            string pathDomainBussines = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), "ResourcesFileSave");
             string folderDest = Path.Combine(pathDomainBussines, folderContainer, folderIdentity);
             return Path.Combine(folderDest, fileName);
         }
 
         private async Task<byte[]> GetFromDisk(FileBase fileEntity)
         {
-            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc() }) ?? [];
+            return await _repositoryFileDisk.Get(new FileData() { FilePath = fileEntity.FilePath, FileName = fileEntity.Description, CreatedDate = DateHelper.GetDateTimeNowFromUtc() }) ?? [];
         }
 
         private async Task SaveCloudStorageAzure(FileBase fileEntity, string folderContainer, string folderIdentity)
@@ -151,7 +151,7 @@ namespace SmartDigitalPsico.Service
                 FileData = fileDataSave,
                 FileName = fileData.FileName,
                 FilePath = pathSave,
-                CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc()
             });
         }
 
@@ -162,7 +162,7 @@ namespace SmartDigitalPsico.Service
                 FolderDestination = folderDest,
                 FileName = fileName,
                 FilePath = pathSave,
-                CreatedDate = SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowFromUtc()
+                CreatedDate = DateHelper.GetDateTimeNowFromUtc()
             });
         }
 
@@ -187,7 +187,7 @@ namespace SmartDigitalPsico.Service
             }
             await DeleteFileDirectory(fileEntity.FileName, fileEntity.FilePath);
 
-            var fileTemp = Path.Combine(SmartDigitalPsico.Core.SDK.Domain.Helpers.DirectoryHelper.GetDiretoryTemp(_configuration), fileEntity.FileName);
+            var fileTemp = Path.Combine(DirectoryHelper.GetDiretoryTemp(_configuration), fileEntity.FileName);
 
             await DeleteFileDirectory(fileEntity.FileName, fileTemp);
 

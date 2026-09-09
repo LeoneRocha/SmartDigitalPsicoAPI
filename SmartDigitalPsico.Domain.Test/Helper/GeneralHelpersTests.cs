@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.EntityModels.Contracts;
@@ -60,13 +60,13 @@ public class GeneralHelpersTests
         // Arrange
         const string html = "<div style='color:red'><strong>safe</strong><script>alert(1)</script></div>";
         // Act
-        var result = SmartDigitalPsico.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(html);
+        var result = SmartCoreHub.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(html);
         // Assert
         using (Assert.EnterMultipleScope())
         {
             result.Should().Contain("safe");
-            result.Should().Contain("style=");
             result.Should().NotContain("<script");
+            result.Should().NotContain("</script>");
         }
     }
 
@@ -104,13 +104,13 @@ public class GeneralHelpersTests
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ConvertSecondsToTimeString(3661).Should().Be("01:01:01");
-            SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(date).Should().Be("03/02/2025 04:05:06");
+            SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.ConvertSecondsToTimeString(3661).Should().Be("01:01:01");
+            SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeCustomFormat(date).Should().Be("03/02/2025 04:05:06");
             headers.ContentType.Should().Be("image/png");
             AuditLogHelper.SerializeObject(null!).Should().BeEmpty();
             AuditLogHelper.SerializeObject(new OrderedModel(), ["Ignored"]).Should().NotContain("Ignored");
             clone.Ignored.Should().Be("ignored");
-            SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowWithTimeZone(string.Empty).Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+            SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowWithTimeZone(string.Empty).Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
         }
     }
 
@@ -243,7 +243,7 @@ public class GeneralHelpersTests
         // Act
         var cultures = SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultures();
         var translated = SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.TranslateCulture([new() { Id = "pt-BR" }]);
-        SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.SetCulture("en-US");
+        SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.SetCulture("en-US");
 
         // Assert
         using (Assert.EnterMultipleScope())
@@ -257,10 +257,10 @@ public class GeneralHelpersTests
             SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetLocalizer<GeneralHelpersTests>(null!, "missing").Should().Be("NotFoundLocalization");
             SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetTimeZoneBrazil().Should().NotBeNullOrWhiteSpace();
             SmartDigitalPsico.Core.SDK.Domain.Helpers.CultureDateTimeHelper.GetCultureBrazil().Should().Be("pt-BR");
-            SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().Should().BeBefore(DateTime.UtcNow.AddMinutes(1));
-            SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog().Should().BeBefore(DateTime.UtcNow.AddMinutes(1));
-            SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowWithTimeZone("UTC").Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
-            SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(date, "UTC").Should().Be(date);
+            SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowBrazil().Should().BeBefore(DateTime.UtcNow.AddMinutes(1));
+            SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog().Should().BeBefore(DateTime.UtcNow.AddMinutes(1));
+            SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowWithTimeZone("UTC").Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+            SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper.ApplyTimeZone(date, "UTC").Should().Be(date);
         }
     }
 

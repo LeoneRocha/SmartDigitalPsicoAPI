@@ -1,4 +1,4 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 
 using SmartDigitalPsico.Domain.Interfaces.Common;
 using SmartDigitalPsico.Domain.Interfaces.Notification;
@@ -29,9 +29,9 @@ namespace SmartDigitalPsico.Service
         /// </summary>
         public async Task ExecuteNotificationProcessAsync()
         {
-            _logger.Information("### {NameProcess} ### - Starting notification processing job...", NotificationDispatchJobService_Name, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+            _logger.Information("### {NameProcess} ### - Starting notification processing job...", NotificationDispatchJobService_Name, DateHelper.GetDateTimeNowToLog());
             await _notificationDispatchJobService.ProcessPendingNotificationsAsync();
-            _logger.Information("### {NameProcess} ### - Notification processing job completed.", NotificationDispatchJobService_Name, SmartDigitalPsico.Core.SDK.Domain.Helpers.DateHelper.GetDateTimeNowToLog());
+            _logger.Information("### {NameProcess} ### - Notification processing job completed.", NotificationDispatchJobService_Name, DateHelper.GetDateTimeNowToLog());
         }
     }
 }
