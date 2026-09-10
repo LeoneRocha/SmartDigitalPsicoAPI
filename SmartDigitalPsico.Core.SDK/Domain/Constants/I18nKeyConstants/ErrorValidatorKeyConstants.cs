@@ -1,50 +1,49 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Constants.I18nKeyConstants;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+
+/// <summary>
+/// Casca ErrorValidatorKeyConstants — espelho de constantes SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Constants.I18nKeyConstants.ErrorValidatorKeyConstants",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper espelhando ErrorValidatorKeyConstants do SCH.")]
+public static class ErrorValidatorKeyConstants
 {
-    /// <summary>
-    /// Classe responsável por ErrorValidatorKeyConstants.
-    /// Responsabilidade: constantes compartilhadas do sistema.
-    /// Relação: referenciado por Domain, Service e WebAPI.
-    /// </summary>
-    public static class ErrorValidatorKeyConstants
-    {
-        public const string AccreditationNull = "ErrorValidator_Accreditation_Null";
-        public const string AccreditationUnique = "ErrorValidator_Accreditation_Unique";
-        public const string AnnotationDateNull = "ErrorValidator_AnnotationDate_Null";
-        public const string AnnotationNull = "ErrorValidator_Annotation_Null";
-        public const string CPFNull = "ErrorValidator_CPF_Null";
-        public const string CreatedUserIdNull = "ErrorValidator_CreatedUserId_Null";
-        public const string DateOfBirthInvalid = "ErrorValidator_DateOfBirth_Invalid";
-        public const string DescriptionNull = "ErrorValidator_Description_Null";
-        public const string EmailInvalid = "ErrorValidator_Email_Invalid";
-        public const string EmailNull = "ErrorValidator_Email_Null";
-        public const string EmailUnique = "ErrorValidator_Email_Unique";
-        public const string LanguageMaximumLength = "ErrorValidator_Language_MaximumLength";
-        public const string LanguageNull = "ErrorValidator_Language_Null";
-        public const string LoginNull = "ErrorValidator_Login_Null";
-        public const string LoginUnique = "ErrorValidator_Login_Unique";
-        public const string NameNull = "ErrorValidator_Name_Null";
-        public const string RGNull = "ErrorValidator_RG_Null";
-        public const string ErrorValidator_User_Not_Permission = "ErrorValidator_User_Not_Permission";
+    public const string AccreditationNull = Sch.ErrorValidatorKeyConstants.AccreditationNull;
+    public const string AccreditationUnique = Sch.ErrorValidatorKeyConstants.AccreditationUnique;
+    public const string AnnotationDateNull = Sch.ErrorValidatorKeyConstants.AnnotationDateNull;
+    public const string AnnotationNull = Sch.ErrorValidatorKeyConstants.AnnotationNull;
+    public const string CPFNull = Sch.ErrorValidatorKeyConstants.CPFNull;
+    public const string CreatedUserIdNull = Sch.ErrorValidatorKeyConstants.CreatedUserIdNull;
+    public const string DateOfBirthInvalid = Sch.ErrorValidatorKeyConstants.DateOfBirthInvalid;
+    public const string DescriptionNull = Sch.ErrorValidatorKeyConstants.DescriptionNull;
+    public const string EmailInvalid = Sch.ErrorValidatorKeyConstants.EmailInvalid;
+    public const string EmailNull = Sch.ErrorValidatorKeyConstants.EmailNull;
+    public const string EmailUnique = Sch.ErrorValidatorKeyConstants.EmailUnique;
+    public const string LanguageMaximumLength = Sch.ErrorValidatorKeyConstants.LanguageMaximumLength;
+    public const string LanguageNull = Sch.ErrorValidatorKeyConstants.LanguageNull;
+    public const string LoginNull = Sch.ErrorValidatorKeyConstants.LoginNull;
+    public const string LoginUnique = Sch.ErrorValidatorKeyConstants.LoginUnique;
+    public const string NameNull = Sch.ErrorValidatorKeyConstants.NameNull;
+    public const string RGNull = Sch.ErrorValidatorKeyConstants.RGNull;
+    public const string ErrorValidator_User_Not_Permission = Sch.ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission;
 
-        #region Patient
-        public const string PatientChanged = "ErrorValidator_Patient_Changed";
-        public const string PatientMedicalCreated = "ErrorValidator_Patient_Medical_Created";
-        public const string PatientMedicalModify = "ErrorValidator_Patient_Medical_Modify";
-        public const string PatientNotFound = "ErrorValidator_Patient_NotFound";
-        public const string PatientNull = "ErrorValidator_Patient_Null";
+    #region Patient
+    public const string PatientChanged = Sch.ErrorValidatorKeyConstants.PatientChanged;
+    public const string PatientMedicalCreated = Sch.ErrorValidatorKeyConstants.PatientMedicalCreated;
+    public const string PatientMedicalModify = Sch.ErrorValidatorKeyConstants.PatientMedicalModify;
+    public const string PatientNotFound = Sch.ErrorValidatorKeyConstants.PatientNotFound;
+    public const string PatientNull = Sch.ErrorValidatorKeyConstants.PatientNull;
+    #endregion Patient
 
-        #endregion Patient
-
-        #region MEDICAL 
-
-        public const string MedicalChanged = "ErrorValidator_Medical_Changed";
-        public const string MedicalCreatedInvalid = "ErrorValidator_MedicalCreated_Invalid";
-        public const string MedicalIdNotFound = "ErrorValidator_MedicalId_NotFound";
-        public const string MedicalIdNull = "ErrorValidator_MedicalId_Null";
-        public const string MedicalModifyInvalid = "ErrorValidator_MedicalModify_Invalid";
-
-        #endregion MEDICAL
-    }
-
+    #region MEDICAL
+    public const string MedicalChanged = Sch.ErrorValidatorKeyConstants.MedicalChanged;
+    public const string MedicalCreatedInvalid = Sch.ErrorValidatorKeyConstants.MedicalCreatedInvalid;
+    public const string MedicalIdNotFound = Sch.ErrorValidatorKeyConstants.MedicalIdNotFound;
+    public const string MedicalIdNull = Sch.ErrorValidatorKeyConstants.MedicalIdNull;
+    public const string MedicalModifyInvalid = Sch.ErrorValidatorKeyConstants.MedicalModifyInvalid;
+    #endregion MEDICAL
 }
-

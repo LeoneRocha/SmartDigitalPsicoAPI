@@ -1,15 +1,15 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts;
+
+/// <summary>
+/// Casca EntityDtoBase — herda SCH Common.EntityDtoBase.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Common.EntityDtoBase",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando EntityDtoBase do SCH.")]
+public abstract class EntityDtoBase : SmartCoreHub.Core.SDK.Common.EntityDtoBase, IEntityDto
 {
-    /// <summary>
-    /// Classe responsável por EntityDtoBase.
-    /// Responsabilidade: contrato compartilhado entre camadas.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public abstract class EntityDtoBase : IEntityDto
-    {
-        public long Id { get; set; }
-        public bool Enable { get; set; }
-    }
 }

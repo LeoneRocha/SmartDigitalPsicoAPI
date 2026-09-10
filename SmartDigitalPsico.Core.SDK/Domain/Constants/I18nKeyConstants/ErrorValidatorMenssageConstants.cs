@@ -1,46 +1,49 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Constants.I18nKeyConstants;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+
+/// <summary>
+/// Casca ErrorValidatorMenssageConstants — tipografia Menssage preservada.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Constants.I18nKeyConstants.ErrorValidatorMenssageConstants",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper espelhando ErrorValidatorMenssageConstants do SCH.")]
+public static class ErrorValidatorMenssageConstants
 {
-    /// <summary>
-    /// Classe responsável por ErrorValidatorMenssageConstants.
-    /// Responsabilidade: constantes compartilhadas do sistema.
-    /// Relação: referenciado por Domain, Service e WebAPI.
-    /// </summary>
-    public static class ErrorValidatorMenssageConstants
-    {
-        public const string AccreditationNull = "Accreditation cannot be empty.";
-        public const string AccreditationUnique = "Accreditation must be unique.";
-        public const string AnnotationDateNull = "Annotation date cannot be empty.";
-        public const string AnnotationNull = "Annotation cannot be empty.";
-        public const string CPFNull = "CPF cannot be empty.";
-        public const string CreatedUserIdNull = "The user creating must be provided.";
-        public const string DateOfBirthInvalid = "Date of birth is invalid";
-        public const string DescriptionNull = "Description cannot be empty";
-        public const string EmailInvalid = "Email is invalid.";
-        public const string EmailNull = "Email cannot be empty";
-        public const string EmailUnique = "Email must be unique.";
-        public const string LanguageMaximumLength = "Language cannot exceed {MaxLength}";
-        public const string LanguageNull = "Language cannot be empty";
-        public const string LoginNull = "Login cannot be empty.";
-        public const string LoginUnique = "Login must be unique.";
-        public const string NameNull = "Name cannot be empty";
-        public const string RGNull = "RG cannot be empty.";
-        public const string ErrorValidator_User_Not_Permission = "You do not have the necessary permissions to perform this action.";
+    public const string AccreditationNull = Sch.ErrorValidatorMenssageConstants.AccreditationNull;
+    public const string AccreditationUnique = Sch.ErrorValidatorMenssageConstants.AccreditationUnique;
+    public const string AnnotationDateNull = Sch.ErrorValidatorMenssageConstants.AnnotationDateNull;
+    public const string AnnotationNull = Sch.ErrorValidatorMenssageConstants.AnnotationNull;
+    public const string CPFNull = Sch.ErrorValidatorMenssageConstants.CPFNull;
+    public const string CreatedUserIdNull = Sch.ErrorValidatorMenssageConstants.CreatedUserIdNull;
+    public const string DateOfBirthInvalid = Sch.ErrorValidatorMenssageConstants.DateOfBirthInvalid;
+    public const string DescriptionNull = Sch.ErrorValidatorMenssageConstants.DescriptionNull;
+    public const string EmailInvalid = Sch.ErrorValidatorMenssageConstants.EmailInvalid;
+    public const string EmailNull = Sch.ErrorValidatorMenssageConstants.EmailNull;
+    public const string EmailUnique = Sch.ErrorValidatorMenssageConstants.EmailUnique;
+    public const string LanguageMaximumLength = Sch.ErrorValidatorMenssageConstants.LanguageMaximumLength;
+    public const string LanguageNull = Sch.ErrorValidatorMenssageConstants.LanguageNull;
+    public const string LoginNull = Sch.ErrorValidatorMenssageConstants.LoginNull;
+    public const string LoginUnique = Sch.ErrorValidatorMenssageConstants.LoginUnique;
+    public const string NameNull = Sch.ErrorValidatorMenssageConstants.NameNull;
+    public const string RGNull = Sch.ErrorValidatorMenssageConstants.RGNull;
+    public const string ErrorValidator_User_Not_Permission = Sch.ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission;
 
-        #region MEDICAL 
-        public const string MedicalChanged = "The provided doctor must be the logged-in one. Doctors cannot create files for another doctor.";
-        public const string MedicalCreatedInvalid = "The provided doctor must be the logged-in one. Doctors cannot create files for another doctor.";
-        public const string MedicalIdNotFound = "The provided doctor does not exist.";
-        public const string MedicalIdNull = "Doctor must be provided.";
-        public const string MedicalModifyInvalid = "The provided doctor must be the logged-in one. Doctors cannot modify files for another doctor.";
-        #endregion MEDICAL
+    #region MEDICAL
+    public const string MedicalChanged = Sch.ErrorValidatorMenssageConstants.MedicalChanged;
+    public const string MedicalCreatedInvalid = Sch.ErrorValidatorMenssageConstants.MedicalCreatedInvalid;
+    public const string MedicalIdNotFound = Sch.ErrorValidatorMenssageConstants.MedicalIdNotFound;
+    public const string MedicalIdNull = Sch.ErrorValidatorMenssageConstants.MedicalIdNull;
+    public const string MedicalModifyInvalid = Sch.ErrorValidatorMenssageConstants.MedicalModifyInvalid;
+    #endregion MEDICAL
 
-        #region Patient  
-        public const string PatientChanged = "The patient cannot be changed.";
-        public const string PatientMedicalCreated = "Patient information cannot be added by another doctor or user.";
-        public const string PatientMedicalModify = "Patient information cannot be modified by another doctor or user.";
-        public const string PatientNotFound = "The provided patient does not exist.";
-        public const string PatientNull = "Patient must be provided.";
-        #endregion Patient
-    }
+    #region Patient
+    public const string PatientChanged = Sch.ErrorValidatorMenssageConstants.PatientChanged;
+    public const string PatientMedicalCreated = Sch.ErrorValidatorMenssageConstants.PatientMedicalCreated;
+    public const string PatientMedicalModify = Sch.ErrorValidatorMenssageConstants.PatientMedicalModify;
+    public const string PatientNotFound = Sch.ErrorValidatorMenssageConstants.PatientNotFound;
+    public const string PatientNull = Sch.ErrorValidatorMenssageConstants.PatientNull;
+    #endregion Patient
 }
-

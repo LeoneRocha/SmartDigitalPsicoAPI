@@ -1,13 +1,16 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO.Contracts;
+
+/// <summary>
+/// Casca EntityDtoBaseDomain — herda EntityDtoBase SDP + campos alinhados ao SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.Contracts.EntityDtoBaseDomain",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca estrutural; herda EntityDtoBase SDP para preservar cadeia DTO.")]
+public abstract class EntityDtoBaseDomain : EntityDtoBase
 {
-    /// <summary>
-    /// Classe responsável por EntityDtoBaseDomain.
-    /// Responsabilidade: contrato compartilhado entre camadas.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public abstract class EntityDtoBaseDomain : EntityDtoBase
-    {
-        public string Description { get; set; } = string.Empty;
-        public string Language { get; set; } = "en";
-    }
+    public string Description { get; set; } = string.Empty;
+    public string Language { get; set; } = "en";
 }

@@ -1,48 +1,32 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
 
-namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure
+namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure;
+
+/// <summary>
+/// Casca StorageQueueService — espelho SCH com factory SDP.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Service.Infrastructure.StorageQueueService",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca espelhando StorageQueueService; factory SDP na assinatura pública.")]
+public class StorageQueueService : IStorageQueueContract
 {
-    /// <summary>
-    /// Classe responsável por StorageQueueService.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: suporta Services e jobs de background.
-    /// </summary>
-    public class StorageQueueService : IStorageQueueContract
+    private readonly IStorageQueueContract _storageQueueRepository;
+
+    public StorageQueueService(IStorageQueueRepositoryFactory storageQueueRepositoryFactory, string queueName)
     {
-        private readonly IStorageQueueContract _storageQueueRepository;
-
-        /// <summary>
-        /// Método StorageQueueService: executa a operação StorageQueueService.
-        /// </summary>
-        public StorageQueueService(IStorageQueueRepositoryFactory storageQueueRepositoryFactory, string queueName)
-        {
-            EStorageAdapterType _storageAdapterType = EStorageAdapterType.Azure;
-            _storageQueueRepository = storageQueueRepositoryFactory.Create(_storageAdapterType, queueName);
-        }
-
-        /// <summary>
-        /// Método DeleteMessageAsync: remove ou cancela um registro/recurso.
-        /// </summary>
-        public virtual async Task DeleteMessageAsync(string messageId, string popReceipt)
-        {
-            await _storageQueueRepository.DeleteMessageAsync(messageId, popReceipt);
-        }
-
-        /// <summary>
-        /// Método DequeueMessageAsync: executa a operação DequeueMessageAsync.
-        /// </summary>
-        public virtual async Task<string> DequeueMessageAsync()
-        {
-            return await _storageQueueRepository.DequeueMessageAsync();
-        }
-
-        /// <summary>
-        /// Método EnqueueMessageAsync: executa a operação EnqueueMessageAsync.
-        /// </summary>
-        public virtual async Task EnqueueMessageAsync(string message)
-        {
-            await _storageQueueRepository.EnqueueMessageAsync(message);
-        }
+        EStorageAdapterType storageAdapterType = EStorageAdapterType.Azure;
+        _storageQueueRepository = storageQueueRepositoryFactory.Create(storageAdapterType, queueName);
     }
+
+    public virtual async Task DeleteMessageAsync(string messageId, string popReceipt)
+        => await _storageQueueRepository.DeleteMessageAsync(messageId, popReceipt);
+
+    public virtual async Task<string> DequeueMessageAsync()
+        => await _storageQueueRepository.DequeueMessageAsync();
+
+    public virtual async Task EnqueueMessageAsync(string message)
+        => await _storageQueueRepository.EnqueueMessageAsync(message);
 }

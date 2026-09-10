@@ -1,33 +1,18 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Contracts
+namespace SmartDigitalPsico.Core.SDK.Domain.Contracts;
+
+/// <summary>
+/// Casca EntityBase long+Enable — herda SCH Domain.Contracts.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Contracts.EntityBase",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando EntityBase (long) de SmartCoreHub.Core.SDK.")]
+public abstract class EntityBase
+    : SmartCoreHub.Core.SDK.Domain.Contracts.EntityBase,
+      IEntityBase,
+      IEntityBaseLog
 {
-    /// <summary>
-    /// Classe responsável por EntityBase.
-    /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public abstract class EntityBase : IEntityBase, IEntityBaseLog
-    {
-        [Column("Id", Order = 0)]
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
-
-        [Column("Enable", Order = 1)]
-        [DefaultValue(true)]
-        public bool Enable { get; set; }
-
-        [Column("CreatedDate")]
-        public DateTime CreatedDate { get; set; }
-
-        [Column("ModifyDate")]
-        public DateTime ModifyDate { get; set; }
-
-        [Column("LastAccessDate")]
-        public DateTime LastAccessDate { get; set; }
-    }
 }

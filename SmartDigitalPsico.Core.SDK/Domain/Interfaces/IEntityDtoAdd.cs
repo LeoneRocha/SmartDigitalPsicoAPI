@@ -1,13 +1,14 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+
+/// <summary>
+/// Casca IEntityDtoAdd — herda SCH Abstractionsions.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Abstractions.IEntityDtoAdd",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando IEntityDtoAdd do SCH.")]
+public interface IEntityDtoAdd : SmartCoreHub.Core.SDK.Domain.Abstractions.IEntityDtoAdd
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IEntityDtoAdd.
-    /// Responsabilidade: contrato de abstração do domínio.
-    /// Relação: implementado nas camadas Data/Service.
-    /// </summary>
-    public interface IEntityDtoAdd
-    {
-
-    }
 }
-

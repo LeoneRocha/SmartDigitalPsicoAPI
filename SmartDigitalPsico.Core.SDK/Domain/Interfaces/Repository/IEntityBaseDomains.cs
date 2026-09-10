@@ -1,15 +1,14 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
+
+/// <summary>
+/// Casca IEntityBaseDomains — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Interfaces.Repository.IEntityBaseDomains",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando IEntityBaseDomains do SCH.")]
+public interface IEntityBaseDomains : SmartCoreHub.Core.SDK.Domain.Interfaces.Repository.IEntityBaseDomains
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IEntityBaseDomains.
-    /// Responsabilidade: repositório de persistência.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface IEntityBaseDomains
-    {
-        string Description { get; set; }
-
-        string Language { get; set; }
-
-    }
 }

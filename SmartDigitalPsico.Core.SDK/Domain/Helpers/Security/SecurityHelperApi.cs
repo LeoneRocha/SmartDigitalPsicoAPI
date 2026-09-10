@@ -1,23 +1,20 @@
 ﻿using System.Security.Claims;
+using SmartCoreHub.Core.SDK.Common.Attributes;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using Sch = SmartCoreHub.Core.SDK.Domain.Helpers.Security;
+using SchEnums = SmartCoreHub.Core.SDK.Domain.Enums;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers.Security
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
+
+/// <summary>
+/// Casca SecurityHelperApi — delega a SCH com cast de enum.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.Security.SecurityHelperApi",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando SecurityHelperApi ao SCH.")]
+public static class SecurityHelperApi
 {
-    /// <summary>
-    /// Helper genérico de Claims → user id para APIs.
-    /// </summary>
-    public static class SecurityHelperApi
-    {
-        public static long GetUserIdApi(ClaimsPrincipal user, ETypeApiCredential typeApiCredential)
-        {
-            long idUserResult = 0;
-            if (user != null
-                && typeApiCredential == ETypeApiCredential.Jwt
-                && long.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out long idUser))
-            {
-                idUserResult = idUser;
-            }
-            return idUserResult;
-        }
-    }
+    public static long GetUserIdApi(ClaimsPrincipal user, ETypeApiCredential typeApiCredential)
+        => Sch.SecurityHelperApi.GetUserIdApi(user, (SchEnums.ETypeApiCredential)(int)typeApiCredential);
 }

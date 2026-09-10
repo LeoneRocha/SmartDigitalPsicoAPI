@@ -1,45 +1,18 @@
-﻿using System.Reflection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca IgnorableSerializerContractResolver — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando IgnorableSerializerContractResolver do SCH.")]
+public class IgnorableSerializerContractResolver : SmartCoreHub.Core.SDK.Domain.Helpers.IgnorableSerializerContractResolver
 {
-    /// <summary>
-    /// Classe responsável por IgnorableSerializerContractResolver.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
-    /// </summary>
-    public class IgnorableSerializerContractResolver : DefaultContractResolver
+    public IgnorableSerializerContractResolver(IEnumerable<string> propertiesToIgnore)
+        : base(propertiesToIgnore)
     {
-        private readonly HashSet<string> _propertiesToIgnore;
-
-        /// <summary>
-        /// Método IgnorableSerializerContractResolver: executa a operação IgnorableSerializerContractResolver.
-        /// </summary>
-        public IgnorableSerializerContractResolver(IEnumerable<string> propertiesToIgnore)
-        {
-            _propertiesToIgnore = new HashSet<string>(propertiesToIgnore);
-        }
-
-        /// <summary>
-        /// Método CreateProperty: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-        {
-            var property = base.CreateProperty(member, memberSerialization);
-            ApplyIgnoreRulesForTests(property);
-            return property;
-        }
-
-        /// <summary>
-        /// Applies ignore rules for coverage of null PropertyName paths.
-        /// </summary>
-        public void ApplyIgnoreRulesForTests(JsonProperty property)
-        {
-            if (_propertiesToIgnore.Contains(property.PropertyName!))
-            {
-                property.ShouldSerialize = _ => false;
-            }
-        }
     }
 }

@@ -1,46 +1,23 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
 
-namespace SmartDigitalPsico.Core.SDK.Data.Repository.Infrastructure
+namespace SmartDigitalPsico.Core.SDK.Data.Repository.Infrastructure;
+
+/// <summary>
+/// Casca GenericStorageQueueRepository — herda SCH NoSql.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Infrastructure.Azure.NoSql.GenericStorageQueueRepository",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando GenericStorageQueueRepository do SCH.")]
+public class GenericStorageQueueRepository
+    : SmartCoreHub.Core.SDK.Infrastructure.Azure.NoSql.GenericStorageQueueRepository,
+      IStorageQueueContract
 {
-    /// <summary>
-    /// Classe responsável por GenericStorageQueueRepository.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public class GenericStorageQueueRepository : IStorageQueueContract
+    public GenericStorageQueueRepository(
+        SmartCoreHub.Core.SDK.Infrastructure.Azure.NoSql.IStorageQueueContract storageQueueAdapter,
+        string tableName)
+        : base(storageQueueAdapter, tableName)
     {
-        private readonly IStorageQueueContract _storageQueueAdapter;
-
-        /// <summary>
-        /// Método GenericStorageQueueRepository: executa a operação GenericStorageQueueRepository.
-        /// </summary>
-        public GenericStorageQueueRepository(IStorageQueueContract storageQueueAdapter, string tableName)
-        {
-            _storageQueueAdapter = storageQueueAdapter;
-        }
-
-        /// <summary>
-        /// Método DeleteMessageAsync: remove ou cancela um registro/recurso.
-        /// </summary>
-        public virtual async Task DeleteMessageAsync(string messageId, string popReceipt)
-        {
-            await _storageQueueAdapter.DeleteMessageAsync(messageId, popReceipt);
-        }
-
-        /// <summary>
-        /// Método DequeueMessageAsync: executa a operação DequeueMessageAsync.
-        /// </summary>
-        public virtual async Task<string> DequeueMessageAsync()
-        {
-            return await _storageQueueAdapter.DequeueMessageAsync();
-        }
-
-        /// <summary>
-        /// Método EnqueueMessageAsync: executa a operação EnqueueMessageAsync.
-        /// </summary>
-        public virtual async Task EnqueueMessageAsync(string message)
-        {
-            await _storageQueueAdapter.EnqueueMessageAsync(message);
-        }
     }
 }

@@ -1,17 +1,14 @@
-﻿using Azure.Storage.Blobs.Models;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.DTO
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO;
+
+/// <summary>
+/// Casca BlobFileDto — herda SCH Domain.DTOs.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.BlobFileDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando BlobFileDto do SCH.")]
+public class BlobFileDto : SmartCoreHub.Core.SDK.Domain.DTOs.BlobFileDto
 {
-    /// <summary>
-    /// Classe responsável por BlobFileDto.
-    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
-    /// Relação: usado por Controllers, Services e Validators.
-    /// </summary>
-    public class BlobFileDto
-    {
-        public string FilePath { get; set; } = string.Empty;
-        public string ContainerName { get; set; } = string.Empty;
-        public BlobHttpHeaders? BlobHeaders { get; set; }
-        public string? BlobName { get; set; }
-    }
 }

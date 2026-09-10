@@ -229,8 +229,10 @@ public class AzureStorageAdaptersCoverageTests
                 AzureStorageBlobAdapter.ResolveBlobName("explicit", tempFile).Should().Be("explicit");
             }
 
-            Assert.ThrowsAsync<AppWarningException>(async () => await sut.CreateContainerIfNotExists(""));
-            Assert.ThrowsAsync<AppWarningException>(async () => await sut.CreateContainerIfNotExists(new string('a', 64)));
+            Assert.ThrowsAsync(Is.InstanceOf<SmartCoreHub.Core.SDK.Common.Exceptions.AppWarningException>(),
+                async () => await sut.CreateContainerIfNotExists(""));
+            Assert.ThrowsAsync(Is.InstanceOf<SmartCoreHub.Core.SDK.Common.Exceptions.AppWarningException>(),
+                async () => await sut.CreateContainerIfNotExists(new string('a', 64)));
             Assert.ThrowsAsync<ArgumentException>(async () => await sut.GetFileStorageUrlPublic("", "b"));
             Assert.ThrowsAsync<ArgumentException>(async () => await sut.GetFileStorageUrlPublic("c", ""));
         }

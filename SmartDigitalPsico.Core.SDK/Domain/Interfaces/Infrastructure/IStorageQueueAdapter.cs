@@ -1,23 +1,14 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
+
+/// <summary>
+/// Casca IStorageQueueContract — herda SCH NoSql.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Infrastructure.Azure.NoSql.IStorageQueueContract",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando IStorageQueueContract do SCH.")]
+public interface IStorageQueueContract : SmartCoreHub.Core.SDK.Infrastructure.Azure.NoSql.IStorageQueueContract
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IStorageQueueContract.
-    /// Responsabilidade: infraestrutura transversal (cache, notificação, etc.).
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface IStorageQueueContract
-    {
-        /// <summary>
-        /// Método EnqueueMessageAsync: executa a operação EnqueueMessageAsync.
-        /// </summary>
-        Task EnqueueMessageAsync(string message);
-        /// <summary>
-        /// Método DequeueMessageAsync: executa a operação DequeueMessageAsync.
-        /// </summary>
-        Task<string> DequeueMessageAsync();
-        /// <summary>
-        /// Método DeleteMessageAsync: remove ou cancela um registro/recurso.
-        /// </summary>
-        Task DeleteMessageAsync(string messageId, string popReceipt);
-    }
 }

@@ -1,38 +1,18 @@
-﻿using System.Globalization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using SmartCoreHub.Core.SDK.Common.Attributes;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca RequestCultureMiddleware — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.RequestCultureMiddleware",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando RequestCultureMiddleware do SCH.")]
+public class RequestCultureMiddleware : SmartCoreHub.Core.SDK.Domain.Helpers.RequestCultureMiddleware
 {
-    /// <summary>
-    /// Classe responsável por RequestCultureMiddleware.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
-    /// </summary>
-    public class RequestCultureMiddleware
+    public RequestCultureMiddleware(RequestDelegate next) : base(next)
     {
-        private readonly RequestDelegate _next;
-
-        /// <summary>
-        /// Método RequestCultureMiddleware: operação de agendamento.
-        /// </summary>
-        public RequestCultureMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
-
-        /// <summary>
-        /// Método Invoke: executa a operação Invoke.
-        /// </summary>
-        public async Task Invoke(HttpContext context)
-        {
-            var requestedCulture = context.Request.Headers["X-Culture"].ToString();
-            if (!string.IsNullOrWhiteSpace(requestedCulture))
-            {
-                var cultureInfo = new CultureInfo(requestedCulture);
-                CultureInfo.CurrentCulture = cultureInfo;
-                CultureInfo.CurrentUICulture = cultureInfo;
-            }
-            await _next.Invoke(context);
-        }
     }
 }

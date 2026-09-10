@@ -1,15 +1,16 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+
+/// <summary>
+/// Casca ILocationSaveFileConfigurationDto — espelho SCH com enum SDP.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Interfaces.ILocationSaveFileConfigurationDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca com enum SDP; não herda SCH interface por tipo de enum.")]
+public interface ILocationSaveFileConfigurationDto
 {
-    /// <summary>
-    /// Interface (contrato) responsável por ILocationSaveFileConfigurationDto.
-    /// Responsabilidade: contrato de abstração do domínio.
-    /// Relação: implementado nas camadas Data/Service.
-    /// </summary>
-    public interface ILocationSaveFileConfigurationDto
-    {
-        ETypeLocationSaveFiles TypeLocationSaveFiles { get; set; }
-    }
+    ETypeLocationSaveFiles TypeLocationSaveFiles { get; set; }
 }
-

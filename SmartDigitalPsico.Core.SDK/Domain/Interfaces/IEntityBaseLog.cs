@@ -1,18 +1,14 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+
+/// <summary>
+/// Casca IEntityBaseLog — herda SCH Abstractions.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Abstractions.IEntityBaseLog",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando IEntityBaseLog do SCH.")]
+public interface IEntityBaseLog : SmartCoreHub.Core.SDK.Domain.Abstractions.IEntityBaseLog
 {
-    /// <summary>
-    /// Interface (contrato) responsável por IEntityBaseLog.
-    /// Responsabilidade: contrato de abstração do domínio.
-    /// Relação: implementado nas camadas Data/Service.
-    /// </summary>
-    public interface IEntityBaseLog
-    {
-
-        DateTime CreatedDate { get; set; }
-
-        DateTime ModifyDate { get; set; }
-
-        DateTime LastAccessDate { get; set; }
-
-    }
 }
