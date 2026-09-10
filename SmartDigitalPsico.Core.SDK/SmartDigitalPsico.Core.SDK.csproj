@@ -13,7 +13,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-  <!-- SDP-CASCA: canônico SmartCoreHub.Core.SDK nuget.org 20260909.1825.0 -->
+  <!-- SDP-CASCA: canônico SmartCoreHub.Core.SDK nuget.org 20260910.6.0 -->
   <ItemGroup>
     <PackageReference Include="SmartCoreHub.Core.SDK" />
   </ItemGroup>

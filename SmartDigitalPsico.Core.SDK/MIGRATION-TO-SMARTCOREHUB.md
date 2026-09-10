@@ -1,6 +1,6 @@
 # SmartDigitalPsico.Core.SDK → casca sobre SmartCoreHub.Core.SDK
 
-**Status:** ✅ **SDP-CASCA** + ✅ **SDP-AJUSTE** + ✅ **SDP-LIMPEZA** — NuGet **`20260909.1825.0`** · Core.SDK.Tests **140/140** · sln Release 0/0  
+**Status:** ✅ **SDP-CASCA** + ✅ **SDP-AJUSTE** + ✅ **SDP-LIMPEZA** — NuGet **`20260910.6.0`** · Core.SDK.Tests **140/140** · sln **1343** testes ✅  
 **Atualizado:** 2026-09-09
 
 Os tipos casca neste pacote estão marcados com `[SdkWrappedSource]`:
@@ -13,19 +13,19 @@ Os tipos casca neste pacote estão marcados com `[SdkWrappedSource]`:
 | Campo | Valor |
 | :--- | :--- |
 | **PackageId canônico** | `SmartCoreHub.Core.SDK` |
-| **Versão oficial** | **`20260909.1825.0`** ([nuget.org](https://www.nuget.org/packages/SmartCoreHub.Core.SDK/20260909.1825.0)) |
-| **Feed** | nuget.org (Gate NuGet OK mantenedor 2026-09-09) |
+| **Versão oficial** | **`20260910.6.0`** ([nuget.org](https://www.nuget.org/packages/SmartCoreHub.Core.SDK/20260910.6.0)) |
+| **Feed** | nuget.org (OK mantenedor 2026-09-09 / bump 2026-09-10) |
 | **Atributo de casca** | `SdkWrappedSourceAttribute` |
 | **DiagnosticId** | `SDP_MIGRATED` |
 
 ## Checklist SDP-CASCA
 
-1. [x] Gate NuGet — publicado + OK mantenedor (`20260909.1825.0`).
-2. [x] CPM / `PackageReference` → **`20260909.1825.0`** (sem feed local).
+1. [x] Gate NuGet — publicado + OK mantenedor (`20260909.1825.0`; bump **`20260910.6.0`**).
+2. [x] CPM / `PackageReference` → **`20260910.6.0`** (sem feed local).
 3. [~] Thin wrappers `[SdkWrappedSource]` (MVP prévio realinhado ao NuGet oficial).
 4. [x] Retenções clínicas / `EntityBase` documentadas.
 5. [x] `SmartDigitalPsico.Core.SDK.Tests` verdes — **140/140** (pós-LIMPEZA).
-6. [x] `SmartDigitalPsicoAPI.sln` Release 0 erros.
+6. [x] `SmartDigitalPsicoAPI.sln` Release 0 erros · suíte **1343/1343**.
 
 ## SDP-AJUSTE (2026-09-09) ✅
 

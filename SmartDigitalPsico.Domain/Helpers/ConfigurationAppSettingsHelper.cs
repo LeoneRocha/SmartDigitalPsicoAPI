@@ -3,7 +3,7 @@
 namespace SmartDigitalPsico.Domain.Helpers
 {
     /// <summary>
-    /// Helper de appsettings: genéricos/seções Core delegam ao SCH (NuGet 20260909.1825.0);
+    /// Helper de appsettings: genéricos/seções Core delegam ao SCH (NuGet 20260910.6.0);
     /// seções de produto permanecem aqui.
     /// </summary>
     public static class ConfigurationAppSettingsHelper

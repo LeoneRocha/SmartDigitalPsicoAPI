@@ -1,4 +1,4 @@
-// SDP-AJUSTE (SA.1) — FQN SCH seguros no NuGet 20260909.1825.0.
+// SDP-AJUSTE (SA.1) — FQN SCH seguros no NuGet 20260910.6.0.
 // DI AddCore* permanece em SmartDigitalPsico.Core.SDK.Service.Configure.* (registra tipos casca).
 
 global using DateHelper = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper;
