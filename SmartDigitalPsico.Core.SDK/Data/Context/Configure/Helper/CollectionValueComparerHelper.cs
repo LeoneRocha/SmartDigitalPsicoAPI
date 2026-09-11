@@ -1,29 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
+using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Infrastructure.Data;
 
-namespace SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper
+namespace SmartDigitalPsico.Core.SDK.Data.Context.Configure.Helper;
+
+/// <summary>
+/// Casca CollectionValueComparerHelper — delega ao SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Infrastructure.Data.CollectionValueComparerHelper",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando CollectionValueComparerHelper ao SCH.")]
+public static class CollectionValueComparerHelper
 {
-    /// <summary>
-    /// ValueComparer genérico para propriedades com HasConversion (coleções/arrays).
-    /// </summary>
-    public static class CollectionValueComparerHelper
-    {
-        public static ValueComparer<T[]> ForArray<T>()
-        {
-            return new ValueComparer<T[]>(
-                (a, b) => ReferenceEquals(a, b) || (a != null && b != null && a.SequenceEqual(b)),
-                a => a == null ? 0 : a.Aggregate(0, (h, v) => HashCode.Combine(h, EqualityComparer<T>.Default.GetHashCode(v!))),
-                a => a == null ? Array.Empty<T>() : a.ToArray());
-        }
+    public static ValueComparer<T[]> ForArray<T>()
+        => Sch.CollectionValueComparerHelper.ForArray<T>();
 
-        public static ValueComparer<T[]> ForJsonArray<T>()
-        {
-            return new ValueComparer<T[]>(
-                (a, b) => JsonConvert.SerializeObject(a) == JsonConvert.SerializeObject(b),
-                a => a == null ? 0 : JsonConvert.SerializeObject(a).GetHashCode(StringComparison.Ordinal),
-                a => a == null
-                    ? Array.Empty<T>()
-                    : JsonConvert.DeserializeObject<T[]>(JsonConvert.SerializeObject(a))!);
-        }
-    }
+    public static ValueComparer<T[]> ForJsonArray<T>()
+        => Sch.CollectionValueComparerHelper.ForJsonArray<T>();
 }

@@ -1,31 +1,33 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Constants.I18nKeyConstants;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+
+/// <summary>
+/// Casca GeneralLanguageMenssageConstants — espelho de mensagens i18n SCH (typo Menssage preservado).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Constants.I18nKeyConstants.GeneralLanguageMenssageConstants",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper espelhando GeneralLanguageMenssageConstants do SCH.")]
+public static class GeneralLanguageMenssageConstants
 {
-    /// <summary>
-    /// Classe responsável por GeneralLanguageMenssageConstants.
-    /// Responsabilidade: constantes compartilhadas do sistema.
-    /// Relação: referenciado por Domain, Service e WebAPI.
-    /// </summary>
-    public static class GeneralLanguageMenssageConstants
-    {
-        public const string RegisterCreated = "Record created";
-        public const string RegisterDeleted = "Register Deleted";
-        public const string RegisterUpdated = "Register Updated";
-        public const string RegisterIsFound = "Record founded";
-        public const string RegisterIsNotFound = "Record not found";
-        public const string RegisterExist = "Register exists";
-        public const string RegisterFind = "Record located";
-        public const string RegisterCounted = "Records counted";
+    public const string RegisterCreated = Sch.GeneralLanguageMenssageConstants.RegisterCreated;
+    public const string RegisterDeleted = Sch.GeneralLanguageMenssageConstants.RegisterDeleted;
+    public const string RegisterUpdated = Sch.GeneralLanguageMenssageConstants.RegisterUpdated;
+    public const string RegisterIsFound = Sch.GeneralLanguageMenssageConstants.RegisterIsFound;
+    public const string RegisterIsNotFound = Sch.GeneralLanguageMenssageConstants.RegisterIsNotFound;
+    public const string RegisterExist = Sch.GeneralLanguageMenssageConstants.RegisterExist;
+    public const string RegisterFind = Sch.GeneralLanguageMenssageConstants.RegisterFind;
+    public const string RegisterCounted = Sch.GeneralLanguageMenssageConstants.RegisterCounted;
 
-        public const string DefaultPtBr = "Default";
-        public const string LangValid = "Valid";
-        public const string LangErrors = "Errors occurred!";
-        public const string GenericErroMessage = "An error occurred in the process.";
-        public const string PermissionDenied = "Permission Denied";
-        public const string MedicalUpdateTitle = "Medical Update";
-        public const string WrongPassword = "Wrong password";
-        public const string UserLogout = "User Logout";
-        public const string UserLogged = "User Logged";
-
-    }
+    public const string DefaultPtBr = Sch.GeneralLanguageMenssageConstants.DefaultPtBr;
+    public const string LangValid = Sch.GeneralLanguageMenssageConstants.LangValid;
+    public const string LangErrors = Sch.GeneralLanguageMenssageConstants.LangErrors;
+    public const string GenericErroMessage = Sch.GeneralLanguageMenssageConstants.GenericErroMessage;
+    public const string PermissionDenied = Sch.GeneralLanguageMenssageConstants.PermissionDenied;
+    public const string MedicalUpdateTitle = Sch.GeneralLanguageMenssageConstants.MedicalUpdateTitle;
+    public const string WrongPassword = Sch.GeneralLanguageMenssageConstants.WrongPassword;
+    public const string UserLogout = Sch.GeneralLanguageMenssageConstants.UserLogout;
+    public const string UserLogged = Sch.GeneralLanguageMenssageConstants.UserLogged;
 }
-

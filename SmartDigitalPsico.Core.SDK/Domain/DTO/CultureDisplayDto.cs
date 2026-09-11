@@ -1,13 +1,15 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.DTOs.Entities;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO;
+
+/// <summary>
+/// Casca CultureDisplayDto — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.Entities.CultureDisplayDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando CultureDisplayDto do SCH.")]
+public class CultureDisplayDto : Sch.CultureDisplayDto
 {
-    /// <summary>
-    /// Classe responsável por CultureDisplayDto.
-    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
-    /// Relação: usado por Controllers, Services e Validators.
-    /// </summary>
-    public class CultureDisplayDto
-    {
-        public string Id { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-    }
 }

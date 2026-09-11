@@ -1,13 +1,15 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.DTO
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Common;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.DTO;
+
+/// <summary>
+/// Casca RepositoryInfo — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Common.RepositoryInfo",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando RepositoryInfo do SCH.")]
+public class RepositoryInfo : Sch.RepositoryInfo
 {
-    /// <summary>
-    /// Classe responsável por RepositoryInfo.
-    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
-    /// Relação: usado por Controllers, Services e Validators.
-    /// </summary>
-    public class RepositoryInfo
-    {
-        public Type? InterfaceType { get; set; }
-        public Type? ImplementationType { get; set; }
-    }
 }

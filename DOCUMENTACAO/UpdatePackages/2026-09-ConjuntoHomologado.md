@@ -82,7 +82,7 @@ Todos os pacotes de plataforma ASP.NET Core e Microsoft.Extensions foram atualiz
 | `Azure.Storage.Blobs` | 12.29.2 | **12.29.2** | 12.29.2 | Estável |
 | `Azure.Storage.Queues` | 12.27.1 | **12.27.1** | 12.27.1 | Estável |
 | `Azure.Data.Tables` | 12.12.0 | **12.12.0** | 12.12.0 | Estável |
-| `SmartCoreHub.Core.SDK` | 20260909.1825.0 | **20260910.6.0** | 20260910.6.0 | Bump oficial nuget.org (UNIF/AD) |
+| `SmartCoreHub.Core.SDK` | 20260910.6.0 | **20260911.229.0** | 20260911.229.0 | GF.4 gap-fill + EVO.6/8 (nuget.org) |
 
 ---
 

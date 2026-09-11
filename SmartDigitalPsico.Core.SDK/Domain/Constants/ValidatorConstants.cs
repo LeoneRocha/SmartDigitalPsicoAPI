@@ -1,22 +1,26 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Constants
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Service.Validation;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Constants;
+
+/// <summary>
+/// Casca ValidatorConstants — espelho SCH + chave médica SDP local.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Service.Validation.ValidatorConstants",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper espelhando ValidatorConstants do SCH; Validate_Permission_Medical retido na casca.")]
+public static class ValidatorConstants
 {
-    /// <summary>
-    /// Classe responsável por ValidatorConstants.
-    /// Responsabilidade: constantes compartilhadas do sistema.
-    /// Relação: referenciado por Domain, Service e WebAPI.
-    /// </summary>
-    public static class ValidatorConstants
-    {
-        public const string Validate_Permission_Medical = "Validate_Permission_Medical";
+    /// <summary>Chave SDP clínica (não existe como mesmo literal no SCH).</summary>
+    public const string Validate_Permission_Medical = "Validate_Permission_Medical";
 
-        public const string GenericErroMessageKey = "Generic_Erro_Message";
-        public const string Generic_Erro_Message = "An error occurred in the process.";
+    public const string GenericErroMessageKey = Sch.ValidatorConstants.GenericErroMessageKey;
+    public const string Generic_Erro_Message = Sch.ValidatorConstants.Generic_Erro_Message;
 
-        public const string ValidateErroMessageKey = "Validate_Erro_Message";
-        public const string ValidateErroMessage_Message = "The validations did not pass";
-        public const string ValidateSuccessMessageKey = "Validate_Success_Message";
-        public const string ValidateSuccessMessage_Message = "All validations passed";
-        public const string Validade_UserNotFound = "User not found.";
-    }
+    public const string ValidateErroMessageKey = Sch.ValidatorConstants.ValidateErroMessageKey;
+    public const string ValidateErroMessage_Message = Sch.ValidatorConstants.ValidateErroMessage_Message;
+    public const string ValidateSuccessMessageKey = Sch.ValidatorConstants.ValidateSuccessMessageKey;
+    public const string ValidateSuccessMessage_Message = Sch.ValidatorConstants.ValidateSuccessMessage_Message;
+    public const string Validade_UserNotFound = Sch.ValidatorConstants.Validade_UserNotFound;
 }
-

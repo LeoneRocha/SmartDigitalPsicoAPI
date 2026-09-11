@@ -1,76 +1,35 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using SmartCoreHub.Core.SDK.Common.Attributes;
 using SmartDigitalPsico.Core.SDK.Domain.DTO;
+using Sch = SmartCoreHub.Core.SDK.Service.DependenciesCollection.Extensions;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca ServiceCollectionHelper — delega ao SCH com mapeamento de RepositoryInfo.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Service.DependenciesCollection.Extensions.ServiceCollectionHelper",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando ServiceCollectionHelper ao SCH.")]
+public static class ServiceCollectionHelper
 {
-    /// <summary>
-    /// Classe responsável por ServiceCollectionHelper.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
-    /// </summary>
-    public static class ServiceCollectionHelper
-    {
-        public static T[] FilterItems<T>(T[] items, params T[][] filters)
-        {
-            var filteredItems = items;
-            foreach (var filter in filters)
+    public static T[] FilterItems<T>(T[] items, params T[][] filters)
+        => Sch.ServiceCollectionHelper.FilterItems(items, filters);
+
+    public static HashSet<Type> GetRegisteredInterfaces(IServiceCollection services)
+        => Sch.ServiceCollectionHelper.GetRegisteredInterfaces(services);
+
+    public static RepositoryInfo[] GetInterfaces(string[] classSuffixes, params Assembly[] assemblies)
+        => Sch.ServiceCollectionHelper.GetInterfaces(classSuffixes, assemblies)
+            .Select(r => new RepositoryInfo
             {
-                filteredItems = filteredItems.Where(item => !filter.Contains(item)).ToArray();
-            }
-            return filteredItems;
+                InterfaceType = r.InterfaceType,
+                ImplementationType = r.ImplementationType
+            })
+            .ToArray();
 
-        }
-
-        /// <summary>
-        /// Método GetRegisteredInterfaces: consulta e retorna dados.
-        /// </summary>
-        public static HashSet<Type> GetRegisteredInterfaces(IServiceCollection services)
-        {
-            return services.Where(service => service.Lifetime == ServiceLifetime.Scoped)
-                           .Select(service => service.ServiceType)
-                           .ToHashSet();
-        }
-
-        /// <summary>
-        /// Método GetInterfaces: consulta e retorna dados.
-        /// </summary>
-        public static RepositoryInfo[] GetInterfaces(string[] classSuffixes, params Assembly[] assemblies)
-        {
-            var repositories = assemblies.SelectMany(assembly => assembly.GetTypes())
-                             .Where(type => type.IsClass && !type.IsAbstract && classSuffixes.Any(suffix => type.Name.EndsWith(suffix)))
-                             .Select(type => new RepositoryInfo
-                             {
-                                 InterfaceType = type.GetInterfaces().FirstOrDefault(i => i.Name == $"I{type.Name}"),
-                                 ImplementationType = type
-                             })
-                             .Where(repo => repo.InterfaceType != null)
-                             .ToArray();
-
-            return repositories.ToArray();
-        }
-
-        /// <summary>
-        /// Método RegisterInterfaces: cria ou persiste um novo registro/recurso.
-        /// </summary>
-        public static void RegisterInterfaces(IServiceCollection services, string[] classSuffixes, List<Type> ignoredInterfaces, Assembly[] assemblies)
-        {
-            var interfaceInfos = GetInterfaces(classSuffixes, assemblies);
-
-            interfaceInfos = interfaceInfos.OrderBy(i => i.InterfaceType!.Name).ToArray();
-
-            var filteredInterfaces = FilterItems(interfaceInfos.Select(info => info.InterfaceType!).ToArray(), ignoredInterfaces.ToArray());
-
-            filteredInterfaces = filteredInterfaces.OrderBy(i => i.Name).ToArray();
-
-            foreach (var interfaceType in filteredInterfaces)
-            {
-                var implementationType = interfaceInfos.First(info => info.InterfaceType == interfaceType).ImplementationType;
-                if (implementationType != null)
-                {
-                    services.AddScoped(interfaceType, implementationType);
-                }
-            }
-        }
-    }
+    public static void RegisterInterfaces(IServiceCollection services, string[] classSuffixes, List<Type> ignoredInterfaces, Assembly[] assemblies)
+        => Sch.ServiceCollectionHelper.RegisterInterfaces(services, classSuffixes, ignoredInterfaces, assemblies);
 }

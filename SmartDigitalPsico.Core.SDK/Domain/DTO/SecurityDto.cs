@@ -1,15 +1,15 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Security
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Common;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Security;
+
+/// <summary>
+/// Casca SecurityDto — herda SCH (Id com set público no base).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Common.SecurityDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando SecurityDto do SCH.")]
+public class SecurityDto : Sch.SecurityDto
 {
-    /// <summary>
-    /// Classe responsável por SecurityDto.
-    /// Responsabilidade: DTO de transferência de dados entre camadas da API.
-    /// Relação: usado por Controllers, Services e Validators.
-    /// </summary>
-    public class SecurityDto
-    {
-        public string Name { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty;
-        public string Id { get; internal set; } = string.Empty;
-        public string SecurityKeyConfig { get; set; } = string.Empty;
-    }
 }

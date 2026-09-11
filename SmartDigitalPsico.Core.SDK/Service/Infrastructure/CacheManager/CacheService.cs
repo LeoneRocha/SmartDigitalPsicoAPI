@@ -10,12 +10,12 @@ using SdpVo = SmartDigitalPsico.Core.SDK.Domain.VO;
 namespace SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager;
 
 /// <summary>
-/// Casca CacheService — herda <see cref="LocalCacheService"/>; helpers estáticos usam VO/iface SDP.
+/// Casca CacheService — herda <see cref="LocalCacheService"/> (L1); helpers estáticos usam VO/iface SDP.
 /// </summary>
 [SdkWrappedSource(
     targetType: "SmartCoreHub.Core.SDK.Infrastructure.Caching.Local.LocalCacheService",
     targetPackage: "SmartCoreHub.Core.SDK",
-    description: "Casca sobre LocalCacheService; SaveDataToCache/GetDataFromCache com tipos SDP.")]
+    description: "EVO.7: casca L1 sobre LocalCacheService; SaveDataToCache/GetDataFromCache com tipos SDP.")]
 public class CacheService : LocalCacheService, ICacheService
 {
     public CacheService(

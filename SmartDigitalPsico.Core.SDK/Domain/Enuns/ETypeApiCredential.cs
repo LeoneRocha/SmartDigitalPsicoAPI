@@ -1,25 +1,27 @@
 ﻿using System.ComponentModel;
+using SmartCoreHub.Core.SDK.Common.Attributes;
+using SchEnums = SmartCoreHub.Core.SDK.Domain.Enums;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
+namespace SmartDigitalPsico.Core.SDK.Domain.Enuns;
+
+/// <summary>
+/// Casca enum espelho de tipo de credencial de API.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Enums.ETypeApiCredential",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Enum espelho; valores int idênticos ao SCH.")]
+public enum ETypeApiCredential
 {
-    /// <summary>
-    /// Enumeração responsável por ETypeApiCredential.
-    /// Responsabilidade: valores enumerados do domínio.
-    /// Relação: usado em entidades, DTOs e regras de negócio.
-    /// </summary>
-    public enum ETypeApiCredential
-    {
-        [Description("JSON Web Token - Bearer")]
-        Jwt = 0,
+    [Description("JSON Web Token - Bearer")]
+    Jwt = (int)SchEnums.ETypeApiCredential.Jwt,
 
-        [Description("Azure Active Directory")]
-        AzureAD = 1,
+    [Description("Azure Active Directory")]
+    AzureAD = (int)SchEnums.ETypeApiCredential.AzureAD,
 
-        [Description("Google Cloud Identity")]
-        GoogleCloudIdentity = 2,
+    [Description("Google Cloud Identity")]
+    GoogleCloudIdentity = (int)SchEnums.ETypeApiCredential.GoogleCloudIdentity,
 
-        [Description("AWS IAM Identity Center")]
-        AWSIdentity = 3,
-    }
+    [Description("AWS IAM Identity Center")]
+    AWSIdentity = (int)SchEnums.ETypeApiCredential.AWSIdentity,
 }
-

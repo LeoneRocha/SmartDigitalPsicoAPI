@@ -1,38 +1,21 @@
-﻿
-using System.ComponentModel;
+﻿using System.Reflection;
+using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Helpers;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca ReflectionHelpers — delega ao SCH (OrderAttribute herda SCH).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.ReflectionHelpers",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando ReflectionHelpers ao SCH.")]
+public static class ReflectionHelpers
 {
-    /// <summary>
-    /// Classe responsável por ReflectionHelpers.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
-    /// </summary>
-    public static class ReflectionHelpers
-    {
-        /// <summary>
-        /// Método GetProperties: consulta e retorna dados.
-        /// </summary>
-        public static IOrderedEnumerable<System.Reflection.PropertyInfo> GetProperties(object dataObject, List<string> propertiesToIgnore)
-        {
-            return dataObject.GetType().GetProperties()
-                        .Where(p => !propertiesToIgnore.Contains(p.Name))
-                        .OrderBy(p => p.GetCustomAttributes(typeof(OrderAttribute), true)
-                        .Cast<OrderAttribute>().FirstOrDefault()?.Order ?? int.MaxValue);
-        }
+    public static IOrderedEnumerable<PropertyInfo> GetProperties(object dataObject, List<string> propertiesToIgnore)
+        => Sch.ReflectionHelpers.GetProperties(dataObject, propertiesToIgnore);
 
-        /// <summary>
-        /// Método GetLabelProperty: consulta e retorna dados.
-        /// </summary>
-        public static string GetLabelProperty(System.Reflection.PropertyInfo property)
-        {
-            var label = property.Name;
-            var descriptionAttribute = property.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
-            if (descriptionAttribute != null)
-            {
-                label = descriptionAttribute.Description;
-            }
-            return label;
-        }
-    }
+    public static string GetLabelProperty(PropertyInfo property)
+        => Sch.ReflectionHelpers.GetLabelProperty(property);
 }

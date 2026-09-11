@@ -1,31 +1,33 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Constants.I18nKeyConstants;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+
+/// <summary>
+/// Casca GeneralLanguageKeyConstants — espelho de chaves i18n SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Constants.I18nKeyConstants.GeneralLanguageKeyConstants",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper espelhando GeneralLanguageKeyConstants do SCH.")]
+public static class GeneralLanguageKeyConstants
 {
-    /// <summary>
-    /// Classe responsável por GeneralLanguageKeyConstants.
-    /// Responsabilidade: constantes compartilhadas do sistema.
-    /// Relação: referenciado por Domain, Service e WebAPI.
-    /// </summary>
-    public static class GeneralLanguageKeyConstants
-    {
-        public const string RegisterCreated = "Register_Created";
-        public const string RegisterDeleted = "Register_Deleted";
-        public const string RegisterUpdated = "Register_Updated";
-        public const string RegisterIsFound = "Register_Is_Found";
-        public const string RegisterIsNotFound = "Register_Is_Not_Found";
-        public const string RegisterExist = "Register_Exist";
-        public const string RegisterFind = "Register_Find";
-        public const string RegisterCounted = "Register_Counted";
+    public const string RegisterCreated = Sch.GeneralLanguageKeyConstants.RegisterCreated;
+    public const string RegisterDeleted = Sch.GeneralLanguageKeyConstants.RegisterDeleted;
+    public const string RegisterUpdated = Sch.GeneralLanguageKeyConstants.RegisterUpdated;
+    public const string RegisterIsFound = Sch.GeneralLanguageKeyConstants.RegisterIsFound;
+    public const string RegisterIsNotFound = Sch.GeneralLanguageKeyConstants.RegisterIsNotFound;
+    public const string RegisterExist = Sch.GeneralLanguageKeyConstants.RegisterExist;
+    public const string RegisterFind = Sch.GeneralLanguageKeyConstants.RegisterFind;
+    public const string RegisterCounted = Sch.GeneralLanguageKeyConstants.RegisterCounted;
 
-        public const string DefaultPtBr = "Default_ptbr";
-        public const string LangValid = "LangValid";
-        public const string LangErrors = "LangErrors";
-        public const string GenericErroMessage = "Generic_Erro_Message";
-        public const string PermissionDenied = "Permission_Denied";
-        public const string MedicalUpdateTitle = "Medical_Update_Title";
-        public const string WrongPassword = "Wrong_Password";
-        public const string UserLogout = "User_Logout";
-        public const string UserLogged = "User_Logged";
-
-    }
+    public const string DefaultPtBr = Sch.GeneralLanguageKeyConstants.DefaultPtBr;
+    public const string LangValid = Sch.GeneralLanguageKeyConstants.LangValid;
+    public const string LangErrors = Sch.GeneralLanguageKeyConstants.LangErrors;
+    public const string GenericErroMessage = Sch.GeneralLanguageKeyConstants.GenericErroMessage;
+    public const string PermissionDenied = Sch.GeneralLanguageKeyConstants.PermissionDenied;
+    public const string MedicalUpdateTitle = Sch.GeneralLanguageKeyConstants.MedicalUpdateTitle;
+    public const string WrongPassword = Sch.GeneralLanguageKeyConstants.WrongPassword;
+    public const string UserLogout = Sch.GeneralLanguageKeyConstants.UserLogout;
+    public const string UserLogged = Sch.GeneralLanguageKeyConstants.UserLogged;
 }
-

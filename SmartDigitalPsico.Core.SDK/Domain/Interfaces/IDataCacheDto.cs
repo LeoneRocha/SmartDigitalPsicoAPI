@@ -1,17 +1,15 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Infrastructure.Caching.Local;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+
+/// <summary>
+/// Casca IDataCacheDto — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Infrastructure.Caching.Local.IDataCacheDto`1",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando IDataCacheDto&lt;T&gt; do SCH.")]
+public interface IDataCacheDto<T> : Sch.IDataCacheDto<T>
 {
-
-    /// <summary>
-    /// Interface (contrato) responsável por IDataCacheDto.
-    /// Responsabilidade: contrato de abstração do domínio.
-    /// Relação: implementado nas camadas Data/Service.
-    /// </summary>
-    public interface IDataCacheDto<T>
-    {
-        public string CacheKey { get; }
-        public string CacheId { get; }
-        public DateTime DateTimeSlidingExpiration { get; }
-
-        public T? Data { get; set; }
-    }
 }

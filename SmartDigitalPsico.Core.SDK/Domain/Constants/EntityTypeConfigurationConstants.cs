@@ -1,55 +1,33 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using Sch = SmartCoreHub.Core.SDK.Infrastructure.Data;
+using SchCommon = SmartCoreHub.Core.SDK.Common;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Constants
+namespace SmartDigitalPsico.Core.SDK.Domain.Constants;
+
+/// <summary>
+/// Casca EntityTypeConfigurationConstants — delega constantes e helpers ao SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Infrastructure.Data.EntityTypeConfigurationConstants",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper delegando EntityTypeConfigurationConstants ao SCH; enum Enuns convertido por int.")]
+public static class EntityTypeConfigurationConstants
 {
-    /// <summary>
-    /// Constantes genéricas de mapeamento EF por tipo de banco.
-    /// </summary>
-    public static class EntityTypeConfigurationConstants
-    {
-        public const string Type_Varchar_255 = "varchar(255)";
-        public const string Type_Varchar_40 = "varchar(40)";
-        public const string Type_Varchar_20 = "varchar(20)";
+    public const string Type_Varchar_255 = Sch.EntityTypeConfigurationConstants.Type_Varchar_255;
+    public const string Type_Varchar_40 = Sch.EntityTypeConfigurationConstants.Type_Varchar_40;
+    public const string Type_Varchar_20 = Sch.EntityTypeConfigurationConstants.Type_Varchar_20;
 
-        public const string Type_Text_MySql = "text";
-        public const string Type_Text_SqlServer = "varchar(max)";
+    public const string Type_Text_MySql = Sch.EntityTypeConfigurationConstants.Type_Text_MySql;
+    public const string Type_Text_SqlServer = Sch.EntityTypeConfigurationConstants.Type_Text_SqlServer;
 
-        public const string Language_Default_PTBR = "pt-BR";
+    public const string Language_Default_PTBR = Sch.EntityTypeConfigurationConstants.Language_Default_PTBR;
 
-        public const string ApplicationLanguage_ResourceKey_Default = "SharedResource";
+    public const string ApplicationLanguage_ResourceKey_Default = Sch.EntityTypeConfigurationConstants.ApplicationLanguage_ResourceKey_Default;
 
-        public static string GetTypeTextByTypeDataBase(ETypeDataBase eTypeDataBase)
-        {
-            switch (eTypeDataBase)
-            {
-                case ETypeDataBase.MSsqlServer:
-                    return Type_Text_SqlServer;
-                case ETypeDataBase.Mysql:
-                    return Type_Text_MySql;
-                case ETypeDataBase.Postgree:
-                    return Type_Text_SqlServer;
-                case ETypeDataBase.FireBase:
-                    return Type_Text_SqlServer;
-                default:
-                    return Type_Text_SqlServer;
-            }
-        }
+    public static string GetTypeTextByTypeDataBase(ETypeDataBase eTypeDataBase)
+        => Sch.EntityTypeConfigurationConstants.GetTypeTextByTypeDataBase((SchCommon.ETypeDataBase)(int)eTypeDataBase);
 
-        public static int GetMaxLengthByTypeDataBase(ETypeDataBase eTypeDataBase)
-        {
-            switch (eTypeDataBase)
-            {
-                case ETypeDataBase.MSsqlServer:
-                    return int.MaxValue;
-                case ETypeDataBase.Mysql:
-                    return 65535;
-                case ETypeDataBase.Postgree:
-                    return int.MaxValue;
-                case ETypeDataBase.FireBase:
-                    return int.MaxValue;
-                default:
-                    return int.MaxValue;
-            }
-        }
-    }
+    public static int GetMaxLengthByTypeDataBase(ETypeDataBase eTypeDataBase)
+        => Sch.EntityTypeConfigurationConstants.GetMaxLengthByTypeDataBase((SchCommon.ETypeDataBase)(int)eTypeDataBase);
 }

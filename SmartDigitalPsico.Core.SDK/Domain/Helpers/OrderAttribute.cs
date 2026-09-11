@@ -1,20 +1,19 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.Helpers;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca OrderAttribute — herda SCH.
+/// </summary>
+[AttributeUsage(AttributeTargets.Property)]
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.OrderAttribute",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando OrderAttribute do SCH.")]
+public class OrderAttribute : Sch.OrderAttribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    /// <summary>
-    /// Classe responsável por OrderAttribute.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
-    /// </summary>
-    public class OrderAttribute : Attribute
+    public OrderAttribute(int order) : base(order)
     {
-        public int Order { get; }
-        /// <summary>
-        /// Método OrderAttribute: executa a operação OrderAttribute.
-        /// </summary>
-        public OrderAttribute(int order)
-        {
-            Order = order;
-        }
     }
 }

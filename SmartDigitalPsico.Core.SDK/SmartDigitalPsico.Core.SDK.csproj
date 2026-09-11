@@ -13,7 +13,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-  <!-- SDP-CASCA: SmartCoreHub.Core.SDK local 20260911.1.0 (MISSING types port) -->
+  <!-- SDP-CASCA: SmartCoreHub.Core.SDK nuget.org 20260911.229.0 (GF.4 gap+EVO) -->
   <ItemGroup>
     <PackageReference Include="SmartCoreHub.Core.SDK" />
   </ItemGroup>

@@ -1,16 +1,15 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Domain.DTOs.Entities;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
+
+/// <summary>
+/// Casca ITokenConfigurationDto — herda SCH.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.DTOs.Entities.ITokenConfigurationDto",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Casca/wrapper herdando ITokenConfigurationDto do SCH.")]
+public interface ITokenConfigurationDto : Sch.ITokenConfigurationDto
 {
-    /// <summary>
-    /// Interface (contrato) responsável por ITokenConfigurationDto.
-    /// Responsabilidade: segurança e autenticação.
-    /// Relação: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
-    /// </summary>
-    public interface ITokenConfigurationDto
-    {
-        string Audience { get; set; }
-        string Issuer { get; set; }
-        string Secret { get; set; }
-        int Minutes { get; set; }
-        int DaysToExpiry { get; set; }
-    }
 }

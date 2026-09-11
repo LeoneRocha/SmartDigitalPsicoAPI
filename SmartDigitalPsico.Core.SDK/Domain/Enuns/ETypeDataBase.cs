@@ -1,13 +1,19 @@
-﻿namespace SmartDigitalPsico.Core.SDK.Domain.Enuns
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using SchCommon = SmartCoreHub.Core.SDK.Common;
+
+namespace SmartDigitalPsico.Core.SDK.Domain.Enuns;
+
+/// <summary>
+/// Casca enum espelho de tipo de banco (target SCH Common.ETypeDataBase).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Common.ETypeDataBase",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "Enum espelho; valores int idênticos ao SCH Common.ETypeDataBase.")]
+public enum ETypeDataBase
 {
-    /// <summary>
-    /// Enumeração responsável por ETypeDataBase.
-    /// </summary>
-    public enum ETypeDataBase
-    {
-        MSsqlServer = 0,
-        Mysql = 1,
-        Postgree = 3,
-        FireBase = 4,
-    }
+    MSsqlServer = (int)SchCommon.ETypeDataBase.MSsqlServer,
+    Mysql = (int)SchCommon.ETypeDataBase.Mysql,
+    Postgree = (int)SchCommon.ETypeDataBase.Postgree,
+    FireBase = (int)SchCommon.ETypeDataBase.FireBase,
 }

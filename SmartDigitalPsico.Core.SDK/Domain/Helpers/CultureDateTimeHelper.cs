@@ -1,126 +1,49 @@
-﻿using System.Collections.ObjectModel;
-using System.Globalization;
-using Microsoft.Extensions.Localization;
+﻿using System.Globalization;
+using SmartCoreHub.Core.SDK.Common.Attributes;
 using SmartDigitalPsico.Core.SDK.Domain.DTO;
+using Sch = SmartCoreHub.Core.SDK.Domain.Helpers;
+using SchCulture = SmartCoreHub.Core.SDK.Domain.DTOs.Entities;
 
-namespace SmartDigitalPsico.Core.SDK.Domain.Helpers
+namespace SmartDigitalPsico.Core.SDK.Domain.Helpers;
+
+/// <summary>
+/// Casca CultureDateTimeHelper — delega ao SCH (GetCultures = culturas habilitadas do produto).
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.CultureDateTimeHelper",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "GetCultures → GetSupportedApplicationCultures; demais métodos delegam SCH com mapeamento de DTOs.")]
+public static class CultureDateTimeHelper
 {
+    public static List<TimeZoneDisplayDto> GetTimeZonesIds()
+        => Sch.CultureDateTimeHelper.GetTimeZonesIds()
+            .Select(tz => new TimeZoneDisplayDto { Id = tz.Id, Name = tz.Name })
+            .ToList();
+
     /// <summary>
-    /// Classe responsável por CultureDateTimeHelper.
-    /// Responsabilidade: utilitário auxiliar do domínio.
-    /// Relação: usado por Services e Domain para regras compartilhadas.
+    /// Retorna culturas habilitadas (en-US, pt-BR, es-ES) — comportamento histórico SDP.
     /// </summary>
-    public static class CultureDateTimeHelper
-    {
-        private static List<CultureInfo> getCulturesEnable()
-        {
-            List<CultureInfo> list = new List<CultureInfo>();
+    public static List<CultureDisplayDto> GetCultures()
+        => Sch.CultureDateTimeHelper.GetSupportedApplicationCultures()
+            .Select(c => new CultureDisplayDto { Id = c.Id, Name = c.Name })
+            .ToList();
 
-            list.Add(new CultureInfo("en-US"));
-            list.Add(new CultureInfo("pt-BR"));
-            list.Add(new CultureInfo("es-ES"));
+    public static List<CultureInfo> TranslateCulture(List<CultureDisplayDto> cultureDisplays)
+        => Sch.CultureDateTimeHelper.TranslateCulture(
+            cultureDisplays.Select(c => new SchCulture.CultureDisplayDto { Id = c.Id, Name = c.Name }).ToList());
 
-            return list;
-        }
+    public static string GetNameAndCulture(string localizedStringKeyName)
+        => Sch.CultureDateTimeHelper.GetNameAndCulture(localizedStringKeyName);
 
-        /// <summary>
-        /// Método GetTimeZonesIds: consulta e retorna dados.
-        /// </summary>
-        public static List<TimeZoneDisplayDto> GetTimeZonesIds()
-        {
-            List<TimeZoneDisplayDto> result = new List<TimeZoneDisplayDto>();
+    public static string GetKeyLocalizationRecordFormat(string LanguageKey, string Language)
+        => Sch.CultureDateTimeHelper.GetKeyLocalizationRecordFormat(LanguageKey, Language);
 
-            ReadOnlyCollection<TimeZoneInfo> tz = TimeZoneInfo.GetSystemTimeZones();
-            foreach (TimeZoneInfo tzInfo in tz)
-            {
-                result.Add(new TimeZoneDisplayDto() { Id = tzInfo.Id, Name = tzInfo.DisplayName });
-            }
-            return result;
-        }
-        /// <summary>
-        /// Método GetCultures: consulta e retorna dados.
-        /// </summary>
-        public static List<CultureDisplayDto> GetCultures()
-        {
-            List<CultureDisplayDto> result = new List<CultureDisplayDto>();
-            CultureInfo[] cinfo = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
+    public static string GetLocalizer<T>(Microsoft.Extensions.Localization.IStringLocalizer<T> localizer, string key)
+        => Sch.CultureDateTimeHelper.GetLocalizer(localizer, key);
 
-            foreach (CultureInfo cul in cinfo)
-            {
-                result.Add(new CultureDisplayDto() { Id = cul.Name, Name = cul.DisplayName });
-            }
-            var culturesEnables = getCulturesEnable().Select(cie => cie.Name).ToList();
-            result = result.Where(ci => culturesEnables.Contains(ci.Id)).ToList();
+    public static string GetTimeZoneBrazil()
+        => Sch.CultureDateTimeHelper.GetTimeZoneBrazil();
 
-            return result;
-        }
-
-        /// <summary>
-        /// Método TranslateCulture: executa a operação TranslateCulture.
-        /// </summary>
-        public static List<CultureInfo> TranslateCulture(List<CultureDisplayDto> cultureDisplays)
-        {
-            return cultureDisplays.Select(cd => new CultureInfo(cd.Id)).ToList();
-        }
-
-        /// <summary>
-        /// Método GetNameAndCulture: consulta e retorna dados.
-        /// </summary>
-        public static string GetNameAndCulture(string localizedStringKeyName)
-        {
-            return $"{localizedStringKeyName}";
-        }
-        /// <summary>
-        /// Método GetKeyLocalizationRecordFormat: consulta e retorna dados.
-        /// </summary>
-        public static string GetKeyLocalizationRecordFormat(string LanguageKey, string Language)
-        {
-            return $"{LanguageKey}";
-        }
-
-        public static string GetLocalizer<T>(Microsoft.Extensions.Localization.IStringLocalizer<T> localizer, string key)
-        {
-            string result = "NotFoundLocalization";
-            try
-            {
-                var findKey = CultureDateTimeHelper.GetNameAndCulture(key);
-                string message = localizer.GetString(findKey);
-
-                result = message;
-            }
-            catch (Exception)
-            {
-                return result;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Método GetTimeZoneBrazil: consulta e retorna dados.
-        /// </summary>
-        public static string GetTimeZoneBrazil()
-        {
-            var zt = CultureDateTimeHelper.GetTimeZonesIds().Find(c =>
-             c.Name.Contains("o Paulo", StringComparison.OrdinalIgnoreCase)
-             || c.Id.Contains("o Paulo", StringComparison.OrdinalIgnoreCase)
-             || c.Name.Contains("Brasília", StringComparison.OrdinalIgnoreCase)
-             || c.Id.Contains("Brasília", StringComparison.OrdinalIgnoreCase)
-             || c.Id.Contains("South America", StringComparison.OrdinalIgnoreCase)
-             );
-            string idZT = "E. South America Standard Time";
-            if (zt != null)
-            {
-                idZT = zt.Id;
-            }
-            return idZT;
-        }
-
-        /// <summary>
-        /// Método GetCultureBrazil: consulta e retorna dados.
-        /// </summary>
-        public static string GetCultureBrazil()
-        {
-            return CultureDateTimeHelper.GetCultures().First(c => c.Id.Contains("pt-br", StringComparison.OrdinalIgnoreCase)).Id;
-        }
-    }
+    public static string GetCultureBrazil()
+        => Sch.CultureDateTimeHelper.GetCultureBrazil();
 }

@@ -77,6 +77,6 @@
     <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.22.0" />
     <!-- SDP-CASCA — NuGet oficial nuget.org (Gate NuGet OK mantenedor) -->
-    <PackageVersion Include="SmartCoreHub.Core.SDK" Version="20260911.1.0" />
+    <PackageVersion Include="SmartCoreHub.Core.SDK" Version="20260911.229.0" />
   </ItemGroup>
 </Project>

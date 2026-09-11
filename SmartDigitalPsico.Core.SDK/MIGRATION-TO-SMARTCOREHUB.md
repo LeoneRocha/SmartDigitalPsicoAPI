@@ -13,7 +13,7 @@ Os tipos casca neste pacote estão marcados com `[SdkWrappedSource]`:
 | Campo | Valor |
 | :--- | :--- |
 | **PackageId canônico** | `SmartCoreHub.Core.SDK` |
-| **Versão oficial** | **`20260910.6.0`** ([nuget.org](https://www.nuget.org/packages/SmartCoreHub.Core.SDK/20260910.6.0)) |
+| **Versão oficial** | **`20260911.229.0`** ([nuget.org](https://www.nuget.org/packages/SmartCoreHub.Core.SDK/20260911.229.0)) |
 | **Feed** | nuget.org (OK mantenedor 2026-09-09 / bump 2026-09-10) |
 | **Atributo de casca** | `SdkWrappedSourceAttribute` |
 | **DiagnosticId** | `SDP_MIGRATED` |

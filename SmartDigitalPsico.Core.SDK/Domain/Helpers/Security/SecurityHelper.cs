@@ -1,65 +1,25 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using SmartCoreHub.Core.SDK.Common.Attributes;
-using SmartDigitalPsico.Core.SDK.Domain.Helpers;
-using SmartDigitalPsico.Core.SDK.Domain.Security;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
 using Sch = SmartCoreHub.Core.SDK.Domain.Helpers.Security;
 
 namespace SmartDigitalPsico.Core.SDK.Domain.Helpers.Security;
 
 /// <summary>
-/// Helpers de segurança. <see cref="IsBase64String"/> delega SCH; password/token permanecem locais
-/// (SCH só portou IsBase64String na Onda C).
+/// Helpers de segurança — casca 100% delegada ao SCH (EVO.8).
 /// </summary>
 [SdkWrappedSource(
     targetType: "SmartCoreHub.Core.SDK.Domain.Helpers.Security.SecurityHelper",
     targetPackage: "SmartCoreHub.Core.SDK",
-    description: "IsBase64String → SCH; CreatePasswordHash/Verify/CreateToken retenção local (não no SCH).")]
+    description: "EVO.8: IsBase64String / CreatePasswordHash / VerifyPasswordHash / CreateToken → SCH.")]
 public static class SecurityHelper
 {
     public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-    {
-        using var hmac = new System.Security.Cryptography.HMACSHA512();
-        passwordSalt = hmac.Key;
-        passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-    }
+        => Sch.SecurityHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
     public static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-    {
-        using var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt);
-        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        for (int i = 0; i < computedHash.Length; i++)
-        {
-            if (computedHash[i] != passwordHash[i])
-            {
-                return false;
-            }
-        }
+        => Sch.SecurityHelper.VerifyPasswordHash(password, passwordHash, passwordSalt);
 
-        return true;
-    }
-
-    public static string CreateToken(SecurityDto secVo)
-    {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, secVo.Id),
-            new Claim(ClaimTypes.Name, secVo.Name),
-            new Claim(ClaimTypes.Role, secVo.Role)
-        };
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secVo.SecurityKeyConfig));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var tokendDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(claims),
-            Expires = DateHelper.GetDateTimeNowFromUtc().AddDays(1),
-            SigningCredentials = creds
-        };
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var token = tokenHandler.CreateToken(tokendDescriptor);
-        return tokenHandler.WriteToken(token);
-    }
+    public static string CreateToken(SmartDigitalPsico.Core.SDK.Domain.Security.SecurityDto secVo)
+        => Sch.SecurityHelper.CreateToken(secVo);
 
     public static bool IsBase64String(string base64)
         => Sch.SecurityHelper.IsBase64String(base64);
