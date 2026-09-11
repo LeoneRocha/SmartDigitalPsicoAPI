@@ -12,16 +12,25 @@ namespace SmartDigitalPsico.Core.SDK.Tests.Domain.Helpers;
 public class RemainingHelpersTests
 {
     [Test]
-    public void HtmlSanitizer_RemovesUnsafeScript()
+    public void RichContentSanitizer_RemovesUnsafeScript()
     {
         const string html = "<div style='color:red'><strong>safe</strong><script>alert(1)</script></div>";
-        var result = HtmlSanitizerHelper.Sanitize(html);
+        var result = SmartCoreHub.Core.SDK.Domain.Sanitization.RichContentSanitizerHelper.SanitizeHtml(html);
         using (Assert.EnterMultipleScope())
         {
             result.Should().Contain("safe");
             result.Should().NotContain("<script");
         }
     }
+
+#pragma warning disable CS0618 // sunset casca HtmlSanitizerHelper
+    [Test]
+    public void HtmlSanitizerHelper_Casca_StillDelegates()
+    {
+        const string html = "<b>ok</b><script>x</script>";
+        HtmlSanitizerHelper.Sanitize(html).Should().NotContain("<script");
+    }
+#pragma warning restore CS0618
 
     [Test]
     public void ReflectionHelpers_OrderedModel_ReturnsOrderedPropertiesAndLabel()

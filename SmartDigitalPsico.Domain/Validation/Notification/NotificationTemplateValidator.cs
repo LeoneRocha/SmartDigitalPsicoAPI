@@ -47,7 +47,7 @@ namespace SmartDigitalPsico.Domain.Validation
 
         private bool BeSafeHtml(string body)
         {
-            var sanitized = SmartCoreHub.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(body);
+            var sanitized = SmartCoreHub.Core.SDK.Domain.Sanitization.RichContentSanitizerHelper.SanitizeHtml(body);
 
             // Remover espaços em branco extras
             string removeWhitespace(string input) => Regex.Replace(input, @"\s+", "", RegexOptions.None, TimeSpan.FromMilliseconds(100));

@@ -3,6 +3,6 @@
 
 global using DateHelper = SmartCoreHub.Core.SDK.Domain.Helpers.DateHelper;
 global using DirectoryHelper = SmartCoreHub.Core.SDK.Domain.Helpers.DirectoryHelper;
-global using HtmlSanitizerHelper = SmartCoreHub.Core.SDK.Domain.Helpers.HtmlSanitizerHelper;
+global using RichContentSanitizerHelper = SmartCoreHub.Core.SDK.Domain.Sanitization.RichContentSanitizerHelper;
 global using ValidationErrorCodes = SmartCoreHub.Core.SDK.Domain.Validation.ValidationErrorCodes;
 global using AppWarningException = SmartCoreHub.Core.SDK.Common.Exceptions.AppWarningException;

@@ -60,7 +60,7 @@ public class GeneralHelpersTests
         // Arrange
         const string html = "<div style='color:red'><strong>safe</strong><script>alert(1)</script></div>";
         // Act
-        var result = SmartCoreHub.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(html);
+        var result = SmartCoreHub.Core.SDK.Domain.Sanitization.RichContentSanitizerHelper.SanitizeHtml(html);
         // Assert
         using (Assert.EnterMultipleScope())
         {

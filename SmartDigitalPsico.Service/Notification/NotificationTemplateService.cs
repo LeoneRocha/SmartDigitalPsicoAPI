@@ -39,7 +39,7 @@ namespace SmartDigitalPsico.Service
         public override async Task<ServiceResponse<GetNotificationTemplateDto>> Update(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDto item)
         {
             var dto = (UpdateNotificationTemplateDto)item;
-            dto.Body = SmartCoreHub.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
+            dto.Body = SmartCoreHub.Core.SDK.Domain.Sanitization.RichContentSanitizerHelper.SanitizeHtml(dto.Body);
 
             return await base.Update(dto);
         }
@@ -49,7 +49,7 @@ namespace SmartDigitalPsico.Service
         public override async Task<ServiceResponse<GetNotificationTemplateDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
         {
             var dto = (AddNotificationTemplateDto)item;
-            dto.Body = SmartCoreHub.Core.SDK.Domain.Helpers.HtmlSanitizerHelper.Sanitize(dto.Body);
+            dto.Body = SmartCoreHub.Core.SDK.Domain.Sanitization.RichContentSanitizerHelper.SanitizeHtml(dto.Body);
             return await base.Create(dto);
         }
 
