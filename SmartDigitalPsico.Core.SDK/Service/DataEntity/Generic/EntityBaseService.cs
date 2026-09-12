@@ -18,15 +18,16 @@ namespace SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic
     /// DTOs Add/Update via IEntityDtoAdd/IEntityDto; repositório tipado como SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IEntityBaseRepository&lt;TEntity&gt;.
     /// </summary>
     /// <remarks>
-    /// <b>Retenção Onda 4:</b> não herda SCH <c>EntityBaseService</c> — divergência de
-    /// <c>ServiceResponse</c>, <c>IAppLogger</c> vs <c>ISdpAppLogger</c>,
-    /// <c>IEntityBase</c>/<c>IEntityBaseRepository</c>/<c>IAppMapper</c> SDP, e D5 KeepBoth vs GenericService.
-    /// Lógica local alinhada ao SCH; unificação completa aguarda fachadas canônicas (Onda 5+).
+    /// <b>EVO.4 / especialização:</b> <b>não</b> herda SCH <c>EntityBaseService</c> —
+    /// divergência de <c>ServiceResponse</c> VO (Success setter), <c>IAppLogger</c> vs <c>ISdpAppLogger</c>,
+    /// <c>IEntityBase</c>/<c>IEntityBaseRepository</c>/<c>IAppMapper</c>/<c>ICacheService</c> SDP.
+    /// Premissa: zero breaking — manter especialização local; canônico SCH enriquecido com hooks/validator opcional.
+    /// Unificação por herança só se envelopes/logger convergirem sem quebrar hosts.
     /// </remarks>
     [SdkWrappedSource(
         targetType: "SmartCoreHub.Core.SDK.Service.Services.Generic.EntityBaseService`2",
         targetPackage: "SmartCoreHub.Core.SDK",
-        description: "Retenção documentada — impl local; ServiceResponse/IAppLogger/IEntity* SDP (KeepBoth).")]
+        description: "EVO.4: especialização SDP (KeepBoth) — não herda SCH; VO/logger/IEntity* divergem.")]
     public class EntityBaseService<TEntity, TEntityResult>
         : IEntityBaseService<TEntity, TEntityResult>
         where TEntity : SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBaseLog

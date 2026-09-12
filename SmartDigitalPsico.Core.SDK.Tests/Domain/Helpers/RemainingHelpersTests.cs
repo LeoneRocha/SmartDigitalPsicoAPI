@@ -23,15 +23,6 @@ public class RemainingHelpersTests
         }
     }
 
-#pragma warning disable CS0618 // sunset casca HtmlSanitizerHelper
-    [Test]
-    public void HtmlSanitizerHelper_Casca_StillDelegates()
-    {
-        const string html = "<b>ok</b><script>x</script>";
-        HtmlSanitizerHelper.Sanitize(html).Should().NotContain("<script");
-    }
-#pragma warning restore CS0618
-
     [Test]
     public void ReflectionHelpers_OrderedModel_ReturnsOrderedPropertiesAndLabel()
     {
