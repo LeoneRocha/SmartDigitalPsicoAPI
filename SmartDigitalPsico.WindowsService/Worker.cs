@@ -3,6 +3,7 @@ using SmartCoreHub.Core.SDK.Infrastructure.Logging;
 using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Domain.Helpers;
 using SmartDigitalPsico.Domain.Interfaces.Common;
+using SdpSerilogAdapter = SmartDigitalPsico.Core.SDK.Infrastructure.Logging.SerilogAppLoggerAdapter;
 namespace SmartDigitalPsico.WindowsService
 {
     /// <summary>
@@ -23,7 +24,7 @@ namespace SmartDigitalPsico.WindowsService
         public Worker(IAppLogger logger, IConfiguration configuration, IServiceProvider serviceProvider)
         {
             // Caso o logger seja nulo, cria a partir da configuração (Serilog só no adapter).
-            _logger = logger ?? new SerilogAppLoggerAdapter(LogAppHelper.CreateLogger(configuration));
+            _logger = logger ?? new SdpSerilogAdapter(LogAppHelper.CreateLogger(configuration));
             _configuration = configuration;
             _serviceProvider = serviceProvider;
         }

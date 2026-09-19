@@ -95,21 +95,16 @@ public class EntityBaseServiceTests
     }
 
     [Test]
-    public async Task Update_MissingEntity_ContinuesToValidationAndUpdate()
+    public async Task Update_MissingEntity_ReturnsNotFoundWithoutUpdate()
     {
         var context = new ServiceContext();
         var item = new UpdateDto { Id = 23, Name = "Outro" };
-        var entity = new TestEntity { Id = item.Id };
         context.Repository.Setup(x => x.Exists(item.Id)).ReturnsAsync(false);
-        context.Mapper.Setup(x => x.Map<TestEntity>(item)).Returns(entity);
-        context.Validator.Setup(x => x.ValidateAsync(entity, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult());
-        context.Repository.Setup(x => x.Update(entity)).ReturnsAsync(entity);
-        context.Mapper.Setup(x => x.Map<ResultDto>(entity)).Returns(new ResultDto { Id = item.Id });
 
         var result = await context.Service.Update(item);
-        result.Success.Should().BeTrue();
-        context.Repository.Verify(x => x.Update(entity), Times.Once);
+        result.Success.Should().BeFalse();
+        result.Errors.Should().NotBeEmpty();
+        context.Repository.Verify(x => x.Update(It.IsAny<TestEntity>()), Times.Never);
     }
 
     [Test]
@@ -213,7 +208,8 @@ public class EntityBaseServiceTests
             count.Success.Should().BeFalse();
             enable.Success.Should().BeFalse();
             exists.Success.Should().BeFalse();
-            validate.Success.Should().BeFalse();
+            // Validate não usa ResiliencePolicies — sucesso se o validator aceitar a entidade.
+            validate.Success.Should().BeTrue();
         }
     }
 

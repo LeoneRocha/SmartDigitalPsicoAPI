@@ -53,7 +53,7 @@ public class ScheduleConflictServiceTests
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            result.Success.Should().BeTrue();
+            result.Success.Should().BeFalse();
             result.Data.Should().BeFalse();
             result.Errors.Should().NotBeEmpty();
             result.Message.Should().Contain("conflict");
@@ -87,10 +87,10 @@ public class ScheduleConflictServiceTests
             [new ScheduleCalendarItem { StartDateTime = start, EndDateTime = start.AddHours(1), SubjectKey = "patient:2" }],
             null);
 
-        // Assert
+        // Assert — AJ.3: Errors preenchidos ⇒ Success=false
         using (Assert.EnterMultipleScope())
         {
-            result.Success.Should().BeTrue();
+            result.Success.Should().BeFalse();
             result.Data.Should().BeFalse();
             result.Errors.Should().ContainSingle();
         }

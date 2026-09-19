@@ -85,6 +85,7 @@ public class NotificationTemplateServiceTests
         // Arrange
         var context = new TemplateServiceContext();
         var entity = new NotificationTemplate { Id = 10, Subject = "Old", Body = "old", TemplateKey = "k", Language = "en-US", Enable = true };
+        context.Repository.Setup(x => x.Exists(10)).ReturnsAsync(true);
         context.Repository.Setup(x => x.FindByID(10)).ReturnsAsync(entity);
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<NotificationTemplate>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
