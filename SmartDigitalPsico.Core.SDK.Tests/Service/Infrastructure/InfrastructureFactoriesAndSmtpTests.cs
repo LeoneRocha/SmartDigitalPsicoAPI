@@ -104,7 +104,7 @@ public class InfrastructureFactoriesAndSmtpTests
     [Test]
     public void ServiceResponseCacheVO_Constructors_CopyData()
     {
-        var response = new ServiceResponse<string> { Data = "v", Success = true, Message = "ok" };
+        var response = new ServiceResponse<string> { Data = "v", Message = "ok" };
         var fromResponse = new ServiceResponseCacheVO<string>(response, "k", DateTime.UtcNow.AddMinutes(1));
         var fromData = new ServiceResponseCacheVO<string>("payload", "k2", DateTime.UtcNow.AddMinutes(2));
         var empty = new ServiceResponseCacheVO<string>();

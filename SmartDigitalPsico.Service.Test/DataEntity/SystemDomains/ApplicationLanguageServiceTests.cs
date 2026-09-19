@@ -169,7 +169,7 @@ public class ApplicationLanguageServiceTests
         // Arrange
         var context = new ApplicationLanguageServiceContext();
         var cached = new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetApplicationLanguageDto>>(
-            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetApplicationLanguageDto>> { Data = [new GetApplicationLanguageDto { Id = 99 }], Success = true },
+            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetApplicationLanguageDto>> { Data = [new GetApplicationLanguageDto { Id = 99 }] },
             "FindAll_GetApplicationLanguageVO",
             DateTime.UtcNow.AddMinutes(30));
         context.Cache.Setup(x => x.IsEnable()).Returns(true);
@@ -198,8 +198,7 @@ public class ApplicationLanguageServiceTests
                 Data =
                 [
                     new GetApplicationLanguageDto { Language = culture, LanguageKey = "Welcome", LanguageValue = "Olá", ResourceKey = "SharedResource" }
-                ],
-                Success = true
+                ]
             },
             "FindAll_GetApplicationLanguageVO",
             DateTime.UtcNow.AddMinutes(30));
@@ -229,8 +228,7 @@ public class ApplicationLanguageServiceTests
                 Data =
                 [
                     new GetApplicationLanguageDto { Language = "en-US", LanguageKey = "Greeting", LanguageValue = "Hello", ResourceKey = "SharedResource" }
-                ],
-                Success = true
+                ]
             },
             "FindAll_GetApplicationLanguageVO",
             DateTime.UtcNow.AddMinutes(30));

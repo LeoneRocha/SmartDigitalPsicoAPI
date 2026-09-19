@@ -1,13 +1,13 @@
-Ôªøusing SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.GET;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por MedicalScheduleFindService.
-    /// Responsabilidade: m√≥dulo de agendamento (Schedule).
-    /// Rela√ß√£o: orquestra Core Schedule e contratos Medical do Domain.
+    /// Classe respons·vel por MedicalScheduleFindService.
+    /// Responsabilidade: mÛdulo de agendamento (Schedule).
+    /// RelaÁ„o: orquestra Core Schedule e contratos Medical do Domain.
     /// </summary>
     public class MedicalScheduleFindService : IScheduleCalendarFindService
     {
@@ -15,7 +15,7 @@ namespace SmartDigitalPsico.Service
         private readonly IScheduleQueryService _query;
 
         /// <summary>
-        /// M√©todo MedicalScheduleFindService: executa a opera√ß√£o MedicalScheduleFindService.
+        /// MÈtodo MedicalScheduleFindService: executa a operaÁ„o MedicalScheduleFindService.
         /// </summary>
         public MedicalScheduleFindService(MedicalScheduleHostSupport support, IScheduleQueryService query)
         {
@@ -24,12 +24,12 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo SetUserId: configura estado ou dependencias.
+        /// MÈtodo SetUserId: configura estado ou dependencias.
         /// </summary>
         public void SetUserId(long userId) => _support.SetUserId(userId);
 
         /// <summary>
-        /// M√©todo FindByID: consulta e retorna dados.
+        /// MÈtodo FindByID: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<GetMedicalCalendarDto>> FindByID(long id)
         {

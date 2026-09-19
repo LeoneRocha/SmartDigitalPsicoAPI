@@ -1,6 +1,9 @@
-Ôªøusing System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
+using SmartCoreHub.Core.SDK.Infrastructure.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
@@ -9,9 +12,9 @@ using SmartDigitalPsico.Domain.Validation;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por ScheduleConflictService.
-    /// Responsabilidade: m√≥dulo de agendamento (Schedule).
-    /// Rela√ß√£o: orquestra Core Schedule e contratos Medical do Domain.
+    /// Classe respons·vel por ScheduleConflictService.
+    /// Responsabilidade: mÛdulo de agendamento (Schedule).
+    /// RelaÁ„o: orquestra Core Schedule e contratos Medical do Domain.
     /// </summary>
     public class ScheduleConflictService : IScheduleConflictService
     {
@@ -24,7 +27,7 @@ namespace SmartDigitalPsico.Service
             string? SubjectKey);
 
         /// <summary>
-        /// M√©todo ScheduleConflictService: opera√ß√£o de agendamento.
+        /// MÈtodo ScheduleConflictService: operaÁ„o de agendamento.
         /// </summary>
         public ScheduleConflictService(IScheduleCalendarRepository repository, IAppLogger logger)
         {
@@ -33,7 +36,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// Checagem single-item (FluentValidation). Uma query por chamada ‚Äî n√£o paralelizar DB.
+        /// Checagem single-item (FluentValidation). Uma query por chamada ? n„o paralelizar DB.
         /// </summary>
         public async Task<ServiceResponse<bool>> HasNoConflictAsync(ScheduleCalendarConflictRequest request)
         {
@@ -42,7 +45,6 @@ namespace SmartDigitalPsico.Service
                 var ok = await ScheduleCalendarConflictValidator.HasNoConflictAsync(request, _repository);
                 return new ServiceResponse<bool>
                 {
-                    Success = true,
                     Data = ok,
                     Message = ok ? string.Empty : "There is a scheduling conflict for the specified time."
                 };
@@ -50,7 +52,7 @@ namespace SmartDigitalPsico.Service
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleConflictService.HasNoConflictAsync failed");
-                return new ServiceResponse<bool> { Success = false, Data = false, Message = ex.Message };
+                return new ServiceResponse<bool> { Data = false }.FailWith(ex.Message, "HasNoConflictAsync");
             }
         }
 
@@ -67,7 +69,7 @@ namespace SmartDigitalPsico.Service
             try
             {
                 if (items == null || items.Length == 0)
-                    return new ServiceResponse<bool> { Success = true, Data = true };
+                    return new ServiceResponse<bool> { Data = true };
 
                 var existing = await LoadExistingOccurrencesAsync(tenantKey, ownerKey, items, excludeToken);
 
@@ -79,12 +81,12 @@ namespace SmartDigitalPsico.Service
                 if (againstExisting.Count > 0)
                     return ConflictResponse(againstExisting);
 
-                return new ServiceResponse<bool> { Success = true, Data = true };
+                return new ServiceResponse<bool> { Data = true };
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleConflictService.HasNoConflictBatchAsync failed");
-                return new ServiceResponse<bool> { Success = false, Data = false, Message = ex.Message };
+                return new ServiceResponse<bool> { Data = false }.FailWith(ex.Message, "HasNoConflictBatchAsync");
             }
         }
 
@@ -169,7 +171,6 @@ namespace SmartDigitalPsico.Service
         private static ServiceResponse<bool> ConflictResponse(List<ErrorResponse> errors)
             => new()
             {
-                Success = true,
                 Data = false,
                 Message = "There is a scheduling conflict for the specified time.",
                 Errors = errors

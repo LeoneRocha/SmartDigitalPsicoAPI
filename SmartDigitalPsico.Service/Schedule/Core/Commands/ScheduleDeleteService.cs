@@ -1,13 +1,16 @@
-﻿using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
+using SmartCoreHub.Core.SDK.Infrastructure.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe responsável por ScheduleDeleteService.
-    /// Responsabilidade: módulo de agendamento (Schedule).
-    /// Relação: orquestra Core Schedule e contratos Medical do Domain.
+    /// Classe respons?vel por ScheduleDeleteService.
+    /// Responsabilidade: m?dulo de agendamento (Schedule).
+    /// Rela??o: orquestra Core Schedule e contratos Medical do Domain.
     /// </summary>
     public class ScheduleDeleteService : IScheduleDeleteService
     {
@@ -15,7 +18,7 @@ namespace SmartDigitalPsico.Service
         private readonly IAppLogger _logger;
 
         /// <summary>
-        /// Método ScheduleDeleteService: operação de agendamento.
+        /// M?todo ScheduleDeleteService: opera??o de agendamento.
         /// </summary>
         public ScheduleDeleteService(IScheduleCalendarRepository repository, IAppLogger logger)
         {
@@ -24,8 +27,8 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// Exclusão por token — apenas I/O de repositório.
-        /// Sem Parallel: não há transformação CPU em lote; DB permanece sequencial.
+        /// Exclus?o por token ? apenas I/O de reposit?rio.
+        /// Sem Parallel: n?o h? transforma??o CPU em lote; DB permanece sequencial.
         /// </summary>
         public async Task<ServiceResponse<bool>> DeleteByTokenAsync(string uniqueToken)
         {
@@ -35,28 +38,23 @@ namespace SmartDigitalPsico.Service
                 var entity = await _repository.GetByUniqueTokenAsync(uniqueToken);
                 if (entity == null)
                 {
-                    response.Success = false;
                     response.Data = false;
-                    response.Message = "Agenda schedule not found.";
-                    return response;
+                    return response.FailWith("Agenda schedule not found.", "DeleteByTokenAsync");
                 }
 
                 await _repository.Delete(entity.Id);
-                response.Success = true;
                 response.Data = true;
                 return response;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleDeleteService.DeleteByTokenAsync failed");
-                response.Success = false;
-                response.Message = ex.Message;
-                return response;
+                return response.FailWith(ex.Message, "DeleteByTokenAsync");
             }
         }
 
         /// <summary>
-        /// Método DeleteByTokenFilteredAsync: remove ou cancela um registro/recurso.
+        /// M?todo DeleteByTokenFilteredAsync: remove ou cancela um registro/recurso.
         /// </summary>
         public async Task<ServiceResponse<bool>> DeleteByTokenFilteredAsync(ScheduleDeleteTokenRequest request)
         {
@@ -73,28 +71,23 @@ namespace SmartDigitalPsico.Service
 
                 if (packages.Length == 0)
                 {
-                    response.Success = false;
                     response.Data = false;
-                    response.Message = "Agenda schedule not found.";
-                    return response;
+                    return response.FailWith("Agenda schedule not found.", "DeleteByTokenFilteredAsync");
                 }
 
                 await _repository.DeleteRangeAsync(packages);
-                response.Success = true;
                 response.Data = true;
                 return response;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleDeleteService.DeleteByTokenFilteredAsync failed");
-                response.Success = false;
-                response.Message = ex.Message;
-                return response;
+                return response.FailWith(ex.Message, "DeleteByTokenFilteredAsync");
             }
         }
 
         /// <summary>
-        /// Método DeleteByIdAsync: remove ou cancela um registro/recurso.
+        /// M?todo DeleteByIdAsync: remove ou cancela um registro/recurso.
         /// </summary>
         public async Task<ServiceResponse<bool>> DeleteByIdAsync(long id)
         {
@@ -103,23 +96,18 @@ namespace SmartDigitalPsico.Service
             {
                 if (!await _repository.Exists(id))
                 {
-                    response.Success = false;
                     response.Data = false;
-                    response.Message = "Agenda schedule not found.";
-                    return response;
+                    return response.FailWith("Agenda schedule not found.", "DeleteByIdAsync");
                 }
 
                 await _repository.Delete(id);
-                response.Success = true;
                 response.Data = true;
                 return response;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleDeleteService.DeleteByIdAsync failed");
-                response.Success = false;
-                response.Message = ex.Message;
-                return response;
+                return response.FailWith(ex.Message, "DeleteByIdAsync");
             }
         }
     }

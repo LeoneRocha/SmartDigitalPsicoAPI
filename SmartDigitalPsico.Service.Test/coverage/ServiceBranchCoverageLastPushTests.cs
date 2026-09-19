@@ -9,7 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Domain.DTO.Gender.ADD;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
@@ -129,7 +129,7 @@ public class ServiceBranchCoverageLastPushTests
         repository.Setup(x => x.GetByUniqueTokenAsync("upd-null-end"))
             .ReturnsAsync(new ScheduleCalendar { Id = 10, UniqueToken = "upd-null-end", ScheduleData = null! });
         conflict.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:1", It.IsAny<ScheduleCalendarItem[]>(), "upd-null-end"))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true });
         var service = new ScheduleUpdateService(repository.Object, conflict.Object, Mock.Of<IAppLogger>());
 
         // Act

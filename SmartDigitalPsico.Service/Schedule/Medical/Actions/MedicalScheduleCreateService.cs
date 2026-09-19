@@ -1,4 +1,4 @@
-Ôªøusing SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
@@ -8,9 +8,9 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por MedicalScheduleCreateService.
-    /// Responsabilidade: m√≥dulo de agendamento (Schedule).
-    /// Rela√ß√£o: orquestra Core Schedule e contratos Medical do Domain.
+    /// Classe respons·vel por MedicalScheduleCreateService.
+    /// Responsabilidade: mÛdulo de agendamento (Schedule).
+    /// RelaÁ„o: orquestra Core Schedule e contratos Medical do Domain.
     /// </summary>
     public class MedicalScheduleCreateService : IScheduleCalendarCreateService
     {
@@ -19,7 +19,7 @@ namespace SmartDigitalPsico.Service
         private readonly MedicalScheduleNotificationAdapter _notifications;
 
         /// <summary>
-        /// M√©todo MedicalScheduleCreateService: executa a opera√ß√£o MedicalScheduleCreateService.
+        /// MÈtodo MedicalScheduleCreateService: executa a operaÁ„o MedicalScheduleCreateService.
         /// </summary>
         public MedicalScheduleCreateService(
             MedicalScheduleHostSupport support,
@@ -32,12 +32,12 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo SetUserId: configura estado ou dependencias.
+        /// MÈtodo SetUserId: configura estado ou dependencias.
         /// </summary>
         public void SetUserId(long userId) => _support.SetUserId(userId);
 
         /// <summary>
-        /// M√©todo Create: cria ou persiste um novo registro/recurso.
+        /// MÈtodo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
         {

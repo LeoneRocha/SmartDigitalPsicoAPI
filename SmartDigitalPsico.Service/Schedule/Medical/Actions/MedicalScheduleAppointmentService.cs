@@ -1,4 +1,5 @@
-Ôªøusing SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
@@ -9,9 +10,9 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por MedicalScheduleAppointmentService.
-    /// Responsabilidade: m√≥dulo de agendamento (Schedule).
-    /// Rela√ß√£o: orquestra Core Schedule e contratos Medical do Domain.
+    /// Classe respons·vel por MedicalScheduleAppointmentService.
+    /// Responsabilidade: mÛdulo de agendamento (Schedule).
+    /// RelaÁ„o: orquestra Core Schedule e contratos Medical do Domain.
     /// </summary>
     public class MedicalScheduleAppointmentService : IScheduleCalendarAppointmentService
     {
@@ -24,7 +25,7 @@ namespace SmartDigitalPsico.Service
         private readonly IMedicalCalendarValidators _validators;
 
         /// <summary>
-        /// M√©todo MedicalScheduleAppointmentService: executa a opera√ß√£o MedicalScheduleAppointmentService.
+        /// MÈtodo MedicalScheduleAppointmentService: executa a operaÁ„o MedicalScheduleAppointmentService.
         /// </summary>
         public MedicalScheduleAppointmentService(
             MedicalScheduleHostSupport support,
@@ -45,12 +46,12 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo SetUserId: configura estado ou dependencias.
+        /// MÈtodo SetUserId: configura estado ou dependencias.
         /// </summary>
         public void SetUserId(long userId) => _support.SetUserId(userId);
 
         /// <summary>
-        /// M√©todo RequestAppointment: opera√ß√£o de agendamento.
+        /// MÈtodo RequestAppointment: operaÁ„o de agendamento.
         /// </summary>
         public async Task<ServiceResponse<bool>> RequestAppointment(ScheduleCriteriaDto criteria)
         {
@@ -61,7 +62,6 @@ namespace SmartDigitalPsico.Service
                 {
                     return new ServiceResponse<bool>
                     {
-                        Success = false,
                         Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validation.Errors),
                         Message = validation.Errors[0].ErrorMessage
                     };
@@ -105,7 +105,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo GetAppointments: consulta e retorna dados.
+        /// MÈtodo GetAppointments: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<AppointmentDto[]>> GetAppointments(AppointmentCriteriaDto criteria)
         {
@@ -116,7 +116,6 @@ namespace SmartDigitalPsico.Service
                 {
                     return new ServiceResponse<AppointmentDto[]>
                     {
-                        Success = false,
                         Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validation.Errors),
                         Message = validation.Errors[0].ErrorMessage
                     };
@@ -131,17 +130,14 @@ namespace SmartDigitalPsico.Service
 
                 if (items.Data == null || items.Data.Length == 0)
                 {
-                    return new ServiceResponse<AppointmentDto[]>
-                    {
-                        Success = false,
-                        Message = await _support.Loc(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound)
-                    };
+                    return new ServiceResponse<AppointmentDto[]>().FailWith(
+                        await _support.Loc(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound),
+                        "GetAppointments");
                 }
 
                 var medical = await _constraintsProvider.GetMedicalAsync(criteria.MedicalId);
                 return new ServiceResponse<AppointmentDto[]>
                 {
-                    Success = true,
                     Data = MedicalScheduleMapper.ToAppointmentDtos(items.Data, criteria.MedicalId, medical.Name),
                     Message = await _support.Loc(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound)
                 };
@@ -149,11 +145,9 @@ namespace SmartDigitalPsico.Service
             catch (Exception ex)
             {
                 _support.Logger.Error(ex, "MedicalScheduleAppointmentService.GetAppointments");
-                return new ServiceResponse<AppointmentDto[]>
-                {
-                    Success = false,
-                    Message = await _support.Loc(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message)
-                };
+                return new ServiceResponse<AppointmentDto[]>().FailWith(
+                    await _support.Loc(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message),
+                    "GetAppointments");
             }
         }
     }

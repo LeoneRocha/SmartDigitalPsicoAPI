@@ -1,4 +1,4 @@
-ï»¿using FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 
 using SmartDigitalPsico.Domain.Interfaces.Application;
@@ -6,8 +6,8 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Bridge de produto sobre EntityBaseService do Core â€” injeta i18n via IApplicationLanguageService.
-    /// ServiÃ§os de domÃ­nio devem herdar este tipo. Base canÃ´nica: SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic.EntityBaseService.
+    /// Bridge de produto sobre EntityBaseService do Core — injeta i18n via IApplicationLanguageService.
+    /// Serviços de domínio devem herdar este tipo. Base canônica: SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic.EntityBaseService.
     /// </summary>
     public class EntityBaseService<TEntity, TEntityResult> : SmartDigitalPsico.Core.SDK.Service.DataEntity.Generic.EntityBaseService<TEntity, TEntityResult>
         where TEntity : SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBaseLog

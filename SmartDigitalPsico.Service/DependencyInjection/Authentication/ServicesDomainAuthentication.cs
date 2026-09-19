@@ -1,17 +1,17 @@
-Ôªøusing Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service.DependencyInjection.Authentication
 {
     /// <summary>
-    /// Classe respons√°vel por ServicesDomainAuthentication.
-    /// Responsabilidade: configura√ß√£o de startup/DI da aplica√ß√£o.
-    /// Rela√ß√£o: registra servi√ßos no container e configura o pipeline.
+    /// Classe respons·vel por ServicesDomainAuthentication.
+    /// Responsabilidade: configuraÁ„o de startup/DI da aplicaÁ„o.
+    /// RelaÁ„o: registra serviÁos no container e configura o pipeline.
     /// </summary>
     public static class ServicesDomainAuthentication
     {
         /// <summary>
-        /// M√©todo AddDependencies: cria ou persiste um novo registro/recurso.
+        /// MÈtodo AddDependencies: cria ou persiste um novo registro/recurso.
         /// </summary>
         public static void AddDependencies(IServiceCollection services)
         {

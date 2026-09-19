@@ -1,4 +1,4 @@
-Ôªøusing FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Specialty.GET;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -7,15 +7,15 @@ using SmartDigitalPsico.Domain.Interfaces.Specialty;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por SpecialtyService.
-    /// Responsabilidade: servi√ßo de entidade de neg√≥cio.
-    /// Rela√ß√£o: orquestra reposit√≥rios, validators e mapeamentos.
+    /// Classe respons·vel por SpecialtyService.
+    /// Responsabilidade: serviÁo de entidade de negÛcio.
+    /// RelaÁ„o: orquestra repositÛrios, validators e mapeamentos.
     /// </summary>
     public class SpecialtyService
         : SmartDigitalPsico.Service.EntityBaseService<Specialty, GetSpecialtyDto>, ISpecialtyService
     {
         /// <summary>
-        /// M√©todo SpecialtyService: executa a opera√ß√£o SpecialtyService.
+        /// MÈtodo SpecialtyService: executa a operaÁ„o SpecialtyService.
         /// </summary>
         public SpecialtyService(
             ISharedServices sharedServices,

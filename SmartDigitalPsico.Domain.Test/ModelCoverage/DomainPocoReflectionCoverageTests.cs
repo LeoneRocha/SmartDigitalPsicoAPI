@@ -303,7 +303,7 @@ public class DomainPocoReflectionCoverageTests
         var emptyCache = new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>();
         var cache = new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>("conteúdo", "chave", expiration);
         var copiedCache = new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<string>(
-            new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<string> { Data = "origem", Success = false, Message = "mensagem" },
+            new SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<string> { Data = "origem", Message = "mensagem", Errors = [new SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "mensagem" }] },
             "chave-origem",
             expiration);
         var token = new TokenVO(true, "criado", "expira", "acesso", "renovação");

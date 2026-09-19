@@ -1,5 +1,8 @@
 using System.Collections.Concurrent;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
+using SmartCoreHub.Core.SDK.Infrastructure.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
@@ -38,11 +41,7 @@ namespace SmartDigitalPsico.Service
             try
             {
                 if (string.IsNullOrWhiteSpace(request.OwnerKey) || request.Constraints == null)
-                {
-                    response.Success = false;
-                    response.Message = "OwnerKey and Constraints are required.";
-                    return response;
-                }
+                    return response.FailWith("OwnerKey and Constraints are required.", "BuildGradeAsync");
 
                 var tenant = ScheduleKeyHelper.RequireTenant(request.TenantKey);
                 var interval = TimeSpan.FromMinutes(Math.Max(1, request.Constraints.IntervalMinutes));
@@ -65,15 +64,12 @@ namespace SmartDigitalPsico.Service
                         ?? string.Empty,
                     Days = days
                 };
-                response.Success = true;
                 return response;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleAvailabilityService.BuildGradeAsync failed");
-                response.Success = false;
-                response.Message = ex.Message;
-                return response;
+                return response.FailWith(ex.Message, "BuildGradeAsync");
             }
         }
 

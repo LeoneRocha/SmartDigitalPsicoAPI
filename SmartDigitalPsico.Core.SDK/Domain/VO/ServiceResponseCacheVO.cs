@@ -26,8 +26,25 @@ namespace SmartDigitalPsico.Core.SDK.Domain.VO
             CacheId = Guid.NewGuid().ToString();
             DateTimeSlidingExpiration = dateTimeSlidingExpiration;
             Data = serviceResponse.Data;
-            Success = serviceResponse.Success;
             Message = serviceResponse.Message;
+            if (serviceResponse is ServiceResponse<T> full)
+            {
+                Errors = full.Errors ?? new List<ErrorResponse>();
+                Unauthorized = full.Unauthorized;
+            }
+            else if (!serviceResponse.Success)
+            {
+                Errors =
+                [
+                    new ErrorResponse
+                    {
+                        Name = "Cache",
+                        Message = string.IsNullOrWhiteSpace(serviceResponse.Message)
+                            ? "Cached failure."
+                            : serviceResponse.Message
+                    }
+                ];
+            }
         }
         /// <summary>
         /// Método ServiceResponseCacheVO: executa a operação ServiceResponseCacheVO.
@@ -39,7 +56,6 @@ namespace SmartDigitalPsico.Core.SDK.Domain.VO
             CacheId = Guid.NewGuid().ToString();
             DateTimeSlidingExpiration = dateTimeSlidingExpiration;
             Data = dataToCache;
-            Success = true;
             Message = string.Empty;
         }
 

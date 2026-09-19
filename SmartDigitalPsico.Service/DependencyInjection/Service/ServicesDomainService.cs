@@ -1,4 +1,4 @@
-ï»¿using System.Reflection;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 using SmartDigitalPsico.Data.Audit.Interface;
@@ -8,23 +8,23 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service.DependencyInjection.Service
 {
     /// <summary>
-    /// Classe responsÃ¡vel por ServicesDomainService.
-    /// Responsabilidade: configuraÃ§Ã£o de startup/DI da aplicaÃ§Ã£o.
-    /// RelaÃ§Ã£o: registra serviÃ§os no container e configura o pipeline.
+    /// Classe responsável por ServicesDomainService.
+    /// Responsabilidade: configuração de startup/DI da aplicação.
+    /// Relação: registra serviços no container e configura o pipeline.
     /// </summary>
     public static class ServicesDomainService
     {
         private const string ServiceSuffix = "Service";
 
         /// <summary>
-        /// MÃ©todo AddDependenciesManually: cria ou persiste um novo registro/recurso.
+        /// Método AddDependenciesManually: cria ou persiste um novo registro/recurso.
         /// </summary>
         public static void AddDependenciesManually(IServiceCollection services)
         {
             RegisterManuallyAddedServices(services);
         }
         /// <summary>
-        /// MÃ©todo AddDependenciesAuto: cria ou persiste um novo registro/recurso.
+        /// Método AddDependenciesAuto: cria ou persiste um novo registro/recurso.
         /// </summary>
         public static void AddDependenciesAuto(IServiceCollection services)
         {
@@ -37,7 +37,7 @@ namespace SmartDigitalPsico.Service.DependencyInjection.Service
             services.AddScoped<INotificationPlatformServiceFactory, NotificationPlatformServiceFactory>();
             services.AddScoped<IFileManagerService, FileManagerService>();
 
-            // Schedule Core â€” write / read / conflict (CQRS-ready)
+            // Schedule Core — write / read / conflict (CQRS-ready)
             services.AddScoped<IScheduleConflictService, ScheduleConflictService>();
             services.AddScoped<IScheduleCreateService, ScheduleCreateService>();
             services.AddScoped<IScheduleUpdateService, ScheduleUpdateService>();
@@ -46,7 +46,7 @@ namespace SmartDigitalPsico.Service.DependencyInjection.Service
             services.AddScoped<IScheduleAvailabilityService, ScheduleAvailabilityService>();
             services.AddScoped<IScheduleAppointmentQueryService, ScheduleAppointmentQueryService>();
 
-            // Medical host â€” support + action services + thin facade
+            // Medical host — support + action services + thin facade
             services.AddScoped<IScheduleKeyPolicy, MedicalScheduleKeyPolicy>();
             services.AddScoped<MedicalScheduleNotificationAdapter>();
             services.AddScoped<MedicalScheduleConstraintsProvider>();

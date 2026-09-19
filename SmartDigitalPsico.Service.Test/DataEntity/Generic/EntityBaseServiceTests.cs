@@ -100,24 +100,21 @@ public class EntityBaseServiceTests
     // Cenário: a atualização aponta para registro inexistente.
     // Objetivo: documentar o fluxo atual, que continua para validação e persistência.
     [Test]
-    public async Task Update_MissingEntity_ContinuesToValidationAndUpdate()
+    public async Task Update_MissingEntity_ReturnsNotFoundWithoutUpdate()
     {
         // Arrange
         var context = new ServiceContext();
         var item = new UpdateGenderDto { Id = 23, Description = "Outro" };
-        var entity = new Gender { Id = item.Id };
         context.Repository.Setup(x => x.Exists(item.Id)).ReturnsAsync(false);
-        context.Mapper.Setup(x => x.Map<Gender>(item)).Returns(entity);
-        context.Validator.Setup(x => x.ValidateAsync(entity, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult());
 
         // Act
         var result = await context.Service.Update(item);
 
-        // Assert
-        result.Success.Should().BeTrue("a implementação atual ainda valida e atualiza após o ramo de inexistência");
+        // Assert — AJ.3: FailWith + early return (não valida/atualiza inexistente)
+        result.Success.Should().BeFalse();
+        result.Errors.Should().NotBeEmpty();
 
-        context.Repository.Verify(x => x.Update(entity), Times.Once);
+        context.Repository.Verify(x => x.Update(It.IsAny<Gender>()), Times.Never);
     }
 
     // Cenário: a atualização é válida.
@@ -165,7 +162,7 @@ public class EntityBaseServiceTests
         using (Assert.EnterMultipleScope())
         {
             result.Success.Should().BeTrue();
-            result.Data.Should().BeFalse("Delete não atribui o retorno do repositório a Data");
+            result.Data.Should().BeTrue("AJ.3: Delete atribui o retorno do repositório a Data");
         }
         context.Repository.Verify(x => x.Delete(4), Times.Once);
     }
@@ -563,7 +560,7 @@ public class GenderServiceTests
         // Arrange
         var context = new GenderServiceContext(cacheEnabled: true);
         var cached = new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetGenderDto>>(
-            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetGenderDto>> { Data = [new GetGenderDto { Id = 3 }], Success = true },
+            new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<List<GetGenderDto>> { Data = [new GetGenderDto { Id = 3 }] },
             "FindAll_GetGenderVO",
             DateTime.UtcNow.AddMinutes(5));
         context.Cache.Setup(x => x.TryGet<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponseCacheVO<List<GetGenderDto>>>(

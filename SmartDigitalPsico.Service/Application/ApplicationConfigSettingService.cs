@@ -1,4 +1,4 @@
-Ôªøusing FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Application;
@@ -7,15 +7,15 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por ApplicationConfigSettingService.
-    /// Responsabilidade: servi√ßo de entidade de neg√≥cio.
-    /// Rela√ß√£o: orquestra reposit√≥rios, validators e mapeamentos.
+    /// Classe respons·vel por ApplicationConfigSettingService.
+    /// Responsabilidade: serviÁo de entidade de negÛcio.
+    /// RelaÁ„o: orquestra repositÛrios, validators e mapeamentos.
     /// </summary>
     public class ApplicationConfigSettingService
       : SmartDigitalPsico.Service.EntityBaseService<ApplicationConfigSetting, GetApplicationConfigSettingDto>, IApplicationConfigSettingService
     {
         /// <summary>
-        /// M√©todo ApplicationConfigSettingService: executa a opera√ß√£o ApplicationConfigSettingService.
+        /// MÈtodo ApplicationConfigSettingService: executa a operaÁ„o ApplicationConfigSettingService.
         /// </summary>
         public ApplicationConfigSettingService(
             ISharedServices sharedServices,

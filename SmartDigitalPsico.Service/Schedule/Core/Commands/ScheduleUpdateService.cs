@@ -1,5 +1,8 @@
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
+using SmartCoreHub.Core.SDK.Infrastructure.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
@@ -46,9 +49,7 @@ namespace SmartDigitalPsico.Service
                     || request.Items == null
                     || request.Items.Length == 0)
                 {
-                    response.Success = false;
-                    response.Message = "UniqueToken, TenantKey, OwnerKey and Items are required.";
-                    return response;
+                    return response.FailWith("UniqueToken, TenantKey, OwnerKey and Items are required.", "UpdateAsync");
                 }
 
                 var token = request.UniqueToken.Trim();
@@ -60,9 +61,7 @@ namespace SmartDigitalPsico.Service
 
                 if (entity == null)
                 {
-                    response.Success = false;
-                    response.Message = "Agenda schedule not found.";
-                    return response;
+                    return response.FailWith("Agenda schedule not found.", "UpdateAsync");
                 }
 
                 var conflict = await EnsureNoConflictAsync(request, entity.UniqueToken);
@@ -90,16 +89,13 @@ namespace SmartDigitalPsico.Service
                 entity = await _repository.Update(entity);
 
                 response.Data = entity;
-                response.Success = true;
                 response.Message = "Agenda schedule saved.";
                 return response;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleUpdateService.UpdateAsync failed. Inner={Inner}", ex.InnerException?.Message);
-                response.Success = false;
-                response.Message = ex.InnerException?.Message ?? ex.Message;
-                return response;
+                return response.FailWith(ex.InnerException?.Message ?? ex.Message, "UpdateAsync");
             }
         }
 
@@ -115,9 +111,7 @@ namespace SmartDigitalPsico.Service
                 var item = await _repository.GetItemAsync(tenant, request.OwnerKey, request.SubjectKey, request.AppointmentDateTime);
                 if (item == null)
                 {
-                    response.Success = false;
-                    response.Message = "Appointment not found.";
-                    return response;
+                    return response.FailWith("Appointment not found.", "CancelOccurrenceAsync");
                 }
 
                 var packages = await _repository.GetOverlappingByOwnerAsync(
@@ -130,9 +124,7 @@ namespace SmartDigitalPsico.Service
 
                 if (package == null)
                 {
-                    response.Success = false;
-                    response.Message = "Appointment package not found.";
-                    return response;
+                    return response.FailWith("Appointment package not found.", "CancelOccurrenceAsync");
                 }
 
                 var newStatus = item.Status;
@@ -155,7 +147,6 @@ namespace SmartDigitalPsico.Service
                 package.ModifyDate = DateHelper.GetDateTimeNowFromUtc();
                 await _repository.Update(package);
 
-                response.Success = true;
                 response.Data = new ScheduleCancelResult
                 {
                     PackageId = package.Id,
@@ -167,9 +158,7 @@ namespace SmartDigitalPsico.Service
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleUpdateService.CancelOccurrenceAsync failed");
-                response.Success = false;
-                response.Message = ex.Message;
-                return response;
+                return response.FailWith(ex.Message, "CancelOccurrenceAsync");
             }
         }
 
@@ -186,12 +175,14 @@ namespace SmartDigitalPsico.Service
                 request.TenantKey, request.OwnerKey, request.Items, excludeToken);
             if (!check.Success || !check.Data)
             {
-                return new ServiceResponse<ScheduleCalendar>
+                var conflict = new ServiceResponse<ScheduleCalendar>
                 {
-                    Success = false,
                     Message = check.Message ?? "There is a scheduling conflict for the specified time.",
                     Errors = check.Errors ?? []
                 };
+                if (conflict.Errors.Count == 0)
+                    conflict.FailWith(conflict.Message, "EnsureNoConflict");
+                return conflict;
             }
             return null;
         }

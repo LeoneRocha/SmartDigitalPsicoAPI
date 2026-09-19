@@ -11,7 +11,7 @@ using Moq;
 using Newtonsoft.Json;
 using SmartCoreHub.Core.SDK.Common.Exceptions;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Core.SDK.Domain.Security;
 using SmartDigitalPsico.Core.SDK.Domain.Validation;
@@ -898,7 +898,7 @@ public sealed class FinalBranchCoverageTests
             overlapNewNullEnd.IsValid.Should().BeTrue();
             maxZero.Should().BeEmpty();
             wrongAlg.Should().Throw<SecurityTokenException>();
-            logger.Verify(l => l.Warning(It.IsAny<string>()), Times.Once);
+            logger.Verify(l => l.LogWarning(It.IsAny<string>(), It.IsAny<object?[]>()), Times.Once);
             pipeSingle.DefaultMessage.Should().Be("tail");
             noPipeTranslate.FullMessage.Should().Be("plain");
             baseDenied.Should().BeFalse();

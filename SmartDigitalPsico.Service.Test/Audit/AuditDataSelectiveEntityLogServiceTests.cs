@@ -81,7 +81,7 @@ public class AuditDataSelectiveEntityLogServiceTests
         }
 
         public override Task<global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetAuditDataSelectiveEntityLogDto>> Create(SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityDtoAdd item)
-            => Task.FromResult(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetAuditDataSelectiveEntityLogDto> { Success = true });
+            => Task.FromResult(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetAuditDataSelectiveEntityLogDto> { });
     }
 
     private sealed class ThrowingAuditDataSelectiveEntityLogService : AuditDataSelectiveEntityLogService

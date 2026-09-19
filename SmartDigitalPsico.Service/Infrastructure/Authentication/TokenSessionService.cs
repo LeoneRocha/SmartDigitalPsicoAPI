@@ -1,27 +1,27 @@
-Ôªøusing SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por TokenSessionService.
-    /// Responsabilidade: infraestrutura transversal (cache, notifica√ß√£o, etc.).
-    /// Rela√ß√£o: suporta Services e jobs de background.
+    /// Classe respons·vel por TokenSessionService.
+    /// Responsabilidade: infraestrutura transversal (cache, notificaÁ„o, etc.).
+    /// RelaÁ„o: suporta Services e jobs de background.
     /// </summary>
     public class TokenSessionService : ITokenSessionPersistenceService
     {
         private readonly ITokenSessionPersistenceAdapter _tokenSessionAdapter;
 
         /// <summary>
-        /// M√©todo TokenSessionService: mapeia ou transforma dados entre modelos.
+        /// MÈtodo TokenSessionService: mapeia ou transforma dados entre modelos.
         /// </summary>
         public TokenSessionService(ITokenSessionPersistenceFactory tokenSessionFactory)
         {
             _tokenSessionAdapter = tokenSessionFactory.Create(ETokenSessionPersistenceType.AzureStorageTable);
         }
         /// <summary>
-        /// M√©todo GetSessionAsync: consulta e retorna dados.
+        /// MÈtodo GetSessionAsync: consulta e retorna dados.
         /// </summary>
         public async Task<UserTokenSession?> GetSessionAsync(long userId)
         {
@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo SaveSessionAsync: cria ou persiste um novo registro/recurso.
+        /// MÈtodo SaveSessionAsync: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task SaveSessionAsync(UserTokenSession session)
         {

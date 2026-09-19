@@ -1,6 +1,8 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
+using SmartCoreHub.Core.SDK.Infrastructure.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Notification.UPDATE;
 using SmartDigitalPsico.Domain.EntityModels;

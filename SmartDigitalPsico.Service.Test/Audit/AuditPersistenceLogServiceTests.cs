@@ -1,5 +1,5 @@
 using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 
 using SmartDigitalPsico.Domain.EntityModels;
 
@@ -26,9 +26,9 @@ public class AuditPersistenceLogServiceTests
         service.SaveAuditEntries(entries);
 
         // Assert
-        logger.Verify(x => x.Information(
+        logger.Verify(x => x.LogInfo(
             It.IsAny<string>(),
-            It.IsAny<object[]>()), Times.Exactly(2));
+            It.IsAny<object?[]>()), Times.Exactly(2));
     }
 
     // Cenário: entrada seletiva única.
@@ -52,8 +52,8 @@ public class AuditPersistenceLogServiceTests
         await service.SaveAuditEntry(entry);
 
         // Assert
-        logger.Verify(x => x.Information(
+        logger.Verify(x => x.LogInfo(
             It.IsAny<string>(),
-            It.IsAny<object[]>()), Times.Once);
+            It.IsAny<object?[]>()), Times.Once);
     }
 }

@@ -5,8 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using SmartCoreHub.Core.SDK.Common.Exceptions;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartCoreHub.Core.SDK.Infrastructure.Logging;
 using SmartDigitalPsico.Domain.DTO.Common;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 
 namespace SmartDigitalPsico.Domain.Helpers
 {

@@ -187,7 +187,7 @@ public class UserServiceTests
         context.Context.ApplicationConfigSettingRepository.Setup(x => x.FindAll())
             .ReturnsAsync([new ApplicationConfigSetting { UrlRootManager = "https://app.local" }]);
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Success = false });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "fail" }] });
 
         // Act
         var result = await context.Service.Create(addDto);
@@ -217,7 +217,7 @@ public class UserServiceTests
         context.Context.ApplicationConfigSettingRepository.Setup(x => x.FindAll())
             .ReturnsAsync([new ApplicationConfigSetting { UrlRootManager = "https://app.local" }]);
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Success = false });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "fail" }] });
 
         // Act
         var result = await context.Service.Create(addDto);
@@ -246,7 +246,6 @@ public class UserServiceTests
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
             {
-                Success = true,
                 Data = new GetNotificationTemplateDto { Subject = "Welcome", Body = "Hello" }
             });
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(

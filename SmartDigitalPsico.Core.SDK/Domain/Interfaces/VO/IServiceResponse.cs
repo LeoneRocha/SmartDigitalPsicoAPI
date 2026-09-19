@@ -8,7 +8,7 @@
     public interface IServiceResponse<T>
     {
         T? Data { get; set; }
-        bool Success { get; set; }
+        bool Success { get; }
         string Message { get; set; }
     }
 }

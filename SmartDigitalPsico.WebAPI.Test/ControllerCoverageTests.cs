@@ -351,8 +351,7 @@ public class ControllerCoverageTests
         service.Setup(item => item.FindAll())
             .ReturnsAsync(new ServiceResponse<List<GetMedicalDto>>
             {
-                Success = false,
-                Unauthorized = true
+                Errors = [new SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "fail" }], Unauthorized = true
             });
         var controller = new SmartDigitalPsico.WebAPI.Controllers.v1.MedicalController(
             service.Object,
@@ -649,10 +648,16 @@ public class ControllerCoverageTests
         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ServiceResponse<>))
         {
             var response = Activator.CreateInstance(type)!;
-            type.GetProperty(nameof(ServiceResponse<object>.Success))!.SetValue(response, !respostaComErro);
             type.GetProperty(nameof(ServiceResponse<object>.Unauthorized))!.SetValue(response, false);
             type.GetProperty(nameof(ServiceResponse<object>.Data))!
                 .SetValue(response, respostaComErro ? null : CreateValue(type.GenericTypeArguments[0], false));
+            if (respostaComErro)
+            {
+                type.GetProperty(nameof(ServiceResponse<object>.Errors))!.SetValue(response, new List<ErrorResponse>
+                {
+                    new() { Name = "x", Message = "fail" }
+                });
+            }
             return response;
         }
 

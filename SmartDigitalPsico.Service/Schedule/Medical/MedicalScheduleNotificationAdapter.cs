@@ -1,4 +1,4 @@
-ï»¿using SmartDigitalPsico.Domain.DTO.Notification.Common;
+using SmartDigitalPsico.Domain.DTO.Notification.Common;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Enuns;
 using SmartDigitalPsico.Domain.Interfaces.Medical;
@@ -18,7 +18,7 @@ namespace SmartDigitalPsico.Service
         private readonly INotificationRecordsRepository _notificationRecordsRepository;
 
         /// <summary>
-        /// MÃ©todo MedicalScheduleNotificationAdapter: executa a operaÃ§Ã£o MedicalScheduleNotificationAdapter.
+        /// Método MedicalScheduleNotificationAdapter: executa a operação MedicalScheduleNotificationAdapter.
         /// </summary>
         public MedicalScheduleNotificationAdapter(
             IPatientRepositories patientRepositoriesShared,
@@ -33,7 +33,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// MÃ©todo SendNotifyRegisterAsync: dispara notificaÃ§Ã£o ou comunicaÃ§Ã£o.
+        /// Método SendNotifyRegisterAsync: dispara notificação ou comunicação.
         /// </summary>
         public async Task SendNotifyRegisterAsync(MedicalCalendar entity, EMedicalCalendarActionType action = EMedicalCalendarActionType.Add)
         {
@@ -49,7 +49,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// MÃ©todo CreateOrUpdateNotificationRecordsAsync: cria ou persiste um novo registro/recurso.
+        /// Método CreateOrUpdateNotificationRecordsAsync: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task CreateOrUpdateNotificationRecordsAsync(MedicalCalendar[] entities)
         {
@@ -63,7 +63,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// MÃ©todo DeleteNotificationRecordsAsync: remove ou cancela um registro/recurso.
+        /// Método DeleteNotificationRecordsAsync: remove ou cancela um registro/recurso.
         /// </summary>
         public Task DeleteNotificationRecordsAsync(string uniqueToken)
         {
@@ -73,7 +73,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// MÃ©todo DeleteNotificationRecordsAsync: remove ou cancela um registro/recurso.
+        /// Método DeleteNotificationRecordsAsync: remove ou cancela um registro/recurso.
         /// </summary>
         public Task DeleteNotificationRecordsAsync(string uniqueToken, DateTime eventDate)
         {

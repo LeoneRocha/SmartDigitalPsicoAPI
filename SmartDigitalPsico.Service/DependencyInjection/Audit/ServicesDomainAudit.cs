@@ -1,4 +1,4 @@
-Ôªøusing FluentValidation;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Data.Audit;
 using SmartDigitalPsico.Data.Audit.Interface;
@@ -10,14 +10,14 @@ using SmartDigitalPsico.Domain.Validation;
 namespace SmartDigitalPsico.Service.DependencyInjection.Audit
 {
     /// <summary>
-    /// Classe respons√°vel por ServicesDomainAudit.
-    /// Responsabilidade: configura√ß√£o de startup/DI da aplica√ß√£o.
-    /// Rela√ß√£o: registra servi√ßos no container e configura o pipeline.
+    /// Classe respons·vel por ServicesDomainAudit.
+    /// Responsabilidade: configuraÁ„o de startup/DI da aplicaÁ„o.
+    /// RelaÁ„o: registra serviÁos no container e configura o pipeline.
     /// </summary>
     public static class ServicesDomainAudit
     {
         /// <summary>
-        /// M√©todo AddDependencies: cria ou persiste um novo registro/recurso.
+        /// MÈtodo AddDependencies: cria ou persiste um novo registro/recurso.
         /// </summary>
         public static void AddDependencies(IServiceCollection services)
         {

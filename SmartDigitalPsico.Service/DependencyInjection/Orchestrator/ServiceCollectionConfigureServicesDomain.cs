@@ -1,4 +1,4 @@
-ï»¿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,8 +21,8 @@ using SmartDigitalPsico.Service.DependencyInjection.Validation;
 namespace SmartDigitalPsico.Service.DependencyInjection.Orchestrator
 {
     /// <summary>
-    /// Orquestra DI de domÃ­nio do produto + blocos Core.SDK (SDP-AJUSTE SA.2).
-    /// <c>AddCore*</c> = casca SDP Configure (nÃ£o SCH raw). Ver <c>HostConfigureBridge</c>.
+    /// Orquestra DI de domínio do produto + blocos Core.SDK (SDP-AJUSTE SA.2).
+    /// <c>AddCore*</c> = casca SDP Configure (não SCH raw). Ver <c>HostConfigureBridge</c>.
     /// </summary>
     public static class ServiceCollectionConfigureServicesDomain
     {
@@ -34,7 +34,7 @@ namespace SmartDigitalPsico.Service.DependencyInjection.Orchestrator
 
             addDependenciesSingleton(services);
 
-            // Open-generic EntityBaseService SDP (retenÃ§Ã£o) + default resilience â€” alinhado SCH AddCoreEntityBaseService.
+            // Open-generic EntityBaseService SDP (retenção) + default resilience — alinhado SCH AddCoreEntityBaseService.
             services.AddCoreEntityBaseService();
 
             ServicesDomainValidation.AddDependencies(services);

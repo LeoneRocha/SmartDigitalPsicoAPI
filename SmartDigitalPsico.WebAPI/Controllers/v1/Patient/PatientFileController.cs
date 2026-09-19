@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Patient.ADD;
 using SmartDigitalPsico.Domain.DTO.Patient.Common;
@@ -103,13 +104,10 @@ namespace SmartDigitalPsico.WebAPI.Controllers.v1
             {
                 var addEntity = new AddPatientFileDto() { PatientId = newEntity.PatientId, FileDetails = newEntity.FileDetails, Description = newEntity.Description };
                 response.Data = null;
-                response.Success = await _entityService.PostFileAsync(addEntity);
+                var uploadOk = await _entityService.PostFileAsync(addEntity);
+                if (!uploadOk)
+                    return BadRequest(response.FailWith("Upload fail", "PostFileAsync"));
                 response.Message = $"Upload success!";
-                if (!response.Success)
-                {
-                    response.Message = $"Upload fail";
-                    return BadRequest(response);
-                }
                 return Ok(response);
             }
             catch (Exception)

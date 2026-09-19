@@ -1,6 +1,8 @@
 using FluentValidation;
+using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Medical.ADD;
@@ -183,11 +185,11 @@ namespace SmartDigitalPsico.Service
             ServiceResponse<GetMedicalDto> response = new ServiceResponse<GetMedicalDto>();
 
             var validResult = await validAccessdmin();
-            response.Success = validResult.Success;
             response.Errors = validResult.Errors;
             response.Message = validResult.Message;
+            response.Unauthorized = validResult.Unauthorized;
 
-            if (!response.Success)
+            if (!validResult.Success)
                 return response;
 
             Medical? entityResponse = await ((IMedicalRepository)_entityRepository).FindByID(id);
@@ -210,7 +212,6 @@ namespace SmartDigitalPsico.Service
                         .ToList();
                 }
             }
-            response.Success = true;
             response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterFind, GeneralLanguageMenssageConstants.RegisterFind);
             return response;
         }
@@ -218,19 +219,13 @@ namespace SmartDigitalPsico.Service
         private async Task<ServiceResponse<List<GetMedicalDto>>> validAccessdmin()
         {
             ServiceResponse<List<GetMedicalDto>> response = new ServiceResponse<List<GetMedicalDto>>();
-            response.Success = true;
 
             User? userAction = await _userRepository.FindByID(UserId);
-            response.Success = userAction != null;
             if (userAction == null)
-            {
-                return response;
-            }
+                return response.FailWith(ValidatorConstants.Validade_UserNotFound, "validAccessdmin");
             var validateResult = PatientPermissionMedicalValidator.ValidatePermissionAdmin(userAction);
             if (!string.IsNullOrEmpty(validateResult.ErrorCode))
             {
-                response.Success = false;
-
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.PermissionDenied, GeneralLanguageMenssageConstants.PermissionDenied);
 
                 response.Errors = new List<ErrorResponse>();

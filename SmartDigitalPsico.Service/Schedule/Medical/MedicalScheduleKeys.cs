@@ -1,8 +1,8 @@
-ï»¿using SmartDigitalPsico.Domain.Helpers.Medical;
+using SmartDigitalPsico.Domain.Helpers.Medical;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Medical implementation faÃ§ade for schedule keys/tenant â€” Core receives only opaque values.
+    /// Medical implementation façade for schedule keys/tenant — Core receives only opaque values.
     /// </summary>
     public static class MedicalScheduleKeys
     {
@@ -11,20 +11,20 @@ namespace SmartDigitalPsico.Service
         public const string PatientIdPrefix = MedicalScheduleKeyHelper.PatientIdPrefix;
 
         /// <summary>
-        /// MÃ©todo ForMedical: executa a operaÃ§Ã£o ForMedical.
+        /// Método ForMedical: executa a operação ForMedical.
         /// </summary>
         public static string ForMedical(long medicalId) => MedicalScheduleKeyHelper.ForMedical(medicalId);
         /// <summary>
-        /// MÃ©todo ForPatient: executa a operaÃ§Ã£o ForPatient.
+        /// Método ForPatient: executa a operação ForPatient.
         /// </summary>
         public static string ForPatient(long patientId) => MedicalScheduleKeyHelper.ForPatient(patientId);
         /// <summary>
-        /// MÃ©todo TryParseMedicalId: executa a operaÃ§Ã£o TryParseMedicalId.
+        /// Método TryParseMedicalId: executa a operação TryParseMedicalId.
         /// </summary>
         public static bool TryParseMedicalId(string? ownerKey, out long medicalId)
             => MedicalScheduleKeyHelper.TryParseMedicalId(ownerKey, out medicalId);
         /// <summary>
-        /// MÃ©todo TryParsePatientId: executa a operaÃ§Ã£o TryParsePatientId.
+        /// Método TryParsePatientId: executa a operação TryParsePatientId.
         /// </summary>
         public static bool TryParsePatientId(string? subjectKey, out long patientId)
             => MedicalScheduleKeyHelper.TryParsePatientId(subjectKey, out patientId);

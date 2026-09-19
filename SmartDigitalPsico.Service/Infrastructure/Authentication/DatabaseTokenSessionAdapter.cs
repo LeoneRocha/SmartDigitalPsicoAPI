@@ -1,19 +1,19 @@
-Ôªøusing SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por DatabaseTokenSessionAdapter.
-    /// Responsabilidade: infraestrutura transversal (cache, notifica√ß√£o, etc.).
-    /// Rela√ß√£o: suporta Services e jobs de background.
+    /// Classe respons·vel por DatabaseTokenSessionAdapter.
+    /// Responsabilidade: infraestrutura transversal (cache, notificaÁ„o, etc.).
+    /// RelaÁ„o: suporta Services e jobs de background.
     /// </summary>
     public class DatabaseTokenSessionAdapter : ITokenSessionPersistenceAdapter
     {
         private readonly IUserTokenSessionRepository _userTokenSessionRepository;
 
         /// <summary>
-        /// M√©todo DatabaseTokenSessionAdapter: executa a opera√ß√£o DatabaseTokenSessionAdapter.
+        /// MÈtodo DatabaseTokenSessionAdapter: executa a operaÁ„o DatabaseTokenSessionAdapter.
         /// </summary>
         public DatabaseTokenSessionAdapter(IUserTokenSessionRepository userTokenSessionRepository)
         {
@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo GetSessionAsync: consulta e retorna dados.
+        /// MÈtodo GetSessionAsync: consulta e retorna dados.
         /// </summary>
         public async Task<UserTokenSession?> GetSessionAsync(long userId)
         {
@@ -29,7 +29,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo SaveSessionAsync: cria ou persiste um novo registro/recurso.
+        /// MÈtodo SaveSessionAsync: cria ou persiste um novo registro/recurso.
         /// </summary>
         public async Task SaveSessionAsync(UserTokenSession userTokenSession)
         {

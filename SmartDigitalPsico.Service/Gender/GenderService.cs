@@ -1,5 +1,6 @@
 using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
 using SmartDigitalPsico.Domain.DTO.Gender.UPDATE;
@@ -47,7 +48,8 @@ namespace SmartDigitalPsico.Service
                     result = await base.FindAll();
                     ServiceResponseCacheVO<List<GetGenderDto>> cacheSave = new ServiceResponseCacheVO<List<GetGenderDto>>(result, keyCache, _cacheService.GetSlidingExpiration());
 
-                    result.Success = _cacheService.Set(keyCache, cacheSave);
+                    if (!_cacheService.Set(keyCache, cacheSave))
+                        result.FailWith("Failed to cache gender list.", "FindAll");
                 }
                 else
                 {
@@ -73,14 +75,10 @@ namespace SmartDigitalPsico.Service
             if (entityResponse != null)
             {
                 response.Data = _mapper.Map<GetGenderDto>(entityResponse);
-                response.Success = true;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             }
             else
-            {
-                response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
-            }
+                return response.FailWith(await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound), "FindByID");
             return response;
         }
 
@@ -95,12 +93,7 @@ namespace SmartDigitalPsico.Service
             bool entityExists = await ((IGenderRepository)_entityRepository).Exists(dto.Id);
 
             if (!entityExists)
-            {
-                response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
-
-                return response;
-            }
+                return response.FailWith(await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound), "Update");
             Gender entityUpdate = await ((IGenderRepository)_entityRepository).FindByID(dto.Id);
             entityUpdate.Description = dto.Description;
             entityUpdate.Enable = dto.Enable;
@@ -113,7 +106,6 @@ namespace SmartDigitalPsico.Service
                 Gender entityResponse = await ((IGenderRepository)_entityRepository).Update(entityUpdate);
 
                 response.Data = _mapper.Map<GetGenderDto>(entityResponse);
-                response.Success = true;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterUpdated, GeneralLanguageMenssageConstants.RegisterUpdated);
             }
             return response;

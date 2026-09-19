@@ -13,7 +13,7 @@ namespace SmartDigitalPsico.Core.SDK.Service.Configure.Localization;
 [SdkWrappedSource(
     targetType: "SmartCoreHub.Core.SDK.Service.DependenciesCollection.Extensions.CoreServiceCollectionExtensions.AddCoreRequestLocalization",
     targetPackage: "SmartCoreHub.Core.SDK",
-    description: "Alias AddCoreRequestLocalization/AddCoreLocalization; filter IAppLogger SDP.")]
+    description: "Alias AddCoreRequestLocalization/AddCoreLocalization; LanguageActionFilter usa IAppLogger SCH.")]
 public static class LocalizationServiceCollectionExtensions
 {
     public static IServiceCollection AddCoreLocalization(

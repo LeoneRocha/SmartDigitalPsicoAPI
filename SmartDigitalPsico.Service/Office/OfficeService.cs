@@ -1,4 +1,4 @@
-Ôªøusing FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Office.GET;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -7,15 +7,15 @@ using SmartDigitalPsico.Domain.Interfaces.Office;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por OfficeService.
-    /// Responsabilidade: servi√ßo de entidade de neg√≥cio.
-    /// Rela√ß√£o: orquestra reposit√≥rios, validators e mapeamentos.
+    /// Classe respons·vel por OfficeService.
+    /// Responsabilidade: serviÁo de entidade de negÛcio.
+    /// RelaÁ„o: orquestra repositÛrios, validators e mapeamentos.
     /// </summary>
     public class OfficeService : SmartDigitalPsico.Service.EntityBaseService<Office, GetOfficeDto>, IOfficeService
 
     {
         /// <summary>
-        /// M√©todo OfficeService: executa a opera√ß√£o OfficeService.
+        /// MÈtodo OfficeService: executa a operaÁ„o OfficeService.
         /// </summary>
         public OfficeService(
             ISharedServices sharedServices,

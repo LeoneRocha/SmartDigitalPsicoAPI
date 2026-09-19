@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Contracts;
@@ -49,9 +50,7 @@ namespace SmartDigitalPsico.Service
         public override async Task<ServiceResponse<List<GetMedicalFileDto>>> FindAll()
         {
             var result = new ServiceResponse<List<GetMedicalFileDto>>();
-            result.Success = false;
-            result.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageKeyConstants.RegisterIsNotFound);
-            return result;
+            return result.FailWith(await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageKeyConstants.RegisterIsNotFound), "FindAll");
         }
 
         /// <summary>
@@ -91,19 +90,15 @@ namespace SmartDigitalPsico.Service
             if (!validationResult.IsValid)
             {
                 response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
-                response.Success = false;
                 response.Message = await base.GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                 return response;
             }
 
             if (listResult.Count == 0)
             {
-                response.Success = false;
-                response.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
-                return response;
+                return response.FailWith(await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound), "FindAll");
             }
             response.Data = listResult.Select(c => _mapper.Map<GetMedicalFileDto>(c)).ToList();
-            response.Success = true;
             response.Message = await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
 
             return response;
@@ -183,11 +178,13 @@ namespace SmartDigitalPsico.Service
             MedicalFile? fileEntity = await ((IMedicalFileRepository)_entityRepository).FindByID(id);
 
             bool result = await _filePersistor.DeleteFile(fileEntity, fileEntity.MedicalId.ToString());
-            if (result)
-            {
-                return new ServiceResponse<bool>() { Success = await ((IMedicalFileRepository)_entityRepository).Delete(id) };
-            }
-            return new ServiceResponse<bool>() { Success = false };
+            if (!result)
+                return new ServiceResponse<bool>().FailWith(await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound), "Delete");
+            var deleted = await ((IMedicalFileRepository)_entityRepository).Delete(id);
+            var deleteResponse = new ServiceResponse<bool> { Data = deleted };
+            if (!deleted)
+                deleteResponse.FailWith(await base.GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound), "Delete");
+            return deleteResponse;
         }
     }
 }

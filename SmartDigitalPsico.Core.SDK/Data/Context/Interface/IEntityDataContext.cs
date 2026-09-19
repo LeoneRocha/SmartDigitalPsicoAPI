@@ -1,19 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using SmartCoreHub.Core.SDK.Common.Attributes;
+using Sch = SmartCoreHub.Core.SDK.Infrastructure.Data;
 
-namespace SmartDigitalPsico.Core.SDK.Data.Context.Interface
+namespace SmartDigitalPsico.Core.SDK.Data.Context.Interface;
+
+/// <summary>
+/// Casca IEntityDataContext — herda o contrato SCH já portado.
+/// </summary>
+[SdkWrappedSource(
+    targetType: "SmartCoreHub.Core.SDK.Infrastructure.Data.IEntityDataContext",
+    targetPackage: "SmartCoreHub.Core.SDK",
+    description: "AJ.1: casca/wrapper herdando IEntityDataContext do SCH.")]
+public interface IEntityDataContext : Sch.IEntityDataContext
 {
-    /// <summary>
-    /// Contrato genérico de contexto EF (sem DbSets de produto).
-    /// </summary>
-    public interface IEntityDataContext : IDisposable
-    {
-        DbSet<TEntity> Set<TEntity>() where TEntity : class;
-        DatabaseFacade Database { get; }
-        EntityEntry Entry(object entity);
-        EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
-        int SaveChanges();
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-    }
 }

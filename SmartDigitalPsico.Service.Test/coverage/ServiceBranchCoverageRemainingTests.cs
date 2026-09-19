@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Domain.DTO.Application.GET;
 using SmartDigitalPsico.Domain.DTO.Gender.GET;
@@ -189,8 +189,7 @@ public class ServiceBranchCoverageRemainingTests
                             LanguageValue = "Hello Default",
                             ResourceKey = "SharedResource"
                         }
-                    ],
-                    Success = true
+                    ]
                 },
                 "FindAll_GetApplicationLanguageVO",
                 DateTime.UtcNow.AddMinutes(30));
@@ -283,7 +282,7 @@ public class ServiceBranchCoverageRemainingTests
         bookEmptyToken.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         bookEmptyToken.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true });
         bookEmptyToken.Repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>()))
             .ReturnsAsync((ScheduleCalendar e) => e);
 
@@ -291,7 +290,7 @@ public class ServiceBranchCoverageRemainingTests
         createConflictDataFalse.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         createConflictDataFalse.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = false, Message = null!, Errors = null! });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = false, Message = null!, Errors = null! });
 
         var createNoInner = new ScheduleCreateContext();
         createNoInner.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
@@ -305,7 +304,7 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new ScheduleCalendar { Id = 1, UniqueToken = token, ScheduleData = [item] });
         updateConflictSuccessFalse.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = false, Data = true, Message = "msg", Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "c" }] });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true, Message = "msg", Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "c" }] });
 
         var updateNoInner = new ScheduleUpdateContext();
         updateNoInner.Repository.Setup(x => x.GetByUniqueTokenAsync(token))
@@ -694,19 +693,19 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new ValidationResult());
         context.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, PatientIntervalTimeMinutes = 30 });
         context.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = false, Message = "book-fail" });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Message = "book-fail", Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "book-fail" }] });
         context.UpdateService.Setup(x => x.CancelOccurrenceAsync(It.IsAny<ScheduleCancelRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCancelResult> { Success = false, Message = null!, Data = null! });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCancelResult> { Message = null!, Data = null!, Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "fail" }] });
         context.AppointmentCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<AppointmentCriteriaDto>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         context.AppointmentQuery.Setup(x => x.GetItemsForOwnerSubjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null! });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Data = null! });
 
         var cancelSuccessNullData = new AppointmentServiceContext();
         cancelSuccessNullData.ScheduleCriteriaDtoValidator.Setup(x => x.ValidateAsync(It.IsAny<ScheduleCriteriaDto>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         cancelSuccessNullData.UpdateService.Setup(x => x.CancelOccurrenceAsync(It.IsAny<ScheduleCancelRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCancelResult> { Success = true, Data = null! });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCancelResult> { Data = null! });
 
         // Act
         var bookFail = await context.Service.RequestAppointment(new ScheduleCriteriaDto
@@ -769,12 +768,11 @@ public class ServiceBranchCoverageRemainingTests
         ctx.Context.UserRepository.Setup(x => x.FindByID(1)).ReturnsAsync(new User { Id = 1, MedicalId = 3, TimeZone = null! });
         var query = new Mock<IScheduleQueryService>();
         query.Setup(x => x.GetItemsForOwnerAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Success = true, Data = null! });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendarItem[]> { Data = null! });
         var availability = new Mock<IScheduleAvailabilityService>();
         availability.Setup(x => x.BuildGradeAsync(It.IsAny<ScheduleGradeRequest>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleGradeResult>
             {
-                Success = true,
                 Data = new ScheduleGradeResult
                 {
                     OwnerKey = MedicalScheduleKeys.ForMedical(3),
@@ -833,7 +831,6 @@ public class ServiceBranchCoverageRemainingTests
 
         query.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
-            Success = true,
             Data = new ScheduleCalendar { Id = 1, UniqueToken = "t", ScheduleData = null! }
         });
 
@@ -847,7 +844,6 @@ public class ServiceBranchCoverageRemainingTests
 
         query.Setup(x => x.GetByIdAsync(2)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
-            Success = true,
             Data = new ScheduleCalendar
             {
                 Id = 2,
@@ -864,7 +860,6 @@ public class ServiceBranchCoverageRemainingTests
 
         query.Setup(x => x.GetByIdAsync(3)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?>
         {
-            Success = true,
             Data = new ScheduleCalendar
             {
                 Id = 3,
@@ -962,7 +957,6 @@ public class ServiceBranchCoverageRemainingTests
         templates.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
             {
-                Success = true,
                 Data = new GetNotificationTemplateDto
                 {
                     Subject = "S",
@@ -1370,7 +1364,7 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new ScheduleCalendar { Id = 4, UniqueToken = token, ScheduleData = null! });
         updateCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true });
         updateCtx.Repository.Setup(x => x.Update(It.IsAny<ScheduleCalendar>()))
             .ReturnsAsync((ScheduleCalendar e) => e);
         var item = new ScheduleCalendarItem
@@ -1532,7 +1526,7 @@ public class ServiceBranchCoverageRemainingTests
             .ReturnsAsync(new ValidationResult());
         appt.MedicalRepository.Setup(x => x.FindByID(3)).ReturnsAsync(new MedicalEntity { Id = 3, PatientIntervalTimeMinutes = 30 });
         appt.CreateService.Setup(x => x.BookAsync(It.IsAny<ScheduleBookRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = true, Data = null!, Message = "ok" });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Data = null!, Message = "ok" });
 
         // Act
         await ctx.NotificationAdapter.SendNotifyRegisterAsync(calendar, EMedicalCalendarActionType.Add);

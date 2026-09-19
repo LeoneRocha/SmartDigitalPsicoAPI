@@ -1,4 +1,7 @@
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
+using SmartCoreHub.Core.SDK.Infrastructure.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
@@ -64,9 +67,7 @@ namespace SmartDigitalPsico.Service
                     || request.Items == null
                     || request.Items.Length == 0)
                 {
-                    response.Success = false;
-                    response.Message = "TenantKey, OwnerKey and Items are required.";
-                    return response;
+                    return response.FailWith("TenantKey, OwnerKey and Items are required.", "CreateAsync");
                 }
 
                 if (string.IsNullOrWhiteSpace(request.UniqueToken))
@@ -76,9 +77,7 @@ namespace SmartDigitalPsico.Service
                 var existing = await _repository.GetByUniqueTokenAsync(token);
                 if (existing != null)
                 {
-                    response.Success = false;
-                    response.Message = "Agenda schedule already exists for UniqueToken. Use update.";
-                    return response;
+                    return response.FailWith("Agenda schedule already exists for UniqueToken. Use update.", "CreateAsync");
                 }
 
                 var conflict = await EnsureNoConflictAsync(request, token);
@@ -105,16 +104,13 @@ namespace SmartDigitalPsico.Service
                 entity = await _repository.Create(entity);
 
                 response.Data = entity;
-                response.Success = true;
                 response.Message = "Agenda schedule saved.";
                 return response;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleCreateService.CreateAsync failed. Inner={Inner}", ex.InnerException?.Message);
-                response.Success = false;
-                response.Message = ex.InnerException?.Message ?? ex.Message;
-                return response;
+                return response.FailWith(ex.InnerException?.Message ?? ex.Message, "CreateAsync");
             }
         }
 
@@ -132,12 +128,14 @@ namespace SmartDigitalPsico.Service
                 request.TenantKey, request.OwnerKey, request.Items, token);
             if (!check.Success || !check.Data)
             {
-                return new ServiceResponse<ScheduleCalendar>
+                var conflict = new ServiceResponse<ScheduleCalendar>
                 {
-                    Success = false,
                     Message = check.Message ?? "There is a scheduling conflict for the specified time.",
                     Errors = check.Errors ?? []
                 };
+                if (conflict.Errors.Count == 0)
+                    conflict.FailWith(conflict.Message, "EnsureNoConflict");
+                return conflict;
             }
             return null;
         }

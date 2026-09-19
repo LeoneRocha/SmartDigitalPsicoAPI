@@ -1,6 +1,7 @@
 using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
 using SmartDigitalPsico.Domain.DTO.Notification.Common;
@@ -83,10 +84,7 @@ namespace SmartDigitalPsico.Service
                 }
             }
             else
-            {
-                response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
-            }
+                return response.FailWith(await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound), "Update");
 
             return response;
         }

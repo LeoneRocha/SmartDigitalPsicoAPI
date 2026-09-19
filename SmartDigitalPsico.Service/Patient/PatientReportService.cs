@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Patient.GET;
@@ -57,9 +58,7 @@ namespace SmartDigitalPsico.Service
 
                 if (entityResponse == null)
                 {
-                    response.Success = false;
-                    response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
-                    return response;
+                    return response.FailWith(await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound), "FindAll");
                 }
 
                 var recordData = new Record<Patient>
@@ -73,7 +72,6 @@ namespace SmartDigitalPsico.Service
                 if (!validationResult.IsValid)
                 {
                     response.Errors = HelperValidation.ConvertValidationFailureListToErroResponse(validationResult.Errors);
-                    response.Success = false;
                     response.Message = await GetLocalization(ErrorValidatorKeyConstants.ErrorValidator_User_Not_Permission, ErrorValidatorMenssageConstants.ErrorValidator_User_Not_Permission);
                     return response;
                 }
@@ -82,13 +80,11 @@ namespace SmartDigitalPsico.Service
                 var listRecords = response.Data.PatientRecords.ToList();
                 listRecords.ForEach(pr => pr.Annotation = _cryptoService.Decrypt(entityResponse.Medical?.SecurityKey ?? string.Empty, pr.Annotation));
                 response.Data.PatientRecords = listRecords.ToArray();
-                response.Success = true;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterFind, GeneralLanguageMenssageConstants.RegisterFind);
             }
             catch (Exception)
             {
-                response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
+                response.FailWith(await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound), "FindByID");
             }
             return response;
         }

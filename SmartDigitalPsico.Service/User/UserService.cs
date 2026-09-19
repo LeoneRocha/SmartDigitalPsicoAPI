@@ -8,6 +8,7 @@ using SmartDigitalPsico.Core.SDK.Domain.AppException;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
@@ -72,23 +73,14 @@ namespace SmartDigitalPsico.Service
 
             var user = await ((IUserRepository)_entityRepository).FindByLogin(login);
             if (user == null)
-            {
-                response.Success = false;
-                response.Message = ValidatorConstants.Validade_UserNotFound;
-                return response;
-            }
-            else if (!SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-            {
-                response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.WrongPassword, GeneralLanguageMenssageConstants.WrongPassword);
-                return response;
-            }
+                return response.FailWith(ValidatorConstants.Validade_UserNotFound, "Login");
+            if (!SmartDigitalPsico.Core.SDK.Domain.Helpers.Security.SecurityHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+                return response.FailWith(await GetLocalization(GeneralLanguageKeyConstants.WrongPassword, GeneralLanguageMenssageConstants.WrongPassword), "Login");
 
             if (_configurationAuth.TypeApiCredential == SmartDigitalPsico.Core.SDK.Domain.Enuns.ETypeApiCredential.Jwt)
             {
                 response.Data = await executeLoginJwt(user);
             }
-            response.Success = true;
             response.Message = await GetLocalization(GeneralLanguageKeyConstants.UserLogged, GeneralLanguageMenssageConstants.UserLogged);
             return response;
         }
@@ -135,11 +127,7 @@ namespace SmartDigitalPsico.Service
                 User entityUpdate = await ((IUserRepository)_entityRepository).FindByID(updateUser.Id);
 
                 if (entityUpdate == null || entityUpdate.Id == 0)
-                {
-                    response.Success = false;
-                    response.Message = ValidatorConstants.Validade_UserNotFound;
-                    return response;
-                }
+                    return response.FailWith(ValidatorConstants.Validade_UserNotFound, "Update");
                 entityUpdate.Name = updateUser.Name;
                 entityUpdate.Enable = updateUser.Enable;
                 entityUpdate.Email = updateUser.Email;
@@ -173,7 +161,6 @@ namespace SmartDigitalPsico.Service
                 {
 
                     User entityResponse = await ((IUserRepository)_entityRepository).Update(entityUpdate);
-                    response.Success = true;
                     response.Data = _mapper.Map<GetUserDto>(entityResponse);
 
                     if (response.Success)
@@ -182,7 +169,6 @@ namespace SmartDigitalPsico.Service
             }
             catch (Exception ex)
             {
-                response.Success = false;
                 response.Errors = ExceptionHandler.GerateListErrorResponse(ex);
                 response.Message = ExceptionHandler.GetMessage(ex);
             }
@@ -255,16 +241,8 @@ namespace SmartDigitalPsico.Service
             var response = new ServiceResponse<bool>();
             bool user = await ((IUserRepository)_entityRepository).UserExists(login);
             if (!user)
-            {
-                response.Success = false;
-                response.Message = ValidatorConstants.Validade_UserNotFound;
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.UserLogout, GeneralLanguageMenssageConstants.UserLogout);
-            }
-            return response;
+                return response.FailWith(ValidatorConstants.Validade_UserNotFound, "Logout");
+            return response.FailWith(await GetLocalization(GeneralLanguageKeyConstants.UserLogout, GeneralLanguageMenssageConstants.UserLogout), "Logout");
         }
 
         private async Task<GetUserAuthenticatedDto> executeLoginJwt(User user)
@@ -395,11 +373,7 @@ namespace SmartDigitalPsico.Service
             User entityUpdate = await ((IUserRepository)_entityRepository).FindByID(userUpdateProfileVO.Id);
 
             if (entityUpdate == null || entityUpdate.Id == 0)
-            {
-                response.Success = false;
-                response.Message = ValidatorConstants.Validade_UserNotFound;
-                return response;
-            }
+                return response.FailWith(ValidatorConstants.Validade_UserNotFound, "UpdateProfile");
             entityUpdate.Name = userUpdateProfileVO.Name;
             entityUpdate.Email = userUpdateProfileVO.Email;
             entityUpdate.Language = userUpdateProfileVO.Language;
@@ -419,7 +393,6 @@ namespace SmartDigitalPsico.Service
             if (response.Success)
             {
                 User entityResponse = await ((IUserRepository)_entityRepository).Update(entityUpdate);
-                response.Success = true;
                 response.Data = _mapper.Map<GetUserDto>(entityResponse);
 
                 if (response.Success)
@@ -443,7 +416,6 @@ namespace SmartDigitalPsico.Service
 
                 fillRoleGroups(response, entityResponse);
             }
-            response.Success = true;
             response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterFind, GeneralLanguageMenssageConstants.RegisterFind);
             return response;
         }

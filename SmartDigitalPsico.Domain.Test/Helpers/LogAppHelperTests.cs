@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SmartCoreHub.Core.SDK.Common.Exceptions;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Domain.Helpers;
 
 namespace SmartDigitalPsico.Domain.Test.Helpers;
@@ -39,8 +39,8 @@ public class LogAppHelperTests
         LogAppHelper.LogException(logger.Object, new InvalidOperationException("error"), "API");
 
         // Assert
-        logger.Verify(x => x.Warning(It.Is<string>(message => message.Contains("API-Warning: warning"))), Times.Once);
-        logger.Verify(x => x.Error(It.IsAny<Exception>(), It.Is<string>(message => message.Contains("API-Error: error"))), Times.Once);
+        logger.Verify(x => x.LogWarning(It.Is<string>(message => message.Contains("API-Warning: warning")), It.IsAny<object?[]>()), Times.Once);
+        logger.Verify(x => x.LogError(It.IsAny<Exception>(), It.Is<string>(message => message.Contains("API-Error: error")), It.IsAny<object?[]>()), Times.Once);
     }
 
     [Test]
@@ -72,9 +72,9 @@ public class LogAppHelperTests
         LogAppHelper.PrintLogInformationVersionProduct(logger.Object);
 
         // Assert
-        logger.Verify(x => x.Information("Value {Value}", It.Is<object[]>(args => (int)args[0] == 1)), Times.Once);
-        logger.Verify(x => x.Error(It.IsAny<Exception>(), "Value {Value}", It.Is<object[]>(args => (int)args[0] == 1)), Times.Once);
-        logger.Verify(x => x.Information("******* PRODUCT INFORMATION *******"), Times.Once);
+        logger.Verify(x => x.LogInfo("Value {Value}", It.Is<object[]>(args => (int)args[0] == 1)), Times.Once);
+        logger.Verify(x => x.LogError(It.IsAny<Exception>(), "Value {Value}", It.Is<object[]>(args => (int)args[0] == 1)), Times.Once);
+        logger.Verify(x => x.LogInfo("******* PRODUCT INFORMATION *******", It.IsAny<object?[]>()), Times.Once);
     }
 
     // Cenário: ASPNETCORE_ENVIRONMENT está definido.

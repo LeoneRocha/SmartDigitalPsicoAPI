@@ -221,7 +221,6 @@ public class MedicalCalenderNotificationServiceTests
         context.Templates.Setup(x => x.GetNotificationTemplatesAsync(tag))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
             {
-                Success = true,
                 Data = new GetNotificationTemplateDto { Subject = "Subject", Body = "<p>Body</p>", TemplateKey = tag }
             });
         context.SendNotification.Setup(x => x.SendNotificationAsync(

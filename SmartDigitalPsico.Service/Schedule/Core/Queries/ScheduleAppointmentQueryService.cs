@@ -1,20 +1,20 @@
-Ôªøusing SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por ScheduleAppointmentQueryService.
-    /// Responsabilidade: m√≥dulo de agendamento (Schedule).
-    /// Rela√ß√£o: orquestra Core Schedule e contratos Medical do Domain.
+    /// Classe respons·vel por ScheduleAppointmentQueryService.
+    /// Responsabilidade: mÛdulo de agendamento (Schedule).
+    /// RelaÁ„o: orquestra Core Schedule e contratos Medical do Domain.
     /// </summary>
     public class ScheduleAppointmentQueryService : IScheduleAppointmentQueryService
     {
         private readonly IScheduleCalendarRepository _repository;
 
         /// <summary>
-        /// M√©todo ScheduleAppointmentQueryService: opera√ß√£o de agendamento.
+        /// MÈtodo ScheduleAppointmentQueryService: operaÁ„o de agendamento.
         /// </summary>
         public ScheduleAppointmentQueryService(IScheduleCalendarRepository repository)
         {
@@ -22,14 +22,14 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo GetItemsForOwnerSubjectAsync: consulta e retorna dados.
+        /// MÈtodo GetItemsForOwnerSubjectAsync: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<ScheduleCalendarItem[]>> GetItemsForOwnerSubjectAsync(
             string tenantKey, string ownerKey, string? subjectKey, DateTime start, DateTime end)
         {
             var tenant = ScheduleKeyHelper.RequireTenant(tenantKey);
             var data = await _repository.GetItemsForOwnerSubjectAsync(tenant, ownerKey, subjectKey, start, end);
-            return new ServiceResponse<ScheduleCalendarItem[]> { Data = data, Success = true };
+            return new ServiceResponse<ScheduleCalendarItem[]> { Data = data };
         }
     }
 }

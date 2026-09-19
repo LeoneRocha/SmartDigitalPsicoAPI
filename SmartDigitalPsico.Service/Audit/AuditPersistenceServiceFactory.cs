@@ -1,27 +1,27 @@
-Ôªøusing Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por AuditPersistenceServiceFactory.
+    /// Classe respons·vel por AuditPersistenceServiceFactory.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Rela√ß√£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// RelaÁ„o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class AuditPersistenceServiceFactory : IAuditPersistenceServiceFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
-        /// M√©todo AuditPersistenceServiceFactory: executa a opera√ß√£o AuditPersistenceServiceFactory.
+        /// MÈtodo AuditPersistenceServiceFactory: executa a operaÁ„o AuditPersistenceServiceFactory.
         /// </summary>
         public AuditPersistenceServiceFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
         /// <summary>
-        /// M√©todo CreateService: cria ou persiste um novo registro/recurso.
+        /// MÈtodo CreateService: cria ou persiste um novo registro/recurso.
         /// </summary>
         public IAuditPersistenceService CreateService(EAuditServiceType serviceType)
         {

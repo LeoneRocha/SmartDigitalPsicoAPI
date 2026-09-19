@@ -83,7 +83,7 @@ public class MedicalServiceTests
         context.Validator.Setup(x => x.ValidateAsync(It.IsAny<Medical>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
         context.Repository.Setup(x => x.Update(entity)).ReturnsAsync(entity);
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Success = false });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto> { Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "fail" }] });
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(
                 It.IsAny<global::SmartDigitalPsico.Core.SDK.Domain.VO.DataNotificationTemplateVO>(),
                 It.IsAny<SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType>(),
@@ -135,7 +135,6 @@ public class MedicalServiceTests
         context.Context.NotificationTemplate.Setup(x => x.GetNotificationTemplatesAsync(It.IsAny<string>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<GetNotificationTemplateDto>
             {
-                Success = true,
                 Data = new GetNotificationTemplateDto { Subject = "Updated", Body = "Body {{MedicalName}}" }
             });
         context.Context.SendNotification.Setup(x => x.SendNotificationAsync(

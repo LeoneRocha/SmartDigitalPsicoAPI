@@ -4,6 +4,7 @@ using FluentValidation.Results;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SchAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
 using SmartDigitalPsico.Domain.DTO.Notification.Common;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
@@ -63,7 +64,7 @@ public class RemainingServiceLineGapTests
             medicalNotify.Object,
             scheduleRepo.Object,
             patientRepos.Object,
-            Mock.Of<IAppLogger>());
+            Mock.Of<SchAppLogger>());
         var method = typeof(NotificationDispatchJobService)
             .GetMethod("ProcessRecordAsync", BindingFlags.Instance | BindingFlags.NonPublic)!;
         var now = DateTime.UtcNow;
@@ -98,7 +99,7 @@ public class RemainingServiceLineGapTests
     public async Task ScheduleAvailability_BusyOutsideRange_SkipsOutOfRangeDays()
     {
         // Arrange
-        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<IAppLogger>());
+        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<SchAppLogger>());
         var day = new DateTime(2026, 3, 10);
         var request = new ScheduleGradeRequest
         {
@@ -196,7 +197,7 @@ public class RemainingServiceLineGapTests
                 SubjectKey = "patient:1"
             }
         };
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<SchAppLogger>());
 
         // Act
         var result = await service.HasNoConflictBatchAsync("medical", "medical:1", items, null);
@@ -256,7 +257,6 @@ public class RemainingServiceLineGapTests
                 throw new InvalidOperationException("fail");
             return Task.FromResult(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<SmartDigitalPsico.Domain.DTO.Audit.GET.GetAuditDataSelectiveEntityLogDto>
             {
-                Success = true,
                 Message = "ok"
             });
         }

@@ -15,7 +15,7 @@ using Moq;
 using Newtonsoft.Json;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Hypermedia.Filters;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.Resiliency;
 using SmartDigitalPsico.Domain.Contracts;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
@@ -945,7 +945,7 @@ public class DomainRemainingCoverageTests
             {
                 info.Should().NotBeNull();
                 text.Should().Contain("PRODUCT INFORMATION");
-                logger.Verify(x => x.Information("******* PRODUCT INFORMATION *******"), Times.Once);
+                logger.Verify(x => x.LogInfo("******* PRODUCT INFORMATION *******", It.IsAny<object?[]>()), Times.Once);
             }
         }
         finally

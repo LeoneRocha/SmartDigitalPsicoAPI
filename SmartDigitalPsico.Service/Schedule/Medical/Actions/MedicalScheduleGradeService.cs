@@ -1,5 +1,6 @@
 using SmartCoreHub.Core.SDK.Common.Exceptions;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
@@ -74,10 +75,10 @@ namespace SmartDigitalPsico.Service
 
                 if (user.MedicalId != criteria.MedicalId)
                 {
-                    response.Success = false;
                     response.Data = new CalendarDto { MedicalId = medical.Id, MedicalName = medical.Name, Days = [] };
-                    response.Message = await _support.Loc(CalendarKeyConstants.Calendar_Error, CalendarMenssageConstants.Calendar_Error);
-                    return response;
+                    return response.FailWith(
+                        await _support.Loc(CalendarKeyConstants.Calendar_Error, CalendarMenssageConstants.Calendar_Error),
+                        "BuildGradeAsync");
                 }
 
                 // DB: itens do owner (antes do CPU). CPU paralelo: GenerateDays. Nomes batch antes de ToCalendarDto.
@@ -91,14 +92,15 @@ namespace SmartDigitalPsico.Service
                 var grade = await _availability.BuildGradeAsync(gradeRequest);
                 if (!grade.Success || grade.Data == null)
                 {
-                    response.Success = false;
                     response.Message = grade.Message;
+                    response.Errors = grade.Errors;
                     response.Data = new CalendarDto { MedicalId = medical.Id, MedicalName = medical.Name, Days = [] };
+                    if (response.Errors == null || response.Errors.Count == 0)
+                        response.FailWith(grade.Message ?? string.Empty, "BuildGradeAsync");
                     return response;
                 }
 
                 // DB batch de nomes ANTES do map paralelo ToCalendarDto
-                response.Success = true;
                 var patientNames = await ResolvePatientNamesAsync(grade.Data);
                 response.Data = MedicalScheduleMapper.ToCalendarDto(grade.Data, medical.Id, patientNames);
                 response.Message = await _support.Loc(CalendarKeyConstants.CalendarSuccess, CalendarMenssageConstants.CalendarSuccess);
@@ -107,9 +109,9 @@ namespace SmartDigitalPsico.Service
             catch (Exception ex)
             {
                 _support.Logger.Error(ex, "MedicalScheduleGradeService.BuildGradeAsync");
-                response.Success = false;
-                response.Message = await _support.Loc(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message);
-                return response;
+                return response.FailWith(
+                    await _support.Loc(ValidatorConstants.GenericErroMessageKey, ValidatorConstants.Generic_Erro_Message),
+                    "BuildGradeAsync");
             }
         }
 
@@ -117,7 +119,6 @@ namespace SmartDigitalPsico.Service
         {
             var result = await new MedicalCalendarCriteriaValidator(_support.UserRepository).ValidateAsync(criteria);
             if (result.IsValid) return true;
-            response.Success = false;
             response.Data = new CalendarDto();
             response.Message = await _support.Loc(CalendarKeyConstants.Calendar_Error, CalendarMenssageConstants.Calendar_Error);
             response.Errors = await _support.TranslateErrors(

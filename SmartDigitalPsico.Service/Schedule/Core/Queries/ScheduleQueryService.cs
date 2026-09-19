@@ -1,4 +1,7 @@
-Ôªøusing SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
+using SmartDigitalPsico.Core.SDK.Infrastructure.Logging;
+using SmartCoreHub.Core.SDK.Infrastructure.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 using SmartDigitalPsico.Domain.Helpers.Schedule;
@@ -6,9 +9,9 @@ using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por ScheduleQueryService.
-    /// Responsabilidade: m√≥dulo de agendamento (Schedule).
-    /// Rela√ß√£o: orquestra Core Schedule e contratos Medical do Domain.
+    /// Classe responsòvel por ScheduleQueryService.
+    /// Responsabilidade: mòdulo de agendamento (Schedule).
+    /// Relaòòo: orquestra Core Schedule e contratos Medical do Domain.
     /// </summary>
     public class ScheduleQueryService : IScheduleQueryService
     {
@@ -17,7 +20,7 @@ namespace SmartDigitalPsico.Service
         private readonly IAppLogger _logger;
 
         /// <summary>
-        /// M√©todo ScheduleQueryService: opera√ß√£o de agendamento.
+        /// Mòtodo ScheduleQueryService: operaòòo de agendamento.
         /// </summary>
         public ScheduleQueryService(
             IScheduleCalendarRepository repository,
@@ -30,69 +33,70 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo GetByTokenAsync: consulta e retorna dados.
+        /// Mòtodo GetByTokenAsync: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar?>> GetByTokenAsync(string uniqueToken)
         {
             return new ServiceResponse<ScheduleCalendar?>
             {
                 Data = await _repository.GetByUniqueTokenAsync(uniqueToken),
-                Success = true
             };
         }
 
         /// <summary>
-        /// M√©todo GetByIdAsync: consulta e retorna dados.
+        /// Mòtodo GetByIdAsync: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar?>> GetByIdAsync(long id)
         {
             try
             {
                 var entity = await _repository.FindByID(id);
-                return new ServiceResponse<ScheduleCalendar?> { Data = entity, Success = entity != null };
+                if (entity == null)
+                    return new ServiceResponse<ScheduleCalendar?>().FailWith("Agenda schedule not found.", "GetByIdAsync");
+                return new ServiceResponse<ScheduleCalendar?> { Data = entity };
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "ScheduleQueryService.GetByIdAsync failed");
-                return new ServiceResponse<ScheduleCalendar?> { Success = false, Message = ex.Message };
+                return new ServiceResponse<ScheduleCalendar?>().FailWith(ex.Message, "GetByIdAsync");
             }
         }
 
         /// <summary>
-        /// M√©todo GetOverlappingPeriodAsync: consulta e retorna dados.
+        /// Mòtodo GetOverlappingPeriodAsync: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<ScheduleCalendar[]>> GetOverlappingPeriodAsync(
             string tenantKey, string ownerKey, DateTime start, DateTime end)
         {
             var tenant = ScheduleKeyHelper.RequireTenant(tenantKey);
             var data = await _repository.GetOverlappingByOwnerAsync(tenant, ownerKey, start, end);
-            return new ServiceResponse<ScheduleCalendar[]> { Data = data, Success = true };
+            return new ServiceResponse<ScheduleCalendar[]> { Data = data };
         }
 
         /// <summary>
-        /// M√©todo GetItemsForOwnerAsync: consulta e retorna dados.
+        /// Mòtodo GetItemsForOwnerAsync: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<ScheduleCalendarItem[]>> GetItemsForOwnerAsync(
             string tenantKey, string ownerKey, DateTime start, DateTime end)
         {
             var tenant = ScheduleKeyHelper.RequireTenant(tenantKey);
             var data = await _repository.GetItemsForOwnerAsync(tenant, ownerKey, start, end);
-            return new ServiceResponse<ScheduleCalendarItem[]> { Data = data, Success = true };
+            return new ServiceResponse<ScheduleCalendarItem[]> { Data = data };
         }
 
         /// <summary>
-        /// M√©todo GetItemAsync: consulta e retorna dados.
+        /// Mòtodo GetItemAsync: consulta e retorna dados.
         /// </summary>
         public async Task<ServiceResponse<ScheduleCalendarItem?>> GetItemAsync(
             string tenantKey, string ownerKey, string? subjectKey, DateTime appointmentDateTime)
         {
             var tenant = ScheduleKeyHelper.RequireTenant(tenantKey);
             var data = await _repository.GetItemAsync(tenant, ownerKey, subjectKey, appointmentDateTime);
-            return new ServiceResponse<ScheduleCalendarItem?> { Data = data, Success = true };
+            return new ServiceResponse<ScheduleCalendarItem?> { Data = data };
         }
 
         /// <summary>
-        /// M√©todo HasConflictAsync: executa a opera√ß√£o HasConflictAsync.
+        /// Mòtodo HasConflictAsync: executa a operaòòo HasConflictAsync.
         /// </summary>
         public async Task<ServiceResponse<bool>> HasConflictAsync(string tenantKey, string ownerKey, DateTime appointmentDateTime)
         {
@@ -103,12 +107,15 @@ namespace SmartDigitalPsico.Service
                 StartDateTime = appointmentDateTime,
                 EndDateTime = appointmentDateTime.AddMinutes(1)
             });
-            return new ServiceResponse<bool>
+            var response = new ServiceResponse<bool>
             {
-                Success = noConflict.Success,
                 Data = noConflict.Success && !noConflict.Data,
-                Message = noConflict.Message
+                Message = noConflict.Message,
+                Errors = noConflict.Errors
             };
+            if (!noConflict.Success && (response.Errors == null || response.Errors.Count == 0) && !string.IsNullOrEmpty(noConflict.Message))
+                response.FailWith(noConflict.Message, "HasConflictAsync");
+            return response;
         }
     }
 }

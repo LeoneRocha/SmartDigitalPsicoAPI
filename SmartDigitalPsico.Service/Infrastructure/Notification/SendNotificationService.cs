@@ -1,20 +1,20 @@
-Ôªøusing SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por SendNotificationService.
-    /// Responsabilidade: infraestrutura transversal (cache, notifica√ß√£o, etc.).
-    /// Rela√ß√£o: suporta Services e jobs de background.
+    /// Classe respons·vel por SendNotificationService.
+    /// Responsabilidade: infraestrutura transversal (cache, notificaÁ„o, etc.).
+    /// RelaÁ„o: suporta Services e jobs de background.
     /// </summary>
     public class SendNotificationService : ISendNotificationService
     {
         private readonly INotificationPlatformServiceFactory _notificationServiceFactory;
 
         /// <summary>
-        /// M√©todo SendNotificationService: dispara notifica√ß√£o ou comunica√ß√£o.
+        /// MÈtodo SendNotificationService: dispara notificaÁ„o ou comunicaÁ„o.
         /// </summary>
         public SendNotificationService(INotificationPlatformServiceFactory notificationServiceFactory)
         {
@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo SendNotificationAsync: dispara notifica√ß√£o ou comunica√ß√£o.
+        /// MÈtodo SendNotificationAsync: dispara notificaÁ„o ou comunicaÁ„o.
         /// </summary>
         public async Task SendNotificationAsync(DataNotificationTemplateVO template, ENotificationServiceType serviceType, Dictionary<string, string> tokens)
         {

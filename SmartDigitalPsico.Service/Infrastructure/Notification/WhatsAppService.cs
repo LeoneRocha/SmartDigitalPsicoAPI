@@ -1,17 +1,17 @@
-Ôªøusing SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por WhatsAppService.
-    /// Responsabilidade: infraestrutura transversal (cache, notifica√ß√£o, etc.).
-    /// Rela√ß√£o: suporta Services e jobs de background.
+    /// Classe respons·vel por WhatsAppService.
+    /// Responsabilidade: infraestrutura transversal (cache, notificaÁ„o, etc.).
+    /// RelaÁ„o: suporta Services e jobs de background.
     /// </summary>
     public class WhatsAppService : IWhatsAppService
     {
         /// <summary>
-        /// M√©todo SendAsync: dispara notifica√ß√£o ou comunica√ß√£o.
+        /// MÈtodo SendAsync: dispara notificaÁ„o ou comunicaÁ„o.
         /// </summary>
         public async Task SendAsync(DataNotificationTemplateVO template, Dictionary<string, string> tokens)
         {

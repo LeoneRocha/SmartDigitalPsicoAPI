@@ -1,11 +1,11 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Repository;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service.DependencyInjection.Repository
 {
     /// <summary>
-    /// DI de repositórios: bloco cache/blob no Core + scan de produto.
+    /// DI de reposit�rios: bloco cache/blob no Core + scan de produto.
     /// </summary>
     public static class ServicesDomainRepository
     {

@@ -1,4 +1,4 @@
-Ôªøusing Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -6,16 +6,16 @@ using SmartDigitalPsico.Domain.TableEntityNoSQL;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por TokenSessionPersistenceFactory.
-    /// Responsabilidade: infraestrutura transversal (cache, notifica√ß√£o, etc.).
-    /// Rela√ß√£o: suporta Services e jobs de background.
+    /// Classe respons·vel por TokenSessionPersistenceFactory.
+    /// Responsabilidade: infraestrutura transversal (cache, notificaÁ„o, etc.).
+    /// RelaÁ„o: suporta Services e jobs de background.
     /// </summary>
     public class TokenSessionPersistenceFactory : ITokenSessionPersistenceFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
-        /// M√©todo TokenSessionPersistenceFactory: mapeia ou transforma dados entre modelos.
+        /// MÈtodo TokenSessionPersistenceFactory: mapeia ou transforma dados entre modelos.
         /// </summary>
         public TokenSessionPersistenceFactory(IServiceProvider serviceProvider)
         {
@@ -23,7 +23,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo Create: cria ou persiste um novo registro/recurso.
+        /// MÈtodo Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         public ITokenSessionPersistenceAdapter Create(ETokenSessionPersistenceType tokenSessionPersistenceType)
         {

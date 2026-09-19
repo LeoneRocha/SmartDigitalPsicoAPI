@@ -1,4 +1,4 @@
-Ôªøusing SmartDigitalPsico.Core.SDK.Domain.Enuns;
+using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.Constants;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
@@ -10,16 +10,16 @@ using SmartDigitalPsico.Domain.Interfaces.Medical;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por MedicalCalenderNotificationService.
-    /// Responsabilidade: servi√ßo de entidade de neg√≥cio.
-    /// Rela√ß√£o: orquestra reposit√≥rios, validators e mapeamentos.
+    /// Classe respons·vel por MedicalCalenderNotificationService.
+    /// Responsabilidade: serviÁo de entidade de negÛcio.
+    /// RelaÁ„o: orquestra repositÛrios, validators e mapeamentos.
     /// </summary>
     public class MedicalCalenderNotificationService : IMedicalCalenderNotificationService
     {
         private readonly ISharedServices _sharedServices;
 
         /// <summary>
-        /// M√©todo MedicalCalenderNotificationService: executa a opera√ß√£o MedicalCalenderNotificationService.
+        /// MÈtodo MedicalCalenderNotificationService: executa a operaÁ„o MedicalCalenderNotificationService.
         /// </summary>
         public MedicalCalenderNotificationService(ISharedServices sharedServices)
         {
@@ -27,7 +27,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo NotifyAsync: dispara notifica√ß√£o ou comunica√ß√£o.
+        /// MÈtodo NotifyAsync: dispara notificaÁ„o ou comunicaÁ„o.
         /// </summary>
         public async Task NotifyAsync(MedicalCalendar calendar, EMedicalCalendarActionType action)
         {

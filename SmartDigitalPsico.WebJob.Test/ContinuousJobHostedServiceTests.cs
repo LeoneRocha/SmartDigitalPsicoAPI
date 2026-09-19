@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.WebJob.Test;
 

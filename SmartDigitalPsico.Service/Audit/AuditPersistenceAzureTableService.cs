@@ -1,26 +1,26 @@
-Ôªøusing SmartDigitalPsico.Domain.EntityModels;
+using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por AuditPersistenceAzureTableService.
+    /// Classe respons·vel por AuditPersistenceAzureTableService.
     /// Responsabilidade: componente do backend SmartDigitalPsico.
-    /// Rela√ß√£o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
+    /// RelaÁ„o: integra as camadas Domain/Data/Service/WebAPI do SmartDigitalPsico.
     /// </summary>
     public class AuditPersistenceAzureTableService : IAuditPersistenceService
     {
-        // Implementa√ß√£o para salvar no Azure Storage Table
+        // ImplementaÁ„o para salvar no Azure Storage Table
         /// <summary>
-        /// M√©todo SaveAuditEntries: cria ou persiste um novo registro/recurso.
+        /// MÈtodo SaveAuditEntries: cria ou persiste um novo registro/recurso.
         /// </summary>
         public void SaveAuditEntries(IEnumerable<AuditDataEntityLog> auditEntries)
         {
-            // C√≥digo para salvar no Azure Storage Table
+            // CÛdigo para salvar no Azure Storage Table
         }
 
         /// <summary>
-        /// M√©todo SaveAuditEntry: cria ou persiste um novo registro/recurso.
+        /// MÈtodo SaveAuditEntry: cria ou persiste um novo registro/recurso.
         /// </summary>
         public Task SaveAuditEntry(AuditDataSelectiveEntityLog auditEntry)
         {

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SchAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
 using SmartDigitalPsico.Domain.DTO.Notification.Common;
@@ -368,7 +369,7 @@ public class ServiceBranchCoverageFinalTests
         conflictCtx.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         conflictCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = false, Data = true, Message = null!, Errors = null! });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true, Message = null!, Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "fail" }] });
 
         // Act
         var conflictCreate = await conflictCtx.Service.CreateAsync(new ScheduleCalendarWriteRequest
@@ -383,7 +384,7 @@ public class ServiceBranchCoverageFinalTests
         bookCtx.Repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null!));
         bookCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string?>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true });
         bookCtx.Repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>()))
             .ReturnsAsync((ScheduleCalendar e) => e);
         var booked = await bookCtx.Service.BookAsync(new ScheduleBookRequest
@@ -398,7 +399,7 @@ public class ServiceBranchCoverageFinalTests
             .ReturnsAsync(new ScheduleCalendar { Id = 1, UniqueToken = token, ScheduleData = null! });
         updateCtx.ConflictService
             .Setup(x => x.HasNoConflictBatchAsync("t", "o", It.IsAny<ScheduleCalendarItem[]>(), token))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = false, Data = false, Message = null!, Errors = null! });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = false, Message = null!, Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "fail" }] });
         var conflictUpdate = await updateCtx.Service.UpdateAsync(new ScheduleCalendarWriteRequest
         {
             TenantKey = "t",
@@ -482,7 +483,7 @@ public class ServiceBranchCoverageFinalTests
                     ]
                 }
             ]);
-        var service = new ScheduleConflictService(repository.Object, Mock.Of<IAppLogger>());
+        var service = new ScheduleConflictService(repository.Object, Mock.Of<SchAppLogger>());
 
         // Act
         var nullItems = await service.HasNoConflictBatchAsync("medical", "medical:1", null!, null!);
@@ -518,7 +519,7 @@ public class ServiceBranchCoverageFinalTests
         var day = DateTime.UtcNow.Date.AddDays(1);
         while (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
             day = day.AddDays(1);
-        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<IAppLogger>());
+        var service = new ScheduleAvailabilityService(Mock.Of<IScheduleCalendarRepository>(), Mock.Of<SchAppLogger>());
         var request = new ScheduleGradeRequest
         {
             TenantKey = "medical",
@@ -582,7 +583,7 @@ public class ServiceBranchCoverageFinalTests
             medicalNotify.Object,
             scheduleRepo.Object,
             patientRepos.Object,
-            Mock.Of<IAppLogger>());
+            Mock.Of<SchAppLogger>());
         var process = typeof(NotificationDispatchJobService)
             .GetMethod("ProcessRecordAsync", BindingFlags.Instance | BindingFlags.NonPublic)!;
         var hydrate = typeof(NotificationDispatchJobService)
@@ -686,7 +687,7 @@ public class ServiceBranchCoverageFinalTests
 
         public ScheduleCreateContext()
         {
-            Service = new ScheduleCreateService(Repository.Object, ConflictService.Object, Mock.Of<IAppLogger>());
+            Service = new ScheduleCreateService(Repository.Object, ConflictService.Object, Mock.Of<SchAppLogger>());
         }
     }
 
@@ -698,7 +699,7 @@ public class ServiceBranchCoverageFinalTests
 
         public ScheduleUpdateContext()
         {
-            Service = new ScheduleUpdateService(Repository.Object, ConflictService.Object, Mock.Of<IAppLogger>());
+            Service = new ScheduleUpdateService(Repository.Object, ConflictService.Object, Mock.Of<SchAppLogger>());
         }
     }
 
@@ -724,7 +725,6 @@ public class ServiceBranchCoverageFinalTests
                 throw new InvalidOperationException(CreateMessage ?? "default-error");
             return Task.FromResult(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<Domain.DTO.Audit.GET.GetAuditDataSelectiveEntityLogDto>
             {
-                Success = true,
                 Message = CreateMessage!
             });
         }

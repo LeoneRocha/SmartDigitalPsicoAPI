@@ -34,7 +34,7 @@ public class MedicalScheduleCreateUpdateServiceTests
             ScheduleData = [new ScheduleCalendarItem { StartDateTime = start, Title = "Consulta" }]
         };
         context.CreateService.Setup(x => x.CreateAsync(It.IsAny<ScheduleCalendarWriteRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = true, Data = package });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Data = package });
         context.Shared.NotificationRecordsService.Setup(x => x.CreateOrUpdateNotificationRecordsAsync(It.IsAny<SmartDigitalPsico.Domain.DTO.Notification.Common.GenerateNotificationRecordsDto>()))
             .Returns(Task.CompletedTask);
         context.Shared.MedicalCalenderNotification.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), It.IsAny<EMedicalCalendarActionType>()))
@@ -87,7 +87,7 @@ public class MedicalScheduleCreateUpdateServiceTests
         context.Shared.EntityValidator.Setup(x => x.ValidateAsync(It.IsAny<MedicalCalendar>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         context.CreateService.Setup(x => x.CreateAsync(It.IsAny<ScheduleCalendarWriteRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = false, Message = "Conflict" });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Message = "Conflict", Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "Conflict" }] });
 
         // Act
         var result = await context.CreateServiceImpl.Create(new AddMedicalCalendarDto { MedicalId = 1, StartDateTime = DateTime.UtcNow });
@@ -121,7 +121,7 @@ public class MedicalScheduleCreateUpdateServiceTests
     {
         // Arrange
         var context = new CreateUpdateContext();
-        context.QueryService.Setup(x => x.GetByIdAsync(99)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Success = false });
+        context.QueryService.Setup(x => x.GetByIdAsync(99)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "fail" }] });
 
         // Act
         var result = await context.UpdateServiceImpl.Update(new UpdateMedicalCalendarDto { Id = 99, StartDateTime = DateTime.UtcNow });
@@ -147,7 +147,7 @@ public class MedicalScheduleCreateUpdateServiceTests
                 new ScheduleCalendarItem { StartDateTime = start, Status = EStatusCalendar.Canceled }
             ]
         };
-        context.QueryService.Setup(x => x.GetByIdAsync(5)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Success = true, Data = dto });
+        context.QueryService.Setup(x => x.GetByIdAsync(5)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Data = dto });
 
         // Act
         var result = await context.UpdateServiceImpl.Update(new UpdateMedicalCalendarDto
@@ -176,7 +176,7 @@ public class MedicalScheduleCreateUpdateServiceTests
             UniqueToken = "tok-7",
             ScheduleData = [new ScheduleCalendarItem { StartDateTime = start, Status = EStatusCalendar.Confirmed }]
         };
-        context.QueryService.Setup(x => x.GetByIdAsync(7)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Success = true, Data = existingDto });
+        context.QueryService.Setup(x => x.GetByIdAsync(7)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Data = existingDto });
         context.Shared.EntityValidator.Setup(x => x.ValidateAsync(It.IsAny<MedicalCalendar>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         var persisted = new ScheduleCalendar
@@ -188,7 +188,7 @@ public class MedicalScheduleCreateUpdateServiceTests
             ScheduleData = [new ScheduleCalendarItem { StartDateTime = start, Title = "Updated", Status = EStatusCalendar.Confirmed }]
         };
         context.UpdateService.Setup(x => x.UpdateAsync(It.IsAny<ScheduleCalendarWriteRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = true, Data = persisted });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Data = persisted });
         context.Shared.NotificationRecordsService.Setup(x => x.CreateOrUpdateNotificationRecordsAsync(It.IsAny<SmartDigitalPsico.Domain.DTO.Notification.Common.GenerateNotificationRecordsDto>()))
             .Returns(Task.CompletedTask);
         context.Shared.MedicalCalenderNotification.Setup(x => x.NotifyAsync(It.IsAny<MedicalCalendar>(), It.IsAny<EMedicalCalendarActionType>()))
@@ -228,11 +228,11 @@ public class MedicalScheduleCreateUpdateServiceTests
             UniqueToken = "tok-8",
             ScheduleData = [new ScheduleCalendarItem { StartDateTime = start, Status = EStatusCalendar.Active }]
         };
-        context.QueryService.Setup(x => x.GetByIdAsync(8)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Success = true, Data = existingDto });
+        context.QueryService.Setup(x => x.GetByIdAsync(8)).ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar?> { Data = existingDto });
         context.Shared.EntityValidator.Setup(x => x.ValidateAsync(It.IsAny<MedicalCalendar>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
         context.UpdateService.Setup(x => x.UpdateAsync(It.IsAny<ScheduleCalendarWriteRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Success = false, Message = "Update failed" });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<ScheduleCalendar> { Message = "Update failed", Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "Update failed" }] });
 
         // Act
         var result = await context.UpdateServiceImpl.Update(new UpdateMedicalCalendarDto

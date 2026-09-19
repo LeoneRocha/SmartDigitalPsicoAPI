@@ -1,5 +1,5 @@
 ﻿using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Domain.DTO.Schedule.Common;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
@@ -57,7 +57,7 @@ public class ScheduleCommandServiceTests
         };
         repository.Setup(x => x.GetByUniqueTokenAsync("schedule-token")).Returns(Task.FromResult<ScheduleCalendar?>(null));
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:7", request.Items, "schedule-token"))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>()))
             .ReturnsAsync((ScheduleCalendar entity) =>
             {
@@ -235,7 +235,7 @@ public class ScheduleCommandServiceTests
         var start = new DateTime(2026, 9, 1, 10, 0, 0, DateTimeKind.Utc);
         repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null));
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:3", It.IsAny<ScheduleCalendarItem[]>(), It.IsAny<string>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => { e.Id = 77; return e; });
         var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
         var request = new ScheduleBookRequest
@@ -291,7 +291,6 @@ public class ScheduleCommandServiceTests
         conflicts.Setup(x => x.HasNoConflictBatchAsync(request.TenantKey, request.OwnerKey, request.Items, request.UniqueToken))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool>
             {
-                Success = true,
                 Data = false,
                 Message = "Overlap",
                 Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Message = "Conflict detail" }]
@@ -329,7 +328,7 @@ public class ScheduleCommandServiceTests
         // Assert
         result.Success.Should().BeFalse();
 
-        logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Once);
+        logger.Verify(x => x.LogError(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<object?[]>()), Times.Once);
     }
 
     // Cenário: exclusão por token lança exceção.
@@ -349,7 +348,7 @@ public class ScheduleCommandServiceTests
         // Assert
         result.Success.Should().BeFalse();
 
-        logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
+        logger.Verify(x => x.LogError(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<object?[]>()), Times.Once);
     }
 
     // Cenário: exclusão filtrada lança exceção.
@@ -407,7 +406,7 @@ public class ScheduleCommandServiceTests
         };
         repository.Setup(x => x.GetByUniqueTokenAsync(It.IsAny<string>())).Returns(Task.FromResult<ScheduleCalendar?>(null));
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:7", request.Items, It.IsAny<string>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => { e.Id = 50; return e; });
         var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
 
@@ -441,7 +440,7 @@ public class ScheduleCommandServiceTests
         };
         repository.Setup(x => x.GetByUniqueTokenAsync("no-subject")).Returns(Task.FromResult<ScheduleCalendar?>(null));
         conflicts.Setup(x => x.HasNoConflictBatchAsync("medical", "medical:7", request.Items, "no-subject"))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = true, Data = true });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = true });
         repository.Setup(x => x.Create(It.IsAny<ScheduleCalendar>())).ReturnsAsync((ScheduleCalendar e) => { e.Id = 51; return e; });
         var service = new ScheduleCreateService(repository.Object, conflicts.Object, Mock.Of<IAppLogger>());
 

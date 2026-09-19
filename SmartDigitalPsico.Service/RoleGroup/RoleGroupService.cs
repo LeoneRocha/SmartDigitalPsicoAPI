@@ -1,4 +1,4 @@
-Ôªøusing FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.RoleGroup.GET;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Common;
@@ -7,15 +7,15 @@ using SmartDigitalPsico.Domain.Interfaces.RoleGroup;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por RoleGroupService.
-    /// Responsabilidade: servi√ßo de entidade de neg√≥cio.
-    /// Rela√ß√£o: orquestra reposit√≥rios, validators e mapeamentos.
+    /// Classe respons·vel por RoleGroupService.
+    /// Responsabilidade: serviÁo de entidade de negÛcio.
+    /// RelaÁ„o: orquestra repositÛrios, validators e mapeamentos.
     /// </summary>
     public class RoleGroupService : SmartDigitalPsico.Service.EntityBaseService<RoleGroup, GetRoleGroupDto>, IRoleGroupService
 
     {
         /// <summary>
-        /// M√©todo RoleGroupService: executa a opera√ß√£o RoleGroupService.
+        /// MÈtodo RoleGroupService: executa a operaÁ„o RoleGroupService.
         /// </summary>
         public RoleGroupService(
             ISharedServices sharedServices,

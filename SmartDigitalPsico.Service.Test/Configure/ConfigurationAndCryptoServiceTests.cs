@@ -9,6 +9,7 @@ using SmartDigitalPsico.Core.SDK.API;
 using SmartDigitalPsico.Core.SDK.Data.Context.Interface;
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SchAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Cors;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Localization;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Mvc;
@@ -62,6 +63,7 @@ public class ConfigurationAndCryptoServiceTests
         services.AddLogging();
         services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
         services.AddSingleton(Mock.Of<IAppLogger>());
+        services.AddSingleton(Mock.Of<SchAppLogger>());
         services.AddCoreCors();
         services.AddCoreRequestLocalization();
         ServicesDomainAudit.AddDependencies(services);
@@ -105,6 +107,7 @@ public class ConfigurationAndCryptoServiceTests
         services.AddLogging();
         services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
         services.AddSingleton(Mock.Of<IAppLogger>());
+        services.AddSingleton(Mock.Of<SchAppLogger>());
         var configuration = BuildConfiguration(new Dictionary<string, string?>
         {
             ["DataBaseConfigurations:TypeDataBase"] = "MSsqlServer",
@@ -198,7 +201,7 @@ public class ConfigurationAndCryptoServiceTests
     public void StorageTableFactory_AndAuditLogService_CoverRemainingLines()
     {
         var factory = new SmartDigitalPsico.Core.SDK.Service.Infrastructure.StorageTableRepositoryFactory(BuildConfiguration());
-        var logger = new Mock<IAppLogger>();
+        var logger = new Mock<SchAppLogger>();
         var audit = new SmartDigitalPsico.Service.AuditPersistenceLogService(logger.Object);
 
         var table = factory.Create<UserTokenSessionTableEntity>(
@@ -231,6 +234,7 @@ public class ConfigurationAndCryptoServiceTests
     {
         services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
         services.AddSingleton<IAppLogger>(_ => Mock.Of<IAppLogger>());
+        services.AddSingleton<SchAppLogger>(_ => Mock.Of<SchAppLogger>());
     }
 
     private static IConfiguration BuildConfiguration(IReadOnlyDictionary<string, string?>? overrides = null)

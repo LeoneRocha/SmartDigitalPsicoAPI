@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SmartDigitalPsico.Core.SDK.Domain.Enuns;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SmartCoreHub.Core.SDK.Domain.Interfaces.Common;
+using SmartCoreHub.Core.SDK.Infrastructure.Logging;
 
 namespace SmartDigitalPsico.Core.SDK.API
 {
@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Core.SDK.API
         {
             string culture = context.RouteData.Values["culture"]?.ToString() ?? string.Empty;
 
-            if (_logger.IsEnabled(ELogLevel.Information))
+            if (_logger.IsEnabled(AppLogLevel.Information))
                 _logger.Information("Setting the culture from the URL: {Culture}", culture);
 
             CultureInfo.CurrentCulture = new CultureInfo(culture);

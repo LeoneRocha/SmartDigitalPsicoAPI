@@ -1,4 +1,5 @@
 using SmartDigitalPsico.Core.SDK.Domain.Constants;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Core.SDK.Domain.Validation.Helper;
@@ -86,7 +87,6 @@ namespace SmartDigitalPsico.Service
         {
             var response = new ServiceResponse<GetMedicalCalendarDto>();
             var validationResult = await _validators.EntityValidator.ValidateAsync(entity);
-            response.Success = validationResult.IsValid;
             response.Errors = HelperValidation.GetErrorsMap(validationResult).ToList();
             if (response.Errors.Count > 0)
             {
@@ -118,29 +118,33 @@ namespace SmartDigitalPsico.Service
         /// Método OkDto: executa a operação OkDto.
         /// </summary>
         public static ServiceResponse<GetMedicalCalendarDto> OkDto(GetMedicalCalendarDto data, string message)
-            => new() { Success = true, Data = data, Message = message };
+            => new() { Data = data, Message = message };
 
         /// <summary>
         /// Método FailDto: executa a operação FailDto.
         /// </summary>
         public static ServiceResponse<GetMedicalCalendarDto> FailDto(string? message, List<ErrorResponse>? errors = null)
-            => new()
+        {
+            var response = new ServiceResponse<GetMedicalCalendarDto>
             {
-                Success = false,
                 Message = message ?? string.Empty,
                 Errors = errors ?? []
             };
+            if (response.Errors.Count == 0)
+                response.FailWith(message ?? string.Empty, "MedicalSchedule");
+            return response;
+        }
 
         /// <summary>
         /// Método OkBool: executa a operação OkBool.
         /// </summary>
         public static ServiceResponse<bool> OkBool(bool data, string message)
-            => new() { Success = true, Data = data, Message = message };
+            => new() { Data = data, Message = message };
 
         /// <summary>
         /// Método FailBool: executa a operação FailBool.
         /// </summary>
         public static ServiceResponse<bool> FailBool(string? message)
-            => new() { Success = false, Message = message ?? string.Empty };
+            => new ServiceResponse<bool>().FailWith(message ?? string.Empty, "MedicalSchedule");
     }
 }

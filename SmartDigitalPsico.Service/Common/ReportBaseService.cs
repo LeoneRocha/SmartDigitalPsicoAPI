@@ -1,4 +1,4 @@
-Ôªøusing FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Mapping;
 using SmartDigitalPsico.Domain.Interfaces.Application;
@@ -6,9 +6,9 @@ using SmartDigitalPsico.Domain.Interfaces.Common;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por ReportBaseService.
-    /// Responsabilidade: servi√ßo de entidade de neg√≥cio.
-    /// Rela√ß√£o: orquestra reposit√≥rios, validators e mapeamentos.
+    /// Classe respons·vel por ReportBaseService.
+    /// Responsabilidade: serviÁo de entidade de negÛcio.
+    /// RelaÁ„o: orquestra repositÛrios, validators e mapeamentos.
     /// </summary>
     public class ReportBaseService<TEntity, Repo>
         where TEntity : SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBase, SmartDigitalPsico.Core.SDK.Domain.Interfaces.IEntityBaseLog
@@ -25,7 +25,7 @@ namespace SmartDigitalPsico.Service
         protected readonly SmartDigitalPsico.Core.SDK.Domain.Interfaces.IResiliencePolicyConfig _policyConfig;
 
         /// <summary>
-        /// M√©todo ReportBaseService: executa a opera√ß√£o ReportBaseService.
+        /// MÈtodo ReportBaseService: executa a operaÁ„o ReportBaseService.
         /// </summary>
         public ReportBaseService(
               ISharedServices sharedServices,
@@ -44,7 +44,7 @@ namespace SmartDigitalPsico.Service
             _entityValidator = entityValidator;
         }
         /// <summary>
-        /// M√©todo SetUserId: configura estado ou dependencias.
+        /// MÈtodo SetUserId: configura estado ou dependencias.
         /// </summary>
         public void SetUserId(long id)
         {

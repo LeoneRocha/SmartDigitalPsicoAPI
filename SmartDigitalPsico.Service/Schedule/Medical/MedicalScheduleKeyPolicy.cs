@@ -1,4 +1,4 @@
-ï»¿using SmartDigitalPsico.Domain.Helpers.Medical;
+using SmartDigitalPsico.Domain.Helpers.Medical;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
 namespace SmartDigitalPsico.Service
@@ -11,23 +11,23 @@ namespace SmartDigitalPsico.Service
         public string TenantKey => MedicalScheduleKeyHelper.TenantKey;
 
         /// <summary>
-        /// MÃ©todo BuildOwnerKey: mapeia ou transforma dados entre modelos.
+        /// Método BuildOwnerKey: mapeia ou transforma dados entre modelos.
         /// </summary>
         public string BuildOwnerKey(long ownerId) => MedicalScheduleKeyHelper.ForMedical(ownerId);
 
         /// <summary>
-        /// MÃ©todo BuildSubjectKey: mapeia ou transforma dados entre modelos.
+        /// Método BuildSubjectKey: mapeia ou transforma dados entre modelos.
         /// </summary>
         public string BuildSubjectKey(long subjectId) => MedicalScheduleKeyHelper.ForPatient(subjectId);
 
         /// <summary>
-        /// MÃ©todo TryParseOwnerId: executa a operaÃ§Ã£o TryParseOwnerId.
+        /// Método TryParseOwnerId: executa a operação TryParseOwnerId.
         /// </summary>
         public bool TryParseOwnerId(string? ownerKey, out long ownerId)
             => MedicalScheduleKeyHelper.TryParseMedicalId(ownerKey, out ownerId);
 
         /// <summary>
-        /// MÃ©todo TryParseSubjectId: executa a operaÃ§Ã£o TryParseSubjectId.
+        /// Método TryParseSubjectId: executa a operação TryParseSubjectId.
         /// </summary>
         public bool TryParseSubjectId(string? subjectKey, out long subjectId)
             => MedicalScheduleKeyHelper.TryParsePatientId(subjectKey, out subjectId);

@@ -17,6 +17,7 @@ using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Infrastructure;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SchAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Security;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Service;
@@ -69,6 +70,7 @@ public class CoreConfigureServiceCollectionTests
 
         provider.GetRequiredService<IMemoryCache>().Should().NotBeNull();
         services.Should().Contain(x => x.ServiceType == typeof(IAppLogger));
+        services.Should().Contain(x => x.ServiceType == typeof(SchAppLogger));
         services.Should().Contain(x => x.ServiceType == typeof(IConfigureOptions<RequestLocalizationOptions>));
         services.Should().Contain(x => x.ServiceType == typeof(AutoMapper.IMapper));
         services.Should().Contain(x => x.ServiceType == typeof(IEntityBaseService<,>));
@@ -220,6 +222,7 @@ public class CoreConfigureServiceCollectionTests
             options.SupportedCultures.Should().NotBeEmpty();
             mvc.RespectBrowserAcceptHeader.Should().BeTrue();
             provider.GetRequiredService<IAppLogger>().Should().BeOfType<SerilogAppLoggerAdapter>();
+            provider.GetRequiredService<SchAppLogger>().Should().BeSameAs(provider.GetRequiredService<IAppLogger>());
             ((SerilogAppLoggerAdapter)provider.GetRequiredService<IAppLogger>()).Logger.Should().BeSameAs(serilogLogger);
         }
     }

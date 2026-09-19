@@ -1,5 +1,5 @@
 ﻿using Moq;
-using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using IAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Domain.EntityModels.Schedule;
 
 using SmartDigitalPsico.Domain.Interfaces.Schedule;
@@ -62,7 +62,6 @@ public class ScheduleQueryServiceTests
         conflicts.Setup(x => x.HasNoConflictAsync(It.IsAny<SmartDigitalPsico.Domain.Validation.ScheduleCalendarConflictRequest>()))
             .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool>
             {
-                Success = true,
                 Data = false,
                 Message = "conflict"
             });
@@ -202,7 +201,7 @@ public class ScheduleQueryServiceTests
         // Arrange
         var conflicts = new Mock<IScheduleConflictService>();
         conflicts.Setup(x => x.HasNoConflictAsync(It.IsAny<SmartDigitalPsico.Domain.Validation.ScheduleCalendarConflictRequest>()))
-            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Success = false, Data = false, Message = "indisponível" });
+            .ReturnsAsync(new global::SmartDigitalPsico.Core.SDK.Domain.VO.ServiceResponse<bool> { Data = false, Message = "indisponível", Errors = [new global::SmartDigitalPsico.Core.SDK.Domain.VO.ErrorResponse { Name = "x", Message = "indisponível" }] });
         var service = new ScheduleQueryService(Mock.Of<IScheduleCalendarRepository>(), conflicts.Object, Mock.Of<IAppLogger>());
 
         // Act

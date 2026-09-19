@@ -1,4 +1,4 @@
-ï»¿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using SmartDigitalPsico.Core.SDK.Domain.DTO.Domains;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Application;
@@ -6,8 +6,8 @@ using SmartDigitalPsico.Domain.Interfaces.Application;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Bridge de produto sobre CacheService do Core â€” adiciona ApplicationCacheLog.
-    /// DI deve registrar este tipo (nÃ£o o Core direto) para manter auditoria de cache.
+    /// Bridge de produto sobre CacheService do Core — adiciona ApplicationCacheLog.
+    /// DI deve registrar este tipo (não o Core direto) para manter auditoria de cache.
     /// </summary>
     public class CacheService : SmartDigitalPsico.Core.SDK.Service.Infrastructure.CacheManager.CacheService
     {

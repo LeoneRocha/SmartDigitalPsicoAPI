@@ -1,6 +1,7 @@
 using System.Globalization;
 using FluentValidation;
 using SmartDigitalPsico.Core.SDK.Domain.Constants.I18nKeyConstants;
+using SmartDigitalPsico.Core.SDK.Domain.Extensions;
 using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Notification.ADD;
 using SmartDigitalPsico.Domain.DTO.Notification.GET;
@@ -68,14 +69,10 @@ namespace SmartDigitalPsico.Service
             if (entityResponse != null)
             {
                 response.Data = _mapper.Map<GetNotificationTemplateDto>(entityResponse);
-                response.Success = true;
                 response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsFound, GeneralLanguageMenssageConstants.RegisterIsFound);
             }
             else
-            {
-                response.Success = false;
-                response.Message = await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound);
-            }
+                return response.FailWith(await GetLocalization(GeneralLanguageKeyConstants.RegisterIsNotFound, GeneralLanguageMenssageConstants.RegisterIsNotFound), "GetNotificationTemplatesAsync");
             return response;
         }
     }

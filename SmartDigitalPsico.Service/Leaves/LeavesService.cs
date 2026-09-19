@@ -1,4 +1,4 @@
-Ôªøusing FluentValidation;
+using FluentValidation;
 using SmartDigitalPsico.Domain.DTO.Leaves.GET;
 using SmartDigitalPsico.Domain.EntityModels;
 using SmartDigitalPsico.Domain.Interfaces.Application;
@@ -7,15 +7,15 @@ using SmartDigitalPsico.Domain.Interfaces.Leaves;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por LeavesService.
-    /// Responsabilidade: servi√ßo de entidade de neg√≥cio.
-    /// Rela√ß√£o: orquestra reposit√≥rios, validators e mapeamentos.
+    /// Classe respons·vel por LeavesService.
+    /// Responsabilidade: serviÁo de entidade de negÛcio.
+    /// RelaÁ„o: orquestra repositÛrios, validators e mapeamentos.
     /// </summary>
     public class LeavesService
       : SmartDigitalPsico.Service.EntityBaseService<Leaves, GetLeavesDto>, ILeavesService
     {
         /// <summary>
-        /// M√©todo LeavesService: executa a opera√ß√£o LeavesService.
+        /// MÈtodo LeavesService: executa a operaÁ„o LeavesService.
         /// </summary>
         public LeavesService(
             ISharedServices sharedServices,

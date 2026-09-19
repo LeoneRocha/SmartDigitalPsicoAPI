@@ -1,4 +1,4 @@
-ï»¿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Service.Configure.Report;
 using SmartDigitalPsico.Domain.DependeciesCollection;
 
@@ -7,7 +7,7 @@ using SmartDigitalPsico.Domain.Interfaces.Patient;
 namespace SmartDigitalPsico.Service.DependencyInjection.Report
 {
     /// <summary>
-    /// Factories de relatÃ³rio no Core; serviÃ§os Excel/Pdf/Patient no host.
+    /// Factories de relatório no Core; serviços Excel/Pdf/Patient no host.
     /// </summary>
     public static class ServicesDomainReport
     {

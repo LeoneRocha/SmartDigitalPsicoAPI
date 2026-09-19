@@ -1,20 +1,20 @@
-Ôªøusing Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Smtp;
 
 using SmartDigitalPsico.Domain.Interfaces.Notification;
 namespace SmartDigitalPsico.Service
 {
     /// <summary>
-    /// Classe respons√°vel por NotificationPlatformServiceFactory.
-    /// Responsabilidade: infraestrutura transversal (cache, notifica√ß√£o, etc.).
-    /// Rela√ß√£o: suporta Services e jobs de background.
+    /// Classe respons·vel por NotificationPlatformServiceFactory.
+    /// Responsabilidade: infraestrutura transversal (cache, notificaÁ„o, etc.).
+    /// RelaÁ„o: suporta Services e jobs de background.
     /// </summary>
     public class NotificationPlatformServiceFactory : INotificationPlatformServiceFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
-        /// M√©todo NotificationPlatformServiceFactory: executa a opera√ß√£o NotificationPlatformServiceFactory.
+        /// MÈtodo NotificationPlatformServiceFactory: executa a operaÁ„o NotificationPlatformServiceFactory.
         /// </summary>
         public NotificationPlatformServiceFactory(IServiceProvider serviceProvider)
         {
@@ -22,7 +22,7 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// M√©todo GetService: consulta e retorna dados.
+        /// MÈtodo GetService: consulta e retorna dados.
         /// </summary>
         public SmartDigitalPsico.Core.SDK.Domain.Interfaces.Notification.INotificationPlatformService GetService(SmartDigitalPsico.Core.SDK.Domain.Enuns.ENotificationServiceType serviceType)
         {

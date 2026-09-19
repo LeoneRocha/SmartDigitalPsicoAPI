@@ -2,6 +2,7 @@
 using Moq;
 using SmartDigitalPsico.Core.SDK.Domain.Enuns;
 using SmartDigitalPsico.Core.SDK.Domain.Interfaces.Logging;
+using SchAppLogger = SmartCoreHub.Core.SDK.Domain.Interfaces.Common.IAppLogger;
 using SmartDigitalPsico.Domain.Interfaces.Audit;
 using SmartDigitalPsico.Service.DependencyInjection.Audit;
 namespace SmartDigitalPsico.Service.Test.Audit;
@@ -21,6 +22,7 @@ public class AuditPersistenceServiceFactoryTests
         ServicesDomainAudit.AddDependencies(services);
         services.AddSingleton(Mock.Of<global::SmartDigitalPsico.Core.SDK.Domain.Interfaces.Repository.IMemoryCacheRepository>());
         services.AddSingleton<IAppLogger>(_ => Mock.Of<IAppLogger>());
+        services.AddSingleton<SchAppLogger>(_ => Mock.Of<SchAppLogger>());
         services.AddLogging();
         using var provider = services.BuildServiceProvider();
 

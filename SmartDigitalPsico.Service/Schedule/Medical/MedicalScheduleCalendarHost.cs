@@ -1,4 +1,4 @@
-ï»¿using SmartDigitalPsico.Core.SDK.Domain.VO;
+using SmartDigitalPsico.Core.SDK.Domain.VO;
 using SmartDigitalPsico.Domain.DTO.Medical.Calendar;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.ADD;
 using SmartDigitalPsico.Domain.DTO.Medical.MedicalCalendar.Common;
@@ -21,7 +21,7 @@ namespace SmartDigitalPsico.Service
         private readonly IScheduleCalendarAppointmentService _appointment;
 
         /// <summary>
-        /// MÃ©todo MedicalScheduleCalendarHost: executa a operaÃ§Ã£o MedicalScheduleCalendarHost.
+        /// Método MedicalScheduleCalendarHost: executa a operação MedicalScheduleCalendarHost.
         /// </summary>
         public MedicalScheduleCalendarHost(
             MedicalScheduleHostSupport support,
@@ -42,54 +42,54 @@ namespace SmartDigitalPsico.Service
         }
 
         /// <summary>
-        /// MÃ©todo SetUserId: configura estado ou dependencias.
+        /// Método SetUserId: configura estado ou dependencias.
         /// </summary>
         public void SetUserId(long userId) => _support.SetUserId(userId);
 
         /// <summary>
-        /// MÃ©todo FindByID: consulta e retorna dados.
+        /// Método FindByID: consulta e retorna dados.
         /// </summary>
         public Task<ServiceResponse<GetMedicalCalendarDto>> FindByID(long id)
             => _find.FindByID(id);
 
         /// <summary>
-        /// MÃ©todo Create: cria ou persiste um novo registro/recurso.
+        /// Método Create: cria ou persiste um novo registro/recurso.
         /// </summary>
         public Task<ServiceResponse<GetMedicalCalendarDto>> Create(AddMedicalCalendarDto item)
             => _create.Create(item);
 
         /// <summary>
-        /// MÃ©todo Update: atualiza um registro/recurso existente.
+        /// Método Update: atualiza um registro/recurso existente.
         /// </summary>
         public Task<ServiceResponse<GetMedicalCalendarDto>> Update(UpdateMedicalCalendarDto item)
             => _update.Update(item);
 
         /// <summary>
-        /// MÃ©todo DeleteOneOrRecurrence: remove ou cancela um registro/recurso.
+        /// Método DeleteOneOrRecurrence: remove ou cancela um registro/recurso.
         /// </summary>
         public Task<ServiceResponse<bool>> DeleteOneOrRecurrence(DeleteMedicalCalendarDto request)
             => _delete.DeleteOneOrRecurrence(request);
 
         /// <summary>
-        /// MÃ©todo GetMonthlyCalendar: consulta e retorna dados.
+        /// Método GetMonthlyCalendar: consulta e retorna dados.
         /// </summary>
         public Task<ServiceResponse<CalendarDto>> GetMonthlyCalendar(CalendarCriteriaDto criteria)
             => _grade.GetMonthlyCalendar(criteria);
 
         /// <summary>
-        /// MÃ©todo GetAvailableMedicalCalendar: consulta e retorna dados.
+        /// Método GetAvailableMedicalCalendar: consulta e retorna dados.
         /// </summary>
         public Task<ServiceResponse<CalendarDto>> GetAvailableMedicalCalendar(CalendarCriteriaDto criteria)
             => _grade.GetAvailableMedicalCalendar(criteria);
 
         /// <summary>
-        /// MÃ©todo RequestAppointment: operaÃ§Ã£o de agendamento.
+        /// Método RequestAppointment: operação de agendamento.
         /// </summary>
         public Task<ServiceResponse<bool>> RequestAppointment(ScheduleCriteriaDto criteria)
             => _appointment.RequestAppointment(criteria);
 
         /// <summary>
-        /// MÃ©todo GetAppointments: consulta e retorna dados.
+        /// Método GetAppointments: consulta e retorna dados.
         /// </summary>
         public Task<ServiceResponse<AppointmentDto[]>> GetAppointments(AppointmentCriteriaDto criteria)
             => _appointment.GetAppointments(criteria);
